@@ -42,7 +42,7 @@
 	</command>
 
 	<command name="ValidateBeanIdentifierUserPermissions" priority="4">
-		<var name="url" value="http://localhost:8080/c/portal/json_service?serviceClassName=com.liferay.portal.service.AccountServiceUtil&amp;serviceMethodName=getBeanIdentifier&amp;p_auth=" />
+		<var name="url" value="http://localhost:8080/c/portal/json_service?serviceClassName=com.liferay.portal.service.AccountServiceUtil&amp;serviceMethodName=getOSGIServiceIdentifier&amp;p_auth=" />
 
 		<execute macro="Api#gotoPAuthURL" />
 
