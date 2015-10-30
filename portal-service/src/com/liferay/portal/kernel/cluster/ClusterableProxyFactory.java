@@ -51,7 +51,7 @@ public class ClusterableProxyFactory {
 			Clusterable clusterable = _getClusterable(
 				method, _targetObject.getClass());
 
-			if (clusterable == null) {
+			if (clusterable == NullClusterable.NULL_CLUSTERABLE) {
 				return method.invoke(_targetObject, arguments);
 			}
 
@@ -85,10 +85,6 @@ public class ClusterableProxyFactory {
 			Clusterable clusterable = _clusterables.get(methodKey);
 
 			if (clusterable != null) {
-				if (clusterable == NullClusterable.NULL_CLUSTERABLE) {
-					clusterable = null;
-				}
-
 				return clusterable;
 			}
 
