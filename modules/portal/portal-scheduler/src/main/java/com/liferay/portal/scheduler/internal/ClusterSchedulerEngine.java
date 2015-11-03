@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerState;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
-import com.liferay.portal.kernel.servlet.PluginContextLifecycleThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
@@ -559,19 +558,15 @@ public class ClusterSchedulerEngine
 	protected void setClusterableThreadLocal(StorageType storageType) {
 		ClusterableContextThreadLocal.putThreadLocalContext(
 			STORAGE_TYPE, storageType);
-		ClusterableContextThreadLocal.putThreadLocalContext(
-			PORTAL_READY, _portalReady);
 
-		boolean pluginReady = true;
+		boolean schedulerClusterInvoking = true;
 
-		if (PluginContextLifecycleThreadLocal.isInitializing() ||
-			PluginContextLifecycleThreadLocal.isDestroying()) {
-
-			pluginReady = false;
+		if (!SchedulerClusterInvokingThreadLocal.isEnabled()) {
+			schedulerClusterInvoking = false;
 		}
 
 		ClusterableContextThreadLocal.putThreadLocalContext(
-			PLUGIN_READY, pluginReady);
+			SCHEDULER_CLUSTER_INVOKING, schedulerClusterInvoking);
 	}
 
 	protected void setClusterMasterExecutor(
@@ -616,9 +611,8 @@ public class ClusterSchedulerEngine
 		}
 	}
 
-	protected static final String PLUGIN_READY = "plugin.ready";
-
-	protected static final String PORTAL_READY = "portal.ready";
+	protected static final String SCHEDULER_CLUSTER_INVOKING =
+		"scheduler.cluster.invoking";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ClusterSchedulerEngine.class);
