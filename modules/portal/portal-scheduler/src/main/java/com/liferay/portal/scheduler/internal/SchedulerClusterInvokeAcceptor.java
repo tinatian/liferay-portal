@@ -37,17 +37,10 @@ public class SchedulerClusterInvokeAcceptor implements ClusterInvokeAcceptor {
 			return false;
 		}
 
-		boolean pluginReady = (Boolean)context.get(
-			ClusterSchedulerEngine.PLUGIN_READY);
+		boolean schedulerClusterInvoking = (Boolean)context.get(
+			ClusterSchedulerEngine.SCHEDULER_CLUSTER_INVOKING);
 
-		if (!pluginReady) {
-			return false;
-		}
-
-		boolean portalReady = (Boolean)context.get(
-			ClusterSchedulerEngine.PORTAL_READY);
-
-		if (!portalReady) {
+		if (!schedulerClusterInvoking) {
 			return false;
 		}
 

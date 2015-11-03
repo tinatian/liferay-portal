@@ -569,7 +569,8 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 	@Override
 	public String register(
-		MessageListener messageListener, SchedulerEntry schedulerEntry) {
+		MessageListener messageListener, SchedulerEntry schedulerEntry,
+		String destinationName) {
 
 		SchedulerEventMessageListenerWrapper
 			schedulerEventMessageListenerWrapper =
@@ -582,7 +583,7 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 		Dictionary<String, Object> properties = new HashMapDictionary<>();
 
-		properties.put("destination.name", DestinationNames.SCHEDULER_DISPATCH);
+		properties.put("destination.name", destinationName);
 
 		ServiceRegistration<SchedulerEventMessageListener> serviceRegistration =
 			_bundleContext.registerService(
@@ -916,6 +917,8 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 				destinationName = DestinationNames.SCHEDULER_DISPATCH;
 			}
 
+			SchedulerClusterInvokingThreadLocal.setEnabled(false);
+
 			try {
 				Message message = new Message();
 
@@ -925,8 +928,8 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 				schedule(
 					schedulerEntry.getTrigger(), storageType,
-					schedulerEntry.getDescription(),
-					DestinationNames.SCHEDULER_DISPATCH, message, 0);
+					schedulerEntry.getDescription(), destinationName, message,
+					0);
 
 				Dictionary<String, Object> properties =
 					new HashMapDictionary<>();
@@ -946,6 +949,9 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 			}
 			catch (SchedulerException se) {
 				_log.error(se, se);
+			}
+			finally {
+				SchedulerClusterInvokingThreadLocal.setEnabled(true);
 			}
 
 			return null;
@@ -984,11 +990,16 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 				storageType = storageTypeAware.getStorageType();
 			}
 
+			SchedulerClusterInvokingThreadLocal.setEnabled(false);
+
 			try {
 				unschedule(schedulerEntry, storageType);
 			}
 			catch (SchedulerException se) {
 				_log.error(se, se);
+			}
+			finally {
+				SchedulerClusterInvokingThreadLocal.setEnabled(true);
 			}
 
 			ServiceRegistration<MessageListener>
