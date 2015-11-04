@@ -42,7 +42,7 @@ import org.osgi.service.component.annotations.Reference;
 public class UserImportMessageListener
 	extends BaseSchedulerEntryMessageListener {
 
-		@Activate
+	@Activate
 	@Modified
 	protected void activate() {
 		LDAPImportConfiguration ldapImportConfiguration =
