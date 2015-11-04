@@ -570,7 +570,8 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 	@Override
 	public String register(
-		MessageListener messageListener, SchedulerEntry schedulerEntry) {
+		MessageListener messageListener, SchedulerEntry schedulerEntry,
+		String destinationName) {
 
 		SchedulerEventMessageListenerWrapper
 			schedulerEventMessageListenerWrapper =
@@ -583,7 +584,7 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 		Dictionary<String, Object> properties = new HashMapDictionary<>();
 
-		properties.put("destination.name", DestinationNames.SCHEDULER_DISPATCH);
+		properties.put("destination.name", destinationName);
 
 		ServiceRegistration<SchedulerEventMessageListener> serviceRegistration =
 			_bundleContext.registerService(
