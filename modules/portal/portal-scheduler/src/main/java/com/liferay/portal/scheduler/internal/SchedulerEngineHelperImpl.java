@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.cal.DayAndPosition;
 import com.liferay.portal.kernel.cal.Duration;
 import com.liferay.portal.kernel.cal.Recurrence;
 import com.liferay.portal.kernel.cal.RecurrenceSerializer;
+import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterLink;
 import com.liferay.portal.kernel.cluster.ClusterMasterExecutor;
 import com.liferay.portal.kernel.cluster.ClusterableProxyFactory;
@@ -916,6 +917,10 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 				destinationName = DestinationNames.SCHEDULER_DISPATCH;
 			}
 
+			boolean enabled = ClusterInvokeThreadLocal.isEnabled();
+
+			ClusterInvokeThreadLocal.setEnabled(true);
+
 			try {
 				Message message = new Message();
 
@@ -946,6 +951,9 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 			}
 			catch (SchedulerException se) {
 				_log.error(se, se);
+			}
+			finally {
+				ClusterInvokeThreadLocal.setEnabled(enabled);
 			}
 
 			return null;
@@ -984,11 +992,18 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 				storageType = storageTypeAware.getStorageType();
 			}
 
+			boolean enabled = ClusterInvokeThreadLocal.isEnabled();
+
+			ClusterInvokeThreadLocal.setEnabled(true);
+
 			try {
 				unschedule(schedulerEntry, storageType);
 			}
 			catch (SchedulerException se) {
 				_log.error(se, se);
+			}
+			finally {
+				ClusterInvokeThreadLocal.setEnabled(enabled);
 			}
 
 			ServiceRegistration<MessageListener>
