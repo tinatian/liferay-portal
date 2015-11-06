@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.resiliency.spi.SPIUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.model.Release;
+import com.liferay.portal.kernel.lock.LockManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -123,6 +124,10 @@ public class ClusterMasterExecutorImpl implements ClusterMasterExecutor {
 		}
 	}
 
+	@Reference(unbind = "-")
+	protected void setLockManager(LockManager lockManager) {
+	}
+	
 	@Override
 	public boolean isEnabled() {
 		return _enabled;
