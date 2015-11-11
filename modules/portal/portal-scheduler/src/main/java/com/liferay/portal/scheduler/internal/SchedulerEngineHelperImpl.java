@@ -848,6 +848,12 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 		_props = props;
 	}
 
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineMessagingConfigurator(
+		SchedulerEngineMessagingConfigurator 
+			schedulerEngineMessagingConfigurator) {
+	}
+
 	@Reference(target = "(bean.id=*.SchedulerEngineProxyBean)", unbind = "-")
 	protected void setSchedulerEngine(SchedulerEngine schedulerEngine) {
 		_schedulerEngine = schedulerEngine;
@@ -877,7 +883,7 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 	private volatile ServiceTracker
 			<SchedulerEventMessageListener, SchedulerEventMessageListener>
 		_serviceTracker;
-
+	
 	private class SchedulerEventMessageListenerServiceTrackerCustomizer
 		implements ServiceTrackerCustomizer
 			<SchedulerEventMessageListener, SchedulerEventMessageListener> {

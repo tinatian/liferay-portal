@@ -16,7 +16,9 @@ package com.liferay.portal.ldap.internal.messaging;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.DestinationConfiguration;
+import com.liferay.portal.kernel.messaging.DestinationFactory;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerException;
 import com.liferay.portal.kernel.scheduler.StorageType;
@@ -27,6 +29,8 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.ldap.configuration.ConfigurationProvider;
 import com.liferay.portal.ldap.exportimport.configuration.LDAPImportConfiguration;
+
+import java.util.Dictionary;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -53,9 +57,15 @@ public class MessagingConfigurator {
 				DestinationConfiguration.DESTINATION_TYPE_SERIAL,
 				DestinationNames.SCHEDULED_USER_LDAP_IMPORT);
 
+		Destination destination = _destinationFactory.createDestination(
+			destinationConfiguration);
+
+		Dictionary<String, Object> dictionary = new HashMapDictionary<>();
+
+		dictionary.put("destination.name", destination.getName());
+
 		_serviceRegistration = bundleContext.registerService(
-			DestinationConfiguration.class, destinationConfiguration,
-			new HashMapDictionary<String, Object>());
+			Destination.class, destination, dictionary);
 
 		try {
 			_schedulerEngineHelper.unschedule(
@@ -90,12 +100,6 @@ public class MessagingConfigurator {
 
 	@Deactivate
 	protected void deactivate() {
-		if (_serviceRegistration != null) {
-			_serviceRegistration.unregister();
-		}
-
-		_serviceRegistration = null;
-
 		try {
 			_schedulerEngineHelper.unschedule(
 				UserImportMessageListener.class.getName(),
@@ -110,6 +114,19 @@ public class MessagingConfigurator {
 					se);
 			}
 		}
+
+		if (_serviceRegistration != null) {
+			_serviceRegistration.unregister();
+		}
+
+		_serviceRegistration = null;
+	}
+
+	@Reference(unbind = "-")
+	protected void setDestinationFactory(
+		DestinationFactory destinationFactory) {
+
+		_destinationFactory = destinationFactory;
 	}
 
 	@Reference(
@@ -137,9 +154,10 @@ public class MessagingConfigurator {
 	private static final Log _log = LogFactoryUtil.getLog(
 		MessagingConfigurator.class);
 
+	private DestinationFactory _destinationFactory;
 	private ConfigurationProvider<LDAPImportConfiguration>
 		_ldapImportConfigurationProvider;
 	private SchedulerEngineHelper _schedulerEngineHelper;
-	private ServiceRegistration<DestinationConfiguration> _serviceRegistration;
+	private ServiceRegistration<Destination> _serviceRegistration;
 
 }
