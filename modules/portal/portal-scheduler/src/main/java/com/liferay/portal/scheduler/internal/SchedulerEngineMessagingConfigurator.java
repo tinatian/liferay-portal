@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.scheduler.quartz.internal;
+package com.liferay.portal.scheduler.internal;
 
 import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.DestinationNames;
@@ -23,15 +23,12 @@ import com.liferay.portal.kernel.scheduler.SchedulerEngine;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Michael C. Han
  */
-@Component(immediate = true, service = QuartzSchedulerEngineConfigurator.class)
-public class QuartzSchedulerEngineConfigurator {
+@Component(immediate = true, service = SchedulerEngineMessagingConfigurator.class)
+public class SchedulerEngineMessagingConfigurator {
 
 	@Activate
 	protected void activate() {
@@ -40,9 +37,6 @@ public class QuartzSchedulerEngineConfigurator {
 	}
 
 	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY,
 		service = Destination.class,
 		target = "(destination.name=" + DestinationNames.SCHEDULER_ENGINE + ")"
 	)
@@ -50,14 +44,16 @@ public class QuartzSchedulerEngineConfigurator {
 		destination.register(_proxyMessageListener);
 	}
 
+	@Reference(
+		service = Destination.class,
+		target = "(destination.name=" + DestinationNames.SCHEDULER_DISPATCH + ")"
+	)
+	protected void setDestination1(Destination destination) {
+	}
+
 	@Reference(unbind = "-")
 	protected void setMessageBus(MessageBus messageBus) {
 		_messageBus = messageBus;
-	}
-
-	@Reference(service = QuartzSchedulerEngine.class, unbind = "-")
-	protected void setSchedulerEngine(SchedulerEngine schedulerEngine) {
-		_schedulerEngine = schedulerEngine;
 	}
 
 	protected void unsetDestination(Destination destination) {
