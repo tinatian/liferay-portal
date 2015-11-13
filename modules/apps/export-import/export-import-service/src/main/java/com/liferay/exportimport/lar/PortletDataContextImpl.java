@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.lock.Lock;
-import com.liferay.portal.kernel.lock.LockManagerUtil;
+import com.liferay.portal.kernel.lock.LockManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -73,6 +73,7 @@ import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.TeamLocalServiceUtil;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.asset.model.AssetEntry;
 import com.liferay.portlet.asset.model.AssetLink;
@@ -355,9 +356,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 	@Override
 	public void addLocks(Class<?> clazz, String key) throws PortalException {
 		if (!_locksMap.containsKey(getPrimaryKeyString(clazz, key)) &&
-			LockManagerUtil.isLocked(clazz.getName(), key)) {
+			LockManager.isLocked(clazz.getName(), key)) {
 
-			Lock lock = LockManagerUtil.getLock(clazz.getName(), key);
+			Lock lock = LockManager.getLock(clazz.getName(), key);
 
 			addLocks(clazz.getName(), key, lock);
 		}
@@ -1591,7 +1592,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 			expirationTime = expirationDate.getTime();
 		}
 
-		LockManagerUtil.lock(
+		LockManager.lock(
 			userId, clazz.getName(), newKey, lock.getOwner(),
 			lock.isInheritable(), expirationTime);
 	}
@@ -2580,6 +2581,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 		_xStreamConfigurators = xStreamConfigurators;
 	}
+
+	@ServiceReference(type = LockManager.class)
+	protected LockManager lockManager;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletDataContextImpl.class);
