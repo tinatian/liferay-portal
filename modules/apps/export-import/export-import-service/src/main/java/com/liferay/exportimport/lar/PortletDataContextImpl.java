@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.lock.Lock;
-import com.liferay.portal.kernel.lock.LockManagerUtil;
+import com.liferay.portal.kernel.lock.LockManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -135,8 +135,10 @@ import org.osgi.service.component.annotations.ReferencePolicy;
  */
 public class PortletDataContextImpl implements PortletDataContext {
 
-	public PortletDataContextImpl() {
+	public PortletDataContextImpl(LockManager lockManager) {
 		initXStream();
+
+		_lockManager = lockManager;
 	}
 
 	/**
@@ -355,9 +357,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 	@Override
 	public void addLocks(Class<?> clazz, String key) throws PortalException {
 		if (!_locksMap.containsKey(getPrimaryKeyString(clazz, key)) &&
-			LockManagerUtil.isLocked(clazz.getName(), key)) {
+			_lockManager.isLocked(clazz.getName(), key)) {
 
-			Lock lock = LockManagerUtil.getLock(clazz.getName(), key);
+			Lock lock = _lockManager.getLock(clazz.getName(), key);
 
 			addLocks(clazz.getName(), key, lock);
 		}
@@ -1591,7 +1593,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 			expirationTime = expirationDate.getTime();
 		}
 
-		LockManagerUtil.lock(
+		_lockManager.lock(
 			userId, clazz.getName(), newKey, lock.getOwner(),
 			lock.isInheritable(), expirationTime);
 	}
@@ -2598,6 +2600,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 	private transient Element _exportDataRootElement;
 	private long _groupId;
 	private transient Element _importDataRootElement;
+	private transient final LockManager _lockManager;
 	private transient final Map<String, Lock> _locksMap = new HashMap<>();
 	private transient ManifestSummary _manifestSummary = new ManifestSummary();
 	private transient final Set<String> _missingReferences = new HashSet<>();
