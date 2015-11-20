@@ -313,7 +313,7 @@ public class ClusterExecutorImplTest extends BaseClusterTestCase {
 			clusterExecutorImpl.executeClusterRequest(
 				ClusterRequest.createMulticastRequest(StringPool.BLANK));
 
-		Exception exception = clusterNodeResponse.getException();
+		Exception exception = (Exception)clusterNodeResponse.getPayload();
 
 		Assert.assertEquals(
 			"Payload is not of type " + MethodHandler.class.getName(),
