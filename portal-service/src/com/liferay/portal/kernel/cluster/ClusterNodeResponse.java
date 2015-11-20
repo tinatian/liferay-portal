@@ -15,6 +15,7 @@
 package com.liferay.portal.kernel.cluster;
 
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
@@ -26,7 +27,7 @@ public class ClusterNodeResponse implements Serializable {
 	public static ClusterNodeResponse createExceptionClusterNodeResponse(
 		ClusterNode clusterNode, String uuid, Exception exception) {
 
-		return new ClusterNodeResponse(clusterNode, uuid, null, exception);
+		return new ClusterNodeResponse(clusterNode, uuid, exception, true);
 	}
 
 	public static ClusterNodeResponse createResultClusterNodeResponse(
@@ -34,36 +35,28 @@ public class ClusterNodeResponse implements Serializable {
 
 		if ((result != null) && !(result instanceof Serializable)) {
 			return new ClusterNodeResponse(
-				clusterNode, uuid, null,
-				new ClusterException("Return value is not serializable"));
+				clusterNode, uuid,
+				new ClusterException("Return value is not serializable"), true);
 		}
 
 		return new ClusterNodeResponse(
-			clusterNode, uuid, (Serializable)result, null);
+			clusterNode, uuid, (Serializable)result, false);
 	}
 
 	public ClusterNode getClusterNode() {
 		return _clusterNode;
 	}
 
-	public Exception getException() {
-		return _exception;
-	}
-
 	public Serializable getPayload() {
-		if (_exception != null) {
-			return _exception;
-		}
-
-		return _result;
+		return _payload;
 	}
 
 	public Object getResult() throws Exception {
-		if (_exception != null) {
-			throw _exception;
+		if (_hasException) {
+			throw (Exception)_payload;
 		}
 
-		return _result;
+		return _payload;
 	}
 
 	public String getUuid() {
@@ -71,12 +64,7 @@ public class ClusterNodeResponse implements Serializable {
 	}
 
 	public boolean hasException() {
-		if (_exception != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return _hasException;
 	}
 
 	@Override
@@ -85,16 +73,10 @@ public class ClusterNodeResponse implements Serializable {
 
 		sb.append("{clusterNode=");
 		sb.append(_clusterNode);
-
-		if (hasException()) {
-			sb.append(", exception=");
-			sb.append(_exception);
-		}
-		else {
-			sb.append(", result=");
-			sb.append(_result);
-		}
-
+		sb.append(", hasException=");
+		sb.append(_hasException);
+		sb.append(", payload=");
+		sb.append(_payload);
 		sb.append(", uuid=");
 		sb.append(_uuid);
 		sb.append("}");
@@ -103,22 +85,30 @@ public class ClusterNodeResponse implements Serializable {
 	}
 
 	private ClusterNodeResponse(
-		ClusterNode clusterNode, String uuid, Serializable result,
-		Exception exception) {
+		ClusterNode clusterNode, String uuid, Serializable payload,
+		boolean hasException) {
 
 		if (clusterNode == null) {
 			throw new NullPointerException("ClusterNode is null");
 		}
 
+		if (Validator.isNull(uuid)) {
+			throw new NullPointerException("Uuid is null");
+		}
+
+		if (payload == null) {
+			throw new NullPointerException("Payload is null");
+		}
+
 		_clusterNode = clusterNode;
 		_uuid = uuid;
-		_result = result;
-		_exception = exception;
+		_payload = payload;
+		_hasException = hasException;
 	}
 
 	private final ClusterNode _clusterNode;
-	private final Exception _exception;
-	private final Serializable _result;
+	private final boolean _hasException;
+	private final Serializable _payload;
 	private final String _uuid;
 
 }
