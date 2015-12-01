@@ -58,20 +58,6 @@ public class ProductNavigationProductMenuPortlet extends MVCPortlet {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws IOException, PortletException {
 
-		renderRequest.setAttribute(
-			ApplicationListWebKeys.PANEL_APP_REGISTRY, _panelAppRegistry);
-
-		PanelCategoryHelper panelCategoryHelper = new PanelCategoryHelper(
-			_panelAppRegistry, _panelCategoryRegistry);
-
-		renderRequest.setAttribute(
-			ApplicationListWebKeys.PANEL_CATEGORY_HELPER, panelCategoryHelper);
-
-		renderRequest.setAttribute(
-			ApplicationListWebKeys.PANEL_CATEGORY_REGISTRY,
-			_panelCategoryRegistry);
-
-		super.doDispatch(renderRequest, renderResponse);
 	}
 
 	@Reference(unbind = "-")
