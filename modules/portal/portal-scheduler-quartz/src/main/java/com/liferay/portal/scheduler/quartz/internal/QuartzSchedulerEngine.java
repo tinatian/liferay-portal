@@ -86,10 +86,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void delete(String groupName, StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return;
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -113,10 +109,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void delete(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -154,10 +146,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return null;
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -180,10 +168,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	@Override
 	public List<SchedulerResponse> getScheduledJobs()
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return Collections.emptyList();
-		}
 
 		try {
 			List<String> groupNames = _persistedScheduler.getJobGroupNames();
@@ -213,10 +197,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public List<SchedulerResponse> getScheduledJobs(StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return Collections.emptyList();
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -242,10 +222,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 			String groupName, StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return Collections.emptyList();
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -260,10 +236,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	@Override
 	public void pause(String groupName, StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -290,10 +262,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void pause(String jobName, String groupName, StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return;
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -318,10 +286,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	@Override
 	public void resume(String groupName, StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -348,10 +312,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void resume(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -380,10 +340,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 			String description, String destination, Message message,
 			StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -435,10 +391,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 
 	@Override
 	public void shutdown() throws SchedulerException {
-		if (!isEnabled()) {
-			return;
-		}
-
 		try {
 			if (!_persistedScheduler.isShutdown()) {
 				_persistedScheduler.shutdown(false);
@@ -455,10 +407,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 
 	@Override
 	public void start() throws SchedulerException {
-		if (!isEnabled()) {
-			return;
-		}
-
 		try {
 			_persistedScheduler.start();
 
@@ -475,10 +423,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void suppressError(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -503,10 +447,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void unschedule(String groupName, StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return;
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -530,10 +470,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	public void unschedule(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException {
-
-		if (!isEnabled()) {
-			return;
-		}
 
 		try {
 			Scheduler scheduler = getScheduler(storageType);
@@ -560,10 +496,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 			StorageType storageType)
 		throws SchedulerException {
 
-		if (!isEnabled()) {
-			return;
-		}
-
 		try {
 			Scheduler scheduler = getScheduler(storageType);
 
@@ -576,10 +508,13 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 
 	@Activate
 	protected void activate() {
-		if (!isEnabled()) {
+		_schedulerEngineEnabled = GetterUtil.getBoolean(
+			_props.get(PropsKeys.SCHEDULER_ENABLED));
+		
+		if (!_schedulerEngineEnabled) {
 			return;
 		}
-
+		
 		try {
 			_persistedScheduler = initializeScheduler(
 				"persisted.scheduler.", true);
@@ -593,6 +528,10 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 
 	@Deactivate
 	protected void deactivate() {
+		if (!_schedulerEngineEnabled) {
+			return;
+		}
+
 		try {
 			shutdown();
 		}
@@ -812,10 +751,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 				_persistedScheduler.deleteJob(jobKey);
 			}
 		}
-	}
-
-	protected boolean isEnabled() {
-		return GetterUtil.getBoolean(_props.get(PropsKeys.SCHEDULER_ENABLED));
 	}
 
 	protected void schedule(
@@ -1059,6 +994,7 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	private Scheduler _persistedScheduler;
 	private volatile PortletLocalService _portletLocalService;
 	private Props _props;
+	private volatile boolean _schedulerEngineEnabled;
 	private volatile QuartzTriggerFactory _quartzTriggerFactory;
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 
