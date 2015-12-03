@@ -738,14 +738,16 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 	protected void activate(ComponentContext componentContext)
 		throws Exception {
 
+		if (!GetterUtil.getBoolean(_props.get(PropsKeys.SCHEDULER_ENABLED))) {
+			return;
+		}
+
 		_auditMessageSchedulerJob = GetterUtil.getBoolean(
 			_props.get(PropsKeys.AUDIT_MESSAGE_SCHEDULER_JOB));
 
 		_bundleContext = componentContext.getBundleContext();
 
-		if (_clusterLink.isEnabled() &&
-			GetterUtil.getBoolean(_props.get(PropsKeys.SCHEDULER_ENABLED))) {
-
+		if (_clusterLink.isEnabled()) {
 			ClusterSchedulerEngine clusterSchedulerEngine =
 				new ClusterSchedulerEngine(_schedulerEngine);
 
@@ -762,17 +764,15 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 				clusterSchedulerEngine);
 		}
 
-		if (GetterUtil.getBoolean(_props.get(PropsKeys.SCHEDULER_ENABLED))) {
-			Filter filter = _bundleContext.createFilter(
-				"(objectClass=" +
-					SchedulerEventMessageListener.class.getName() + ")");
+		Filter filter = _bundleContext.createFilter(
+			"(objectClass=" +
+				SchedulerEventMessageListener.class.getName() + ")");
 
-			_serviceTracker = new ServiceTracker<>(
-				_bundleContext, filter,
-				new SchedulerEventMessageListenerServiceTrackerCustomizer());
+		_serviceTracker = new ServiceTracker<>(
+			_bundleContext, filter,
+			new SchedulerEventMessageListenerServiceTrackerCustomizer());
 
-			_serviceTracker.open();
-		}
+		_serviceTracker.open();
 	}
 
 	protected void addWeeklyDayPos(
