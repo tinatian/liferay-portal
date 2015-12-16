@@ -52,6 +52,11 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 			PropsKeys.EHCACHE_BOOTSTRAP_CACHE_LOADER_PROPERTIES_DEFAULT);
 		_bootstrapLoaderProperties = props.getProperties(
 			PropsKeys.EHCACHE_BOOTSTRAP_CACHE_LOADER_PROPERTIES, true);
+
+		_defaultReplicatorPropertiesString = props.get(
+			PropsKeys.EHCACHE_CLUSTER_LINK_REPLICATOR_PROPERTIES_DEFAULT);
+		_replicatorProperties = props.getProperties(
+			PropsKeys.EHCACHE_CLUSTER_LINK_REPLICATOR_PROPERTIES, true);
 	}
 
 	@Override
@@ -77,9 +82,10 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 			return portalCacheConfiguration;
 		}
 
+		String cacheName = cacheConfiguration.getName();
+
 		String bootstrapLoaderPropertiesString =
-			_bootstrapLoaderProperties.getProperty(
-				cacheConfiguration.getName());
+			_bootstrapLoaderProperties.getProperty(cacheName);
 
 		if (Validator.isNull(bootstrapLoaderPropertiesString)) {
 			bootstrapLoaderPropertiesString =
@@ -89,15 +95,22 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 		portalCacheConfiguration.setPortalCacheBootstrapLoaderProperties(
 			parseProperties(bootstrapLoaderPropertiesString, StringPool.COMMA));
 
+		String replicatorPropertiesString = _replicatorProperties.getProperty(
+			cacheName);
+
+		if (Validator.isNull(replicatorPropertiesString)) {
+			replicatorPropertiesString = _defaultReplicatorPropertiesString;
+		}
+
+		Properties replicatorProperties = parseProperties(
+			replicatorPropertiesString, StringPool.COMMA);
+
+		replicatorProperties.put(PortalCacheReplicator.REPLICATOR, true);
+
 		Set<Properties> portalCacheListenerPropertiesSet =
 			portalCacheConfiguration.getPortalCacheListenerPropertiesSet();
 
-		Properties portalCacheReplicatorProperties = new Properties();
-
-		portalCacheReplicatorProperties.put(
-			PortalCacheReplicator.REPLICATOR, true);
-
-		portalCacheListenerPropertiesSet.add(portalCacheReplicatorProperties);
+		portalCacheListenerPropertiesSet.add(replicatorProperties);
 
 		return portalCacheConfiguration;
 	}
@@ -111,5 +124,7 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 	private Properties _bootstrapLoaderProperties;
 	private boolean _clusterEnabled;
 	private String _defaultBootstrapLoaderPropertiesString;
+	private String _defaultReplicatorPropertiesString;
+	private Properties _replicatorProperties;
 
 }
