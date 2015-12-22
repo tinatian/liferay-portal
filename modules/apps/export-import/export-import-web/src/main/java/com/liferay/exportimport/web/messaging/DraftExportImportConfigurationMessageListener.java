@@ -63,9 +63,8 @@ public class DraftExportImportConfigurationMessageListener
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				ExportImportWebConfigurationValues.
-					DRAFT_EXPORT_IMPORT_CONFIGURATION_CHECK_INTERVAL,
-				TimeUnit.HOUR));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

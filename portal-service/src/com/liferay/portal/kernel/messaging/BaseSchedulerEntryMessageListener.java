@@ -22,6 +22,13 @@ import com.liferay.portal.kernel.scheduler.Trigger;
  */
 public abstract class BaseSchedulerEntryMessageListener
 	extends BaseMessageListener {
+	
+	@Override
+	public void receive(Message message) throws MessageListenerException {
+		System.out.println("### Receive at " + System.currentTimeMillis() + " in " + getClass().getName());
+		
+		super.receive(message);
+	}
 
 	public BaseSchedulerEntryMessageListener() {
 		Class<?> clazz = getClass();

@@ -53,7 +53,8 @@ public class ClusterSchedulerEngineConfigurator
 				IdentifiableOSGiService.class, clusterSchedulerEngine,
 				new HashMapDictionary<String, Object>());
 
-			schedulerEngine = clusterSchedulerEngine;
+			schedulerEngine = ClusterableProxyFactory.createClusterableProxy(
+				clusterSchedulerEngine);
 		}
 
 		_schedulerEngineServiceRegistration = registerSchedulerEngine(

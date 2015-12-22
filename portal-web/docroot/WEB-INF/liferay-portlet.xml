@@ -32,7 +32,7 @@
 			<trigger>
 				<simple>
 					<property-key>dl.file.rank.check.interval</property-key>
-					<time-unit>minute</time-unit>
+					<time-unit>second</time-unit>
 				</simple>
 			</trigger>
 		</scheduler-entry>

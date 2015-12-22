@@ -25,6 +25,8 @@ public class CheckFileRankMessageListener extends BaseMessageListener {
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
+		System.out.println("### Receive at " + System.currentTimeMillis() + " in " + getClass().getName());
+		
 		DLFileRankLocalServiceUtil.checkFileRanks();
 	}
 
