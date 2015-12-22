@@ -63,8 +63,8 @@ public class TempFileEntriesMessageListener
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				_dlConfiguration.temporaryFileEntriesCheckInterval(),
-				TimeUnit.HOUR));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

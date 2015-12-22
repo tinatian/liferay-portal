@@ -52,8 +52,9 @@ public class UserImportMessageListener
 
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
-				getEventListenerClass(), getEventListenerClass(), interval,
-				TimeUnit.MINUTE));
+				getEventListenerClass(), getEventListenerClass(), 
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl,

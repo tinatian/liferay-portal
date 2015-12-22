@@ -70,8 +70,9 @@ public class POPNotificationsMessageListener
 		if (PropsValues.POP_SERVER_NOTIFICATIONS_ENABLED) {
 			schedulerEntryImpl.setTrigger(
 				TriggerFactoryUtil.createTrigger(
-					getEventListenerClass(), getEventListenerClass(), 1,
-					TimeUnit.MINUTE));
+					getEventListenerClass(), getEventListenerClass(), 
+					30,
+					TimeUnit.SECOND));
 
 			_schedulerEngineHelper.register(
 				this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

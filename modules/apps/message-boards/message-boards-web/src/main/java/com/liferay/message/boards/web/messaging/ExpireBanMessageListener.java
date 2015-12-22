@@ -56,7 +56,8 @@ public class ExpireBanMessageListener
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				_mbConfiguration.expireBanJobInterval(), TimeUnit.MINUTE));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

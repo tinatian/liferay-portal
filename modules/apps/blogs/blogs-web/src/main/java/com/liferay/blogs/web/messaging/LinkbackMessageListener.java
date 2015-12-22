@@ -57,7 +57,8 @@ public class LinkbackMessageListener extends BaseSchedulerEntryMessageListener {
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				_blogsConfiguration.linkbackJobInterval(), TimeUnit.MINUTE));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

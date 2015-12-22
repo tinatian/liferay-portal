@@ -44,9 +44,8 @@ public class CheckBookingsMessageListener
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				CalendarServiceConfigurationValues.
-					CALENDAR_NOTIFICATION_CHECK_INTERVAL,
-				TimeUnit.MINUTE));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

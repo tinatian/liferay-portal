@@ -44,8 +44,8 @@ public class CheckEntryMessageListener
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				PropsValues.ANNOUNCEMENTS_ENTRY_CHECK_INTERVAL,
-				TimeUnit.MINUTE));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);

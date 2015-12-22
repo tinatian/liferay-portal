@@ -44,8 +44,8 @@ public class CheckAssetEntryMessageListener
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(
 				getEventListenerClass(), getEventListenerClass(),
-				AssetPublisherWebConfigurationValues.CHECK_INTERVAL,
-				TimeUnit.HOUR));
+				30,
+				TimeUnit.SECOND));
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
