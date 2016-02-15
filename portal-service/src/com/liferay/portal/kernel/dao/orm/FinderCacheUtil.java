@@ -19,7 +19,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceTracker;
 
 /**
  * @author Brian Wing Shun Chan
@@ -106,7 +108,112 @@ public class FinderCacheUtil {
 	private static final Log _log = LogFactoryUtil.getLog(
 		FinderCacheUtil.class);
 
-	private static final FinderCache _finderCache =
-		ProxyFactory.newServiceTrackedInstance(FinderCache.class);
+	private static final FinderCache _finderCache = new FinderCacheWrapper();
+
+	private static class FinderCacheWrapper implements FinderCache {
+
+		@Override
+		public void clearCache() {
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.clearCache();
+			}
+		}
+
+		@Override
+		public void clearCache(String className) {
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.clearCache(className);
+			}
+		}
+
+		@Override
+		public void clearLocalCache() {
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.clearLocalCache();
+			}
+		}
+
+		@Override
+		public Object getResult(
+			FinderPath finderPath, Object[] args,
+			BasePersistenceImpl<? extends BaseModel<?>> basePersistenceImpl) {
+
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				return finderCache.getResult(
+					finderPath, args, basePersistenceImpl);
+			}
+
+			return null;
+		}
+
+		@Override
+		public void invalidate() {
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.invalidate();
+			}
+		}
+
+		@Override
+		public void putResult(
+			FinderPath finderPath, Object[] args, Object result) {
+
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.putResult(finderPath, args, result);
+			}
+		}
+
+		@Override
+		public void putResult(
+			FinderPath finderPath, Object[] args, Object result,
+			boolean quiet) {
+
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.putResult(finderPath, args, result, quiet);
+			}
+		}
+
+		@Override
+		public void removeCache(String className) {
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.removeCache(className);
+			}
+		}
+
+		@Override
+		public void removeResult(FinderPath finderPath, Object[] args) {
+			FinderCache finderCache = _serviceTracker.getService();
+
+			if (finderCache != null) {
+				finderCache.removeResult(finderPath, args);
+			}
+		}
+
+		private FinderCacheWrapper() {
+			Registry registry = RegistryUtil.getRegistry();
+
+			_serviceTracker = registry.trackServices(FinderCache.class);
+
+			_serviceTracker.open();
+		}
+
+		private final ServiceTracker<FinderCache, FinderCache> _serviceTracker;
+
+	}
 
 }

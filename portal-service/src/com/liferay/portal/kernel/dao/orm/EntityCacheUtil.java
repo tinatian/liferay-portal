@@ -16,7 +16,9 @@ package com.liferay.portal.kernel.dao.orm;
 
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceTracker;
 
 import java.io.Serializable;
 
@@ -92,7 +94,146 @@ public class EntityCacheUtil {
 		_entityCache.removeResult(entityCacheEnabled, clazz, primaryKey);
 	}
 
-	private static final EntityCache _entityCache =
-		ProxyFactory.newServiceTrackedInstance(EntityCache.class);
+	private static final EntityCache _entityCache = new EntityCacheWrapper();
+
+	private static class EntityCacheWrapper implements EntityCache {
+
+		@Override
+		public void clearCache() {
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.clearCache();
+			}
+		}
+
+		@Override
+		public void clearCache(Class<?> clazz) {
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.clearCache(clazz);
+			}
+		}
+
+		@Override
+		public void clearLocalCache() {
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.clearLocalCache();
+			}
+		}
+
+		@Override
+		public PortalCache<Serializable, Serializable> getPortalCache(
+			Class<?> clazz) {
+
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				return entityCache.getPortalCache(clazz);
+			}
+
+			return null;
+		}
+
+		@Override
+		public Serializable getResult(
+			boolean entityCacheEnabled, Class<?> clazz,
+			Serializable primaryKey) {
+
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				return entityCache.getResult(
+					entityCacheEnabled, clazz, primaryKey);
+			}
+
+			return null;
+		}
+
+		@Override
+		public void invalidate() {
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.invalidate();
+			}
+		}
+
+		@Override
+		public Serializable loadResult(
+			boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+			SessionFactory sessionFactory) {
+
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				return entityCache.loadResult(
+					entityCacheEnabled, clazz, primaryKey, sessionFactory);
+			}
+
+			return null;
+		}
+
+		@Override
+		public void putResult(
+			boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+			Serializable result) {
+
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.putResult(
+					entityCacheEnabled, clazz, primaryKey, result);
+			}
+		}
+
+		@Override
+		public void putResult(
+			boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+			Serializable result, boolean quiet) {
+
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.putResult(
+					entityCacheEnabled, clazz, primaryKey, result, quiet);
+			}
+		}
+
+		@Override
+		public void removeCache(String className) {
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.removeCache(className);
+			}
+		}
+
+		@Override
+		public void removeResult(
+			boolean entityCacheEnabled, Class<?> clazz,
+			Serializable primaryKey) {
+
+			EntityCache entityCache = _serviceTracker.getService();
+
+			if (entityCache != null) {
+				entityCache.removeResult(entityCacheEnabled, clazz, primaryKey);
+			}
+		}
+
+		private EntityCacheWrapper() {
+			Registry registry = RegistryUtil.getRegistry();
+
+			_serviceTracker = registry.trackServices(EntityCache.class);
+
+			_serviceTracker.open();
+		}
+
+		private final ServiceTracker<EntityCache, EntityCache> _serviceTracker;
+
+	}
 
 }
