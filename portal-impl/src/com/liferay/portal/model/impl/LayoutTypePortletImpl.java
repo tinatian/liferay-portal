@@ -90,9 +90,6 @@ public class LayoutTypePortletImpl
 		LayoutTypeAccessPolicy layoutTypeAccessPolicy) {
 
 		super(layout, layoutTypeController, layoutTypeAccessPolicy);
-
-		_layoutSetPrototypeLayout = SitesUtil.getLayoutSetPrototypeLayout(
-			layout);
 	}
 
 	@Override
@@ -331,17 +328,32 @@ public class LayoutTypePortletImpl
 
 	@Override
 	public Layout getLayoutSetPrototypeLayout() {
-		return _layoutSetPrototypeLayout;
+		if (_layoutSetPrototypeLayout == null) {
+			_layoutSetPrototypeLayout = SitesUtil.getLayoutSetPrototypeLayout(
+				getLayout());
+
+			if (_layoutSetPrototypeLayout == null) {
+				_layoutSetPrototypeLayout = _NULL_OBJECT;
+			}
+		}
+
+		if (_layoutSetPrototypeLayout instanceof Layout) {
+			return (Layout)_layoutSetPrototypeLayout;
+		}
+
+		return null;
 	}
 
 	@Override
 	public String getLayoutSetPrototypeLayoutProperty(String key) {
-		if (_layoutSetPrototypeLayout == null) {
+		Layout layoutSetPrototypeLayout = getLayoutSetPrototypeLayout();
+
+		if (layoutSetPrototypeLayout == null) {
 			return StringPool.BLANK;
 		}
 
 		UnicodeProperties typeSettingsProperties =
-			_layoutSetPrototypeLayout.getTypeSettingsProperties();
+			layoutSetPrototypeLayout.getTypeSettingsProperties();
 
 		return typeSettingsProperties.getProperty(key);
 	}
@@ -1514,8 +1526,6 @@ public class LayoutTypePortletImpl
 			(LayoutTypePortletImpl)LayoutTypePortletFactoryUtil.create(
 				getLayout());
 
-		defaultLayoutTypePortletImpl._layoutSetPrototypeLayout =
-			_layoutSetPrototypeLayout;
 		defaultLayoutTypePortletImpl._updatePermission = _updatePermission;
 
 		return defaultLayoutTypePortletImpl;
@@ -1911,6 +1921,8 @@ public class LayoutTypePortletImpl
 
 	private static final String _NULL_DATE = "00000000000000";
 
+	private static final Object _NULL_OBJECT = new Object();
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		LayoutTypePortletImpl.class);
 
@@ -1919,7 +1931,7 @@ public class LayoutTypePortletImpl
 		FastDateFormatFactoryUtil.getSimpleDateFormat(
 			PropsValues.INDEX_DATE_FORMAT_PATTERN);
 	private boolean _enablePortletLayoutListener = true;
-	private Layout _layoutSetPrototypeLayout;
+	private Object _layoutSetPrototypeLayout;
 	private PortalPreferences _portalPreferences;
 	private boolean _updatePermission;
 
