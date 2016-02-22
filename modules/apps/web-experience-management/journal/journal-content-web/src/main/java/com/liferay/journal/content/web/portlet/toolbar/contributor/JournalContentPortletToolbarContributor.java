@@ -99,10 +99,8 @@ public class JournalContentPortletToolbarContributor
 			PortalUtil.getClassNameId(JournalArticle.class),
 			WorkflowConstants.STATUS_APPROVED);
 
-		Map<String, Object> data = new HashMap<>();
-
-		data.put(
-			"id", HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset");
+		String id =
+			HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset";
 
 		for (DDMStructure ddmStructure : ddmStructures) {
 			portletURL.setParameter(
@@ -117,6 +115,9 @@ public class JournalContentPortletToolbarContributor
 			String title = LanguageUtil.format(
 				themeDisplay.getLocale(), "new-x", ddmStructureName);
 
+			Map<String, Object> data = new HashMap<>();
+
+			data.put("id", id);
 			data.put("title", HtmlUtil.escape(title));
 
 			urlMenuItem.setData(data);
