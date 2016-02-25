@@ -45,23 +45,16 @@ import java.util.Map;
 public class UpgradeDocumentLibrary extends UpgradeProcess {
 
 	protected void deleteChecksumDirectory() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			ps = connection.prepareStatement(
+		try (PreparedStatement ps = connection.prepareStatement(
 				"select distinct companyId from DLFileEntry");
 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 				long companyId = rs.getLong("companyId");
 
 				DLStoreUtil.deleteDirectory(companyId, 0, "checksum");
 			}
-		}
-		finally {
-			DataAccess.cleanUp(ps, rs);
 		}
 	}
 
@@ -150,12 +143,9 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 			String name, String description)
 		throws Exception {
 
-		PreparedStatement ps = null;
-
-		try {
-			ps = connection.prepareStatement(
+		try (PreparedStatement ps = connection.prepareStatement(
 				"update DLFileEntryType set fileEntryTypeKey = ?, name = ?, " +
-					"description = ? where fileEntryTypeId = ?");
+					"description = ? where fileEntryTypeId = ?")) {
 
 			ps.setString(1, fileEntryTypeKey);
 			ps.setString(2, localize(companyId, name, "Name"));
@@ -164,21 +154,13 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 
 			ps.executeUpdate();
 		}
-		finally {
-			DataAccess.cleanUp(ps);
-		}
 	}
 
 	protected void updateFileEntryTypes() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			ps = connection.prepareStatement(
+		try (PreparedStatement ps = connection.prepareStatement(
 				"select fileEntryTypeId, companyId, name, description from " +
 					"DLFileEntryType");
-
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 				long fileEntryTypeId = rs.getLong("fileEntryTypeId");
@@ -197,9 +179,6 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 					fileEntryTypeId, companyId, StringUtil.toUpperCase(name),
 					name, description);
 			}
-		}
-		finally {
-			DataAccess.cleanUp(ps, rs);
 		}
 	}
 
