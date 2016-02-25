@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -125,7 +126,7 @@ public class UpgradeSocial extends UpgradeProcess {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		try {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
 			Set<String> keys = new HashSet<>();
 
 			ps = connection.prepareStatement(
@@ -173,23 +174,25 @@ public class UpgradeSocial extends UpgradeProcess {
 	}
 
 	protected void updateJournalActivities() throws Exception {
-		long classNameId = PortalUtil.getClassNameId(
-			"com.liferay.portlet.journal.model.JournalArticle");
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			long classNameId = PortalUtil.getClassNameId(
+				"com.liferay.portlet.journal.model.JournalArticle");
 
-		String[] tableNames = {"SocialActivity", "SocialActivityCounter"};
+			String[] tableNames = {"SocialActivity", "SocialActivityCounter"};
 
-		for (String tableName : tableNames) {
-			StringBundler sb = new StringBundler(7);
+			for (String tableName : tableNames) {
+				StringBundler sb = new StringBundler(7);
 
-			sb.append("update ");
-			sb.append(tableName);
-			sb.append(" set classPK = (select resourcePrimKey ");
-			sb.append("from JournalArticle where id_ = ");
-			sb.append(tableName);
-			sb.append(".classPK) where classNameId = ");
-			sb.append(classNameId);
+				sb.append("update ");
+				sb.append(tableName);
+				sb.append(" set classPK = (select resourcePrimKey ");
+				sb.append("from JournalArticle where id_ = ");
+				sb.append(tableName);
+				sb.append(".classPK) where classNameId = ");
+				sb.append(classNameId);
 
-			runSQL(sb.toString());
+				runSQL(sb.toString());
+			}
 		}
 	}
 
@@ -198,7 +201,8 @@ public class UpgradeSocial extends UpgradeProcess {
 			return;
 		}
 
-		try (PreparedStatement ps = connection.prepareStatement(
+		try (LoggingTimer loggingTimer = new LoggingTimer();
+			PreparedStatement ps = connection.prepareStatement(
 				"select activityId, activitySetId from SO_SocialActivity");
 			ResultSet rs = ps.executeQuery()) {
 
@@ -226,7 +230,8 @@ public class UpgradeSocial extends UpgradeProcess {
 
 		runSQL("delete from SocialActivity where classNameId = " + classNameId);
 
-		try (PreparedStatement ps = connection.prepareStatement(
+		try (LoggingTimer loggingTimer = new LoggingTimer();
+			PreparedStatement ps = connection.prepareStatement(
 				"select groupId, companyId, userId, modifiedDate, " +
 					"resourcePrimKey, version from WikiPage");
 			ResultSet rs = ps.executeQuery()) {
