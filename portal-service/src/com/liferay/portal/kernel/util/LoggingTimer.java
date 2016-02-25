@@ -41,7 +41,7 @@ public class LoggingTimer implements Closeable {
 		}
 	}
 
-	private static String _getInvokerName(String tailName) {
+	private static String _getInvokerName(String name) {
 		Thread thread = Thread.currentThread();
 
 		StackTraceElement[] stackTraceElements = thread.getStackTrace();
@@ -54,9 +54,9 @@ public class LoggingTimer implements Closeable {
 		sb.append(StringPool.POUND);
 		sb.append(stackTraceElement.getMethodName());
 
-		if (tailName != null) {
+		if (name != null) {
 			sb.append(StringPool.POUND);
-			sb.append(tailName);
+			sb.append(name);
 		}
 
 		return sb.toString();

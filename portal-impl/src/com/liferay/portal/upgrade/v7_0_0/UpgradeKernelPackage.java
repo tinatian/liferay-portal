@@ -15,8 +15,6 @@
 package com.liferay.portal.upgrade.v7_0_0;
 
 import com.liferay.portal.kernel.dao.orm.WildcardMode;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.upgrade.UpgradeException;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.LoggingTimer;
@@ -50,6 +48,7 @@ public class UpgradeKernelPackage extends UpgradeProcess {
 			upgradeTable(
 				"ResourcePermission", "name", getClassNames(),
 				WildcardMode.SURROUND);
+
 			upgradeTable(
 				"ResourceAction", "name", getResourceNames(),
 				WildcardMode.LEADING);
@@ -648,8 +647,5 @@ public class UpgradeKernelPackage extends UpgradeProcess {
 			"com.liferay.portlet.messageboards", "com.liferay.message.boards"
 		}
 	};
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		UpgradeKernelPackage.class);
 
 }
