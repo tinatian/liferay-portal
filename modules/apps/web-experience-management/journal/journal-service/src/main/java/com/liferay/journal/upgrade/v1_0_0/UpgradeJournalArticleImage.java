@@ -14,8 +14,8 @@
 
 package com.liferay.journal.upgrade.v1_0_0;
 
-import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.sql.PreparedStatement;
@@ -34,32 +34,22 @@ public class UpgradeJournalArticleImage extends UpgradeProcess {
 	protected void updateJournalArticle(long articleImageId, String elName)
 		throws Exception {
 
-		PreparedStatement ps = null;
-
-		try {
-			ps = connection.prepareStatement(
+		try (PreparedStatement ps = connection.prepareStatement(
 				"update JournalArticleImage set elName = ? where " +
-					"articleImageId = ?");
+					"articleImageId = ?")) {
 
 			ps.setString(1, elName);
 			ps.setLong(2, articleImageId);
 
 			ps.execute();
 		}
-		finally {
-			DataAccess.cleanUp(ps);
-		}
 	}
 
 	protected void updateJournalArticleImages() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			ps = connection.prepareStatement(
+		try (LoggingTimer loggingTimer = new LoggingTimer();
+			PreparedStatement ps = connection.prepareStatement(
 				"select articleImageId, elName from JournalArticleImage");
-
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 				long articleImageId = rs.getLong(1);
@@ -73,9 +63,6 @@ public class UpgradeJournalArticleImage extends UpgradeProcess {
 
 				updateJournalArticle(articleImageId, elName);
 			}
-		}
-		finally {
-			DataAccess.cleanUp(ps, rs);
 		}
 	}
 
