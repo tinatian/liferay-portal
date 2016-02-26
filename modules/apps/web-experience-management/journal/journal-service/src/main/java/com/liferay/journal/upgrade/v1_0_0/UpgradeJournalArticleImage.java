@@ -15,6 +15,7 @@
 package com.liferay.journal.upgrade.v1_0_0;
 
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.sql.PreparedStatement;
@@ -45,7 +46,8 @@ public class UpgradeJournalArticleImage extends UpgradeProcess {
 	}
 
 	protected void updateJournalArticleImages() throws Exception {
-		try (PreparedStatement ps = connection.prepareStatement(
+		try (LoggingTimer loggingTimer = new LoggingTimer();
+			PreparedStatement ps = connection.prepareStatement(
 				"select articleImageId, elName from JournalArticleImage");
 			ResultSet rs = ps.executeQuery()) {
 
