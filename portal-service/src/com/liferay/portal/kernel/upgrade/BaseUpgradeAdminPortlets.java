@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.upgrade;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.util.LoggingTimer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,11 +88,12 @@ public abstract class BaseUpgradeAdminPortlets extends UpgradeProcess {
 			String portletFrom, String portletTo)
 		throws Exception {
 
-		long bitwiseValue = getBitwiseValue(
-			portletFrom, ActionKeys.ACCESS_IN_CONTROL_PANEL);
-
-		try (PreparedStatement ps = connection.prepareStatement(
+		try (LoggingTimer loggingTimer = new LoggingTimer();
+			PreparedStatement ps = connection.prepareStatement(
 				"select * from ResourcePermission where name = ?")) {
+
+			long bitwiseValue = getBitwiseValue(
+				portletFrom, ActionKeys.ACCESS_IN_CONTROL_PANEL);
 
 			ps.setString(1, portletFrom);
 
