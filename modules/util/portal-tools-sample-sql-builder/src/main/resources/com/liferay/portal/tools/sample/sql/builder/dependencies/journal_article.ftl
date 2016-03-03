@@ -8,6 +8,14 @@
 
 insert into DDMTemplate values ('${ddmTemplateModel.uuid}', ${ddmTemplateModel.templateId}, ${ddmTemplateModel.groupId}, ${ddmTemplateModel.companyId}, ${ddmTemplateModel.userId}, '${ddmTemplateModel.userName}', ${ddmStructureModel.versionUserId}, '${ddmStructureModel.versionUserName}', '${dataFactory.getDateString(ddmTemplateModel.createDate)}', '${dataFactory.getDateString(ddmTemplateModel.modifiedDate)}', ${ddmTemplateModel.classNameId}, ${ddmTemplateModel.classPK}, ${ddmTemplateModel.resourceClassNameId}, '${ddmTemplateModel.templateKey}', '${ddmTemplateModel.version}', '${ddmTemplateModel.name}', '${ddmTemplateModel.description}', '${ddmTemplateModel.type}', '${ddmTemplateModel.mode}', '${ddmTemplateModel.language}', '${ddmTemplateModel.script}', ${ddmTemplateModel.cacheable?string}, ${ddmTemplateModel.smallImage?string}, ${ddmTemplateModel.smallImageId}, '${ddmTemplateModel.smallImageURL}', '${dataFactory.getDateString(ddmTemplateModel.lastPublishDate)}');
 
+<#assign resourcePermissionModels = dataFactory.newResourcePermissionModels(ddmTemplateModel)>
+
+<#list resourcePermissionModels as resourcePermissionModel>
+	<@insertResourcePermission
+		_resourcePermissionModel = resourcePermissionModel
+	/>
+</#list>
+
 <#assign journalArticlePageCounts = dataFactory.getSequence(dataFactory.maxJournalArticlePageCount)>
 
 <#assign resourcePermissionModels = dataFactory.newResourcePermissionModels("com.liferay.journal", groupId)>

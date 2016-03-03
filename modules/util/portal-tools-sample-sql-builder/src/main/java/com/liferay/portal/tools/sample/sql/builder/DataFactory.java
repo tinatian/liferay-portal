@@ -62,6 +62,7 @@ import com.liferay.dynamic.data.mapping.model.DDMStructureLayoutModel;
 import com.liferay.dynamic.data.mapping.model.DDMStructureLinkModel;
 import com.liferay.dynamic.data.mapping.model.DDMStructureModel;
 import com.liferay.dynamic.data.mapping.model.DDMStructureVersionModel;
+import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateConstants;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateModel;
 import com.liferay.dynamic.data.mapping.model.impl.DDMContentModelImpl;
@@ -2412,6 +2413,36 @@ public class DataFactory {
 		return newSubscriptionModel(
 			_classNameModelsMap.get(WikiPage.class.getName()),
 			wikiPageModel.getResourcePrimKey());
+	}
+
+	public List<ResourcePermissionModel>
+		newTempalteResourcePermissionModels(
+			DDMTemplateModel ddmTemplateModel) {
+
+		StringBundler sb = new StringBundler(3);
+
+		sb.append(JournalArticle.class.getName());
+		sb.append(StringPool.DASH);
+		sb.append(DDMTemplate.class.getName());
+
+		String name = sb.toString();
+		String primKey = String.valueOf(ddmTemplateModel.getTemplateId());
+
+		List<ResourcePermissionModel> resourcePermissionModels =
+			new ArrayList<>(3);
+
+		resourcePermissionModels.add(
+			newResourcePermissionModel(
+				name, primKey, _guestRoleModel.getRoleId(), 0));
+		resourcePermissionModels.add(
+			newResourcePermissionModel(
+				name, primKey, _ownerRoleModel.getRoleId(),
+				ddmTemplateModel.getUserId()));
+		resourcePermissionModels.add(
+			newResourcePermissionModel(
+				name, primKey, _userRoleModel.getRoleId(), 0));
+
+		return resourcePermissionModels;
 	}
 
 	public List<UserModel> newUserModels() {
