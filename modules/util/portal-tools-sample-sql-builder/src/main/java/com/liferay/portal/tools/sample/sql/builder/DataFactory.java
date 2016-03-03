@@ -903,7 +903,7 @@ public class DataFactory {
 			"BASIC-WEB-CONTENT", _journalDDMStructureContent);
 
 		_defaultJournalDDMStructureVersionModel = newDDMStructureVersionModel(
-			_defaultDLDDMStructureModel);
+			_defaultJournalDDMStructureModel);
 
 		_defaultJournalDDMStructureLayoutModel = newDDMStructureLayoutModel(
 			_globalGroupId, _defaultUserId,
@@ -1294,7 +1294,7 @@ public class DataFactory {
 		for (int i = 0; i < _maxDDLCustomFieldCount; i++) {
 			sb.append("{\"columns\":[{\"size\":12,\"fieldNames\":[\"");
 			sb.append(nextDDLCustomFieldName(groupId, i));
-			sb.append("]}]}");
+			sb.append("\"]}]}");
 			sb.append(",");
 		}
 

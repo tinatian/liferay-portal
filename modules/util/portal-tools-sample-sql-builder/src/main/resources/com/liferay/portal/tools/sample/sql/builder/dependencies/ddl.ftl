@@ -3,7 +3,7 @@
 <#list ddlRecordSetCounts as ddlRecordSetCount>
 	<#if ddlRecordSetCount = 1>
 		<#assign ddmStructureModel = dataFactory.newDDLDDMStructureModel(groupId)>
-		<#assign ddmStructureVersionModel = dataFactory.newDDMStructureModel(ddmStructureModel)>
+		<#assign ddmStructureVersionModel = dataFactory.newDDMStructureVersionModel(ddmStructureModel)>
 
 		<@insertDDMStructure
 			_ddmStructureModel = ddmStructureModel
