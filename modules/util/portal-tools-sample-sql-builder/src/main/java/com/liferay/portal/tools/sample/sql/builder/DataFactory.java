@@ -62,6 +62,7 @@ import com.liferay.dynamic.data.mapping.model.DDMStructureLayoutModel;
 import com.liferay.dynamic.data.mapping.model.DDMStructureLinkModel;
 import com.liferay.dynamic.data.mapping.model.DDMStructureModel;
 import com.liferay.dynamic.data.mapping.model.DDMStructureVersionModel;
+import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateConstants;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateModel;
 import com.liferay.dynamic.data.mapping.model.impl.DDMContentModelImpl;
@@ -891,10 +892,7 @@ public class DataFactory {
 			RawMetadataProcessor.TIKA_RAW_METADATA, _dlDDMStructureContent);
 
 		_defaultDLDDMStructureVersionModel = newDDMStructureVersionModel(
-			_globalGroupId, _defaultUserId,
-			RawMetadataProcessor.TIKA_RAW_METADATA,
-			_defaultDLDDMStructureModel.getStructureId(),
-			_dlDDMStructureContent);
+			_defaultDLDDMStructureModel);
 
 		_defaultDLDDMStructureLayoutModel = newDDMStructureLayoutModel(
 			_globalGroupId, _defaultUserId,
@@ -906,9 +904,7 @@ public class DataFactory {
 			"BASIC-WEB-CONTENT", _journalDDMStructureContent);
 
 		_defaultJournalDDMStructureVersionModel = newDDMStructureVersionModel(
-			_globalGroupId, _defaultUserId, "BASIC-WEB-CONTENT",
-			_defaultJournalDDMStructureModel.getStructureId(),
-			_journalDDMStructureContent);
+			_defaultJournalDDMStructureModel);
 
 		_defaultJournalDDMStructureLayoutModel = newDDMStructureLayoutModel(
 			_globalGroupId, _defaultUserId,
@@ -1289,6 +1285,32 @@ public class DataFactory {
 		return counterModels;
 	}
 
+	public DDMStructureLayoutModel newDDLDDMStructureLayoutModel(
+		long groupId, DDMStructureVersionModel ddmStructureVersionModel) {
+
+		StringBundler sb = new StringBundler(3 + _maxDDLCustomFieldCount * 4);
+
+		sb.append("{\"pages\":[{\"rows\":[");
+
+		for (int i = 0; i < _maxDDLCustomFieldCount; i++) {
+			sb.append("{\"columns\":[{\"size\":12,\"fieldNames\":[\"");
+			sb.append(nextDDLCustomFieldName(groupId, i));
+			sb.append("\"]}]}");
+			sb.append(",");
+		}
+
+		if (_maxDDLCustomFieldCount > 0) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append("],\"title\":{\"en_US\":\"\"}}],\"paginationMode\":");
+		sb.append("\"single-page\",\"defaultLanguageId\":\"en_US\"}");
+
+		return newDDMStructureLayoutModel(
+			_globalGroupId, _defaultUserId,
+			ddmStructureVersionModel.getStructureVersionId(), sb.toString());
+	}
+
 	public DDMStructureModel newDDLDDMStructureModel(long groupId) {
 		StringBundler sb = new StringBundler(3 + _maxDDLCustomFieldCount * 9);
 
@@ -1503,6 +1525,43 @@ public class DataFactory {
 			_classNameModelsMap.get(DLFileEntryMetadata.class.getName()),
 			dLFileEntryMetadataModel.getFileEntryMetadataId(),
 			dLFileEntryMetadataModel.getDDMStructureId());
+	}
+
+	public DDMStructureVersionModel newDDMStructureVersionModel(
+		DDMStructureModel ddmStructureModel) {
+
+		DDMStructureVersionModel ddmStructureVersionModel =
+			new DDMStructureVersionModelImpl();
+
+		ddmStructureVersionModel.setStructureVersionId(_counter.get());
+		ddmStructureVersionModel.setGroupId(ddmStructureModel.getGroupId());
+		ddmStructureVersionModel.setCompanyId(_companyId);
+		ddmStructureVersionModel.setUserId(ddmStructureModel.getUserId());
+		ddmStructureVersionModel.setUserName(_SAMPLE_USER_NAME);
+		ddmStructureVersionModel.setCreateDate(nextFutureDate());
+		ddmStructureVersionModel.setStructureId(
+			ddmStructureModel.getStructureId());
+		ddmStructureVersionModel.setVersion(
+			DDMStructureConstants.VERSION_DEFAULT);
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append("<?xml version=\"1.0\"?><root available-locales=\"en_US\" ");
+		sb.append("default-locale=\"en_US\"><name language-id=\"en_US\">");
+		sb.append(ddmStructureModel.getStructureKey());
+		sb.append("</name></root>");
+
+		ddmStructureVersionModel.setName(sb.toString());
+
+		ddmStructureVersionModel.setDefinition(
+			ddmStructureModel.getDefinition());
+		ddmStructureVersionModel.setStorageType(StorageType.JSON.toString());
+		ddmStructureVersionModel.setStatusByUserId(
+			ddmStructureModel.getUserId());
+		ddmStructureVersionModel.setStatusByUserName(_SAMPLE_USER_NAME);
+		ddmStructureVersionModel.setStatusDate(nextFutureDate());
+
+		return ddmStructureVersionModel;
 	}
 
 	public DLFileEntryMetadataModel newDLFileEntryMetadataModel(
@@ -2356,6 +2415,36 @@ public class DataFactory {
 			wikiPageModel.getResourcePrimKey());
 	}
 
+	public List<ResourcePermissionModel>
+		newTempalteResourcePermissionModels(
+			DDMTemplateModel ddmTemplateModel) {
+
+		StringBundler sb = new StringBundler(3);
+
+		sb.append(JournalArticle.class.getName());
+		sb.append(StringPool.DASH);
+		sb.append(DDMTemplate.class.getName());
+
+		String name = sb.toString();
+		String primKey = String.valueOf(ddmTemplateModel.getTemplateId());
+
+		List<ResourcePermissionModel> resourcePermissionModels =
+			new ArrayList<>(3);
+
+		resourcePermissionModels.add(
+			newResourcePermissionModel(
+				name, primKey, _guestRoleModel.getRoleId(), 0));
+		resourcePermissionModels.add(
+			newResourcePermissionModel(
+				name, primKey, _ownerRoleModel.getRoleId(),
+				ddmTemplateModel.getUserId()));
+		resourcePermissionModels.add(
+			newResourcePermissionModel(
+				name, primKey, _userRoleModel.getRoleId(), 0));
+
+		return resourcePermissionModels;
+	}
+
 	public List<UserModel> newUserModels() {
 		List<UserModel> userModels = new ArrayList<>(_maxUserCount);
 
@@ -2685,41 +2774,6 @@ public class DataFactory {
 		ddmStructureModel.setLastPublishDate(nextFutureDate());
 
 		return ddmStructureModel;
-	}
-
-	protected DDMStructureVersionModel newDDMStructureVersionModel(
-		long groupId, long userId, String structureKey, long structureId,
-		String definition) {
-
-		DDMStructureVersionModel ddmStructureVersionModel =
-			new DDMStructureVersionModelImpl();
-
-		ddmStructureVersionModel.setStructureVersionId(_counter.get());
-		ddmStructureVersionModel.setGroupId(groupId);
-		ddmStructureVersionModel.setCompanyId(_companyId);
-		ddmStructureVersionModel.setUserId(userId);
-		ddmStructureVersionModel.setUserName(_SAMPLE_USER_NAME);
-		ddmStructureVersionModel.setCreateDate(nextFutureDate());
-		ddmStructureVersionModel.setStructureId(structureId);
-		ddmStructureVersionModel.setVersion(
-			DDMStructureConstants.VERSION_DEFAULT);
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append("<?xml version=\"1.0\"?><root available-locales=\"en_US\" ");
-		sb.append("default-locale=\"en_US\"><name language-id=\"en_US\">");
-		sb.append(structureKey);
-		sb.append("</name></root>");
-
-		ddmStructureVersionModel.setName(sb.toString());
-
-		ddmStructureVersionModel.setDefinition(definition);
-		ddmStructureVersionModel.setStorageType(StorageType.JSON.toString());
-		ddmStructureVersionModel.setStatusByUserId(userId);
-		ddmStructureVersionModel.setStatusByUserName(_SAMPLE_USER_NAME);
-		ddmStructureVersionModel.setStatusDate(nextFutureDate());
-
-		return ddmStructureVersionModel;
 	}
 
 	protected DDMTemplateModel newDDMTemplateModel(
