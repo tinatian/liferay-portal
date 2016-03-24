@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1458671029150
+Bnd-LastModified: 1458810649892
 Bundle-ManifestVersion: 2
 Bundle-Name: portal-bootstrap
 Bundle-SymbolicName: portal-bootstrap
 Bundle-Vendor: Liferay, Inc.
 Bundle-Version: 1.0.0
-Created-By: 1.7.0_95 (Oracle Corporation)
+Created-By: 1.8.0_65 (Oracle Corporation)
 Export-Package: com.liferay.ibm.icu;version="4.0.1",com.liferay.ibm.ic
  u.impl;version="4.0.1";uses:="com.liferay.ibm.icu.math,com.liferay.ib
  m.icu.text,com.liferay.ibm.icu.util",com.liferay.ibm.icu.impl.coll;ve
@@ -2711,7 +2711,7 @@ Export-Package: com.liferay.ibm.icu;version="4.0.1",com.liferay.ibm.ic
  eray.portal.kernel.poller.comet;version="7.0.0";uses:="com.liferay.po
  rtal.kernel.exception,javax.servlet.http",com.liferay.portal.kernel.p
  op;version="6.2.0";uses:="com.liferay.portal.kernel.exception,javax.m
- ail",com.liferay.portal.kernel.portlet;version="7.1.0";uses:="com.lif
+ ail",com.liferay.portal.kernel.portlet;version="8.0.0";uses:="com.lif
  eray.asset.kernel.model,com.liferay.expando.kernel.model,com.liferay.
  exportimport.kernel.lar,com.liferay.portal.kernel.atom,com.liferay.po
  rtal.kernel.exception,com.liferay.portal.kernel.json,com.liferay.port
@@ -3573,7 +3573,7 @@ Export-Package: com.liferay.ibm.icu;version="4.0.1",com.liferay.ibm.ic
  ,javax.servlet.http";version="1.0.0",com.liferay.portal.xsl;uses:="co
  m.liferay.portal.kernel.template,javax.xml.transform";version="1.0.0"
  ,com.liferay.portal.zip;uses:="com.liferay.portal.kernel.zip";version
- ="1.0.0",com.liferay.portlet;version="1.0.2";uses:="com.liferay.asset
+ ="1.0.0",com.liferay.portlet;version="1.1.0";uses:="com.liferay.asset
  .kernel.model,com.liferay.expando.kernel.model,com.liferay.exportimpo
  rt.kernel.lar,com.liferay.portal.kernel.atom,com.liferay.portal.kerne
  l.exception,com.liferay.portal.kernel.model,com.liferay.portal.kernel
