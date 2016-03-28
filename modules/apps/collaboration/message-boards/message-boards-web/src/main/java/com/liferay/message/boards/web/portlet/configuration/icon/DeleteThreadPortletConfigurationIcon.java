@@ -104,8 +104,8 @@ public class DeleteThreadPortletConfigurationIcon
 		MBCategory category = messageDisplay.getCategory();
 
 		PortletURL parentCategoryURL = PortletURLFactoryUtil.create(
-			portletRequest, MBPortletKeys.MESSAGE_BOARDS_ADMIN,
-			themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+			portletRequest, MBPortletKeys.MESSAGE_BOARDS_ADMIN, themeDisplay,
+			PortletRequest.RENDER_PHASE);
 
 		long categoryId = getCategoryId(category);
 
