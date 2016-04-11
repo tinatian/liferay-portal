@@ -70,7 +70,9 @@ public class IncludeTag extends AttributesTagSupport {
 				page = getEndPage();
 			}
 
-			callSetAttributes();
+			if (page != null) {
+				callSetAttributes();
+			}
 
 			if (themeResourceExists(page)) {
 				doIncludeTheme(page);
@@ -101,7 +103,9 @@ public class IncludeTag extends AttributesTagSupport {
 		try {
 			String page = getStartPage();
 
-			callSetAttributes();
+			if (page != null) {
+				callSetAttributes();
+			}
 
 			if (themeResourceExists(page)) {
 				doIncludeTheme(page);
