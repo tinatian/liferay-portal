@@ -643,6 +643,19 @@ public class DataFactory {
 		return sequence;
 	}
 
+	public List<Long> getUserRoleIds() {
+		List<Long> roleIds = new ArrayList<>(3);
+
+		if (_userAdminRole) {
+			roleIds.add(_administratorRoleModel.getRoleId());
+		}
+
+		roleIds.add(_powerUserRoleModel.getRoleId());
+		roleIds.add(_userRoleModel.getRoleId());
+
+		return roleIds;
+	}
+
 	public RoleModel getUserRoleModel() {
 		return _userRoleModel;
 	}
@@ -862,6 +875,9 @@ public class DataFactory {
 			properties.getProperty("sample.sql.max.wiki.page.comment.count"));
 		_maxWikiPageCount = GetterUtil.getInteger(
 			properties.getProperty("sample.sql.max.wiki.page.count"));
+
+		_userAdminRole = GetterUtil.getBoolean(
+			properties.getProperty("sample.sql.user.admin.role"));
 	}
 
 	public void initDLFileEntryTypeModel() {
@@ -3364,6 +3380,7 @@ public class DataFactory {
 	private RoleModel _siteMemberRoleModel;
 	private final SimpleCounter _socialActivityCounter;
 	private final SimpleCounter _timeCounter;
+	private boolean _userAdminRole;
 	private RoleModel _userRoleModel;
 	private final SimpleCounter _userScreenNameCounter;
 	private VirtualHostModel _virtualHostModel;
