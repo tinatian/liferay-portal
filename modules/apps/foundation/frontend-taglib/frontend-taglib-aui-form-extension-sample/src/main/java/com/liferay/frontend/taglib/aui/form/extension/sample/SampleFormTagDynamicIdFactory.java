@@ -30,7 +30,10 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	immediate = true,
-	property = {"tagClassName=com.liferay.taglib.aui.FormTag"},
+	property = {
+		"service.ranking:Integer=-100",
+		"tagClassName=com.liferay.taglib.aui.FormTag"
+	},
 	service = TagDynamicIdFactory.class
 )
 public class SampleFormTagDynamicIdFactory implements TagDynamicIdFactory {
