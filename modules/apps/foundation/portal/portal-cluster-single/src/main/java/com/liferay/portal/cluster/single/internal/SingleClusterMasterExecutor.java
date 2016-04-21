@@ -24,7 +24,10 @@ import org.osgi.service.component.annotations.Component;
 /**
  * @author Michael C. Han
  */
-@Component(immediate = true, service = ClusterMasterExecutor.class)
+@Component(
+	immediate = true, property = {"service.ranking:Integer=-1"},
+	service = ClusterMasterExecutor.class
+)
 public class SingleClusterMasterExecutor implements ClusterMasterExecutor {
 
 	@Override
