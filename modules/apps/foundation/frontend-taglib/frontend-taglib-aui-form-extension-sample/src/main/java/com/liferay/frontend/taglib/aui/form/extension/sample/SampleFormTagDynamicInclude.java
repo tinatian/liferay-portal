@@ -28,7 +28,10 @@ import org.osgi.service.component.annotations.Component;
 /**
  * @author Carlos Sierra Andrés
  */
-@Component(immediate = true, service = TagDynamicInclude.class)
+@Component(
+	immediate = true, property = {"service.ranking:Integer=-100"},
+	service = TagDynamicInclude.class
+)
 public class SampleFormTagDynamicInclude implements TagDynamicInclude {
 
 	@Override

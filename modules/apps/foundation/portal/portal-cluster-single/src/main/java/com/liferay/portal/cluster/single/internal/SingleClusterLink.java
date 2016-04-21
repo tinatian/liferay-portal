@@ -24,7 +24,10 @@ import org.osgi.service.component.annotations.Component;
 /**
  * @author Shuyang Zhou
  */
-@Component(immediate = true, service = ClusterLink.class)
+@Component(
+	immediate = true, property = {"service.ranking:Integer=-1"},
+	service = ClusterLink.class
+)
 public class SingleClusterLink implements ClusterLink {
 
 	@Override

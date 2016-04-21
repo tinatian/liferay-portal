@@ -26,7 +26,10 @@ import org.osgi.service.component.annotations.Component;
 /**
  * @author Tina Tian
  */
-@Component(immediate = true, service = PortalCacheReplicatorFactory.class)
+@Component(
+	immediate = true, property = {"service.ranking:Integer=-1"},
+	service = PortalCacheReplicatorFactory.class
+)
 public class SinglePortalCacheReplicatorFactory
 	implements PortalCacheReplicatorFactory {
 
