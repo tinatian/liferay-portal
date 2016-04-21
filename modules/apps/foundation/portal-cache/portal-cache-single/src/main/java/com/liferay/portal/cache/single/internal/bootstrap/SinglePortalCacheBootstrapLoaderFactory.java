@@ -24,7 +24,10 @@ import org.osgi.service.component.annotations.Component;
 /**
  * @author Tina Tian
  */
-@Component(immediate = true, service = PortalCacheBootstrapLoaderFactory.class)
+@Component(
+	immediate = true, property = {"service.ranking:Integer=-1"},
+	service = PortalCacheBootstrapLoaderFactory.class
+)
 public class SinglePortalCacheBootstrapLoaderFactory
 	implements PortalCacheBootstrapLoaderFactory {
 
