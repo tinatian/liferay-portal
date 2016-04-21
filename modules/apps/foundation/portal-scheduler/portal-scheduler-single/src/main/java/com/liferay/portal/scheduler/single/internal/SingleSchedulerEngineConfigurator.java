@@ -28,7 +28,10 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Tina Tian
  */
-@Component(immediate = true, service = SingleSchedulerEngineConfigurator.class)
+@Component(
+	immediate = true, property = {"service.ranking:Integer=-1"},
+	service = SingleSchedulerEngineConfigurator.class
+)
 public class SingleSchedulerEngineConfigurator
 	extends BaseSchedulerEngineConfigurator {
 
