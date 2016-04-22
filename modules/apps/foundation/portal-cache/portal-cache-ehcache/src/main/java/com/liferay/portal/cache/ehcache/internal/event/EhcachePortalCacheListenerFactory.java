@@ -32,13 +32,9 @@ import java.util.Properties;
 import net.sf.ehcache.event.CacheEventListener;
 import net.sf.ehcache.event.CacheEventListenerFactory;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 /**
  * @author Tina Tian
  */
-@Component(immediate = true, service = PortalCacheListenerFactory.class)
 public class EhcachePortalCacheListenerFactory
 	implements PortalCacheListenerFactory {
 
@@ -86,7 +82,6 @@ public class EhcachePortalCacheListenerFactory
 		return clazz.getClassLoader();
 	}
 
-	@Reference(unbind = "-")
 	protected void setPortalCacheReplicatorFactory(
 		PortalCacheReplicatorFactory portalCacheReplicatorFactory) {
 

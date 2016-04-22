@@ -30,36 +30,16 @@ import com.liferay.portal.kernel.util.PropsKeys;
 
 import java.io.Serializable;
 
-import java.util.Map;
-
 import javax.management.MBeanServer;
-
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Tina Tian
  */
-@Component(
-	immediate = true,
-	property = {
-		PortalCacheManager.PORTAL_CACHE_MANAGER_NAME + "=" + PortalCacheManagerNames.MULTI_VM
-	},
-	service = PortalCacheManager.class
-)
 public class MultiVMEhcachePortalCacheManager
 	<K extends Serializable, V extends Serializable>
 		extends EhcachePortalCacheManager<K, V> {
 
-	@Activate
-	@Modified
-	protected void activate(Map<String, Object> properties) {
+	protected void activate() {
 		setClusterAware(true);
 		setConfigFile(props.get(PropsKeys.EHCACHE_MULTI_VM_CONFIG_LOCATION));
 		setDefaultConfigFile(_DEFAULT_CONFIG_FILE_NAME);
@@ -88,17 +68,14 @@ public class MultiVMEhcachePortalCacheManager
 		}
 	}
 
-	@Deactivate
 	protected void deactivate() {
 		destroy();
 	}
 
-	@Reference(unbind = "-")
 	protected void setMBeanServer(MBeanServer mBeanServer) {
 		this.mBeanServer = mBeanServer;
 	}
 
-	@Reference(unbind = "-")
 	protected void setMultiVMEhcachePortalCacheManagerConfigurator(
 		MultiVMEhcachePortalCacheManagerConfigurator
 			multiVMEhcachePortalCacheManagerConfigurator) {
@@ -107,7 +84,6 @@ public class MultiVMEhcachePortalCacheManager
 			multiVMEhcachePortalCacheManagerConfigurator;
 	}
 
-	@Reference(unbind = "-")
 	protected void setPortalCacheBootstrapLoaderFactory(
 		PortalCacheBootstrapLoaderFactory portalCacheBootstrapLoaderFactory) {
 
@@ -115,26 +91,24 @@ public class MultiVMEhcachePortalCacheManager
 			portalCacheBootstrapLoaderFactory;
 	}
 
-	@Reference(
-		cardinality = ReferenceCardinality.MULTIPLE,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY,
-		target = "(" + PortalCacheManager.PORTAL_CACHE_MANAGER_NAME + "=" + PortalCacheManagerNames.MULTI_VM + ")"
-	)
+//	@Reference(
+//		cardinality = ReferenceCardinality.MULTIPLE,
+//		policy = ReferencePolicy.DYNAMIC,
+//		policyOption = ReferencePolicyOption.GREEDY,
+//		target = "(" + PortalCacheManager.PORTAL_CACHE_MANAGER_NAME + "=" + PortalCacheManagerNames.MULTI_VM + ")"
+//	)
 	protected void setPortalCacheConfiguratorSettings(
 		PortalCacheConfiguratorSettings portalCacheConfiguratorSettings) {
 
 		reconfigure(portalCacheConfiguratorSettings);
 	}
 
-	@Reference(unbind = "-")
 	protected void setPortalCacheListenerFactory(
 		PortalCacheListenerFactory portalCacheListenerFactory) {
 
 		this.portalCacheListenerFactory = portalCacheListenerFactory;
 	}
 
-	@Reference(unbind = "-")
 	protected void setPortalCacheManagerListenerFactory(
 		PortalCacheManagerListenerFactory<PortalCacheManager<K, V>>
 			portalCacheManagerListenerFactory) {
@@ -143,7 +117,6 @@ public class MultiVMEhcachePortalCacheManager
 			portalCacheManagerListenerFactory;
 	}
 
-	@Reference(unbind = "-")
 	protected void setProps(Props props) {
 		this.props = props;
 	}
