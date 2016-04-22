@@ -18,6 +18,8 @@ import com.liferay.portal.cache.PortalCacheBootstrapLoaderFactory;
 import com.liferay.portal.cache.PortalCacheListenerFactory;
 import com.liferay.portal.cache.PortalCacheManagerListenerFactory;
 import com.liferay.portal.cache.PortalCacheReplicatorFactory;
+import com.liferay.portal.cache.ehcache.internal.MultiVMEhcachePortalCacheManager;
+import com.liferay.portal.cache.ehcache.internal.SingleVMEhcachePortalCacheManager;
 import com.liferay.portal.cache.ehcache.internal.configurator.MultiVMEhcachePortalCacheManagerConfigurator;
 import com.liferay.portal.cache.ehcache.internal.configurator.SingleVMEhcachePortalCacheManagerConfigurator;
 import com.liferay.portal.cache.ehcache.internal.event.EhcachePortalCacheListenerFactory;
@@ -75,7 +77,8 @@ public class EhcachePortalCacheDependencyActivator
 			PortalCacheManagerNames.MULTI_VM);
 
 		component.setInterface(PortalCacheManager.class.getName(), dictionary);
-		component.setCallbacks(null, "activate", "deactivate", "deactivate");
+		component.setCallbacks("activate", "activate", "deactivate", "deactivate");
+		component.setImplementation(MultiVMEhcachePortalCacheManager.class);
 
 		component.add(
 			getServiceDependency(MBeanServer.class, "setMBeanServer"));
@@ -147,7 +150,8 @@ public class EhcachePortalCacheDependencyActivator
 			PortalCacheManagerNames.SINGLE_VM);
 
 		component.setInterface(PortalCacheManager.class.getName(), dictionary);
-		component.setCallbacks(null, "activate", "deactivate", "deactivate");
+		component.setCallbacks("activate", "activate", "deactivate", "deactivate");
+		component.setImplementation(SingleVMEhcachePortalCacheManager.class);
 
 		component.add(
 			getServiceDependency(MBeanServer.class, "setMBeanServer"));

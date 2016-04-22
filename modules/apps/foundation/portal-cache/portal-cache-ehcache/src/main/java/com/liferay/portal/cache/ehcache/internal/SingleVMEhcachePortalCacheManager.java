@@ -39,7 +39,7 @@ import org.osgi.service.component.annotations.Reference;
 public class SingleVMEhcachePortalCacheManager<K extends Serializable, V>
 	extends EhcachePortalCacheManager<K, V> {
 
-	protected void activate(Map<String, Object> properties) {
+	protected void activate() {
 		setConfigFile(props.get(PropsKeys.EHCACHE_SINGLE_VM_CONFIG_LOCATION));
 		setDefaultConfigFile(_DEFAULT_CONFIG_FILE_NAME);
 		setPortalCacheManagerName(PortalCacheManagerNames.SINGLE_VM);
