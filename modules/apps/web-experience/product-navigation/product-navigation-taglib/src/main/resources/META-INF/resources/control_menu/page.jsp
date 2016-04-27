@@ -84,7 +84,7 @@ ProductNavigationControlMenuEntryRegistry productNavigationControlMenuEntryRegis
 	</div>
 
 	<aui:script use="liferay-product-navigation-control-menu">
-		Liferay.ControlMenu.init('#<portlet:namespace />controlMenu');
+		Liferay.ControlMenu.init('#<portlet:namespace />ControlMenu');
 
 		var panelEntryBodies = $('#<portlet:namespace/>ControlMenu [data-toggle="sidenav"]').toArray().map(
 			function(item) {
