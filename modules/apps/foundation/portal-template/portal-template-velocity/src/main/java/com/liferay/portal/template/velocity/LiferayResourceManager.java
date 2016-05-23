@@ -16,7 +16,7 @@ package com.liferay.portal.template.velocity;
 
 import com.liferay.osgi.util.StringPlus;
 import com.liferay.portal.kernel.cache.PortalCache;
-import com.liferay.portal.kernel.cache.SingleVMPoolUtil;
+import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.TemplateResourceLoader;
@@ -52,15 +52,6 @@ import org.apache.velocity.runtime.resource.ResourceManagerImpl;
  * @author Shuyang Zhou
  */
 public class LiferayResourceManager extends ResourceManagerImpl {
-
-	public LiferayResourceManager() {
-		String portalCacheName = TemplateResource.class.getName();
-
-		portalCacheName = portalCacheName.concat(StringPool.POUND).concat(
-			TemplateConstants.LANG_TYPE_VM);
-
-		_portalCache = SingleVMPoolUtil.getPortalCache(portalCacheName);
-	}
 
 	@Override
 	public String getLoaderNameForResource(String source) {
@@ -130,6 +121,18 @@ public class LiferayResourceManager extends ResourceManagerImpl {
 			(TemplateResourceLoader)extendedProperties.get(
 				VelocityTemplateResourceLoader.class.getName());
 
+		String portalCacheName = TemplateResource.class.getName();
+
+		portalCacheName = portalCacheName.concat(StringPool.POUND).concat(
+			TemplateConstants.LANG_TYPE_VM);
+
+		SingleVMPool singleVMPool = (SingleVMPool)extendedProperties.get(
+			SingleVMPool.class.getName());
+
+		_portalCache =
+			(PortalCache<TemplateResource, Object>)singleVMPool.getPortalCache(
+				portalCacheName);
+
 		super.initialize(runtimeServices);
 	}
 
@@ -191,7 +194,7 @@ public class LiferayResourceManager extends ResourceManagerImpl {
 	}
 
 	private List<String> _macroTemplateIds;
-	private final PortalCache<TemplateResource, Object> _portalCache;
+	private PortalCache<TemplateResource, Object> _portalCache;
 	private int _resourceModificationCheckInterval = 60;
 	private TemplateResourceLoader _templateResourceLoader;
 
