@@ -59,7 +59,7 @@ public class LayoutsRemotePublisherMessageListener
 
 	@Activate
 	protected void activate(ComponentContext componentContext) {
-		initialize(componentContext);
+		initialize(componentContext, _singleDestinationMessageSenderFactory);
 	}
 
 	@Deactivate
@@ -158,6 +158,9 @@ public class LayoutsRemotePublisherMessageListener
 	protected void setSingleDestinationMessageSenderFactory(
 		SingleDestinationMessageSenderFactory
 			singleDestinationMessageSenderFactory) {
+
+		_singleDestinationMessageSenderFactory =
+			singleDestinationMessageSenderFactory;
 	}
 
 	@Reference(unbind = "-")
@@ -170,6 +173,8 @@ public class LayoutsRemotePublisherMessageListener
 
 	private ExportImportConfigurationLocalService
 		_exportImportConfigurationLocalService;
+	private SingleDestinationMessageSenderFactory
+		_singleDestinationMessageSenderFactory;
 	private UserLocalService _userLocalService;
 
 }

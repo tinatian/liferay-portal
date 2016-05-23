@@ -57,7 +57,7 @@ public class LayoutsLocalPublisherMessageListener
 
 	@Activate
 	protected void activate(ComponentContext componentContext) {
-		initialize(componentContext);
+		initialize(componentContext, _singleDestinationMessageSenderFactory);
 	}
 
 	@Deactivate
@@ -142,6 +142,9 @@ public class LayoutsLocalPublisherMessageListener
 	protected void setSingleDestinationMessageSenderFactory(
 		SingleDestinationMessageSenderFactory
 			singleDestinationMessageSenderFactory) {
+
+		_singleDestinationMessageSenderFactory =
+			singleDestinationMessageSenderFactory;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -149,5 +152,7 @@ public class LayoutsLocalPublisherMessageListener
 
 	private ExportImportConfigurationLocalService
 		_exportImportConfigurationLocalService;
+	private SingleDestinationMessageSenderFactory
+		_singleDestinationMessageSenderFactory;
 
 }
