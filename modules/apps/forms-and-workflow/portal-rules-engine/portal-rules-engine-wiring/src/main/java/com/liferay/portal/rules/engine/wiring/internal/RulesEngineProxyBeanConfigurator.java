@@ -52,8 +52,6 @@ public class RulesEngineProxyBeanConfigurator {
 		rulesEngineProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
 
-		rulesEngineProxyBean.afterPropertiesSet();
-
 		InvocationHandlerFactory invocationHandlerFactory =
 			MessagingProxyInvocationHandler.getInvocationHandlerFactory();
 

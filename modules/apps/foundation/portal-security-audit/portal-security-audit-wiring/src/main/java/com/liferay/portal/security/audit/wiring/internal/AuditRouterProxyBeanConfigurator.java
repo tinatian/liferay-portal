@@ -52,8 +52,6 @@ public class AuditRouterProxyBeanConfigurator {
 		auditRouterProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
 
-		auditRouterProxyBean.afterPropertiesSet();
-
 		InvocationHandlerFactory invocationHandlerFactory =
 			MessagingProxyInvocationHandler.getInvocationHandlerFactory();
 
