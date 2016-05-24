@@ -51,8 +51,8 @@ public class RulesEngineProxyBeanConfigurator {
 			RulesEngineConstants.DESTINATION_NAME);
 		rulesEngineProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
-
-		rulesEngineProxyBean.afterPropertiesSet();
+		rulesEngineProxyBean.setSingleDestinationMessageSenderFactory(
+			_singleDestinationMessageSenderFactory);
 
 		InvocationHandlerFactory invocationHandlerFactory =
 			MessagingProxyInvocationHandler.getInvocationHandlerFactory();
@@ -95,8 +95,13 @@ public class RulesEngineProxyBeanConfigurator {
 	protected void setSingleDestinationMessageSenderFactory(
 		SingleDestinationMessageSenderFactory
 			singleDestinationMessageSenderFactory) {
+
+		_singleDestinationMessageSenderFactory =
+			singleDestinationMessageSenderFactory;
 	}
 
 	private ServiceRegistration<RulesEngine> _serviceRegistration;
+	private SingleDestinationMessageSenderFactory
+		_singleDestinationMessageSenderFactory;
 
 }
