@@ -51,8 +51,8 @@ public class AuditRouterProxyBeanConfigurator {
 			DestinationNames.AUDIT);
 		auditRouterProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
-
-		auditRouterProxyBean.afterPropertiesSet();
+		auditRouterProxyBean.setSingleDestinationMessageSenderFactory(
+			_singleDestinationMessageSenderFactory);
 
 		InvocationHandlerFactory invocationHandlerFactory =
 			MessagingProxyInvocationHandler.getInvocationHandlerFactory();
@@ -96,8 +96,13 @@ public class AuditRouterProxyBeanConfigurator {
 	protected void setSingleDestinationMessageSenderFactory(
 		SingleDestinationMessageSenderFactory
 			singleDestinationMessageSenderFactory) {
+
+		_singleDestinationMessageSenderFactory =
+			singleDestinationMessageSenderFactory;
 	}
 
 	private ServiceRegistration<AuditRouter> _auditRouterSesrviceRegistration;
+	private SingleDestinationMessageSenderFactory
+		_singleDestinationMessageSenderFactory;
 
 }
