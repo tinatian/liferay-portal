@@ -505,7 +505,7 @@ public class IncludeTag extends AttributesTagSupport {
 		return exists;
 	}
 
-	private static final boolean _CLEAN_UP_SET_ATTRIBUTES = false;
+	private static final boolean _CLEAN_UP_SET_ATTRIBUTES = true;
 
 	private static final boolean _THEME_JSP_OVERRIDE_ENABLED =
 		GetterUtil.getBoolean(
