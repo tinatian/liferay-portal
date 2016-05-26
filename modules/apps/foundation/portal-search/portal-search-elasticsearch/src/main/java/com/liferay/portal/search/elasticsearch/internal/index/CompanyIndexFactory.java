@@ -42,6 +42,7 @@ import org.elasticsearch.client.AdminClient;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
+import org.elasticsearch.indices.IndexAlreadyExistsException;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -76,12 +77,18 @@ public class CompanyIndexFactory implements IndexFactory {
 			return;
 		}
 
-		LiferayDocumentTypeFactory liferayDocumentTypeFactory =
-			new LiferayDocumentTypeFactory(indicesAdminClient);
+		try {
+			LiferayDocumentTypeFactory liferayDocumentTypeFactory =
+				new LiferayDocumentTypeFactory(indicesAdminClient);
 
-		createIndex(indexName, indicesAdminClient, liferayDocumentTypeFactory);
+			createIndex(
+				indexName, indicesAdminClient, liferayDocumentTypeFactory);
 
-		updateLiferayDocumentType(indexName, liferayDocumentTypeFactory);
+			updateLiferayDocumentType(indexName, liferayDocumentTypeFactory);
+		}
+		catch (IndexAlreadyExistsException iaee) {
+			return;
+		}
 	}
 
 	@Override
