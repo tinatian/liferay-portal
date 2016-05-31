@@ -16,6 +16,7 @@ package com.liferay.portal.scheduler;
 
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.proxy.MessagingProxyInvocationHandler;
+import com.liferay.portal.kernel.messaging.sender.SingleDestinationMessageSenderFactory;
 import com.liferay.portal.kernel.messaging.sender.SynchronousMessageSender;
 import com.liferay.portal.kernel.scheduler.SchedulerEngine;
 import com.liferay.portal.kernel.spring.aop.InvocationHandlerFactory;
@@ -34,7 +35,18 @@ import org.osgi.framework.ServiceRegistration;
  */
 public abstract class BaseSchedulerEngineConfigurator {
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 * #createSchedulerEngineProxy(SingleDestinationMessageSenderFactory))}
+	 */
 	protected SchedulerEngine createSchedulerEngineProxy() {
+		return createSchedulerEngineProxy(null);
+	}
+
+	protected SchedulerEngine createSchedulerEngineProxy(
+		SingleDestinationMessageSenderFactory
+			singleDestinationMessageSenderFactory) {
+
 		SchedulerEngineProxyBean schedulerEngineProxyBean =
 			new SchedulerEngineProxyBean();
 
@@ -44,8 +56,8 @@ public abstract class BaseSchedulerEngineConfigurator {
 			DestinationNames.SCHEDULER_ENGINE);
 		schedulerEngineProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
-
-		schedulerEngineProxyBean.afterPropertiesSet();
+		schedulerEngineProxyBean.setSingleDestinationMessageSenderFactory(
+			singleDestinationMessageSenderFactory);
 
 		InvocationHandlerFactory invocationHandlerFactory =
 			MessagingProxyInvocationHandler.getInvocationHandlerFactory();
