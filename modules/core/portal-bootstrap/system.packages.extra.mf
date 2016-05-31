@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1464666513106
+Bnd-LastModified: 1464679816718
 Bundle-ManifestVersion: 2
 Bundle-Name: system.packages.extra
 Bundle-SymbolicName: system.packages.extra
@@ -2569,7 +2569,7 @@ Export-Package: com.liferay.ibm.icu;version="4.0.1",com.liferay.ibm.ic
  try",com.liferay.portal.kernel.messaging.async;version="6.2.0",com.li
  feray.portal.kernel.messaging.config;version="7.0.0";uses:="com.lifer
  ay.portal.kernel.messaging",com.liferay.portal.kernel.messaging.proxy
- ;version="7.0.0";uses:="com.liferay.portal.kernel.messaging,com.lifer
+ ;version="7.1.0";uses:="com.liferay.portal.kernel.messaging,com.lifer
  ay.portal.kernel.messaging.sender,com.liferay.portal.kernel.spring.ao
  p",com.liferay.portal.kernel.messaging.sender;version="7.1.0";uses:="
  com.liferay.portal.kernel.messaging",com.liferay.portal.kernel.metada
