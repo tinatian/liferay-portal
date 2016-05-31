@@ -37,7 +37,8 @@ public class SingleSchedulerEngineConfigurator
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-		SchedulerEngine schedulerEngine = createSchedulerEngineProxy();
+		SchedulerEngine schedulerEngine = createSchedulerEngineProxy(
+			_singleDestinationMessageSenderFactory);
 
 		_schedulerEngineServiceRegistration = registerSchedulerEngine(
 			bundleContext, schedulerEngine);
@@ -54,9 +55,14 @@ public class SingleSchedulerEngineConfigurator
 	protected void setSingleDestinationMessageSenderFactory(
 		SingleDestinationMessageSenderFactory
 			singleDestinationMessageSenderFactory) {
+
+		_singleDestinationMessageSenderFactory =
+			singleDestinationMessageSenderFactory;
 	}
 
 	private volatile ServiceRegistration<SchedulerEngine>
 		_schedulerEngineServiceRegistration;
+	private SingleDestinationMessageSenderFactory
+		_singleDestinationMessageSenderFactory;
 
 }
