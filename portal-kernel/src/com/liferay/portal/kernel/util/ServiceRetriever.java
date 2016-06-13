@@ -14,6 +14,7 @@
 
 package com.liferay.portal.kernel.util;
 
+import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceReference;
@@ -26,11 +27,40 @@ import com.liferay.registry.ServiceTrackerCustomizer;
 public class ServiceRetriever<T> implements ServiceTrackerCustomizer<T, T> {
 
 	public ServiceRetriever(Class<T> clazz) {
+		this(clazz, null);
+	}
+
+	public ServiceRetriever(Class<T> clazz, String filterString) {
 		_dummyService = ProxyFactory.newDummyInstance(clazz);
 
 		Registry registry = RegistryUtil.getRegistry();
 
-		_serviceTracker = registry.trackServices(clazz, this);
+		if (filterString == null) {
+			_serviceTracker = registry.trackServices(clazz, this);
+		}
+		else {
+			StringBundler sb = new StringBundler(7);
+
+			sb.append("(&(objectClass=");
+			sb.append(clazz.getName());
+			sb.append(StringPool.CLOSE_PARENTHESIS);
+
+			if (!filterString.startsWith(StringPool.OPEN_PARENTHESIS)) {
+				sb.append(StringPool.OPEN_PARENTHESIS);
+			}
+
+			sb.append(filterString);
+
+			if (!filterString.endsWith(StringPool.CLOSE_PARENTHESIS)) {
+				sb.append(StringPool.CLOSE_PARENTHESIS);
+			}
+
+			sb.append(StringPool.CLOSE_PARENTHESIS);
+
+			Filter filter = registry.getFilter(sb.toString());
+
+			_serviceTracker = registry.trackServices(filter, this);
+		}
 
 		_serviceTracker.open();
 	}

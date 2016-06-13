@@ -18,7 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 /**
  * @author Michael C. Han
@@ -32,7 +32,7 @@ public class PortletDataHandlerStatusMessageSenderUtil {
 		PortalRuntimePermission.checkGetBeanProperty(
 			PortletDataHandlerStatusMessageSenderUtil.class);
 
-		return _dataHandlerStatusMessageSender;
+		return _getPortletDataHandlerStatusMessageSender();
 	}
 
 	/**
@@ -69,9 +69,14 @@ public class PortletDataHandlerStatusMessageSenderUtil {
 			messageType, stagedModel, manifestSummary);
 	}
 
-	private static final PortletDataHandlerStatusMessageSender
-		_dataHandlerStatusMessageSender =
-			ProxyFactory.newServiceTrackedInstance(
-				PortletDataHandlerStatusMessageSender.class);
+	private static PortletDataHandlerStatusMessageSender
+		_getPortletDataHandlerStatusMessageSender() {
+
+		return _serviceRetriever.getService();
+	}
+
+	private static final ServiceRetriever<PortletDataHandlerStatusMessageSender>
+		_serviceRetriever = new ServiceRetriever<>(
+			PortletDataHandlerStatusMessageSender.class);
 
 }
