@@ -17,7 +17,7 @@ package com.liferay.portal.kernel.search.hits;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 /**
  * @author Michael C. Han
@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.util.ProxyFactory;
 public class HitsProcessorRegistryUtil {
 
 	public static HitsProcessorRegistry getHitsProcessorRegistry() {
-		return _hitsProcessorRegistry;
+		return _serviceRetriever.getService();
 	}
 
 	public static boolean process(SearchContext searchContext, Hits hits)
@@ -34,7 +34,7 @@ public class HitsProcessorRegistryUtil {
 		return getHitsProcessorRegistry().process(searchContext, hits);
 	}
 
-	private static final HitsProcessorRegistry _hitsProcessorRegistry =
-		ProxyFactory.newServiceTrackedInstance(HitsProcessorRegistry.class);
+	private static final ServiceRetriever<HitsProcessorRegistry>
+		_serviceRetriever = new ServiceRetriever<>(HitsProcessorRegistry.class);
 
 }

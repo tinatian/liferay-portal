@@ -17,7 +17,7 @@ package com.liferay.portal.kernel.audit;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 import java.util.Date;
 
@@ -30,7 +30,7 @@ public class AuditMessageFactoryUtil {
 		PortalRuntimePermission.checkGetBeanProperty(
 			AuditMessageFactoryUtil.class);
 
-		return _auditMessageFactory;
+		return _serviceRetriever.getService();
 	}
 
 	public AuditMessage getAuditMessage(String message) throws JSONException {
@@ -81,7 +81,7 @@ public class AuditMessageFactoryUtil {
 			additionalInfo);
 	}
 
-	private static final AuditMessageFactory _auditMessageFactory =
-		ProxyFactory.newServiceTrackedInstance(AuditMessageFactory.class);
+	private static final ServiceRetriever<AuditMessageFactory>
+		_serviceRetriever = new ServiceRetriever<>(AuditMessageFactory.class);
 
 }

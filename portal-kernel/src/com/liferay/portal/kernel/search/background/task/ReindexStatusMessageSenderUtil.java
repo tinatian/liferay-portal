@@ -17,7 +17,7 @@ package com.liferay.portal.kernel.search.background.task;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 /**
  * @author Andrew Betts
@@ -31,7 +31,7 @@ public class ReindexStatusMessageSenderUtil {
 		PortalRuntimePermission.checkGetBeanProperty(
 			ReindexStatusMessageSenderUtil.class);
 
-		return _reindexStatusMessageSender;
+		return _serviceRetriever.getService();
 	}
 
 	public static void sendStatusMessage(
@@ -48,8 +48,8 @@ public class ReindexStatusMessageSenderUtil {
 			phase, companyId, companyIds);
 	}
 
-	private static final ReindexStatusMessageSender
-		_reindexStatusMessageSender = ProxyFactory.newServiceTrackedInstance(
+	private static final ServiceRetriever<ReindexStatusMessageSender>
+		_serviceRetriever = new ServiceRetriever<>(
 			ReindexStatusMessageSender.class);
 
 }
