@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 /**
  * @author Shuyang Zhou
@@ -33,7 +33,9 @@ public class ClusterLinkUtil {
 	public static ClusterLink getClusterLink() {
 		PortalRuntimePermission.checkGetBeanProperty(ClusterLinkUtil.class);
 
-		if ((_clusterLink == null) || !_clusterLink.isEnabled()) {
+		ClusterLink clusterLink = _serviceRetriever.getService();
+
+		if ((clusterLink == null) || !clusterLink.isEnabled()) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("ClusterLinkUtil is not initialized");
 			}
@@ -41,7 +43,7 @@ public class ClusterLinkUtil {
 			return null;
 		}
 
-		return _clusterLink;
+		return clusterLink;
 	}
 
 	public static void sendMulticastMessage(
@@ -87,7 +89,7 @@ public class ClusterLinkUtil {
 	private static final Log _log = LogFactoryUtil.getLog(
 		ClusterLinkUtil.class);
 
-	private static final ClusterLink _clusterLink =
-		ProxyFactory.newServiceTrackedInstance(ClusterLink.class);
+	private static final ServiceRetriever<ClusterLink> _serviceRetriever =
+		new ServiceRetriever<>(ClusterLink.class);
 
 }

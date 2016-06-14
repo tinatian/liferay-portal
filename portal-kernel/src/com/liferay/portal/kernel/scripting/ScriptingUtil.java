@@ -15,7 +15,7 @@
 package com.liferay.portal.kernel.scripting;
 
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 import java.util.Map;
 import java.util.Set;
@@ -89,14 +89,14 @@ public class ScriptingUtil {
 	public static Scripting getScripting() {
 		PortalRuntimePermission.checkGetBeanProperty(ScriptingUtil.class);
 
-		return _scripting;
+		return _serviceRetriever.getService();
 	}
 
 	public static Set<String> getSupportedLanguages() {
 		return getScripting().getSupportedLanguages();
 	}
 
-	private static final Scripting _scripting =
-		ProxyFactory.newServiceTrackedInstance(Scripting.class);
+	private static final ServiceRetriever<Scripting> _serviceRetriever =
+		new ServiceRetriever<>(Scripting.class);
 
 }
