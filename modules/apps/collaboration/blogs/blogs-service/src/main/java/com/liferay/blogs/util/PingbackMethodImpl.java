@@ -17,7 +17,6 @@ package com.liferay.blogs.util;
 import com.liferay.blogs.kernel.model.BlogsEntry;
 import com.liferay.blogs.kernel.service.BlogsEntryLocalService;
 import com.liferay.portal.kernel.comment.CommentManager;
-import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.comment.DuplicateCommentException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -87,14 +86,6 @@ public class PingbackMethodImpl implements Method {
 	public static final int TARGET_URI_DOES_NOT_EXIST = 32;
 
 	public static final int TARGET_URI_INVALID = 33;
-
-	public PingbackMethodImpl() {
-		this(CommentManagerUtil.getCommentManager());
-	}
-
-	public PingbackMethodImpl(CommentManager commentManager) {
-		_commentManager = commentManager;
-	}
 
 	@Override
 	public Response execute(long companyId) {
@@ -352,6 +343,11 @@ public class PingbackMethodImpl implements Method {
 	}
 
 	@Reference(unbind = "-")
+	protected void setCommentManager(CommentManager commentManager) {
+		_commentManager = commentManager;
+	}
+
+	@Reference(unbind = "-")
 	protected void setPortletLocalService(
 		PortletLocalService portletLocalService) {
 
@@ -399,7 +395,7 @@ public class PingbackMethodImpl implements Method {
 		PingbackMethodImpl.class);
 
 	private BlogsEntryLocalService _blogsEntryLocalService;
-	private final CommentManager _commentManager;
+	private CommentManager _commentManager;
 	private PortletLocalService _portletLocalService;
 	private String _sourceURI;
 	private String _targetURI;
