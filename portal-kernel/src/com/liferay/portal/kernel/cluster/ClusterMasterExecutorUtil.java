@@ -31,66 +31,27 @@ public class ClusterMasterExecutorUtil {
 		ClusterMasterTokenTransitionListener
 			clusterMasterTokenTransitionListener) {
 
-		ClusterMasterExecutor clusterMasterExecutor =
-			getClusterMasterExecutor();
-
-		if (clusterMasterExecutor == null) {
-			return;
-		}
-
-		clusterMasterExecutor.addClusterMasterTokenTransitionListener(
+		_instance.addClusterMasterTokenTransitionListener(
 			clusterMasterTokenTransitionListener);
 	}
 
 	public static <T> Future<T> executeOnMaster(MethodHandler methodHandler) {
-		ClusterMasterExecutor clusterMasterExecutor =
-			getClusterMasterExecutor();
-
-		if (clusterMasterExecutor == null) {
-			return null;
-		}
-
-		return clusterMasterExecutor.executeOnMaster(methodHandler);
-	}
-
-	public static ClusterMasterExecutor getClusterMasterExecutor() {
-		return _instance;
+		return _instance.executeOnMaster(methodHandler);
 	}
 
 	public static boolean isEnabled() {
-		ClusterMasterExecutor clusterMasterExecutor =
-			getClusterMasterExecutor();
-
-		if (clusterMasterExecutor == null) {
-			return false;
-		}
-
-		return clusterMasterExecutor.isEnabled();
+		return _instance.isEnabled();
 	}
 
 	public static boolean isMaster() {
-		ClusterMasterExecutor clusterMasterExecutor =
-			getClusterMasterExecutor();
-
-		if (clusterMasterExecutor == null) {
-			return false;
-		}
-
-		return clusterMasterExecutor.isMaster();
+		return _instance.isMaster();
 	}
 
 	public static void removeClusterMasterTokenTransitionListener(
 		ClusterMasterTokenTransitionListener
 			clusterMasterTokenTransitionListener) {
 
-		ClusterMasterExecutor clusterMasterExecutor =
-			getClusterMasterExecutor();
-
-		if (clusterMasterExecutor == null) {
-			return;
-		}
-
-		clusterMasterExecutor.removeClusterMasterTokenTransitionListener(
+		_instance.removeClusterMasterTokenTransitionListener(
 			clusterMasterTokenTransitionListener);
 	}
 
