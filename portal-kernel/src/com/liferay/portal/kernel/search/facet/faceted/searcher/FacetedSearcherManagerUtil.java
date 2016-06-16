@@ -20,6 +20,10 @@ import com.liferay.portal.kernel.util.ProxyFactory;
  * @author André de Oliveira
  */
 public class FacetedSearcherManagerUtil {
+	
+	public static FacetedSearcher createFacetedSearcher() {
+		return _facetedSearcherManager.createFacetedSearcher();
+	}
 
 	public static FacetedSearcherManager getFacetedSearcherManager() {
 		return _facetedSearcherManager;
