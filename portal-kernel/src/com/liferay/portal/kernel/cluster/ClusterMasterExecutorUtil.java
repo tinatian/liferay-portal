@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.cluster;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.ServiceRetriever;
 
 import java.util.concurrent.Future;
 
