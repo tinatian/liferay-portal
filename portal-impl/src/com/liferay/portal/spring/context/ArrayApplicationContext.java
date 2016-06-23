@@ -16,11 +16,20 @@ package com.liferay.portal.spring.context;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.AutoResetThreadLocal;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import java.io.FileNotFoundException;
 
+import java.lang.reflect.Field;
+
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * @author Brian Wing Shun Chan
@@ -60,5 +69,54 @@ public class ArrayApplicationContext extends ClassPathXmlApplicationContext {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ArrayApplicationContext.class);
+
+	static {
+		try {
+			Field resourcesField = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class, "resources");
+			Field synchronizationsField = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class, "synchronizations");
+			Field currentTransactionNameField = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class,
+				"currentTransactionName");
+			Field currentTransactionReadOnlyField =
+				ReflectionUtil.getDeclaredField(
+					TransactionSynchronizationManager.class,
+					"currentTransactionReadOnly");
+			Field currentTransactionIsolationLevelField =
+				ReflectionUtil.getDeclaredField(
+					TransactionSynchronizationManager.class,
+					"currentTransactionIsolationLevel");
+			Field actualTransactionActiveField =
+				ReflectionUtil.getDeclaredField(
+					TransactionSynchronizationManager.class,
+					"actualTransactionActive");
+
+			resourcesField.set(
+				null,
+				new AutoResetThreadLocal<Map<Object, Object>>("resources"));
+			synchronizationsField.set(
+				null,
+				new AutoResetThreadLocal<Set<TransactionSynchronization>>(
+					"synchronizations"));
+			currentTransactionNameField.set(
+				null,
+				new AutoResetThreadLocal<String>("currentTransactionName"));
+			currentTransactionReadOnlyField.set(
+				null,
+				new AutoResetThreadLocal<Boolean>(
+					"currentTransactionReadOnly"));
+			currentTransactionIsolationLevelField.set(
+				null,
+				new AutoResetThreadLocal<Integer>(
+					"currentTransactionIsolationLevel"));
+			actualTransactionActiveField.set(
+				null,
+				new AutoResetThreadLocal<Boolean>("actualTransactionActive"));
+		}
+		catch (Exception e) {
+			_log.error("Unable to apply AutoResetThreadLocal ", e);
+		}
+	}
 
 }
