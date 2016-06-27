@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.util.ClassLoaderPool;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
 import com.liferay.portal.kernel.util.ClearThreadLocalUtil;
 import com.liferay.portal.kernel.util.ClearTimerThreadUtil;
+import com.liferay.portal.kernel.util.InitialThreadLocal;
 import com.liferay.portal.kernel.util.InstancePool;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.MethodCache;
@@ -76,6 +77,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -86,6 +88,8 @@ import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
 
@@ -240,6 +244,8 @@ public class PortalContextLoaderListener extends ContextLoaderListener {
 		try {
 			ModuleFrameworkUtilAdapter.initFramework();
 
+			applyInitialThreadLocal();
+
 			_arrayApplicationContext = new ArrayApplicationContext(
 				PropsValues.SPRING_INFRASTRUCTURE_CONFIGS);
 
@@ -356,6 +362,36 @@ public class PortalContextLoaderListener extends ContextLoaderListener {
 		initListeners(servletContext);
 	}
 
+	protected void applyInitialThreadLocal() {
+		try {
+			_RESOURCES_FIELD.set(
+				null,
+				new InitialThreadLocal<Map<Object, Object>>("resources", null));
+			_SYNCHRONIZATIONS_FIELD.set(
+				null,
+				new InitialThreadLocal<Set<TransactionSynchronization>>(
+					"synchronizations", null));
+			_CURRENT_TRANSACTION_NAME_FIELD.set(
+				null,
+				new InitialThreadLocal<String>("currentTransactionName", null));
+			_CURRENT_TRANSACTION_READ_ONLY_FIELD.set(
+				null,
+				new InitialThreadLocal<Boolean>(
+					"currentTransactionReadOnly", null));
+			_CURRENT_TRANSACTION_ISOLATION_LEVEL_FIELD.set(
+				null,
+				new InitialThreadLocal<Integer>(
+					"currentTransactionIsolationLevel", null));
+			_ACTUAL_TRANSACTION_ACTIVE_FIELD.set(
+				null,
+				new InitialThreadLocal<Boolean>(
+					"actualTransactionActive", null));
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+	}
+
 	protected void clearFilteredPropertyDescriptorsCache(
 		AutowireCapableBeanFactory autowireCapableBeanFactory) {
 
@@ -395,7 +431,19 @@ public class PortalContextLoaderListener extends ContextLoaderListener {
 		}
 	}
 
+	private static final Field _ACTUAL_TRANSACTION_ACTIVE_FIELD;
+
+	private static final Field _CURRENT_TRANSACTION_ISOLATION_LEVEL_FIELD;
+
+	private static final Field _CURRENT_TRANSACTION_NAME_FIELD;
+
+	private static final Field _CURRENT_TRANSACTION_READ_ONLY_FIELD;
+
 	private static final Field _FILTERED_PROPERTY_DESCRIPTORS_CACHE_FIELD;
+
+	private static final Field _RESOURCES_FIELD;
+
+	private static final Field _SYNCHRONIZATIONS_FIELD;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortalContextLoaderListener.class);
@@ -409,6 +457,25 @@ public class PortalContextLoaderListener extends ContextLoaderListener {
 				ReflectionUtil.getDeclaredField(
 					AbstractAutowireCapableBeanFactory.class,
 					"filteredPropertyDescriptorsCache");
+
+			_RESOURCES_FIELD = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class, "resources");
+			_SYNCHRONIZATIONS_FIELD = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class, "synchronizations");
+			_CURRENT_TRANSACTION_NAME_FIELD = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class,
+				"currentTransactionName");
+			_CURRENT_TRANSACTION_READ_ONLY_FIELD =
+				ReflectionUtil.getDeclaredField(
+					TransactionSynchronizationManager.class,
+					"currentTransactionReadOnly");
+			_CURRENT_TRANSACTION_ISOLATION_LEVEL_FIELD =
+				ReflectionUtil.getDeclaredField(
+					TransactionSynchronizationManager.class,
+					"currentTransactionIsolationLevel");
+			_ACTUAL_TRANSACTION_ACTIVE_FIELD = ReflectionUtil.getDeclaredField(
+				TransactionSynchronizationManager.class,
+				"actualTransactionActive");
 		}
 		catch (Exception e) {
 			throw new LoggedExceptionInInitializerError(e);
