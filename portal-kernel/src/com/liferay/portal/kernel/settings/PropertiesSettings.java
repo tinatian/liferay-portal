@@ -28,7 +28,7 @@ public class PropertiesSettings extends BaseSettings {
 		LocationVariableResolver locationVariableResolver,
 		Properties properties) {
 
-		this(locationVariableResolver, properties, null);
+		this(locationVariableResolver, properties, (Settings)null);
 	}
 
 	public PropertiesSettings(
@@ -36,6 +36,16 @@ public class PropertiesSettings extends BaseSettings {
 		Properties properties, Settings parentSettings) {
 
 		super(parentSettings);
+
+		_locationVariableResolver = locationVariableResolver;
+		_properties = properties;
+	}
+
+	public PropertiesSettings(
+		LocationVariableResolver locationVariableResolver,
+		Properties properties, SettingsLocator parentSettingsLocator) {
+
+		super(parentSettingsLocator);
 
 		_locationVariableResolver = locationVariableResolver;
 		_properties = properties;

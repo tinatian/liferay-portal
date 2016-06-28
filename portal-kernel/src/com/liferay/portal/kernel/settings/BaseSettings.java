@@ -30,21 +30,35 @@ public abstract class BaseSettings implements Settings {
 		this.parentSettings = parentSettings;
 	}
 
+	public BaseSettings(SettingsLocator parentSettingsLocator) {
+		this.parentSettingsLocator = parentSettingsLocator;
+	}
+
 	@Override
 	public ModifiableSettings getModifiableSettings() {
 		if (this instanceof ModifiableSettings) {
 			return (ModifiableSettings)this;
 		}
-		else if (parentSettings == null) {
-			return null;
-		}
-		else {
-			return parentSettings.getModifiableSettings();
-		}
+
+		Settings parentSettings = getParentSettings();
+
+		return parentSettings.getModifiableSettings();
 	}
 
 	@Override
 	public Settings getParentSettings() {
+		if (parentSettings == null) {
+			try {
+				if (parentSettingsLocator == null) {
+					return null;
+				}
+
+				parentSettings = parentSettingsLocator.getSettings();
+			}
+			catch (SettingsException se) {
+			}
+		}
+
 		return parentSettings;
 	}
 
@@ -55,6 +69,8 @@ public abstract class BaseSettings implements Settings {
 		}
 
 		String value = doGetValue(key);
+
+		Settings parentSettings = getParentSettings();
 
 		if ((value == null) && (parentSettings != null)) {
 			value = parentSettings.getValue(key, defaultValue);
@@ -75,6 +91,8 @@ public abstract class BaseSettings implements Settings {
 
 		String[] values = doGetValues(key);
 
+		Settings parentSettings = getParentSettings();
+
 		if (ArrayUtil.isEmpty(values) && (parentSettings != null)) {
 			values = parentSettings.getValues(key, defaultValue);
 		}
@@ -90,6 +108,7 @@ public abstract class BaseSettings implements Settings {
 
 	protected abstract String[] doGetValues(String key);
 
-	protected Settings parentSettings;
+	protected volatile Settings parentSettings;
+	protected SettingsLocator parentSettingsLocator;
 
 }

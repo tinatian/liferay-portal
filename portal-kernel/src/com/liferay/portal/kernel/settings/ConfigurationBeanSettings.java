@@ -36,6 +36,16 @@ public class ConfigurationBeanSettings
 		_configurationBean = configurationBean;
 	}
 
+	public ConfigurationBeanSettings(
+		LocationVariableResolver locationVariableResolver,
+		Object configurationBean, SettingsLocator parentSettingsLocator) {
+
+		super(parentSettingsLocator);
+
+		_locationVariableResolver = locationVariableResolver;
+		_configurationBean = configurationBean;
+	}
+
 	@Override
 	protected String doGetValue(String key) {
 		Object object = _getProperty(key);
