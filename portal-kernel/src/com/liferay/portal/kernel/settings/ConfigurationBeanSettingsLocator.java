@@ -15,43 +15,27 @@
 package com.liferay.portal.kernel.settings;
 
 /**
- * @author Ivan Zaera
- * @author Jorge Ferrer
+ * @author Tina Tian
  */
-public class CompanyServiceSettingsLocator implements SettingsLocator {
+public class ConfigurationBeanSettingsLocator implements SettingsLocator {
 
-	public CompanyServiceSettingsLocator(long companyId, String settingsId) {
-		_companyId = companyId;
-		_settingsId = settingsId;
-
-		_configurationPid = settingsId;
-	}
-
-	public CompanyServiceSettingsLocator(
-		long companyId, String settingsId, String configurationPid) {
-
-		_companyId = companyId;
-		_settingsId = settingsId;
+	public ConfigurationBeanSettingsLocator(String configurationPid) {
 		_configurationPid = configurationPid;
 	}
 
 	@Override
-	public Settings getSettings() {
-		return _settingsHelper.getCompanyPortletPreferencesSettings(
-			_companyId, _settingsId,
-			new PortalPreferencesSettingsLocator(
-				_companyId, _settingsId, _configurationPid));
+	public Settings getSettings() throws SettingsException {
+		return _settingsHelper.getConfigurationBeanSettings(
+			_configurationPid, new PropertiesSettingsLocator());
 	}
 
 	@Override
 	public String getSettingsId() {
-		return _settingsId;
+		return _configurationPid;
 	}
 
-	private final long _companyId;
 	private final String _configurationPid;
 	private final SettingsHelper _settingsHelper =
 		SettingsHelperUtil.getSettingsHelper();
-	private final String _settingsId;
 
 }

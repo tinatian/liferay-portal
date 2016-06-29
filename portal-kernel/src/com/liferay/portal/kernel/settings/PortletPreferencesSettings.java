@@ -37,13 +37,22 @@ import javax.portlet.ValidatorException;
 public class PortletPreferencesSettings extends BaseModifiableSettings {
 
 	public PortletPreferencesSettings(PortletPreferences portletPreferences) {
-		this(portletPreferences, null);
+		this(portletPreferences, (Settings)null);
 	}
 
 	public PortletPreferencesSettings(
 		PortletPreferences portletPreferences, Settings parentSettings) {
 
 		super(parentSettings);
+
+		_portletPreferences = portletPreferences;
+	}
+
+	public PortletPreferencesSettings(
+		PortletPreferences portletPreferences,
+		SettingsLocator parentSettingsLocator) {
+
+		super(parentSettingsLocator);
 
 		_portletPreferences = portletPreferences;
 	}

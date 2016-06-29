@@ -43,23 +43,10 @@ public class GroupServiceSettingsLocator implements SettingsLocator {
 	public Settings getSettings() throws SettingsException {
 		long companyId = getCompanyId(_groupId);
 
-		Settings portalPropertiesSettings =
-			_settingsLocatorHelper.getPortalPropertiesSettings();
-
-		Settings configurationBeanSettings =
-			_settingsLocatorHelper.getConfigurationBeanSettings(
-				_configurationPid, portalPropertiesSettings);
-
-		Settings portalPreferencesSettings =
-			_settingsLocatorHelper.getPortalPreferencesSettings(
-				companyId, configurationBeanSettings);
-
-		Settings companyPortletPreferencesSettings =
-			_settingsLocatorHelper.getCompanyPortletPreferencesSettings(
-				companyId, _settingsId, portalPreferencesSettings);
-
-		return _settingsLocatorHelper.getGroupPortletPreferencesSettings(
-			_groupId, _settingsId, companyPortletPreferencesSettings);
+		return _settingsHelper.getGroupPortletPreferencesSettings(
+			_groupId, _settingsId,
+			new CompanyServiceSettingsLocator(
+				companyId, _settingsId, _configurationPid));
 	}
 
 	@Override
@@ -80,8 +67,8 @@ public class GroupServiceSettingsLocator implements SettingsLocator {
 
 	private final String _configurationPid;
 	private final long _groupId;
+	private final SettingsHelper _settingsHelper =
+		SettingsHelperUtil.getSettingsHelper();
 	private final String _settingsId;
-	private final SettingsLocatorHelper _settingsLocatorHelper =
-		SettingsLocatorHelperUtil.getSettingsLocatorHelper();
 
 }

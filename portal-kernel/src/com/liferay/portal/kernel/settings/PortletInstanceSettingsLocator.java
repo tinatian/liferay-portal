@@ -48,33 +48,11 @@ public class PortletInstanceSettingsLocator implements SettingsLocator {
 
 	@Override
 	public Settings getSettings() throws SettingsException {
-		long companyId = getCompanyId(_layout.getGroupId());
-
-		Settings portalPropertiesSettings =
-			_settingsLocatorHelper.getPortalPropertiesSettings();
-
-		Settings configurationBeanSettings =
-			_settingsLocatorHelper.getConfigurationBeanSettings(
-				_configurationPid, portalPropertiesSettings);
-
-		Settings portalPreferencesSettings =
-			_settingsLocatorHelper.getPortalPreferencesSettings(
-				companyId, configurationBeanSettings);
-
-		Settings companyPortletPreferencesSettings =
-			_settingsLocatorHelper.getCompanyPortletPreferencesSettings(
-				companyId, _portletInstanceKey, portalPreferencesSettings);
-
-		Settings groupPortletPreferencesSettings =
-			_settingsLocatorHelper.getGroupPortletPreferencesSettings(
-				_layout.getGroupId(), _portletInstanceKey,
-				companyPortletPreferencesSettings);
-
-		return
-			_settingsLocatorHelper.getPortletInstancePortletPreferencesSettings(
-				_layout.getCompanyId(), getOwnerId(),
-				PortletKeys.PREFS_OWNER_TYPE_LAYOUT, getPlid(),
-				_portletInstanceKey, groupPortletPreferencesSettings);
+		return _settingsHelper.getPortletInstancePortletPreferencesSettings(
+			_layout.getCompanyId(), getOwnerId(),
+			PortletKeys.PREFS_OWNER_TYPE_LAYOUT, getPlid(), _portletInstanceKey,
+			new GroupServiceSettingsLocator(
+				_layout.getGroupId(), _portletInstanceKey, _configurationPid));
 	}
 
 	@Override
@@ -131,7 +109,7 @@ public class PortletInstanceSettingsLocator implements SettingsLocator {
 	private Boolean _embeddedPortlet;
 	private final Layout _layout;
 	private final String _portletInstanceKey;
-	private final SettingsLocatorHelper _settingsLocatorHelper =
-		SettingsLocatorHelperUtil.getSettingsLocatorHelper();
+	private final SettingsHelper _settingsHelper =
+		SettingsHelperUtil.getSettingsHelper();
 
 }
