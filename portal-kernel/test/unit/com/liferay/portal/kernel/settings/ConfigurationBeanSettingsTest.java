@@ -32,7 +32,7 @@ public class ConfigurationBeanSettingsTest extends PowerMockito {
 		_mockLocationVariableResolver = mock(LocationVariableResolver.class);
 
 		_configurationBeanSettings = new ConfigurationBeanSettings(
-			_mockLocationVariableResolver, _configurationBean, null);
+			_mockLocationVariableResolver, _configurationBean, (SettingsLocator)null);
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class ConfigurationBeanSettingsTest extends PowerMockito {
 	@Test
 	public void testGetValueWithNullConfigurationBean() {
 		_configurationBeanSettings = new ConfigurationBeanSettings(
-			null, null, null);
+			null, null, (SettingsLocator)null);
 
 		Assert.assertEquals(
 			"defaultValue",

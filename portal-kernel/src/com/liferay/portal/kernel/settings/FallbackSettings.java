@@ -27,8 +27,18 @@ public class FallbackSettings extends BaseSettings {
 		_fallbackKeys = fallbackKeys;
 	}
 
+	public FallbackSettings(
+		SettingsLocator parentSettingsLocator, FallbackKeys fallbackKeys) {
+
+		super(parentSettingsLocator);
+
+		_fallbackKeys = fallbackKeys;
+	}
+
 	@Override
 	protected String doGetValue(String key) {
+		Settings parentSettings = getParentSettings();
+
 		String value = parentSettings.getValue(key, null);
 
 		if (value != null) {
@@ -50,6 +60,8 @@ public class FallbackSettings extends BaseSettings {
 
 	@Override
 	protected String[] doGetValues(String key) {
+		Settings parentSettings = getParentSettings();
+
 		String[] values = parentSettings.getValues(key, null);
 
 		if (values != null) {

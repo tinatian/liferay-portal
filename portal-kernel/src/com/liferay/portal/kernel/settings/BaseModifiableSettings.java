@@ -29,6 +29,10 @@ public abstract class BaseModifiableSettings
 		super(parentSettings);
 	}
 
+	public BaseModifiableSettings(SettingsLocator parentSettingsLocator) {
+		super(parentSettingsLocator);
+	}
+
 	@Override
 	public void reset() {
 		for (String key : getModifiedKeys()) {

@@ -36,6 +36,15 @@ public class ParameterMapSettings extends BaseSettings {
 		_parameterMap = parameterMap;
 	}
 
+	public ParameterMapSettings(
+		Map<String, String[]> parameterMap,
+		SettingsLocator parentSettingsLocator) {
+
+		super(parentSettingsLocator);
+
+		_parameterMap = parameterMap;
+	}
+
 	public String getParameterNamePrefix() {
 		return _parameterNamePrefix;
 	}
