@@ -29,10 +29,13 @@ import com.liferay.portal.kernel.settings.SettingsException;
 import com.liferay.portal.kernel.settings.SettingsFactoryUtil;
 import com.liferay.portal.kernel.settings.SettingsLocator;
 import com.liferay.portal.kernel.settings.TypedSettings;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -65,10 +68,11 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 
 			Object configurationOverrideInstance = null;
 
-			Settings settings = SettingsFactoryUtil.getSettings(
-				settingsLocator);
-
-			TypedSettings typedSettings = new TypedSettings(settings);
+			TypedSettings typedSettings =
+				(TypedSettings)ProxyUtil.newProxyInstance(
+					ClassLoader.getSystemClassLoader(),
+					new Class<?>[] {TypedSettings.class},
+					new LazyTypedSettingsInvocationHandler(settingsLocator));
 
 			if (configurationOverrideClass != null) {
 				Constructor<?> constructor =
@@ -86,8 +90,7 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 			return configurationInvocationHandler.createProxy();
 		}
 		catch (NoSuchMethodException | InvocationTargetException |
-			   InstantiationException | IllegalAccessException |
-			   SettingsException e) {
+			   InstantiationException | IllegalAccessException e) {
 
 			throw new ConfigurationException(
 				"Unable to load configuration of type " + clazz.getName(), e);
@@ -167,6 +170,39 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
 		}
 
 		return settingsId;
+	}
+
+	private TypedSettings _getTypeSettings(SettingsLocator settingsLocator)
+		throws SettingsException {
+
+		Settings settings = SettingsFactoryUtil.getSettings(settingsLocator);
+
+		return new TypedSettings(settings);
+	}
+
+	private class LazyTypedSettingsInvocationHandler
+		implements InvocationHandler {
+
+		public LazyTypedSettingsInvocationHandler(
+			SettingsLocator settingsLocator) {
+
+			_settingsLocator = settingsLocator;
+		}
+
+		@Override
+		public Object invoke(Object proxy, Method method, Object[] args)
+			throws ReflectiveOperationException, SettingsException {
+
+			if (_typedSettings == null) {
+				_typedSettings = _getTypeSettings(_settingsLocator);
+			}
+
+			return method.invoke(_typedSettings, args);
+		}
+
+		private final SettingsLocator _settingsLocator;
+		private volatile TypedSettings _typedSettings;
+
 	}
 
 }
