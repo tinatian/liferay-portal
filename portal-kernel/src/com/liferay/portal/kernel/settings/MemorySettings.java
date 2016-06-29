@@ -31,6 +31,10 @@ public class MemorySettings extends BaseModifiableSettings {
 		super(parentSettings);
 	}
 
+	public MemorySettings(SettingsLocator parentSettingsLocator) {
+		super(parentSettingsLocator);
+	}
+
 	@Override
 	public Collection<String> getModifiedKeys() {
 		return new HashSet<>(_map.keySet());
