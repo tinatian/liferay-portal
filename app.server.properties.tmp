@@ -1,5 +1,5 @@
 #Ant properties
-#Wed Jul 06 16:40:56 CST 2016
+#Wed Jul 06 17:27:10 CST 2016
 app.server.tomcat.bin.dir=/home/documents/server/trunk-git/tomcat-8.0.32/bin
 app.server.tomcat.classes.global.dir=/home/documents/server/trunk-git/tomcat-8.0.32/lib
 app.server.tomcat.classes.portal.dir=/home/documents/server/trunk-git/tomcat-8.0.32/webapps/ROOT/WEB-INF/classes
