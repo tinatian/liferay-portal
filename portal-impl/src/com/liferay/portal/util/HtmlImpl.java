@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -234,8 +235,7 @@ public class HtmlImpl implements Html {
 
 				sb.append(StringPool.SPACE);
 			}
-			else if ((c > 255) || (c == CharPool.DASH) ||
-					 (c == CharPool.UNDERLINE) ||
+			else if ((c > 255) || _validChars.get(c) ||
 					 Character.isLetterOrDigit(c)) {
 
 				sb.append(c);
@@ -867,6 +867,24 @@ public class HtmlImpl implements Html {
 	};
 
 	private static final Map<String, String> _unescapeMap = new HashMap<>();
+	private static final BitSet _validChars = new BitSet(256);
+
+	static {
+		for (int i = 'a'; i <= 'z'; i++) {
+			_validChars.set(i);
+		}
+
+		for (int i = 'A'; i <= 'Z'; i++) {
+			_validChars.set(i);
+		}
+
+		for (int i = '0'; i <= '9'; i++) {
+			_validChars.set(i);
+		}
+
+		_validChars.set(CharPool.DASH);
+		_validChars.set(CharPool.UNDERLINE);
+	}
 
 	static {
 		_unescapeMap.put("lt", "<");
