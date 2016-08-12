@@ -113,7 +113,7 @@ public class ExportImportContentProcessorRegistryUtil {
 				int order = GetterUtil.getInteger(
 					serviceReference.getProperty("content.processor.order"), 1);
 
-				List<ExportImportContentProcessor<?, ?>>
+				ArrayList<ExportImportContentProcessor<?, ?>>
 					exportImportContentProcessors =
 						_exportImportContentProcessors.get(modelClassName);
 
