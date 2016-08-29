@@ -42,7 +42,8 @@ public class SettingsMessageListener extends BaseMessageListener {
 	@Reference(
 		cardinality = ReferenceCardinality.MULTIPLE,
 		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
+		policyOption = ReferencePolicyOption.GREEDY,
+		unbind = "unsetSettingsListener"
 	)
 	protected void addSettingsListener(SettingsListener settingsListener) {
 		_settingsListeners.add(settingsListener);
@@ -55,6 +56,10 @@ public class SettingsMessageListener extends BaseMessageListener {
 		for (SettingsListener settingsListener : _settingsListeners) {
 			settingsListener.notifyUpdate(companyId);
 		}
+	}
+
+	protected void unsetSettingsListener(SettingsListener settingsListener) {
+		_settingsListeners.remove(settingsListener);
 	}
 
 	private final Collection<SettingsListener> _settingsListeners =
