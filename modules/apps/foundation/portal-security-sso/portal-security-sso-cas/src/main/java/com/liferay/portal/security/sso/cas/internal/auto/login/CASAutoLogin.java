@@ -20,11 +20,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.security.auto.login.AutoLogin;
 import com.liferay.portal.kernel.security.auto.login.BaseAutoLogin;
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -32,8 +30,8 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.exportimport.UserImporter;
 import com.liferay.portal.security.sso.cas.configuration.CASConfiguration;
-import com.liferay.portal.security.sso.cas.constants.CASConstants;
 import com.liferay.portal.security.sso.cas.constants.CASWebKeys;
+import com.liferay.portal.security.sso.cas.internal.configuration.CASConfigurationSettingsListener;
 import com.liferay.portal.util.PropsValues;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,10 +96,7 @@ public class CASAutoLogin extends BaseAutoLogin {
 		long companyId = PortalUtil.getCompanyId(request);
 
 		CASConfiguration casConfiguration =
-			_configurationProvider.getConfiguration(
-				CASConfiguration.class,
-				new CompanyServiceSettingsLocator(
-					companyId, CASConstants.SERVICE_NAME));
+			_casConfigurationSettingsListener.getCASConfiguration(companyId);
 
 		if (!casConfiguration.enabled()) {
 			return null;
@@ -171,10 +166,10 @@ public class CASAutoLogin extends BaseAutoLogin {
 	}
 
 	@Reference(unbind = "-")
-	protected void setConfigurationProvider(
-		ConfigurationProvider configurationProvider) {
+	protected void setCASConfigurationSettingsListener(
+		CASConfigurationSettingsListener casConfigurationSettingsListener) {
 
-		_configurationProvider = configurationProvider;
+		_casConfigurationSettingsListener = casConfigurationSettingsListener;
 	}
 
 	@Reference(unbind = "-")
@@ -189,7 +184,7 @@ public class CASAutoLogin extends BaseAutoLogin {
 
 	private static final Log _log = LogFactoryUtil.getLog(CASAutoLogin.class);
 
-	private ConfigurationProvider _configurationProvider;
+	private CASConfigurationSettingsListener _casConfigurationSettingsListener;
 	private UserImporter _userImporter;
 	private UserLocalService _userLocalService;
 

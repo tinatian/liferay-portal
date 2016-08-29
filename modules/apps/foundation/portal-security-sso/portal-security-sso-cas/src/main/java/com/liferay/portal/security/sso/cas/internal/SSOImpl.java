@@ -16,12 +16,9 @@ package com.liferay.portal.security.sso.cas.internal;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.module.configuration.ConfigurationException;
-import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.security.sso.SSO;
-import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
 import com.liferay.portal.security.sso.cas.configuration.CASConfiguration;
-import com.liferay.portal.security.sso.cas.constants.CASConstants;
+import com.liferay.portal.security.sso.cas.internal.configuration.CASConfigurationSettingsListener;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -40,7 +37,8 @@ public class SSOImpl implements SSO {
 
 	@Override
 	public String getSessionExpirationRedirectUrl(long companyId) {
-		CASConfiguration casConfiguration = _getCASConfiguration(companyId);
+		CASConfiguration casConfiguration =
+			_casConfigurationSettingsListener.getCASConfiguration(companyId);
 
 		if (casConfiguration.logoutOnSessionExpiration()) {
 			return casConfiguration.logoutURL();
@@ -51,7 +49,8 @@ public class SSOImpl implements SSO {
 
 	@Override
 	public String getSignInURL(long companyId, String defaultSigninURL) {
-		CASConfiguration casConfiguration = _getCASConfiguration(companyId);
+		CASConfiguration casConfiguration =
+			_casConfigurationSettingsListener.getCASConfiguration(companyId);
 
 		if (!casConfiguration.enabled()) {
 			return null;
@@ -72,43 +71,28 @@ public class SSOImpl implements SSO {
 
 	@Override
 	public boolean isSessionRedirectOnExpire(long companyId) {
-		CASConfiguration casConfiguration = _getCASConfiguration(companyId);
+		CASConfiguration casConfiguration =
+			_casConfigurationSettingsListener.getCASConfiguration(companyId);
 
 		return casConfiguration.logoutOnSessionExpiration();
 	}
 
 	protected boolean isCASAuthEnabled(long companyId) {
-		CASConfiguration casConfiguration = _getCASConfiguration(companyId);
+		CASConfiguration casConfiguration =
+			_casConfigurationSettingsListener.getCASConfiguration(companyId);
 
 		return casConfiguration.enabled();
 	}
 
 	@Reference(unbind = "-")
-	protected void setConfigurationProvider(
-		ConfigurationProvider configurationProvider) {
+	protected void setCASConfigurationSettingsListener(
+		CASConfigurationSettingsListener casConfigurationSettingsListener) {
 
-		_configurationProvider = configurationProvider;
-	}
-
-	private CASConfiguration _getCASConfiguration(long companyId) {
-		try {
-			CASConfiguration casCompanyServiceSettings =
-				_configurationProvider.getConfiguration(
-					CASConfiguration.class,
-					new CompanyServiceSettingsLocator(
-						companyId, CASConstants.SERVICE_NAME));
-
-			return casCompanyServiceSettings;
-		}
-		catch (ConfigurationException ce) {
-			_log.error("Unable to get CAS configuration", ce);
-		}
-
-		return null;
+		_casConfigurationSettingsListener = casConfigurationSettingsListener;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(SSOImpl.class);
 
-	private ConfigurationProvider _configurationProvider;
+	private CASConfigurationSettingsListener _casConfigurationSettingsListener;
 
 }
