@@ -18,12 +18,16 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.DestinationNames;
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.model.PortletPreferencesIds;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.service.ExceptionRetryAcceptor;
+import com.liferay.portal.kernel.settings.SettingsListener;
 import com.liferay.portal.kernel.spring.aop.Property;
 import com.liferay.portal.kernel.spring.aop.Retry;
 import com.liferay.portal.kernel.spring.aop.Skip;
@@ -89,6 +93,8 @@ public class PortletPreferencesLocalServiceImpl
 
 		try {
 			portletPreferencesPersistence.update(portletPreferences);
+
+			_notifyUpdate(companyId);
 		}
 		catch (SystemException se) {
 			if (_log.isWarnEnabled()) {
@@ -114,6 +120,8 @@ public class PortletPreferencesLocalServiceImpl
 		long ownerId, int ownerType, long plid) {
 
 		portletPreferencesPersistence.removeByO_O_P(ownerId, ownerType, plid);
+
+		_notifyUpdate(0);
 	}
 
 	@Override
@@ -127,8 +135,11 @@ public class PortletPreferencesLocalServiceImpl
 					", plid=" + plid + ", portletId=" + portletId + "}");
 		}
 
-		portletPreferencesPersistence.removeByO_O_P_P(
-			ownerId, ownerType, plid, portletId);
+		PortletPreferences portletPreferences =
+			portletPreferencesPersistence.removeByO_O_P_P(
+				ownerId, ownerType, plid, portletId);
+
+		_notifyUpdate(portletPreferences.getCompanyId());
 	}
 
 	@Override
@@ -138,6 +149,8 @@ public class PortletPreferencesLocalServiceImpl
 		}
 
 		portletPreferencesPersistence.removeByPlid(plid);
+
+		_notifyUpdate(0);
 	}
 
 	@Override
@@ -402,6 +415,8 @@ public class PortletPreferencesLocalServiceImpl
 
 		portletPreferencesPersistence.update(portletPreferences);
 
+		_notifyUpdate(portletPreferences.getCompanyId());
+
 		return portletPreferences;
 	}
 
@@ -445,6 +460,14 @@ public class PortletPreferencesLocalServiceImpl
 				portletPreferences.getPreferences());
 
 		return portletPreferencesImpl;
+	}
+
+	private void _notifyUpdate(long companyId) {
+		Message message = new Message();
+
+		message.put(SettingsListener.COMPANY_ID, companyId);
+
+		MessageBusUtil.sendMessage(DestinationNames.SETTINGS, message);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

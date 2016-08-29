@@ -17,6 +17,9 @@ package com.liferay.portal.service.impl;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.DestinationNames;
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.model.PortalPreferences;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
@@ -56,6 +59,8 @@ public class PortalPreferencesLocalServiceImpl
 
 		try {
 			portalPreferencesPersistence.update(portalPreferences);
+
+			_notifyUpdate();
 		}
 		catch (SystemException se) {
 			if (_log.isWarnEnabled()) {
@@ -119,7 +124,12 @@ public class PortalPreferencesLocalServiceImpl
 
 		String xml = PortletPreferencesFactoryUtil.toXML(portalPreferences);
 
-		return updatePreferences(ownerId, ownerType, xml);
+		PortalPreferences newPortalPreferences = updatePreferences(
+			ownerId, ownerType, xml);
+
+		_notifyUpdate();
+
+		return newPortalPreferences;
 	}
 
 	@Override
@@ -145,7 +155,13 @@ public class PortalPreferencesLocalServiceImpl
 
 		portalPreferencesPersistence.update(portalPreferences);
 
+		_notifyUpdate();
+
 		return portalPreferences;
+	}
+
+	private void _notifyUpdate() {
+		MessageBusUtil.sendMessage(DestinationNames.SETTINGS, new Message());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
