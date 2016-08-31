@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.UnifiedDirectCallFilter;
+import com.liferay.portal.kernel.servlet.UnifiedDirectCallFilterResult;
 import com.liferay.portal.kernel.struts.LastPath;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.HttpUtil;
@@ -41,7 +43,6 @@ import com.liferay.portal.webserver.WebServerServlet;
 
 import java.util.Map;
 
-import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -58,7 +59,202 @@ import javax.servlet.http.HttpServletResponse;
  * @author Raymond Augé
  * @author Eduardo Lundgren
  */
-public class VirtualHostFilter extends BasePortalFilter {
+public class VirtualHostFilter
+	extends BasePortalFilter implements UnifiedDirectCallFilter {
+
+	@Override
+	public UnifiedDirectCallFilterResult doDirectCall(
+			HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+
+		long companyId = PortalInstances.getCompanyId(request);
+
+		String originalFriendlyURL = request.getRequestURI();
+
+		String friendlyURL = originalFriendlyURL;
+
+		friendlyURL = StringUtil.replace(
+			friendlyURL, StringPool.DOUBLE_SLASH, StringPool.SLASH);
+
+		if (!friendlyURL.equals(StringPool.SLASH) && !_contextPath.isEmpty() &&
+			(friendlyURL.length() > _contextPath.length()) &&
+			friendlyURL.startsWith(_contextPath) &&
+			friendlyURL.charAt(_contextPath.length()) == CharPool.SLASH) {
+
+			friendlyURL = friendlyURL.substring(_contextPath.length());
+		}
+
+		int pos = friendlyURL.indexOf(CharPool.SEMICOLON);
+
+		if (pos != -1) {
+			friendlyURL = friendlyURL.substring(0, pos);
+		}
+
+		String i18nLanguageId = _findLanguageId(friendlyURL);
+
+		if (i18nLanguageId != null) {
+			friendlyURL = friendlyURL.substring(i18nLanguageId.length());
+		}
+
+		friendlyURL = StringUtil.replace(
+			friendlyURL, PropsValues.WIDGET_SERVLET_MAPPING, StringPool.BLANK);
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Friendly URL " + friendlyURL);
+		}
+
+		if (!friendlyURL.equals(StringPool.SLASH) &&
+			!isValidFriendlyURL(friendlyURL)) {
+
+			_log.debug("Friendly URL is not valid");
+
+			if (i18nLanguageId != null) {
+				String forwardURL = originalFriendlyURL;
+
+				int offset =
+					originalFriendlyURL.length() - friendlyURL.length() -
+						i18nLanguageId.length();
+
+				if (!originalFriendlyURL.regionMatches(
+						offset, i18nLanguageId, 0, i18nLanguageId.length())) {
+
+					if (offset > 0) {
+						String prefix = originalFriendlyURL.substring(
+							0, offset);
+
+						forwardURL = prefix.concat(i18nLanguageId);
+					}
+					else {
+						forwardURL = i18nLanguageId;
+					}
+
+					forwardURL = forwardURL.concat(friendlyURL);
+				}
+
+				RequestDispatcher requestDispatcher =
+					_servletContext.getRequestDispatcher(forwardURL);
+
+				requestDispatcher.forward(request, response);
+
+				return new UnifiedDirectCallFilterResult(
+					request, response, false);
+			}
+			else {
+				return new UnifiedDirectCallFilterResult(
+					request, response, true);
+			}
+		}
+
+		LayoutSet layoutSet = (LayoutSet)request.getAttribute(
+			WebKeys.VIRTUAL_HOST_LAYOUT_SET);
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Layout set " + layoutSet);
+		}
+
+		if (layoutSet == null) {
+			return new UnifiedDirectCallFilterResult(request, response, true);
+		}
+
+		try {
+			Map<String, String[]> parameterMap = request.getParameterMap();
+
+			String parameters = StringPool.BLANK;
+
+			if (!parameterMap.isEmpty()) {
+				parameters = HttpUtil.parameterMapToString(parameterMap);
+			}
+
+			LastPath lastPath = new LastPath(
+				_contextPath, friendlyURL, parameters);
+
+			request.setAttribute(WebKeys.LAST_PATH, lastPath);
+
+			StringBundler forwardURL = new StringBundler(5);
+
+			if (i18nLanguageId != null) {
+				forwardURL.append(i18nLanguageId);
+			}
+
+			if (originalFriendlyURL.startsWith(
+					PropsValues.WIDGET_SERVLET_MAPPING)) {
+
+				forwardURL.append(PropsValues.WIDGET_SERVLET_MAPPING);
+
+				friendlyURL = StringUtil.replaceFirst(
+					friendlyURL, PropsValues.WIDGET_SERVLET_MAPPING,
+					StringPool.BLANK);
+			}
+
+			if (friendlyURL.equals(StringPool.SLASH) ||
+				(PortalUtil.getPlidFromFriendlyURL(companyId, friendlyURL) <=
+					0)) {
+
+				Group group = layoutSet.getGroup();
+
+				if (isDocumentFriendlyURL(
+						request, group.getGroupId(), friendlyURL)) {
+
+					return new UnifiedDirectCallFilterResult(
+						request, response, true);
+				}
+
+				if (group.isGuest() && friendlyURL.equals(StringPool.SLASH) &&
+					!layoutSet.isPrivateLayout()) {
+
+					String homeURL = PortalUtil.getRelativeHomeURL(request);
+
+					if (Validator.isNotNull(homeURL)) {
+						friendlyURL = homeURL;
+					}
+				}
+				else {
+					if (layoutSet.isPrivateLayout()) {
+						if (group.isUser()) {
+							forwardURL.append(_PRIVATE_USER_SERVLET_MAPPING);
+						}
+						else {
+							forwardURL.append(_PRIVATE_GROUP_SERVLET_MAPPING);
+						}
+					}
+					else {
+						forwardURL.append(_PUBLIC_GROUP_SERVLET_MAPPING);
+					}
+
+					forwardURL.append(group.getFriendlyURL());
+				}
+			}
+
+			String forwardURLString = friendlyURL;
+
+			if (forwardURL.index() > 0) {
+				forwardURL.append(friendlyURL);
+
+				forwardURLString = forwardURL.toString();
+			}
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Forward to " + forwardURLString);
+			}
+
+			RequestDispatcher requestDispatcher =
+				_servletContext.getRequestDispatcher(forwardURLString);
+
+			requestDispatcher.forward(request, response);
+
+			return new UnifiedDirectCallFilterResult(request, response, false);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return new UnifiedDirectCallFilterResult(request, response, true);
+	}
+
+	@Override
+	public void doDirectCallFinally(UnifiedDirectCallFilterResult result)
+		throws Exception {
+	}
 
 	@Override
 	public void init(FilterConfig filterConfig) {
@@ -167,205 +363,6 @@ public class VirtualHostFilter extends BasePortalFilter {
 		}
 
 		return true;
-	}
-
-	@Override
-	protected void processFilter(
-			HttpServletRequest request, HttpServletResponse response,
-			FilterChain filterChain)
-		throws Exception {
-
-		long companyId = PortalInstances.getCompanyId(request);
-
-		String originalFriendlyURL = request.getRequestURI();
-
-		String friendlyURL = originalFriendlyURL;
-
-		friendlyURL = StringUtil.replace(
-			friendlyURL, StringPool.DOUBLE_SLASH, StringPool.SLASH);
-
-		if (!friendlyURL.equals(StringPool.SLASH) && !_contextPath.isEmpty() &&
-			(friendlyURL.length() > _contextPath.length()) &&
-			friendlyURL.startsWith(_contextPath) &&
-			friendlyURL.charAt(_contextPath.length()) == CharPool.SLASH) {
-
-			friendlyURL = friendlyURL.substring(_contextPath.length());
-		}
-
-		int pos = friendlyURL.indexOf(CharPool.SEMICOLON);
-
-		if (pos != -1) {
-			friendlyURL = friendlyURL.substring(0, pos);
-		}
-
-		String i18nLanguageId = _findLanguageId(friendlyURL);
-
-		if (i18nLanguageId != null) {
-			friendlyURL = friendlyURL.substring(i18nLanguageId.length());
-		}
-
-		friendlyURL = StringUtil.replace(
-			friendlyURL, PropsValues.WIDGET_SERVLET_MAPPING, StringPool.BLANK);
-
-		if (_log.isDebugEnabled()) {
-			_log.debug("Friendly URL " + friendlyURL);
-		}
-
-		if (!friendlyURL.equals(StringPool.SLASH) &&
-			!isValidFriendlyURL(friendlyURL)) {
-
-			_log.debug("Friendly URL is not valid");
-
-			if (i18nLanguageId != null) {
-				String forwardURL = originalFriendlyURL;
-
-				int offset =
-					originalFriendlyURL.length() - friendlyURL.length() -
-						i18nLanguageId.length();
-
-				if (!originalFriendlyURL.regionMatches(
-						offset, i18nLanguageId, 0, i18nLanguageId.length())) {
-
-					if (offset > 0) {
-						String prefix = originalFriendlyURL.substring(
-							0, offset);
-
-						forwardURL = prefix.concat(i18nLanguageId);
-					}
-					else {
-						forwardURL = i18nLanguageId;
-					}
-
-					forwardURL = forwardURL.concat(friendlyURL);
-				}
-
-				RequestDispatcher requestDispatcher =
-					_servletContext.getRequestDispatcher(forwardURL);
-
-				requestDispatcher.forward(request, response);
-
-				return;
-			}
-			else {
-				processFilter(
-					VirtualHostFilter.class.getName(), request, response,
-					filterChain);
-
-				return;
-			}
-		}
-
-		LayoutSet layoutSet = (LayoutSet)request.getAttribute(
-			WebKeys.VIRTUAL_HOST_LAYOUT_SET);
-
-		if (_log.isDebugEnabled()) {
-			_log.debug("Layout set " + layoutSet);
-		}
-
-		if (layoutSet == null) {
-			processFilter(
-				VirtualHostFilter.class.getName(), request, response,
-				filterChain);
-
-			return;
-		}
-
-		try {
-			Map<String, String[]> parameterMap = request.getParameterMap();
-
-			String parameters = StringPool.BLANK;
-
-			if (!parameterMap.isEmpty()) {
-				parameters = HttpUtil.parameterMapToString(parameterMap);
-			}
-
-			LastPath lastPath = new LastPath(
-				_contextPath, friendlyURL, parameters);
-
-			request.setAttribute(WebKeys.LAST_PATH, lastPath);
-
-			StringBundler forwardURL = new StringBundler(5);
-
-			if (i18nLanguageId != null) {
-				forwardURL.append(i18nLanguageId);
-			}
-
-			if (originalFriendlyURL.startsWith(
-					PropsValues.WIDGET_SERVLET_MAPPING)) {
-
-				forwardURL.append(PropsValues.WIDGET_SERVLET_MAPPING);
-
-				friendlyURL = StringUtil.replaceFirst(
-					friendlyURL, PropsValues.WIDGET_SERVLET_MAPPING,
-					StringPool.BLANK);
-			}
-
-			if (friendlyURL.equals(StringPool.SLASH) ||
-				(PortalUtil.getPlidFromFriendlyURL(companyId, friendlyURL) <=
-					0)) {
-
-				Group group = layoutSet.getGroup();
-
-				if (isDocumentFriendlyURL(
-						request, group.getGroupId(), friendlyURL)) {
-
-					processFilter(
-						VirtualHostFilter.class.getName(), request, response,
-						filterChain);
-
-					return;
-				}
-
-				if (group.isGuest() && friendlyURL.equals(StringPool.SLASH) &&
-					!layoutSet.isPrivateLayout()) {
-
-					String homeURL = PortalUtil.getRelativeHomeURL(request);
-
-					if (Validator.isNotNull(homeURL)) {
-						friendlyURL = homeURL;
-					}
-				}
-				else {
-					if (layoutSet.isPrivateLayout()) {
-						if (group.isUser()) {
-							forwardURL.append(_PRIVATE_USER_SERVLET_MAPPING);
-						}
-						else {
-							forwardURL.append(_PRIVATE_GROUP_SERVLET_MAPPING);
-						}
-					}
-					else {
-						forwardURL.append(_PUBLIC_GROUP_SERVLET_MAPPING);
-					}
-
-					forwardURL.append(group.getFriendlyURL());
-				}
-			}
-
-			String forwardURLString = friendlyURL;
-
-			if (forwardURL.index() > 0) {
-				forwardURL.append(friendlyURL);
-
-				forwardURLString = forwardURL.toString();
-			}
-
-			if (_log.isDebugEnabled()) {
-				_log.debug("Forward to " + forwardURLString);
-			}
-
-			RequestDispatcher requestDispatcher =
-				_servletContext.getRequestDispatcher(forwardURLString);
-
-			requestDispatcher.forward(request, response);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			processFilter(
-				VirtualHostFilter.class.getName(), request, response,
-				filterChain);
-		}
 	}
 
 	private String _findLanguageId(String friendlyURL) {

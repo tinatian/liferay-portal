@@ -120,7 +120,7 @@ public class VirtualHostFilterTest {
 
 		_virtualHostFilter.init(_mockFilterConfig);
 
-		_virtualHostFilter.processFilter(request, response, filterChain);
+		_virtualHostFilter.doDirectCall(request, response);
 
 		LastPath lastPath = (LastPath)request.getAttribute(WebKeys.LAST_PATH);
 
