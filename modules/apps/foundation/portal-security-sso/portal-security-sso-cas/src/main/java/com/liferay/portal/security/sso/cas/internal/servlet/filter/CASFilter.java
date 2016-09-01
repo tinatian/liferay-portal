@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.sso.cas.configuration.CASConfiguration;
 import com.liferay.portal.security.sso.cas.constants.CASConstants;
 import com.liferay.portal.security.sso.cas.constants.CASWebKeys;
+import com.liferay.portal.security.sso.cas.internal.configuration.CASConfigurationSettingsListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -134,10 +135,7 @@ public class CASFilter extends BaseFilter {
 		}
 
 		CASConfiguration casConfiguration =
-			_configurationProvider.getConfiguration(
-				CASConfiguration.class,
-				new CompanyServiceSettingsLocator(
-					companyId, CASConstants.SERVICE_NAME));
+			_casConfigurationSettingsListener.getCASConfiguration(companyId);
 
 		String serverName = casConfiguration.serverName();
 		String serverUrl = casConfiguration.serverURL();
@@ -252,6 +250,13 @@ public class CASFilter extends BaseFilter {
 	}
 
 	@Reference(unbind = "-")
+	protected void setCASConfigurationSettingsListener(
+		CASConfigurationSettingsListener casConfigurationSettingsListener) {
+
+		_casConfigurationSettingsListener = casConfigurationSettingsListener;
+	}
+
+	@Reference(unbind = "-")
 	protected void setConfigurationProvider(
 		ConfigurationProvider configurationProvider) {
 
@@ -263,6 +268,7 @@ public class CASFilter extends BaseFilter {
 	private static final Map<Long, TicketValidator> _ticketValidators =
 		new ConcurrentHashMap<>();
 
+	private CASConfigurationSettingsListener _casConfigurationSettingsListener;
 	private ConfigurationProvider _configurationProvider;
 
 }

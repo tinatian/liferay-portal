@@ -16,6 +16,10 @@ package com.liferay.portal.configuration.settings.internal;
 
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.configuration.settings.internal.util.ConfigurationPidUtil;
+import com.liferay.portal.kernel.messaging.DestinationNames;
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBus;
+import com.liferay.portal.kernel.settings.SettingsListener;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 
 import java.security.AccessController;
@@ -34,13 +38,16 @@ import org.osgi.service.cm.ManagedService;
 public class ConfigurationBeanManagedService implements ManagedService {
 
 	public ConfigurationBeanManagedService(
-		BundleContext bundleContext, Class<?> configurationBeanClass) {
+		BundleContext bundleContext, Class<?> configurationBeanClass,
+		MessageBus messageBus) {
 
 		_bundleContext = bundleContext;
 		_configurationBeanClass = configurationBeanClass;
 
 		_configurationPid = ConfigurationPidUtil.getConfigurationPid(
 			configurationBeanClass);
+
+		_messageBus = messageBus;
 	}
 
 	public Object getConfigurationBean() {
@@ -74,6 +81,10 @@ public class ConfigurationBeanManagedService implements ManagedService {
 		_bundleContext = bundleContext;
 	}
 
+	public void setMessageBus(MessageBus messageBus) {
+		_messageBus = messageBus;
+	}
+
 	public void unregister() {
 		_managedServiceServiceRegistration.unregister();
 		_configurationBeanServiceRegistration.unregister();
@@ -105,6 +116,8 @@ public class ConfigurationBeanManagedService implements ManagedService {
 		_configurationBeanServiceRegistration = _bundleContext.registerService(
 			_configurationBeanClass.getName(), _configurationBean,
 			new HashMapDictionary<String, Object>());
+
+		_messageBus.sendMessage(DestinationNames.SETTINGS, new Message());
 	}
 
 	protected class UpdatePrivilegedAction implements PrivilegedAction<Void> {
@@ -131,5 +144,6 @@ public class ConfigurationBeanManagedService implements ManagedService {
 	private final String _configurationPid;
 	private ServiceRegistration<ManagedService>
 		_managedServiceServiceRegistration;
+	private MessageBus _messageBus;
 
 }
