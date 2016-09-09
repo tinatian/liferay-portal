@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.resource.manager.ClassLoaderResourceManager;
@@ -189,6 +190,7 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 				_configurationBeanManagedServices.values()) {
 
 			configurationBeanManagedService.setBundleContext(bundleContext);
+			configurationBeanManagedService.setMessageBus(_messageBus);
 
 			configurationBeanManagedService.register();
 		}
@@ -245,7 +247,7 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 
 		ConfigurationBeanManagedService configurationBeanManagedService =
 			new ConfigurationBeanManagedService(
-				_bundleContext, configurationBeanClass);
+				_bundleContext, configurationBeanClass, _messageBus);
 
 		_configurationBeanClasses.put(
 			configurationBeanManagedService.getConfigurationPid(),
@@ -271,6 +273,11 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 	@Reference(unbind = "-")
 	protected void setGroupLocalService(GroupLocalService groupLocalService) {
 		_groupLocalService = groupLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setMessageBus(MessageBus messageBus) {
+		_messageBus = messageBus;
 	}
 
 	@Reference(unbind = "-")
@@ -328,6 +335,7 @@ public class SettingsLocatorHelperImpl implements SettingsLocatorHelper {
 	private final ConcurrentMap<Class<?>, ConfigurationBeanManagedService>
 		_configurationBeanManagedServices = new ConcurrentHashMap<>();
 	private GroupLocalService _groupLocalService;
+	private MessageBus _messageBus;
 	private PortalPreferencesLocalService _portalPreferencesLocalService;
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
 
