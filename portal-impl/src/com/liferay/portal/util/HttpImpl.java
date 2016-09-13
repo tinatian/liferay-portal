@@ -494,6 +494,52 @@ public class HttpImpl implements Http {
 		return _cookies.get();
 	}
 
+	public String getURIHost(String uriString) {
+		if (Validator.isNull(uriString)) {
+			return null;
+		}
+
+		int start = uriString.indexOf("//");
+
+		if (start >= 0) {
+			start += 2;
+	
+			int end = -1;
+
+			for (int i = start; i < uriString.length(); i++) {
+				if (uriString.charAt(i) != CharPool.SLASH) {
+					end = i;
+				}
+			}
+
+			if (end != (start + 1)) {
+				String prefix = uriString.substring(0, start);
+
+				if (end == -1) {
+					uriString = prefix;
+				}
+				else {
+					String postfix = uriString.substring(end);
+
+					uriString = prefix.concat(postfix);
+				}
+			}
+		}
+
+		try {
+			URI uri = new URI(uriString);
+
+			return uri.getHost();
+		}
+		catch (URISyntaxException urise) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Invalid URI " + uriString, urise);
+			}
+
+			return null;
+		}
+	}
+
 	@Override
 	public String getDomain(String url) {
 		if (Validator.isNull(url)) {
