@@ -184,6 +184,7 @@ import com.liferay.portal.kernel.util.StringComparator;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
+import com.liferay.portal.kernel.util.URIUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -231,6 +232,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 import java.sql.Connection;
@@ -876,19 +878,26 @@ public class PortalImpl implements Portal {
 
 	@Override
 	public String escapeRedirect(String url) {
-		if (Validator.isNull(url) || !HttpUtil.hasDomain(url)) {
-			return url;
+		if (Validator.isNull(url)) {
+			return null;
 		}
 
-		String domain = HttpUtil.getDomain(url);
+		String domain = null;
 
-		int pos = domain.indexOf(CharPool.COLON);
+		try {
+			domain = URIUtil.getHost(url);
+		}
+		catch (URISyntaxException urise) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Invalid URI " + url, urise);
+			}
 
-		if (pos != -1) {
-			domain = domain.substring(0, pos);
+			return null;
 		}
 
-		if (!_validPortalDomainCheckDisabled && isValidPortalDomain(domain)) {
+		if (Validator.isNull(domain) ||
+			(!_validPortalDomainCheckDisabled && isValidPortalDomain(domain))) {
+
 			return url;
 		}
 
