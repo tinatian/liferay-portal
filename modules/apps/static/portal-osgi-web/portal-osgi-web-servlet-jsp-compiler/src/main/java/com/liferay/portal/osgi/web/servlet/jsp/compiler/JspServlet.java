@@ -16,10 +16,10 @@ package com.liferay.portal.osgi.web.servlet.jsp.compiler;
 
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.JspBundleClassloader;
-import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.JspServletContext;
 import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.JspTagHandlerPool;
 import com.liferay.taglib.servlet.JspFactorySwapper;
 
@@ -335,7 +335,8 @@ public class JspServlet extends HttpServlet {
 
 				private final ServletContext _jspServletContext =
 					(ServletContext)Proxy.newProxyInstance(
-						_jspBundleClassloader, _INTERFACES,
+						_jspBundleClassloader,
+						new Class<?>[] {ServletContext.class},
 						new JspServletContextInvocationHandler(
 							servletContext, _bundle));
 
@@ -546,10 +547,6 @@ public class JspServlet extends HttpServlet {
 
 	private static final String _INIT_PARAMETER_NAME_SCRATCH_DIR = "scratchdir";
 
-	private static final Class<?>[] _INTERFACES = {
-		JspServletContext.class, ServletContext.class
-	};
-
 	private static final String _WORK_DIR =
 		PropsUtil.get(PropsKeys.LIFERAY_HOME) + File.separator + "work" +
 			File.separator;
@@ -688,7 +685,7 @@ public class JspServlet extends HttpServlet {
 	}
 
 	private class JspServletContextInvocationHandler
-		implements InvocationHandler, JspServletContext {
+		implements InvocationHandler {
 
 		public JspServletContextInvocationHandler(
 			ServletContext servletContext, Bundle bundle) {
@@ -705,18 +702,29 @@ public class JspServlet extends HttpServlet {
 
 			ServletContext servletContext = (ServletContext)obj;
 
-			if (obj instanceof JspServletContext) {
-				JspServletContext jspServletContext = (JspServletContext)obj;
+			if (ProxyUtil.isProxyClass(obj.getClass())) {
+				InvocationHandler invocationHandler =
+					ProxyUtil.getInvocationHandler(obj);
 
-				servletContext = jspServletContext.getWrappedServletContext();
+				if (invocationHandler instanceof
+						JspServletContextInvocationHandler) {
+
+					JspServletContextInvocationHandler
+						jspServletContextInvocationHandler =
+							(JspServletContextInvocationHandler)
+								invocationHandler;
+
+					servletContext =
+						jspServletContextInvocationHandler._servletContext;
+				}
+				else {
+					throw new IllegalArgumentException(
+						"Unable to handle invocation handler " +
+							invocationHandler);
+				}
 			}
 
 			return servletContext.equals(_servletContext);
-		}
-
-		@Override
-		public ServletContext getWrappedServletContext() {
-			return _servletContext;
 		}
 
 		@Override
