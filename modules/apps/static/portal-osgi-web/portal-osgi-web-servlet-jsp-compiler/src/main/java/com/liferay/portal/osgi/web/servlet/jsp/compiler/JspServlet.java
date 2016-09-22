@@ -14,22 +14,18 @@
 
 package com.liferay.portal.osgi.web.servlet.jsp.compiler;
 
+import com.liferay.portal.asm.ASMWrapperUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.JspBundleClassloader;
-import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.JspServletContext;
 import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.JspTagHandlerPool;
 import com.liferay.taglib.servlet.JspFactorySwapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -334,10 +330,10 @@ public class JspServlet extends HttpServlet {
 				}
 
 				private final ServletContext _jspServletContext =
-					(ServletContext)Proxy.newProxyInstance(
-						_jspBundleClassloader, _INTERFACES,
-						new JspServletContextInvocationHandler(
-							servletContext, _bundle));
+					ASMWrapperUtil.createASMWrapper(
+						ServletContext.class,
+						new JspServletContext(servletContext, _bundle),
+						servletContext);
 
 			});
 
@@ -477,51 +473,6 @@ public class JspServlet extends HttpServlet {
 		return classNames.toArray(new String[classNames.size()]);
 	}
 
-	private static Map<Method, Method> _createContextAdapterMethods() {
-		Map<Method, Method> methods = new HashMap<>();
-
-		Method[] adapterMethods =
-			JspServletContextInvocationHandler.class.getDeclaredMethods();
-
-		for (Method adapterMethod : adapterMethods) {
-			String name = adapterMethod.getName();
-			Class<?>[] parameterTypes = adapterMethod.getParameterTypes();
-
-			try {
-				Method method = ServletContext.class.getMethod(
-					name, parameterTypes);
-
-				methods.put(method, adapterMethod);
-			}
-			catch (NoSuchMethodException nsme) {
-			}
-		}
-
-		try {
-			Method equalsMethod = Object.class.getMethod(
-				"equals", Object.class);
-
-			Method equalsHandlerMethod =
-				JspServletContextInvocationHandler.class.getMethod(
-					"equals", Object.class);
-
-			methods.put(equalsMethod, equalsHandlerMethod);
-
-			Method hashCodeMethod = Object.class.getMethod(
-				"hashCode", (Class<?>[])null);
-
-			Method hashCodeHandlerMethod =
-				JspServletContextInvocationHandler.class.getMethod(
-					"hashCode", (Class<?>[])null);
-
-			methods.put(hashCodeMethod, hashCodeHandlerMethod);
-		}
-		catch (NoSuchMethodException nsme) {
-		}
-
-		return Collections.unmodifiableMap(methods);
-	}
-
 	private void _deleteOutdatedJspFiles(String dir, List<Path> paths) {
 		FileSystem fileSystem = FileSystems.getDefault();
 
@@ -546,23 +497,14 @@ public class JspServlet extends HttpServlet {
 
 	private static final String _INIT_PARAMETER_NAME_SCRATCH_DIR = "scratchdir";
 
-	private static final Class<?>[] _INTERFACES = {
-		JspServletContext.class, ServletContext.class
-	};
-
 	private static final String _WORK_DIR =
 		PropsUtil.get(PropsKeys.LIFERAY_HOME) + File.separator + "work" +
 			File.separator;
 
-	private static final Map<Method, Method> _contextAdapterMethods;
 	private static final Bundle _jspBundle = FrameworkUtil.getBundle(
 		JspServlet.class);
 	private static final Pattern _originalJspPattern = Pattern.compile(
 		"^(?<file>.*)(\\.(portal|original))(?<extension>\\.(jsp|jspf))$");
-
-	static {
-		_contextAdapterMethods = _createContextAdapterMethods();
-	}
 
 	private Bundle[] _allParticipatingBundles;
 	private Bundle _bundle;
@@ -687,70 +629,36 @@ public class JspServlet extends HttpServlet {
 
 	}
 
-	private class JspServletContextInvocationHandler
-		implements InvocationHandler, JspServletContext {
+	private class JspServletContext {
 
-		public JspServletContextInvocationHandler(
-			ServletContext servletContext, Bundle bundle) {
-
+		public JspServletContext(ServletContext servletContext, Bundle bundle) {
 			_servletContext = servletContext;
 			_bundle = bundle;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (!(obj instanceof ServletContext)) {
+			if (!(obj instanceof ServletContext) ||
+				!(obj instanceof JspServletContext)) {
+
 				return false;
 			}
 
-			ServletContext servletContext = (ServletContext)obj;
+			ServletContext servletContext = null;
 
 			if (obj instanceof JspServletContext) {
 				JspServletContext jspServletContext = (JspServletContext)obj;
 
-				servletContext = jspServletContext.getWrappedServletContext();
+				servletContext = jspServletContext._servletContext;
+			}
+			else if (obj instanceof ServletContext) {
+				servletContext = (ServletContext)obj;
 			}
 
 			return servletContext.equals(_servletContext);
 		}
 
-		@Override
-		public ServletContext getWrappedServletContext() {
-			return _servletContext;
-		}
-
-		@Override
-		public int hashCode() {
-			return _servletContext.hashCode();
-		}
-
-		@Override
-		public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
-
-			if (method.getName().equals("getClassLoader")) {
-				return _jspBundleClassloader;
-			}
-			else if (method.getName().equals("getResource")) {
-				return _getResource((String)args[0]);
-			}
-			else if (method.getName().equals("getResourceAsStream")) {
-				return _getResourceAsStream((String)args[0]);
-			}
-			else if (method.getName().equals("getResourcePaths")) {
-				return _getResourcePaths((String)args[0]);
-			}
-
-			Method adapterMethod = _contextAdapterMethods.get(method);
-
-			if (adapterMethod != null) {
-				return adapterMethod.invoke(this, args);
-			}
-
-			return method.invoke(_servletContext, args);
-		}
-
-		private URL _getExtension(String path) {
+		public URL getExtension(String path) {
 			Matcher matcher = _originalJspPattern.matcher(path);
 
 			if (matcher.matches()) {
@@ -771,7 +679,7 @@ public class JspServlet extends HttpServlet {
 			return urls.get(urls.size() - 1);
 		}
 
-		private URL _getResource(String path) {
+		public URL getResource(String path) {
 			try {
 				if ((path == null) || path.equals(StringPool.BLANK)) {
 					return null;
@@ -781,7 +689,7 @@ public class JspServlet extends HttpServlet {
 					path = '/' + path;
 				}
 
-				URL url = _getExtension(path);
+				URL url = getExtension(path);
 
 				if (url != null) {
 					return url;
@@ -824,8 +732,8 @@ public class JspServlet extends HttpServlet {
 			return null;
 		}
 
-		private InputStream _getResourceAsStream(String path) {
-			URL url = _getResource(path);
+		public InputStream getResourceAsStream(String path) {
+			URL url = getResource(path);
 
 			if (url == null) {
 				return null;
@@ -839,7 +747,7 @@ public class JspServlet extends HttpServlet {
 			}
 		}
 
-		private Set<String> _getResourcePaths(String path) {
+		public Set<String> getResourcePaths(String path) {
 			Set<String> paths = _servletContext.getResourcePaths(path);
 
 			Enumeration<URL> enumeration = _jspBundle.findEntries(
@@ -858,6 +766,11 @@ public class JspServlet extends HttpServlet {
 			}
 
 			return paths;
+		}
+
+		@Override
+		public int hashCode() {
+			return _servletContext.hashCode();
 		}
 
 		private final Bundle _bundle;
