@@ -1327,7 +1327,11 @@ public class LayoutImportController implements ImportController {
 					groupId, sourceAvailableLocale)) {
 
 				LocaleException le = new LocaleException(
-					LocaleException.TYPE_EXPORT_IMPORT);
+					LocaleException.TYPE_EXPORT_IMPORT, 
+					"#### source locales " + sourceAvailableLocales + 
+						"   target locales " + 
+							LanguageUtil.getAvailableLocales(groupId) +
+								"   zipReader " + zipReader.getEntries());
 
 				le.setSourceAvailableLocales(sourceAvailableLocales);
 				le.setTargetAvailableLocales(
