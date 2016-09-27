@@ -91,6 +91,8 @@ public interface Http {
 
 	public String getCompleteURL(HttpServletRequest request);
 
+	public String getURIHost(String uriString);
+
 	public Cookie[] getCookies();
 
 	public String getDomain(String url);

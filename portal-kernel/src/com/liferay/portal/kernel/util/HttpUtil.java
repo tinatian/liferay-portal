@@ -35,6 +35,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HttpUtil {
 
+	public static String getURIHost(String uriString) {
+		return getHttp().getURIHost(uriString);
+	}
+
 	public static String addParameter(String url, String name, boolean value) {
 		return getHttp().addParameter(url, name, value);
 	}
