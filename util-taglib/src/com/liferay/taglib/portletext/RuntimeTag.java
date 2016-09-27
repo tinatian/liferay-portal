@@ -167,9 +167,21 @@ public class RuntimeTag extends TagSupport {
 				instanceId);
 		}
 
-		RestrictPortletServletRequest restrictPortletServletRequest =
-			new RestrictPortletServletRequest(
+		Stack<String> embeddedPortletIds = _embeddedPortletIds.get();
+
+		boolean usingRestrictPortletServletRequest = false;
+
+		if (embeddedPortletIds == null) {
+			embeddedPortletIds = new Stack<>();
+
+			_embeddedPortletIds.set(embeddedPortletIds);
+		}
+		else if (!embeddedPortletIds.isEmpty()) {
+			request = new RestrictPortletServletRequest(
 				PortalUtil.getOriginalServletRequest(request));
+
+			usingRestrictPortletServletRequest = true;
+		}
 
 		queryString = PortletParameterUtil.addNamespace(
 			portletInstance.getPortletInstanceKey(), queryString);
@@ -185,7 +197,7 @@ public class RuntimeTag extends TagSupport {
 		}
 
 		request = DynamicServletRequest.addQueryString(
-			restrictPortletServletRequest, parameterMap, queryString, false);
+			request, parameterMap, queryString, false);
 
 		try {
 			request.setAttribute(WebKeys.RENDER_PORTLET_RESOURCE, Boolean.TRUE);
@@ -196,14 +208,6 @@ public class RuntimeTag extends TagSupport {
 			Portlet portlet = getPortlet(
 				themeDisplay.getCompanyId(),
 				portletInstance.getPortletInstanceKey());
-
-			Stack<String> embeddedPortletIds = _embeddedPortletIds.get();
-
-			if (embeddedPortletIds == null) {
-				embeddedPortletIds = new Stack<>();
-
-				_embeddedPortletIds.set(embeddedPortletIds);
-			}
 
 			if (embeddedPortletIds.search(portlet.getPortletId()) > -1) {
 				String errorMessage = LanguageUtil.get(
@@ -300,7 +304,15 @@ public class RuntimeTag extends TagSupport {
 			}
 		}
 		finally {
-			restrictPortletServletRequest.mergeSharedAttributes();
+			if (usingRestrictPortletServletRequest) {
+				RestrictPortletServletRequest restrictPortletServletRequest =
+					(RestrictPortletServletRequest)request;
+
+				restrictPortletServletRequest.mergeSharedAttributes();
+			}
+			else {
+				request.removeAttribute(WebKeys.RENDER_PORTLET_RESOURCE);
+			}
 		}
 	}
 
