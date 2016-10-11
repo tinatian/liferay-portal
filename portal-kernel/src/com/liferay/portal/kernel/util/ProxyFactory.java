@@ -89,14 +89,14 @@ public class ProxyFactory {
 		String filterString) {
 
 		try {
-			T dummyService = (T)ProxyUtil.newProxyInstance(
+			T defaultService = (T)ProxyUtil.newProxyInstance(
 				serviceClass.getClassLoader(), new Class[] {serviceClass},
 				new WaitForServiceInvocationHandler<T>(
 					serviceClass, declaringClass, fieldName, filterString));
 
 			return _newServiceTrackedInstance(
 				serviceClass, declaringClass, fieldName, filterString,
-				dummyService);
+				defaultService);
 		}
 		catch (ReflectiveOperationException roe) {
 			return ReflectionUtil.throwException(roe);
@@ -134,7 +134,7 @@ public class ProxyFactory {
 
 	private static <T> T _newServiceTrackedInstance(
 		Class<T> serviceClass, Class<?> declaringClass, String fieldName,
-		String filterString, T dummyService) {
+		String filterString, T defaultService) {
 
 		try {
 			Field field = declaringClass.getDeclaredField(fieldName);
@@ -145,7 +145,7 @@ public class ProxyFactory {
 
 			field.setAccessible(true);
 
-			field.set(null, dummyService);
+			field.set(null, defaultService);
 
 			ServiceTracker<?, ?> serviceTracker = null;
 
@@ -157,7 +157,7 @@ public class ProxyFactory {
 				serviceTracker = registry.trackServices(
 					serviceName,
 					new ServiceTrackerFieldUpdaterCustomizer<>(
-						field, null, dummyService));
+						field, null, defaultService));
 			}
 			else {
 				StringBundler sb = new StringBundler(7);
@@ -183,7 +183,7 @@ public class ProxyFactory {
 				serviceTracker = registry.trackServices(
 					filter,
 					new ServiceTrackerFieldUpdaterCustomizer<>(
-						field, null, dummyService));
+						field, null, defaultService));
 			}
 
 			serviceTracker.open();
