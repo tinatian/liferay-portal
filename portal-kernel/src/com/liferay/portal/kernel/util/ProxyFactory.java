@@ -117,6 +117,10 @@ public class ProxyFactory {
 				interfaceClass, filterString));
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static <T> T newServiceTrackedInstanceWithoutDummyService(
 		Class<T> serviceClass, Class<?> declaringClass, String fieldName) {
 
@@ -124,6 +128,10 @@ public class ProxyFactory {
 			serviceClass, declaringClass, fieldName, null);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static <T> T newServiceTrackedInstanceWithoutDummyService(
 		Class<T> serviceClass, Class<?> declaringClass, String fieldName,
 		String filterString) {
