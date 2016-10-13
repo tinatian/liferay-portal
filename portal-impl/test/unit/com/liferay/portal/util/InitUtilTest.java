@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.test.log.CaptureAppender;
 import com.liferay.portal.test.log.Log4JLoggerTestUtil;
 import com.liferay.portal.test.rule.LogAssertionTestRule;
+import com.liferay.portal.tools.ToolDependencies;
 
 import java.nio.file.Paths;
 
@@ -41,6 +42,8 @@ public class InitUtilTest {
 
 	@Test
 	public void testBaseSeleniumTestCaseSpringConfigs() {
+		ToolDependencies.wireCaches();
+
 		String log4jConfigureOnStartup = SystemProperties.get(
 			_LOG4J_CONFIGURE_ON_STARTUP);
 
