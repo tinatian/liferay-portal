@@ -14,13 +14,18 @@
 
 package com.liferay.portal.util;
 
+import com.liferay.portal.kernel.cache.MultiVMPool;
+import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.test.log.CaptureAppender;
 import com.liferay.portal.test.log.Log4JLoggerTestUtil;
 import com.liferay.portal.test.rule.LogAssertionTestRule;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
 
 import java.nio.file.Paths;
 
@@ -60,6 +65,30 @@ public class InitUtilTest {
 		_fileImpl.mkdirs(PropsValues.MODULE_FRAMEWORK_BASE_DIR + "/static");
 
 		InitUtil.init();
+
+		new Thread() {
+
+			public void run() {
+				while (true) {
+					Registry registry = RegistryUtil.getRegistry();
+
+					if (registry != null) {
+						registry.registerService(
+							MultiVMPool.class,
+							ProxyFactory.newDummyInstance(MultiVMPool.class));
+
+						registry.registerService(
+							SingleVMPool.class,
+							ProxyFactory.newDummyInstance(SingleVMPool.class));
+
+						break;
+					}
+
+				};
+			}
+
+
+		}.start();
 
 		ReflectionTestUtil.setFieldValue(InitUtil.class, "_initialized", false);
 
