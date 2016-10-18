@@ -2333,17 +2333,9 @@ ${output.content}</echo>
 	<target name="unit-jdk8">
 		<run-batch-test>
 			<test-action>
-				<ant dir="portal-kernel" inheritAll="false" target="test-class-group">
-					<property name="test.class.group.index" value="${axis.variable}" />
-				</ant>
-
 				<ant dir="portal-impl" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="${axis.variable}" />
 					<property name="test.type" value="unit" />
-				</ant>
-
-				<ant dir="util-java" inheritAll="false" target="test-class-group">
-					<property name="test.class.group.index" value="${axis.variable}" />
 				</ant>
 			</test-action>
 
