@@ -223,8 +223,8 @@ public class MessageBusUtil {
 	private static final Log _log = LogFactoryUtil.getLog(MessageBusUtil.class);
 
 	private static volatile MessageBus _messageBus =
-		ProxyFactory.newServiceTrackedInstanceWithoutDummyService(
-			MessageBus.class, MessageBusUtil.class, "_messageBus");
+		ProxyFactory.newServiceTrackedInstance(
+			MessageBus.class, MessageBusUtil.class, "_messageBus", true);
 	private static SynchronousMessageSender.Mode _synchronousMessageSenderMode;
 
 }

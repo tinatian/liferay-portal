@@ -71,8 +71,8 @@ public class DestinationFactoryUtil {
 		new DestinationFactoryUtil();
 
 	private static volatile DestinationFactory _destinationFactory =
-		ProxyFactory.newServiceTrackedInstanceWithoutDummyService(
+		ProxyFactory.newServiceTrackedInstance(
 			DestinationFactory.class, DestinationFactoryUtil.class,
-			"_destinationFactory");
+			"_destinationFactory", true);
 
 }

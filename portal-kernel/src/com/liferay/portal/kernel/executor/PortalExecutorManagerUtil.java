@@ -107,6 +107,6 @@ public class PortalExecutorManagerUtil {
 	private static volatile PortalExecutorManager _portalExecutorManager =
 		ProxyFactory.newServiceTrackedInstanceWithoutDummyService(
 			PortalExecutorManager.class, PortalExecutorManagerUtil.class,
-			"_portalExecutorManager");
+			"_portalExecutorManager", true);
 
 }

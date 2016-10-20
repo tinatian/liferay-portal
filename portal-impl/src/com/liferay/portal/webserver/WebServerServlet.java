@@ -1445,7 +1445,7 @@ public class WebServerServlet extends HttpServlet {
 	private static volatile InactiveRequestHandler _inactiveRequesthandler =
 		ProxyFactory.newServiceTrackedInstance(
 			InactiveRequestHandler.class, WebServerServlet.class,
-			"_inactiveRequesthandler");
+			"_inactiveRequesthandler", true);
 
 	private final Format _dateFormat =
 		FastDateFormatFactoryUtil.getSimpleDateFormat("d MMM yyyy HH:mm z");

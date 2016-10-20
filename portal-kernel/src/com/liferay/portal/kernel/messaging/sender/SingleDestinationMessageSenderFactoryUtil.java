@@ -95,9 +95,9 @@ public class SingleDestinationMessageSenderFactoryUtil {
 
 	private static volatile SingleDestinationMessageSenderFactory
 		_singleDestinationMessageSenderFactory =
-			ProxyFactory.newServiceTrackedInstanceWithoutDummyService(
+			ProxyFactory.newServiceTrackedInstance(
 				SingleDestinationMessageSenderFactory.class,
 				SingleDestinationMessageSenderFactoryUtil.class,
-				"_singleDestinationMessageSenderFactory");
+				"_singleDestinationMessageSenderFactory", true);
 
 }
