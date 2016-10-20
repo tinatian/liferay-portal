@@ -75,6 +75,6 @@ public class PortletDataContextFactoryUtil {
 		_portletDataContextFactory = ProxyFactory.newServiceTrackedInstance(
 			PortletDataContextFactory.class,
 			PortletDataContextFactoryUtil.class, "_portletDataContextFactory",
-			true);
+			false);
 
 }
