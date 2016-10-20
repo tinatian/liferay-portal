@@ -239,7 +239,7 @@ public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
 		if (GetterUtil.getBoolean(
 				PropsUtil.get(PropsKeys.SCHEMA_RUN_ENABLED))) {
 
-			releaseLocalService.createTablesAndPopulate();
+			createTablesAndPopulate();
 
 			testSupportsStringCaseSensitiveQuery();
 
@@ -287,11 +287,10 @@ public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
 			return;
 		}
 
-		Release release = releaseLocalService.fetchRelease(servletContextName);
+		Release release = fetchRelease(servletContextName);
 
 		if (release == null) {
-			release = releaseLocalService.addRelease(
-				servletContextName, previousBuildNumber);
+			release = addRelease(servletContextName, previousBuildNumber);
 		}
 
 		if (buildNumber == release.getBuildNumber()) {
@@ -311,7 +310,7 @@ public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
 				release.getBuildNumber(), upgradeProcesses, indexOnUpgrade);
 		}
 
-		releaseLocalService.updateRelease(
+		updateRelease(
 			release.getReleaseId(), release.getSchemaVersion(), buildNumber,
 			null, true);
 	}
@@ -345,12 +344,11 @@ public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
 		String servletContextName, String schemaVersion,
 		String previousSchemaVersion) {
 
-		Release release = releaseLocalService.fetchRelease(servletContextName);
+		Release release = fetchRelease(servletContextName);
 
 		if (release == null) {
 			if (previousSchemaVersion.equals("0.0.0")) {
-				release = releaseLocalService.addRelease(
-					servletContextName, previousSchemaVersion);
+				release = addRelease(servletContextName, previousSchemaVersion);
 			}
 			else {
 				throw new IllegalStateException(
