@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.security.permission.ResourceActions;
 import com.liferay.portal.kernel.service.GroupServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
+import com.liferay.portal.kernel.service.ResourceActionLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CharPool;
@@ -700,6 +701,17 @@ public class ResourceActionsImpl implements ResourceActions {
 		read(servletContextName, document);
 	}
 
+	@Override
+	public void read(
+			String servletContextName, ClassLoader classLoader,
+			String[] sources)
+		throws Exception {
+
+		for (String source : sources) {
+			read(servletContextName, classLoader, source);
+		}
+	}
+
 	/**
 	 * @deprecated As of 7.0.0
 	 */
@@ -711,6 +723,32 @@ public class ResourceActionsImpl implements ResourceActions {
 		Document document = UnsecureSAXReaderUtil.read(inputStream, true);
 
 		read(servletContextName, document);
+	}
+
+	@Override
+	public void readAndCheck(
+			String servletContextName, ClassLoader classLoader,
+			String[] sources)
+		throws Exception {
+
+		List<String> portletIds = new ArrayList<>();
+
+		for (String source : sources) {
+			read(servletContextName, classLoader, source);
+
+			portletIds.addAll(getPortletIds(classLoader, source));
+		}
+
+		for (String portletId : portletIds) {
+			List<String> modelNames = getPortletModelResources(portletId);
+
+			for (String modelName : modelNames) {
+				List<String> modelActions = getModelResourceActions(modelName);
+
+				ResourceActionLocalServiceUtil.checkResourceActions(
+					modelName, modelActions);
+			}
+		}
 	}
 
 	protected void checkGuestUnsupportedActions(
@@ -861,6 +899,47 @@ public class ResourceActionsImpl implements ResourceActions {
 		else {
 			return parentElement.element(childElementName);
 		}
+	}
+
+	protected List<String> getPortletIds(ClassLoader classLoader, String source)
+		throws Exception {
+
+		InputStream inputStream = classLoader.getResourceAsStream(source);
+
+		if (inputStream == null) {
+			return Collections.emptyList();
+		}
+
+		Document document = UnsecureSAXReaderUtil.read(inputStream, true);
+
+		Element rootElement = document.getRootElement();
+
+		List<String> portletIds = new ArrayList<>();
+
+		for (Element resourceElement : rootElement.elements("resource")) {
+			String file = resourceElement.attributeValue("file").trim();
+
+			portletIds.addAll(getPortletIds(classLoader, file));
+
+			String extFile = StringUtil.replace(file, ".xml", "-ext.xml");
+
+			portletIds.addAll(getPortletIds(classLoader, extFile));
+		}
+
+		for (Element modelResourceElement :
+				rootElement.elements("model-resource")) {
+
+			Element portletRefElement = modelResourceElement.element(
+				"portlet-ref");
+
+			for (Element portletNameElement :
+					portletRefElement.elements("portlet-name")) {
+
+				portletIds.add(portletNameElement.getTextTrim());
+			}
+		}
+
+		return portletIds;
 	}
 
 	protected Set<String> getPortletMimeTypeActions(String name) {
