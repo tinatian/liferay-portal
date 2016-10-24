@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.test.log.CaptureAppender;
 import com.liferay.portal.test.log.Log4JLoggerTestUtil;
@@ -61,7 +62,7 @@ public class PersistenceNestedSetsTreeManagerTest {
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
 			CodeCoverageAssertor.INSTANCE, new LiferayIntegrationTestRule(),
-			TransactionalTestRule.INSTANCE);
+			new TransactionalTestRule(Propagation.REQUIRED));
 
 	@Before
 	public void setUp() throws Exception {
@@ -717,15 +718,15 @@ public class PersistenceNestedSetsTreeManagerTest {
 			if (methodName.equals("openSession") && _failOpenSession) {
 				throw new Exception("Unable to open session");
 			}
-			else if (methodName.equals("closeSession")) {
-				Session session = (Session)args[0];
-
-				if (session == null) {
-					return null;
-				}
-
-				session.flush();
-			}
+//			else if (methodName.equals("closeSession")) {
+//				Session session = (Session)args[0];
+//
+//				if (session == null) {
+//					return null;
+//				}
+//
+//				session.flush();
+//			}
 
 			return method.invoke(_target, args);
 		}
