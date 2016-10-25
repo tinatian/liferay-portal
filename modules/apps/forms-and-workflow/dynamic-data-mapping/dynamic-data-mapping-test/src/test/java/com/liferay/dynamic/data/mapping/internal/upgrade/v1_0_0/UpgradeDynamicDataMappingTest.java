@@ -1195,7 +1195,19 @@ public class UpgradeDynamicDataMappingTest extends PowerMockito {
 			throws Exception {
 		}
 
+		public void read(
+				String servletContextName, ClassLoader classLoader,
+				String[] source)
+			throws Exception {
+		}
+
 		public void read(String servletContextName, InputStream inputStream)
+			throws Exception {
+		}
+
+		public void readAndCheck(
+				String servletContextName, ClassLoader classLoader,
+				String[] source)
 			throws Exception {
 		}
 
