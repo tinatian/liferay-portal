@@ -561,6 +561,10 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		release = toUnwrappedModel(release);
 
 		boolean isNew = release.isNew();
+		
+		if (release.getServletContextName().contains("opensocial") && isNew) {
+			new Exception("### Thread " + Thread.currentThread() + " is adding relase info").printStackTrace();
+		}
 
 		ReleaseModelImpl releaseModelImpl = (ReleaseModelImpl)release;
 
