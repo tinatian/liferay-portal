@@ -36,6 +36,7 @@ patch {
 
 	fileNames "org/hibernate/cache/UpdateTimestampsCache.java"
 	fileNames "org/hibernate/intercept/FieldInterceptionHelper.java"
+	fileNames "org/hibernate/jdbc/Expectations.java"
 
 	originalLibModuleName = "hibernate-core"
 }
