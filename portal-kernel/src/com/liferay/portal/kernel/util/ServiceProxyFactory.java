@@ -190,7 +190,7 @@ public class ServiceProxyFactory {
 			try {
 				super.doServiceUpdate(newService);
 
-				if (newService != _dummyTrackedService) {
+				if (newService != _awaitService) {
 					_isRealServiceSet.signalAll();
 				}
 			}
@@ -200,17 +200,17 @@ public class ServiceProxyFactory {
 		}
 
 		private AwaitServiceTrackerFieldUpdaterCustomizer(
-			Field serviceField, Object serviceHolder, T dummyTrackedService,
+			Field serviceField, Object serviceHolder, T awaitService,
 			Condition isRealServiceSet, Lock lock) {
 
-			super(serviceField, serviceHolder, dummyTrackedService);
+			super(serviceField, serviceHolder, awaitService);
 
-			_dummyTrackedService = dummyTrackedService;
+			_awaitService = awaitService;
 			_isRealServiceSet = isRealServiceSet;
 			_lock = lock;
 		}
 
-		private final T _dummyTrackedService;
+		private final T _awaitService;
 		private final Condition _isRealServiceSet;
 		private final Lock _lock;
 
