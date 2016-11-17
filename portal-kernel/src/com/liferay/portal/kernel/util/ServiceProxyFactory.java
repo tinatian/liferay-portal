@@ -66,7 +66,8 @@ public class ServiceProxyFactory {
 				Condition isRealServiceSet = lock.newCondition();
 
 				T awaitService = (T)ProxyUtil.newProxyInstance(
-					serviceClass.getClassLoader(), new Class[] {serviceClass},
+					serviceClass.getClassLoader(),
+					new Class<?>[] {serviceClass},
 					new AwaitServiceInvocationHandler(
 						field, isRealServiceSet, serviceClass, lock));
 
