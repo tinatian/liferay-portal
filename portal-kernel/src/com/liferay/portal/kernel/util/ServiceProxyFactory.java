@@ -86,16 +86,18 @@ public class ServiceProxyFactory {
 						field, null, dummyService);
 			}
 
-			return _newServiceTrackedInstance(
-				serviceClass, field, filterString, serviceTrackerCustomizer);
+			_openServiceTracker(
+				serviceClass, filterString, serviceTrackerCustomizer);
+
+			return (T)field.get(null);
 		}
 		catch (ReflectiveOperationException roe) {
 			return ReflectionUtil.throwException(roe);
 		}
 	}
 
-	private static <T> T _newServiceTrackedInstance(
-			Class<T> serviceClass, Field field, String filterString,
+	private static void _openServiceTracker(
+			Class<?> serviceClass, String filterString,
 			ServiceTrackerCustomizer<?, ?> serviceTrackerCustomizer)
 		throws ReflectiveOperationException {
 
@@ -123,8 +125,6 @@ public class ServiceProxyFactory {
 		}
 
 		serviceTracker.open();
-
-		return (T)field.get(null);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
