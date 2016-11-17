@@ -24,6 +24,7 @@ import com.liferay.portal.test.log.CaptureAppender;
 import com.liferay.portal.test.log.Log4JLoggerTestUtil;
 import com.liferay.portal.test.rule.LogAssertionTestRule;
 import com.liferay.portal.tools.ToolDependencies;
+import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 
@@ -73,31 +74,23 @@ public class InitUtilTest {
 		final SingleVMPool testSingleVMPool = registry.getService(
 			SingleVMPool.class);
 
-		RegistryUtil.setRegistry(null);
+		RegistryUtil.setRegistry(
+			new BasicRegistryImpl() {
+
+				@Override
+				public Registry setRegistry(Registry registry) {
+					registry.registerService(
+						MultiVMPool.class, testMulitVMPool);
+
+					registry.registerService(
+						SingleVMPool.class, testSingleVMPool);
+
+					return registry;
+				}
+
+			});
 
 		InitUtil.init();
-
-		new Thread() {
-
-			public void run() {
-				while (true) {
-					try {
-						Registry registry = RegistryUtil.getRegistry();
-
-						registry.registerService(
-							MultiVMPool.class, testMulitVMPool);
-
-						registry.registerService(
-							SingleVMPool.class, testSingleVMPool);
-
-						break;
-					}
-					catch (NullPointerException npe) {
-					}
-				};
-			}
-
-		}.start();
 
 		ReflectionTestUtil.setFieldValue(InitUtil.class, "_initialized", false);
 
