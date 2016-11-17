@@ -16,7 +16,6 @@ package com.liferay.portal.kernel.util;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceTracker;
@@ -119,10 +118,8 @@ public class ServiceProxyFactory {
 			sb.append(filterString);
 			sb.append(StringPool.CLOSE_PARENTHESIS);
 
-			Filter filter = registry.getFilter(sb.toString());
-
 			serviceTracker = registry.trackServices(
-				filter, serviceTrackerCustomizer);
+				registry.getFilter(sb.toString()), serviceTrackerCustomizer);
 		}
 
 		serviceTracker.open();
@@ -186,17 +183,6 @@ public class ServiceProxyFactory {
 	private static class AwaitServiceTrackerFieldUpdaterCustomizer<S, T>
 		extends ServiceTrackerFieldUpdaterCustomizer<S, T> {
 
-		public AwaitServiceTrackerFieldUpdaterCustomizer(
-			Field serviceField, Object serviceHolder, T dummyTrackedService,
-			Condition isRealServiceSet, Lock lock) {
-
-			super(serviceField, serviceHolder, dummyTrackedService);
-
-			_dummyTrackedService = dummyTrackedService;
-			_isRealServiceSet = isRealServiceSet;
-			_lock = lock;
-		}
-
 		@Override
 		protected void doServiceUpdate(T newService) {
 			_lock.lock();
@@ -211,6 +197,17 @@ public class ServiceProxyFactory {
 			finally {
 				_lock.unlock();
 			}
+		}
+
+		private AwaitServiceTrackerFieldUpdaterCustomizer(
+			Field serviceField, Object serviceHolder, T dummyTrackedService,
+			Condition isRealServiceSet, Lock lock) {
+
+			super(serviceField, serviceHolder, dummyTrackedService);
+
+			_dummyTrackedService = dummyTrackedService;
+			_isRealServiceSet = isRealServiceSet;
+			_lock = lock;
 		}
 
 		private final T _dummyTrackedService;
