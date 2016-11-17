@@ -111,22 +111,12 @@ public class ServiceProxyFactory {
 				serviceName, serviceTrackerCustomizer);
 		}
 		else {
-			StringBundler sb = new StringBundler(7);
+			StringBundler sb = new StringBundler(5);
 
 			sb.append("(&(objectClass=");
 			sb.append(serviceName);
 			sb.append(StringPool.CLOSE_PARENTHESIS);
-
-			if (!filterString.startsWith(StringPool.OPEN_PARENTHESIS)) {
-				sb.append(StringPool.OPEN_PARENTHESIS);
-			}
-
 			sb.append(filterString);
-
-			if (!filterString.endsWith(StringPool.CLOSE_PARENTHESIS)) {
-				sb.append(StringPool.CLOSE_PARENTHESIS);
-			}
-
 			sb.append(StringPool.CLOSE_PARENTHESIS);
 
 			Filter filter = registry.getFilter(sb.toString());

@@ -298,9 +298,6 @@ public class ServiceProxyFactoryTest {
 
 	@Test
 	public void testNonblockingProxyWithStringFilter() throws Exception {
-
-		// Test 1, with open parenthesis
-
 		TestService testService1 =
 			ServiceProxyFactory.newServiceTrackedInstance(
 				TestService.class, TestServiceClient.class, "testService",
@@ -323,34 +320,6 @@ public class ServiceProxyFactoryTest {
 				TestService.class, new TestServiceImpl(), properties);
 
 		TestService newTestService = TestServiceClient.testService;
-
-		Assert.assertEquals(
-			_TEST_SERVICE_NAME, newTestService.getTestServiceName());
-		Assert.assertEquals(
-			_TEST_SERVICE_ID, newTestService.getTestServiceId());
-
-		Assert.assertFalse(ProxyUtil.isProxyClass(newTestService.getClass()));
-		Assert.assertSame(TestServiceImpl.class, newTestService.getClass());
-
-		serviceRegistration.unregister();
-
-		// Test 2, without open parenthesis
-
-		TestService testService2 =
-			ServiceProxyFactory.newServiceTrackedInstance(
-				TestService.class, TestServiceClient.class, "testService",
-				"test.filter=true", false);
-
-		Assert.assertTrue(ProxyUtil.isProxyClass(testService2.getClass()));
-		Assert.assertNotSame(TestServiceImpl.class, testService2.getClass());
-
-		Assert.assertEquals(0, testService2.getTestServiceId());
-		Assert.assertEquals(null, testService2.getTestServiceName());
-
-		serviceRegistration = registry.registerService(
-			TestService.class, new TestServiceImpl(), properties);
-
-		newTestService = TestServiceClient.testService;
 
 		Assert.assertEquals(
 			_TEST_SERVICE_NAME, newTestService.getTestServiceName());
