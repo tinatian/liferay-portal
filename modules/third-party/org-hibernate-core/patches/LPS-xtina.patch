@@ -1,0 +1,33 @@
+diff --git a/org/hibernate/jdbc/Expectations.java b/org/hibernate/jdbc/Expectations.java
+index 45d093d..20540b2 100644
+--- a/org/hibernate/jdbc/Expectations.java
++++ b/org/hibernate/jdbc/Expectations.java
+@@ -67,11 +67,11 @@ public class Expectations {
+ 				checkNonBatched( rowCount );
+ 			}
+ 			else {
+-				checkBatched( rowCount, batchPosition );
++				checkBatched( rowCount, batchPosition, statement );
+ 			}
+ 		}
+ 
+-		private void checkBatched(int rowCount, int batchPosition) {
++		private void checkBatched(int rowCount, int batchPosition, PreparedStatement statement) {
+ 			if ( rowCount == -2 ) {
+ 				if ( log.isDebugEnabled() ) {
+ 					log.debug( "success of batch update unknown: " + batchPosition );
+@@ -83,7 +83,8 @@ public class Expectations {
+ 			else {
+ 				if ( expectedRowCount > rowCount ) {
+ 					throw new StaleStateException(
+-							"Batch update returned unexpected row count from update [" + batchPosition +
++							"While running statement : " + statement +
++							"   Batch update returned unexpected row count from update [" + batchPosition +
+ 							"]; actual row count: " + rowCount +
+ 							"; expected: " + expectedRowCount
+ 					);
+@@ -196,3 +197,4 @@ public class Expectations {
+ 	private Expectations() {
+ 	}
+ }
++/* @generated */
