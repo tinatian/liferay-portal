@@ -73,8 +73,7 @@ import java.util.Map;
  */
 public class ResourcePermissionDataFactory extends BaseDataFactory {
 
-	public ResourcePermissionDataFactory(InitContext initContext)
-		throws Exception {
+	public ResourcePermissionDataFactory(InitContext initContext) {
 
 		super(initContext);
 	}
