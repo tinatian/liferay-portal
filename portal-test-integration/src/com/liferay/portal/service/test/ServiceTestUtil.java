@@ -370,22 +370,7 @@ public class ServiceTestUtil {
 			portlet.setPortletId(portletId);
 			portlet.setPortletModes(new HashMap<String, Set<String>>());
 
-			List<String> portletActions =
-				ResourceActionsUtil.getPortletResourceActions(portletId);
-
-			ResourceActionLocalServiceUtil.checkResourceActions(
-				portletId, portletActions);
-
-			List<String> modelNames =
-				ResourceActionsUtil.getPortletModelResources(portletId);
-
-			for (String modelName : modelNames) {
-				List<String> modelActions =
-					ResourceActionsUtil.getModelResourceActions(modelName);
-
-				ResourceActionLocalServiceUtil.checkResourceActions(
-					modelName, modelActions);
-			}
+			ResourceActionsUtil.check(portletId);
 		}
 	}
 

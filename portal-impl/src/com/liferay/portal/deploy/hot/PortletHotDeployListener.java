@@ -280,26 +280,9 @@ public class PortletHotDeployListener extends BaseHotDeployListener {
 		processPortletProperties(servletContextName, classLoader);
 
 		for (Portlet portlet : portlets) {
-			List<String> modelNames =
-				ResourceActionsUtil.getPortletModelResources(
-					portlet.getPortletId());
-
-			List<String> portletActions =
-				ResourceActionsUtil.getPortletResourceActions(
-					portlet.getPortletId());
-
-			ResourceActionLocalServiceUtil.checkResourceActions(
-				portlet.getPortletId(), portletActions);
+			ResourceActionsUtil.check(portlet.getPortletId());
 
 			checkResourceBundles(classLoader, portlet);
-
-			for (String modelName : modelNames) {
-				List<String> modelActions =
-					ResourceActionsUtil.getModelResourceActions(modelName);
-
-				ResourceActionLocalServiceUtil.checkResourceActions(
-					modelName, modelActions);
-			}
 
 			for (long companyId : companyIds) {
 				Portlet curPortlet = PortletLocalServiceUtil.getPortletById(
@@ -499,13 +482,11 @@ public class PortletHotDeployListener extends BaseHotDeployListener {
 			return;
 		}
 
-		String[] resourceActionConfigs = StringUtil.split(
-			portletProperties.getProperty(PropsKeys.RESOURCE_ACTIONS_CONFIGS));
-
-		for (String resourceActionConfig : resourceActionConfigs) {
-			ResourceActionsUtil.read(
-				servletContextName, classLoader, resourceActionConfig);
-		}
+		ResourceActionsUtil.read(
+			servletContextName, classLoader,
+			StringUtil.split(
+				portletProperties.getProperty(
+					PropsKeys.RESOURCE_ACTIONS_CONFIGS)));
 	}
 
 	protected void unbindDataSource(String servletContextName) {
