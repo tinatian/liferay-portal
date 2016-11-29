@@ -33,9 +33,11 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.ModelResourceActionsBag;
 import com.liferay.portal.kernel.security.permission.PortletResourceActionsBag;
 import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.GroupServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
+import com.liferay.portal.kernel.service.ResourceActionLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CharPool;
@@ -654,6 +656,14 @@ public class ResourceActionsImpl implements ResourceActions {
 			String servletContextName, ClassLoader classLoader, String source)
 		throws Exception {
 
+		read(servletContextName, classLoader, source, new HashSet<>());
+	}
+
+	public void read(
+			String servletContextName, ClassLoader classLoader, String source,
+			Set<String> portletNames)
+		throws Exception {
+
 		InputStream inputStream = classLoader.getResourceAsStream(source);
 
 		if (inputStream == null) {
@@ -690,14 +700,25 @@ public class ResourceActionsImpl implements ResourceActions {
 		for (Element resourceElement : rootElement.elements("resource")) {
 			String file = resourceElement.attributeValue("file").trim();
 
-			read(servletContextName, classLoader, file);
+			read(servletContextName, classLoader, file, portletNames);
 
 			String extFile = StringUtil.replace(file, ".xml", "-ext.xml");
 
-			read(servletContextName, classLoader, extFile);
+			read(servletContextName, classLoader, extFile, portletNames);
 		}
 
-		read(servletContextName, document);
+		read(servletContextName, document, portletNames);
+	}
+
+	@Override
+	public void read(
+			String servletContextName, ClassLoader classLoader,
+			String[] sources)
+		throws Exception {
+
+		for (String source : sources) {
+			read(servletContextName, classLoader, source);
+		}
 	}
 
 	/**
@@ -710,7 +731,37 @@ public class ResourceActionsImpl implements ResourceActions {
 
 		Document document = UnsecureSAXReaderUtil.read(inputStream, true);
 
-		read(servletContextName, document);
+		read(servletContextName, document, new HashSet<>());
+	}
+
+	@Override
+	public void readAndCheck(
+			String servletContextName, ClassLoader classLoader,
+			String[] sources)
+		throws Exception {
+
+		Set<String> portletNames = new HashSet<>();
+
+		for (String source : sources) {
+			read(servletContextName, classLoader, source, portletNames);
+		}
+
+		for (String portletName : portletNames) {
+			List<String> modelNames = getPortletModelResources(portletName);
+
+			for (String modelName : modelNames) {
+				List<String> modelActions = getModelResourceActions(modelName);
+
+				ResourceActionLocalServiceUtil.checkResourceActions(
+					modelName, modelActions);
+			}
+
+			List<String> portletActions =
+				ResourceActionsUtil.getPortletResourceActions(portletName);
+
+			ResourceActionLocalServiceUtil.checkResourceActions(
+				portletName, portletActions);
+		}
 	}
 
 	protected void checkGuestUnsupportedActions(
@@ -863,6 +914,47 @@ public class ResourceActionsImpl implements ResourceActions {
 		}
 	}
 
+	protected List<String> getPortletIds(ClassLoader classLoader, String source)
+		throws Exception {
+
+		InputStream inputStream = classLoader.getResourceAsStream(source);
+
+		if (inputStream == null) {
+			return Collections.emptyList();
+		}
+
+		Document document = UnsecureSAXReaderUtil.read(inputStream, true);
+
+		Element rootElement = document.getRootElement();
+
+		List<String> portletIds = new ArrayList<>();
+
+		for (Element resourceElement : rootElement.elements("resource")) {
+			String file = resourceElement.attributeValue("file").trim();
+
+			portletIds.addAll(getPortletIds(classLoader, file));
+
+			String extFile = StringUtil.replace(file, ".xml", "-ext.xml");
+
+			portletIds.addAll(getPortletIds(classLoader, extFile));
+		}
+
+		for (Element modelResourceElement :
+				rootElement.elements("model-resource")) {
+
+			Element portletRefElement = modelResourceElement.element(
+				"portlet-ref");
+
+			for (Element portletNameElement :
+					portletRefElement.elements("portlet-name")) {
+
+				portletIds.add(portletNameElement.getTextTrim());
+			}
+		}
+
+		return portletIds;
+	}
+
 	protected Set<String> getPortletMimeTypeActions(String name) {
 		Set<String> actions = new LinkedHashSet<>();
 
@@ -1002,7 +1094,9 @@ public class ResourceActionsImpl implements ResourceActions {
 		return types;
 	}
 
-	protected void read(String servletContextName, Document document)
+	protected void read(
+			String servletContextName, Document document,
+			Set<String> portletNames)
 		throws Exception {
 
 		Element rootElement = document.getRootElement();
@@ -1018,7 +1112,8 @@ public class ResourceActionsImpl implements ResourceActions {
 		for (Element modelResourceElement :
 				rootElement.elements("model-resource")) {
 
-			readModelResource(servletContextName, modelResourceElement);
+			readModelResource(
+				servletContextName, modelResourceElement, portletNames);
 		}
 	}
 
@@ -1096,7 +1191,8 @@ public class ResourceActionsImpl implements ResourceActions {
 	}
 
 	protected void readModelResource(
-			String servletContextName, Element modelResourceElement)
+			String servletContextName, Element modelResourceElement,
+			Set<String> portletNames)
 		throws Exception {
 
 		String name = modelResourceElement.elementTextTrim("model-name");
@@ -1127,6 +1223,8 @@ public class ResourceActionsImpl implements ResourceActions {
 				portletRefElement.elements("portlet-name")) {
 
 			String portletName = portletNameElement.getTextTrim();
+
+			portletNames.add(portletName);
 
 			if (servletContextName != null) {
 				portletName = portletName.concat(
