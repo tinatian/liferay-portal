@@ -25,12 +25,13 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util._portal;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portlet.documentlibrary.util.DocumentConversionUtil;
 import com.liferay.wiki.constants.WikiPortletKeys;
@@ -111,9 +112,9 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 			editPageURL.setPortletMode(PortletMode.VIEW);
 			editPageURL.setWindowState(WindowState.MAXIMIZED);
 
-			HttpServletRequest request = PortalUtil.getHttpServletRequest(
+			HttpServletRequest request = _portal.getHttpServletRequest(
 				actionRequest);
-			HttpServletResponse response = PortalUtil.getHttpServletResponse(
+			HttpServletResponse response = _portal.getHttpServletResponse(
 				actionResponse);
 
 			getFile(
@@ -138,7 +139,7 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 				_log.error(sb.toString());
 			}
 
-			PortalUtil.sendError(e, actionRequest, actionResponse);
+			_portal.sendError(e, actionRequest, actionResponse);
 		}
 	}
 
@@ -238,6 +239,9 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ExportPageMVCActionCommand.class);
+
+	@Reference
+	private Portal _portal;
 
 	private WikiEngineRenderer _wikiEngineRenderer;
 	private WikiPageService _wikiPageService;

@@ -17,7 +17,7 @@ package com.liferay.mentions.web.internal.servlet.taglib;
 import com.liferay.portal.kernel.servlet.taglib.BaseDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -52,7 +52,7 @@ public class MentionsTopHeadDynamicInclude extends BaseDynamicInclude {
 
 		sb.append("<link href=\"");
 		sb.append(themeDisplay.getPortalURL());
-		sb.append(PortalUtil.getPathProxy());
+		sb.append(_portal.getPathProxy());
 		sb.append(_servletContext.getContextPath());
 		sb.append("/css/mentions.css\" rel=\"stylesheet\" type = ");
 		sb.append("\"text/css\" />");
@@ -64,6 +64,9 @@ public class MentionsTopHeadDynamicInclude extends BaseDynamicInclude {
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register("/html/common/themes/top_head.jsp#pre");
 	}
+
+	@Reference
+	private Portal _portal;
 
 	@Reference(target = "(osgi.web.symbolicname=com.liferay.mentions.web)")
 	private ServletContext _servletContext;
