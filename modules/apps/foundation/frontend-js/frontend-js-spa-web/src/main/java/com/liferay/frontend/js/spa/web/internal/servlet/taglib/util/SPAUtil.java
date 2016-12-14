@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -102,7 +102,7 @@ public class SPAUtil {
 	}
 
 	public String getLoginRedirect(HttpServletRequest request) {
-		String portletNamespace = PortalUtil.getPortletNamespace(
+		String portletNamespace = _portal.getPortletNamespace(
 			PropsUtil.get(PropsKeys.AUTH_LOGIN_PORTLET_NAME));
 
 		return ParamUtil.getString(request, portletNamespace + "redirect");
@@ -237,6 +237,10 @@ public class SPAUtil {
 	}
 
 	private ServiceTracker<Object, Object> _navigationExceptionSelectorTracker;
+
+	@Reference
+	private Portal _portal;
+
 	private PortletLocalService _portletLocalService;
 	private SPAConfiguration _spaConfiguration;
 
