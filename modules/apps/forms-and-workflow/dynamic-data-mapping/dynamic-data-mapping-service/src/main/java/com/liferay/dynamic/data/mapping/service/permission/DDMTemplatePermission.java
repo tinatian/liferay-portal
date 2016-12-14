@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.List;
@@ -263,7 +263,7 @@ public class DDMTemplatePermission extends BaseResourcePermissionChecker {
 		}
 
 		return ResourceActionsUtil.getCompositeModelName(
-			PortalUtil.getClassName(resourceClassNameId),
+			_portal.getClassName(resourceClassNameId),
 			DDMTemplate.class.getName());
 	}
 
@@ -326,5 +326,8 @@ public class DDMTemplatePermission extends BaseResourcePermissionChecker {
 
 	private static DDMPermissionSupportTracker _ddmPermissionSupportTracker;
 	private static DDMTemplateLocalService _ddmTemplateLocalService;
+
+	@Reference
+	private static Portal _portal;
 
 }

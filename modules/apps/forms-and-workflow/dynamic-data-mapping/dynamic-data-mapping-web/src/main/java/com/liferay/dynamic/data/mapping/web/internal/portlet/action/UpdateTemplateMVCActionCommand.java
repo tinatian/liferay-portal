@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 
 import java.io.File;
@@ -35,6 +35,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Leonardo Barros
@@ -69,7 +70,7 @@ public class UpdateTemplateMVCActionCommand
 		throws Exception {
 
 		UploadPortletRequest uploadPortletRequest =
-			PortalUtil.getUploadPortletRequest(actionRequest);
+			_portal.getUploadPortletRequest(actionRequest);
 
 		long templateId = ParamUtil.getLong(uploadPortletRequest, "templateId");
 
@@ -102,5 +103,8 @@ public class UpdateTemplateMVCActionCommand
 			script, cacheable, smallImage, smallImageURL, smallImageFile,
 			serviceContext);
 	}
+
+	@Reference
+	private static Portal _portal;
 
 }
