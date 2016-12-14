@@ -46,7 +46,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -154,6 +154,8 @@ import oasis.names.tc.wsrp.v2.types.UserContext;
 import oasis.names.tc.wsrp.v2.types.UserProfile;
 
 import org.apache.axis.message.MessageElement;
+
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan
@@ -293,9 +295,9 @@ public class ConsumerPortlet extends MVCPortlet {
 		WSRPGroupServiceConfiguration wsrpGroupServiceConfiguration =
 			WSRPConfigurationUtil.getWSRPConfiguration();
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = _portal.getHttpServletRequest(
 			resourceRequest);
-		HttpServletResponse response = PortalUtil.getHttpServletResponse(
+		HttpServletResponse response = _portal.getHttpServletResponse(
 			resourceResponse);
 
 		String resourceID = GetterUtil.getString(
@@ -1030,7 +1032,7 @@ public class ConsumerPortlet extends MVCPortlet {
 			UserContext userContext)
 		throws Exception {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = _portal.getHttpServletRequest(
 			actionRequest);
 
 		initContexts(
@@ -1091,7 +1093,7 @@ public class ConsumerPortlet extends MVCPortlet {
 
 		PortletSession portletSession = portletRequest.getPortletSession();
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = _portal.getHttpServletRequest(
 			portletRequest);
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
@@ -1303,7 +1305,7 @@ public class ConsumerPortlet extends MVCPortlet {
 			RuntimeContext runtimeContext, UserContext userContext)
 		throws Exception {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = _portal.getHttpServletRequest(
 			resourceRequest);
 
 		initContexts(
@@ -1566,7 +1568,7 @@ public class ConsumerPortlet extends MVCPortlet {
 		List<UploadContext> uploadContexts = new ArrayList<>();
 
 		UploadPortletRequest uploadPortletRequest =
-			PortalUtil.getUploadPortletRequest(portletRequest);
+			_portal.getUploadPortletRequest(portletRequest);
 
 		Enumeration<String> enu = uploadPortletRequest.getParameterNames();
 
@@ -2055,7 +2057,7 @@ public class ConsumerPortlet extends MVCPortlet {
 		WSRPGroupServiceConfiguration wsrpGroupServiceConfiguration =
 			WSRPConfigurationUtil.getWSRPConfiguration();
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = _portal.getHttpServletRequest(
 			portletRequest);
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
@@ -2172,6 +2174,9 @@ public class ConsumerPortlet extends MVCPortlet {
 
 	@ServiceReference(type = PhoneLocalService.class)
 	private PhoneLocalService _phoneLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	@ServiceReference(type = WebsiteLocalService.class)
 	private WebsiteLocalService _websiteLocalService;
