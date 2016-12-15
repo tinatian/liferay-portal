@@ -17,7 +17,7 @@ package com.liferay.dynamic.data.mapping.form.renderer.internal.servlet.taglib;
 import com.liferay.portal.kernel.servlet.taglib.BaseDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -52,7 +52,7 @@ public class DDMFormRendererTopHeadDynamicInclude extends BaseDynamicInclude {
 
 		sb.append("<link href=\"");
 		sb.append(themeDisplay.getPortalURL());
-		sb.append(PortalUtil.getPathProxy());
+		sb.append(_portal.getPathProxy());
 		sb.append(_servletContext.getContextPath());
 		sb.append("/css/main.css\" rel=\"stylesheet\" type = \"text/css\" />");
 
@@ -63,6 +63,9 @@ public class DDMFormRendererTopHeadDynamicInclude extends BaseDynamicInclude {
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register("/html/common/themes/top_head.jsp#pre");
 	}
+
+	@Reference
+	private Portal _portal;
 
 	@Reference(
 		target = "(osgi.web.symbolicname=com.liferay.dynamic.data.mapping.form.renderer)"
