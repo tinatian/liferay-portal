@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.security.auth.http.HttpAuthorizationHeader;
 import com.liferay.portal.kernel.security.auto.login.AutoLogin;
 import com.liferay.portal.kernel.security.auto.login.BaseAutoLogin;
 import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.security.auto.login.basic.auth.header.module.configuration.BasicAuthHeaderAutoLoginConfiguration;
 import com.liferay.portal.security.auto.login.internal.basic.auth.header.constants.BasicAuthHeaderAutoLoginConstants;
@@ -79,7 +79,7 @@ public class BasicAuthHeaderAutoLogin extends BaseAutoLogin {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = _portal.getCompanyId(request);
 
 		if (!isEnabled(companyId)) {
 			return null;
@@ -164,5 +164,8 @@ public class BasicAuthHeaderAutoLogin extends BaseAutoLogin {
 		BasicAuthHeaderAutoLogin.class);
 
 	private ConfigurationProvider _configurationProvider;
+
+	@Reference
+	private Portal _portal;
 
 }

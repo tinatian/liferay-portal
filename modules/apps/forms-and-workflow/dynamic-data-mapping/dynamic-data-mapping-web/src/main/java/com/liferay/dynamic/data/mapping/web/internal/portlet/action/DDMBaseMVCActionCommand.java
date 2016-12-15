@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.StrictPortletPreferencesImpl;
@@ -38,6 +38,8 @@ import java.util.Objects;
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
+
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Leonardo Barros
@@ -59,7 +61,7 @@ public abstract class DDMBaseMVCActionCommand extends BaseMVCActionCommand {
 
 		SessionMessages.add(
 			actionRequest,
-			PortalUtil.getPortletId(actionRequest) +
+			_portal.getPortletId(actionRequest) +
 				SessionMessages.KEY_SUFFIX_CLOSE_REDIRECT,
 			closeRedirect);
 
@@ -86,7 +88,7 @@ public abstract class DDMBaseMVCActionCommand extends BaseMVCActionCommand {
 		portletURL.setParameter(
 			"groupId", String.valueOf(structure.getGroupId()), false);
 
-		long classNameId = PortalUtil.getClassNameId(DDMStructure.class);
+		long classNameId = _portal.getClassNameId(DDMStructure.class);
 
 		portletURL.setParameter(
 			"classNameId", String.valueOf(classNameId), false);
@@ -237,5 +239,8 @@ public abstract class DDMBaseMVCActionCommand extends BaseMVCActionCommand {
 
 		portletPreferences.store();
 	}
+
+	@Reference
+	private static Portal _portal;
 
 }
