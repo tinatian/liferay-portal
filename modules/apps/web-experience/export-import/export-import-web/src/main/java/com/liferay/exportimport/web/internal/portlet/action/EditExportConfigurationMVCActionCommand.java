@@ -38,7 +38,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.ui.util.SessionTreeJSClicks;
@@ -76,7 +76,7 @@ public class EditExportConfigurationMVCActionCommand
 	protected void addSessionMessages(ActionRequest actionRequest)
 		throws Exception {
 
-		String portletId = PortalUtil.getPortletId(actionRequest);
+		String portletId = _portal.getPortletId(actionRequest);
 		long exportImportConfigurationId = ParamUtil.getLong(
 			actionRequest, "exportImportConfigurationId");
 
@@ -251,7 +251,7 @@ public class EditExportConfigurationMVCActionCommand
 	}
 
 	protected void setLayoutIdMap(ActionRequest actionRequest) {
-		HttpServletRequest portletRequest = PortalUtil.getHttpServletRequest(
+		HttpServletRequest portletRequest = _portal.getHttpServletRequest(
 			actionRequest);
 
 		long groupId = ParamUtil.getLong(actionRequest, "groupId");
@@ -300,6 +300,10 @@ public class EditExportConfigurationMVCActionCommand
 
 	private ExportImportConfigurationService _exportImportConfigurationService;
 	private ExportImportService _exportImportService;
+
+	@Reference
+	private Portal _portal;
+
 	private TrashEntryService _trashEntryService;
 
 }
