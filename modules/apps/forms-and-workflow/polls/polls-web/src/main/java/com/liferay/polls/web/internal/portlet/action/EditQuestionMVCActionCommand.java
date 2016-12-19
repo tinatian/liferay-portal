@@ -42,7 +42,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -108,7 +108,7 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 
 		SessionMessages.add(
 			portletRequest,
-			PortalUtil.getPortletId(portletRequest) +
+			_portal.getPortletId(portletRequest) +
 				SessionMessages.KEY_SUFFIX_REFRESH_PORTLET,
 			referringPortletResource);
 	}
@@ -148,7 +148,7 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 			WindowState windowState = actionRequest.getWindowState();
 
 			if (windowState.equals(LiferayWindowState.POP_UP)) {
-				String redirect = PortalUtil.escapeRedirect(
+				String redirect = _portal.escapeRedirect(
 					ParamUtil.getString(actionRequest, "redirect"));
 
 				if (Validator.isNotNull(redirect)) {
@@ -296,5 +296,8 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 	}
 
 	private PollsQuestionService _pollsQuestionService;
+
+	@Reference
+	private Portal _portal;
 
 }
