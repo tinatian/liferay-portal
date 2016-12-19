@@ -170,6 +170,6 @@ public class AddTemplateMVCActionCommand extends DDMBaseMVCActionCommand {
 	protected DDMTemplateService ddmTemplateService;
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 }
