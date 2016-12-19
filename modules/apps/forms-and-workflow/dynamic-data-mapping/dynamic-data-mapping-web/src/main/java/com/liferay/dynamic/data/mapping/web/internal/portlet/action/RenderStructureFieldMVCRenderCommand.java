@@ -144,7 +144,7 @@ public class RenderStructureFieldMVCRenderCommand
 	}
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDMFormFieldRendererRegistry _ddmFormFieldRendererRegistry;
 	private DDMFormJSONDeserializer _ddmFormJSONDeserializer;

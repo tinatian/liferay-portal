@@ -264,7 +264,7 @@ public class DDMTemplateHelperImpl implements DDMTemplateHelper {
 	private static final String _TEMPLATE_ID = "0";
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DDMStructureService _ddmStructureService;

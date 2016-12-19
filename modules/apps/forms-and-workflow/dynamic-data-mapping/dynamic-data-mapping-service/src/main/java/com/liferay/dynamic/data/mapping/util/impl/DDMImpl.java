@@ -1327,7 +1327,7 @@ public class DDMImpl implements DDM {
 	private static final Log _log = LogFactoryUtil.getLog(DDMImpl.class);
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDMFormJSONDeserializer _ddmFormJSONDeserializer;
 	private DDMFormJSONSerializer _ddmFormJSONSerializer;

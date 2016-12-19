@@ -53,6 +53,6 @@ public class RefreshTemplateMVCActionCommand extends BaseMVCActionCommand {
 	}
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 }

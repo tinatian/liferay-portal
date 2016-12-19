@@ -279,7 +279,7 @@ public class DefaultDDMStructureHelperImpl
 	}
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDM _ddm;
 	private DDMFormJSONDeserializer _ddmFormJSONDeserializer;

@@ -625,7 +625,7 @@ public class DDMStructureStagedModelDataHandler
 		DDMStructureStagedModelDataHandler.class);
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	@Reference
 	private DDMDataProviderInstanceLinkLocalService

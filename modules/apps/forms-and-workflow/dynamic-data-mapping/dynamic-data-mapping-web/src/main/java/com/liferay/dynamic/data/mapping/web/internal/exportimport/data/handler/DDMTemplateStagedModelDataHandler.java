@@ -511,7 +511,7 @@ public class DDMTemplateStagedModelDataHandler
 		DDMTemplateStagedModelDataHandler.class);
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DDMTemplateExportImportContentProcessor

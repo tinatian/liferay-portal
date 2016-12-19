@@ -105,6 +105,6 @@ public class UpdateTemplateMVCActionCommand
 	}
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 }

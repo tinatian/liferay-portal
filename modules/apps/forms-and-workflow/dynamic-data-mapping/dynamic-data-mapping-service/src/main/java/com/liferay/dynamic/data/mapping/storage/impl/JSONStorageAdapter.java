@@ -189,7 +189,7 @@ public class JSONStorageAdapter extends BaseStorageAdapter {
 	}
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDMContentLocalService _ddmContentLocalService;
 	private DDMFormValuesJSONDeserializer _ddmFormValuesJSONDeserializer;

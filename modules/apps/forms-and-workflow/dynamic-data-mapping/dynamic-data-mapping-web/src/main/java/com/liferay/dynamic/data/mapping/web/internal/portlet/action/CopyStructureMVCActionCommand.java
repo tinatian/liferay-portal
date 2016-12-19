@@ -162,7 +162,7 @@ public class CopyStructureMVCActionCommand extends DDMBaseMVCActionCommand {
 	}
 
 	@Reference
-	private static Portal _portal;
+	private Portal _portal;
 
 	private DDMStructureService _ddmStructureService;
 	private DDMTemplateService _ddmTemplateService;
