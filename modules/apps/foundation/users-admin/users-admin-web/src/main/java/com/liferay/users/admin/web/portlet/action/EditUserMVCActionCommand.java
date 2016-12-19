@@ -245,7 +245,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 	}
 
 	protected void deleteRole(ActionRequest actionRequest) throws Exception {
-		User user = _portal.getSelectedUser(actionRequest);
+		User user = portal.getSelectedUser(actionRequest);
 
 		long roleId = ParamUtil.getLong(actionRequest, "roleId");
 
@@ -456,11 +456,11 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 				if (e instanceof CompanyMaxUsersException ||
 					e instanceof RequiredUserException || submittedPassword) {
 
-					String redirect = _portal.escapeRedirect(
+					String redirect = portal.escapeRedirect(
 						ParamUtil.getString(actionRequest, "redirect"));
 
 					if (submittedPassword) {
-						User user = _portal.getSelectedUser(actionRequest);
+						User user = portal.getSelectedUser(actionRequest);
 
 						redirect = HttpUtil.setParameter(
 							redirect, actionResponse.getNamespace() + "p_u_i_d",
@@ -567,7 +567,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 	}
 
 	protected User updateLockout(ActionRequest actionRequest) throws Exception {
-		User user = _portal.getSelectedUser(actionRequest);
+		User user = portal.getSelectedUser(actionRequest);
 
 		_userService.updateLockoutById(user.getUserId(), false);
 
@@ -581,7 +581,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		User user = _portal.getSelectedUser(actionRequest);
+		User user = portal.getSelectedUser(actionRequest);
 
 		Contact contact = user.getContact();
 
@@ -731,9 +731,9 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 
 			// Reset the locale
 
-			HttpServletRequest request = _portal.getOriginalServletRequest(
-				_portal.getHttpServletRequest(actionRequest));
-			HttpServletResponse response = _portal.getHttpServletResponse(
+			HttpServletRequest request = portal.getOriginalServletRequest(
+				portal.getHttpServletRequest(actionRequest));
+			HttpServletResponse response = portal.getHttpServletResponse(
 				actionResponse);
 			HttpSession session = request.getSession();
 
@@ -804,7 +804,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			}
 		}
 
-		Company company = _portal.getCompany(actionRequest);
+		Company company = portal.getCompany(actionRequest);
 
 		if (company.isStrangersVerify() &&
 			!StringUtil.equalsIgnoreCase(oldEmailAddress, emailAddress)) {
@@ -815,16 +815,15 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 		return new Object[] {user, oldScreenName, updateLanguageId};
 	}
 
+	@Reference
+	protected Portal portal;
+
 	protected UserLocalService userLocalService;
 
 	private AnnouncementsDeliveryLocalService
 		_announcementsDeliveryLocalService;
 	private DLAppLocalService _dlAppLocalService;
 	private ListTypeLocalService _listTypeLocalService;
-
-	@Reference
-	private Portal _portal;
-
 	private UserService _userService;
 
 }

@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.Authenticator;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.HashMap;
@@ -31,7 +30,6 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan
@@ -68,14 +66,14 @@ public class EditUserMVCActionCommand
 		String currentPassword = actionRequest.getParameter("password0");
 		String newPassword = actionRequest.getParameter("password1");
 
-		User user = _portal.getSelectedUser(actionRequest);
+		User user = portal.getSelectedUser(actionRequest);
 
 		if (Validator.isNotNull(currentPassword)) {
 			if (Validator.isNull(newPassword)) {
 				throw new UserPasswordException.MustNotBeNull(user.getUserId());
 			}
 
-			Company company = _portal.getCompany(actionRequest);
+			Company company = portal.getCompany(actionRequest);
 
 			String authType = company.getAuthType();
 
@@ -112,8 +110,5 @@ public class EditUserMVCActionCommand
 
 		return super.updateUser(actionRequest, actionResponse);
 	}
-
-	@Reference
-	private Portal _portal;
 
 }
