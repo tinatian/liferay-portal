@@ -61,7 +61,7 @@ public class AddTemplateMVCActionCommand extends DDMBaseMVCActionCommand {
 		throws Exception {
 
 		UploadPortletRequest uploadPortletRequest =
-			_portal.getUploadPortletRequest(actionRequest);
+			portal.getUploadPortletRequest(actionRequest);
 
 		long groupId = ParamUtil.getLong(uploadPortletRequest, "groupId");
 		long classNameId = ParamUtil.getLong(
@@ -170,6 +170,6 @@ public class AddTemplateMVCActionCommand extends DDMBaseMVCActionCommand {
 	protected DDMTemplateService ddmTemplateService;
 
 	@Reference
-	private Portal _portal;
+	protected Portal portal;
 
 }

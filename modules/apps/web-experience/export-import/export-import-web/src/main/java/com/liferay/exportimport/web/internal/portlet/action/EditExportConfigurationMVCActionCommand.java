@@ -76,7 +76,7 @@ public class EditExportConfigurationMVCActionCommand
 	protected void addSessionMessages(ActionRequest actionRequest)
 		throws Exception {
 
-		String portletId = _portal.getPortletId(actionRequest);
+		String portletId = portal.getPortletId(actionRequest);
 		long exportImportConfigurationId = ParamUtil.getLong(
 			actionRequest, "exportImportConfigurationId");
 
@@ -251,7 +251,7 @@ public class EditExportConfigurationMVCActionCommand
 	}
 
 	protected void setLayoutIdMap(ActionRequest actionRequest) {
-		HttpServletRequest portletRequest = _portal.getHttpServletRequest(
+		HttpServletRequest portletRequest = portal.getHttpServletRequest(
 			actionRequest);
 
 		long groupId = ParamUtil.getLong(actionRequest, "groupId");
@@ -295,15 +295,14 @@ public class EditExportConfigurationMVCActionCommand
 	protected ExportImportConfigurationLocalService
 		exportImportConfigurationLocalService;
 
+	@Reference
+	protected Portal portal;
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditExportConfigurationMVCActionCommand.class);
 
 	private ExportImportConfigurationService _exportImportConfigurationService;
 	private ExportImportService _exportImportService;
-
-	@Reference
-	private Portal _portal;
-
 	private TrashEntryService _trashEntryService;
 
 }
