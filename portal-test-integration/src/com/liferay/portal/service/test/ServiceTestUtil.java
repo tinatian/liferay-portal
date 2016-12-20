@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -224,6 +225,11 @@ public class ServiceTestUtil {
 	}
 
 	public static void initStaticServices() {
+		Registry registry = RegistryUtil.getRegistry();
+
+		// PortalUtil
+
+		registry.registerService(Portal.class, PortalUtil.getPortal());
 
 		// Indexers
 
@@ -267,8 +273,6 @@ public class ServiceTestUtil {
 		}
 
 		// Shutdown
-
-		Registry registry = RegistryUtil.getRegistry();
 
 		HashMap<String, Object> messageBusProperties = new HashMap<>();
 
