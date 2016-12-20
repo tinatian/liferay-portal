@@ -358,6 +358,12 @@ public class DDMTemplatePersistenceTest {
 	}
 
 	@Test
+	public void testCountByG_C_TArrayable() throws Exception {
+		_persistence.countByG_C_T(new long[] { RandomTestUtil.nextLong(), 0L },
+			RandomTestUtil.nextLong(), RandomTestUtil.randomString());
+	}
+
+	@Test
 	public void testCountByC_C_T() throws Exception {
 		_persistence.countByC_C_T(RandomTestUtil.nextLong(),
 			RandomTestUtil.nextLong(), StringPool.BLANK);
