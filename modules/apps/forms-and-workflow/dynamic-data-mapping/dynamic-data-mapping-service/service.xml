@@ -400,8 +400,8 @@
 			<finder-column name="classNameId" />
 			<finder-column name="classPK" />
 		</finder>
-		<finder name="G_C_T" return-type="DDMTemplate" unique="true">
-			<finder-column name="groupId" />
+		<finder name="G_C_T" return-type="Collection" unique="true">
+			<finder-column arrayable-operator="OR" name="groupId" />
 			<finder-column name="classNameId" />
 			<finder-column name="templateKey" />
 		</finder>
