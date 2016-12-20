@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.security.permission.BaseResourcePermissionCheck
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Map;
@@ -202,7 +202,7 @@ public class DDMStructurePermission extends BaseResourcePermissionChecker {
 		}
 
 		return ResourceActionsUtil.getCompositeModelName(
-			PortalUtil.getClassName(classNameId), DDMStructure.class.getName());
+			_portal.getClassName(classNameId), DDMStructure.class.getName());
 	}
 
 	@Override
@@ -264,5 +264,8 @@ public class DDMStructurePermission extends BaseResourcePermissionChecker {
 
 	private static DDMPermissionSupportTracker _ddmPermissionSupportTracker;
 	private static DDMStructureLocalService _ddmStructureLocalService;
+
+	@Reference
+	private static Portal _portal;
 
 }

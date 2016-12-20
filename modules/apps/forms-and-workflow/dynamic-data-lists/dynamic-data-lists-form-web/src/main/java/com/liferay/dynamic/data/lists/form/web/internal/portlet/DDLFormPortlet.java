@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
@@ -88,7 +88,7 @@ public class DDLFormPortlet extends MVCPortlet {
 			super.processAction(actionRequest, actionResponse);
 		}
 		catch (Exception e) {
-			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
+			_portal.copyRequestParameters(actionRequest, actionResponse);
 
 			Throwable cause = getRootCause(e);
 
@@ -201,6 +201,9 @@ public class DDLFormPortlet extends MVCPortlet {
 
 	@Reference
 	private DDMFormValuesFactory _ddmFormValuesFactory;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private WorkflowDefinitionLinkLocalService
