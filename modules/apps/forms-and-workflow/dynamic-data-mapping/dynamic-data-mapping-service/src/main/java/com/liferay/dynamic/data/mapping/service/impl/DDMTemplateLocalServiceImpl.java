@@ -62,6 +62,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -532,25 +533,48 @@ public class DDMTemplateLocalServiceImpl
 
 		templateKey = StringUtil.toUpperCase(templateKey.trim());
 
-		DDMTemplate template = ddmTemplatePersistence.fetchByG_C_T(
-			groupId, classNameId, templateKey);
-
-		if (template != null) {
-			return template;
+		if (!includeAncestorTemplates) {
+			return ddmTemplatePersistence.fetchByG_C_T(
+				groupId, classNameId, templateKey);
 		}
 
-		if (!includeAncestorTemplates) {
+		long[] ancestorSiteGroupIds = PortalUtil.getAncestorSiteGroupIds(
+			groupId);
+
+		if (ancestorSiteGroupIds.length == 0) {
+			return ddmTemplatePersistence.fetchByG_C_T(
+				groupId, classNameId, templateKey);
+		}
+
+		long[] groupIds = new long[ancestorSiteGroupIds.length + 1];
+
+		groupIds[0] = groupId;
+
+		System.arraycopy(
+			ancestorSiteGroupIds, 0, groupIds, 1, ancestorSiteGroupIds.length);
+
+		List<DDMTemplate> ddmTemplates = ddmTemplatePersistence.findByG_C_T(
+			groupIds, classNameId, templateKey);
+
+		if (ddmTemplates.isEmpty()) {
 			return null;
 		}
 
-		for (long ancestorSiteGroupId :
-				PortalUtil.getAncestorSiteGroupIds(groupId)) {
+		if (ddmTemplates.size() == 1) {
+			return ddmTemplates.get(0);
+		}
 
-			template = ddmTemplatePersistence.fetchByG_C_T(
-				ancestorSiteGroupId, classNameId, templateKey);
+		Map<Long, DDMTemplate> ddmTemplateMap = new HashMap<>();
 
-			if (template != null) {
-				return template;
+		for (DDMTemplate ddmTemplate : ddmTemplates) {
+			ddmTemplateMap.put(ddmTemplate.getGroupId(), ddmTemplate);
+		}
+
+		for (int i = 0; i < groupIds.length; i++) {
+			DDMTemplate ddmTemplate = ddmTemplateMap.get(groupIds[i]);
+
+			if (ddmTemplate != null) {
+				return ddmTemplate;
 			}
 		}
 
