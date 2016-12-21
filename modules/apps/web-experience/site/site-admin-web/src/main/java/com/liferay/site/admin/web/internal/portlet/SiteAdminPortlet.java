@@ -942,7 +942,7 @@ public class SiteAdminPortlet extends MVCPortlet {
 			Propagation.REQUIRED, new Class<?>[] {Exception.class});
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 	private class GroupCallable implements Callable<Group> {
 

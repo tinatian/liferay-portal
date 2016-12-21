@@ -738,6 +738,6 @@ public class AssetPublisherConfigurationAction
 	protected AssetPublisherCustomizerRegistry assetPublisherCustomizerRegistry;
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 }

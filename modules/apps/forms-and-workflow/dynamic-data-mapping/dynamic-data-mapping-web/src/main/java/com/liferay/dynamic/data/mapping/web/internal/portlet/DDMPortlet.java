@@ -300,7 +300,7 @@ public class DDMPortlet extends MVCPortlet {
 	private static final Log _log = LogFactoryUtil.getLog(DDMPortlet.class);
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 	private DDMDisplayRegistry _ddmDisplayRegistry;
 	private DDMTemplateHelper _ddmTemplateHelper;

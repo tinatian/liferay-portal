@@ -181,8 +181,12 @@ public class ThemeContributorDynamicInclude implements DynamicInclude {
 		_jsResourceURLs = jsResourceURLs;
 	}
 
-	@Reference
-	private static Portal _portal;
+	@Reference(unbind = "-")
+	protected void setPortal(Portal portal) {
+		_portal = portal;
+	}
+	
+	protected static Portal _portal;
 
 	private BundleContext _bundleContext;
 	private final Collection<ServiceReference<BundleWebResources>>
