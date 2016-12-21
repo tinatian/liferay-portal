@@ -298,6 +298,6 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 	private PollsQuestionService _pollsQuestionService;
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 }

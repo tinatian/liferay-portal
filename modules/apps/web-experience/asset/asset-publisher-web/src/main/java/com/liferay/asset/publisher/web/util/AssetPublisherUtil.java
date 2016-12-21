@@ -2055,8 +2055,12 @@ public class AssetPublisherUtil {
 	private static GroupLocalService _groupLocalService;
 	private static LayoutLocalService _layoutLocalService;
 
-	@Reference
-	private static Portal _portal;
+	@Reference(unbind = "-")
+	protected void setPortal(Portal portal) {
+		_portal = portal;
+	}
+
+	protected static Portal _portal;
 
 	private static PortletPreferencesLocalService
 		_portletPreferencesLocalService;

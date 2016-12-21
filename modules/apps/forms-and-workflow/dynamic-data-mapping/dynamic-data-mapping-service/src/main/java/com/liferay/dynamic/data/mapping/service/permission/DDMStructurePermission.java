@@ -265,7 +265,11 @@ public class DDMStructurePermission extends BaseResourcePermissionChecker {
 	private static DDMPermissionSupportTracker _ddmPermissionSupportTracker;
 	private static DDMStructureLocalService _ddmStructureLocalService;
 
-	@Reference
-	private static Portal _portal;
+	@Reference(unbind = "-")
+	protected void setPortal(Portal portal) {
+		_portal = portal;
+	}
+
+	protected static Portal _portal;
 
 }

@@ -148,6 +148,6 @@ public class AssetPublisherPortletDisplayTemplateHandler
 	}
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 }

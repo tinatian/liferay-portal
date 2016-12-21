@@ -312,6 +312,6 @@ public class AssetPublisherPortlet extends MVCPortlet {
 	protected AssetPublisherCustomizerRegistry assetPublisherCustomizerRegistry;
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 }

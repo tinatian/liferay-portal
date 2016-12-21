@@ -1259,6 +1259,6 @@ public class ContactsCenterPortlet extends MVCPortlet {
 		ContactsCenterPortlet.class);
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 }

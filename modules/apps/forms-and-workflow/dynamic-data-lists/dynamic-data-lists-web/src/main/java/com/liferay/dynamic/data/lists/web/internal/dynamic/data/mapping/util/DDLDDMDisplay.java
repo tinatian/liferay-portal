@@ -73,6 +73,6 @@ public class DDLDDMDisplay extends BaseDDMDisplay {
 	}
 
 	@Reference
-	private Portal _portal;
+	protected Portal _portal;
 
 }
