@@ -38,7 +38,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
@@ -197,9 +197,9 @@ public class AssetPublisherPortlet extends MVCPortlet {
 		boolean enableRss = GetterUtil.getBoolean(
 			portletPreferences.getValue("enableRss", null));
 
-		if (!PortalUtil.isRSSFeedsEnabled() || !enableRss) {
+		if (!_portal.isRSSFeedsEnabled() || !enableRss) {
 			try {
-				PortalUtil.sendRSSFeedsDisabledError(
+				_portal.sendRSSFeedsDisabledError(
 					resourceRequest, resourceResponse);
 			}
 			catch (ServletException se) {
@@ -272,7 +272,7 @@ public class AssetPublisherPortlet extends MVCPortlet {
 
 		try {
 			String rootPortletId = PortletConstants.getRootPortletId(
-				PortalUtil.getPortletId(renderRequest));
+				_portal.getPortletId(renderRequest));
 
 				AssetPublisherCustomizer assetPublisherCustomizer =
 					assetPublisherCustomizerRegistry.
@@ -310,5 +310,8 @@ public class AssetPublisherPortlet extends MVCPortlet {
 
 	@Reference
 	protected AssetPublisherCustomizerRegistry assetPublisherCustomizerRegistry;
+
+	@Reference
+	protected Portal _portal;
 
 }
