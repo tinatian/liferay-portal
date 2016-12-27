@@ -322,7 +322,7 @@ public class DDMTemplatePermission extends BaseResourcePermissionChecker {
 	}
 
 	@Reference
-	protected Portal portal;
+	protected static Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMTemplatePermission.class);

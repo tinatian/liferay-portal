@@ -1744,7 +1744,7 @@ public class AssetPublisherUtil {
 	}
 
 	@Reference
-	protected Portal portal;
+	protected static Portal portal;
 
 	private static List<AssetEntry> _filterAssetCategoriesAssetEntries(
 		List<AssetEntry> assetEntries, long[] assetCategoryIds) {

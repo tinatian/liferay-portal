@@ -133,7 +133,7 @@ public class ThemeContributorDynamicInclude implements DynamicInclude {
 	}
 
 	@Reference
-	protected Portal portal;
+	protected static Portal portal;
 
 	private static PortalResourceURLRenderer _create(
 		boolean combo, final String minifierType,
