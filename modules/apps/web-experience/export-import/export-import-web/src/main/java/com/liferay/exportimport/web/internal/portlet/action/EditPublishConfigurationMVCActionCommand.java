@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -275,9 +274,6 @@ public class EditPublishConfigurationMVCActionCommand
 			}
 		}
 	}
-
-	@Reference
-	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditPublishConfigurationMVCActionCommand.class);

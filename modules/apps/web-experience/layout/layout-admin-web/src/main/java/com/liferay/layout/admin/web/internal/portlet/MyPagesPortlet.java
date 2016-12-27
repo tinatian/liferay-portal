@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.servlet.DynamicServletRequest;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portlet.RenderRequestImpl;
 import com.liferay.portlet.sites.action.ActionUtil;
 
@@ -97,9 +96,6 @@ public class MyPagesPortlet extends LayoutAdminPortlet {
 	protected void setRoleLocalService(RoleLocalService roleLocalService) {
 		_roleLocalService = roleLocalService;
 	}
-
-	@Reference
-	protected Portal portal;
 
 	private RoleLocalService _roleLocalService;
 

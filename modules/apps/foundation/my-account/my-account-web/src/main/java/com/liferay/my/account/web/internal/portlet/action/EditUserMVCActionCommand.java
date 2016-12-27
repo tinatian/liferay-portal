@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.Authenticator;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.HashMap;
@@ -111,8 +110,5 @@ public class EditUserMVCActionCommand
 
 		return super.updateUser(actionRequest, actionResponse);
 	}
-
-	@Reference
-	protected Portal portal;
 
 }
