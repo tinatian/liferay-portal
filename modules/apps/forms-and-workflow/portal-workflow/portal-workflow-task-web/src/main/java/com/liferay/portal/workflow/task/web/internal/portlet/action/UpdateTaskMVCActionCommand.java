@@ -17,7 +17,7 @@ package com.liferay.portal.workflow.task.web.internal.portlet.action;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowTaskDueDateException;
@@ -70,7 +70,7 @@ public class UpdateTaskMVCActionCommand
 			dueDateHour += 12;
 		}
 
-		Date dueDate = PortalUtil.getDate(
+		Date dueDate = portal.getDate(
 			dueDateMonth, dueDateDay, dueDateYear, dueDateHour, dueDateMinute,
 			WorkflowTaskDueDateException.class);
 
@@ -78,5 +78,8 @@ public class UpdateTaskMVCActionCommand
 			themeDisplay.getCompanyId(), themeDisplay.getUserId(),
 			workflowTaskId, comment, dueDate);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

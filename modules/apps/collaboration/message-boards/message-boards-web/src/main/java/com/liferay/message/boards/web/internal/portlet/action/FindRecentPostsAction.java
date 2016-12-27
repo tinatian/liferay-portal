@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.struts.BaseStrutsAction;
 import com.liferay.portal.kernel.struts.StrutsAction;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
@@ -66,10 +66,13 @@ public class FindRecentPostsAction extends BaseStrutsAction {
 			return null;
 		}
 		catch (Exception e) {
-			PortalUtil.sendError(e, request, response);
+			portal.sendError(e, request, response);
 
 			return null;
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

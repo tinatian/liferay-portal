@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.HttpUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
@@ -120,7 +120,7 @@ public class LegacyPortletPanelAppHotDeployListener
 			return portletName;
 		}
 
-		return PortalUtil.getJsSafePortletId(
+		return portal.getJsSafePortletId(
 			portletName + PortletConstants.WAR_SEPARATOR + servletContextName);
 	}
 
@@ -185,6 +185,9 @@ public class LegacyPortletPanelAppHotDeployListener
 
 		return propertiesList;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private BundleContext _bundleContext;
 	private final Map<String, ServiceRegistration<PanelApp>>

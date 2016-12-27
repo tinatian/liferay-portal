@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -94,8 +94,7 @@ public class DDMFormValuesFactoryImpl implements DDMFormValuesFactory {
 	public DDMFormValues create(
 		PortletRequest portletRequest, DDMForm ddmForm) {
 
-		return create(
-			PortalUtil.getHttpServletRequest(portletRequest), ddmForm);
+		return create(portal.getHttpServletRequest(portletRequest), ddmForm);
 	}
 
 	@Activate
@@ -545,10 +544,10 @@ public class DDMFormValuesFactoryImpl implements DDMFormValuesFactory {
 	protected String getPortletNamespace(
 		HttpServletRequest httpServletRequest) {
 
-		String portletId = PortalUtil.getPortletId(httpServletRequest);
+		String portletId = portal.getPortletId(httpServletRequest);
 
 		if (Validator.isNotNull(portletId)) {
-			return PortalUtil.getPortletNamespace(portletId);
+			return portal.getPortletNamespace(portletId);
 		}
 
 		return StringPool.BLANK;
@@ -708,6 +707,9 @@ public class DDMFormValuesFactoryImpl implements DDMFormValuesFactory {
 			i = parentNestedDDMFormFieldValues.size();
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final int _DDM_FORM_FIELD_INDEX_INDEX = 2;
 

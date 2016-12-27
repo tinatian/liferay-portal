@@ -20,7 +20,7 @@ import com.liferay.knowledge.base.web.internal.constants.KBWebKeys;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -53,7 +53,7 @@ public class HistoryKBArticlePortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, KBPortletKeys.KNOWLEDGE_BASE_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -93,5 +93,8 @@ public class HistoryKBArticlePortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

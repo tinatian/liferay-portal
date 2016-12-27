@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.ActionRequest;
@@ -58,7 +58,7 @@ public class CancelCheckoutFileEntryPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, DLPortletKeys.DOCUMENT_LIBRARY_ADMIN,
 			PortletRequest.ACTION_PHASE);
 
@@ -113,5 +113,8 @@ public class CancelCheckoutFileEntryPortletConfigurationIcon
 	public boolean isToolTip() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

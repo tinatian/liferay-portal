@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -55,7 +55,7 @@ public class ExportTemplatesConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, ExportImportPortletKeys.EXPORT,
 			PortletRequest.RENDER_PHASE);
 
@@ -97,5 +97,8 @@ public class ExportTemplatesConfigurationIcon
 	public boolean isUseDialog() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

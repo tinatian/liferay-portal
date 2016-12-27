@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.service.ThemeLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ColorSchemeFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -51,7 +51,7 @@ public class ThemeModificationActionHandler implements ActionHandler {
 		MDRAction mdrAction, HttpServletRequest request,
 		HttpServletResponse response) {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		UnicodeProperties typeSettingsProperties =
 			mdrAction.getTypeSettingsProperties();
@@ -98,6 +98,9 @@ public class ThemeModificationActionHandler implements ActionHandler {
 	public void setThemeLocalService(ThemeLocalService themeLocalService) {
 		_themeLocalService = themeLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Collection<String> _propertyNames =
 		Collections.unmodifiableCollection(

@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.wiki.constants.WikiPortletKeys;
 
@@ -84,7 +84,7 @@ public class WikiCreoleAutoCompleteEditorConfigContributor
 
 		String source =
 			autoCompletePageTitleURL.toString() + "&" +
-				PortalUtil.getPortletNamespace(portletDisplay.getId());
+				portal.getPortletNamespace(portletDisplay.getId());
 
 		triggerJSONObject.put("source", source);
 
@@ -111,5 +111,8 @@ public class WikiCreoleAutoCompleteEditorConfigContributor
 
 		jsonObject.put("extraPlugins", extraPlugins);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

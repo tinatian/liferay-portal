@@ -17,7 +17,7 @@ package com.liferay.asset.publisher.web.internal.portlet.filter;
 import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
 import com.liferay.portal.kernel.servlet.DynamicServletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.RenderParametersPool;
 
@@ -62,8 +62,8 @@ public class RelatedAssetsRenderParametersPortletFilter
 			FilterChain filterChain)
 		throws IOException, PortletException {
 
-		HttpServletRequest httpServletRequest =
-			PortalUtil.getHttpServletRequest(renderRequest);
+		HttpServletRequest httpServletRequest = portal.getHttpServletRequest(
+			renderRequest);
 
 		if (httpServletRequest.getAttribute(WebKeys.LAYOUT_ASSET_ENTRY) ==
 				null) {
@@ -114,10 +114,13 @@ public class RelatedAssetsRenderParametersPortletFilter
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		String portletId = PortalUtil.getPortletId(renderRequest);
+		String portletId = portal.getPortletId(renderRequest);
 
 		RenderParametersPool.clear(
 			httpServletRequest, themeDisplay.getPlid(), portletId);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

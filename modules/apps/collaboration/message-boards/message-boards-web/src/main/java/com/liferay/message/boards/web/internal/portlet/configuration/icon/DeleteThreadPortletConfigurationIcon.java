@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.messageboards.service.permission.MBMessagePermission;
 import com.liferay.trash.kernel.util.TrashUtil;
@@ -72,7 +72,7 @@ public class DeleteThreadPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL deleteURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL deleteURL = portal.getControlPanelPortletURL(
 			portletRequest, MBPortletKeys.MESSAGE_BOARDS_ADMIN,
 			PortletRequest.ACTION_PHASE);
 
@@ -175,5 +175,8 @@ public class DeleteThreadPortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

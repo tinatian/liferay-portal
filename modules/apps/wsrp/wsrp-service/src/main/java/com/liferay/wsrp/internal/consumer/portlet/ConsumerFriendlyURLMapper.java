@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.portlet.FriendlyURLMapper;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.wsrp.constants.WSRPPortletKeys;
 
@@ -134,8 +134,7 @@ public class ConsumerFriendlyURLMapper extends BaseFriendlyURLMapper {
 			friendlyURLPath.substring(pos4 + 1, pos5));
 
 		String name =
-			PortalUtil.getPortletNamespace(portletId) +
-				"wsrp-navigationalState";
+			portal.getPortletNamespace(portletId) + "wsrp-navigationalState";
 
 		addParameter(parameterMap, name, friendlyURLPath.substring(pos5 + 1));
 	}
@@ -160,6 +159,9 @@ public class ConsumerFriendlyURLMapper extends BaseFriendlyURLMapper {
 		sb.append(StringPool.SLASH);
 		sb.append(GetterUtil.get(HttpUtil.encodeURL(value), StringPool.DASH));
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _MAPPING = "consumer";
 

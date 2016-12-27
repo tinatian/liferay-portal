@@ -18,7 +18,7 @@ import com.liferay.google.maps.web.internal.constants.GoogleMapsPortletKeys;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -50,15 +50,18 @@ public class GoogleMapsConfigurationAction extends DefaultConfigurationAction {
 		PortletSession portletSession = actionRequest.getPortletSession();
 
 		portletSession.removeAttribute(
-			PortalUtil.getPortletNamespace(portletResource) + "mapAddress",
+			portal.getPortletNamespace(portletResource) + "mapAddress",
 			PortletSession.APPLICATION_SCOPE);
 
 		portletSession.removeAttribute(
-			PortalUtil.getPortletNamespace(portletResource) +
+			portal.getPortletNamespace(portletResource) +
 				"directionsAddress",
 			PortletSession.APPLICATION_SCOPE);
 
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

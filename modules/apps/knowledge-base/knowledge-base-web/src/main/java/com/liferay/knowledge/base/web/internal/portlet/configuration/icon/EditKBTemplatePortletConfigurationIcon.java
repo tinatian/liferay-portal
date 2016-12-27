@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigura
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -57,13 +57,13 @@ public class EditKBTemplatePortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, KBPortletKeys.KNOWLEDGE_BASE_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter("mvcPath", "/admin/edit_template.jsp");
 		portletURL.setParameter(
-			"redirect", PortalUtil.getCurrentURL(portletRequest));
+			"redirect", portal.getCurrentURL(portletRequest));
 
 		KBTemplate kbTemplate = (KBTemplate)portletRequest.getAttribute(
 			KBWebKeys.KNOWLEDGE_BASE_KB_TEMPLATE);
@@ -98,5 +98,8 @@ public class EditKBTemplatePortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

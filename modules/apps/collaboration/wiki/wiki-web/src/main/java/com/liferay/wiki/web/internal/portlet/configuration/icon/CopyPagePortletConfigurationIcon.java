@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.wiki.constants.WikiPortletKeys;
@@ -64,7 +64,7 @@ public class CopyPagePortletConfigurationIcon
 		try {
 			WikiPage page = ActionUtil.getPage(portletRequest);
 
-			PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+			PortletURL portletURL = portal.getControlPanelPortletURL(
 				portletRequest, WikiPortletKeys.WIKI_ADMIN,
 				PortletRequest.RENDER_PHASE);
 
@@ -114,5 +114,8 @@ public class CopyPagePortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

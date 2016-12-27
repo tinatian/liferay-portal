@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigura
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -55,7 +55,7 @@ public class EditFileEntryPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, DLPortletKeys.DOCUMENT_LIBRARY_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -109,5 +109,8 @@ public class EditFileEntryPortletConfigurationIcon
 	public boolean isToolTip() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

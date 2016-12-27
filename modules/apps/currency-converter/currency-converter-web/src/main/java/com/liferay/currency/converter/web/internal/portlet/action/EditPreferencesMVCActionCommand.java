@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import javax.portlet.ActionRequest;
@@ -80,12 +80,15 @@ public class EditPreferencesMVCActionCommand implements MVCActionCommand {
 
 		SessionMessages.add(
 			actionRequest,
-			PortalUtil.getPortletId(actionRequest) +
+			portal.getPortletId(actionRequest) +
 				SessionMessages.KEY_SUFFIX_UPDATED_PREFERENCES);
 
 		actionResponse.setRenderParameter("mvcPath", "/edit.jsp");
 
 		return true;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

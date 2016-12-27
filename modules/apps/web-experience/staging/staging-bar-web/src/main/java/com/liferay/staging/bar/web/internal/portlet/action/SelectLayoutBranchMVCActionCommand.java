@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.staging.bar.web.internal.portlet.constants.StagingBarPortletKeys;
 
@@ -48,7 +48,7 @@ public class SelectLayoutBranchMVCActionCommand extends BaseMVCActionCommand {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = portal.getHttpServletRequest(
 			actionRequest);
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
@@ -66,5 +66,8 @@ public class SelectLayoutBranchMVCActionCommand extends BaseMVCActionCommand {
 		ActionUtil.addLayoutBranchSessionMessages(
 			actionRequest, actionResponse);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

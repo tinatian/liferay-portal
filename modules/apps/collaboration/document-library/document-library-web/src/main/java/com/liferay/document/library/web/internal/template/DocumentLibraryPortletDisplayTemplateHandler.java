@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateMa
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.util.HashMap;
@@ -75,7 +75,7 @@ public class DocumentLibraryPortletDisplayTemplateHandler
 
 	@Override
 	public String getName(Locale locale) {
-		String portletTitle = PortalUtil.getPortletTitle(
+		String portletTitle = portal.getPortletTitle(
 			DLPortletKeys.DOCUMENT_LIBRARY, locale);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
@@ -142,6 +142,9 @@ public class DocumentLibraryPortletDisplayTemplateHandler
 	protected String getTemplatesConfigPath() {
 		return _dlConfiguration.displayTemplatesConfig();
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DocumentLibraryPortletDisplayTemplateHandler.class);

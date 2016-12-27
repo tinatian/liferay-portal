@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.Locale;
@@ -79,7 +79,7 @@ public class CopyStructureMVCActionCommand extends DDMBaseMVCActionCommand {
 			ActionRequest actionRequest, long oldClassPK, long newClassPK)
 		throws Exception {
 
-		long classNameId = PortalUtil.getClassNameId(DDMStructure.class);
+		long classNameId = portal.getClassNameId(DDMStructure.class);
 
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			DDMTemplate.class.getName(), actionRequest);
@@ -129,7 +129,7 @@ public class CopyStructureMVCActionCommand extends DDMBaseMVCActionCommand {
 
 		portletURL.setParameter("mvcPath", "/copy_structure");
 
-		long classNameId = PortalUtil.getClassNameId(DDMStructure.class);
+		long classNameId = portal.getClassNameId(DDMStructure.class);
 
 		portletURL.setParameter(
 			"classNameId", String.valueOf(classNameId), false);
@@ -160,6 +160,9 @@ public class CopyStructureMVCActionCommand extends DDMBaseMVCActionCommand {
 
 		_ddmTemplateService = ddmTemplateService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private DDMStructureService _ddmStructureService;
 	private DDMTemplateService _ddmTemplateService;

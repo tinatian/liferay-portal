@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.model.Team;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.roles.admin.constants.RolesAdminPortletKeys;
 
@@ -177,7 +176,7 @@ public class RolesAdminPortletDataHandler extends BasePortletDataHandler {
 					portletDataContext.addDateRangeCriteria(
 						dynamicQuery, "modifiedDate");
 
-					long classNameId = PortalUtil.getClassNameId(Team.class);
+					long classNameId = portal.getClassNameId(Team.class);
 
 					Property classNameIdProperty = PropertyFactoryUtil.forName(
 						"classNameId");
@@ -232,6 +231,9 @@ public class RolesAdminPortletDataHandler extends BasePortletDataHandler {
 		_allSystemRoleNames.addAll(Arrays.asList(portal.getSystemRoles()));
 		_allSystemRoleNames.addAll(Arrays.asList(portal.getSystemSiteRoles()));
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private final Set<String> _allSystemRoleNames = new HashSet<>();
 

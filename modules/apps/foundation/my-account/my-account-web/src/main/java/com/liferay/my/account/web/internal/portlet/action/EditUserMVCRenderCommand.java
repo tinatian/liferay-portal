@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.DynamicServletRequest;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portlet.RenderRequestImpl;
 
 import javax.portlet.PortletException;
@@ -48,7 +48,7 @@ public class EditUserMVCRenderCommand implements MVCRenderCommand {
 		throws PortletException {
 
 		try {
-			User user = PortalUtil.getUser(renderRequest);
+			User user = portal.getUser(renderRequest);
 
 			RenderRequestImpl renderRequestImpl =
 				(RenderRequestImpl)renderRequest;
@@ -60,7 +60,7 @@ public class EditUserMVCRenderCommand implements MVCRenderCommand {
 			dynamicRequest.setParameter(
 				"p_u_i_d", String.valueOf(user.getUserId()));
 
-			PortalUtil.getSelectedUser(renderRequest);
+			portal.getSelectedUser(renderRequest);
 		}
 		catch (Exception e) {
 			if (e instanceof PrincipalException) {
@@ -75,5 +75,8 @@ public class EditUserMVCRenderCommand implements MVCRenderCommand {
 
 		return "/edit_user.jsp";
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

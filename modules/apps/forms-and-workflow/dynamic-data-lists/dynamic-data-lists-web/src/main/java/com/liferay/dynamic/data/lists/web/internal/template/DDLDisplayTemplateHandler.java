@@ -36,7 +36,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
 
@@ -78,7 +78,7 @@ public class DDLDisplayTemplateHandler extends BaseDDMTemplateHandler {
 
 	@Override
 	public String getName(Locale locale) {
-		String portletTitle = PortalUtil.getPortletTitle(
+		String portletTitle = portal.getPortletTitle(
 			DDLPortletKeys.DYNAMIC_DATA_LISTS, locale);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
@@ -195,6 +195,9 @@ public class DDLDisplayTemplateHandler extends BaseDDMTemplateHandler {
 	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
 		return _templateVariableCodeHandler;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
 		new DDMTemplateVariableCodeHandler(

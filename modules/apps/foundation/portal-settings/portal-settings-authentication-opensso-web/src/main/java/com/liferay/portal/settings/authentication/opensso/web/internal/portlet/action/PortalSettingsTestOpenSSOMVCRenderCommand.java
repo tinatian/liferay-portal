@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderConstants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.settings.web.constants.PortalSettingsPortletKeys;
 
 import javax.portlet.PortletException;
@@ -55,9 +55,9 @@ public class PortalSettingsTestOpenSSOMVCRenderCommand
 
 		try {
 			HttpServletRequest httpServletRequest =
-				PortalUtil.getHttpServletRequest(renderRequest);
+				portal.getHttpServletRequest(renderRequest);
 			HttpServletResponse httpServletResponse =
-				PortalUtil.getHttpServletResponse(renderResponse);
+				portal.getHttpServletResponse(renderResponse);
 
 			requestDispatcher.include(httpServletRequest, httpServletResponse);
 		}
@@ -79,6 +79,9 @@ public class PortalSettingsTestOpenSSOMVCRenderCommand
 	protected void setServletContext(ServletContext servletContext) {
 		_servletContext = servletContext;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _JSP_PATH =
 		"/com.liferay.portal.settings.web/test_opensso.jsp";

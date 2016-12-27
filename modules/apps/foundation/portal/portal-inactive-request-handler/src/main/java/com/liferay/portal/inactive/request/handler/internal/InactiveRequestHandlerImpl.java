@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.InactiveRequestHandler;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -71,7 +71,7 @@ public class InactiveRequestHandlerImpl implements InactiveRequestHandler {
 
 		response.setContentType(ContentTypes.TEXT_HTML_UTF8);
 
-		Locale locale = PortalUtil.getLocale(request);
+		Locale locale = portal.getLocale(request);
 
 		String message = null;
 
@@ -125,6 +125,9 @@ public class InactiveRequestHandlerImpl implements InactiveRequestHandler {
 		_showInactiveRequestMessage =
 			inactiveRequestHandlerConfiguration.showInactiveRequestMessage();
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _INACTIVE_HTML_FILE_NAME =
 		"com/liferay/portal/dependencies/inactive.html";

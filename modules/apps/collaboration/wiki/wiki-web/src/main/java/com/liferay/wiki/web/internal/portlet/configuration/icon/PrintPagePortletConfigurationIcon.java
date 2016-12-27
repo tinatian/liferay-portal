@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.wiki.constants.WikiPortletKeys;
@@ -64,7 +64,7 @@ public class PrintPagePortletConfigurationIcon
 
 			sb.append("window.open('");
 
-			PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+			PortletURL portletURL = portal.getControlPanelPortletURL(
 				portletRequest, WikiPortletKeys.WIKI_ADMIN,
 				PortletRequest.RENDER_PHASE);
 
@@ -109,5 +109,8 @@ public class PrintPagePortletConfigurationIcon
 	public boolean isToolTip() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

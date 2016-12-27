@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
@@ -59,7 +59,7 @@ public class PrintKBArticlePortletConfigurationIcon
 
 			sb.append("window.open('");
 
-			PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+			PortletURL portletURL = portal.getControlPanelPortletURL(
 				portletRequest, KBPortletKeys.KNOWLEDGE_BASE_ADMIN,
 				PortletRequest.RENDER_PHASE);
 
@@ -107,5 +107,8 @@ public class PrintKBArticlePortletConfigurationIcon
 	public boolean isShow(PortletRequest portletRequest) {
 		return true;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

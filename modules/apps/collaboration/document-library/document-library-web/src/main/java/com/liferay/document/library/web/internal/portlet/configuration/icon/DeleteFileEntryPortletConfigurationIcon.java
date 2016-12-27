@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.ActionRequest;
@@ -80,7 +80,7 @@ public class DeleteFileEntryPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, DLPortletKeys.DOCUMENT_LIBRARY_ADMIN,
 			PortletRequest.ACTION_PHASE);
 
@@ -108,7 +108,7 @@ public class DeleteFileEntryPortletConfigurationIcon
 			portletURL.setParameter(Constants.CMD, Constants.DELETE);
 		}
 
-		PortletURL redirectURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL redirectURL = portal.getControlPanelPortletURL(
 			portletRequest, DLPortletKeys.DOCUMENT_LIBRARY_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -171,5 +171,8 @@ public class DeleteFileEntryPortletConfigurationIcon
 			throw new RuntimeException(pe);
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

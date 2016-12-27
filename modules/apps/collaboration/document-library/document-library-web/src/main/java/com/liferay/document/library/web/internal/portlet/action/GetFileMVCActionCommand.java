@@ -17,7 +17,7 @@ package com.liferay.document.library.web.internal.portlet.action;
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -50,15 +50,18 @@ public class GetFileMVCActionCommand extends BaseMVCActionCommand {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = portal.getHttpServletRequest(
 			actionRequest);
-		HttpServletResponse response = PortalUtil.getHttpServletResponse(
+		HttpServletResponse response = portal.getHttpServletResponse(
 			actionResponse);
 
 		_getFileActionHelper.processRequest(request, response);
 
 		actionResponse.setRenderParameter("mvcPath", "/null.jsp");
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private final GetFileActionHelper _getFileActionHelper =
 		new GetFileActionHelper();

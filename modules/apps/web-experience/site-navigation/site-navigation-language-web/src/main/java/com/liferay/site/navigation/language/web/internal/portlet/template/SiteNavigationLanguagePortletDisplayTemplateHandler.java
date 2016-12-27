@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTempla
 import com.liferay.portal.kernel.servlet.taglib.ui.LanguageEntry;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portlet.display.template.PortletDisplayTemplateConstants;
@@ -64,7 +64,7 @@ public class SiteNavigationLanguagePortletDisplayTemplateHandler
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		String portletTitle = PortalUtil.getPortletTitle(
+		String portletTitle = portal.getPortletTitle(
 			SiteNavigationLanguagePortletKeys.SITE_NAVIGATION_LANGUAGE,
 			resourceBundle);
 
@@ -111,6 +111,9 @@ public class SiteNavigationLanguagePortletDisplayTemplateHandler
 		return "com/liferay/site/navigation/language/web/portlet/template" +
 			"/dependencies/portlet-display-templates.xml";
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private volatile SiteNavigationLanguageWebTemplateConfiguration
 		_siteNavigationLanguageWebTemplateConfiguration;

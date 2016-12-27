@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portlet.display.template.PortletDisplayTemplateConstants;
@@ -53,7 +53,7 @@ public class RSSPortletDisplayTemplateHandler
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getClass());
 
-		String portletTitle = PortalUtil.getPortletTitle(
+		String portletTitle = portal.getPortletTitle(
 			RSSPortletKeys.RSS, resourceBundle);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
@@ -93,5 +93,8 @@ public class RSSPortletDisplayTemplateHandler
 		return "com/liferay/rss/web/portlet/template/dependencies" +
 			"/portlet-display-templates.xml";
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

@@ -17,7 +17,7 @@ package com.liferay.asset.publisher.web.internal.portlet.filter;
 import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.RenderParametersPool;
@@ -59,8 +59,8 @@ public class AssetPublisherRenderParametersPortletFilter
 			FilterChain filterChain)
 		throws IOException, PortletException {
 
-		HttpServletRequest httpServletRequest =
-			PortalUtil.getHttpServletRequest(renderRequest);
+		HttpServletRequest httpServletRequest = portal.getHttpServletRequest(
+			renderRequest);
 
 		long categoryId = ParamUtil.getLong(renderRequest, "categoryId");
 		String tag = ParamUtil.getString(renderRequest, "tag");
@@ -82,10 +82,13 @@ public class AssetPublisherRenderParametersPortletFilter
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		String portletId = PortalUtil.getPortletId(renderRequest);
+		String portletId = portal.getPortletId(renderRequest);
 
 		RenderParametersPool.clear(
 			httpServletRequest, themeDisplay.getPlid(), portletId);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

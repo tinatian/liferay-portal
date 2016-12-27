@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.trash.kernel.util.TrashUtil;
 
@@ -69,7 +69,7 @@ public class DeleteFolderPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL deleteURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL deleteURL = portal.getControlPanelPortletURL(
 			portletRequest, BookmarksPortletKeys.BOOKMARKS_ADMIN,
 			PortletRequest.ACTION_PHASE);
 
@@ -87,7 +87,7 @@ public class DeleteFolderPortletConfigurationIcon
 
 		deleteURL.setParameter(Constants.CMD, cmd);
 
-		PortletURL parentFolderURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL parentFolderURL = portal.getControlPanelPortletURL(
 			portletRequest, BookmarksPortletKeys.BOOKMARKS_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -165,5 +165,8 @@ public class DeleteFolderPortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

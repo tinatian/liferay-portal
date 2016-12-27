@@ -80,7 +80,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PrimitiveLongList;
@@ -154,7 +154,7 @@ public class AssetPublisherUtil {
 			int assetEntryOrder)
 		throws Exception {
 
-		String portletId = PortalUtil.getPortletId(portletRequest);
+		String portletId = portal.getPortletId(portletRequest);
 
 		String rootPortletId = PortletConstants.getRootPortletId(portletId);
 
@@ -979,7 +979,7 @@ public class AssetPublisherUtil {
 		definitionTerms.put(
 			"[$PORTLET_NAME$]",
 			HtmlUtil.escape(
-				PortalUtil.getPortletTitle(
+				portal.getPortletTitle(
 					AssetPublisherPortletKeys.ASSET_PUBLISHER,
 					themeDisplay.getLocale())));
 
@@ -1009,7 +1009,7 @@ public class AssetPublisherUtil {
 	public static String getEmailFromAddress(
 		PortletPreferences portletPreferences, long companyId) {
 
-		return PortalUtil.getEmailFromAddress(
+		return portal.getEmailFromAddress(
 			portletPreferences, companyId,
 			AssetPublisherWebConfigurationValues.EMAIL_FROM_ADDRESS);
 	}
@@ -1017,7 +1017,7 @@ public class AssetPublisherUtil {
 	public static String getEmailFromName(
 		PortletPreferences portletPreferences, long companyId) {
 
-		return PortalUtil.getEmailFromName(
+		return portal.getEmailFromName(
 			portletPreferences, companyId,
 			AssetPublisherWebConfigurationValues.EMAIL_FROM_NAME);
 	}
@@ -1626,7 +1626,7 @@ public class AssetPublisherUtil {
 		Set<Long> siteGroupIds = new LinkedHashSet<>();
 
 		for (long groupId : groupIds) {
-			siteGroupIds.add(PortalUtil.getSiteGroupId(groupId));
+			siteGroupIds.add(portal.getSiteGroupId(groupId));
 		}
 
 		return ArrayUtil.toLongArray(siteGroupIds);
@@ -1742,6 +1742,9 @@ public class AssetPublisherUtil {
 
 		_assetEntryQueryProcessors.remove(assetEntryQueryProcessor);
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static List<AssetEntry> _filterAssetCategoriesAssetEntries(
 		List<AssetEntry> assetEntries, long[] assetCategoryIds) {

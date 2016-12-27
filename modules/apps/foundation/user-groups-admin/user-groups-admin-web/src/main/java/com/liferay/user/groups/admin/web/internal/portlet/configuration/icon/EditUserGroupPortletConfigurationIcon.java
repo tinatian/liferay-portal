@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.UserGroupPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.user.groups.admin.constants.UserGroupsAdminPortletKeys;
@@ -65,7 +65,7 @@ public class EditUserGroupPortletConfigurationIcon
 
 			portletURL.setParameter("mvcPath", "/edit_user_group.jsp");
 			portletURL.setParameter(
-				"redirect", PortalUtil.getCurrentURL(portletRequest));
+				"redirect", portal.getCurrentURL(portletRequest));
 
 			UserGroup userGroup = ActionUtil.getUserGroup(portletRequest);
 
@@ -111,5 +111,8 @@ public class EditUserGroupPortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

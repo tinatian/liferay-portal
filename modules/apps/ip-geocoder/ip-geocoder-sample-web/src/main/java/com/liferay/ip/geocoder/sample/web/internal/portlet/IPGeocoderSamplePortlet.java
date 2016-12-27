@@ -18,7 +18,7 @@ import com.liferay.ip.geocoder.IPGeocoder;
 import com.liferay.ip.geocoder.IPInfo;
 import com.liferay.ip.geocoder.sample.web.internal.constants.IPGeocoderSamplePortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import java.io.IOException;
 
@@ -65,7 +65,7 @@ public class IPGeocoderSamplePortlet extends MVCPortlet {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws IOException, PortletException {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = portal.getHttpServletRequest(
 			renderRequest);
 
 		ServiceReference<IPGeocoder> serviceReference =
@@ -92,6 +92,9 @@ public class IPGeocoderSamplePortlet extends MVCPortlet {
 
 		super.init();
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static BundleContext _bundleContext;
 

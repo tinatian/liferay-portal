@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.user.groups.admin.constants.UserGroupsAdminPortletKeys;
@@ -68,7 +68,7 @@ public class ManagePagesPortletConfigurationIcon
 				PortletProvider.Action.EDIT);
 
 			portletURL.setParameter(
-				"redirect", PortalUtil.getCurrentURL(portletRequest));
+				"redirect", portal.getCurrentURL(portletRequest));
 
 			return portletURL.toString();
 		}
@@ -101,5 +101,8 @@ public class ManagePagesPortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

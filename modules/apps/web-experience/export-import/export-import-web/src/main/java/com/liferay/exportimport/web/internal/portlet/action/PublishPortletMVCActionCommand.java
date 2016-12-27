@@ -34,7 +34,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
 import javax.portlet.ActionRequest;
@@ -80,7 +80,7 @@ public class PublishPortletMVCActionCommand extends BaseMVCActionCommand {
 		if (Validator.isNull(cmd)) {
 			SessionMessages.add(
 				actionRequest,
-				PortalUtil.getPortletId(actionRequest) +
+				portal.getPortletId(actionRequest) +
 					SessionMessages.KEY_SUFFIX_FORCE_SEND_REDIRECT);
 
 			hideDefaultSuccessMessage(actionRequest);
@@ -119,6 +119,9 @@ public class PublishPortletMVCActionCommand extends BaseMVCActionCommand {
 			}
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PublishPortletMVCActionCommand.class);

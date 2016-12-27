@@ -46,7 +46,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -87,7 +87,7 @@ public class UploadImageMVCActionCommand extends BaseMVCActionCommand {
 		throws Exception {
 
 		UploadPortletRequest uploadPortletRequest =
-			PortalUtil.getUploadPortletRequest(portletRequest);
+			portal.getUploadPortletRequest(portletRequest);
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
@@ -354,6 +354,9 @@ public class UploadImageMVCActionCommand extends BaseMVCActionCommand {
 			StreamUtil.cleanUp(tempImageStream);
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UploadImageMVCActionCommand.class);

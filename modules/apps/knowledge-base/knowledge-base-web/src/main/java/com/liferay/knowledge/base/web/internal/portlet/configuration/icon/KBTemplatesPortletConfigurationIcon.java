@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -51,13 +51,13 @@ public class KBTemplatesPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, KBPortletKeys.KNOWLEDGE_BASE_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter("mvcPath", "/admin/view_templates.jsp");
 		portletURL.setParameter(
-			"redirect", PortalUtil.getCurrentURL(portletRequest));
+			"redirect", portal.getCurrentURL(portletRequest));
 
 		return portletURL.toString();
 	}
@@ -87,5 +87,8 @@ public class KBTemplatesPortletConfigurationIcon
 	public boolean isToolTip() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

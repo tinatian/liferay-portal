@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.staging.constants.StagingProcessesPortletKeys;
@@ -63,7 +63,7 @@ public class StagingConfigurationPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, StagingProcessesPortletKeys.STAGING_PROCESSES,
 			PortletRequest.RENDER_PHASE);
 
@@ -132,6 +132,9 @@ public class StagingConfigurationPortletConfigurationIcon
 	public boolean isToolTip() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		StagingConfigurationPortletConfigurationIcon.class);

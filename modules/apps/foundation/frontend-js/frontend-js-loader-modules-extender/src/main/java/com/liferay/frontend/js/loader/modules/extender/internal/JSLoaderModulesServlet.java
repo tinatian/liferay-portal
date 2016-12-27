@@ -14,7 +14,7 @@
 
 package com.liferay.frontend.js.loader.modules.extender.internal;
 
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -107,7 +107,7 @@ public class JSLoaderModulesServlet extends HttpServlet {
 			printWriter.write('@');
 			printWriter.write(jsLoaderModule.getVersion());
 			printWriter.write("': '");
-			printWriter.write(PortalUtil.getPathProxy());
+			printWriter.write(portal.getPathProxy());
 			printWriter.write(jsLoaderModule.getContextPath());
 			printWriter.write("'");
 
@@ -118,7 +118,7 @@ public class JSLoaderModulesServlet extends HttpServlet {
 				printWriter.write("'");
 				printWriter.write(jsLoaderModule.getName());
 				printWriter.write("': '");
-				printWriter.write(PortalUtil.getPathProxy());
+				printWriter.write(portal.getPathProxy());
 				printWriter.write(jsLoaderModule.getContextPath());
 				printWriter.write("'");
 			}
@@ -213,6 +213,9 @@ public class JSLoaderModulesServlet extends HttpServlet {
 
 		_jsLoaderModulesTracker = jsLoaderModulesTracker;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private ComponentContext _componentContext;
 	private volatile Details _details;

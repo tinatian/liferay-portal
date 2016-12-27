@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigura
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.wiki.constants.WikiPortletKeys;
@@ -63,7 +63,7 @@ public class EditNodePortletConfigurationIcon
 		try {
 			WikiNode node = ActionUtil.getNode(portletRequest);
 
-			PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+			PortletURL portletURL = portal.getControlPanelPortletURL(
 				portletRequest, WikiPortletKeys.WIKI_ADMIN,
 				PortletRequest.RENDER_PHASE);
 
@@ -100,5 +100,8 @@ public class EditNodePortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

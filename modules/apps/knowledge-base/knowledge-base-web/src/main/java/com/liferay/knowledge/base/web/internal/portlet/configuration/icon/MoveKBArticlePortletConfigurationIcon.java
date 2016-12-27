@@ -21,7 +21,7 @@ import com.liferay.knowledge.base.service.permission.KBArticlePermission;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -54,13 +54,13 @@ public class MoveKBArticlePortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, KBPortletKeys.KNOWLEDGE_BASE_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter("mvcPath", "/admin/move_object.jsp");
 		portletURL.setParameter(
-			"redirect", PortalUtil.getCurrentURL(portletRequest));
+			"redirect", portal.getCurrentURL(portletRequest));
 
 		KBArticle kbArticle = getKBArticle(portletRequest);
 
@@ -94,5 +94,8 @@ public class MoveKBArticlePortletConfigurationIcon
 			themeDisplay.getPermissionChecker(), kbArticle,
 			KBActionKeys.MOVE_KB_ARTICLE);
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

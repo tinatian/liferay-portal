@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbEntry;
 import com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbUtil;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portlet.display.template.PortletDisplayTemplateConstants;
@@ -76,7 +76,7 @@ public class SiteNavigationBreadcrumbPortletDisplayTemplateHandler
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		String portletTitle = PortalUtil.getPortletTitle(
+		String portletTitle = portal.getPortletTitle(
 			SiteNavigationBreadcrumbPortletKeys.SITE_NAVIGATION_BREADCRUMB,
 			resourceBundle);
 
@@ -136,6 +136,9 @@ public class SiteNavigationBreadcrumbPortletDisplayTemplateHandler
 		return "com/liferay/site/navigation/breadcrumb/web/portlet/template" +
 			"/dependencies/portlet-display-templates.xml";
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private volatile SiteNavigationBreadcrumbWebTemplateConfiguration
 		_siteNavigationBreadcrumbWebTemplateConfiguration;

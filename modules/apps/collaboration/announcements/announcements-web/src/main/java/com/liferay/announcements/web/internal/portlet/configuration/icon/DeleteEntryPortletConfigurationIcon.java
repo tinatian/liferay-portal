@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.announcements.service.permission.AnnouncementsEntryPermission;
 
@@ -59,7 +59,7 @@ public class DeleteEntryPortletConfigurationIcon
 	public String getURL(
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			portletRequest, AnnouncementsPortletKeys.ANNOUNCEMENTS_ADMIN,
 			PortletRequest.ACTION_PHASE);
 
@@ -67,7 +67,7 @@ public class DeleteEntryPortletConfigurationIcon
 			ActionRequest.ACTION_NAME, "/announcements/edit_entry");
 		portletURL.setParameter(Constants.CMD, Constants.DELETE);
 
-		PortletURL redirectURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL redirectURL = portal.getControlPanelPortletURL(
 			portletRequest, AnnouncementsPortletKeys.ANNOUNCEMENTS_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -113,5 +113,8 @@ public class DeleteEntryPortletConfigurationIcon
 	public boolean isToolTip() {
 		return false;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

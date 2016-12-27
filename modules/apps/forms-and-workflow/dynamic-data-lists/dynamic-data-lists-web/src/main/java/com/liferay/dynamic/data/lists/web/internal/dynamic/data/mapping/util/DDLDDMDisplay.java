@@ -21,7 +21,7 @@ import com.liferay.dynamic.data.mapping.storage.StorageType;
 import com.liferay.dynamic.data.mapping.util.BaseDDMDisplay;
 import com.liferay.dynamic.data.mapping.util.DDMDisplay;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -63,12 +63,15 @@ public class DDLDDMDisplay extends BaseDDMDisplay {
 	public long getTemplateHandlerClassNameId(
 		DDMTemplate template, long classNameId) {
 
-		return PortalUtil.getClassNameId(DDLRecordSet.class);
+		return portal.getClassNameId(DDLRecordSet.class);
 	}
 
 	@Override
 	public boolean isShowBackURLInTitleBar() {
 		return true;
 	}
+
+	@Reference
+	protected Portal portal;
 
 }

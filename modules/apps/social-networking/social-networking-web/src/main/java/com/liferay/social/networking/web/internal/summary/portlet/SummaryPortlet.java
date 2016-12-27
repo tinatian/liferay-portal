@@ -38,7 +38,7 @@ import com.liferay.portal.kernel.service.permission.UserPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.social.kernel.model.SocialRelationConstants;
@@ -325,7 +325,7 @@ public class SummaryPortlet extends MVCPortlet {
 	protected JSONObject getExtraDataJSONObject(ActionRequest actionRequest) {
 		JSONObject extraDataJSONObject = JSONFactoryUtil.createJSONObject();
 
-		String portletId = PortalUtil.getPortletId(actionRequest);
+		String portletId = portal.getPortletId(actionRequest);
 
 		extraDataJSONObject.put(
 			"portletId", PortletConstants.getRootPortletId(portletId));
@@ -397,6 +397,9 @@ public class SummaryPortlet extends MVCPortlet {
 	protected void setWallEntryLocalService(
 		WallEntryLocalService wallEntryLocalService) {
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private BlogsStatsUserLocalService _blogsStatsUserLocalService;
 	private ExpandoValueLocalService _expandoValueLocalService;

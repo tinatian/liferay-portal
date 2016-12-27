@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.security.auto.login.AutoLogin;
 import com.liferay.portal.kernel.security.auto.login.BaseAutoLogin;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
@@ -95,7 +95,7 @@ public class CASAutoLogin extends BaseAutoLogin {
 
 		HttpSession session = request.getSession();
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		CASConfiguration casConfiguration =
 			_configurationProvider.getConfiguration(
@@ -192,6 +192,9 @@ public class CASAutoLogin extends BaseAutoLogin {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(CASAutoLogin.class);
 
