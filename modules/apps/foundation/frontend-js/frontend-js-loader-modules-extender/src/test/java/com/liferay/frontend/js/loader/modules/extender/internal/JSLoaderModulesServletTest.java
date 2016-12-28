@@ -456,6 +456,8 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 		JSLoaderModulesServlet jsLoaderModulesServlet =
 			new JSLoaderModulesServlet();
 
+		jsLoaderModulesServlet.portal = PortalUtil.getPortal();
+
 		jsLoaderModulesServlet.activate(
 			mock(ComponentContext.class), mock(Details.class));
 

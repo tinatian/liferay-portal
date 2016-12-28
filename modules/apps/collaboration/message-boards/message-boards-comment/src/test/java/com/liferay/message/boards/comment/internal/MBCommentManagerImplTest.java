@@ -51,6 +51,8 @@ public class MBCommentManagerImplTest extends Mockito {
 		setUpMBCommentManagerImpl();
 		setUpPortalUtil();
 		setUpServiceContext();
+
+		_mbCommentManagerImpl.portal = _portal;
 	}
 
 	@Test
