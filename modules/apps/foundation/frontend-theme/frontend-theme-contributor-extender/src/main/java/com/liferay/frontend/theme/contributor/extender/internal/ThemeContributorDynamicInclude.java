@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.servlet.PortalWebResourceConstants;
 import com.liferay.portal.kernel.servlet.PortalWebResourcesUtil;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -132,9 +132,6 @@ public class ThemeContributorDynamicInclude implements DynamicInclude {
 		}
 	}
 
-	@Reference
-	protected static Portal portal;
-
 	private static PortalResourceURLRenderer _create(
 		boolean combo, final String minifierType,
 		final long themeLastModified) {
@@ -214,8 +211,8 @@ public class ThemeContributorDynamicInclude implements DynamicInclude {
 			StringBundler sb = new StringBundler();
 
 			sb.append(
-				portal.getStaticResourceURL(
-					request, portal.getPathContext() + "/combo",
+				PortalUtil.getStaticResourceURL(
+					request, PortalUtil.getPathContext() + "/combo",
 					"minifierType=" + _minifierType, _themeLastModified));
 
 			for (String resourceURL : resourceURLs) {
@@ -247,9 +244,9 @@ public class ThemeContributorDynamicInclude implements DynamicInclude {
 				WebKeys.THEME_DISPLAY);
 
 			for (String resourceURL : resourceURLs) {
-				String staticResourceURL = portal.getStaticResourceURL(
+				String staticResourceURL = PortalUtil.getStaticResourceURL(
 					request,
-					themeDisplay.getPortalURL() + portal.getPathProxy() +
+					themeDisplay.getPortalURL() + PortalUtil.getPathProxy() +
 						resourceURL,
 					_themeLastModified);
 
