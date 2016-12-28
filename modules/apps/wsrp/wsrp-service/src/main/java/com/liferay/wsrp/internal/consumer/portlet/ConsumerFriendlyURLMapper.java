@@ -31,6 +31,7 @@ import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Michael Young

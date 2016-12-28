@@ -68,6 +68,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan

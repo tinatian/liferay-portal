@@ -31,6 +31,7 @@ import java.util.Map;
 import javax.portlet.ResourceURL;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Roberto Díaz

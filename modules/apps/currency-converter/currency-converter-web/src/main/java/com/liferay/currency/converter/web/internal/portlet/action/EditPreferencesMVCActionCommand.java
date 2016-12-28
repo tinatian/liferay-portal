@@ -30,6 +30,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.ValidatorException;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan

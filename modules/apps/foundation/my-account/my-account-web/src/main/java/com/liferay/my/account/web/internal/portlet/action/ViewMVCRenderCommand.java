@@ -28,6 +28,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Pei-Jung Lan

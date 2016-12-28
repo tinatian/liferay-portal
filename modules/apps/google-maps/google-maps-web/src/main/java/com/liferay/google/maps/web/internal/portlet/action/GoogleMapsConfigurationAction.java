@@ -26,6 +26,7 @@ import javax.portlet.PortletConfig;
 import javax.portlet.PortletSession;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Mark Wong
