@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 
 import javax.portlet.PortletRequest;
@@ -110,7 +110,7 @@ public class BlogsEntryAssetRendererFactory
 		LiferayPortletRequest liferayPortletRequest,
 		LiferayPortletResponse liferayPortletResponse, long classTypeId) {
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			liferayPortletRequest, getGroup(liferayPortletRequest),
 			BlogsPortletKeys.BLOGS, 0, 0, PortletRequest.RENDER_PHASE);
 
@@ -182,6 +182,9 @@ public class BlogsEntryAssetRendererFactory
 	protected void setBlogsEntryService(BlogsEntryService blogsEntryService) {
 		_blogsEntryService = blogsEntryService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private BlogsEntryLocalService _blogsEntryLocalService;
 	private BlogsEntryService _blogsEntryService;

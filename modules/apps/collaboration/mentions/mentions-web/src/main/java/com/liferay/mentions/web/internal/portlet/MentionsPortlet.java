@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.social.kernel.util.SocialInteractionsConfiguration;
@@ -83,12 +83,12 @@ public class MentionsPortlet extends MVCPortlet {
 				return;
 			}
 
-			HttpServletRequest request = PortalUtil.getHttpServletRequest(
+			HttpServletRequest request = portal.getHttpServletRequest(
 				resourceRequest);
 
 			JSONArray jsonArray = getJSONArray(request);
 
-			HttpServletResponse response = PortalUtil.getHttpServletResponse(
+			HttpServletResponse response = portal.getHttpServletResponse(
 				resourceResponse);
 
 			response.setContentType(ContentTypes.APPLICATION_JSON);
@@ -157,6 +157,9 @@ public class MentionsPortlet extends MVCPortlet {
 
 		_mentionsUserFinder = mentionsUserFinder;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		MentionsPortlet.class);

@@ -45,7 +45,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -82,7 +82,7 @@ public class CreateAnonymousAccountMVCActionCommand
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = portal.getHttpServletRequest(
 			actionRequest);
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
@@ -251,7 +251,7 @@ public class CreateAnonymousAccountMVCActionCommand
 			else {
 				_log.error("Unable to create anonymous account", e);
 
-				PortalUtil.sendError(e, actionRequest, actionResponse);
+				portal.sendError(e, actionRequest, actionResponse);
 			}
 		}
 	}
@@ -316,6 +316,9 @@ public class CreateAnonymousAccountMVCActionCommand
 
 		return jsonObject;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CreateAnonymousAccountMVCActionCommand.class);

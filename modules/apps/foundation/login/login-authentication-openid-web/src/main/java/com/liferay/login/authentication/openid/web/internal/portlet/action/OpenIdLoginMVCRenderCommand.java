@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.openid.OpenId;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -58,11 +58,11 @@ public class OpenIdLoginMVCRenderCommand implements MVCRenderCommand {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws PortletException {
 
-		HttpServletRequest httpServletRequest =
-			PortalUtil.getHttpServletRequest(renderRequest);
+		HttpServletRequest httpServletRequest = portal.getHttpServletRequest(
+			renderRequest);
 
-		HttpServletResponse httpServletResponse =
-			PortalUtil.getHttpServletResponse(renderResponse);
+		HttpServletResponse httpServletResponse = portal.getHttpServletResponse(
+			renderResponse);
 
 		ThemeDisplay themeDisplay =
 			(ThemeDisplay)httpServletRequest.getAttribute(
@@ -101,6 +101,9 @@ public class OpenIdLoginMVCRenderCommand implements MVCRenderCommand {
 	protected void setServletContext(ServletContext servletContext) {
 		_servletContext = servletContext;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _JSP_PATH = "/com.liferay.login.web/openid.jsp";
 

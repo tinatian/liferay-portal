@@ -39,7 +39,7 @@ import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -118,7 +118,7 @@ public class DDLPortlet extends MVCPortlet {
 
 			setDDLRecordSetRequestAttribute(renderRequest);
 
-			HttpServletRequest request = PortalUtil.getHttpServletRequest(
+			HttpServletRequest request = portal.getHttpServletRequest(
 				renderRequest);
 
 			DDLDisplayContext ddlDisplayContext = new DDLDisplayContext(
@@ -224,7 +224,7 @@ public class DDLPortlet extends MVCPortlet {
 
 		SessionMessages.add(
 			actionRequest,
-			PortalUtil.getPortletId(actionRequest) +
+			portal.getPortletId(actionRequest) +
 				SessionMessages.KEY_SUFFIX_CLOSE_REDIRECT,
 			closeRedirect);
 	}
@@ -265,6 +265,9 @@ public class DDLPortlet extends MVCPortlet {
 		renderRequest.setAttribute(
 			DDLWebKeys.DYNAMIC_DATA_LISTS_RECORD_SET, recordSet);
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(DDLPortlet.class);
 

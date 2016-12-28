@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.portlet.toolbar.contributor.PortletToolbarContr
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.servlet.taglib.ui.MenuItem;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class IGPortletToolbarContributor extends BasePortletToolbarContributor {
 		if (portletTitleAddMultipleDocumentsMenuItem != null) {
 			portletTitleAddMultipleDocumentsMenuItem.setLabel(
 				LanguageUtil.get(
-					PortalUtil.getHttpServletRequest(portletRequest),
+					portal.getHttpServletRequest(portletRequest),
 					"multiple-media"));
 
 			menuItems.add(portletTitleAddMultipleDocumentsMenuItem);
@@ -128,6 +128,9 @@ public class IGPortletToolbarContributor extends BasePortletToolbarContributor {
 
 		_dlPortletToolbarContributorHelper = dlPortletToolbarContributorHelper;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private DLPortletToolbarContributor _dlPortletToolbarContributor;
 	private DLPortletToolbarContributorHelper

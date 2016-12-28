@@ -34,7 +34,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.util.PropsValues;
 
@@ -128,7 +128,7 @@ public class MDRPortletDataHandler extends BasePortletDataHandler {
 
 			actionsExportActionableDynamicQuery.setStagedModelType(
 				new StagedModelType(
-					PortalUtil.getClassNameId(MDRAction.class),
+					portal.getClassNameId(MDRAction.class),
 					StagedModelType.REFERRER_CLASS_NAME_ID_ALL));
 
 			actionsExportActionableDynamicQuery.performActions();
@@ -244,6 +244,9 @@ public class MDRPortletDataHandler extends BasePortletDataHandler {
 	protected void setModuleServiceLifecycle(
 		ModuleServiceLifecycle moduleServiceLifecycle) {
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private MDRActionLocalService _mdrActionLocalService;
 	private MDRRuleGroupInstanceLocalService _mdrRuleGroupInstanceLocalService;

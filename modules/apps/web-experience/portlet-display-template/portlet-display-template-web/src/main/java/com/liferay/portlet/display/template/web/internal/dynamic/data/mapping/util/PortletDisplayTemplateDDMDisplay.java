@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandlerRegistryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -81,7 +81,7 @@ public class PortletDisplayTemplateDDMDisplay extends BaseDDMDisplay {
 		throws Exception {
 
 		if (includeAncestorTemplates) {
-			return PortalUtil.getCurrentAndAncestorSiteGroupIds(
+			return portal.getCurrentAndAncestorSiteGroupIds(
 				themeDisplay.getScopeGroupId());
 		}
 
@@ -169,12 +169,12 @@ public class PortletDisplayTemplateDDMDisplay extends BaseDDMDisplay {
 		PortletURL portletURL = null;
 
 		if (portletName.equals(PortletKeys.PORTLET_DISPLAY_TEMPLATE)) {
-			portletURL = PortalUtil.getControlPanelPortletURL(
+			portletURL = portal.getControlPanelPortletURL(
 				liferayPortletRequest, PortletKeys.PORTLET_DISPLAY_TEMPLATE,
 				PortletRequest.RENDER_PHASE);
 		}
 		else {
-			long groupId = PortalUtil.getScopeGroupId(liferayPortletRequest);
+			long groupId = portal.getScopeGroupId(liferayPortletRequest);
 
 			portletURL = liferayPortletResponse.createRenderURL();
 
@@ -195,6 +195,9 @@ public class PortletDisplayTemplateDDMDisplay extends BaseDDMDisplay {
 
 		this.portletDisplayTemplate = portletDisplayTemplate;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	protected PortletDisplayTemplate portletDisplayTemplate;
 

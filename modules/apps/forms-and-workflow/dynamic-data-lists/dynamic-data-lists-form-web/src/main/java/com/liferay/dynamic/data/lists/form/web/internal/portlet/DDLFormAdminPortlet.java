@@ -49,7 +49,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowEngineManager;
 
@@ -133,9 +133,9 @@ public class DDLFormAdminPortlet extends MVCPortlet {
 			new DDMFormRenderingContext();
 
 		ddmFormRenderingContext.setHttpServletRequest(
-			PortalUtil.getHttpServletRequest(renderRequest));
+			portal.getHttpServletRequest(renderRequest));
 		ddmFormRenderingContext.setHttpServletResponse(
-			PortalUtil.getHttpServletResponse(renderResponse));
+			portal.getHttpServletResponse(renderResponse));
 		ddmFormRenderingContext.setContainerId("settings");
 		ddmFormRenderingContext.setLocale(
 			LocaleUtil.fromLanguageId(languageId));
@@ -357,6 +357,9 @@ public class DDLFormAdminPortlet extends MVCPortlet {
 
 		_ddlFormWebConfigurationActivator = null;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDLFormAdminPortlet.class);

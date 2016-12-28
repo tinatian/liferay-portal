@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.security.auto.login.BaseAutoLogin;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -57,7 +57,7 @@ public class RequestHeaderAutoLogin extends BaseAutoLogin {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		if (!isEnabled(companyId)) {
 			return null;
@@ -171,6 +171,9 @@ public class RequestHeaderAutoLogin extends BaseAutoLogin {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private RequestHeaderAutoLoginConfiguration
 		_getRequestHeaderAutoLoginConfiguration(long companyId) {

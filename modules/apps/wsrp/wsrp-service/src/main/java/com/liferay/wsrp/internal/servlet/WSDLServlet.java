@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -145,7 +145,7 @@ public class WSDLServlet extends HttpServlet {
 		sb.append(hostname);
 		sb.append(StringPool.COLON);
 		sb.append(port);
-		sb.append(PortalUtil.getPathContext(request));
+		sb.append(portal.getPathContext(request));
 
 		return sb.toString();
 	}
@@ -163,6 +163,9 @@ public class WSDLServlet extends HttpServlet {
 				"schemaLocation=\"" + url + "/wsrp-"
 			});
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(WSDLServlet.class);
 

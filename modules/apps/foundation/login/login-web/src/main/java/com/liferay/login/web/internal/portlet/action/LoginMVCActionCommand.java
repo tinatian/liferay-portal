@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
@@ -146,7 +146,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			else {
 				_log.error(e, e);
 
-				PortalUtil.sendError(e, actionRequest, actionResponse);
+				portal.sendError(e, actionRequest, actionResponse);
 
 				return;
 			}
@@ -169,10 +169,10 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			!PropsValues.SESSION_ENABLE_PHISHING_PROTECTION &&
 			(httpsInitial != null) && !httpsInitial.booleanValue()) {
 
-			portalURL = PortalUtil.getPortalURL(request, false);
+			portalURL = portal.getPortalURL(request, false);
 		}
 		else {
-			portalURL = PortalUtil.getPortalURL(request);
+			portalURL = portal.getPortalURL(request);
 		}
 
 		return portalURL.concat(redirect);
@@ -183,9 +183,9 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			ActionResponse actionResponse)
 		throws Exception {
 
-		HttpServletRequest request = PortalUtil.getOriginalServletRequest(
-			PortalUtil.getHttpServletRequest(actionRequest));
-		HttpServletResponse response = PortalUtil.getHttpServletResponse(
+		HttpServletRequest request = portal.getOriginalServletRequest(
+			portal.getHttpServletRequest(actionRequest));
+		HttpServletResponse response = portal.getHttpServletResponse(
 			actionResponse);
 
 		String login = ParamUtil.getString(actionRequest, "login");
@@ -193,7 +193,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		boolean rememberMe = ParamUtil.getBoolean(actionRequest, "rememberMe");
 
 		if (!themeDisplay.isSignedIn()) {
-			String portletId = PortalUtil.getPortletId(actionRequest);
+			String portletId = portal.getPortletId(actionRequest);
 
 			PortletPreferences portletPreferences =
 				PortletPreferencesFactoryUtil.getStrictPortletSetup(
@@ -208,7 +208,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
 
 		if (Validator.isNotNull(redirect)) {
-			redirect = PortalUtil.escapeRedirect(redirect);
+			redirect = portal.escapeRedirect(redirect);
 
 			if (Validator.isNotNull(redirect) &&
 				!redirect.startsWith(Http.HTTP)) {
@@ -254,7 +254,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		throws Exception {
 
 		LiferayPortletRequest liferayPortletRequest =
-			PortalUtil.getLiferayPortletRequest(actionRequest);
+			portal.getLiferayPortletRequest(actionRequest);
 
 		String portletName = liferayPortletRequest.getPortletName();
 
@@ -286,6 +286,9 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 		actionResponse.sendRedirect(portletURL.toString());
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LoginMVCActionCommand.class);

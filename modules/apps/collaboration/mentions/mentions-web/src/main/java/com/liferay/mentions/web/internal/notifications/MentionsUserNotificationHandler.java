@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -91,7 +91,7 @@ public class MentionsUserNotificationHandler
 				resourceBundle, "x-mentioned-you-in-a-comment-in-a-x",
 				new String[] {
 					HtmlUtil.escape(
-						PortalUtil.getUserName(
+						portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
 					StringUtil.toLowerCase(HtmlUtil.escape(typeName))
 				},
@@ -102,7 +102,7 @@ public class MentionsUserNotificationHandler
 				resourceBundle, "x-mentioned-you-in-a-x",
 				new String[] {
 					HtmlUtil.escape(
-						PortalUtil.getUserName(
+						portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
 					StringUtil.toLowerCase(HtmlUtil.escape(typeName))
 				},
@@ -116,6 +116,9 @@ public class MentionsUserNotificationHandler
 
 		_mbMessageLocalService = mbMessageLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private MBMessageLocalService _mbMessageLocalService;
 

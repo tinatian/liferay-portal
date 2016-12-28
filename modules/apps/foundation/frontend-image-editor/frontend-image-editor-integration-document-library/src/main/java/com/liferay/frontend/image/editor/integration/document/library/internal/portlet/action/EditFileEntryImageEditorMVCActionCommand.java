@@ -39,7 +39,7 @@ import com.liferay.portal.kernel.upload.UploadException;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.upload.UploadRequestSizeException;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -142,7 +142,7 @@ public class EditFileEntryImageEditorMVCActionCommand
 			WebKeys.THEME_DISPLAY);
 
 		UploadPortletRequest uploadPortletRequest =
-			PortalUtil.getUploadPortletRequest(actionRequest);
+			portal.getUploadPortletRequest(actionRequest);
 
 		long fileEntryId = ParamUtil.getLong(
 			uploadPortletRequest, "fileEntryId");
@@ -184,6 +184,9 @@ public class EditFileEntryImageEditorMVCActionCommand
 
 		return fileEntry;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditFileEntryImageEditorMVCActionCommand.class);

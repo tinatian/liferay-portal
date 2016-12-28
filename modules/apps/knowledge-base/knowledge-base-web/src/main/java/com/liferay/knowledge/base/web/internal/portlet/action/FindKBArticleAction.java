@@ -44,7 +44,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -241,7 +241,7 @@ public class FindKBArticleAction extends BaseStrutsAction {
 						PortletPreferencesFactoryUtil.getPortletSetup(
 							layout, portlet.getPortletId(), StringPool.BLANK);
 
-					long kbFolderClassNameId = PortalUtil.getClassNameId(
+					long kbFolderClassNameId = portal.getClassNameId(
 						KBFolderConstants.getClassName());
 
 					long resourceClassNameId = GetterUtil.getLong(
@@ -408,7 +408,7 @@ public class FindKBArticleAction extends BaseStrutsAction {
 	protected String getPortletId(long plid) throws Exception {
 		Layout layout = _layoutLocalService.getLayout(plid);
 
-		long selPlid = PortalUtil.getPlidFromPortletId(
+		long selPlid = portal.getPlidFromPortletId(
 			layout.getGroupId(), KBPortletKeys.KNOWLEDGE_BASE_DISPLAY);
 
 		if (selPlid != LayoutConstants.DEFAULT_PARENT_LAYOUT_ID) {
@@ -473,6 +473,9 @@ public class FindKBArticleAction extends BaseStrutsAction {
 
 		_layoutLocalService = layoutLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final boolean _PORTLET_ADD_DEFAULT_RESOURCE_CHECK_ENABLED =
 		GetterUtil.getBoolean(

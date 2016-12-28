@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
@@ -76,11 +76,11 @@ public class TrackbackMVCActionCommand extends BaseMVCActionCommand {
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-			HttpServletRequest request = PortalUtil.getHttpServletRequest(
+			HttpServletRequest request = portal.getHttpServletRequest(
 				actionRequest);
 
 			HttpServletRequest originalRequest =
-				PortalUtil.getOriginalServletRequest(request);
+				portal.getOriginalServletRequest(request);
 
 			String excerpt = ParamUtil.getString(originalRequest, "excerpt");
 			String url = ParamUtil.getString(originalRequest, "url");
@@ -179,9 +179,9 @@ public class TrackbackMVCActionCommand extends BaseMVCActionCommand {
 
 		sb.append("</response>");
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = portal.getHttpServletRequest(
 			actionRequest);
-		HttpServletResponse response = PortalUtil.getHttpServletResponse(
+		HttpServletResponse response = portal.getHttpServletResponse(
 			actionResponse);
 
 		ServletResponseUtil.sendFile(
@@ -225,6 +225,9 @@ public class TrackbackMVCActionCommand extends BaseMVCActionCommand {
 				"Trackbacks are not enabled");
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		TrackbackMVCActionCommand.class);

@@ -45,7 +45,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -115,7 +115,7 @@ public class DisplayPortlet extends BaseKBPortlet {
 
 		PortalPreferences portalPreferences =
 			PortletPreferencesFactoryUtil.getPortalPreferences(
-				PortalUtil.getLiferayPortletRequest(actionRequest));
+				portal.getLiferayPortletRequest(actionRequest));
 
 		PortletPreferences portletPreferences = actionRequest.getPreferences();
 
@@ -203,7 +203,7 @@ public class DisplayPortlet extends BaseKBPortlet {
 			WebKeys.THEME_DISPLAY);
 
 		LiferayPortletURL liferayPortletURL = PortletURLFactoryUtil.create(
-			actionRequest, PortalUtil.getPortletId(actionRequest),
+			actionRequest, portal.getPortletId(actionRequest),
 			themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
 
 		if (parentResourcePrimKey != kbFolderId) {
@@ -278,8 +278,8 @@ public class DisplayPortlet extends BaseKBPortlet {
 				 mvcPath.equals("/display/view_article.jsp")) &&
 				!kbArticleSelection.isExactMatch()) {
 
-				HttpServletResponse response =
-					PortalUtil.getHttpServletResponse(renderResponse);
+				HttpServletResponse response = portal.getHttpServletResponse(
+					renderResponse);
 
 				response.setStatus(404);
 			}
@@ -292,7 +292,7 @@ public class DisplayPortlet extends BaseKBPortlet {
 
 				SessionMessages.add(
 					renderRequest,
-					PortalUtil.getPortletId(renderRequest) +
+					portal.getPortletId(renderRequest) +
 						SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_ERROR_MESSAGE);
 			}
 			else {
@@ -382,7 +382,7 @@ public class DisplayPortlet extends BaseKBPortlet {
 				renderRequest, "kbFolderUrlTitle");
 
 			return kbArticleSelector.findByUrlTitle(
-				PortalUtil.getScopeGroupId(renderRequest),
+				portal.getScopeGroupId(renderRequest),
 				preferredKBFolderURLTitle, parentResourcePrimKey,
 				kbFolderUrlTitle, urlTitle);
 		}
@@ -392,8 +392,8 @@ public class DisplayPortlet extends BaseKBPortlet {
 			KBArticleConstants.DEFAULT_PARENT_RESOURCE_PRIM_KEY);
 
 		return kbArticleSelector.findByResourcePrimKey(
-			PortalUtil.getScopeGroupId(renderRequest),
-			preferredKBFolderURLTitle, parentResourcePrimKey, resourcePrimKey);
+			portal.getScopeGroupId(renderRequest), preferredKBFolderURLTitle,
+			parentResourcePrimKey, resourcePrimKey);
 	}
 
 	protected String getPreferredKBFolderUrlTitle(
@@ -437,6 +437,9 @@ public class DisplayPortlet extends BaseKBPortlet {
 	)
 	protected void setRelease(Release release) {
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private ClassNameLocalService _classNameLocalService;
 	private KBArticleLocalService _kbArticleLocalService;
