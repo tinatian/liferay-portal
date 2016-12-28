@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletException;
@@ -72,13 +72,13 @@ public class EditFileEntryTypeMVCRenderCommand implements MVCRenderCommand {
 				DDMStructure ddmStructure =
 					DDMStructureManagerUtil.fetchStructure(
 						dlFileEntryType.getGroupId(),
-						PortalUtil.getClassNameId(DLFileEntryMetadata.class),
+						portal.getClassNameId(DLFileEntryMetadata.class),
 						DLUtil.getDDMStructureKey(dlFileEntryType));
 
 				if (ddmStructure == null) {
 					ddmStructure = DDMStructureManagerUtil.fetchStructure(
 						dlFileEntryType.getGroupId(),
-						PortalUtil.getClassNameId(DLFileEntryMetadata.class),
+						portal.getClassNameId(DLFileEntryMetadata.class),
 						DLUtil.getDeprecatedDDMStructureKey(dlFileEntryType));
 				}
 
@@ -109,6 +109,9 @@ public class EditFileEntryTypeMVCRenderCommand implements MVCRenderCommand {
 
 		_dlFileEntryTypeService = dlFileEntryTypeService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private DLFileEntryTypeService _dlFileEntryTypeService;
 

@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -111,9 +111,9 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 			editPageURL.setPortletMode(PortletMode.VIEW);
 			editPageURL.setWindowState(WindowState.MAXIMIZED);
 
-			HttpServletRequest request = PortalUtil.getHttpServletRequest(
+			HttpServletRequest request = portal.getHttpServletRequest(
 				actionRequest);
-			HttpServletResponse response = PortalUtil.getHttpServletResponse(
+			HttpServletResponse response = portal.getHttpServletResponse(
 				actionResponse);
 
 			getFile(
@@ -138,7 +138,7 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 				_log.error(sb.toString());
 			}
 
-			PortalUtil.sendError(e, actionRequest, actionResponse);
+			portal.sendError(e, actionRequest, actionResponse);
 		}
 	}
 
@@ -231,6 +231,9 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 	protected void setWikiPageService(WikiPageService wikiPageService) {
 		_wikiPageService = wikiPageService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _LOCALHOST = "localhost";
 

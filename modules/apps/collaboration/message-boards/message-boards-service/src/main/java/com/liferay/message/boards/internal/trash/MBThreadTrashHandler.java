@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.trash.TrashActionKeys;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashRenderer;
 import com.liferay.portal.kernel.trash.TrashRendererFactory;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portlet.messageboards.service.permission.MBCategoryPermission;
 import com.liferay.portlet.messageboards.service.permission.MBMessagePermission;
@@ -256,14 +256,13 @@ public class MBThreadTrashHandler extends BaseTrashHandler {
 		String portletId = PortletProviderUtil.getPortletId(
 			MBThread.class.getName(), PortletProvider.Action.EDIT);
 
-		long plid = PortalUtil.getPlidFromPortletId(
-			thread.getGroupId(), portletId);
+		long plid = portal.getPlidFromPortletId(thread.getGroupId(), portletId);
 
 		if (plid == LayoutConstants.DEFAULT_PLID) {
 			portletId = PortletProviderUtil.getPortletId(
 				MBThread.class.getName(), PortletProvider.Action.MANAGE);
 
-			portletURL = PortalUtil.getControlPanelPortletURL(
+			portletURL = portal.getControlPanelPortletURL(
 				portletRequest, portletId, PortletRequest.RENDER_PHASE);
 		}
 		else {
@@ -325,6 +324,9 @@ public class MBThreadTrashHandler extends BaseTrashHandler {
 
 		_trashRendererFactory = trashRendererFactory;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private MBCategoryLocalService _mbCategoryLocalService;
 	private MBThreadLocalService _mbThreadLocalService;

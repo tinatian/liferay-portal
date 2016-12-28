@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 
 import org.osgi.service.component.annotations.Component;
@@ -126,7 +126,7 @@ public class CommentUserNotificationHandler
 				serviceContext.getLocale(), message,
 				new String[] {
 					HtmlUtil.escape(
-						PortalUtil.getUserName(
+						portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
 					HtmlUtil.escape(
 						assetRenderer.getTitle(serviceContext.getLocale()))
@@ -138,7 +138,7 @@ public class CommentUserNotificationHandler
 				serviceContext.getLocale(), message,
 				new String[] {
 					HtmlUtil.escape(
-						PortalUtil.getUserName(
+						portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK))
 				},
 				false);
@@ -153,6 +153,9 @@ public class CommentUserNotificationHandler
 
 		_mbDiscussionLocalService = mbDiscussionLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommentUserNotificationHandler.class);

@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.service.OrganizationService;
 import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
@@ -91,7 +91,7 @@ public class DeleteOrganizationsAndUsersMVCActionCommand
 
 				SessionErrors.add(actionRequest, e.getClass());
 
-				String redirect = PortalUtil.escapeRedirect(
+				String redirect = portal.escapeRedirect(
 					ParamUtil.getString(actionRequest, "redirect"));
 
 				if (Validator.isNotNull(redirect)) {
@@ -117,6 +117,9 @@ public class DeleteOrganizationsAndUsersMVCActionCommand
 	protected void setUserService(UserService userService) {
 		_userService = userService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private OrganizationService _organizationService;
 	private UserService _userService;

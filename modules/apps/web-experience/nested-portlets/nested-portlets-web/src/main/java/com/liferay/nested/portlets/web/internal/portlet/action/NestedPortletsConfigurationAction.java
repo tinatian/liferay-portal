@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutTemplateLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -115,7 +115,7 @@ public class NestedPortletsConfigurationAction
 		for (String columnId : columnIds) {
 			if (!columnId.contains(portletId)) {
 				columnNames.add(
-					PortalUtil.getPortletNamespace(portletId) +
+					portal.getPortletNamespace(portletId) +
 						StringPool.UNDERLINE + columnId);
 			}
 		}
@@ -172,6 +172,9 @@ public class NestedPortletsConfigurationAction
 
 		_layoutTemplateLocalService = layoutTemplateLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Pattern _pattern = Pattern.compile(
 		"processColumn[(]\"(.*?)\"(?:, *\"(?:.*?)\")?[)]", Pattern.DOTALL);

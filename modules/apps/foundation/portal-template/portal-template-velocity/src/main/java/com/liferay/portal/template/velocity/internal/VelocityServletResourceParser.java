@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.servlet.PortalWebResourceConstants;
 import com.liferay.portal.kernel.servlet.PortalWebResourcesUtil;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.template.TemplateResourceParser;
 import com.liferay.portal.template.URLResourceParser;
 
@@ -38,6 +38,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Alexander Chow
@@ -60,8 +61,8 @@ public class VelocityServletResourceParser extends URLResourceParser {
 
 		String servletContextName = source.substring(0, pos);
 
-		if (servletContextName.equals(PortalUtil.getPathContext())) {
-			servletContextName = PortalUtil.getServletContextName();
+		if (servletContextName.equals(portal.getPathContext())) {
+			servletContextName = portal.getServletContextName();
 		}
 
 		ServletContext servletContext = _serviceTrackerMap.getService(
@@ -138,6 +139,9 @@ public class VelocityServletResourceParser extends URLResourceParser {
 	protected void deactivate() {
 		_serviceTrackerMap.close();
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		VelocityServletResourceParser.class);

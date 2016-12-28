@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -139,7 +139,7 @@ public class OpenIdLoginMVCActionCommand extends BaseMVCActionCommand {
 					redirect = themeDisplay.getURLSignIn();
 				}
 
-				redirect = PortalUtil.escapeRedirect(redirect);
+				redirect = portal.escapeRedirect(redirect);
 
 				actionResponse.sendRedirect(redirect);
 			}
@@ -166,7 +166,7 @@ public class OpenIdLoginMVCActionCommand extends BaseMVCActionCommand {
 			else {
 				_log.error("Error processing the OpenID login", e);
 
-				PortalUtil.sendError(e, actionRequest, actionResponse);
+				portal.sendError(e, actionRequest, actionResponse);
 			}
 		}
 	}
@@ -182,6 +182,9 @@ public class OpenIdLoginMVCActionCommand extends BaseMVCActionCommand {
 
 		_openIdServiceHandler = openIdServiceHandler;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		OpenIdLoginMVCActionCommand.class);
