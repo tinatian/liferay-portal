@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.sso.opensso.configuration.OpenSSOConfiguration;
 import com.liferay.portal.security.sso.opensso.constants.OpenSSOConstants;
@@ -85,7 +85,7 @@ public class OpenSSOFilter extends BaseFilter {
 		HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			long companyId = PortalUtil.getCompanyId(request);
+			long companyId = portal.getCompanyId(request);
 
 			OpenSSOConfiguration openSSOConfiguration = getOpenSSOConfiguration(
 				companyId);
@@ -125,7 +125,7 @@ public class OpenSSOFilter extends BaseFilter {
 			FilterChain filterChain)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		OpenSSOConfiguration openSSOConfiguration = getOpenSSOConfiguration(
 			companyId);
@@ -187,7 +187,7 @@ public class OpenSSOFilter extends BaseFilter {
 
 			return;
 		}
-		else if (PortalUtil.getUserId(request) > 0) {
+		else if (portal.getUserId(request) > 0) {
 			session.invalidate();
 		}
 
@@ -199,7 +199,7 @@ public class OpenSSOFilter extends BaseFilter {
 			return;
 		}
 
-		String currentURL = PortalUtil.getCurrentURL(request);
+		String currentURL = portal.getCurrentURL(request);
 
 		String redirect = currentURL;
 
@@ -207,7 +207,7 @@ public class OpenSSOFilter extends BaseFilter {
 			redirect = ParamUtil.getString(request, "redirect");
 
 			if (Validator.isNull(redirect)) {
-				redirect = PortalUtil.getPathMain();
+				redirect = portal.getPathMain();
 			}
 		}
 
@@ -229,6 +229,9 @@ public class OpenSSOFilter extends BaseFilter {
 	protected void setOpenSSO(OpenSSO openSSO) {
 		_openSSO = openSSO;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _SUBJECT_ID_KEY = "open.sso.subject.id";
 

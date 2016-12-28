@@ -50,7 +50,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -108,7 +108,7 @@ public class SyncDownloadServlet extends HttpServlet {
 				PortalSessionThreadLocal.setHttpSession(session);
 			}
 
-			User user = PortalUtil.getUser(request);
+			User user = portal.getUser(request);
 
 			String syncUuid = request.getHeader("Sync-UUID");
 
@@ -196,15 +196,15 @@ public class SyncDownloadServlet extends HttpServlet {
 			}
 		}
 		catch (NoSuchFileEntryException nsfee) {
-			PortalUtil.sendError(
+			portal.sendError(
 				HttpServletResponse.SC_NOT_FOUND, nsfee, request, response);
 		}
 		catch (NoSuchFileVersionException nsfve) {
-			PortalUtil.sendError(
+			portal.sendError(
 				HttpServletResponse.SC_NOT_FOUND, nsfve, request, response);
 		}
 		catch (Exception e) {
-			PortalUtil.sendError(e, request, response);
+			portal.sendError(e, request, response);
 		}
 	}
 
@@ -433,7 +433,7 @@ public class SyncDownloadServlet extends HttpServlet {
 		Image image = _imageLocalService.fetchImage(imageId);
 
 		if (image == null) {
-			PortalUtil.sendError(
+			portal.sendError(
 				HttpServletResponse.SC_NOT_FOUND, new NoSuchImageException(),
 				request, response);
 
@@ -587,6 +587,9 @@ public class SyncDownloadServlet extends HttpServlet {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _ERROR_HEADER = "Sync-Error";
 

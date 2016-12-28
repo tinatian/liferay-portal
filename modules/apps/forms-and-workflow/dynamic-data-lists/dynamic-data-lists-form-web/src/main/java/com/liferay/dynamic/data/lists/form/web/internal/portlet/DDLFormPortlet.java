@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
@@ -91,7 +91,7 @@ public class DDLFormPortlet extends MVCPortlet {
 			super.processAction(actionRequest, actionResponse);
 		}
 		catch (Exception e) {
-			PortalUtil.copyRequestParameters(actionRequest, actionResponse);
+			portal.copyRequestParameters(actionRequest, actionResponse);
 
 			Throwable cause = getRootCause(e);
 
@@ -226,6 +226,9 @@ public class DDLFormPortlet extends MVCPortlet {
 		renderRequest.setAttribute(
 			WebKeys.PORTLET_DISPLAY_CONTEXT, ddlFormDisplayContext);
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(DDLFormPortlet.class);
 

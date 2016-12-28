@@ -41,7 +41,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.URLMenuItem;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class BookmarksPortletToolbarContributor
 
 		urlMenuItem.setLabel(
 			LanguageUtil.get(
-				PortalUtil.getHttpServletRequest(portletRequest), "bookmark"));
+				portal.getHttpServletRequest(portletRequest), "bookmark"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
@@ -102,7 +102,7 @@ public class BookmarksPortletToolbarContributor
 		portletURL.setParameter(
 			"mvcRenderCommandName", "/bookmarks/edit_entry");
 		portletURL.setParameter(
-			"redirect", PortalUtil.getCurrentURL(portletRequest));
+			"redirect", portal.getCurrentURL(portletRequest));
 		portletURL.setParameter("folderId", String.valueOf(folderId));
 
 		urlMenuItem.setURL(portletURL.toString());
@@ -129,7 +129,7 @@ public class BookmarksPortletToolbarContributor
 
 		urlMenuItem.setLabel(
 			LanguageUtil.get(
-				PortalUtil.getHttpServletRequest(portletRequest),
+				portal.getHttpServletRequest(portletRequest),
 				(folder != null) ? "subfolder" : "folder"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
@@ -141,7 +141,7 @@ public class BookmarksPortletToolbarContributor
 		portletURL.setParameter(
 			"mvcRenderCommandName", "/bookmarks/edit_folder");
 		portletURL.setParameter(
-			"redirect", PortalUtil.getCurrentURL(portletRequest));
+			"redirect", portal.getCurrentURL(portletRequest));
 		portletURL.setParameter("parentFolderId", String.valueOf(folderId));
 
 		urlMenuItem.setURL(portletURL.toString());
@@ -217,6 +217,9 @@ public class BookmarksPortletToolbarContributor
 
 		_bookmarksFolderService = bookmarksFolderService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private BookmarksFolder _getFolder(
 		ThemeDisplay themeDisplay, PortletRequest portletRequest) {

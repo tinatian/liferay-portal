@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.service.LayoutRevisionLocalService;
 import com.liferay.portal.kernel.service.LayoutSetBranchLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
 
 import javax.servlet.ServletContext;
@@ -83,7 +83,7 @@ public class LayoutRevisionAssetRendererFactory
 		assetEntry.setUserName(user.getFullName());
 		assetEntry.setCreateDate(layoutRevision.getCreateDate());
 		assetEntry.setClassNameId(
-			PortalUtil.getClassNameId(LayoutRevision.class.getName()));
+			portal.getClassNameId(LayoutRevision.class.getName()));
 		assetEntry.setClassPK(layoutRevision.getLayoutRevisionId());
 
 		StringBundler sb = new StringBundler(4);
@@ -163,6 +163,9 @@ public class LayoutRevisionAssetRendererFactory
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private AssetEntryLocalService _assetEntryLocalService;
 	private LayoutRevisionLocalService _layoutRevisionLocalService;

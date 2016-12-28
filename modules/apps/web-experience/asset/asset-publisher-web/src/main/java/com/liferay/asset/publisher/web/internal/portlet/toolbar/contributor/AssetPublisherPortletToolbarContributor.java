@@ -36,7 +36,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
@@ -182,7 +182,7 @@ public class AssetPublisherPortletToolbarContributor
 		urlMenuItem.setLabel(title);
 
 		LiferayPortletResponse liferayPortletResponse =
-			PortalUtil.getLiferayPortletResponse(portletResponse);
+			portal.getLiferayPortletResponse(portletResponse);
 
 		PortletURL portletURL = liferayPortletResponse.createRenderURL();
 
@@ -247,6 +247,9 @@ public class AssetPublisherPortletToolbarContributor
 	protected void setGroupLocalService(GroupLocalService groupLocalService) {
 		_groupLocalService = groupLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private URLMenuItem _getPortletTitleAddAssetEntryMenuItem(
 		ThemeDisplay themeDisplay,

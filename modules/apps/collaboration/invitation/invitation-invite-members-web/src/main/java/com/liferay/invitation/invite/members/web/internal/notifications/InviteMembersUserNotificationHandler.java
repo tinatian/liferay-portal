@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -176,7 +176,7 @@ public class InviteMembersUserNotificationHandler
 		if (group.hasPublicLayouts()) {
 			sb.append(" href=\"");
 
-			String groupFriendlyURL = PortalUtil.getGroupFriendlyURL(
+			String groupFriendlyURL = portal.getGroupFriendlyURL(
 				group.getPublicLayoutSet(), serviceContext.getThemeDisplay());
 
 			sb.append(groupFriendlyURL);
@@ -252,6 +252,9 @@ public class InviteMembersUserNotificationHandler
 
 		_userNotificationEventLocalService = userNotificationEventLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private GroupLocalService _groupLocalService;
 	private MemberRequestLocalService _memberRequestLocalService;

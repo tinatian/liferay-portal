@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -69,7 +69,7 @@ public class CalendarActivityInterpreter extends BaseSocialActivityInterpreter {
 			SocialActivity activity, ServiceContext serviceContext)
 		throws Exception {
 
-		long plid = PortalUtil.getPlidFromPortletId(
+		long plid = portal.getPlidFromPortletId(
 			serviceContext.getScopeGroupId(), CalendarPortletKeys.CALENDAR);
 
 		PortletURL portletURL = PortletURLFactoryUtil.create(
@@ -153,6 +153,9 @@ public class CalendarActivityInterpreter extends BaseSocialActivityInterpreter {
 
 		_calendarBookingLocalService = calendarBookingLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String[] _CLASS_NAMES =
 		{CalendarBooking.class.getName()};

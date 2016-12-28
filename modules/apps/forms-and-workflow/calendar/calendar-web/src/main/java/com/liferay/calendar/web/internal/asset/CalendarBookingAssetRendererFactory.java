@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -114,7 +114,7 @@ public class CalendarBookingAssetRendererFactory
 			return null;
 		}
 
-		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+		PortletURL portletURL = portal.getControlPanelPortletURL(
 			liferayPortletRequest, getGroup(liferayPortletRequest),
 			CalendarPortletKeys.CALENDAR, 0, 0, PortletRequest.RENDER_PHASE);
 
@@ -184,6 +184,9 @@ public class CalendarBookingAssetRendererFactory
 
 		_calendarBookingLocalService = calendarBookingLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private CalendarBookingLocalService _calendarBookingLocalService;
 	private ServletContext _servletContext;

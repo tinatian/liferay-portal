@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.Map;
@@ -75,7 +75,7 @@ public class RenderStructureFieldMVCRenderCommand
 		request.setAttribute("aui:form:portletNamespace", portletNamespace);
 
 		ddmFormFieldRenderingContext.setHttpServletRequest(
-			PortalUtil.getOriginalServletRequest(request));
+			portal.getOriginalServletRequest(request));
 		ddmFormFieldRenderingContext.setHttpServletResponse(response);
 		ddmFormFieldRenderingContext.setLocale(themeDisplay.getLocale());
 		ddmFormFieldRenderingContext.setMode(mode);
@@ -91,11 +91,11 @@ public class RenderStructureFieldMVCRenderCommand
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws Exception {
 
-		HttpServletResponse httpServletResponse =
-			PortalUtil.getHttpServletResponse(resourceResponse);
+		HttpServletResponse httpServletResponse = portal.getHttpServletResponse(
+			resourceResponse);
 
-		HttpServletRequest httpServletRequest =
-			PortalUtil.getHttpServletRequest(resourceRequest);
+		HttpServletRequest httpServletRequest = portal.getHttpServletRequest(
+			resourceRequest);
 
 		DDMFormField ddmFormField = getDDMFormField(httpServletRequest);
 
@@ -142,6 +142,9 @@ public class RenderStructureFieldMVCRenderCommand
 
 		_ddmFormJSONDeserializer = ddmFormJSONDeserializer;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private DDMFormFieldRendererRegistry _ddmFormFieldRendererRegistry;
 	private DDMFormJSONDeserializer _ddmFormJSONDeserializer;
