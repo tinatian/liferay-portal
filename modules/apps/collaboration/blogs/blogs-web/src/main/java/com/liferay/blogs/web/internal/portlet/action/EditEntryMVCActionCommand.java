@@ -69,7 +69,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -147,7 +147,7 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 
 			SessionMessages.add(
 				actionRequest,
-				PortalUtil.getPortletId(actionRequest) +
+				portal.getPortletId(actionRequest) +
 					SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 		}
 	}
@@ -283,11 +283,11 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 					sendRedirect(actionRequest, actionResponse, redirect);
 				}
 				else {
-					redirect = PortalUtil.escapeRedirect(redirect);
+					redirect = portal.escapeRedirect(redirect);
 
 					if (Validator.isNotNull(redirect)) {
 						if (cmd.equals(Constants.ADD) && (entry != null)) {
-							String namespace = PortalUtil.getPortletNamespace(
+							String namespace = portal.getPortletNamespace(
 								portletId);
 
 							redirect = HttpUtil.addParameter(
@@ -626,6 +626,9 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 
 		return new Object[] {entry, blogsEntryAttachmentFileEntryReferences};
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditEntryMVCActionCommand.class);

@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.security.auto.login.AutoLogin;
 import com.liferay.portal.kernel.security.auto.login.BaseAutoLogin;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.security.sso.facebook.connect.constants.FacebookConnectWebKeys;
@@ -54,7 +54,7 @@ public class FacebookConnectAutoLogin extends BaseAutoLogin {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		if (!_facebookConnect.isEnabled(companyId)) {
 			return null;
@@ -112,6 +112,9 @@ public class FacebookConnectAutoLogin extends BaseAutoLogin {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private FacebookConnect _facebookConnect;
 	private UserLocalService _userLocalService;

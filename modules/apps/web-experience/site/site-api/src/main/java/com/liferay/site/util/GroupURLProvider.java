@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HttpUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -57,7 +57,7 @@ public class GroupURLProvider {
 
 		if (Validator.isNotNull(portletId)) {
 			PortletURL groupAdministrationURL =
-				PortalUtil.getControlPanelPortletURL(
+				portal.getControlPanelPortletURL(
 					portletRequest, group, portletId, 0, 0,
 					PortletRequest.RENDER_PHASE);
 
@@ -143,6 +143,9 @@ public class GroupURLProvider {
 
 		_panelCategoryRegistry = panelCategoryRegistry;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		GroupURLProvider.class);

@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.service.PluginSettingService;
 import com.liferay.portal.kernel.service.PortletService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -84,7 +84,7 @@ public class EditPluginActionCommand extends BaseMVCActionCommand {
 	protected void updatePluginSetting(ActionRequest actionRequest)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(actionRequest);
+		long companyId = portal.getCompanyId(actionRequest);
 		String pluginId = ParamUtil.getString(actionRequest, "pluginId");
 		String pluginType = ParamUtil.getString(actionRequest, "pluginType");
 
@@ -108,6 +108,9 @@ public class EditPluginActionCommand extends BaseMVCActionCommand {
 				companyId, pluginId, pluginType, roles, active);
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private PluginSettingService _pluginSettingService;
 	private PortletService _portletService;

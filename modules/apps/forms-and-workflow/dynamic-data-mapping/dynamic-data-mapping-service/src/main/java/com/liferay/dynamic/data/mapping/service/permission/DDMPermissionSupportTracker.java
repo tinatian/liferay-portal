@@ -21,12 +21,13 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerCustomizer
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Marcellus Tavares
@@ -38,7 +39,7 @@ public class DDMPermissionSupportTracker {
 			getDDMStructurePermissionSupportServiceWrapper(long classNameId)
 		throws PortalException {
 
-		String className = PortalUtil.getClassName(classNameId);
+		String className = portal.getClassName(classNameId);
 
 		ServiceWrapper<DDMStructurePermissionSupport>
 			ddmStructurePermissionSupportServiceWrapper =
@@ -59,7 +60,7 @@ public class DDMPermissionSupportTracker {
 				long resourceClassNameId)
 		throws PortalException {
 
-		String className = PortalUtil.getClassName(resourceClassNameId);
+		String className = portal.getClassName(resourceClassNameId);
 
 		ServiceWrapper<DDMTemplatePermissionSupport>
 			ddmTemplatePermissionSupportServiceWrapper =
@@ -100,6 +101,9 @@ public class DDMPermissionSupportTracker {
 
 		_ddmTemplatePermissionSupportServiceTrackerMap.close();
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private ServiceTrackerMap
 		<String, ServiceWrapper<DDMStructurePermissionSupport>>

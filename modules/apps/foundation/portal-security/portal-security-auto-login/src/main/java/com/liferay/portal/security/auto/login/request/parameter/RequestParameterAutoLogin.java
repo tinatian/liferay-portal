@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.settings.CompanyServiceSettingsLocator;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.auto.login.internal.request.parameter.constants.RequestParameterAutoLoginConstants;
 import com.liferay.portal.security.auto.login.request.parameter.module.configuration.RequestParameterAutoLoginConfiguration;
@@ -54,7 +54,7 @@ public class RequestParameterAutoLogin extends BaseAutoLogin {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		if (!isEnabled(companyId)) {
 			return null;
@@ -72,7 +72,7 @@ public class RequestParameterAutoLogin extends BaseAutoLogin {
 			return null;
 		}
 
-		Company company = PortalUtil.getCompany(request);
+		Company company = portal.getCompany(request);
 
 		String authType = company.getAuthType();
 
@@ -150,6 +150,9 @@ public class RequestParameterAutoLogin extends BaseAutoLogin {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private RequestParameterAutoLoginConfiguration
 		_getRequestParameterAutoLoginConfiguration(long companyId) {
