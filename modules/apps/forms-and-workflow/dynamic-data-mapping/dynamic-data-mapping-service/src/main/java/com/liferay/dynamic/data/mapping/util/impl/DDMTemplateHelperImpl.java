@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.TemplateVariableDefinition;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.template.TemplateContextHelper;
@@ -62,7 +62,7 @@ public class DDMTemplateHelperImpl implements DDMTemplateHelper {
 	@Override
 	public DDMStructure fetchStructure(DDMTemplate template) {
 		try {
-			long classNameId = PortalUtil.getClassNameId(DDMStructure.class);
+			long classNameId = portal.getClassNameId(DDMStructure.class);
 
 			if (template.getClassNameId() == classNameId) {
 				return _ddmStructureLocalService.fetchDDMStructure(
@@ -258,6 +258,9 @@ public class DDMTemplateHelperImpl implements DDMTemplateHelper {
 	protected void setJSONFactory(JSONFactory jsonFactory) {
 		_jsonFactory = jsonFactory;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _TEMPLATE_CONTENT = "# Placeholder";
 

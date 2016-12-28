@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.security.auto.login.AutoLogin;
 import com.liferay.portal.kernel.security.auto.login.BaseAutoLogin;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.sso.google.GoogleAuthorization;
 import com.liferay.portal.security.sso.google.constants.GoogleWebKeys;
@@ -42,7 +42,7 @@ public class GoogleAutoLogin extends BaseAutoLogin {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		long companyId = PortalUtil.getCompanyId(request);
+		long companyId = portal.getCompanyId(request);
 
 		if (!_googleAuthorization.isEnabled(companyId)) {
 			return null;
@@ -99,6 +99,9 @@ public class GoogleAutoLogin extends BaseAutoLogin {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	@Reference
 	private GoogleAuthorization _googleAuthorization;

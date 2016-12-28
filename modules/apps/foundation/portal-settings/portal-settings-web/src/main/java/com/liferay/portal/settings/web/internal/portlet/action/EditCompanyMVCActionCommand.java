@@ -43,7 +43,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropertiesParamUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.settings.web.constants.PortalSettingsPortletKeys;
@@ -149,7 +149,7 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 	}
 
 	protected void updateCompany(ActionRequest actionRequest) throws Exception {
-		long companyId = PortalUtil.getCompanyId(actionRequest);
+		long companyId = portal.getCompanyId(actionRequest);
 
 		String virtualHostname = ParamUtil.getString(
 			actionRequest, "virtualHostname");
@@ -193,8 +193,11 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 			industry, type, size, languageId, timeZoneId, addresses,
 			emailAddresses, phones, websites, properties);
 
-		PortalUtil.resetCDNHosts();
+		portal.resetCDNHosts();
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private CompanyService _companyService;
 	private DLAppLocalService _dlAppLocalService;

@@ -52,7 +52,7 @@ import com.liferay.portal.kernel.upload.UploadRequestSizeException;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -90,7 +90,7 @@ public class ImportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 		throws Exception {
 
 		UploadPortletRequest uploadPortletRequest =
-			PortalUtil.getUploadPortletRequest(actionRequest);
+			portal.getUploadPortletRequest(actionRequest);
 
 		checkExceededSizeLimit(uploadPortletRequest);
 
@@ -275,7 +275,7 @@ public class ImportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 			String folderName, Exception e)
 		throws Exception {
 
-		HttpServletResponse response = PortalUtil.getHttpServletResponse(
+		HttpServletResponse response = portal.getHttpServletResponse(
 			actionResponse);
 
 		response.setContentType(ContentTypes.TEXT_HTML);
@@ -456,6 +456,9 @@ public class ImportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 		return _exportImportService.validateImportLayoutsFile(
 			exportImportConfiguration, inputStream);
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ImportLayoutsMVCActionCommand.class);

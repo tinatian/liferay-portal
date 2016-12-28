@@ -34,7 +34,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -208,7 +208,7 @@ public class ExpandoPortlet extends MVCPortlet {
 		else if (type == ExpandoColumnConstants.BOOLEAN_ARRAY) {
 		}
 		else if (type == ExpandoColumnConstants.DATE) {
-			User user = PortalUtil.getUser(portletRequest);
+			User user = portal.getUser(portletRequest);
 
 			int valueDateMonth = ParamUtil.getInteger(
 				portletRequest, name + "Month");
@@ -227,7 +227,7 @@ public class ExpandoPortlet extends MVCPortlet {
 				valueDateHour += 12;
 			}
 
-			value = PortalUtil.getDate(
+			value = portal.getDate(
 				valueDateMonth, valueDateDay, valueDateYear, valueDateHour,
 				valueDateMinute, user.getTimeZone(), ValueDataException.class);
 		}
@@ -390,6 +390,9 @@ public class ExpandoPortlet extends MVCPortlet {
 
 		expandoBridge.setAttributeProperties(name, properties);
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private ExpandoColumnService _expandoColumnService;
 

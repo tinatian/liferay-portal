@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -154,7 +154,7 @@ public class FolderStagedModelDataHandler
 			portletDataContext.addClassedModel(
 				folderElement, folderPath, folder);
 
-			long portletRepositoryClassNameId = PortalUtil.getClassNameId(
+			long portletRepositoryClassNameId = portal.getClassNameId(
 				PortletRepository.class.getName());
 
 			if (repository.getClassNameId() != portletRepositoryClassNameId) {
@@ -514,6 +514,9 @@ public class FolderStagedModelDataHandler
 			}
 		}
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private DLAppLocalService _dlAppLocalService;
 	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
