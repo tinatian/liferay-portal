@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -49,7 +49,7 @@ public class ${className}Portlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		String portletId = PortalUtil.getPortletId(renderRequest);
+		String portletId = _portal.getPortletId(renderRequest);
 
 		String message = "${artifactId} Add Portlet Provider";
 
@@ -89,4 +89,6 @@ public class ${className}Portlet extends MVCPortlet {
 
 	private AssetEntryLocalService _assetEntryLocalService;
 
+	@Reference
+	private Portal _portal;
 }
