@@ -50,6 +50,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -8557,6 +8558,26 @@ public class DDMTemplatePersistenceImpl extends BasePersistenceImpl<DDMTemplate>
 	private static final String _FINDER_COLUMN_G_C_C_GROUPID_7 = "ddmTemplate.groupId IN (";
 	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2 = "ddmTemplate.classNameId = ? AND ";
 	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2 = "ddmTemplate.classPK = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_G_C_T = new FinderPath(DDMTemplateModelImpl.ENTITY_CACHE_ENABLED,
+			DDMTemplateModelImpl.FINDER_CACHE_ENABLED, DDMTemplateImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_T",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C_T = new FinderPath(DDMTemplateModelImpl.ENTITY_CACHE_ENABLED,
+			DDMTemplateModelImpl.FINDER_CACHE_ENABLED, DDMTemplateImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_T",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName()
+			},
+			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
+			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			DDMTemplateModelImpl.TEMPLATEKEY_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_FETCH_BY_G_C_T = new FinderPath(DDMTemplateModelImpl.ENTITY_CACHE_ENABLED,
 			DDMTemplateModelImpl.FINDER_CACHE_ENABLED, DDMTemplateImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_C_T",
@@ -8574,6 +8595,255 @@ public class DDMTemplatePersistenceImpl extends BasePersistenceImpl<DDMTemplate>
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
 			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_G_C_T = new FinderPath(DDMTemplateModelImpl.ENTITY_CACHE_ENABLED,
+			DDMTemplateModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_C_T",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName()
+			});
+
+	/**
+	 * Returns all the ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupIds the group IDs
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @return the matching ddm templates
+	 */
+	@Override
+	public List<DDMTemplate> findByG_C_T(long[] groupIds, long classNameId,
+		String templateKey) {
+		return findByG_C_T(groupIds, classNameId, templateKey,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupIds the group IDs
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @param start the lower bound of the range of ddm templates
+	 * @param end the upper bound of the range of ddm templates (not inclusive)
+	 * @return the range of matching ddm templates
+	 */
+	@Override
+	public List<DDMTemplate> findByG_C_T(long[] groupIds, long classNameId,
+		String templateKey, int start, int end) {
+		return findByG_C_T(groupIds, classNameId, templateKey, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupIds the group IDs
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @param start the lower bound of the range of ddm templates
+	 * @param end the upper bound of the range of ddm templates (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching ddm templates
+	 */
+	@Override
+	public List<DDMTemplate> findByG_C_T(long[] groupIds, long classNameId,
+		String templateKey, int start, int end,
+		OrderByComparator<DDMTemplate> orderByComparator) {
+		return findByG_C_T(groupIds, classNameId, templateKey, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the ddm templates where groupId = &#63; and classNameId = &#63; and templateKey = &#63;, optionally using the finder cache.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @param start the lower bound of the range of ddm templates
+	 * @param end the upper bound of the range of ddm templates (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching ddm templates
+	 */
+	@Override
+	public List<DDMTemplate> findByG_C_T(long[] groupIds, long classNameId,
+		String templateKey, int start, int end,
+		OrderByComparator<DDMTemplate> orderByComparator,
+		boolean retrieveFromCache) {
+		if (groupIds == null) {
+			groupIds = new long[0];
+		}
+		else if (groupIds.length > 1) {
+			groupIds = ArrayUtil.unique(groupIds);
+
+			Arrays.sort(groupIds);
+		}
+
+		if (groupIds.length == 1) {
+			DDMTemplate ddmTemplate = fetchByG_C_T(groupIds[0], classNameId,
+					templateKey);
+
+			if (ddmTemplate == null) {
+				return Collections.emptyList();
+			}
+			else {
+				List<DDMTemplate> list = new ArrayList<DDMTemplate>(1);
+
+				list.add(ddmTemplate);
+
+				return list;
+			}
+		}
+
+		boolean pagination = true;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderArgs = new Object[] {
+					StringUtil.merge(groupIds), classNameId, templateKey
+				};
+		}
+		else {
+			finderArgs = new Object[] {
+					StringUtil.merge(groupIds), classNameId, templateKey,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<DDMTemplate> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<DDMTemplate>)finderCache.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_G_C_T,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (DDMTemplate ddmTemplate : list) {
+					if (!ArrayUtil.contains(groupIds, ddmTemplate.getGroupId()) ||
+							(classNameId != ddmTemplate.getClassNameId()) ||
+							!Objects.equals(templateKey,
+								ddmTemplate.getTemplateKey())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = new StringBundler();
+
+			query.append(_SQL_SELECT_DDMTEMPLATE_WHERE);
+
+			if (groupIds.length > 0) {
+				query.append(StringPool.OPEN_PARENTHESIS);
+
+				query.append(_FINDER_COLUMN_G_C_T_GROUPID_7);
+
+				query.append(StringUtil.merge(groupIds));
+
+				query.append(StringPool.CLOSE_PARENTHESIS);
+
+				query.append(StringPool.CLOSE_PARENTHESIS);
+
+				query.append(WHERE_AND);
+			}
+
+			query.append(_FINDER_COLUMN_G_C_T_CLASSNAMEID_2);
+
+			boolean bindTemplateKey = false;
+
+			if (templateKey == null) {
+				query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_1);
+			}
+			else if (templateKey.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_3);
+			}
+			else {
+				bindTemplateKey = true;
+
+				query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_2);
+			}
+
+			query.setStringAt(removeConjunction(query.stringAt(query.index() -
+						1)), query.index() - 1);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(DDMTemplateModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(classNameId);
+
+				if (bindTemplateKey) {
+					qPos.add(templateKey);
+				}
+
+				if (!pagination) {
+					list = (List<DDMTemplate>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<DDMTemplate>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_G_C_T,
+					finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_G_C_T,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
 
 	/**
 	 * Returns the ddm template where groupId = &#63; and classNameId = &#63; and templateKey = &#63; or throws a {@link NoSuchTemplateException} if it could not be found.
@@ -8833,7 +9103,277 @@ public class DDMTemplatePersistenceImpl extends BasePersistenceImpl<DDMTemplate>
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the number of ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	 *
+	 * @param groupIds the group IDs
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @return the number of matching ddm templates
+	 */
+	@Override
+	public int countByG_C_T(long[] groupIds, long classNameId,
+		String templateKey) {
+		if (groupIds == null) {
+			groupIds = new long[0];
+		}
+		else if (groupIds.length > 1) {
+			groupIds = ArrayUtil.unique(groupIds);
+
+			Arrays.sort(groupIds);
+		}
+
+		Object[] finderArgs = new Object[] {
+				StringUtil.merge(groupIds), classNameId, templateKey
+			};
+
+		Long count = (Long)finderCache.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_G_C_T,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler();
+
+			query.append(_SQL_COUNT_DDMTEMPLATE_WHERE);
+
+			if (groupIds.length > 0) {
+				query.append(StringPool.OPEN_PARENTHESIS);
+
+				query.append(_FINDER_COLUMN_G_C_T_GROUPID_7);
+
+				query.append(StringUtil.merge(groupIds));
+
+				query.append(StringPool.CLOSE_PARENTHESIS);
+
+				query.append(StringPool.CLOSE_PARENTHESIS);
+
+				query.append(WHERE_AND);
+			}
+
+			query.append(_FINDER_COLUMN_G_C_T_CLASSNAMEID_2);
+
+			boolean bindTemplateKey = false;
+
+			if (templateKey == null) {
+				query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_1);
+			}
+			else if (templateKey.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_3);
+			}
+			else {
+				bindTemplateKey = true;
+
+				query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_2);
+			}
+
+			query.setStringAt(removeConjunction(query.stringAt(query.index() -
+						1)), query.index() - 1);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(classNameId);
+
+				if (bindTemplateKey) {
+					qPos.add(templateKey);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_G_C_T,
+					finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_G_C_T,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of ddm templates that the user has permission to view where groupId = &#63; and classNameId = &#63; and templateKey = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @return the number of matching ddm templates that the user has permission to view
+	 */
+	@Override
+	public int filterCountByG_C_T(long groupId, long classNameId,
+		String templateKey) {
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return countByG_C_T(groupId, classNameId, templateKey);
+		}
+
+		StringBundler query = new StringBundler(4);
+
+		query.append(_FILTER_SQL_COUNT_DDMTEMPLATE_WHERE);
+
+		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_G_C_T_CLASSNAMEID_2);
+
+		boolean bindTemplateKey = false;
+
+		if (templateKey == null) {
+			query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_1);
+		}
+		else if (templateKey.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_3);
+		}
+		else {
+			bindTemplateKey = true;
+
+			query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_2);
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				DDMTemplate.class.getName(),
+				_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME,
+				com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(groupId);
+
+			qPos.add(classNameId);
+
+			if (bindTemplateKey) {
+				qPos.add(templateKey);
+			}
+
+			Long count = (Long)q.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the number of ddm templates that the user has permission to view where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	 *
+	 * @param groupIds the group IDs
+	 * @param classNameId the class name ID
+	 * @param templateKey the template key
+	 * @return the number of matching ddm templates that the user has permission to view
+	 */
+	@Override
+	public int filterCountByG_C_T(long[] groupIds, long classNameId,
+		String templateKey) {
+		if (!InlineSQLHelperUtil.isEnabled(groupIds)) {
+			return countByG_C_T(groupIds, classNameId, templateKey);
+		}
+
+		if (groupIds == null) {
+			groupIds = new long[0];
+		}
+		else if (groupIds.length > 1) {
+			groupIds = ArrayUtil.unique(groupIds);
+
+			Arrays.sort(groupIds);
+		}
+
+		StringBundler query = new StringBundler();
+
+		query.append(_FILTER_SQL_COUNT_DDMTEMPLATE_WHERE);
+
+		if (groupIds.length > 0) {
+			query.append(StringPool.OPEN_PARENTHESIS);
+
+			query.append(_FINDER_COLUMN_G_C_T_GROUPID_7);
+
+			query.append(StringUtil.merge(groupIds));
+
+			query.append(StringPool.CLOSE_PARENTHESIS);
+
+			query.append(StringPool.CLOSE_PARENTHESIS);
+
+			query.append(WHERE_AND);
+		}
+
+		query.append(_FINDER_COLUMN_G_C_T_CLASSNAMEID_2);
+
+		boolean bindTemplateKey = false;
+
+		if (templateKey == null) {
+			query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_1);
+		}
+		else if (templateKey.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_3);
+		}
+		else {
+			bindTemplateKey = true;
+
+			query.append(_FINDER_COLUMN_G_C_T_TEMPLATEKEY_2);
+		}
+
+		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
+			query.index() - 1);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				DDMTemplate.class.getName(),
+				_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupIds);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME,
+				com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(classNameId);
+
+			if (bindTemplateKey) {
+				qPos.add(templateKey);
+			}
+
+			Long count = (Long)q.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
 	private static final String _FINDER_COLUMN_G_C_T_GROUPID_2 = "ddmTemplate.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_GROUPID_7 = "ddmTemplate.groupId IN (";
 	private static final String _FINDER_COLUMN_G_C_T_CLASSNAMEID_2 = "ddmTemplate.classNameId = ? AND ";
 	private static final String _FINDER_COLUMN_G_C_T_TEMPLATEKEY_1 = "ddmTemplate.templateKey IS NULL";
 	private static final String _FINDER_COLUMN_G_C_T_TEMPLATEKEY_2 = "ddmTemplate.templateKey = ?";
@@ -12420,6 +12960,29 @@ public class DDMTemplatePersistenceImpl extends BasePersistenceImpl<DDMTemplate>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C_C, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C_C,
+					args);
+			}
+
+			if ((ddmTemplateModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C_T.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						ddmTemplateModelImpl.getOriginalGroupId(),
+						ddmTemplateModelImpl.getOriginalClassNameId(),
+						ddmTemplateModelImpl.getOriginalTemplateKey()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C_T, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C_T,
+					args);
+
+				args = new Object[] {
+						ddmTemplateModelImpl.getGroupId(),
+						ddmTemplateModelImpl.getClassNameId(),
+						ddmTemplateModelImpl.getTemplateKey()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C_T, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C_T,
 					args);
 			}
 

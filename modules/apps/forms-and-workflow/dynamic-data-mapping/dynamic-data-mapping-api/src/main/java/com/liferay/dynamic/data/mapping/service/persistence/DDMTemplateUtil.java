@@ -2532,6 +2532,91 @@ public class DDMTemplateUtil {
 	}
 
 	/**
+	* Returns all the ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupIds the group IDs
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @return the matching ddm templates
+	*/
+	public static List<DDMTemplate> findByG_C_T(long[] groupIds,
+		long classNameId, java.lang.String templateKey) {
+		return getPersistence().findByG_C_T(groupIds, classNameId, templateKey);
+	}
+
+	/**
+	* Returns a range of all the ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupIds the group IDs
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @param start the lower bound of the range of ddm templates
+	* @param end the upper bound of the range of ddm templates (not inclusive)
+	* @return the range of matching ddm templates
+	*/
+	public static List<DDMTemplate> findByG_C_T(long[] groupIds,
+		long classNameId, java.lang.String templateKey, int start, int end) {
+		return getPersistence()
+				   .findByG_C_T(groupIds, classNameId, templateKey, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupIds the group IDs
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @param start the lower bound of the range of ddm templates
+	* @param end the upper bound of the range of ddm templates (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching ddm templates
+	*/
+	public static List<DDMTemplate> findByG_C_T(long[] groupIds,
+		long classNameId, java.lang.String templateKey, int start, int end,
+		OrderByComparator<DDMTemplate> orderByComparator) {
+		return getPersistence()
+				   .findByG_C_T(groupIds, classNameId, templateKey, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the ddm templates where groupId = &#63; and classNameId = &#63; and templateKey = &#63;, optionally using the finder cache.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DDMTemplateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @param start the lower bound of the range of ddm templates
+	* @param end the upper bound of the range of ddm templates (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching ddm templates
+	*/
+	public static List<DDMTemplate> findByG_C_T(long[] groupIds,
+		long classNameId, java.lang.String templateKey, int start, int end,
+		OrderByComparator<DDMTemplate> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByG_C_T(groupIds, classNameId, templateKey, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
 	* Returns the ddm template where groupId = &#63; and classNameId = &#63; and templateKey = &#63; or throws a {@link NoSuchTemplateException} if it could not be found.
 	*
 	* @param groupId the group ID
@@ -2600,6 +2685,47 @@ public class DDMTemplateUtil {
 	public static int countByG_C_T(long groupId, long classNameId,
 		java.lang.String templateKey) {
 		return getPersistence().countByG_C_T(groupId, classNameId, templateKey);
+	}
+
+	/**
+	* Returns the number of ddm templates where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	*
+	* @param groupIds the group IDs
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @return the number of matching ddm templates
+	*/
+	public static int countByG_C_T(long[] groupIds, long classNameId,
+		java.lang.String templateKey) {
+		return getPersistence().countByG_C_T(groupIds, classNameId, templateKey);
+	}
+
+	/**
+	* Returns the number of ddm templates that the user has permission to view where groupId = &#63; and classNameId = &#63; and templateKey = &#63;.
+	*
+	* @param groupId the group ID
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @return the number of matching ddm templates that the user has permission to view
+	*/
+	public static int filterCountByG_C_T(long groupId, long classNameId,
+		java.lang.String templateKey) {
+		return getPersistence()
+				   .filterCountByG_C_T(groupId, classNameId, templateKey);
+	}
+
+	/**
+	* Returns the number of ddm templates that the user has permission to view where groupId = any &#63; and classNameId = &#63; and templateKey = &#63;.
+	*
+	* @param groupIds the group IDs
+	* @param classNameId the class name ID
+	* @param templateKey the template key
+	* @return the number of matching ddm templates that the user has permission to view
+	*/
+	public static int filterCountByG_C_T(long[] groupIds, long classNameId,
+		java.lang.String templateKey) {
+		return getPersistence()
+				   .filterCountByG_C_T(groupIds, classNameId, templateKey);
 	}
 
 	/**
