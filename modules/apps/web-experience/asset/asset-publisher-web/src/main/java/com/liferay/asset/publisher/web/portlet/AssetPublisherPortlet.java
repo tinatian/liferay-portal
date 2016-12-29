@@ -199,9 +199,9 @@ public class AssetPublisherPortlet extends MVCPortlet {
 		boolean enableRss = GetterUtil.getBoolean(
 			portletPreferences.getValue("enableRss", null));
 
-		if (!_portal.isRSSFeedsEnabled() || !enableRss) {
+		if (!portal.isRSSFeedsEnabled() || !enableRss) {
 			try {
-				_portal.sendRSSFeedsDisabledError(
+				portal.sendRSSFeedsDisabledError(
 					resourceRequest, resourceResponse);
 			}
 			catch (ServletException se) {
@@ -216,7 +216,7 @@ public class AssetPublisherPortlet extends MVCPortlet {
 				resourceResponse.getPortletOutputStream()) {
 
 			String rootPortletId = PortletConstants.getRootPortletId(
-				_portal.getPortletId(resourceRequest));
+				portal.getPortletId(resourceRequest));
 
 			AssetPublisherCustomizer assetPublisherCustomizer =
 				assetPublisherCustomizerRegistry.getAssetPublisherCustomizer(
@@ -286,7 +286,7 @@ public class AssetPublisherPortlet extends MVCPortlet {
 
 		try {
 			String rootPortletId = PortletConstants.getRootPortletId(
-				_portal.getPortletId(renderRequest));
+				portal.getPortletId(renderRequest));
 
 			AssetPublisherCustomizer assetPublisherCustomizer =
 				assetPublisherCustomizerRegistry.getAssetPublisherCustomizer(
@@ -330,6 +330,6 @@ public class AssetPublisherPortlet extends MVCPortlet {
 		AssetPublisherPortlet.class);
 
 	@Reference
-	private Portal _portal;
+	protected Portal portal;
 
 }
