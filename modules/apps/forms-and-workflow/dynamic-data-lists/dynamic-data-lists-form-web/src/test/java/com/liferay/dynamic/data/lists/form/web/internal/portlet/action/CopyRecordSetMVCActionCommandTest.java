@@ -143,7 +143,7 @@ public class CopyRecordSetMVCActionCommandTest {
 		field.set(ddmFormValuesFactory, _serviceTrackerMap);
 
 		ReflectionTestUtil.setFieldValue(
-			ddmFormValuesFactory, "portal", PortalUtil.getPortal());
+			ddmFormValuesFactory, "_portal", PortalUtil.getPortal());
 
 		return ddmFormValuesFactory;
 	}
