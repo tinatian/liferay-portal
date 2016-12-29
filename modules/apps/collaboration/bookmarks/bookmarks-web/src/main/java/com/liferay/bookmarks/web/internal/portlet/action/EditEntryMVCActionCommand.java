@@ -36,7 +36,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -157,7 +157,7 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 			WindowState windowState = actionRequest.getWindowState();
 
 			if (windowState.equals(LiferayWindowState.POP_UP)) {
-				String redirect = PortalUtil.escapeRedirect(
+				String redirect = portal.escapeRedirect(
 					ParamUtil.getString(actionRequest, "redirect"));
 
 				if (Validator.isNotNull(redirect)) {
@@ -165,7 +165,7 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 						String portletId = HttpUtil.getParameter(
 							redirect, "p_p_id", false);
 
-						String namespace = PortalUtil.getPortletNamespace(
+						String namespace = portal.getPortletNamespace(
 							portletId);
 
 						redirect = HttpUtil.addParameter(
@@ -306,6 +306,9 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 
 		return entry;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private BookmarksEntryService _bookmarksEntryService;
 	private BookmarksFolderService _bookmarksFolderService;

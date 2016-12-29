@@ -55,8 +55,8 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileShortcut;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.RepositoryLocalService;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.repository.liferayrepository.LiferayRepositoryDefiner;
@@ -592,16 +592,14 @@ public class DLPortletDataHandler extends BasePortletDataHandler {
 					Property classNameIdProperty = PropertyFactoryUtil.forName(
 						"classNameId");
 
-					long liferayRepositoryClassNameId =
-						PortalUtil.getClassNameId(
-							LiferayRepositoryDefiner.CLASS_NAME);
+					long liferayRepositoryClassNameId = portal.getClassNameId(
+						LiferayRepositoryDefiner.CLASS_NAME);
 
 					conjunction.add(
 						classNameIdProperty.ne(liferayRepositoryClassNameId));
 
-					long tempFileRepositoryClassNameId =
-						PortalUtil.getClassNameId(
-							TemporaryFileEntryRepositoryDefiner.CLASS_NAME);
+					long tempFileRepositoryClassNameId = portal.getClassNameId(
+						TemporaryFileEntryRepositoryDefiner.CLASS_NAME);
 
 					conjunction.add(
 						classNameIdProperty.ne(tempFileRepositoryClassNameId));
@@ -624,7 +622,7 @@ public class DLPortletDataHandler extends BasePortletDataHandler {
 
 		exportActionableDynamicQuery.setStagedModelType(
 			new StagedModelType(
-				PortalUtil.getClassNameId(Repository.class.getName()),
+				portal.getClassNameId(Repository.class.getName()),
 				StagedModelType.REFERRER_CLASS_NAME_ID_ALL));
 
 		return exportActionableDynamicQuery;
@@ -669,6 +667,9 @@ public class DLPortletDataHandler extends BasePortletDataHandler {
 
 		_repositoryLocalService = repositoryLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private DLAppLocalService _dlAppLocalService;
 	private DLFileEntryLocalService _dlFileEntryLocalService;

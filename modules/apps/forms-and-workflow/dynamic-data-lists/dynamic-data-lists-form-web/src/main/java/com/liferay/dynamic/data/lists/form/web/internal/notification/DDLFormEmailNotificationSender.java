@@ -48,7 +48,7 @@ import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -384,7 +384,7 @@ public class DDLFormEmailNotificationSender {
 
 		Map<String, String[]> params = new HashMap<>();
 
-		String portletNamespace = PortalUtil.getPortletNamespace(
+		String portletNamespace = portal.getPortletNamespace(
 			DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN);
 
 		params.put(
@@ -394,7 +394,7 @@ public class DDLFormEmailNotificationSender {
 			portletNamespace.concat("recordSetId"),
 			new String[] {String.valueOf(recordSet.getRecordSetId())});
 
-		return PortalUtil.getControlPanelFullURL(
+		return portal.getControlPanelFullURL(
 			themeDisplay.getScopeGroupId(),
 			DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN, params);
 	}
@@ -408,7 +408,7 @@ public class DDLFormEmailNotificationSender {
 
 		Map<String, String[]> params = new HashMap<>();
 
-		String portletNamespace = PortalUtil.getPortletNamespace(
+		String portletNamespace = portal.getPortletNamespace(
 			DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN);
 
 		params.put(
@@ -421,7 +421,7 @@ public class DDLFormEmailNotificationSender {
 			portletNamespace.concat("recordSetId"),
 			new String[] {String.valueOf(recordSet.getRecordSetId())});
 
-		return PortalUtil.getControlPanelFullURL(
+		return portal.getControlPanelFullURL(
 			themeDisplay.getScopeGroupId(),
 			DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN, params);
 	}
@@ -481,6 +481,9 @@ public class DDLFormEmailNotificationSender {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final String _NAMESPACE = "form.form_entry";
 

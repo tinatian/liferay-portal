@@ -46,7 +46,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.liveusers.LiveUsers;
 import com.liferay.site.memberships.web.internal.constants.SiteMembershipsPortletKeys;
 import com.liferay.site.memberships.web.internal.display.context.SiteMembershipsDisplayContext;
@@ -274,7 +274,7 @@ public class SiteMembershipsPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
-		User user = PortalUtil.getSelectedUser(actionRequest, false);
+		User user = portal.getSelectedUser(actionRequest, false);
 
 		if (user == null) {
 			return;
@@ -491,15 +491,18 @@ public class SiteMembershipsPortlet extends MVCPortlet {
 		_userService = userService;
 	}
 
+	@Reference
+	protected Portal portal;
+
 	private Group _getGroup(
 			PortletRequest portletRequest, PortletResponse portletResponse)
 		throws PortalException {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
+		HttpServletRequest request = portal.getHttpServletRequest(
 			portletRequest);
 
 		LiferayPortletResponse liferayPortletResponse =
-			PortalUtil.getLiferayPortletResponse(portletResponse);
+			portal.getLiferayPortletResponse(portletResponse);
 
 		SiteMembershipsDisplayContext siteMembershipsDisplayContext =
 			new SiteMembershipsDisplayContext(request, liferayPortletResponse);

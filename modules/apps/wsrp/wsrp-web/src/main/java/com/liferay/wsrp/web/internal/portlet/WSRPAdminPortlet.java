@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.wsrp.constants.WSRPPortletKeys;
@@ -237,7 +237,7 @@ public class WSRPAdminPortlet extends MVCPortlet {
 		long wsrpConsumerId = ParamUtil.getLong(
 			actionRequest, "wsrpConsumerId");
 
-		String adminPortletId = PortalUtil.getPortletId(actionRequest);
+		String adminPortletId = portal.getPortletId(actionRequest);
 		String name = ParamUtil.getString(actionRequest, "name");
 		String url = ParamUtil.getString(actionRequest, "url");
 		String forwardCookies = ParamUtil.getString(
@@ -297,7 +297,7 @@ public class WSRPAdminPortlet extends MVCPortlet {
 		long wsrpConsumerId = ParamUtil.getLong(
 			actionRequest, "wsrpConsumerId");
 
-		String adminPortletId = PortalUtil.getPortletId(actionRequest);
+		String adminPortletId = portal.getPortletId(actionRequest);
 
 		boolean inbandRegistration = ParamUtil.getBoolean(
 			actionRequest, "inbandRegistration");
@@ -379,6 +379,9 @@ public class WSRPAdminPortlet extends MVCPortlet {
 
 		_wSRPProducerLocalService = wSRPProducerLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		WSRPAdminPortlet.class);

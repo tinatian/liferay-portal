@@ -24,7 +24,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelModifiedDateComparator;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -240,7 +240,7 @@ public class AssetVocabularyStagedModelDataHandler
 			titleMap = new HashMap<>();
 		}
 
-		titleMap.put(PortalUtil.getSiteDefaultLocale(groupId), name);
+		titleMap.put(portal.getSiteDefaultLocale(groupId), name);
 
 		return titleMap;
 	}
@@ -251,6 +251,9 @@ public class AssetVocabularyStagedModelDataHandler
 
 		_assetVocabularyLocalService = assetVocabularyLocalService;
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private AssetVocabularyLocalService _assetVocabularyLocalService;
 

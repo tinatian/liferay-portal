@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.wsrp.configuration.WSRPGroupServiceConfiguration;
@@ -108,7 +108,7 @@ public class ProxyServlet extends HttpServlet {
 
 		String hostAddress = inetAddress.getHostAddress();
 
-		Set<String> computerAddresses = PortalUtil.getComputerAddresses();
+		Set<String> computerAddresses = portal.getComputerAddresses();
 
 		boolean serverIpIsHostAddress = computerAddresses.contains(hostAddress);
 
@@ -198,6 +198,9 @@ public class ProxyServlet extends HttpServlet {
 
 		ServletResponseUtil.write(response, urlConnection.getInputStream());
 	}
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(ProxyServlet.class);
 
