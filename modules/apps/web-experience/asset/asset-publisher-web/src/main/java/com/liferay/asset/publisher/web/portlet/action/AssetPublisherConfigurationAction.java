@@ -218,17 +218,17 @@ public class AssetPublisherConfigurationAction
 
 				SessionMessages.add(
 					actionRequest,
-					_portal.getPortletId(actionRequest) +
+					portal.getPortletId(actionRequest) +
 						SessionMessages.KEY_SUFFIX_REFRESH_PORTLET,
 					portletResource);
 
 				SessionMessages.add(
 					actionRequest,
-					_portal.getPortletId(actionRequest) +
+					portal.getPortletId(actionRequest) +
 						SessionMessages.KEY_SUFFIX_UPDATED_CONFIGURATION);
 			}
 
-			String redirect = _portal.escapeRedirect(
+			String redirect = portal.escapeRedirect(
 				ParamUtil.getString(actionRequest, "redirect"));
 
 			if (Validator.isNotNull(redirect)) {
@@ -314,7 +314,7 @@ public class AssetPublisherConfigurationAction
 			return null;
 		}
 
-		String className = _portal.getClassName(defaultAssetTypeId);
+		String className = portal.getClassName(defaultAssetTypeId);
 
 		AssetRendererFactory<?> assetRendererFactory =
 			AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(
@@ -603,7 +603,7 @@ public class AssetPublisherConfigurationAction
 			layout.getTypeSettings());
 
 		if (LayoutStagingUtil.isBranchingLayout(layout)) {
-			HttpServletRequest request = _portal.getHttpServletRequest(
+			HttpServletRequest request = portal.getHttpServletRequest(
 				actionRequest);
 
 			LayoutSetBranch layoutSetBranch =
@@ -738,6 +738,6 @@ public class AssetPublisherConfigurationAction
 	protected LayoutRevisionLocalService layoutRevisionLocalService;
 
 	@Reference
-	private Portal _portal;
+	protected Portal portal;
 
 }
