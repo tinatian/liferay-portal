@@ -75,6 +75,7 @@ public class ItemSelectorImplTest extends PowerMockito {
 
 		_itemSelectorImpl.setItemSelectorCriterionSerializer(
 			_stubItemSelectorCriterionSerializer);
+		_itemSelectorImpl.portal = new PortalImpl();
 
 		_mediaItemSelectorCriterion = new MediaItemSelectorCriterion();
 
