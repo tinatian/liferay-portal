@@ -155,7 +155,7 @@ public class DDMPortlet extends MVCPortlet {
 				if (e instanceof RequiredStructureException ||
 					e instanceof RequiredTemplateException) {
 
-					String redirect = _portal.escapeRedirect(
+					String redirect = portal.escapeRedirect(
 						ParamUtil.getString(actionRequest, "redirect"));
 
 					if (Validator.isNotNull(redirect)) {
@@ -248,7 +248,7 @@ public class DDMPortlet extends MVCPortlet {
 		if ((classNameId > 0) && (classPK > 0)) {
 			DDMStructure structure = null;
 
-			long structureClassNameId = _portal.getClassNameId(
+			long structureClassNameId = portal.getClassNameId(
 				DDMStructure.class);
 
 			if ((structureClassNameId == classNameId) && (classPK > 0)) {
@@ -297,14 +297,13 @@ public class DDMPortlet extends MVCPortlet {
 	protected volatile DDMTemplateLocalService ddmTemplateLocalService;
 	protected volatile DDMWebConfiguration ddmWebConfiguration;
 
+	@Reference
+	protected Portal portal;
+
 	private static final Log _log = LogFactoryUtil.getLog(DDMPortlet.class);
 
 	private DDMDisplayRegistry _ddmDisplayRegistry;
 	private DDMTemplateHelper _ddmTemplateHelper;
-
-	@Reference
-	private Portal _portal;
-
 	private StorageAdapterRegistry _storageAdapterRegistry;
 
 }

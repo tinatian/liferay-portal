@@ -108,7 +108,7 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 
 		SessionMessages.add(
 			portletRequest,
-			_portal.getPortletId(portletRequest) +
+			portal.getPortletId(portletRequest) +
 				SessionMessages.KEY_SUFFIX_REFRESH_PORTLET,
 			referringPortletResource);
 	}
@@ -148,7 +148,7 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 			WindowState windowState = actionRequest.getWindowState();
 
 			if (windowState.equals(LiferayWindowState.POP_UP)) {
-				String redirect = _portal.escapeRedirect(
+				String redirect = portal.escapeRedirect(
 					ParamUtil.getString(actionRequest, "redirect"));
 
 				if (Validator.isNotNull(redirect)) {
@@ -295,9 +295,9 @@ public class EditQuestionMVCActionCommand extends BaseMVCActionCommand {
 		}
 	}
 
-	private PollsQuestionService _pollsQuestionService;
-
 	@Reference
-	private Portal _portal;
+	protected Portal portal;
+
+	private PollsQuestionService _pollsQuestionService;
 
 }

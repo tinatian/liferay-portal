@@ -76,7 +76,7 @@ public class AssetPublisherPortletDisplayTemplateHandler
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		String portletTitle = _portal.getPortletTitle(
+		String portletTitle = portal.getPortletTitle(
 			AssetPublisherPortletKeys.ASSET_PUBLISHER, resourceBundle);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
@@ -148,6 +148,6 @@ public class AssetPublisherPortletDisplayTemplateHandler
 	}
 
 	@Reference
-	private Portal _portal;
+	protected Portal portal;
 
 }

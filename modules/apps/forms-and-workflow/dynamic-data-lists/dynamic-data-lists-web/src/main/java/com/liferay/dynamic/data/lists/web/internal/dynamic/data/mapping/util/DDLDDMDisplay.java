@@ -64,7 +64,7 @@ public class DDLDDMDisplay extends BaseDDMDisplay {
 	public long getTemplateHandlerClassNameId(
 		DDMTemplate template, long classNameId) {
 
-		return _portal.getClassNameId(DDLRecordSet.class);
+		return portal.getClassNameId(DDLRecordSet.class);
 	}
 
 	@Override
@@ -73,6 +73,6 @@ public class DDLDDMDisplay extends BaseDDMDisplay {
 	}
 
 	@Reference
-	private Portal _portal;
+	protected Portal portal;
 
 }

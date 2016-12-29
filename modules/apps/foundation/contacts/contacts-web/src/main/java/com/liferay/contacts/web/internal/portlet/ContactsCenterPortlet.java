@@ -418,7 +418,7 @@ public class ContactsCenterPortlet extends MVCPortlet {
 
 			JSONObject extraDataJSONObject = JSONFactoryUtil.createJSONObject();
 
-			String portletId = _portal.getPortletId(actionRequest);
+			String portletId = portal.getPortletId(actionRequest);
 
 			extraDataJSONObject.put(
 				"portletId", PortletConstants.getRootPortletId(portletId));
@@ -1237,6 +1237,9 @@ public class ContactsCenterPortlet extends MVCPortlet {
 	protected EntryLocalService entryLocalService;
 
 	@Reference
+	protected Portal portal;
+
+	@Reference
 	protected RoleLocalService roleLocalService;
 
 	@Reference
@@ -1257,8 +1260,5 @@ public class ContactsCenterPortlet extends MVCPortlet {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ContactsCenterPortlet.class);
-
-	@Reference
-	private Portal _portal;
 
 }
