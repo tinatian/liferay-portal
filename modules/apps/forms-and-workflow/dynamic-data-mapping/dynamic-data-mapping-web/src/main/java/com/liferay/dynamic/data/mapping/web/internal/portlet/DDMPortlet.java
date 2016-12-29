@@ -51,7 +51,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -155,7 +155,7 @@ public class DDMPortlet extends MVCPortlet {
 				if (e instanceof RequiredStructureException ||
 					e instanceof RequiredTemplateException) {
 
-					String redirect = PortalUtil.escapeRedirect(
+					String redirect = _portal.escapeRedirect(
 						ParamUtil.getString(actionRequest, "redirect"));
 
 					if (Validator.isNotNull(redirect)) {
@@ -248,7 +248,7 @@ public class DDMPortlet extends MVCPortlet {
 		if ((classNameId > 0) && (classPK > 0)) {
 			DDMStructure structure = null;
 
-			long structureClassNameId = PortalUtil.getClassNameId(
+			long structureClassNameId = _portal.getClassNameId(
 				DDMStructure.class);
 
 			if ((structureClassNameId == classNameId) && (classPK > 0)) {
@@ -301,6 +301,10 @@ public class DDMPortlet extends MVCPortlet {
 
 	private DDMDisplayRegistry _ddmDisplayRegistry;
 	private DDMTemplateHelper _ddmTemplateHelper;
+
+	@Reference
+	private Portal _portal;
+
 	private StorageAdapterRegistry _storageAdapterRegistry;
 
 }
