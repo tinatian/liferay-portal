@@ -99,11 +99,17 @@ public class PortalPreferencesImpl
 	public PortalPreferencesImpl clone() {
 		String originalXML = getOriginalXML();
 
-		if ((_portalPreferences == null) ||
-			Objects.equals(originalXML, _portalPreferences.getPreferences())) {
-
+		if (_portalPreferences == null) {
 			return new PortalPreferencesImpl(
 				getOwnerId(), getOwnerType(), originalXML,
+				new HashMap<>(getOriginalPreferences()), isSignedIn());
+		}
+		else if (Objects.equals(
+			originalXML, _portalPreferences.getPreferences())) {
+
+			return new PortalPreferencesImpl(
+				_portalPreferences.getOwnerId(), 
+				_portalPreferences.getOwnerType(), originalXML,
 				new HashMap<>(getOriginalPreferences()), isSignedIn());
 		}
 
