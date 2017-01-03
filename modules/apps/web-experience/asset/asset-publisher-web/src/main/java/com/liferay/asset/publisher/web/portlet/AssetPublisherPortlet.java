@@ -326,10 +326,10 @@ public class AssetPublisherPortlet extends MVCPortlet {
 	@Reference
 	protected AssetPublisherCustomizerRegistry assetPublisherCustomizerRegistry;
 
-	private static final Log _log = LogFactoryUtil.getLog(
-		AssetPublisherPortlet.class);
-
 	@Reference
 	protected Portal portal;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AssetPublisherPortlet.class);
 
 }
