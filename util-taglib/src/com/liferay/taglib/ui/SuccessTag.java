@@ -104,7 +104,7 @@ public class SuccessTag extends IncludeTag implements BodyTag {
 	private String _key;
 	private String _message;
 	private String _targetNode;
-	private int _timeout = 5000;
+	private int _timeout = 10000;
 	private boolean _translateMessage = true;
 
 }
