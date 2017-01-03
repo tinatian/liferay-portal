@@ -882,7 +882,7 @@ public class PortletPreferencesFactoryImpl
 			companyId, ownerId, ownerType, plid, portletId, defaultPreferences);
 	}
 
-	protected Map<String, Preference> toPreferencesMap(String xml) {
+	protected static Map<String, Preference> toPreferencesMap(String xml) {
 		if (Validator.isNull(xml)) {
 			return Collections.emptyMap();
 		}
@@ -903,7 +903,7 @@ public class PortletPreferencesFactoryImpl
 		return preferencesMap;
 	}
 
-	private String _encodeCacheKey(String xml) {
+	private static String _encodeCacheKey(String xml) {
 		if (xml.length() <=
 				PropsValues.PORTLET_PREFERENCES_CACHE_KEY_THRESHOLD_SIZE) {
 
@@ -924,7 +924,7 @@ public class PortletPreferencesFactoryImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletPreferencesFactoryImpl.class);
 
-	private final PortalCache<String, Map<String, Preference>>
+	private final static PortalCache<String, Map<String, Preference>>
 		_preferencesMapPortalCache = SingleVMPoolUtil.getPortalCache(
 			PortletPreferencesFactoryImpl.class.getName());
 
