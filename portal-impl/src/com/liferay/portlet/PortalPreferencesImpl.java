@@ -102,9 +102,20 @@ public class PortalPreferencesImpl
 		if ((_portalPreferences == null) ||
 			Objects.equals(originalXML, _portalPreferences.getPreferences())) {
 
+			Map preferences = new HashMap<>();
+
+			Map<String, Preference> originalPreferences = 
+				getOriginalPreferences();
+
+			for (Map.Entry<String, Preference> entry : 
+				originalPreferences.entrySet()) {
+
+				preferences.put(entry.getKey(), entry.getValue().clone());
+			}
+
 			return new PortalPreferencesImpl(
-				getOwnerId(), getOwnerType(), originalXML,
-				new HashMap<>(getOriginalPreferences()), isSignedIn());
+				getOwnerId(), getOwnerType(), originalXML, preferences,
+				isSignedIn());
 		}
 
 		return new PortalPreferencesImpl(_portalPreferences, isSignedIn());
