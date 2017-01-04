@@ -14,10 +14,14 @@
 
 package com.liferay.portlet;
 
+import com.liferay.portal.kernel.util.HashCode;
+import com.liferay.portal.kernel.util.HashCodeFactoryUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author Brian Wing Shun Chan
@@ -35,7 +39,40 @@ public class Preference implements Cloneable, Serializable {
 	public Preference(String name, String[] values) {
 		this(name, values, false);
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == this) {
+			return true;
+		}
+		
+		if (!(object instanceof Preference)) {
+			return true;
+		}
+		
+		Preference preference = (Preference)object;
+		
+		if (Objects.equals(preference._name, _name) &&
+			Objects.equals(preference._readOnly, _readOnly) &&
+			Arrays.equals(preference._values, _values)) {
+			
+			return true;
+		}
+		
+		return false;
+	}
 
+	@Override
+	public int hashCode() {
+		HashCode hashCode = HashCodeFactoryUtil.getHashCode();
+
+		hashCode.append(_name);
+		hashCode.append(_values);
+		hashCode.append(_readOnly);
+
+		return hashCode.hashCode();
+	}
+	
 	public Preference(String name, String[] values, boolean readOnly) {
 		_name = name;
 		_values = values;
