@@ -76,7 +76,7 @@ public class PortalPreferencesImpl
 		this(
 			portalPreferences.getOwnerId(), portalPreferences.getOwnerType(),
 			portalPreferences.getPreferences(),
-			PortletPreferencesFactoryImpl.createPreferencesMap(
+			PortletPreferencesFactoryImpl.toPreferencesMap(
 				portalPreferences.getPreferences()),
 			signedIn);
 
