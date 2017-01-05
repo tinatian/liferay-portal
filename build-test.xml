@@ -3158,8 +3158,11 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 					<if>
 						<equals arg1="${test.ant.launched.by.selenium}" arg2="true" />
 						<then>
-							<exec dir="${test.app.server.bin.dir}" executable="${app.server.start.executable}" resolveexecutable="true">
-								<arg line="${app.server.start.executable.arg.line}" />
+							<exec dir="${test.app.server.bin.dir}" executable="startup.sh" resolveexecutable="true">
+								<arg line="run" />
+							</exec>
+							<exec dir="${test.app.server.bin.dir}" executable="tail" resolveexecutable="true">
+								<arg line="-f ../logs/catalina.out" />
 							</exec>
 
 							<wait-for-app-server app.server.bin.dir="@{app.server.bin.dir}" app.server.bundle.index="@{app.server.bundle.index}" />
@@ -3170,8 +3173,11 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 									<wait-for-app-server app.server.bin.dir="@{app.server.bin.dir}" app.server.bundle.index="@{app.server.bundle.index}" />
 								</sequential>
 								<daemons>
-									<exec dir="${test.app.server.bin.dir}" executable="${app.server.start.executable}" failonerror="true" resolveexecutable="true">
-										<arg line="${app.server.start.executable.arg.line}" />
+									<exec dir="${test.app.server.bin.dir}" executable="startup.sh" failonerror="true" resolveexecutable="true">
+										<arg line="run" />
+									</exec>
+									<exec dir="${test.app.server.bin.dir}" executable="tail" resolveexecutable="true">
+										<arg line="-f ../logs/catalina.out" />
 									</exec>
 								</daemons>
 							</parallel>
@@ -4336,6 +4342,8 @@ go]]></replacevalue>
 
 	<target name="clean-up-logs">
 		<delete failonerror="false" file="${project.dir}/console-shut-down" />
+		<loadfile property="catalinalog" srcFile="${app.server.parent.dir}/tomcat-${app.server.tomcat.version}/logs/catalina.out" />
+        <echo message="${catalinalog}"/>
 	</target>
 
 	<target name="clean-up-mobile-device">
