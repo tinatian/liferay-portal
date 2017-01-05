@@ -92,6 +92,6 @@ public class Preference implements Cloneable, Serializable {
 
 	private final String _name;
 	private final boolean _readOnly;
-	private String[] _values;
+	private volatile String[] _values;
 
 }
