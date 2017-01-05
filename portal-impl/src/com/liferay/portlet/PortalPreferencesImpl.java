@@ -102,9 +102,18 @@ public class PortalPreferencesImpl
 		if ((_portalPreferences == null) ||
 			Objects.equals(originalXML, _portalPreferences.getPreferences())) {
 
-			return new PortalPreferencesImpl(
-				getOwnerId(), getOwnerType(), originalXML,
-				new HashMap<>(getOriginalPreferences()), isSignedIn());
+			PortalPreferencesImpl portalPreferencesImpl = 
+				new PortalPreferencesImpl(
+					getOwnerId(), getOwnerType(), originalXML,
+					new HashMap<>(getOriginalPreferences()), isSignedIn());
+
+			if (_portalPreferences != null) {
+				portalPreferencesImpl._portalPreferences =
+					(com.liferay.portal.kernel.model.PortalPreferences)
+						_portalPreferences.clone();
+			}
+			
+			return portalPreferencesImpl;
 		}
 
 		return new PortalPreferencesImpl(_portalPreferences, isSignedIn());
