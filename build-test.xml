@@ -4336,6 +4336,8 @@ go]]></replacevalue>
 
 	<target name="clean-up-logs">
 		<delete failonerror="false" file="${project.dir}/console-shut-down" />
+		<loadfile property="catalinalog" srcFile="${liferay.home}/logs/liferay.2017-01-04.log" />
+        <echo message="${catalinalog}"/>
 	</target>
 
 	<target name="clean-up-mobile-device">
