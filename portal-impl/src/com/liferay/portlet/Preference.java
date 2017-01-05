@@ -44,7 +44,11 @@ public class Preference implements Cloneable, Serializable {
 
 	@Override
 	public Object clone() {
-		return new Preference(_name, _values, _readOnly);
+		String[] values = new String[_values.length];
+
+		System.arraycopy(_values, 0, values, 0, _values.length);
+
+		return new Preference(_name, values, _readOnly);
 	}
 
 	public String getName() {

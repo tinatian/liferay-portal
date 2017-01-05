@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -96,10 +97,25 @@ public class PortalPreferencesImpl
 
 	@Override
 	public PortalPreferencesImpl clone() {
-		if (_portalPreferences == null) {
+		String originalXML = getOriginalXML();
+
+		if ((_portalPreferences == null) ||
+			Objects.equals(originalXML, _portalPreferences.getPreferences())) {
+
+			Map preferences = new HashMap<>();
+
+			Map<String, Preference> originalPreferences = 
+				getOriginalPreferences();
+
+			for (Map.Entry<String, Preference> entry : 
+				originalPreferences.entrySet()) {
+
+				preferences.put(entry.getKey(), entry.getValue().clone());
+			}
+
 			return new PortalPreferencesImpl(
-				getOwnerId(), getOwnerType(), getOriginalXML(),
-				new HashMap<>(getOriginalPreferences()), isSignedIn());
+				getOwnerId(), getOwnerType(), originalXML, preferences,
+				isSignedIn());
 		}
 
 		return new PortalPreferencesImpl(_portalPreferences, isSignedIn());
