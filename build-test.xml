@@ -3155,6 +3155,9 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 						<fileset dir="${test.app.server.dir}/logs" excludes="catalina.*.log" />
 					</delete>
 
+					<echo>############### executable command: ${app.server.start.executable}</echo>
+					<echo>############### dir: ${test.app.server.bin.dir}</echo>
+
 					<if>
 						<equals arg1="${test.ant.launched.by.selenium}" arg2="true" />
 						<then>
@@ -8462,6 +8465,7 @@ if (ppstate.equals("normal")) {
 
 	<target name="run-poshi-runner">
 		<poshi-execute task="runPoshi" />
+		<echo></echo>
 	</target>
 
 	<target name="run-poshi-validation">
