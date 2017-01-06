@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import javax.portlet.ActionRequest;
@@ -72,7 +72,7 @@ public class ExportArticleMVCResourceCommand extends BaseMVCResourceCommand {
 			}
 		}
 		catch (Exception e) {
-			PortalUtil.sendError(
+			_portal.sendError(
 				e, (ActionRequest)resourceRequest,
 				(ActionResponse)resourceResponse);
 		}
@@ -84,5 +84,8 @@ public class ExportArticleMVCResourceCommand extends BaseMVCResourceCommand {
 	}
 
 	private ExportArticleUtil _exportArticleUtil;
+
+	@Reference
+	private Portal _portal;
 
 }
