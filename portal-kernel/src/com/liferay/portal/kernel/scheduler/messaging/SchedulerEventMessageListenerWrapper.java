@@ -14,6 +14,8 @@
 
 package com.liferay.portal.kernel.scheduler.messaging;
 
+import com.google.common.base.Objects;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
@@ -40,8 +42,40 @@ public class SchedulerEventMessageListenerWrapper
 	implements SchedulerEventMessageListener {
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof SchedulerEventMessageListenerWrapper)) {
+			return false;
+		}
+
+		SchedulerEventMessageListenerWrapper
+			schedulerEventMessageListenerWrapper =
+				(SchedulerEventMessageListenerWrapper)obj;
+
+		if (Objects.equal(
+				_messageListener,
+				schedulerEventMessageListenerWrapper._messageListener) &&
+			Objects.equal(
+				_schedulerEntry,
+				schedulerEventMessageListenerWrapper._schedulerEntry)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public SchedulerEntry getSchedulerEntry() {
 		return _schedulerEntry;
+	}
+
+	@Override
+	public int hashCode() {
+		return _messageListener.hashCode() * 11 + _schedulerEntry.hashCode();
 	}
 
 	@Override
