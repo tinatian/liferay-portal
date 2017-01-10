@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -75,7 +75,7 @@ public class TwitterActivityInterpreter extends BaseSocialActivityInterpreter {
 
 		Contact creatorContact = creatorUser.getContact();
 
-		sb.append(HtmlUtil.escapeURL(creatorContact.getTwitterSn()));
+		sb.append(_html.escapeURL(creatorContact.getTwitterSn()));
 
 		sb.append("/statuses/");
 		sb.append(activity.getClassPK());
@@ -130,6 +130,9 @@ public class TwitterActivityInterpreter extends BaseSocialActivityInterpreter {
 	}
 
 	private static final String[] _CLASS_NAMES = {Feed.class.getName()};
+
+	@Reference
+	private Html _html;
 
 	private ResourceBundleLoader _resourceBundleLoader;
 	private UserLocalService _userLocalService;

@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.taglib.security.PermissionsURLTag;
@@ -32,6 +32,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Roberto Díaz
@@ -67,7 +68,7 @@ public class RepositoryPermissionPortletConfigurationIcon
 
 			url = PermissionsURLTag.doTag(
 				null, DLFolderConstants.getClassName(),
-				HtmlUtil.unescape(repository.getName()), null,
+				_html.unescape(repository.getName()), null,
 				String.valueOf(repository.getDlFolderId()),
 				LiferayWindowState.POP_UP.toString(), null,
 				themeDisplay.getRequest());
@@ -107,5 +108,8 @@ public class RepositoryPermissionPortletConfigurationIcon
 	public boolean isUseDialog() {
 		return true;
 	}
+
+	@Reference
+	private Html _html;
 
 }

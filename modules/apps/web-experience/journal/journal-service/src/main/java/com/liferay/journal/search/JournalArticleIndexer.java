@@ -64,7 +64,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -750,10 +750,10 @@ public class JournalArticleIndexer
 
 			content = articleDisplay.getDescription();
 
-			content = HtmlUtil.replaceNewLine(content);
+			content = _html.replaceNewLine(content);
 
 			if (Validator.isNull(content)) {
-				content = HtmlUtil.extractText(articleDisplay.getContent());
+				content = _html.extractText(articleDisplay.getContent());
 			}
 		}
 		catch (Exception e) {
@@ -928,6 +928,9 @@ public class JournalArticleIndexer
 	private DDMIndexer _ddmIndexer;
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private FieldsToDDMFormValuesConverter _fieldsToDDMFormValuesConverter;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private IndexerRegistry _indexerRegistry;

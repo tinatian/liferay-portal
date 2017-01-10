@@ -96,7 +96,7 @@ import com.liferay.portal.kernel.upload.UploadException;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -310,7 +310,7 @@ public class JournalPortlet extends MVCPortlet {
 
 			for (String expireArticleId : expireArticleIds) {
 				ActionUtil.expireArticle(
-					actionRequest, HtmlUtil.unescape(expireArticleId));
+					actionRequest, _html.unescape(expireArticleId));
 			}
 		}
 
@@ -340,7 +340,7 @@ public class JournalPortlet extends MVCPortlet {
 
 		for (String expireArticleId : expireArticleIds) {
 			ActionUtil.expireArticle(
-				actionRequest, HtmlUtil.unescape(expireArticleId));
+				actionRequest, _html.unescape(expireArticleId));
 		}
 
 		sendEditEntryRedirect(actionRequest, actionResponse);
@@ -374,8 +374,8 @@ public class JournalPortlet extends MVCPortlet {
 		for (String articleId : articleIds) {
 			try {
 				_journalArticleService.moveArticle(
-					themeDisplay.getScopeGroupId(),
-					HtmlUtil.unescape(articleId), newFolderId, serviceContext);
+					themeDisplay.getScopeGroupId(), _html.unescape(articleId),
+					newFolderId, serviceContext);
 			}
 			catch (InvalidDDMStructureException iddmse) {
 				if (_log.isWarnEnabled()) {
@@ -1026,13 +1026,13 @@ public class JournalPortlet extends MVCPortlet {
 				JournalArticle article =
 					_journalArticleService.moveArticleToTrash(
 						themeDisplay.getScopeGroupId(),
-						HtmlUtil.unescape(deleteArticleId));
+						_html.unescape(deleteArticleId));
 
 				trashedModels.add(article);
 			}
 			else {
 				ActionUtil.deleteArticle(
-					actionRequest, HtmlUtil.unescape(deleteArticleId));
+					actionRequest, _html.unescape(deleteArticleId));
 			}
 		}
 
@@ -1078,13 +1078,13 @@ public class JournalPortlet extends MVCPortlet {
 				JournalArticle article =
 					_journalArticleService.moveArticleToTrash(
 						themeDisplay.getScopeGroupId(),
-						HtmlUtil.unescape(deleteArticleId));
+						_html.unescape(deleteArticleId));
 
 				trashedModels.add(article);
 			}
 			else {
 				ActionUtil.deleteArticle(
-					actionRequest, HtmlUtil.unescape(deleteArticleId));
+					actionRequest, _html.unescape(deleteArticleId));
 			}
 		}
 
@@ -1465,6 +1465,9 @@ public class JournalPortlet extends MVCPortlet {
 	private static final Log _log = LogFactoryUtil.getLog(JournalPortlet.class);
 
 	private DDMStructureLocalService _ddmStructureLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

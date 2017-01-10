@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.poller.PollerRequest;
 import com.liferay.portal.kernel.poller.PollerResponse;
 import com.liferay.portal.kernel.service.LayoutSetLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -236,7 +236,7 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 				}
 			}
 
-			entryJSONObject.put("content", HtmlUtil.escape(entry.getContent()));
+			entryJSONObject.put("content", _html.escape(entry.getContent()));
 			entryJSONObject.put("flag", entry.getFlag());
 			entryJSONObject.put("toUserId", entry.getToUserId());
 
@@ -307,6 +307,9 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 		ChatPollerProcessor.class);
 
 	private ChatGroupServiceConfiguration _chatGroupServiceConfiguration;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

@@ -43,7 +43,7 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -602,7 +602,7 @@ public class JournalRSSUtil {
 			Document document = SAXReaderUtil.read(
 				article.getContentByLocale(languageId));
 
-			contentField = HtmlUtil.escapeXPathAttribute(contentField);
+			contentField = _html.escapeXPathAttribute(contentField);
 
 			XPath xPathSelector = SAXReaderUtil.createXPath(
 				"//dynamic-element[@name=" + contentField + "]");
@@ -722,6 +722,9 @@ public class JournalRSSUtil {
 	private static final Log _log = LogFactoryUtil.getLog(JournalRSSUtil.class);
 
 	private DLAppLocalService _dlAppLocalService;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -296,7 +296,7 @@ public class WikiEngineRenderer {
 
 			if (matcher.groupCount() >= 1) {
 				String encodedTitle = _http.encodeURL(
-					HtmlUtil.unescape(matcher.group(1)));
+					_html.unescape(matcher.group(1)));
 
 				replacement = url.replace("$1", encodedTitle);
 			}
@@ -326,6 +326,9 @@ public class WikiEngineRenderer {
 			"\\[\\$END_PAGE_TITLE_EDIT\\$\\]");
 	private static final Pattern _viewPageURLPattern = Pattern.compile(
 		"\\[\\$BEGIN_PAGE_TITLE\\$\\](.*?)\\[\\$END_PAGE_TITLE\\$\\]");
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Http _http;

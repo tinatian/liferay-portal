@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundle;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -177,7 +177,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 		StringBundler sb = new StringBundler(6);
 
 		sb.append("{bodyContent: '<pre>");
-		sb.append(HtmlUtil.escapeJS(HtmlUtil.escape(article.getContent())));
+		sb.append(_html.escapeJS(_html.escape(article.getContent())));
 		sb.append("</pre>', modal: true, toolbars: {footer: ");
 		sb.append("[{label:Liferay.Language.get('close'), on: {click: ");
 		sb.append("function(event) {event.domEvent.preventDefault(); ");
@@ -201,7 +201,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		sb.append(HtmlUtil.escape(portletDisplay.getNamespace()));
+		sb.append(_html.escape(portletDisplay.getNamespace()));
 
 		sb.append("viewSource', namespace: '");
 		sb.append(portletDisplay.getNamespace());
@@ -211,8 +211,8 @@ public class ViewJournalSourcePortletConfigurationIcon
 		sb.append(portletDisplay.getId());
 		sb.append("', title: '");
 		sb.append(
-			HtmlUtil.escapeJS(
-				HtmlUtil.escape(article.getTitle(themeDisplay.getLocale()))));
+			_html.escapeJS(
+				_html.escape(article.getTitle(themeDisplay.getLocale()))));
 		sb.append("'});");
 
 		return sb.toString();
@@ -227,6 +227,9 @@ public class ViewJournalSourcePortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ViewJournalSourcePortletConfigurationIcon.class);
+
+	@Reference
+	private Html _html;
 
 	private JournalArticleLocalService _journalArticleLocalService;
 

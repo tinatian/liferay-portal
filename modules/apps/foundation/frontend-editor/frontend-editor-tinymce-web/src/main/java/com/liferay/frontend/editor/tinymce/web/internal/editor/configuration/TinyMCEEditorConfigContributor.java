@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.servlet.BrowserSniffer;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
@@ -167,7 +167,7 @@ public class TinyMCEEditorConfigContributor
 			"liferay-ui:input-editor:toolbarSet");
 
 		String currentToolbarSet = TextFormatter.format(
-			HtmlUtil.escapeJS(toolbarSet), TextFormatter.M);
+			_html.escapeJS(toolbarSet), TextFormatter.M);
 
 		if (_browserSniffer.isMobile(themeDisplay.getRequest())) {
 			currentToolbarSet = "phone";
@@ -321,6 +321,9 @@ public class TinyMCEEditorConfigContributor
 
 	@Reference
 	private BrowserSniffer _browserSniffer;
+
+	@Reference
+	private Html _html;
 
 	private volatile ResourceBundleLoader _resourceBundleLoader;
 

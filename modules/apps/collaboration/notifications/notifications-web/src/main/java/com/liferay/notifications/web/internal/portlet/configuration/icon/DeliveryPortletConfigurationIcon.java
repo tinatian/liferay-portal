@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigura
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -32,6 +32,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.WindowStateException;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Sergio González
@@ -81,7 +82,7 @@ public class DeliveryPortletConfigurationIcon
 
 		PortletURL deliveryURL = getDeliveryURL(portletRequest);
 
-		sb.append(HtmlUtil.escapeJS(deliveryURL.toString()));
+		sb.append(_html.escapeJS(deliveryURL.toString()));
 
 		sb.append("'}); return false;");
 
@@ -127,5 +128,8 @@ public class DeliveryPortletConfigurationIcon
 
 		return portletURL;
 	}
+
+	@Reference
+	private Html _html;
 
 }

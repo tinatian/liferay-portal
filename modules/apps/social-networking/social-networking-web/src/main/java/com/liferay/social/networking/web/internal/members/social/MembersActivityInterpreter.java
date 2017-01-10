@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -69,7 +69,7 @@ public class MembersActivityInterpreter extends BaseSocialActivityInterpreter {
 
 		User creatorUser = _userLocalService.getUserById(activity.getUserId());
 
-		sb.append(HtmlUtil.escapeURL(creatorUser.getScreenName()));
+		sb.append(_html.escapeURL(creatorUser.getScreenName()));
 
 		sb.append("/profile");
 
@@ -114,7 +114,7 @@ public class MembersActivityInterpreter extends BaseSocialActivityInterpreter {
 		sb.append("/profile");
 
 		String organizationNameURL = wrapLink(
-			sb.toString(), HtmlUtil.escape(organization.getName()));
+			sb.toString(), _html.escape(organization.getName()));
 
 		return new Object[] {creatorUserNameURL, organizationNameURL};
 	}
@@ -165,6 +165,9 @@ public class MembersActivityInterpreter extends BaseSocialActivityInterpreter {
 	}
 
 	private static final String[] _CLASS_NAMES = {Organization.class.getName()};
+
+	@Reference
+	private Html _html;
 
 	private OrganizationLocalService _organizationLocalService;
 	private ResourceBundleLoader _resourceBundleLoader;
