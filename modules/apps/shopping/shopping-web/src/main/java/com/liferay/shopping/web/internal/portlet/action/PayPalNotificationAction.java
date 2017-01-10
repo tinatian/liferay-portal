@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.kernel.struts.BaseStrutsAction;
 import com.liferay.portal.kernel.struts.StrutsAction;
-import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnsyncPrintWriterPool;
@@ -84,7 +84,7 @@ public class PayPalNotificationAction extends BaseStrutsAction {
 
 				String value = request.getParameter(name);
 
-				query = query + "&" + name + "=" + HttpUtil.encodeURL(value);
+				query = query + "&" + name + "=" + _http.encodeURL(value);
 			}
 
 			if (_log.isDebugEnabled()) {
@@ -228,6 +228,9 @@ public class PayPalNotificationAction extends BaseStrutsAction {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PayPalNotificationAction.class);
+
+	@Reference
+	private Http _http;
 
 	@Reference
 	private Portal _portal;
