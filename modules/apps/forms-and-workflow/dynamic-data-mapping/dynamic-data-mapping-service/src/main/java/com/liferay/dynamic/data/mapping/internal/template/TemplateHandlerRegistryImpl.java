@@ -39,12 +39,14 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.language.LanguageResources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.BundleContext;
@@ -65,19 +67,17 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 	@Override
 	public long[] getClassNameIds() {
-		long[] classNameIds = new long[_templateHandlers.size()];
-		int i = 0;
+		Set<Long> classNameIdSet = _templateHandlersByClassId.keySet();
+		
+		long[] classNameIds = new long[classNameIdSet.size()];
 
-		for (Map.Entry<String, TemplateHandler> entry :
-				_templateHandlers.entrySet()) {
-
-			TemplateHandler templateHandler = entry.getValue();
-
-			classNameIds[i++] = _portal.getClassNameId(
-				templateHandler.getClassName());
+		for (int i = 0; i < classNameIdSet.size(); i++) {
+			classNameIds[i] = array[i].longValue();
 		}
 
 		return classNameIds;
+			
+		return (long[])classNameIdSet.toArray(new Long[classNameIdSet.size()]);
 	}
 
 	@Override
@@ -219,6 +219,8 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 	private final Map<String, ServiceRegistration<?>> _serviceRegistrations =
 		new ConcurrentHashMap<>();
 	private final Map<String, TemplateHandler> _templateHandlers =
+		new ConcurrentHashMap<>();
+	private final Map<Long, TemplateHandler> _templateHandlersByClassId =
 		new ConcurrentHashMap<>();
 	private UserLocalService _userLocalService;
 
