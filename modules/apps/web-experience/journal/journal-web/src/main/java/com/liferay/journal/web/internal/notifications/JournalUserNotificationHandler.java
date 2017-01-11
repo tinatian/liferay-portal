@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import java.util.ResourceBundle;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Iván Zaera
@@ -64,7 +65,7 @@ public class JournalUserNotificationHandler
 		JournalArticle journalArticle =
 			journalArticleAssetRenderer.getArticle();
 
-		String userFullName = HtmlUtil.escape(
+		String userFullName = _html.escape(
 			PortalUtil.getUserName(
 				journalArticle.getUserId(), StringPool.BLANK));
 
@@ -103,5 +104,8 @@ public class JournalUserNotificationHandler
 
 		return title;
 	}
+
+	@Reference
+	private Html _html;
 
 }

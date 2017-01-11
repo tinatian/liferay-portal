@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.template.TemplateContextContributor;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -74,8 +74,7 @@ public class UsersTemplateContextContributor
 		contextObjects.put("user_comments", user.getComments());
 		contextObjects.put("user_email_address", user.getEmailAddress());
 		contextObjects.put("user_first_name", user.getFirstName());
-		contextObjects.put(
-			"user_greeting", HtmlUtil.escape(user.getGreeting()));
+		contextObjects.put("user_greeting", _html.escape(user.getGreeting()));
 		contextObjects.put("user_id", user.getUserId());
 		contextObjects.put("user_last_login_ip", user.getLastLoginIP());
 		contextObjects.put("user_last_name", user.getLastName());
@@ -108,6 +107,9 @@ public class UsersTemplateContextContributor
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UsersTemplateContextContributor.class);
+
+	@Reference
+	private Html _html;
 
 	private UserLocalService _userLocalService;
 

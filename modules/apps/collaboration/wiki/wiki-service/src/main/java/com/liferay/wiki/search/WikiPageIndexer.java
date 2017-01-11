@@ -41,7 +41,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.trash.kernel.util.TrashUtil;
 import com.liferay.wiki.engine.impl.WikiEngineRenderer;
@@ -195,7 +195,7 @@ public class WikiPageIndexer
 		Document document = getBaseModelDocument(CLASS_NAME, wikiPage);
 
 		try {
-			String content = HtmlUtil.extractText(
+			String content = _html.extractText(
 				_wikiEngineRenderer.convert(wikiPage, null, null, null));
 
 			document.addText(Field.CONTENT, content);
@@ -367,6 +367,9 @@ public class WikiPageIndexer
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		WikiPageIndexer.class);
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private IndexWriterHelper _indexWriterHelper;

@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfiguration
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.documentlibrary.service.permission.DLFolderPermission;
@@ -34,6 +34,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Roberto Díaz
@@ -71,7 +72,7 @@ public class FolderPermissionPortletConfigurationIcon
 			if (folder != null) {
 				url = PermissionsURLTag.doTag(
 					null, DLFolderConstants.getClassName(),
-					HtmlUtil.unescape(folder.getName()), null,
+					_html.unescape(folder.getName()), null,
 					String.valueOf(folder.getFolderId()),
 					LiferayWindowState.POP_UP.toString(), null,
 					themeDisplay.getRequest());
@@ -79,7 +80,7 @@ public class FolderPermissionPortletConfigurationIcon
 			else {
 				url = PermissionsURLTag.doTag(
 					null, "com.liferay.document.library",
-					HtmlUtil.unescape(themeDisplay.getScopeGroupName()), null,
+					_html.unescape(themeDisplay.getScopeGroupName()), null,
 					String.valueOf(themeDisplay.getScopeGroupId()),
 					LiferayWindowState.POP_UP.toString(), null,
 					themeDisplay.getRequest());
@@ -126,5 +127,8 @@ public class FolderPermissionPortletConfigurationIcon
 	public boolean isUseDialog() {
 		return true;
 	}
+
+	@Reference
+	private Html _html;
 
 }

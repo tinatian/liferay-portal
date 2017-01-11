@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.MenuItem;
 import com.liferay.portal.kernel.servlet.taglib.ui.URLMenuItem;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -115,9 +115,9 @@ public class JournalContentPortletToolbarContributor
 
 			data.put(
 				"id",
-				HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset");
+				_html.escape(portletDisplay.getNamespace()) + "editAsset");
 
-			data.put("title", HtmlUtil.escape(title));
+			data.put("title", _html.escape(title));
 
 			urlMenuItem.setData(data);
 
@@ -199,6 +199,9 @@ public class JournalContentPortletToolbarContributor
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalContentPortletToolbarContributor.class);
+
+	@Reference
+	private Html _html;
 
 	private JournalFolderService _journalFolderService;
 	private ResourcePermissionChecker _resourcePermissionChecker;

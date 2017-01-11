@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.staging.constants.StagingConfigurationPortletKeys;
@@ -36,6 +36,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -83,7 +84,7 @@ public class StagingPortletConfigurationIcon
 		sb.append("', title: '");
 		sb.append(LanguageUtil.get(themeDisplay.getLocale(), "staging"));
 		sb.append("', uri: '");
-		sb.append(HtmlUtil.escapeJS(portletDisplay.getURLStaging()));
+		sb.append(_html.escapeJS(portletDisplay.getURLStaging()));
 		sb.append("'}); return false;");
 
 		return sb.toString();
@@ -160,5 +161,8 @@ public class StagingPortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		StagingPortletConfigurationIcon.class);
+
+	@Reference
+	private Html _html;
 
 }

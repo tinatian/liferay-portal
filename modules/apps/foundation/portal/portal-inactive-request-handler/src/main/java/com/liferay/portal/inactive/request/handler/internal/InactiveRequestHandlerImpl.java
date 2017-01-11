@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.InactiveRequestHandler;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -80,7 +80,7 @@ public class InactiveRequestHandlerImpl implements InactiveRequestHandler {
 			message = LanguageUtil.get(locale, messageKey);
 		}
 		else {
-			message = HtmlUtil.escape(messageKey);
+			message = _html.escape(messageKey);
 		}
 
 		String html = StringUtil.replace(_content, "[$MESSAGE$]", message);
@@ -134,6 +134,9 @@ public class InactiveRequestHandlerImpl implements InactiveRequestHandler {
 		InactiveRequestHandlerImpl.class);
 
 	private String _content = StringPool.BLANK;
+
+	@Reference
+	private Html _html;
 
 	@Reference
 	private Portal _portal;

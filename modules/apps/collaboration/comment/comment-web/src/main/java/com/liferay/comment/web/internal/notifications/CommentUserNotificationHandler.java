@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 
@@ -82,7 +82,7 @@ public class CommentUserNotificationHandler
 
 	@Override
 	protected String getBodyContent(JSONObject jsonObject) {
-		return HtmlUtil.stripHtml(super.getBodyContent(jsonObject));
+		return _html.stripHtml(super.getBodyContent(jsonObject));
 	}
 
 	@Override
@@ -125,10 +125,10 @@ public class CommentUserNotificationHandler
 			message = LanguageUtil.format(
 				serviceContext.getLocale(), message,
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
-					HtmlUtil.escape(
+					_html.escape(
 						assetRenderer.getTitle(serviceContext.getLocale()))
 				},
 				false);
@@ -137,7 +137,7 @@ public class CommentUserNotificationHandler
 			message = LanguageUtil.format(
 				serviceContext.getLocale(), message,
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK))
 				},
@@ -156,6 +156,9 @@ public class CommentUserNotificationHandler
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommentUserNotificationHandler.class);
+
+	@Reference
+	private Html _html;
 
 	private MBDiscussionLocalService _mbDiscussionLocalService;
 
