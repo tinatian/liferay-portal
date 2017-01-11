@@ -14,13 +14,14 @@
 
 package com.liferay.layout.admin.web.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorCategory;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
 
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -44,7 +45,10 @@ public class LayoutSetAdvancedFormNavigatorCategory
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "advanced");
+		return _language.get(locale, "advanced");
 	}
+
+	@Reference
+	private Language _language;
 
 }

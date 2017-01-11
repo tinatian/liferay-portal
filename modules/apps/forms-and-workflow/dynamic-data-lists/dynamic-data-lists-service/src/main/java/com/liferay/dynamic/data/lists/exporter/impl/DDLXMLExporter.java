@@ -28,7 +28,7 @@ import com.liferay.dynamic.data.mapping.storage.Field;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.storage.StorageEngine;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesToFieldsConverter;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.xml.Document;
@@ -116,7 +116,7 @@ public class DDLXMLExporter extends BaseDDLExporter {
 			}
 
 			addFieldElement(
-				fieldsElement, LanguageUtil.get(getLocale(), "status"),
+				fieldsElement, _language.get(getLocale(), "status"),
 				getStatusMessage(recordVersion.getStatus()));
 		}
 
@@ -154,6 +154,10 @@ public class DDLXMLExporter extends BaseDDLExporter {
 	private DDLRecordLocalService _ddlRecordLocalService;
 	private DDLRecordSetService _ddlRecordSetService;
 	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
+
+	@Reference
+	private Language _language;
+
 	private StorageEngine _storageEngine;
 
 }

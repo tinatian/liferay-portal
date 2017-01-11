@@ -15,7 +15,7 @@
 package com.liferay.notifications.web.internal.portlet;
 
 import com.liferay.notifications.web.internal.constants.NotificationsPortletKeys;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -191,11 +191,11 @@ public class NotificationsPortlet extends MVCPortlet {
 
 		ResourceBundle resourceBundle =
 			_resourceBundleLoader.loadResourceBundle(
-				LanguageUtil.getLanguageId(themeDisplay.getLocale()));
+				_language.getLanguageId(themeDisplay.getLocale()));
 
 		SessionMessages.add(
 			actionRequest, "requestProcessed",
-			LanguageUtil.get(
+			_language.get(
 				resourceBundle, "your-configuration-was-saved-sucessfully"));
 
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
@@ -251,6 +251,9 @@ public class NotificationsPortlet extends MVCPortlet {
 		_userNotificationEventLocalService.updateUserNotificationEvent(
 			userNotificationEvent);
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference(
 		target = "(bundle.symbolic.name=com.liferay.notifications.web)",

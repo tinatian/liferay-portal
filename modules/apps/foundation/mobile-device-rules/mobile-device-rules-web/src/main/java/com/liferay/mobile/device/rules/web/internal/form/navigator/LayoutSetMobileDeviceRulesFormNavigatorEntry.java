@@ -14,7 +14,7 @@
 
 package com.liferay.mobile.device.rules.web.internal.form.navigator;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.servlet.taglib.ui.BaseJSPFormNavigatorEntry;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
@@ -59,7 +59,7 @@ public class LayoutSetMobileDeviceRulesFormNavigatorEntry
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		return LanguageUtil.get(resourceBundle, getKey());
+		return _language.get(resourceBundle, getKey());
 	}
 
 	@Override
@@ -75,5 +75,8 @@ public class LayoutSetMobileDeviceRulesFormNavigatorEntry
 	protected String getJspPath() {
 		return "/layout_set/mobile_device_rules.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

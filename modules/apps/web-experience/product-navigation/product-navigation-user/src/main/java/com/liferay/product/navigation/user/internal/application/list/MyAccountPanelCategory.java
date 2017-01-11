@@ -18,7 +18,7 @@ import com.liferay.application.list.BaseJSPPanelCategory;
 import com.liferay.application.list.PanelCategory;
 import com.liferay.application.list.constants.ApplicationListWebKeys;
 import com.liferay.application.list.constants.PanelCategoryKeys;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 
 import java.io.IOException;
 
@@ -56,7 +56,7 @@ public class MyAccountPanelCategory extends BaseJSPPanelCategory {
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "my-account");
+		return _language.get(locale, "my-account");
 	}
 
 	@Override
@@ -77,5 +77,8 @@ public class MyAccountPanelCategory extends BaseJSPPanelCategory {
 	public void setServletContext(ServletContext servletContext) {
 		super.setServletContext(servletContext);
 	}
+
+	@Reference
+	private Language _language;
 
 }

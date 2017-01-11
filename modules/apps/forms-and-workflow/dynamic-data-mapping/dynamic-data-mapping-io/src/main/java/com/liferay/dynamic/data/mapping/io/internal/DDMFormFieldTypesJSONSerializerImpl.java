@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -103,7 +103,7 @@ public class DDMFormFieldTypesJSONSerializerImpl
 			ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 				"content.Language", locale, ddmFormFieldType.getClass());
 
-			jsonObject.put("label", LanguageUtil.get(resourceBundle, label));
+			jsonObject.put("label", _language.get(resourceBundle, label));
 		}
 
 		jsonObject.put("name", ddmFormFieldType.getName());
@@ -130,5 +130,8 @@ public class DDMFormFieldTypesJSONSerializerImpl
 
 	private DDMFormFieldTypeServicesTracker _ddmFormFieldTypeServicesTracker;
 	private JSONFactory _jsonFactory;
+
+	@Reference
+	private Language _language;
 
 }

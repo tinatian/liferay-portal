@@ -14,7 +14,7 @@
 
 package com.liferay.site.admin.web.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
@@ -51,7 +51,7 @@ public class SiteContentSharingFormNavigatorEntry
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "content-sharing");
+		return _language.get(locale, "content-sharing");
 	}
 
 	@Override
@@ -84,5 +84,8 @@ public class SiteContentSharingFormNavigatorEntry
 	protected String getJspPath() {
 		return "/site/content_sharing.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

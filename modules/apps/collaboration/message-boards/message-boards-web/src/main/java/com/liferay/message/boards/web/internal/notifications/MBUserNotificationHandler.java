@@ -16,14 +16,15 @@ package com.liferay.message.boards.web.internal.notifications;
 
 import com.liferay.message.boards.web.constants.MBPortletKeys;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Sergio González
@@ -46,13 +47,19 @@ public class MBUserNotificationHandler
 		JSONObject jsonObject, ServiceContext serviceContext, String message,
 		String typeName) {
 
-		return LanguageUtil.format(
+		return _language.format(
 			serviceContext.getLocale(), message,
 			new String[] {
-				HtmlUtil.escape(jsonObject.getString("fullName")),
-				StringUtil.toLowerCase(HtmlUtil.escape(typeName))
+				_html.escape(jsonObject.getString("fullName")),
+				StringUtil.toLowerCase(_html.escape(typeName))
 			},
 			false);
 	}
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 }

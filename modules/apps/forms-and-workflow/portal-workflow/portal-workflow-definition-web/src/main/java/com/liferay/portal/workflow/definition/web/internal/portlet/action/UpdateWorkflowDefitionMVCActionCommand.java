@@ -14,7 +14,7 @@
 
 package com.liferay.portal.workflow.definition.web.internal.portlet.action;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -38,6 +38,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Leonardo Barros
@@ -106,7 +107,7 @@ public class UpdateWorkflowDefitionMVCActionCommand
 
 		String value = StringPool.BLANK;
 
-		for (Locale locale : LanguageUtil.getAvailableLocales()) {
+		for (Locale locale : _language.getAvailableLocales()) {
 			String languageId = LocaleUtil.toLanguageId(locale);
 			String title = titleMap.get(locale);
 
@@ -122,5 +123,8 @@ public class UpdateWorkflowDefitionMVCActionCommand
 
 		return value;
 	}
+
+	@Reference
+	private Language _language;
 
 }

@@ -16,7 +16,7 @@ package com.liferay.asset.entry.query.processor.custom.user.attributes.servlet.t
 
 import com.liferay.asset.publisher.web.constants.AssetPublisherConstants;
 import com.liferay.asset.publisher.web.servlet.taglib.ui.BaseConfigurationFormNavigatorEntry;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -54,7 +54,7 @@ public class CustomUserAttributesFormNavigatorEntry
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		return LanguageUtil.get(resourceBundle, "custom-user-attributes");
+		return _language.get(resourceBundle, "custom-user-attributes");
 	}
 
 	@Override
@@ -79,5 +79,8 @@ public class CustomUserAttributesFormNavigatorEntry
 	protected String getJspPath() {
 		return "/custom_user_attributes.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

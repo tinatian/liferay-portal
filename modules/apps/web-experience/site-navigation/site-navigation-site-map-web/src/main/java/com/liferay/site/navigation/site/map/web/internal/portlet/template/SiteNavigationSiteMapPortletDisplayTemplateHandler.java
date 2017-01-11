@@ -14,7 +14,7 @@
 
 package com.liferay.site.navigation.site.map.web.internal.portlet.template;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
@@ -61,7 +61,7 @@ public class SiteNavigationSiteMapPortletDisplayTemplateHandler
 			resourceBundle);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
-			LanguageUtil.get(locale, "template"));
+			_language.get(locale, "template"));
 	}
 
 	@Override
@@ -97,6 +97,9 @@ public class SiteNavigationSiteMapPortletDisplayTemplateHandler
 		return "com/liferay/site/navigation/site/map/web/portlet/template" +
 			"/dependencies/portlet-display-templates.xml";
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

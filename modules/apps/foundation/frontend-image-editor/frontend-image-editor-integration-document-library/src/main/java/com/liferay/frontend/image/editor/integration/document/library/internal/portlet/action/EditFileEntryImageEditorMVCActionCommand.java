@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
@@ -172,12 +172,11 @@ public class EditFileEntryImageEditorMVCActionCommand
 
 		ResourceBundle resourceBundle =
 			_resourceBundleLoader.loadResourceBundle(
-				LanguageUtil.getLanguageId(themeDisplay.getLocale()));
+				_language.getLanguageId(themeDisplay.getLocale()));
 
 		SessionMessages.add(
 			actionRequest, "requestProcessed",
-			LanguageUtil.get(
-				resourceBundle, "the-image-was-edited-successfully"));
+			_language.get(resourceBundle, "the-image-was-edited-successfully"));
 
 		JSONPortletResponseUtil.writeJSON(
 			actionRequest, actionResponse, jsonObject);
@@ -193,6 +192,9 @@ public class EditFileEntryImageEditorMVCActionCommand
 
 	@Reference
 	private DLAppService _dlAppService;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

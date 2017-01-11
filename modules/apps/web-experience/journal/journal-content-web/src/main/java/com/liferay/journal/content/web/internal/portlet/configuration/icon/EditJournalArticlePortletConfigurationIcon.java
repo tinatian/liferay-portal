@@ -16,7 +16,7 @@ package com.liferay.journal.content.web.internal.portlet.configuration.icon;
 
 import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
 import com.liferay.journal.content.web.internal.display.context.JournalContentDisplayContext;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
@@ -53,7 +53,7 @@ public class EditJournalArticlePortletConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "edit-web-content");
+		return _language.get(resourceBundle, "edit-web-content");
 	}
 
 	@Override
@@ -81,5 +81,8 @@ public class EditJournalArticlePortletConfigurationIcon
 	public void setServletContext(ServletContext servletContext) {
 		super.setServletContext(servletContext);
 	}
+
+	@Reference
+	private Language _language;
 
 }

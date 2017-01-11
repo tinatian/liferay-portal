@@ -45,7 +45,7 @@ import com.liferay.portal.kernel.model.TrashedModel;
 import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.portletfilerepository.PortletFileRepositoryUtil;
@@ -66,7 +66,7 @@ import com.liferay.portal.kernel.upload.LiferayFileItemException;
 import com.liferay.portal.kernel.upload.UploadException;
 import com.liferay.portal.kernel.upload.UploadRequestSizeException;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -217,7 +217,7 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 
 			String redirect = ParamUtil.getString(actionRequest, "redirect");
 
-			String portletId = HttpUtil.getParameter(redirect, "p_p_id", false);
+			String portletId = _http.getParameter(redirect, "p_p_id", false);
 
 			int workflowAction = ParamUtil.getInteger(
 				actionRequest, "workflowAction",
@@ -290,10 +290,10 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 							String namespace = _portal.getPortletNamespace(
 								portletId);
 
-							redirect = HttpUtil.addParameter(
+							redirect = _http.addParameter(
 								redirect, namespace + "className",
 								BlogsEntry.class.getName());
-							redirect = HttpUtil.addParameter(
+							redirect = _http.addParameter(
 								redirect, namespace + "classPK",
 								entry.getEntryId());
 						}
@@ -349,7 +349,7 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 		PortletConfig portletConfig = (PortletConfig)actionRequest.getAttribute(
 			JavaConstants.JAVAX_PORTLET_CONFIG);
 
-		LiferayPortletURL portletURL = PortletURLFactoryUtil.create(
+		LiferayPortletURL portletURL = _portletURLFactory.create(
 			actionRequest, portletConfig.getPortletName(),
 			PortletRequest.RENDER_PHASE);
 
@@ -638,7 +638,13 @@ public class EditEntryMVCActionCommand extends BaseMVCActionCommand {
 	private BlogsEntryService _blogsEntryService;
 
 	@Reference
+	private Http _http;
+
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private TrashEntryService _trashEntryService;
 

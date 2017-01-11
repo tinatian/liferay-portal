@@ -15,14 +15,14 @@
 package com.liferay.notifications.web.internal.portlet.configuration.icon;
 
 import com.liferay.notifications.web.internal.constants.NotificationsPortletKeys;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -32,6 +32,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.WindowStateException;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Sergio González
@@ -46,7 +47,7 @@ public class DeliveryPortletConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)), "configuration");
 	}
 
@@ -76,12 +77,12 @@ public class DeliveryPortletConfigurationIcon
 		sb.append("_', portletId: '");
 		sb.append(portletDisplay.getId());
 		sb.append("', title: '");
-		sb.append(LanguageUtil.get(themeDisplay.getLocale(), "configuration"));
+		sb.append(_language.get(themeDisplay.getLocale(), "configuration"));
 		sb.append("', uri: '");
 
 		PortletURL deliveryURL = getDeliveryURL(portletRequest);
 
-		sb.append(HtmlUtil.escapeJS(deliveryURL.toString()));
+		sb.append(_html.escapeJS(deliveryURL.toString()));
 
 		sb.append("'}); return false;");
 
@@ -113,7 +114,7 @@ public class DeliveryPortletConfigurationIcon
 	}
 
 	protected PortletURL getDeliveryURL(PortletRequest portletRequest) {
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, NotificationsPortletKeys.NOTIFICATIONS,
 			PortletRequest.RENDER_PHASE);
 
@@ -127,5 +128,14 @@ public class DeliveryPortletConfigurationIcon
 
 		return portletURL;
 	}
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

@@ -20,7 +20,7 @@ import com.liferay.application.list.PanelCategory;
 import com.liferay.application.list.constants.ApplicationListWebKeys;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.item.selector.ItemSelector;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.product.navigation.site.administration.internal.constants.SiteAdministrationWebKeys;
 import com.liferay.site.util.GroupURLProvider;
 import com.liferay.site.util.RecentGroupManager;
@@ -66,7 +66,7 @@ public class SiteAdministrationPanelCategory extends BaseJSPPanelCategory {
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "site-administration");
+		return _language.get(locale, "site-administration");
 	}
 
 	@Override
@@ -128,6 +128,10 @@ public class SiteAdministrationPanelCategory extends BaseJSPPanelCategory {
 	private GroupProvider _groupProvider;
 	private GroupURLProvider _groupURLProvider;
 	private ItemSelector _itemSelector;
+
+	@Reference
+	private Language _language;
+
 	private RecentGroupManager _recentGroupManager;
 
 }

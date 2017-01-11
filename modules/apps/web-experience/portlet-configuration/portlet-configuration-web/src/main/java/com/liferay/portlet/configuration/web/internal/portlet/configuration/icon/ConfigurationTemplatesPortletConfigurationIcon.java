@@ -15,7 +15,7 @@
 package com.liferay.portlet.configuration.web.internal.portlet.configuration.icon;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -40,6 +40,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.WindowState;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -53,7 +54,7 @@ public class ConfigurationTemplatesPortletConfigurationIcon
 		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		return LanguageUtil.get(
+		return _language.get(
 			themeDisplay.getLocale(), "configuration-templates");
 	}
 
@@ -153,5 +154,8 @@ public class ConfigurationTemplatesPortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ConfigurationTemplatesPortletConfigurationIcon.class);
+
+	@Reference
+	private Language _language;
 
 }

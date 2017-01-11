@@ -14,7 +14,7 @@
 
 package com.liferay.site.admin.web.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
 
@@ -46,7 +46,7 @@ public class SiteDetailsFormNavigatorEntry extends BaseSiteFormNavigatorEntry {
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "details");
+		return _language.get(locale, "details");
 	}
 
 	@Override
@@ -62,5 +62,8 @@ public class SiteDetailsFormNavigatorEntry extends BaseSiteFormNavigatorEntry {
 	protected String getJspPath() {
 		return "/site/details.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

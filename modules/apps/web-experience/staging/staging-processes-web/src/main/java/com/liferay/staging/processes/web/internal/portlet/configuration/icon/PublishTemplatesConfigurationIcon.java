@@ -14,7 +14,7 @@
 
 package com.liferay.staging.processes.web.internal.portlet.configuration.icon;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
@@ -50,7 +50,7 @@ public class PublishTemplatesConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "publish-templates");
+		return _language.get(resourceBundle, "publish-templates");
 	}
 
 	@Override
@@ -109,6 +109,9 @@ public class PublishTemplatesConfigurationIcon
 	public boolean isUseDialog() {
 		return false;
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

@@ -34,7 +34,7 @@ import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -208,7 +208,7 @@ public class DDLFormEmailNotificationSender {
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", locale, getClass());
 
-		String defaultEmailSubject = LanguageUtil.format(
+		String defaultEmailSubject = _language.format(
 			resourceBundle, "new-x-form-submitted", recordSet.getName(locale),
 			false);
 
@@ -491,6 +491,10 @@ public class DDLFormEmailNotificationSender {
 		DDLFormEmailNotificationSender.class);
 
 	private DDMFormFieldTypeServicesTracker _ddmFormFieldTypeServicesTracker;
+
+	@Reference
+	private Language _language;
+
 	private MailService _mailService;
 
 	@Reference

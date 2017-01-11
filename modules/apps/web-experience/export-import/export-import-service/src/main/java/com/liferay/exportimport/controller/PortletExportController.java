@@ -56,7 +56,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.NoSuchPortletPreferencesException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -750,7 +750,7 @@ public class PortletExportController implements ExportController {
 		headerElement.addAttribute(
 			"available-locales",
 			StringUtil.merge(
-				LanguageUtil.getAvailableLocales(
+				_language.getAvailableLocales(
 					_portal.getSiteGroupId(
 						portletDataContext.getScopeGroupId()))));
 		headerElement.addAttribute(
@@ -1381,6 +1381,10 @@ public class PortletExportController implements ExportController {
 		DeletionSystemEventExporter.getInstance();
 	private ExportImportLifecycleManager _exportImportLifecycleManager;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Language _language;
+
 	private LayoutLocalService _layoutLocalService;
 	private final PermissionExporter _permissionExporter =
 		PermissionExporter.getInstance();

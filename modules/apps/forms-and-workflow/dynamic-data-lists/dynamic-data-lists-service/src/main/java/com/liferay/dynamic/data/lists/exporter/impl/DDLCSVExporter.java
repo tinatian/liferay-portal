@@ -28,7 +28,7 @@ import com.liferay.dynamic.data.mapping.storage.Field;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.storage.StorageEngine;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesToFieldsConverter;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.CSVUtil;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -75,7 +75,7 @@ public class DDLCSVExporter extends BaseDDLExporter {
 			sb.append(CharPool.COMMA);
 		}
 
-		sb.append(LanguageUtil.get(getLocale(), "status"));
+		sb.append(_language.get(getLocale(), "status"));
 		sb.append(StringPool.NEW_LINE);
 
 		List<DDLRecord> records = _ddlRecordLocalService.getRecords(
@@ -149,6 +149,10 @@ public class DDLCSVExporter extends BaseDDLExporter {
 	private DDLRecordLocalService _ddlRecordLocalService;
 	private DDLRecordSetService _ddlRecordSetService;
 	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
+
+	@Reference
+	private Language _language;
+
 	private StorageEngine _storageEngine;
 
 }

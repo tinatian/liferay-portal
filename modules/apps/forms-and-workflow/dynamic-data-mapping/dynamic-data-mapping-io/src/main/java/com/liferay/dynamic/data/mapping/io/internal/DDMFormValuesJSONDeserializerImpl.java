@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.LocaleUtil;
 
 import java.util.ArrayList;
@@ -150,7 +150,7 @@ public class DDMFormValuesJSONDeserializerImpl
 		while (keys.hasNext()) {
 			String key = keys.next();
 
-			if (!LanguageUtil.isAvailableLocale(key)) {
+			if (!_language.isAvailableLocale(key)) {
 				return false;
 			}
 		}
@@ -252,5 +252,8 @@ public class DDMFormValuesJSONDeserializerImpl
 	}
 
 	private JSONFactory _jsonFactory;
+
+	@Reference
+	private Language _language;
 
 }

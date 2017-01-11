@@ -18,12 +18,12 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.servlet.BrowserSniffer;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
@@ -110,48 +110,47 @@ public class TinyMCEEditorConfigContributor
 
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "normal"), "inline", "p",
-				null));
+				_language.get(resourceBundle, "normal"), "inline", "p", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "1"), "block",
+				_language.format(resourceBundle, "heading-x", "1"), "block",
 				"h1", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "2"), "block",
+				_language.format(resourceBundle, "heading-x", "2"), "block",
 				"h2", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "3"), "block",
+				_language.format(resourceBundle, "heading-x", "3"), "block",
 				"h3", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "4"), "block",
+				_language.format(resourceBundle, "heading-x", "4"), "block",
 				"h4", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "preformatted-text"), "block",
+				_language.get(resourceBundle, "preformatted-text"), "block",
 				"pre", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "cited-work"), "inline",
-				"cite", null));
+				_language.get(resourceBundle, "cited-work"), "inline", "cite",
+				null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "computer-code"), "inline",
+				_language.get(resourceBundle, "computer-code"), "inline",
 				"code", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "info-message"), "block",
-				"div", "portlet-msg-info"));
+				_language.get(resourceBundle, "info-message"), "block", "div",
+				"portlet-msg-info"));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "alert-message"), "block",
-				"div", "portlet-msg-alert"));
+				_language.get(resourceBundle, "alert-message"), "block", "div",
+				"portlet-msg-alert"));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "error-message"), "block",
-				"div", "portlet-msg-error"));
+				_language.get(resourceBundle, "error-message"), "block", "div",
+				"portlet-msg-error"));
 
 		return jsonArray;
 	}
@@ -167,7 +166,7 @@ public class TinyMCEEditorConfigContributor
 			"liferay-ui:input-editor:toolbarSet");
 
 		String currentToolbarSet = TextFormatter.format(
-			HtmlUtil.escapeJS(toolbarSet), TextFormatter.M);
+			_html.escapeJS(toolbarSet), TextFormatter.M);
 
 		if (_browserSniffer.isMobile(themeDisplay.getRequest())) {
 			currentToolbarSet = "phone";
@@ -321,6 +320,12 @@ public class TinyMCEEditorConfigContributor
 
 	@Reference
 	private BrowserSniffer _browserSniffer;
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	private volatile ResourceBundleLoader _resourceBundleLoader;
 

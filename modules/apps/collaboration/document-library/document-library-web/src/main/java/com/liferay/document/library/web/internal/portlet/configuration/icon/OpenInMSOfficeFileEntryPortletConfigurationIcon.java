@@ -18,7 +18,7 @@ import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.document.library.web.internal.display.context.logic.UIItemsBuilder;
 import com.liferay.document.library.web.internal.portlet.action.ActionUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -64,7 +64,7 @@ public class OpenInMSOfficeFileEntryPortletConfigurationIcon
 			_resourceBundleLoader.loadResourceBundle(
 				themeDisplay.getLanguageId());
 
-		return LanguageUtil.get(resourceBundle, "open-in-ms-office");
+		return _language.get(resourceBundle, "open-in-ms-office");
 	}
 
 	@Override
@@ -159,6 +159,9 @@ public class OpenInMSOfficeFileEntryPortletConfigurationIcon
 
 		_resourceBundleLoader = resourceBundleLoader;
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

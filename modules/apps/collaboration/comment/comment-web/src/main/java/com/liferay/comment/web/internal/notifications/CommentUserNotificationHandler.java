@@ -20,14 +20,14 @@ import com.liferay.message.boards.kernel.model.MBDiscussion;
 import com.liferay.message.boards.kernel.service.MBDiscussionLocalService;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 
@@ -82,7 +82,7 @@ public class CommentUserNotificationHandler
 
 	@Override
 	protected String getBodyContent(JSONObject jsonObject) {
-		return HtmlUtil.stripHtml(super.getBodyContent(jsonObject));
+		return _html.stripHtml(super.getBodyContent(jsonObject));
 	}
 
 	@Override
@@ -122,22 +122,22 @@ public class CommentUserNotificationHandler
 		}
 
 		if (assetRenderer != null) {
-			message = LanguageUtil.format(
+			message = _language.format(
 				serviceContext.getLocale(), message,
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
-					HtmlUtil.escape(
+					_html.escape(
 						assetRenderer.getTitle(serviceContext.getLocale()))
 				},
 				false);
 		}
 		else {
-			message = LanguageUtil.format(
+			message = _language.format(
 				serviceContext.getLocale(), message,
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK))
 				},
@@ -156,6 +156,12 @@ public class CommentUserNotificationHandler
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommentUserNotificationHandler.class);
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	private MBDiscussionLocalService _mbDiscussionLocalService;
 

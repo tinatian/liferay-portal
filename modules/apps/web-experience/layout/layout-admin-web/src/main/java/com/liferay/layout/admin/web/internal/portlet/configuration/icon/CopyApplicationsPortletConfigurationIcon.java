@@ -17,7 +17,7 @@ package com.liferay.layout.admin.web.internal.portlet.configuration.icon;
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.layout.admin.web.internal.constants.LayoutAdminPortletKeys;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -68,7 +68,7 @@ public class CopyApplicationsPortletConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "copy-applications");
+		return _language.get(resourceBundle, "copy-applications");
 	}
 
 	@Override
@@ -162,6 +162,9 @@ public class CopyApplicationsPortletConfigurationIcon
 
 		_layoutLocalService = layoutLocalService;
 	}
+
+	@Reference
+	private Language _language;
 
 	private LayoutLocalService _layoutLocalService;
 

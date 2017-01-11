@@ -26,7 +26,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
 import com.liferay.asset.kernel.service.AssetVocabularyService;
 import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
 import com.liferay.asset.publisher.web.util.AssetPublisherHelper;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
@@ -80,7 +80,7 @@ public class AssetPublisherPortletDisplayTemplateHandler
 			AssetPublisherPortletKeys.ASSET_PUBLISHER, resourceBundle);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
-			LanguageUtil.get(locale, "template"));
+			_language.get(locale, "template"));
 	}
 
 	@Override
@@ -149,5 +149,8 @@ public class AssetPublisherPortletDisplayTemplateHandler
 
 	@Reference
 	protected Portal portal;
+
+	@Reference
+	private Language _language;
 
 }

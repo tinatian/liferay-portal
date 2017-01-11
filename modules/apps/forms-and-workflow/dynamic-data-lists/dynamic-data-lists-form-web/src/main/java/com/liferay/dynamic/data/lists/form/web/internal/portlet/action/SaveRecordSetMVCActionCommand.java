@@ -17,7 +17,7 @@ package com.liferay.dynamic.data.lists.form.web.internal.portlet.action;
 import com.liferay.dynamic.data.lists.form.web.constants.DDLFormPortletKeys;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseTransactionalMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -53,7 +53,7 @@ public class SaveRecordSetMVCActionCommand
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		LiferayPortletURL portletURL = PortletURLFactoryUtil.create(
+		LiferayPortletURL portletURL = _portletURLFactory.create(
 			actionRequest, themeDisplay.getPpid(), PortletRequest.RENDER_PHASE);
 
 		String mvcPath = ParamUtil.getString(actionRequest, "mvcPath");
@@ -81,5 +81,8 @@ public class SaveRecordSetMVCActionCommand
 
 	@Reference
 	protected SaveRecordSetMVCCommandHelper saveRecordSetMVCCommandHelper;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

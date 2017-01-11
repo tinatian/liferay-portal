@@ -19,7 +19,7 @@ import com.liferay.dynamic.data.mapping.kernel.DDMTemplateManager;
 import com.liferay.dynamic.data.mapping.service.permission.DDMTemplatePermission;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -217,6 +217,10 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 	private volatile BundleContext _bundleContext;
 	private DDMTemplateManager _ddmTemplateManager;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Language _language;
+
 	private Portal _portal;
 	private final Map<String, ServiceRegistration<?>> _serviceRegistrations =
 		new ConcurrentHashMap<>();
@@ -317,12 +321,12 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 			Map<Locale, String> map = new HashMap<>();
 
-			for (Locale locale : LanguageUtil.getAvailableLocales(groupId)) {
+			for (Locale locale : _language.getAvailableLocales(groupId)) {
 				ResourceBundle resourceBundle =
 					resourceBundleLoader.loadResourceBundle(
 						LocaleUtil.toLanguageId(locale));
 
-				map.put(locale, LanguageUtil.get(resourceBundle, key));
+				map.put(locale, _language.get(resourceBundle, key));
 			}
 
 			return map;

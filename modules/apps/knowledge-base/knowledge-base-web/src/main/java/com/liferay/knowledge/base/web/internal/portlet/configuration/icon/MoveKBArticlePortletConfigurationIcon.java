@@ -18,7 +18,7 @@ import com.liferay.knowledge.base.constants.KBActionKeys;
 import com.liferay.knowledge.base.constants.KBPortletKeys;
 import com.liferay.knowledge.base.model.KBArticle;
 import com.liferay.knowledge.base.service.permission.KBArticlePermission;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Portal;
@@ -47,7 +47,7 @@ public class MoveKBArticlePortletConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)), "move");
 	}
 
@@ -95,6 +95,9 @@ public class MoveKBArticlePortletConfigurationIcon
 			themeDisplay.getPermissionChecker(), kbArticle,
 			KBActionKeys.MOVE_KB_ARTICLE);
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

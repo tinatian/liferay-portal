@@ -34,7 +34,7 @@ import com.liferay.journal.service.permission.JournalPermission;
 import com.liferay.journal.util.JournalContent;
 import com.liferay.journal.util.JournalConverter;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
@@ -147,7 +147,7 @@ public class JournalArticleAssetRendererFactory
 
 	@Override
 	public String getSubtypeTitle(Locale locale) {
-		return LanguageUtil.get(locale, "structures");
+		return _language.get(locale, "structures");
 	}
 
 	@Override
@@ -314,6 +314,10 @@ public class JournalArticleAssetRendererFactory
 	private JournalArticleService _journalArticleService;
 	private JournalContent _journalContent;
 	private JournalConverter _journalConverter;
+
+	@Reference
+	private Language _language;
+
 	private ServletContext _servletContext;
 
 }

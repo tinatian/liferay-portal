@@ -18,7 +18,7 @@ import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdmin
 import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdminWebKeys;
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelIterator;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
@@ -58,7 +58,7 @@ public class ExportFactoryInstancesIcon extends BasePortletConfigurationIcon {
 			_resourceBundleLoader.loadResourceBundle(
 				themeDisplay.getLanguageId());
 
-		return LanguageUtil.get(resourceBundle, "export-entries");
+		return _language.get(resourceBundle, "export-entries");
 	}
 
 	@Override
@@ -104,6 +104,9 @@ public class ExportFactoryInstancesIcon extends BasePortletConfigurationIcon {
 
 		return false;
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

@@ -21,10 +21,10 @@ import com.liferay.document.library.kernel.service.DLFileEntryTypeService;
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.document.library.web.internal.portlet.toolbar.contributor.helper.DLPortletToolbarContributorHelper;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.toolbar.contributor.BasePortletToolbarContributor;
 import com.liferay.portal.kernel.portlet.toolbar.contributor.PortletToolbarContributor;
 import com.liferay.portal.kernel.repository.model.Folder;
@@ -76,7 +76,7 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
-		String label = LanguageUtil.get(
+		String label = _language.get(
 			_portal.getHttpServletRequest(portletRequest),
 			fileEntryType.getUnambiguousName(
 				fileEntryTypes, themeDisplay.getScopeGroupId(),
@@ -86,7 +86,7 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletDisplay.getId(),
 			PortletRequest.RENDER_PHASE);
 
@@ -158,13 +158,13 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
 		urlMenuItem.setLabel(
-			LanguageUtil.get(
+			_language.get(
 				_portal.getHttpServletRequest(portletRequest),
 				(folder != null) ? "subfolder" : "folder"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletDisplay.getId(),
 			PortletRequest.RENDER_PHASE);
 
@@ -211,13 +211,13 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
 		urlMenuItem.setLabel(
-			LanguageUtil.get(
+			_language.get(
 				_portal.getHttpServletRequest(portletRequest),
 				"multiple-documents"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletDisplay.getId(),
 			PortletRequest.RENDER_PHASE);
 
@@ -256,12 +256,12 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
 		urlMenuItem.setLabel(
-			LanguageUtil.get(
+			_language.get(
 				_portal.getHttpServletRequest(portletRequest), "repository"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletDisplay.getId(),
 			PortletRequest.RENDER_PHASE);
 
@@ -296,12 +296,12 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
 		urlMenuItem.setLabel(
-			LanguageUtil.get(
+			_language.get(
 				_portal.getHttpServletRequest(portletRequest), "shortcut"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletDisplay.getId(),
 			PortletRequest.RENDER_PHASE);
 
@@ -513,13 +513,13 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
 		urlMenuItem.setLabel(
-			LanguageUtil.get(
+			_language.get(
 				_portal.getHttpServletRequest(portletRequest),
 				"basic-document"));
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletDisplay.getId(),
 			PortletRequest.RENDER_PHASE);
 
@@ -585,6 +585,12 @@ public class DLPortletToolbarContributor extends BasePortletToolbarContributor {
 		_dlPortletToolbarContributorHelper;
 
 	@Reference
+	private Language _language;
+
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

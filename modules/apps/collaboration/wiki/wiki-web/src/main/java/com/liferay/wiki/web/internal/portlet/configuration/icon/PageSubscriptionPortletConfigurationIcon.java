@@ -14,7 +14,7 @@
 
 package com.liferay.wiki.web.internal.portlet.configuration.icon;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -69,8 +69,7 @@ public class PageSubscriptionPortletConfigurationIcon
 		catch (Exception e) {
 		}
 
-		return LanguageUtil.get(
-			getResourceBundle(getLocale(portletRequest)), key);
+		return _language.get(getResourceBundle(getLocale(portletRequest)), key);
 	}
 
 	@Override
@@ -162,6 +161,9 @@ public class PageSubscriptionPortletConfigurationIcon
 
 		_subscriptionLocalService = subscriptionLocalService;
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

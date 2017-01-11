@@ -20,7 +20,7 @@ import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderException;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
@@ -72,7 +72,7 @@ public class WorkflowDefinitionsDataProvider implements DDMDataProvider {
 			ddmDataProviderContext.getHttpServletRequest());
 
 		data.add(
-			createMap(LanguageUtil.get(locale, "no-workflow"), "no-workflow"));
+			createMap(_language.get(locale, "no-workflow"), "no-workflow"));
 
 		if (!_workflowEngineManager.isDeployed()) {
 			return new DDMDataProviderResponse(data);
@@ -87,7 +87,7 @@ public class WorkflowDefinitionsDataProvider implements DDMDataProvider {
 					companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
 			for (WorkflowDefinition workflowDefinition : workflowDefinitions) {
-				String version = LanguageUtil.format(
+				String version = _language.format(
 					locale, "version-x", workflowDefinition.getVersion(),
 					false);
 
@@ -128,6 +128,9 @@ public class WorkflowDefinitionsDataProvider implements DDMDataProvider {
 	protected Locale getLocale(HttpServletRequest httpServletRequest) {
 		return _portal.getLocale(httpServletRequest);
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

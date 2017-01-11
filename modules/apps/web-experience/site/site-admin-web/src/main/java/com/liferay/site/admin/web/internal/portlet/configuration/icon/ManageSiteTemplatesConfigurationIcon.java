@@ -15,7 +15,7 @@
 package com.liferay.site.admin.web.internal.portlet.configuration.icon;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
@@ -35,6 +35,7 @@ import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -49,7 +50,7 @@ public class ManageSiteTemplatesConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)),
 			"manage-site-template");
 	}
@@ -112,5 +113,8 @@ public class ManageSiteTemplatesConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ManageSiteTemplatesConfigurationIcon.class);
+
+	@Reference
+	private Language _language;
 
 }

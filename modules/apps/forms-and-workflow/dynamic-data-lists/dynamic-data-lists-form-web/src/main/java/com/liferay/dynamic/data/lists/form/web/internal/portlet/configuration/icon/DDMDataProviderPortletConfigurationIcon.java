@@ -16,13 +16,13 @@ package com.liferay.dynamic.data.lists.form.web.internal.portlet.configuration.i
 
 import com.liferay.dynamic.data.lists.form.web.constants.DDLFormPortletKeys;
 import com.liferay.dynamic.data.mapping.model.DDMDataProviderInstance;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -57,7 +57,7 @@ public class DDMDataProviderPortletConfigurationIcon
 		ResourceBundle resourceBundle =
 			_resourceBundleLoader.loadResourceBundle(languageId);
 
-		return LanguageUtil.get(resourceBundle, getMessageKey());
+		return _language.get(resourceBundle, getMessageKey());
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class DDMDataProviderPortletConfigurationIcon
 			DDMDataProviderInstance.class.getName(),
 			PortletProvider.Action.EDIT);
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest, portletId, PortletRequest.RENDER_PHASE);
 
 		try {
@@ -114,7 +114,7 @@ public class DDMDataProviderPortletConfigurationIcon
 	}
 
 	protected String getRedirectURL(PortletRequest portletRequest) {
-		PortletURL redirectURL = PortletURLFactoryUtil.create(
+		PortletURL redirectURL = _portletURLFactory.create(
 			portletRequest, DDLFormPortletKeys.DYNAMIC_DATA_LISTS_FORM_ADMIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -133,6 +133,12 @@ public class DDMDataProviderPortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMDataProviderPortletConfigurationIcon.class);
+
+	@Reference
+	private Language _language;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private ResourceBundleLoader _resourceBundleLoader;
 

@@ -16,7 +16,7 @@ package com.liferay.login.authentication.google.web.internal.portlet.action;
 
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.struts.BaseStrutsAction;
 import com.liferay.portal.kernel.struts.StrutsAction;
@@ -125,7 +125,7 @@ public class GoogleLoginAction extends BaseStrutsAction {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			request, PortletKeys.LOGIN, PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter(
@@ -139,14 +139,14 @@ public class GoogleLoginAction extends BaseStrutsAction {
 			HttpServletRequest request, HttpServletResponse response, User user)
 		throws Exception {
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			request, PortletKeys.LOGIN, PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter("saveLastPath", Boolean.FALSE.toString());
 		portletURL.setParameter(
 			"mvcRenderCommandName", "/login/associate_google_user");
 
-		PortletURL redirectURL = PortletURLFactoryUtil.create(
+		PortletURL redirectURL = _portletURLFactory.create(
 			request, PortletKeys.LOGIN, PortletRequest.RENDER_PHASE);
 
 		redirectURL.setParameter(
@@ -179,5 +179,8 @@ public class GoogleLoginAction extends BaseStrutsAction {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

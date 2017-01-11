@@ -15,7 +15,7 @@
 package com.liferay.message.boards.web.internal.portlet.action;
 
 import com.liferay.message.boards.web.constants.MBPortletKeys;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.struts.BaseStrutsAction;
 import com.liferay.portal.kernel.struts.StrutsAction;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -53,7 +53,7 @@ public class FindRecentPostsAction extends BaseStrutsAction {
 		try {
 			long plid = ParamUtil.getLong(request, "p_l_id");
 
-			PortletURL portletURL = PortletURLFactoryUtil.create(
+			PortletURL portletURL = _portletURLFactory.create(
 				request, MBPortletKeys.MESSAGE_BOARDS, plid,
 				PortletRequest.RENDER_PHASE);
 
@@ -75,5 +75,8 @@ public class FindRecentPostsAction extends BaseStrutsAction {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

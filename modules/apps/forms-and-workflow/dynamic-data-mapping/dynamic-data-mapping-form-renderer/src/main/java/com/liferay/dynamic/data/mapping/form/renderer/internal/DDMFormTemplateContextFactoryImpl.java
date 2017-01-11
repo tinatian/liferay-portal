@@ -30,7 +30,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormRule;
 import com.liferay.dynamic.data.mapping.util.DDM;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactory;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.AggregateResourceBundle;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
@@ -167,7 +167,7 @@ public class DDMFormTemplateContextFactoryImpl
 
 		String submitLabel = GetterUtil.getString(
 			ddmFormRenderingContext.getSubmitLabel(),
-			LanguageUtil.get(locale, "submit"));
+			_language.get(locale, "submit"));
 
 		templateContext.put("submitLabel", submitLabel);
 
@@ -217,9 +217,8 @@ public class DDMFormTemplateContextFactoryImpl
 
 		Map<String, String> stringsMap = new HashMap<>();
 
-		stringsMap.put("next", LanguageUtil.get(resourceBundle, "next"));
-		stringsMap.put(
-			"previous", LanguageUtil.get(resourceBundle, "previous"));
+		stringsMap.put("next", _language.get(resourceBundle, "next"));
+		stringsMap.put("previous", _language.get(resourceBundle, "previous"));
 
 		return stringsMap;
 	}
@@ -281,7 +280,7 @@ public class DDMFormTemplateContextFactoryImpl
 
 		sb.append("<label class=\"required-warning\">");
 		sb.append(
-			LanguageUtil.format(
+			_language.format(
 				resourceBundle, "all-fields-marked-with-x-are-required",
 				"<i class=\"icon-asterisk text-warning\"></i>", false));
 		sb.append("</label>");
@@ -387,5 +386,8 @@ public class DDMFormTemplateContextFactoryImpl
 
 	@Reference
 	private JSONFactory _jsonFactory;
+
+	@Reference
+	private Language _language;
 
 }

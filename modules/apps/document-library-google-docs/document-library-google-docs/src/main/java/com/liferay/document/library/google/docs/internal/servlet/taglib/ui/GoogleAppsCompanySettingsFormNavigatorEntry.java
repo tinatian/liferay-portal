@@ -14,7 +14,7 @@
 
 package com.liferay.document.library.google.docs.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.servlet.taglib.ui.BaseJSPFormNavigatorEntry;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorEntry;
@@ -52,7 +52,7 @@ public class GoogleAppsCompanySettingsFormNavigatorEntry
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "google-apps");
+		return _language.get(locale, "google-apps");
 	}
 
 	@Override
@@ -68,5 +68,8 @@ public class GoogleAppsCompanySettingsFormNavigatorEntry
 	protected String getJspPath() {
 		return "/portal_settings/google_apps.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

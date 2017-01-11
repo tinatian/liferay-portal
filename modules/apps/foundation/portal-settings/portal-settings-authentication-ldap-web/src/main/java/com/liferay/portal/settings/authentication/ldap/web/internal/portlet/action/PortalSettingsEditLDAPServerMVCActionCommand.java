@@ -17,7 +17,7 @@ package com.liferay.portal.settings.authentication.ldap.web.internal.portlet.act
 import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletContextFactory;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -96,7 +96,7 @@ public class PortalSettingsEditLDAPServerMVCActionCommand
 
 				SessionErrors.add(actionRequest, e.getClass());
 
-				PortletURL portletURL = PortletURLFactoryUtil.create(
+				PortletURL portletURL = _portletURLFactory.create(
 					actionRequest, PortalSettingsPortletKeys.PORTAL_SETTINGS,
 					PortletRequest.RENDER_PHASE);
 
@@ -302,6 +302,10 @@ public class PortalSettingsEditLDAPServerMVCActionCommand
 	private Portlet _portlet;
 	private PortletContext _portletContext;
 	private PortletContextFactory _portletContextFactory;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
+
 	private ServletContext _servletContext;
 
 }

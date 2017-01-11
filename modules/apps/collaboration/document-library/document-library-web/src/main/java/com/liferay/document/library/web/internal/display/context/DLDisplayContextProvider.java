@@ -24,7 +24,7 @@ import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileShortcut;
 import com.liferay.portal.kernel.repository.model.FileVersion;
@@ -208,12 +208,16 @@ public class DLDisplayContextProvider {
 		ResourceBundleLoader resourceBundleLoader) {
 
 		_resourceBundleLoader = new AggregateResourceBundleLoader(
-			resourceBundleLoader, LanguageUtil.getPortalResourceBundleLoader());
+			resourceBundleLoader, _language.getPortalResourceBundleLoader());
 	}
 
 	private ServiceTrackerList<DLDisplayContextFactory, DLDisplayContextFactory>
 		_dlDisplayContextFactories;
 	private DLMimeTypeDisplayContext _dlMimeTypeDisplayContext;
+
+	@Reference
+	private Language _language;
+
 	private ResourceBundleLoader _resourceBundleLoader;
 	private StorageEngine _storageEngine;
 

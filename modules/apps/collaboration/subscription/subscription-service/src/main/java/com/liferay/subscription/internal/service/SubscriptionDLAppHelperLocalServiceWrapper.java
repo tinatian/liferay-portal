@@ -26,7 +26,7 @@ import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
 import com.liferay.document.library.kernel.util.DLAppHelperThreadLocal;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
@@ -200,7 +200,7 @@ public class SubscriptionDLAppHelperLocalServiceWrapper
 		}
 		else {
 			subscriptionSender.setLocalizedContextAttributeWithFunction(
-				"[$FOLDER_NAME$]", locale -> LanguageUtil.get(locale, "home"));
+				"[$FOLDER_NAME$]", locale -> _language.get(locale, "home"));
 		}
 
 		subscriptionSender.setContextAttributes(
@@ -294,6 +294,10 @@ public class SubscriptionDLAppHelperLocalServiceWrapper
 
 	private DLAppLocalService _dlAppLocalService;
 	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
+
+	@Reference
+	private Language _language;
+
 	private SubscriptionLocalService _subscriptionLocalService;
 
 }

@@ -22,7 +22,7 @@ import com.liferay.document.library.kernel.service.DLFileEntryTypeService;
 import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
@@ -80,7 +80,7 @@ public class DocumentLibraryPortletDisplayTemplateHandler
 			DLPortletKeys.DOCUMENT_LIBRARY, locale);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
-			LanguageUtil.get(locale, "template"));
+			_language.get(locale, "template"));
 	}
 
 	@Override
@@ -148,6 +148,9 @@ public class DocumentLibraryPortletDisplayTemplateHandler
 		DocumentLibraryPortletDisplayTemplateHandler.class);
 
 	private volatile DLConfiguration _dlConfiguration;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

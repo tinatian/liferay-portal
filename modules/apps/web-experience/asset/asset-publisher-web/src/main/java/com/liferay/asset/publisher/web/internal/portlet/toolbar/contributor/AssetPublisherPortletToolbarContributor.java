@@ -20,7 +20,7 @@ import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
 import com.liferay.asset.publisher.web.constants.AssetPublisherWebKeys;
 import com.liferay.asset.publisher.web.display.context.AssetPublisherDisplayContext;
 import com.liferay.asset.publisher.web.util.AssetPublisherCustomizer;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.MenuItem;
 import com.liferay.portal.kernel.servlet.taglib.ui.URLMenuItem;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -167,12 +167,12 @@ public class AssetPublisherPortletToolbarContributor
 		Map<String, Object> data = new HashMap<>();
 
 		data.put(
-			"id", HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset");
+			"id", _html.escape(portletDisplay.getNamespace()) + "editAsset");
 
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", themeDisplay.getLocale(), getClass());
 
-		String title = LanguageUtil.get(
+		String title = _language.get(
 			resourceBundle, "add-content-select-scope-and-type");
 
 		data.put("title", title);
@@ -260,19 +260,19 @@ public class AssetPublisherPortletToolbarContributor
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		data.put(
-			"id", HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset");
+			"id", _html.escape(portletDisplay.getNamespace()) + "editAsset");
 
 		String message = AssetUtil.getClassNameMessage(
 			className, themeDisplay.getLocale());
 
-		String title = LanguageUtil.format(
+		String title = _language.format(
 			themeDisplay.getLocale(), "new-x", message, false);
 
 		data.put("title", title);
 
 		urlMenuItem.setData(data);
 
-		urlMenuItem.setLabel(HtmlUtil.escape(message));
+		urlMenuItem.setLabel(_html.escape(message));
 
 		long curGroupId = groupId;
 
@@ -308,6 +308,12 @@ public class AssetPublisherPortletToolbarContributor
 		AssetPublisherPortletToolbarContributor.class);
 
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

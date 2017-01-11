@@ -18,7 +18,7 @@ import com.liferay.configuration.admin.web.internal.constants.ConfigurationAdmin
 import com.liferay.configuration.admin.web.internal.model.ConfigurationModel;
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetriever;
 import com.liferay.configuration.admin.web.internal.util.ResourceBundleLoaderProvider;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -289,7 +289,7 @@ public class ConfigurationModelIndexer extends BaseIndexer<ConfigurationModel> {
 			resourceBundleLoader.loadResourceBundle(
 				LocaleUtil.toLanguageId(LocaleUtil.getDefault()));
 
-		for (Locale locale : LanguageUtil.getAvailableLocales()) {
+		for (Locale locale : _language.getAvailableLocales()) {
 			ResourceBundle resourceBundle =
 				resourceBundleLoader.loadResourceBundle(
 					LocaleUtil.toLanguageId(locale));
@@ -320,6 +320,9 @@ public class ConfigurationModelIndexer extends BaseIndexer<ConfigurationModel> {
 
 	@Reference
 	private IndexWriterHelper _indexWriterHelper;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private ResourceBundleLoaderProvider _resourceBundleLoaderProvider;

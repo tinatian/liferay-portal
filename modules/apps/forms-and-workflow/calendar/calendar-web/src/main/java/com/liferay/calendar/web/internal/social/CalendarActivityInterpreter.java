@@ -19,7 +19,7 @@ import com.liferay.calendar.model.CalendarBooking;
 import com.liferay.calendar.service.CalendarBookingLocalService;
 import com.liferay.calendar.service.permission.CalendarPermission;
 import com.liferay.calendar.social.CalendarActivityKeys;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
@@ -72,7 +72,7 @@ public class CalendarActivityInterpreter extends BaseSocialActivityInterpreter {
 		long plid = _portal.getPlidFromPortletId(
 			serviceContext.getScopeGroupId(), CalendarPortletKeys.CALENDAR);
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			serviceContext.getRequest(), CalendarPortletKeys.CALENDAR, plid,
 			PortletRequest.RENDER_PHASE);
 
@@ -161,6 +161,9 @@ public class CalendarActivityInterpreter extends BaseSocialActivityInterpreter {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private ResourceBundleLoader _resourceBundleLoader;
 

@@ -18,7 +18,7 @@ import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.frontend.image.editor.integration.document.library.internal.constants.ImageEditorIntegrationDLWebKeys;
 import com.liferay.frontend.image.editor.integration.document.library.internal.display.context.logic.ImageEditorDLDisplayContextHelper;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.BaseJSPPortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -61,7 +61,7 @@ public class EditWithImageEditorPortletConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)),
 			"edit-with-image-editor");
 	}
@@ -159,6 +159,9 @@ public class EditWithImageEditorPortletConfigurationIcon
 	}
 
 	private DLAppService _dlAppService;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

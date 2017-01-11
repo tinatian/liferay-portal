@@ -14,7 +14,7 @@
 
 package com.liferay.site.admin.web.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -53,7 +53,7 @@ public class SiteCustomFieldsFormNavigatorEntry
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "custom-fields");
+		return _language.get(locale, "custom-fields");
 	}
 
 	@Override
@@ -98,5 +98,8 @@ public class SiteCustomFieldsFormNavigatorEntry
 	protected String getJspPath() {
 		return "/site/custom_fields.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

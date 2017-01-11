@@ -15,7 +15,7 @@
 package com.liferay.staging.bar.web.internal.theme.contributor;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -90,7 +90,7 @@ public class StagingBarTemplateContextContributor
 
 		if (themeDisplay.isShowStagingIcon()) {
 			contextObjects.put(
-				"staging_text", LanguageUtil.get(request, "staging"));
+				"staging_text", _language.get(request, "staging"));
 		}
 	}
 
@@ -105,6 +105,9 @@ public class StagingBarTemplateContextContributor
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		StagingBarTemplateContextContributor.class);
+
+	@Reference
+	private Language _language;
 
 	private StagingProductNavigationControlMenuEntry
 		_stagingProductNavigationControlMenuEntry;

@@ -21,7 +21,7 @@ import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.util.JournalContent;
 import com.liferay.journal.web.util.ExportArticleUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -105,7 +105,7 @@ public class JournalContentPortlet extends MVCPortlet {
 
 		if ((articleGroupId > 0) && Validator.isNotNull(articleId)) {
 			String viewMode = ParamUtil.getString(renderRequest, "viewMode");
-			String languageId = LanguageUtil.getLanguageId(renderRequest);
+			String languageId = _language.getLanguageId(renderRequest);
 			int page = ParamUtil.getInteger(renderRequest, "page", 1);
 
 			article = _journalArticleLocalService.fetchLatestArticle(
@@ -238,5 +238,8 @@ public class JournalContentPortlet extends MVCPortlet {
 	private ExportArticleUtil _exportArticleUtil;
 	private JournalArticleLocalService _journalArticleLocalService;
 	private JournalContent _journalContent;
+
+	@Reference
+	private Language _language;
 
 }

@@ -22,7 +22,7 @@ import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalService;
 import com.liferay.exportimport.kernel.service.ExportImportService;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -152,11 +152,11 @@ public class ExportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 
 		if (Validator.isNull(taskName)) {
 			if (privateLayout) {
-				taskName = LanguageUtil.get(
+				taskName = _language.get(
 					actionRequest.getLocale(), "private-pages");
 			}
 			else {
-				taskName = LanguageUtil.get(
+				taskName = _language.get(
 					actionRequest.getLocale(), "public-pages");
 			}
 		}
@@ -244,6 +244,10 @@ public class ExportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 	private ExportImportConfigurationLocalService
 		_exportImportConfigurationLocalService;
 	private ExportImportService _exportImportService;
+
+	@Reference
+	private Language _language;
+
 	private LayoutLocalService _layoutLocalService;
 
 	@Reference

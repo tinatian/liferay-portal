@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.AddPortletProvider;
 import com.liferay.portal.kernel.portlet.BasePortletProvider;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import javax.portlet.PortletPreferences;
@@ -57,7 +57,7 @@ public class DDLDisplayAddPortletProvider
 	public PortletURL getPortletURL(HttpServletRequest request, Group group)
 		throws PortalException {
 
-		return PortletURLFactoryUtil.create(
+		return _portletURLFactory.create(
 			request, getPortletName(), PortletRequest.RENDER_PHASE);
 	}
 
@@ -100,5 +100,8 @@ public class DDLDisplayAddPortletProvider
 	}
 
 	private AssetEntryLocalService _assetEntryLocalService;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

@@ -26,16 +26,16 @@ import com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplayFac
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.notifications.BaseUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.StringPool;
 
@@ -69,7 +69,7 @@ public class ExportImportUserNotificationHandler
 			ServiceContext serviceContext)
 		throws Exception {
 
-		String languageId = LanguageUtil.getLanguageId(
+		String languageId = _language.getLanguageId(
 			serviceContext.getRequest());
 
 		ResourceBundle resourceBundle =
@@ -89,10 +89,9 @@ public class ExportImportUserNotificationHandler
 		catch (PortalException pe) {
 			_log.error(pe, pe);
 
-			return LanguageUtil.format(
+			return _language.format(
 				resourceBundle, "unable-to-find-x",
-				LanguageUtil.get(
-					resourceBundle, "export-import-configuration"));
+				_language.get(resourceBundle, "export-import-configuration"));
 		}
 
 		String message =
@@ -110,7 +109,7 @@ public class ExportImportUserNotificationHandler
 		}
 		else {
 			return "Unable to process notification: " +
-				HtmlUtil.escape(jsonObject.toString());
+				_html.escape(jsonObject.toString());
 		}
 
 		long backgroundTaskId = jsonObject.getLong("backgroundTaskId");
@@ -122,7 +121,7 @@ public class ExportImportUserNotificationHandler
 		String processName = backgroundTaskDisplay.getDisplayName(
 			serviceContext.getRequest());
 
-		return LanguageUtil.format(resourceBundle, message, processName);
+		return _language.format(resourceBundle, message, processName);
 	}
 
 	@Override
@@ -131,7 +130,7 @@ public class ExportImportUserNotificationHandler
 			ServiceContext serviceContext)
 		throws Exception {
 
-		PortletURL renderURL = PortletURLFactoryUtil.create(
+		PortletURL renderURL = _portletURLFactory.create(
 			serviceContext.getRequest(), ExportImportPortletKeys.EXPORT_IMPORT,
 			PortletRequest.RENDER_PHASE);
 
@@ -168,7 +167,16 @@ public class ExportImportUserNotificationHandler
 		_exportImportConfigurationLocalService;
 
 	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
+
+	@Reference
 	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	@Reference(target = "(bundle.symbolic.name=com.liferay.staging.lang)")
 	private ResourceBundleLoader _resourceBundleLoader;

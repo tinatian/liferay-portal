@@ -18,13 +18,13 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.ColorScheme;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
@@ -68,8 +68,8 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 
 		jsonObject.put(
 			"bodyClass",
-			"html-editor " + HtmlUtil.escape(colorScheme.getCssClass()) + " " +
-				HtmlUtil.escape(cssClasses));
+			"html-editor " + _html.escape(colorScheme.getCssClass()) + " " +
+				_html.escape(cssClasses));
 
 		jsonObject.put("closeNoticeTimeout", 8000);
 		jsonObject.put("entities", Boolean.FALSE);
@@ -88,7 +88,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 
 		jsonObject.put(
 			"filebrowserWindowFeatures",
-			"title=" + LanguageUtil.get(themeDisplay.getLocale(), "browse"));
+			"title=" + _language.get(themeDisplay.getLocale(), "browse"));
 		jsonObject.put("pasteFromWordRemoveFontStyles", Boolean.FALSE);
 		jsonObject.put("pasteFromWordRemoveStyles", Boolean.FALSE);
 		jsonObject.put(
@@ -151,45 +151,44 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "normal"), "p", null));
+				_language.get(resourceBundle, "normal"), "p", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "1"), "h1",
+				_language.format(resourceBundle, "heading-x", "1"), "h1",
 				null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "2"), "h2",
+				_language.format(resourceBundle, "heading-x", "2"), "h2",
 				null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "3"), "h3",
+				_language.format(resourceBundle, "heading-x", "3"), "h3",
 				null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "4"), "h4",
+				_language.format(resourceBundle, "heading-x", "4"), "h4",
 				null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "preformatted-text"), "pre",
+				_language.get(resourceBundle, "preformatted-text"), "pre",
 				null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "cited-work"), "cite", null));
+				_language.get(resourceBundle, "cited-work"), "cite", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "computer-code"), "code",
-				null));
+				_language.get(resourceBundle, "computer-code"), "code", null));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "info-message"), "div",
+				_language.get(resourceBundle, "info-message"), "div",
 				"portlet-msg-info"));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "alert-message"), "div",
+				_language.get(resourceBundle, "alert-message"), "div",
 				"portlet-msg-alert"));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "error-message"), "div",
+				_language.get(resourceBundle, "error-message"), "div",
 				"portlet-msg-error"));
 
 		return jsonArray;
@@ -434,6 +433,12 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			resourceBundleLoader,
 			ResourceBundleLoaderUtil.getPortalResourceBundleLoader());
 	}
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	private volatile ResourceBundleLoader _resourceBundleLoader;
 

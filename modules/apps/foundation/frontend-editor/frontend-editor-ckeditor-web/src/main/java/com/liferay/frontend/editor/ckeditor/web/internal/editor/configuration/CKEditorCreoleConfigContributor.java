@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Ambrin Chaudhary
@@ -73,7 +74,7 @@ public class CKEditorCreoleConfigContributor
 			"a11yhelpbtn,creole,itemselector,lfrpopup,wikilink");
 		jsonObject.put(
 			"filebrowserWindowFeatures",
-			"title=" + LanguageUtil.get(themeDisplay.getLocale(), "browse"));
+			"title=" + _language.get(themeDisplay.getLocale(), "browse"));
 		jsonObject.put("format_tags", "p;h1;h2;h3;h4;h5;h6;pre");
 
 		StringBundler sb = new StringBundler();
@@ -163,5 +164,8 @@ public class CKEditorCreoleConfigContributor
 
 		return jsonArray;
 	}
+
+	@Reference
+	private Language _language;
 
 }

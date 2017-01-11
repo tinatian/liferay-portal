@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 
 import java.util.Locale;
 
@@ -65,8 +65,7 @@ public class MessageIndexer extends BaseIndexer<Message> {
 
 		ExpandoBridge expandoBridge = message.getExpandoBridge();
 
-		document.addText(
-			Field.CONTENT, HtmlUtil.extractText(message.getBody()));
+		document.addText(Field.CONTENT, _html.extractText(message.getBody()));
 		document.addKeyword(Field.FOLDER_ID, message.getFolderId());
 		document.addText(Field.TITLE, message.getSubject());
 
@@ -149,5 +148,8 @@ public class MessageIndexer extends BaseIndexer<Message> {
 	protected MessageLocalService messageLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(MessageIndexer.class);
+
+	@Reference
+	private Html _html;
 
 }

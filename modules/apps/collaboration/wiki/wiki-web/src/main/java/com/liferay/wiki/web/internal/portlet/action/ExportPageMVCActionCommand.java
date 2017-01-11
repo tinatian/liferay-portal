@@ -17,7 +17,7 @@ package com.liferay.wiki.web.internal.portlet.action;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
@@ -91,7 +91,7 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-			PortletURL viewPageURL = PortletURLFactoryUtil.create(
+			PortletURL viewPageURL = _portletURLFactory.create(
 				actionRequest, portletConfig.getPortletName(),
 				PortletRequest.RENDER_PHASE);
 
@@ -101,7 +101,7 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 			viewPageURL.setPortletMode(PortletMode.VIEW);
 			viewPageURL.setWindowState(WindowState.MAXIMIZED);
 
-			PortletURL editPageURL = PortletURLFactoryUtil.create(
+			PortletURL editPageURL = _portletURLFactory.create(
 				actionRequest, portletConfig.getPortletName(),
 				PortletRequest.RENDER_PHASE);
 
@@ -241,6 +241,9 @@ public class ExportPageMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private WikiEngineRenderer _wikiEngineRenderer;
 	private WikiPageService _wikiPageService;

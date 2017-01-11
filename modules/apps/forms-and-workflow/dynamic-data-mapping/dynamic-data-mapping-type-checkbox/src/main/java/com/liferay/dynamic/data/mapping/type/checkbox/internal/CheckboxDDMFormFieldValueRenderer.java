@@ -16,7 +16,7 @@ package com.liferay.dynamic.data.mapping.type.checkbox.internal;
 
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 
 import java.util.Locale;
 
@@ -36,15 +36,18 @@ public class CheckboxDDMFormFieldValueRenderer
 			ddmFormFieldValue, locale);
 
 		if (valueBoolean == Boolean.TRUE) {
-			return LanguageUtil.get(locale, "yes");
+			return _language.get(locale, "yes");
 		}
 		else {
-			return LanguageUtil.get(locale, "no");
+			return _language.get(locale, "no");
 		}
 	}
 
 	@Reference
 	protected CheckboxDDMFormFieldValueAccessor
 		checkboxDDMFormFieldValueAccessor;
+
+	@Reference
+	private Language _language;
 
 }

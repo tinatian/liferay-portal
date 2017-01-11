@@ -19,7 +19,7 @@ import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.item.selector.criteria.url.criterion.URLItemSelectorCriterion;
 import com.liferay.item.selector.url.web.internal.display.context.ItemSelectorURLViewDisplayContext;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
 
@@ -66,7 +66,7 @@ public class ItemSelectorURLView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return LanguageUtil.get(locale, "url");
+		return _language.get(locale, "url");
 	}
 
 	@Override
@@ -115,6 +115,9 @@ public class ItemSelectorURLView
 				new ItemSelectorReturnType[] {
 					new URLItemSelectorReturnType()
 				}));
+
+	@Reference
+	private Language _language;
 
 	private ServletContext _servletContext;
 

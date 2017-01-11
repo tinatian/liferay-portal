@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexer;
@@ -269,7 +269,7 @@ public class DDLRecordIndexer extends BaseIndexer<DDLRecord> {
 
 			String recordSetName = recordSet.getName(locale);
 
-			return LanguageUtil.format(
+			return _language.format(
 				locale, "new-x-for-list-x",
 				new Object[] {ddmStructureName, recordSetName}, false);
 		}
@@ -385,5 +385,8 @@ public class DDLRecordIndexer extends BaseIndexer<DDLRecord> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDLRecordIndexer.class);
+
+	@Reference
+	private Language _language;
 
 }

@@ -21,7 +21,7 @@ import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.item.selector.criteria.upload.criterion.UploadItemSelectorCriterion;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.util.PropsValues;
@@ -85,7 +85,7 @@ public class BlogsItemSelectorHelper {
 		UploadItemSelectorCriterion uploadItemSelectorCriterion =
 			new UploadItemSelectorCriterion(
 				uploadURL.toString(),
-				LanguageUtil.get(themeDisplay.getLocale(), "blog-images"),
+				_language.get(themeDisplay.getLocale(), "blog-images"),
 				PropsValues.BLOGS_IMAGE_MAX_SIZE);
 
 		uploadItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
@@ -113,5 +113,8 @@ public class BlogsItemSelectorHelper {
 	}
 
 	private ItemSelector _itemSelector;
+
+	@Reference
+	private Language _language;
 
 }

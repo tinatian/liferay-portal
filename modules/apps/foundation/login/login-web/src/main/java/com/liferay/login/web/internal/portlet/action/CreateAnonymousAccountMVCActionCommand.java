@@ -31,7 +31,7 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -182,7 +182,7 @@ public class CreateAnonymousAccountMVCActionCommand
 		String emailAddress = ParamUtil.getString(
 			actionRequest, "emailAddress");
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			actionRequest, LoginPortletKeys.FAST_LOGIN,
 			PortletRequest.RENDER_PHASE);
 
@@ -322,6 +322,9 @@ public class CreateAnonymousAccountMVCActionCommand
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private UserLocalService _userLocalService;
 	private UserService _userService;

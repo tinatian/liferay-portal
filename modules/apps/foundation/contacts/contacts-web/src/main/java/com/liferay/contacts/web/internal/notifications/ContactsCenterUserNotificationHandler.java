@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -188,7 +188,7 @@ public class ContactsCenterUserNotificationHandler
 				serviceContext.getThemeDisplay());
 
 			return "<a href=\"" + userDisplayURL + "\">" +
-				HtmlUtil.escape(userName) + "</a>";
+				_html.escape(userName) + "</a>";
 		}
 		catch (Exception e) {
 			return StringPool.BLANK;
@@ -208,6 +208,9 @@ public class ContactsCenterUserNotificationHandler
 	private static final String _BODY =
 		"<div class=\"title\">[$TITLE$]</div><div class=\"body\">[$BODY$]" +
 			"</div>";
+
+	@Reference
+	private Html _html;
 
 	private ResourceBundleLoader _resourceBundleLoader;
 

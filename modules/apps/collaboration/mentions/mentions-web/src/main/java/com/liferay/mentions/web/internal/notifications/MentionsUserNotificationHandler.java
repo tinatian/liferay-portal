@@ -21,11 +21,11 @@ import com.liferay.mentions.web.constants.MentionsPortletKeys;
 import com.liferay.message.boards.kernel.model.MBMessage;
 import com.liferay.message.boards.kernel.service.MBMessageLocalService;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -87,24 +87,24 @@ public class MentionsUserNotificationHandler
 			"content.Language", serviceContext.getLocale(), getClass());
 
 		if ((mbMessage != null) && mbMessage.isDiscussion()) {
-			return LanguageUtil.format(
+			return _language.format(
 				resourceBundle, "x-mentioned-you-in-a-comment-in-a-x",
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
-					StringUtil.toLowerCase(HtmlUtil.escape(typeName))
+					StringUtil.toLowerCase(_html.escape(typeName))
 				},
 				false);
 		}
 		else {
-			return LanguageUtil.format(
+			return _language.format(
 				resourceBundle, "x-mentioned-you-in-a-x",
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
-					StringUtil.toLowerCase(HtmlUtil.escape(typeName))
+					StringUtil.toLowerCase(_html.escape(typeName))
 				},
 				false);
 		}
@@ -116,6 +116,12 @@ public class MentionsUserNotificationHandler
 
 		_mbMessageLocalService = mbMessageLocalService;
 	}
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	private MBMessageLocalService _mbMessageLocalService;
 

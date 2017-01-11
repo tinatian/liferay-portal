@@ -14,7 +14,7 @@
 
 package com.liferay.site.admin.web.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.model.User;
@@ -53,7 +53,7 @@ public class SitePagesFormNavigatorEntry extends BaseSiteFormNavigatorEntry {
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "pages");
+		return _language.get(locale, "pages");
 	}
 
 	@Override
@@ -96,5 +96,8 @@ public class SitePagesFormNavigatorEntry extends BaseSiteFormNavigatorEntry {
 	protected String getJspPath() {
 		return "/site/pages.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

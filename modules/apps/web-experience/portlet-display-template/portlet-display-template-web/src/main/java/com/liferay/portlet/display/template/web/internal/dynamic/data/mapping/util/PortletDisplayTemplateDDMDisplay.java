@@ -19,7 +19,7 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateConstants;
 import com.liferay.dynamic.data.mapping.util.BaseDDMDisplay;
 import com.liferay.dynamic.data.mapping.util.DDMDisplay;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
@@ -131,7 +131,7 @@ public class PortletDisplayTemplateDDMDisplay extends BaseDDMDisplay {
 		Locale locale) {
 
 		if (search) {
-			return LanguageUtil.get(locale, "templates");
+			return _language.get(locale, "templates");
 		}
 
 		if (controlPanel) {
@@ -149,12 +149,12 @@ public class PortletDisplayTemplateDDMDisplay extends BaseDDMDisplay {
 
 	@Override
 	protected String getDefaultEditTemplateTitle(Locale locale) {
-		return LanguageUtil.get(locale, "new-application-display-template");
+		return _language.get(locale, "new-application-display-template");
 	}
 
 	@Override
 	protected String getDefaultViewTemplateTitle(Locale locale) {
-		return LanguageUtil.get(locale, "application-display-templates");
+		return _language.get(locale, "application-display-templates");
 	}
 
 	@Override
@@ -200,6 +200,9 @@ public class PortletDisplayTemplateDDMDisplay extends BaseDDMDisplay {
 
 	private static final Set<String> _viewTemplateExcludedColumnNames =
 		SetUtil.fromArray(new String[] {"language", "mode", "structure"});
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

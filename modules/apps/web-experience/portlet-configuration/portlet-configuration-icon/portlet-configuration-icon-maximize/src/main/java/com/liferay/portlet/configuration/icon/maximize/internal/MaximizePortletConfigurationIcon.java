@@ -15,7 +15,7 @@
 package com.liferay.portlet.configuration.icon.maximize.internal;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
 
@@ -39,6 +39,7 @@ import javax.portlet.PortletResponse;
 import javax.portlet.WindowState;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -54,7 +55,7 @@ public class MaximizePortletConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)), "maximize");
 	}
 
@@ -73,7 +74,7 @@ public class MaximizePortletConfigurationIcon
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		return "submitForm(document.hrefFm, '".concat(
-			HtmlUtil.escapeJS(portletDisplay.getURLMax())).concat(
+			_html.escapeJS(portletDisplay.getURLMax())).concat(
 				"'); return false;");
 	}
 
@@ -166,5 +167,11 @@ public class MaximizePortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		MaximizePortletConfigurationIcon.class);
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 }

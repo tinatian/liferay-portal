@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.workflow.WorkflowHandler;
@@ -72,7 +72,7 @@ public class WorkflowTaskUserNotificationHandler
 			return null;
 		}
 
-		return HtmlUtil.escape(jsonObject.getString("notificationMessage"));
+		return _html.escape(jsonObject.getString("notificationMessage"));
 	}
 
 	@Override
@@ -122,6 +122,9 @@ public class WorkflowTaskUserNotificationHandler
 
 		_userNotificationEventLocalService = userNotificationEventLocalService;
 	}
+
+	@Reference
+	private Html _html;
 
 	private UserNotificationEventLocalService
 		_userNotificationEventLocalService;

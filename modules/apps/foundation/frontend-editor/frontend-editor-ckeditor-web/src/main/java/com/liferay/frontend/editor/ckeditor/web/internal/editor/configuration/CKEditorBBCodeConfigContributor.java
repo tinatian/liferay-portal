@@ -19,15 +19,16 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.parsers.bbcode.BBCodeTranslatorUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Ambrin Chaudhary
@@ -60,7 +61,7 @@ public class CKEditorBBCodeConfigContributor
 		jsonObject.put("format_tags", "p;pre");
 		jsonObject.put(
 			"imagesPath",
-			HtmlUtil.escape(themeDisplay.getPathThemeImages()) +
+			_html.escape(themeDisplay.getPathThemeImages()) +
 				"/message_boards/");
 		jsonObject.put("lang", getLangJSONObject(inputEditorTaglibAttributes));
 		jsonObject.put("newThreadURL", MBThreadConstants.NEW_THREAD_URL);
@@ -77,7 +78,7 @@ public class CKEditorBBCodeConfigContributor
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonFiles()));
 		jsonObject.put(
 			"smiley_path",
-			HtmlUtil.escape(themeDisplay.getPathThemeImages()) + "/emoticons/");
+			_html.escape(themeDisplay.getPathThemeImages()) + "/emoticons/");
 		jsonObject.put(
 			"smiley_symbols",
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonSymbols()));
@@ -99,7 +100,7 @@ public class CKEditorBBCodeConfigContributor
 
 		jsonObject.put(
 			"code",
-			LanguageUtil.get(
+			_language.get(
 				getContentsLocale(inputEditorTaglibAttributes), "code"));
 
 		return jsonObject;
@@ -177,5 +178,11 @@ public class CKEditorBBCodeConfigContributor
 
 		return jsonArray;
 	}
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 }

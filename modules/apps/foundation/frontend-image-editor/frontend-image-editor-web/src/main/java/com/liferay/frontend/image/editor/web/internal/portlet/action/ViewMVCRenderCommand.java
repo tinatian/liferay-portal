@@ -18,7 +18,7 @@ import com.liferay.frontend.image.editor.capability.ImageEditorCapability;
 import com.liferay.frontend.image.editor.web.internal.constants.ImageEditorPortletKeys;
 import com.liferay.frontend.image.editor.web.internal.portlet.tracker.ImageEditorCapabilityTracker;
 import com.liferay.frontend.image.editor.web.internal.portlet.tracker.ImageEditorCapabilityTracker.ImageEditorCapabilityDescriptor;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -106,12 +106,12 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 
 		Locale locale = themeDisplay.getLocale();
 
-		strings.put("apply", LanguageUtil.get(locale, "apply"));
-		strings.put("cancel", LanguageUtil.get(locale, "cancel"));
-		strings.put("save", LanguageUtil.get(locale, "save"));
+		strings.put("apply", _language.get(locale, "apply"));
+		strings.put("cancel", _language.get(locale, "cancel"));
+		strings.put("save", _language.get(locale, "save"));
 
 		for (String key : resourceBundle.keySet()) {
-			strings.put(key, LanguageUtil.get(resourceBundle, key));
+			strings.put(key, _language.get(resourceBundle, key));
 		}
 
 		template.put("strings", strings);
@@ -240,6 +240,9 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 
 	@Reference
 	private ImageEditorCapabilityTracker _imageEditorCapabilityTracker;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

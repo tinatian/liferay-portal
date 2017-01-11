@@ -15,13 +15,13 @@
 package com.liferay.layout.admin.web.internal.portlet.configuration.icon;
 
 import com.liferay.layout.admin.web.internal.constants.LayoutAdminPortletKeys;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.service.LayoutLocalService;
@@ -58,7 +58,7 @@ public class EmbeddedPortletsPortletConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "embedded-portlets");
+		return _language.get(resourceBundle, "embedded-portlets");
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class EmbeddedPortletsPortletConfigurationIcon
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		try {
-			PortletURL portletURL = PortletURLFactoryUtil.create(
+			PortletURL portletURL = _portletURLFactory.create(
 				portletRequest, portletDisplay.getId(),
 				PortletRequest.RENDER_PHASE);
 
@@ -146,6 +146,12 @@ public class EmbeddedPortletsPortletConfigurationIcon
 		_layoutLocalService = layoutLocalService;
 	}
 
+	@Reference
+	private Language _language;
+
 	private LayoutLocalService _layoutLocalService;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

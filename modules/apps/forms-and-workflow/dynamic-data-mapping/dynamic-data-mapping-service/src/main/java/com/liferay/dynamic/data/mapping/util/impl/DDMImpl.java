@@ -49,7 +49,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Image;
@@ -66,7 +66,7 @@ import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -282,10 +282,10 @@ public class DDMImpl implements DDM {
 			Boolean valueBoolean = (Boolean)fieldValue;
 
 			if (valueBoolean) {
-				fieldValue = LanguageUtil.get(themeDisplay.getLocale(), "yes");
+				fieldValue = _language.get(themeDisplay.getLocale(), "yes");
 			}
 			else {
-				fieldValue = LanguageUtil.get(themeDisplay.getLocale(), "no");
+				fieldValue = _language.get(themeDisplay.getLocale(), "no");
 			}
 		}
 		else if (type.equals(DDMImpl.TYPE_DDM_DOCUMENTLIBRARY)) {
@@ -1092,7 +1092,7 @@ public class DDMImpl implements DDM {
 		String url = uploadRequest.getParameter(fieldNameValue + "URL");
 
 		long imageId = GetterUtil.getLong(
-			HttpUtil.getParameter(url, "img_id", false));
+			_http.getParameter(url, "img_id", false));
 
 		Image image = _imageLocalService.fetchImage(imageId);
 
@@ -1333,7 +1333,15 @@ public class DDMImpl implements DDM {
 	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
 	private DLAppLocalService _dlAppLocalService;
 	private FieldsToDDMFormValuesConverter _fieldsToDDMFormValuesConverter;
+
+	@Reference
+	private Http _http;
+
 	private ImageLocalService _imageLocalService;
+
+	@Reference
+	private Language _language;
+
 	private LayoutLocalService _layoutLocalService;
 
 	@Reference

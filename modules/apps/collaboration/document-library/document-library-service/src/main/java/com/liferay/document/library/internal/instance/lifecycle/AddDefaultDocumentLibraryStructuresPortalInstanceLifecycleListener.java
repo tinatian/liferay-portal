@@ -31,7 +31,7 @@ import com.liferay.dynamic.data.mapping.util.DDMBeanTranslator;
 import com.liferay.dynamic.data.mapping.util.DefaultDDMStructureHelper;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.metadata.RawMetadataProcessorUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -144,9 +144,9 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 		if (dlFileEntryType == null) {
 			Map<Locale, String> localizationMap = new HashMap<>();
 
-			for (Locale curLocale : LanguageUtil.getAvailableLocales(groupId)) {
+			for (Locale curLocale : _language.getAvailableLocales(groupId)) {
 				localizationMap.put(
-					curLocale, LanguageUtil.get(curLocale, languageKey));
+					curLocale, _language.get(curLocale, languageKey));
 			}
 
 			_dlFileEntryTypeLocalService.addFileEntryType(
@@ -392,6 +392,9 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 	private DefaultDDMStructureHelper _defaultDDMStructureHelper;
 	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

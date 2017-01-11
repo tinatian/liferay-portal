@@ -29,7 +29,7 @@ import com.liferay.dynamic.data.mapping.storage.StorageType;
 import com.liferay.dynamic.data.mapping.util.DDM;
 import com.liferay.dynamic.data.mapping.util.DDMXML;
 import com.liferay.dynamic.data.mapping.util.DefaultDDMStructureHelper;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.upgrade.util.UpgradeProcessUtil;
@@ -103,10 +103,10 @@ public class DefaultDDMStructureHelperImpl
 			Map<Locale, String> nameMap = new HashMap<>();
 			Map<Locale, String> descriptionMap = new HashMap<>();
 
-			for (Locale curLocale : LanguageUtil.getAvailableLocales(groupId)) {
-				nameMap.put(curLocale, LanguageUtil.get(curLocale, name));
+			for (Locale curLocale : _language.getAvailableLocales(groupId)) {
+				nameMap.put(curLocale, _language.get(curLocale, name));
 				descriptionMap.put(
-					curLocale, LanguageUtil.get(curLocale, description));
+					curLocale, _language.get(curLocale, description));
 			}
 
 			DDMForm ddmForm = getDDMForm(structureElement, locale);
@@ -285,6 +285,9 @@ public class DefaultDDMStructureHelperImpl
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DDMTemplateLocalService _ddmTemplateLocalService;
 	private DDMXML _ddmXML;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

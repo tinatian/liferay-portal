@@ -26,7 +26,7 @@ import com.liferay.dynamic.data.mapping.service.DDMStructureService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseTransactionalMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -146,7 +146,7 @@ public class CopyRecordSetMVCActionCommand
 
 		ResourceBundle resourceBundle = getResourceBundle(locale);
 
-		String name = LanguageUtil.format(
+		String name = _language.format(
 			resourceBundle, "copy-of-x", recordSet.getName(locale, true));
 
 		return saveRecordSetMVCCommandHelper.getLocalizedMap(locale, name);
@@ -183,5 +183,8 @@ public class CopyRecordSetMVCActionCommand
 
 	@Reference
 	protected SaveRecordSetMVCCommandHelper saveRecordSetMVCCommandHelper;
+
+	@Reference
+	private Language _language;
 
 }

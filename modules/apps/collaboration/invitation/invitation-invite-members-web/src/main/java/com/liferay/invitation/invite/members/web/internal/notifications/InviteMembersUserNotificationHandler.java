@@ -31,7 +31,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
@@ -188,8 +188,7 @@ public class InviteMembersUserNotificationHandler
 		}
 
 		sb.append(
-			HtmlUtil.escape(
-				group.getDescriptiveName(serviceContext.getLocale())));
+			_html.escape(group.getDescriptiveName(serviceContext.getLocale())));
 		sb.append("</a>");
 
 		return sb.toString();
@@ -211,7 +210,7 @@ public class InviteMembersUserNotificationHandler
 				serviceContext.getThemeDisplay());
 
 			return "<a href=\"" + userDisplayURL + "\">" +
-				HtmlUtil.escape(userName) + "</a>";
+				_html.escape(userName) + "</a>";
 		}
 		catch (Exception e) {
 			return StringPool.BLANK;
@@ -254,6 +253,10 @@ public class InviteMembersUserNotificationHandler
 	}
 
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
+
 	private MemberRequestLocalService _memberRequestLocalService;
 
 	@Reference

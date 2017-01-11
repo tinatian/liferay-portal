@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.model.ContainerModel;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.model.SystemEvent;
 import com.liferay.portal.kernel.model.TrashedModel;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portletfilerepository.PortletFileRepositoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.trash.TrashActionKeys;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
 import com.liferay.portal.kernel.trash.TrashRenderer;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
@@ -178,7 +178,7 @@ public class WikiPageTrashHandler extends BaseWikiTrashHandler {
 
 		portletURL.setParameter("nodeName", node.getName());
 
-		portletURL.setParameter("title", HtmlUtil.unescape(page.getTitle()));
+		portletURL.setParameter("title", _html.unescape(page.getTitle()));
 
 		return portletURL.toString();
 	}
@@ -473,7 +473,7 @@ public class WikiPageTrashHandler extends BaseWikiTrashHandler {
 				PortletRequest.RENDER_PHASE);
 		}
 		else {
-			portletURL = PortletURLFactoryUtil.create(
+			portletURL = _portletURLFactory.create(
 				portletRequest, WikiPortletKeys.WIKI, plid,
 				PortletRequest.RENDER_PHASE);
 		}
@@ -524,7 +524,13 @@ public class WikiPageTrashHandler extends BaseWikiTrashHandler {
 	}
 
 	@Reference
+	private Html _html;
+
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private WikiEngineRenderer _wikiEngineRenderer;
 	private WikiPageLocalService _wikiPageLocalService;

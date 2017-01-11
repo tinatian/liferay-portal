@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.monitoring.DataSampleThreadLocal;
 import com.liferay.portal.kernel.monitoring.RequestStatus;
 import com.liferay.portal.kernel.servlet.taglib.BaseDynamicInclude;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.monitoring.configuration.MonitoringConfiguration;
@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Michael C. Han
@@ -84,7 +85,7 @@ public class MonitoringBottomDynamicInclude extends BaseDynamicInclude {
 		sb.append("<!--\n");
 
 		for (DataSample curDataSample : dataSamples) {
-			sb.append(HtmlUtil.escape(curDataSample.toString()));
+			sb.append(_html.escape(curDataSample.toString()));
 			sb.append("\n");
 		}
 
@@ -106,6 +107,9 @@ public class MonitoringBottomDynamicInclude extends BaseDynamicInclude {
 		_monitoringConfiguration = ConfigurableUtil.createConfigurable(
 			MonitoringConfiguration.class, properties);
 	}
+
+	@Reference
+	private Html _html;
 
 	private volatile MonitoringConfiguration _monitoringConfiguration;
 

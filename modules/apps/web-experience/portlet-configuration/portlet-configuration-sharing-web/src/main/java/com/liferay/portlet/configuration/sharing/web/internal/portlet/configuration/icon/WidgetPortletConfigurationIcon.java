@@ -15,13 +15,13 @@
 package com.liferay.portlet.configuration.sharing.web.internal.portlet.configuration.icon;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.theme.PortletDisplay;
@@ -55,7 +55,7 @@ public class WidgetPortletConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "add-to-any-website");
+		return _language.get(resourceBundle, "add-to-any-website");
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class WidgetPortletConfigurationIcon
 		PortletRequest portletRequest, PortletResponse portletResponse) {
 
 		try {
-			LiferayPortletURL portletURL = PortletURLFactoryUtil.create(
+			LiferayPortletURL portletURL = _portletURLFactory.create(
 				portletRequest,
 				PortletConfigurationSharingPortletKeys.
 					PORTLET_CONFIGURATION_SHARING,
@@ -127,6 +127,12 @@ public class WidgetPortletConfigurationIcon
 		WidgetPortletConfigurationIcon.class);
 
 	@Reference
+	private Language _language;
+
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

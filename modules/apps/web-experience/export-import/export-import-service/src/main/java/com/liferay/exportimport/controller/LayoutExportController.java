@@ -37,7 +37,7 @@ import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.lar.DeletionSystemEventExporter;
 import com.liferay.exportimport.lar.PermissionExporter;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -198,7 +198,7 @@ public class LayoutExportController implements ExportController {
 		headerElement.addAttribute(
 			"available-locales",
 			StringUtil.merge(
-				LanguageUtil.getAvailableLocales(
+				_language.getAvailableLocales(
 					portletDataContext.getScopeGroupId())));
 
 		headerElement.addAttribute(
@@ -477,6 +477,10 @@ public class LayoutExportController implements ExportController {
 		DeletionSystemEventExporter.getInstance();
 	private ExportImportLifecycleManager _exportImportLifecycleManager;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Language _language;
+
 	private LayoutPrototypeLocalService _layoutPrototypeLocalService;
 	private LayoutSetPrototypeLocalService _layoutSetPrototypeLocalService;
 	private final PermissionExporter _permissionExporter =

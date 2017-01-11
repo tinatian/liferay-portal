@@ -59,7 +59,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.lock.DuplicateLockException;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.lock.LockManager;
@@ -561,7 +561,7 @@ public class StagingImpl implements Staging {
 			if (className.equals(StagedTheme.class.getName())) {
 				errorMessageJSONObject.put(
 					"info",
-					LanguageUtil.format(
+					_language.format(
 						locale,
 						"the-referenced-theme-x-is-not-deployed-in-the-" +
 							"current-environment",
@@ -586,7 +586,7 @@ public class StagingImpl implements Staging {
 
 				errorMessageJSONObject.put(
 					"info",
-					LanguageUtil.format(
+					_language.format(
 						locale, "referenced-by-a-x-x",
 						new String[] {
 							ResourceActionsUtil.getModelResource(
@@ -598,7 +598,7 @@ public class StagingImpl implements Staging {
 			else {
 				errorMessageJSONObject.put(
 					"info",
-					LanguageUtil.format(
+					_language.format(
 						locale, "referenced-by-x-elements", referrers.size(),
 						true));
 			}
@@ -611,7 +611,7 @@ public class StagingImpl implements Staging {
 			if (group != null) {
 				errorMessageJSONObject.put(
 					"site",
-					LanguageUtil.format(
+					_language.format(
 						locale, "in-site-x", missingReference.getGroupId(),
 						false));
 			}
@@ -655,19 +655,19 @@ public class StagingImpl implements Staging {
 		JSONArray warningMessagesJSONArray = null;
 
 		if (e instanceof DuplicateFileEntryException) {
-			errorMessage = LanguageUtil.get(
+			errorMessage = _language.get(
 				locale, "please-enter-a-unique-document-name");
 			errorType = ServletResponseConstants.SC_DUPLICATE_FILE_EXCEPTION;
 		}
 		else if (e instanceof FileExtensionException) {
-			errorMessage = LanguageUtil.format(
+			errorMessage = _language.format(
 				locale,
 				"document-names-must-end-with-one-of-the-following-extensions",
 				".lar", false);
 			errorType = ServletResponseConstants.SC_FILE_EXTENSION_EXCEPTION;
 		}
 		else if (e instanceof FileNameException) {
-			errorMessage = LanguageUtil.get(
+			errorMessage = _language.get(
 				locale, "please-enter-a-file-with-a-valid-file-name");
 			errorType = ServletResponseConstants.SC_FILE_NAME_EXCEPTION;
 		}
@@ -698,14 +698,14 @@ public class StagingImpl implements Staging {
 				(exportImportConfiguration.getType() ==
 					ExportImportConfigurationConstants.TYPE_PUBLISH_PORTLET))) {
 
-				errorMessage = LanguageUtil.get(
+				errorMessage = _language.get(
 					locale,
 					"file-size-limit-exceeded.-please-ensure-that-the-file-" +
 						"does-not-exceed-the-file-size-limit-in-both-the-" +
 							"live-environment-and-the-staging-environment");
 			}
 			else {
-				errorMessage = LanguageUtil.format(
+				errorMessage = _language.format(
 					locale,
 					"please-enter-a-file-with-a-valid-file-size-no-larger-" +
 						"than-x",
@@ -718,14 +718,14 @@ public class StagingImpl implements Staging {
 		else if (e instanceof LARTypeException) {
 			LARTypeException lte = (LARTypeException)e;
 
-			errorMessage = LanguageUtil.format(
+			errorMessage = _language.format(
 				locale, "please-import-a-lar-file-of-the-correct-type-x",
 				lte.getMessage());
 
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
 		else if (e instanceof LARFileException) {
-			errorMessage = LanguageUtil.get(
+			errorMessage = _language.get(
 				locale, "please-specify-a-lar-file-to-import");
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
@@ -739,7 +739,7 @@ public class StagingImpl implements Staging {
 			sb.append("not-be-found.-please-import-the-following-templates-");
 			sb.append("manually");
 
-			errorMessage = LanguageUtil.get(locale, sb.toString());
+			errorMessage = _language.get(locale, sb.toString());
 
 			errorMessagesJSONArray = JSONFactoryUtil.createJSONArray();
 
@@ -776,7 +776,7 @@ public class StagingImpl implements Staging {
 		else if (e instanceof LocaleException) {
 			LocaleException le = (LocaleException)e;
 
-			errorMessage = LanguageUtil.format(
+			errorMessage = _language.format(
 				locale,
 				"the-available-languages-in-the-lar-file-x-do-not-match-the-" +
 					"site's-available-languages-x",
@@ -805,14 +805,14 @@ public class StagingImpl implements Staging {
 				(exportImportConfiguration.getType() ==
 					ExportImportConfigurationConstants.TYPE_PUBLISH_PORTLET))) {
 
-				errorMessage = LanguageUtil.get(
+				errorMessage = _language.get(
 					locale,
 					"there-are-missing-references-that-could-not-be-found-in-" +
 						"the-live-environment-the-following-elements-are-" +
 							"published-from-their-own-site");
 			}
 			else {
-				errorMessage = LanguageUtil.get(
+				errorMessage = _language.get(
 					locale,
 					"there-are-missing-references-that-could-not-be-found-in-" +
 						"the-current-site");
@@ -846,7 +846,7 @@ public class StagingImpl implements Staging {
 			}
 
 			if (pde.getType() == PortletDataException.INVALID_GROUP) {
-				errorMessage = LanguageUtil.format(
+				errorMessage = _language.format(
 					locale,
 					"the-x-x-could-not-be-exported-because-it-is-not-in-the-" +
 						"currently-exported-group",
@@ -858,7 +858,7 @@ public class StagingImpl implements Staging {
 					false);
 			}
 			else if (pde.getType() == PortletDataException.MISSING_DEPENDENCY) {
-				errorMessage = LanguageUtil.format(
+				errorMessage = _language.format(
 					locale,
 					"the-x-x-has-missing-references-that-could-not-be-found-" +
 						"during-the-process",
@@ -870,7 +870,7 @@ public class StagingImpl implements Staging {
 					false);
 			}
 			else if (pde.getType() == PortletDataException.STATUS_IN_TRASH) {
-				errorMessage = LanguageUtil.format(
+				errorMessage = _language.format(
 					locale,
 					"the-x-x-could-not-be-exported-because-it-is-in-the-" +
 						"recycle-bin",
@@ -882,7 +882,7 @@ public class StagingImpl implements Staging {
 					false);
 			}
 			else if (pde.getType() == PortletDataException.STATUS_UNAVAILABLE) {
-				errorMessage = LanguageUtil.format(
+				errorMessage = _language.format(
 					locale,
 					"the-x-x-could-not-be-exported-because-its-workflow-" +
 						"status-is-not-exportable",
@@ -900,7 +900,7 @@ public class StagingImpl implements Staging {
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
 		else if (e instanceof PortletIdException) {
-			errorMessage = LanguageUtil.get(
+			errorMessage = _language.get(
 				locale, "please-import-a-lar-file-for-the-current-portlet");
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
@@ -1162,7 +1162,7 @@ public class StagingImpl implements Staging {
 			if (Validator.isNotNull(missingReference.getClassName())) {
 				errorMessageJSONObject.put(
 					"info",
-					LanguageUtil.format(
+					_language.format(
 						locale,
 						"the-original-x-does-not-exist-in-the-current-" +
 							"environment",
@@ -3054,6 +3054,10 @@ public class StagingImpl implements Staging {
 	private ExportImportConfigurationLocalService
 		_exportImportConfigurationLocalService;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Language _language;
+
 	private LayoutBranchLocalService _layoutBranchLocalService;
 	private LayoutLocalService _layoutLocalService;
 	private LayoutRevisionLocalService _layoutRevisionLocalService;

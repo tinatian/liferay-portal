@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -53,7 +53,7 @@ public class MicroblogsUserNotificationHandler
 
 	@Override
 	protected String getBodyContent(JSONObject jsonObject) {
-		return HtmlUtil.stripHtml(jsonObject.getString("entryTitle"));
+		return _html.stripHtml(jsonObject.getString("entryTitle"));
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class MicroblogsUserNotificationHandler
 			_microblogsEntryLocalService.fetchMicroblogsEntry(
 				assetRenderer.getClassPK());
 
-		String userFullName = HtmlUtil.escape(
+		String userFullName = _html.escape(
 			_portal.getUserName(microblogsEntry.getUserId(), StringPool.BLANK));
 
 		int notificationType = jsonObject.getInt("notificationType");
@@ -137,6 +137,9 @@ public class MicroblogsUserNotificationHandler
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	@Reference
+	private Html _html;
 
 	private MicroblogsEntryLocalService _microblogsEntryLocalService;
 

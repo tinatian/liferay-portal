@@ -14,7 +14,7 @@
 
 package com.liferay.users.admin.web.portlet.configuration.icon;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.portlet.PortletProvider;
@@ -61,7 +61,7 @@ public class ManageSitePortletConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "manage-site");
+		return _language.get(resourceBundle, "manage-site");
 	}
 
 	@Override
@@ -124,6 +124,9 @@ public class ManageSitePortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

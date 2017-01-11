@@ -28,7 +28,7 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalService;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -138,7 +138,7 @@ public class DLFileEntryAssetRendererFactory
 
 	@Override
 	public String getSubtypeTitle(Locale locale) {
-		return LanguageUtil.get(locale, "type");
+		return _language.get(locale, "type");
 	}
 
 	@Override
@@ -259,6 +259,9 @@ public class DLFileEntryAssetRendererFactory
 	private DLAppLocalService _dlAppLocalService;
 	private DLFileEntryLocalService _dlFileEntryLocalService;
 	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

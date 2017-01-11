@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -102,7 +102,7 @@ public class MicroblogsActivityInterpreter
 			}
 		}
 
-		sb.append(HtmlUtil.escape(microblogsEntry.getContent()));
+		sb.append(_html.escape(microblogsEntry.getContent()));
 
 		return sb.toString();
 	}
@@ -142,6 +142,9 @@ public class MicroblogsActivityInterpreter
 
 	private static final String[] _CLASS_NAMES =
 		{MicroblogsEntry.class.getName()};
+
+	@Reference
+	private Html _html;
 
 	private MicroblogsEntryLocalService _microblogsEntryLocalService;
 	private ResourceBundleLoader _resourceBundleLoader;

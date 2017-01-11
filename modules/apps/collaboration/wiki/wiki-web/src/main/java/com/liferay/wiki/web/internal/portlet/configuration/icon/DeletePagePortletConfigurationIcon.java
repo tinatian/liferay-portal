@@ -14,13 +14,13 @@
 
 package com.liferay.wiki.web.internal.portlet.configuration.icon;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -62,8 +62,7 @@ public class DeletePagePortletConfigurationIcon
 			key = "move-to-the-recycle-bin";
 		}
 
-		return LanguageUtil.get(
-			getResourceBundle(getLocale(portletRequest)), key);
+		return _language.get(getResourceBundle(getLocale(portletRequest)), key);
 	}
 
 	@Override
@@ -133,7 +132,7 @@ public class DeletePagePortletConfigurationIcon
 			if (!page.isDraft() &&
 				WikiPagePermissionChecker.contains(
 					themeDisplay.getPermissionChecker(), page.getNodeId(),
-					HtmlUtil.unescape(page.getTitle()), ActionKeys.DELETE)) {
+					_html.unescape(page.getTitle()), ActionKeys.DELETE)) {
 
 				return true;
 			}
@@ -162,6 +161,12 @@ public class DeletePagePortletConfigurationIcon
 
 		return false;
 	}
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

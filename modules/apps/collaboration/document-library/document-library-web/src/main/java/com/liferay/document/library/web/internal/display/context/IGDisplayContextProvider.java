@@ -20,7 +20,7 @@ import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.repository.model.FileShortcut;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -138,11 +138,15 @@ public class IGDisplayContextProvider {
 		ResourceBundleLoader resourceBundleLoader) {
 
 		_resourceBundleLoader = new AggregateResourceBundleLoader(
-			resourceBundleLoader, LanguageUtil.getPortalResourceBundleLoader());
+			resourceBundleLoader, _language.getPortalResourceBundleLoader());
 	}
 
 	private ServiceTrackerList<IGDisplayContextFactory, IGDisplayContextFactory>
 		_igDisplayContextFactories;
+
+	@Reference
+	private Language _language;
+
 	private ResourceBundleLoader _resourceBundleLoader;
 
 }

@@ -36,7 +36,7 @@ import com.liferay.dynamic.data.mapping.util.DDMFormValuesToFieldsConverter;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.LayoutService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -143,7 +143,7 @@ public class DDLImpl implements DDL {
 
 				String layoutName = getLayoutName(
 					groupId, privateLayout, layoutId,
-					LanguageUtil.getLanguageId(locale));
+					_language.getLanguageId(locale));
 
 				fieldValueJSONObject.put("name", layoutName);
 
@@ -364,7 +364,7 @@ public class DDLImpl implements DDL {
 			return fileEntry.getTitle();
 		}
 		catch (Exception e) {
-			return LanguageUtil.format(
+			return _language.format(
 				LocaleUtil.getSiteDefault(), "is-temporarily-unavailable",
 				"content");
 		}
@@ -378,7 +378,7 @@ public class DDLImpl implements DDL {
 				groupId, privateLayout, layoutId, languageId);
 		}
 		catch (Exception e) {
-			return LanguageUtil.format(
+			return _language.format(
 				LocaleUtil.getSiteDefault(), "is-temporarily-unavailable",
 				"content");
 		}
@@ -436,6 +436,10 @@ public class DDLImpl implements DDL {
 	private DDM _ddm;
 	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
 	private DLAppLocalService _dlAppLocalService;
+
+	@Reference
+	private Language _language;
+
 	private LayoutService _layoutService;
 	private StorageEngine _storageEngine;
 

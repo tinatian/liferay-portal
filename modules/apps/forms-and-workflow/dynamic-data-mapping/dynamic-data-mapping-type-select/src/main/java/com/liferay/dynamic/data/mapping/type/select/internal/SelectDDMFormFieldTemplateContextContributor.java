@@ -32,7 +32,7 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactory;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -86,7 +86,7 @@ public class SelectDDMFormFieldTemplateContextContributor
 
 		stringsMap.put(
 			"chooseAnOption",
-			LanguageUtil.get(resourceBundle, "choose-an-option"));
+			_language.get(resourceBundle, "choose-an-option"));
 
 		parameters.put("strings", stringsMap);
 		parameters.put(
@@ -269,6 +269,9 @@ public class SelectDDMFormFieldTemplateContextContributor
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SelectDDMFormFieldTemplateContextContributor.class);
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private DDMDataProviderTracker ddmDataProviderTracker;

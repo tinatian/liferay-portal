@@ -15,7 +15,7 @@
 package com.liferay.site.admin.web.internal.servlet.taglib.ui;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -60,7 +60,7 @@ public class SiteSiteTemplateFormNavigatorEntry
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "site-template");
+		return _language.get(locale, "site-template");
 	}
 
 	@Override
@@ -157,6 +157,9 @@ public class SiteSiteTemplateFormNavigatorEntry
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SiteSiteTemplateFormNavigatorEntry.class);
+
+	@Reference
+	private Language _language;
 
 	private LayoutSetLocalService _layoutSetLocalService;
 	private LayoutSetPrototypeLocalService _layoutSetPrototypeLocalService;

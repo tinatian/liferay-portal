@@ -19,12 +19,12 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.parsers.bbcode.BBCodeTranslatorUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
@@ -91,7 +91,7 @@ public class AlloyEditorBBCodeConfigContributor
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonFiles()));
 		jsonObject.put(
 			"smiley_path",
-			HtmlUtil.escape(themeDisplay.getPathThemeImages()) + "/emoticons/");
+			_html.escape(themeDisplay.getPathThemeImages()) + "/emoticons/");
 		jsonObject.put(
 			"smiley_symbols",
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonSymbols()));
@@ -107,7 +107,7 @@ public class AlloyEditorBBCodeConfigContributor
 
 		jsonObject.put(
 			"code",
-			LanguageUtil.get(
+			_language.get(
 				getContentsLocale(inputEditorTaglibAttributes), "code"));
 
 		return jsonObject;
@@ -139,15 +139,15 @@ public class AlloyEditorBBCodeConfigContributor
 
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "normal"), "p", null,
+				_language.get(resourceBundle, "normal"), "p", null,
 				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "cited-work"), "cite", null,
+				_language.get(resourceBundle, "cited-work"), "cite", null,
 				_CKEDITOR_STYLE_INLINE));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "computer-code"), "code", null,
+				_language.get(resourceBundle, "computer-code"), "code", null,
 				_CKEDITOR_STYLE_INLINE));
 
 		return jsonArray;
@@ -283,6 +283,12 @@ public class AlloyEditorBBCodeConfigContributor
 	private static final int _CKEDITOR_STYLE_BLOCK = 1;
 
 	private static final int _CKEDITOR_STYLE_INLINE = 2;
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 	private volatile ResourceBundleLoader _resourceBundleLoader;
 

@@ -16,7 +16,7 @@ package com.liferay.staging.processes.web.internal.portlet.configuration.icon;
 
 import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -57,7 +57,7 @@ public class StagingConfigurationPortletConfigurationIcon
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			"content.Language", getLocale(portletRequest), getClass());
 
-		return LanguageUtil.get(resourceBundle, "staging-configuration");
+		return _language.get(resourceBundle, "staging-configuration");
 	}
 
 	@Override
@@ -136,6 +136,9 @@ public class StagingConfigurationPortletConfigurationIcon
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		StagingConfigurationPortletConfigurationIcon.class);
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Http;
-import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -49,6 +48,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Tagnaouti Boubker
@@ -133,7 +133,7 @@ public class ReCaptchaImpl extends SimpleCaptchaImpl {
 		String content = null;
 
 		try {
-			content = HttpUtil.URLtoString(options);
+			content = _http.URLtoString(options);
 		}
 		catch (IOException ioe) {
 			_log.error(ioe, ioe);
@@ -199,5 +199,8 @@ public class ReCaptchaImpl extends SimpleCaptchaImpl {
 	private static final String _TAGLIB_PATH = "/captcha/recaptcha.jsp";
 
 	private static final Log _log = LogFactoryUtil.getLog(ReCaptchaImpl.class);
+
+	@Reference
+	private Http _http;
 
 }

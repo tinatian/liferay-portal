@@ -20,8 +20,8 @@ import com.liferay.message.boards.kernel.model.MBMessage;
 import com.liferay.message.boards.kernel.model.MBThread;
 import com.liferay.message.boards.web.constants.MBPortletKeys;
 import com.liferay.message.boards.web.internal.portlet.action.ActionUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.language.Language;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -65,8 +65,7 @@ public class DeleteThreadPortletConfigurationIcon
 			key = "move-to-the-recycle-bin";
 		}
 
-		return LanguageUtil.get(
-			getResourceBundle(getLocale(portletRequest)), key);
+		return _language.get(getResourceBundle(getLocale(portletRequest)), key);
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class DeleteThreadPortletConfigurationIcon
 		try {
 			MBCategory category = ActionUtil.getCategory(portletRequest);
 
-			PortletURL parentCategoryURL = PortletURLFactoryUtil.create(
+			PortletURL parentCategoryURL = _portletURLFactory.create(
 				portletRequest, MBPortletKeys.MESSAGE_BOARDS_ADMIN,
 				PortletRequest.RENDER_PHASE);
 
@@ -178,6 +177,12 @@ public class DeleteThreadPortletConfigurationIcon
 	}
 
 	@Reference
+	private Language _language;
+
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

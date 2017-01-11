@@ -19,7 +19,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.util.HashMap;
@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Marcellus Tavares
@@ -57,9 +58,9 @@ public class KeyValueDDMFormFieldTemplateContextContributor
 
 		Map<String, String> stringsMap = new HashMap<>();
 
-		stringsMap.put("cancel", LanguageUtil.get(locale, "cancel"));
-		stringsMap.put("done", LanguageUtil.get(locale, "done"));
-		stringsMap.put("keyLabel", LanguageUtil.get(locale, "field-name"));
+		stringsMap.put("cancel", _language.get(locale, "cancel"));
+		stringsMap.put("done", _language.get(locale, "done"));
+		stringsMap.put("keyLabel", _language.get(locale, "field-name"));
 
 		parameters.put("strings", stringsMap);
 
@@ -78,5 +79,8 @@ public class KeyValueDDMFormFieldTemplateContextContributor
 
 		return StringPool.BLANK;
 	}
+
+	@Reference
+	private Language _language;
 
 }

@@ -18,7 +18,7 @@ import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.util.JournalContent;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -93,7 +93,7 @@ public class ExportArticleUtil {
 		long groupId = ParamUtil.getLong(portletRequest, "groupId");
 		String articleId = ParamUtil.getString(portletRequest, "articleId");
 
-		String languageId = LanguageUtil.getLanguageId(portletRequest);
+		String languageId = _language.getLanguageId(portletRequest);
 		PortletRequestModel portletRequestModel = new PortletRequestModel(
 			portletRequest, portletResponse);
 		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
@@ -174,5 +174,8 @@ public class ExportArticleUtil {
 	}
 
 	private JournalContent _journalContent;
+
+	@Reference
+	private Language _language;
 
 }

@@ -26,11 +26,11 @@ import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.notifications.BaseUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -113,14 +113,12 @@ public class PrivateMessagingUserNotificationHandler
 			"content.Language", serviceContext.getLocale(), getClass());
 
 		String title = ResourceBundleUtil.getString(
-			resourceBundle, "x-sent-you-a-message", HtmlUtil.escape(
+			resourceBundle, "x-sent-you-a-message", _html.escape(
 				_portal.getUserName(userId, StringPool.BLANK)));
 
 		return StringUtil.replace(
 			getBodyTemplate(), new String[] {"[$BODY$]", "[$TITLE$]"},
-			new String[] {
-				HtmlUtil.escape(StringUtil.shorten(body, 50)), title
-			});
+			new String[] {_html.escape(StringUtil.shorten(body, 50)), title});
 	}
 
 	@Override
@@ -167,7 +165,7 @@ public class PrivateMessagingUserNotificationHandler
 		PortletURL portletURL = null;
 
 		if (portletPlid != 0) {
-			portletURL = PortletURLFactoryUtil.create(
+			portletURL = _portletURLFactory.create(
 				serviceContext.getLiferayPortletRequest(),
 				PrivateMessagingPortletKeys.PRIVATE_MESSAGING, portletPlid,
 				PortletRequest.RENDER_PHASE);
@@ -217,11 +215,17 @@ public class PrivateMessagingUserNotificationHandler
 		_userThreadLocalService = userThreadLocalService;
 	}
 
+	@Reference
+	private Html _html;
+
 	private MBMessageLocalService _mbMessageLocalService;
 	private MBThreadLocalService _mbThreadLocalService;
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private UserNotificationEventLocalService
 		_userNotificationEventLocalService;

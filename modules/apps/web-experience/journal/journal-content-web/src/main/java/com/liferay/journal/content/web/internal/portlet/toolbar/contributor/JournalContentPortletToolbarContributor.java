@@ -19,11 +19,11 @@ import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
 import com.liferay.journal.model.JournalFolderConstants;
 import com.liferay.journal.service.JournalFolderService;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.toolbar.contributor.BasePortletToolbarContributor;
 import com.liferay.portal.kernel.portlet.toolbar.contributor.PortletToolbarContributor;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.servlet.taglib.ui.MenuItem;
 import com.liferay.portal.kernel.servlet.taglib.ui.URLMenuItem;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -108,16 +108,16 @@ public class JournalContentPortletToolbarContributor
 			String ddmStructureName = ddmStructure.getName(
 				themeDisplay.getLocale());
 
-			String title = LanguageUtil.format(
+			String title = _language.format(
 				themeDisplay.getLocale(), "new-x", ddmStructureName);
 
 			Map<String, Object> data = new HashMap<>();
 
 			data.put(
 				"id",
-				HtmlUtil.escape(portletDisplay.getNamespace()) + "editAsset");
+				_html.escape(portletDisplay.getNamespace()) + "editAsset");
 
-			data.put("title", HtmlUtil.escape(title));
+			data.put("title", _html.escape(title));
 
 			urlMenuItem.setData(data);
 
@@ -181,7 +181,7 @@ public class JournalContentPortletToolbarContributor
 			ThemeDisplay themeDisplay, PortletRequest portletRequest)
 		throws Exception {
 
-		PortletURL redirectURL = PortletURLFactoryUtil.create(
+		PortletURL redirectURL = _portletURLFactory.create(
 			portletRequest, JournalContentPortletKeys.JOURNAL_CONTENT,
 			PortletRequest.RENDER_PHASE);
 
@@ -200,7 +200,17 @@ public class JournalContentPortletToolbarContributor
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalContentPortletToolbarContributor.class);
 
+	@Reference
+	private Html _html;
+
 	private JournalFolderService _journalFolderService;
+
+	@Reference
+	private Language _language;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
+
 	private ResourcePermissionChecker _resourcePermissionChecker;
 
 }

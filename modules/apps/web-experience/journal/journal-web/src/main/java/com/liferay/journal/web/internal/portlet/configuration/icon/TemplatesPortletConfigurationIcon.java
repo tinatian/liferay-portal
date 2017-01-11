@@ -19,12 +19,12 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.util.DDMNavigationHelper;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.service.PortletLocalService;
@@ -54,7 +54,7 @@ public class TemplatesPortletConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)), "templates");
 	}
 
@@ -70,7 +70,7 @@ public class TemplatesPortletConfigurationIcon
 		Portlet portlet = _portletLocalService.getPortletById(
 			portletDisplay.getId());
 
-		PortletURL portletURL = PortletURLFactoryUtil.create(
+		PortletURL portletURL = _portletURLFactory.create(
 			portletRequest,
 			PortletProviderUtil.getPortletId(
 				DDMTemplate.class.getName(), PortletProvider.Action.VIEW),
@@ -130,6 +130,12 @@ public class TemplatesPortletConfigurationIcon
 		_portletLocalService = portletLocalService;
 	}
 
+	@Reference
+	private Language _language;
+
 	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

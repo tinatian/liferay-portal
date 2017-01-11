@@ -16,7 +16,7 @@ package com.liferay.document.library.web.internal.portlet.toolbar.contributor;
 
 import com.liferay.document.library.web.constants.DLPortletKeys;
 import com.liferay.document.library.web.internal.portlet.toolbar.contributor.helper.DLPortletToolbarContributorHelper;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.toolbar.contributor.BasePortletToolbarContributor;
 import com.liferay.portal.kernel.portlet.toolbar.contributor.PortletToolbarContributor;
 import com.liferay.portal.kernel.repository.model.Folder;
@@ -83,7 +83,7 @@ public class IGPortletToolbarContributor extends BasePortletToolbarContributor {
 
 		if (portletTitleAddMultipleDocumentsMenuItem != null) {
 			portletTitleAddMultipleDocumentsMenuItem.setLabel(
-				LanguageUtil.get(
+				_language.get(
 					_portal.getHttpServletRequest(portletRequest),
 					"multiple-media"));
 
@@ -132,6 +132,9 @@ public class IGPortletToolbarContributor extends BasePortletToolbarContributor {
 	private DLPortletToolbarContributor _dlPortletToolbarContributor;
 	private DLPortletToolbarContributorHelper
 		_dlPortletToolbarContributorHelper;
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

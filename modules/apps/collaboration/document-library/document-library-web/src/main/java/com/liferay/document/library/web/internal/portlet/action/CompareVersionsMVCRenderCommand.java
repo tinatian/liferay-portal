@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -103,7 +103,7 @@ public class CompareVersionsMVCRenderCommand implements MVCRenderCommand {
 			sourceExtension.equals("html") || sourceExtension.equals("js") ||
 			sourceExtension.equals("txt") || sourceExtension.equals("xml")) {
 
-			String sourceContent = HtmlUtil.escape(StringUtil.read(sourceIs));
+			String sourceContent = _html.escape(StringUtil.read(sourceIs));
 
 			sourceIs = new UnsyncByteArrayInputStream(
 				sourceContent.getBytes(StringPool.UTF8));
@@ -120,7 +120,7 @@ public class CompareVersionsMVCRenderCommand implements MVCRenderCommand {
 			targetExtension.equals("html") || targetExtension.equals("js") ||
 			targetExtension.equals("txt") || targetExtension.equals("xml")) {
 
-			String targetContent = HtmlUtil.escape(StringUtil.read(targetIs));
+			String targetContent = _html.escape(StringUtil.read(targetIs));
 
 			targetIs = new UnsyncByteArrayInputStream(
 				targetContent.getBytes(StringPool.UTF8));
@@ -179,5 +179,8 @@ public class CompareVersionsMVCRenderCommand implements MVCRenderCommand {
 
 	private DLAppLocalService _dlAppLocalService;
 	private DLAppService _dlAppService;
+
+	@Reference
+	private Html _html;
 
 }

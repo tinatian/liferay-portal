@@ -18,7 +18,7 @@ import com.liferay.application.list.BasePanelCategory;
 import com.liferay.application.list.PanelCategory;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -48,7 +49,7 @@ public class SitesPanelCategory extends BasePanelCategory {
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "sites");
+		return _language.get(locale, "sites");
 	}
 
 	@Override
@@ -63,5 +64,8 @@ public class SitesPanelCategory extends BasePanelCategory {
 
 		return false;
 	}
+
+	@Reference
+	private Language _language;
 
 }

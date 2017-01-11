@@ -15,7 +15,7 @@
 package com.liferay.layout.admin.web.internal.portlet.configuration.icon;
 
 import com.liferay.layout.admin.web.internal.constants.LayoutAdminPortletKeys;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -59,7 +59,7 @@ public class DeletePortletConfigurationIcon
 
 	@Override
 	public String getMessage(PortletRequest portletRequest) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(getLocale(portletRequest)), "delete");
 	}
 
@@ -134,6 +134,9 @@ public class DeletePortletConfigurationIcon
 
 		_layoutLocalService = layoutLocalService;
 	}
+
+	@Reference
+	private Language _language;
 
 	private LayoutLocalService _layoutLocalService;
 

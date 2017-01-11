@@ -20,7 +20,7 @@ import com.liferay.document.library.web.internal.display.context.logic.FileEntry
 import com.liferay.document.library.web.internal.portlet.action.ActionUtil;
 import com.liferay.document.library.web.internal.util.DLTrashUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.configuration.icon.BasePortletConfigurationIcon;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIcon;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -69,7 +69,7 @@ public class DeleteFileEntryPortletConfigurationIcon
 				key = "move-to-the-recycle-bin";
 			}
 
-			return LanguageUtil.get(
+			return _language.get(
 				getResourceBundle(getLocale(portletRequest)), key);
 		}
 		catch (PortalException pe) {
@@ -172,6 +172,9 @@ public class DeleteFileEntryPortletConfigurationIcon
 			throw new RuntimeException(pe);
 		}
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

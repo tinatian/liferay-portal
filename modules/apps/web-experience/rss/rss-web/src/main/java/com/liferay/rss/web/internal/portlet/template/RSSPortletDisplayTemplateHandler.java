@@ -14,7 +14,7 @@
 
 package com.liferay.rss.web.internal.portlet.template;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
@@ -58,7 +58,7 @@ public class RSSPortletDisplayTemplateHandler
 			RSSPortletKeys.RSS, resourceBundle);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
-			LanguageUtil.get(locale, "template"));
+			_language.get(locale, "template"));
 	}
 
 	@Override
@@ -94,6 +94,9 @@ public class RSSPortletDisplayTemplateHandler
 		return "com/liferay/rss/web/portlet/template/dependencies" +
 			"/portlet-display-templates.xml";
 	}
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;

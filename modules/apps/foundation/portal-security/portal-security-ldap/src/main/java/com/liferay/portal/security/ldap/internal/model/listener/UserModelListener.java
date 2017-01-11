@@ -15,7 +15,7 @@
 package com.liferay.portal.security.ldap.internal.model.listener;
 
 import com.liferay.portal.kernel.exception.ModelListenerException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
@@ -136,7 +136,7 @@ public class UserModelListener extends BaseModelListener<User> {
 		for (MembershipRequest membershipRequest : membershipRequests) {
 			_membershipRequestLocalService.updateStatus(
 				principalUserId, membershipRequest.getMembershipRequestId(),
-				LanguageUtil.get(
+				_language.get(
 					user.getLocale(), "your-membership-has-been-approved"),
 				MembershipRequestConstants.STATUS_APPROVED, false,
 				new ServiceContext());
@@ -145,6 +145,9 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UserModelListener.class);
+
+	@Reference
+	private Language _language;
 
 	@Reference
 	private MembershipRequestLocalService _membershipRequestLocalService;

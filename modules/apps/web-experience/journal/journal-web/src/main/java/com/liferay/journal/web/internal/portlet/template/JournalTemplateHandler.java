@@ -25,7 +25,7 @@ import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalArticleService;
 import com.liferay.journal.util.JournalContent;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.template.TemplateHandler;
@@ -86,7 +86,7 @@ public class JournalTemplateHandler extends BaseDDMTemplateHandler {
 			JournalPortletKeys.JOURNAL, resourceBundle);
 
 		return portletTitle.concat(StringPool.SPACE).concat(
-			LanguageUtil.get(locale, "template"));
+			_language.get(locale, "template"));
 	}
 
 	@Override
@@ -181,4 +181,6 @@ public class JournalTemplateHandler extends BaseDDMTemplateHandler {
 					"image", "link-to-page"
 				}));
 
+	@Reference
+	private Language _language;
 }

@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.model.ContainerModel;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -457,7 +457,7 @@ public class MBCategoryTrashHandler extends BaseTrashHandler {
 				portletRequest, portletId, PortletRequest.RENDER_PHASE);
 		}
 		else {
-			portletURL = PortletURLFactoryUtil.create(
+			portletURL = _portletURLFactory.create(
 				portletRequest, portletId, plid, PortletRequest.RENDER_PHASE);
 		}
 
@@ -507,6 +507,9 @@ public class MBCategoryTrashHandler extends BaseTrashHandler {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 	private TrashRendererFactory _trashRendererFactory;
 

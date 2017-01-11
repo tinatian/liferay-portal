@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanQuery;
@@ -37,7 +37,7 @@ import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -73,7 +73,7 @@ public class DDMIndexerImpl implements DDMIndexer {
 		long groupId = GetterUtil.getLong(
 			document.get(com.liferay.portal.kernel.search.Field.GROUP_ID));
 
-		Set<Locale> locales = LanguageUtil.getAvailableLocales(groupId);
+		Set<Locale> locales = _language.getAvailableLocales(groupId);
 
 		Fields fields = toFields(ddmStructure, ddmFormValues);
 
@@ -186,7 +186,7 @@ public class DDMIndexerImpl implements DDMIndexer {
 						}
 						else {
 							if (type.equals(DDMImpl.TYPE_DDM_TEXT_HTML)) {
-								valueString = HtmlUtil.extractText(valueString);
+								valueString = _html.extractText(valueString);
 							}
 
 							if (indexType.equals("keyword")) {
@@ -336,7 +336,7 @@ public class DDMIndexerImpl implements DDMIndexer {
 					}
 					else {
 						if (type.equals(DDMImpl.TYPE_DDM_TEXT_HTML)) {
-							valueString = HtmlUtil.extractText(valueString);
+							valueString = _html.extractText(valueString);
 						}
 
 						sb.append(valueString);
@@ -417,5 +417,11 @@ public class DDMIndexerImpl implements DDMIndexer {
 	private DDM _ddm;
 	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
 	private DDMStructureLocalService _ddmStructureLocalService;
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Language _language;
 
 }

@@ -37,7 +37,7 @@ import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactory;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -157,7 +157,7 @@ public class DisplayPortlet extends BaseKBPortlet {
 			kbArticle = null;
 		}
 
-		PortletURL redirectURL = PortletURLFactoryUtil.create(
+		PortletURL redirectURL = _portletURLFactory.create(
 			actionRequest, KBPortletKeys.KNOWLEDGE_BASE_DISPLAY,
 			PortletRequest.RENDER_PHASE);
 
@@ -202,7 +202,7 @@ public class DisplayPortlet extends BaseKBPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		LiferayPortletURL liferayPortletURL = PortletURLFactoryUtil.create(
+		LiferayPortletURL liferayPortletURL = _portletURLFactory.create(
 			actionRequest, _portal.getPortletId(actionRequest),
 			themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
 
@@ -444,5 +444,8 @@ public class DisplayPortlet extends BaseKBPortlet {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletURLFactory _portletURLFactory;
 
 }

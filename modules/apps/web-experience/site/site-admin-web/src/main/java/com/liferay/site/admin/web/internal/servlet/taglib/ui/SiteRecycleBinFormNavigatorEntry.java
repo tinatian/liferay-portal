@@ -14,7 +14,7 @@
 
 package com.liferay.site.admin.web.internal.servlet.taglib.ui;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.servlet.taglib.ui.FormNavigatorConstants;
@@ -51,7 +51,7 @@ public class SiteRecycleBinFormNavigatorEntry
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(locale, "recycle-bin");
+		return _language.get(locale, "recycle-bin");
 	}
 
 	@Override
@@ -83,5 +83,8 @@ public class SiteRecycleBinFormNavigatorEntry
 	protected String getJspPath() {
 		return "/site/recycle_bin.jsp";
 	}
+
+	@Reference
+	private Language _language;
 
 }

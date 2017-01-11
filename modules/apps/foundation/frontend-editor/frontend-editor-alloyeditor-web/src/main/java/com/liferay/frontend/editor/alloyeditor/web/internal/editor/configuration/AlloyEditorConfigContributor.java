@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
@@ -98,47 +98,47 @@ public class AlloyEditorConfigContributor
 
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "normal"), "p", null,
+				_language.get(resourceBundle, "normal"), "p", null,
 				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "1"), "h1",
-				null, _CKEDITOR_STYLE_BLOCK));
+				_language.format(resourceBundle, "heading-x", "1"), "h1", null,
+				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "2"), "h2",
-				null, _CKEDITOR_STYLE_BLOCK));
+				_language.format(resourceBundle, "heading-x", "2"), "h2", null,
+				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "3"), "h3",
-				null, _CKEDITOR_STYLE_BLOCK));
+				_language.format(resourceBundle, "heading-x", "3"), "h3", null,
+				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.format(resourceBundle, "heading-x", "4"), "h4",
-				null, _CKEDITOR_STYLE_BLOCK));
+				_language.format(resourceBundle, "heading-x", "4"), "h4", null,
+				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "preformatted-text"), "pre",
-				null, _CKEDITOR_STYLE_BLOCK));
+				_language.get(resourceBundle, "preformatted-text"), "pre", null,
+				_CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "cited-work"), "cite", null,
+				_language.get(resourceBundle, "cited-work"), "cite", null,
 				_CKEDITOR_STYLE_INLINE));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "computer-code"), "code", null,
+				_language.get(resourceBundle, "computer-code"), "code", null,
 				_CKEDITOR_STYLE_INLINE));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "info-message"), "div",
+				_language.get(resourceBundle, "info-message"), "div",
 				"portlet-msg-info", _CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "alert-message"), "div",
+				_language.get(resourceBundle, "alert-message"), "div",
 				"portlet-msg-alert", _CKEDITOR_STYLE_BLOCK));
 		jsonArray.put(
 			getStyleFormatJSONObject(
-				LanguageUtil.get(resourceBundle, "error-message"), "div",
+				_language.get(resourceBundle, "error-message"), "div",
 				"portlet-msg-error", _CKEDITOR_STYLE_BLOCK));
 
 		return jsonArray;
@@ -300,6 +300,9 @@ public class AlloyEditorConfigContributor
 	private static final int _CKEDITOR_STYLE_BLOCK = 1;
 
 	private static final int _CKEDITOR_STYLE_INLINE = 2;
+
+	@Reference
+	private Language _language;
 
 	private volatile ResourceBundleLoader _resourceBundleLoader;
 

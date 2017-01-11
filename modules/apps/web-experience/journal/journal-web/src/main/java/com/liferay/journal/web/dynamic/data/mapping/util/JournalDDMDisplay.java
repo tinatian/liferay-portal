@@ -24,7 +24,7 @@ import com.liferay.dynamic.data.mapping.util.DDMNavigationHelper;
 import com.liferay.journal.configuration.JournalServiceConfiguration;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
@@ -44,6 +44,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eduardo Garcia
@@ -60,14 +61,14 @@ public class JournalDDMDisplay extends BaseDDMDisplay {
 	}
 
 	public String getConfirmSelectStructureMessage(Locale locale) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(locale),
 			"selecting-a-new-structure-changes-the-available-input-fields-" +
 				"and-available-templates");
 	}
 
 	public String getConfirmSelectTemplateMessage(Locale locale) {
-		return LanguageUtil.get(
+		return _language.get(
 			getResourceBundle(locale),
 			"selecting-a-new-template-deletes-all-unsaved-content");
 	}
@@ -238,5 +239,8 @@ public class JournalDDMDisplay extends BaseDDMDisplay {
 		});
 	private static final Set<String> _viewTemplateExcludedColumnNames =
 		SetUtil.fromArray(new String[] {"mode"});
+
+	@Reference
+	private Language _language;
 
 }
