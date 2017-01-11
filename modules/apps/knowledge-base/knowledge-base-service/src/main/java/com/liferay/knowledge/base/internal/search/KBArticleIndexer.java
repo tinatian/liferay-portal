@@ -44,7 +44,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -132,7 +132,7 @@ public class KBArticleIndexer extends BaseIndexer<KBArticle> {
 		Document document = getBaseModelDocument(CLASS_NAME, kbArticle);
 
 		document.addText(
-			Field.CONTENT, HtmlUtil.extractText(kbArticle.getContent()));
+			Field.CONTENT, _html.extractText(kbArticle.getContent()));
 		document.addText(Field.DESCRIPTION, kbArticle.getDescription());
 		document.addText(Field.TITLE, kbArticle.getTitle());
 
@@ -276,5 +276,8 @@ public class KBArticleIndexer extends BaseIndexer<KBArticle> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		KBArticleIndexer.class);
+
+	@Reference
+	private Html _html;
 
 }

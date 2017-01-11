@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.parsers.bbcode.BBCodeTranslatorUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
@@ -91,7 +91,7 @@ public class AlloyEditorBBCodeConfigContributor
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonFiles()));
 		jsonObject.put(
 			"smiley_path",
-			HtmlUtil.escape(themeDisplay.getPathThemeImages()) + "/emoticons/");
+			_html.escape(themeDisplay.getPathThemeImages()) + "/emoticons/");
 		jsonObject.put(
 			"smiley_symbols",
 			toJSONArray(BBCodeTranslatorUtil.getEmoticonSymbols()));
@@ -283,6 +283,9 @@ public class AlloyEditorBBCodeConfigContributor
 	private static final int _CKEDITOR_STYLE_BLOCK = 1;
 
 	private static final int _CKEDITOR_STYLE_INLINE = 2;
+
+	@Reference
+	private Html _html;
 
 	private volatile ResourceBundleLoader _resourceBundleLoader;
 

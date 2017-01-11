@@ -36,7 +36,7 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
@@ -109,7 +109,7 @@ public class BlogsEntryIndexer extends BaseIndexer<BlogsEntry> {
 
 		document.addText(Field.CAPTION, blogsEntry.getCoverImageCaption());
 		document.addText(
-			Field.CONTENT, HtmlUtil.extractText(blogsEntry.getContent()));
+			Field.CONTENT, _html.extractText(blogsEntry.getContent()));
 		document.addText(Field.DESCRIPTION, blogsEntry.getDescription());
 		document.addDate(Field.MODIFIED_DATE, blogsEntry.getModifiedDate());
 		document.addText(Field.SUBTITLE, blogsEntry.getSubtitle());
@@ -214,5 +214,8 @@ public class BlogsEntryIndexer extends BaseIndexer<BlogsEntry> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BlogsEntryIndexer.class);
+
+	@Reference
+	private Html _html;
 
 }

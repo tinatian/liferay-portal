@@ -43,7 +43,7 @@ import com.liferay.portal.kernel.service.SubscriptionLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -257,7 +257,7 @@ public class SubscriptionMBMessageLocalServiceWrapper
 
 		String contentURL = (String)serviceContext.getAttribute("contentURL");
 
-		contentURL = HttpUtil.addParameter(
+		contentURL = _http.addParameter(
 			contentURL, serviceContext.getAttribute("namespace") + "messageId",
 			message.getMessageId());
 
@@ -574,6 +574,10 @@ public class SubscriptionMBMessageLocalServiceWrapper
 
 	private CompanyLocalService _companyLocalService;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Http _http;
+
 	private MBDiscussionLocalService _mbDiscussionLocalService;
 	private MBMessageLocalService _mbMessageLocalService;
 	private SubscriptionLocalService _subscriptionLocalService;

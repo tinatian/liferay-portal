@@ -21,7 +21,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -90,7 +90,7 @@ public class DDMFormXSDDeserializerImpl implements DDMFormXSDDeserializer {
 		Element parentElement, String entryName) {
 
 		XPath xPathSelector = _saxReader.createXPath(
-			"entry[@name=" + HtmlUtil.escapeXPathAttribute(entryName) +
+			"entry[@name=" + _html.escapeXPathAttribute(entryName) +
 				StringPool.CLOSE_BRACKET);
 
 		return (Element)xPathSelector.selectSingleNode(parentElement);
@@ -393,6 +393,9 @@ public class DDMFormXSDDeserializerImpl implements DDMFormXSDDeserializer {
 	protected void setSAXReader(SAXReader saxReader) {
 		_saxReader = saxReader;
 	}
+
+	@Reference
+	private Html _html;
 
 	private SAXReader _saxReader;
 

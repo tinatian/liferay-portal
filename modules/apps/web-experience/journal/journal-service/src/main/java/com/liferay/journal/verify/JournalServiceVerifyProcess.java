@@ -58,8 +58,8 @@ import com.liferay.portal.kernel.service.SystemEventLocalService;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.Html;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -331,7 +331,7 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 
 		long groupId = GetterUtil.getLong(pathArray[2]);
 		long folderId = GetterUtil.getLong(pathArray[3]);
-		String title = HttpUtil.decodeURL(HtmlUtil.escape(pathArray[4]));
+		String title = _http.decodeURL(_html.escape(pathArray[4]));
 
 		FileEntry fileEntry = null;
 
@@ -958,6 +958,13 @@ public class JournalServiceVerifyProcess extends VerifyLayout {
 	private CompanyLocalService _companyLocalService;
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DLAppLocalService _dlAppLocalService;
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Http _http;
+
 	private JournalArticleLocalService _journalArticleLocalService;
 	private JournalArticleResourceLocalService
 		_journalArticleResourceLocalService;

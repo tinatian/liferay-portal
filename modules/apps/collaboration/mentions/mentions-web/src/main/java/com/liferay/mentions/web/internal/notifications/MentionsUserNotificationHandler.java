@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.notifications.BaseModelUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -90,10 +90,10 @@ public class MentionsUserNotificationHandler
 			return LanguageUtil.format(
 				resourceBundle, "x-mentioned-you-in-a-comment-in-a-x",
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
-					StringUtil.toLowerCase(HtmlUtil.escape(typeName))
+					StringUtil.toLowerCase(_html.escape(typeName))
 				},
 				false);
 		}
@@ -101,10 +101,10 @@ public class MentionsUserNotificationHandler
 			return LanguageUtil.format(
 				resourceBundle, "x-mentioned-you-in-a-x",
 				new String[] {
-					HtmlUtil.escape(
+					_html.escape(
 						_portal.getUserName(
 							jsonObject.getLong("userId"), StringPool.BLANK)),
-					StringUtil.toLowerCase(HtmlUtil.escape(typeName))
+					StringUtil.toLowerCase(_html.escape(typeName))
 				},
 				false);
 		}
@@ -116,6 +116,9 @@ public class MentionsUserNotificationHandler
 
 		_mbMessageLocalService = mbMessageLocalService;
 	}
+
+	@Reference
+	private Html _html;
 
 	private MBMessageLocalService _mbMessageLocalService;
 

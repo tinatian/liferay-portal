@@ -37,8 +37,8 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.Html;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -388,7 +388,7 @@ public class JournalConverterImpl implements JournalConverter {
 
 	protected String decodeURL(String url) {
 		try {
-			return HttpUtil.decodeURL(url);
+			return _http.decodeURL(url);
 		}
 		catch (IllegalArgumentException iae) {
 			return url;
@@ -403,7 +403,7 @@ public class JournalConverterImpl implements JournalConverter {
 		sb.append("entry[@");
 		sb.append(attributeName);
 		sb.append(StringPool.EQUAL);
-		sb.append(HtmlUtil.escapeXPathAttribute(attributeValue));
+		sb.append(_html.escapeXPathAttribute(attributeValue));
 		sb.append(StringPool.CLOSE_BRACKET);
 
 		XPath xPathSelector = SAXReaderUtil.createXPath(sb.toString());
@@ -1099,6 +1099,13 @@ public class JournalConverterImpl implements JournalConverter {
 	private DLAppLocalService _dlAppLocalService;
 	private FieldsToDDMFormValuesConverter _fieldsToDDMFormValuesConverter;
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Html _html;
+
+	@Reference
+	private Http _http;
+
 	private final Map<String, String> _journalTypesToDDMTypes;
 
 }

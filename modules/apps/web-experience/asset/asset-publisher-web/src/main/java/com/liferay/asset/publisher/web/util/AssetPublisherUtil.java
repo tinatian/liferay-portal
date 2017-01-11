@@ -75,7 +75,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Accessor;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -968,9 +968,8 @@ public class AssetPublisherUtil {
 			LanguageUtil.get(
 				themeDisplay.getLocale(),
 				"the-company-name-associated-with-the-assets"));
-		definitionTerms.put(
-			"[$FROM_ADDRESS$]", HtmlUtil.escape(emailFromAddress));
-		definitionTerms.put("[$FROM_NAME$]", HtmlUtil.escape(emailFromName));
+		definitionTerms.put("[$FROM_ADDRESS$]", _html.escape(emailFromAddress));
+		definitionTerms.put("[$FROM_NAME$]", _html.escape(emailFromName));
 
 		Company company = themeDisplay.getCompany();
 
@@ -978,7 +977,7 @@ public class AssetPublisherUtil {
 
 		definitionTerms.put(
 			"[$PORTLET_NAME$]",
-			HtmlUtil.escape(
+			_html.escape(
 				PortalUtil.getPortletTitle(
 					AssetPublisherPortletKeys.ASSET_PUBLISHER,
 					themeDisplay.getLocale())));
@@ -986,7 +985,7 @@ public class AssetPublisherUtil {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		definitionTerms.put(
-			"[$PORTLET_TITLE$]", HtmlUtil.escape(portletDisplay.getTitle()));
+			"[$PORTLET_TITLE$]", _html.escape(portletDisplay.getTitle()));
 
 		definitionTerms.put(
 			"[$SITE_NAME$]",
@@ -2082,5 +2081,8 @@ public class AssetPublisherUtil {
 
 	private final List<AssetEntryQueryProcessor> _assetEntryQueryProcessors =
 		new CopyOnWriteArrayList<>();
+
+	@Reference
+	private Html _html;
 
 }
