@@ -65,11 +65,39 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 	@Override
 	public long[] getClassNameIds() {
+		if (_templateHandlerByIds.size() == _templateHandlerByClassNames.size()) {
+			return ArrayUtil.toLongArray(_templateHandlerByIds.keySet());
+		}
+		
+		for (Map.Entry<String, TemplateHandler> entry :
+				_templateHandlerByClassNames.entrySet()) {
+
+			String className = entry.getKey();
+			TemplateHandler templateHandler = entry.getValue();
+
+			_templateHandlerByIds.put(
+				_portal.getClassNameId(className), templateHandler);
+		}
+
 		return ArrayUtil.toLongArray(_templateHandlerByIds.keySet());
 	}
 
 	@Override
 	public TemplateHandler getTemplateHandler(long classNameId) {
+		if (_templateHandlerByIds.size() == _templateHandlerByClassNames.size()) {
+			return _templateHandlerByIds.get(classNameId);
+		}
+		
+		for (Map.Entry<String, TemplateHandler> entry :
+				_templateHandlerByClassNames.entrySet()) {
+
+			String className = entry.getKey();
+			TemplateHandler templateHandler = entry.getValue();
+
+			_templateHandlerByIds.put(
+				_portal.getClassNameId(className), templateHandler);
+		}
+
 		return _templateHandlerByIds.get(classNameId);
 	}
 
@@ -92,9 +120,6 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 			String className = entry.getKey();
 			TemplateHandler templateHandler = entry.getValue();
-
-			_templateHandlerByIds.put(
-				_portal.getClassNameId(className), templateHandler);
 
 			if (_serviceRegistrations.containsKey(className)) {
 				continue;
@@ -120,9 +145,6 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 		if (_bundleContext == null) {
 			return;
 		}
-
-		_templateHandlerByIds.put(
-			_portal.getClassNameId(className), templateHandler);
 
 		registerPortalInstanceLifecycleListener(templateHandler);
 	}
