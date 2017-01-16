@@ -22,6 +22,7 @@ import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -94,7 +95,8 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 			TemplateHandler templateHandler = entry.getValue();
 
 			_templateHandlerByIds.put(
-				_portal.getClassNameId(className), templateHandler);
+				_classNameLocalService.getClassNameId(className),
+				templateHandler);
 
 			if (_serviceRegistrations.containsKey(className)) {
 				continue;
@@ -122,7 +124,8 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 		}
 
 		_templateHandlerByIds.put(
-			_portal.getClassNameId(className), templateHandler);
+			_classNameLocalService.getClassNameId(className),
+			templateHandler);
 
 		registerPortalInstanceLifecycleListener(templateHandler);
 	}
@@ -172,8 +175,9 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 		_templateHandlerByClassNames.remove(className);
 
-		if (_portal != null) {
-			_templateHandlerByIds.remove(_portal.getClassNameId(className));
+		if (_classNameLocalService != null) {
+			_templateHandlerByIds.remove(
+				_classNameLocalService.getClassNameId(className));
 		}
 
 		ServiceRegistration<?> serviceRegistration =
@@ -202,8 +206,10 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 	}
 
 	@Reference(unbind = "-")
-	protected void setPortal(Portal portal) {
-		_portal = portal;
+	protected void setClassNameLocalService(
+		ClassNameLocalService classNameLocalService) {
+
+		_classNameLocalService = classNameLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -214,7 +220,7 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 	private BundleContext _bundleContext;
 	private DDMTemplateManager _ddmTemplateManager;
 	private GroupLocalService _groupLocalService;
-	private Portal _portal;
+	private ClassNameLocalService _classNameLocalService;
 	private final Map<String, ServiceRegistration<?>> _serviceRegistrations =
 		new ConcurrentHashMap<>();
 	private final Map<String, TemplateHandler> _templateHandlerByClassNames =
@@ -228,7 +234,7 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 		@Override
 		public void portalInstanceRegistered(Company company) throws Exception {
-			long classNameId = _portal.getClassNameId(
+			long classNameId = _classNameLocalService.getClassNameId(
 				_templateHandler.getClassName());
 
 			ServiceContext serviceContext = new ServiceContext();
@@ -292,7 +298,7 @@ public class TemplateHandlerRegistryImpl implements TemplateHandlerRegistry {
 
 				_ddmTemplateManager.addTemplate(
 					userId, group.getGroupId(), classNameId, 0,
-					_portal.getClassNameId(
+					_classNameLocalService.getClassNameId(
 						_PORTLET_DISPLAY_TEMPLATE_CLASS_NAME),
 					templateKey, nameMap, descriptionMap, type, null, language,
 					script, cacheable, false, null, null, serviceContext);
