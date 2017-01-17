@@ -15,6 +15,7 @@
 package com.liferay.blogs.web.internal.template;
 
 import com.liferay.blogs.configuration.BlogsConfiguration;
+import com.liferay.blogs.internal.upgrade.BlogsServiceUpgrade;
 import com.liferay.blogs.model.BlogsEntry;
 import com.liferay.blogs.service.BlogsEntryLocalService;
 import com.liferay.blogs.service.BlogsEntryService;
@@ -135,6 +136,9 @@ public class BlogsPortletDisplayTemplateHandler
 	}
 
 	private volatile BlogsConfiguration _blogsConfiguration;
+
+	@Reference
+	private BlogsServiceUpgrade _blogsServiceUpgrade;
 
 	@Reference
 	private Portal _portal;
