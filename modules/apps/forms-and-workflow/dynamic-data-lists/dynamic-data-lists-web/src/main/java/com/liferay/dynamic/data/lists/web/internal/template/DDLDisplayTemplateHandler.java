@@ -16,6 +16,7 @@ package com.liferay.dynamic.data.lists.web.internal.template;
 
 import com.liferay.dynamic.data.lists.constants.DDLConstants;
 import com.liferay.dynamic.data.lists.constants.DDLPortletKeys;
+import com.liferay.dynamic.data.lists.internal.upgrade.DDLServiceUpgrade;
 import com.liferay.dynamic.data.lists.model.DDLRecord;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.service.DDLRecordLocalService;
@@ -199,6 +200,9 @@ public class DDLDisplayTemplateHandler extends BaseDDMTemplateHandler {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference	
+	private DDLServiceUpgrade _ddlServiceUpgrade;
 
 	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
 		new DDMTemplateVariableCodeHandler(
