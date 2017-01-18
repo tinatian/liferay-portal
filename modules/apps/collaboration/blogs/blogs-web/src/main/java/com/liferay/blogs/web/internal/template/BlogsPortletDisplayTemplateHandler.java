@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.verify.extender.marker.VerifyProcessCompletionMarker;
 
 import java.util.HashMap;
 import java.util.List;
@@ -138,5 +139,8 @@ public class BlogsPortletDisplayTemplateHandler
 
 	@Reference
 	private Portal _portal;
+
+	@Reference(target = "(verify.process.name=com.liferay.blogs.service)")
+	private VerifyProcessCompletionMarker _verifyProcessCompletionMarker;
 
 }
