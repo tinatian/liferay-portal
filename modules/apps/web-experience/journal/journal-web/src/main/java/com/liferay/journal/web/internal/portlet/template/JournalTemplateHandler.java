@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.verify.extender.marker.VerifyProcessCompletionMarker;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -180,5 +181,8 @@ public class JournalTemplateHandler extends BaseDDMTemplateHandler {
 					"boolean", "date", "document-library", "geolocation",
 					"image", "link-to-page"
 				}));
+
+	@Reference(target = "(verify.process.name=com.liferay.journal.service)")
+	private VerifyProcessCompletionMarker _verifyProcessCompletionMarker;
 
 }
