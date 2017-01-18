@@ -198,6 +198,8 @@ public class ReleaseManagerOSGiCommands {
 	@Activate
 	protected void activate(
 		final BundleContext bundleContext, Map<String, Object> properties) {
+		
+		_bundleContext = bundleContext;
 
 		_logger = new Logger(bundleContext);
 
@@ -225,8 +227,6 @@ public class ReleaseManagerOSGiCommands {
 				new PropertyServiceReferenceComparator<UpgradeStep>(
 					"upgrade.from.schema.version")),
 			serviceTrackerMapListener);
-
-		_bundleContext = bundleContext;
 	}
 
 	@Deactivate
