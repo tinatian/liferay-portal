@@ -31,6 +31,9 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	immediate = true,
+	property = {
+		"concrete.class.name=com.liferay.dynamic.data.lists.internal.upgrade.DDLServiceUpgrade"
+	},
 	service = {DDLServiceUpgrade.class, UpgradeStepRegistrator.class}
 )
 public class DDLServiceUpgrade implements UpgradeStepRegistrator {
