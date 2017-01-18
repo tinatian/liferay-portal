@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.verify.extender.marker.VerifyProcessCompletionMarker;
 import com.liferay.portlet.display.template.PortletDisplayTemplateConstants;
 import com.liferay.wiki.constants.WikiPortletKeys;
 import com.liferay.wiki.model.WikiPage;
@@ -115,5 +116,8 @@ public class WikiPortletDisplayTemplateHandler
 
 	@Reference
 	private Portal _portal;
+
+	@Reference(target = "(verify.process.name=com.liferay.wiki.service)")
+	private VerifyProcessCompletionMarker _verifyProcessCompletionMarker;
 
 }
