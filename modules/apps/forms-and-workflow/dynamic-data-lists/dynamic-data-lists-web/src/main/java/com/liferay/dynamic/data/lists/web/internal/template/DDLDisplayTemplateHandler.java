@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -207,5 +208,10 @@ public class DDLDisplayTemplateHandler extends BaseDDMTemplateHandler {
 				"/dependencies/",
 			SetUtil.fromArray(
 				new String[] {"document-library", "html", "link-to-page"}));
+
+	@Reference(
+		target = "(concrete.class.name=com.liferay.dynamic.data.lists.internal.upgrade.DDLServiceUpgrade)"
+	)
+	private UpgradeStepRegistrator _upgradeStepRegistrator;
 
 }

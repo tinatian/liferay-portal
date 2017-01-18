@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -138,5 +139,10 @@ public class BlogsPortletDisplayTemplateHandler
 
 	@Reference
 	private Portal _portal;
+
+	@Reference(
+		target = "(concrete.class.name=com.liferay.blogs.internal.upgrade.BlogsServiceUpgrade)"
+	)
+	private UpgradeStepRegistrator _upgradeStepRegistrator;
 
 }
