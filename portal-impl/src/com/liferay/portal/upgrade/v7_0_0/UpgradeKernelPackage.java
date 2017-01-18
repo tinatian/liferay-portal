@@ -267,10 +267,6 @@ public class UpgradeKernelPackage extends UpgradeProcess {
 			"com.liferay.asset.kernel.model."
 		},
 		{
-			"com.liferay.portlet.blogs.model.",
-			"com.liferay.blogs.kernel.model."
-		},
-		{
 			"com.liferay.portlet.documentlibrary.model.",
 			"com.liferay.document.library.kernel.model."
 		},

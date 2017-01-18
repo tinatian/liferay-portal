@@ -32,6 +32,10 @@ public class UpgradeClassNames extends UpgradeKernelPackage {
 	}
 
 	private static final String[][] _CLASS_NAMES = new String[][] {
+		{
+			"com.liferay.portlet.blogs.model.",
+			"com.liferay.blogs.kernel.model."
+		},
 		{"com.liferay.blogs.kernel.model.", "com.liferay.blogs.model."}
 	};
 
