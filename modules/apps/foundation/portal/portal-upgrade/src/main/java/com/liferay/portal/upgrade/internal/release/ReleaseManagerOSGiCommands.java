@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.dao.db.DBProcessContext;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.service.ReleaseLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeStep;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.output.stream.container.OutputStreamContainer;
@@ -36,11 +37,13 @@ import com.liferay.portal.output.stream.container.OutputStreamContainerFactoryTr
 import com.liferay.portal.upgrade.internal.configuration.ReleaseManagerConfiguration;
 import com.liferay.portal.upgrade.internal.graph.ReleaseGraphManager;
 import com.liferay.portal.upgrade.registry.UpgradeInfo;
+import com.liferay.portal.upgrade.release.UpgradeProcessCompletionMarker;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 import java.util.Collections;
+import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +53,7 @@ import org.apache.felix.utils.log.Logger;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -221,11 +225,26 @@ public class ReleaseManagerOSGiCommands {
 				new PropertyServiceReferenceComparator<UpgradeStep>(
 					"upgrade.from.schema.version")),
 			serviceTrackerMapListener);
+
+		_bundleContext = bundleContext;
 	}
 
 	@Deactivate
 	protected void deactivate() {
 		_serviceTrackerMap.close();
+
+		for (Map.Entry
+				<String, ServiceRegistration<UpgradeProcessCompletionMarker>>
+					serviceRegistrationEntry :
+						_serviceRegistrations.entrySet()) {
+
+			ServiceRegistration<UpgradeProcessCompletionMarker>
+				serviceRegistration = serviceRegistrationEntry.getValue();
+
+			serviceRegistration.unregister();
+		}
+
+		_serviceRegistrations = null;
 	}
 
 	protected void doExecute(
@@ -369,11 +388,14 @@ public class ReleaseManagerOSGiCommands {
 
 	private static Logger _logger;
 
+	private BundleContext _bundleContext;
 	private OutputStreamContainerFactoryTracker
 		_outputStreamContainerFactoryTracker;
 	private ReleaseLocalService _releaseLocalService;
 	private ReleaseManagerConfiguration _releaseManagerConfiguration;
 	private ReleasePublisher _releasePublisher;
+	private Map<String, ServiceRegistration<UpgradeProcessCompletionMarker>>
+		_serviceRegistrations;
 	private ServiceTrackerMap<String, List<UpgradeInfo>> _serviceTrackerMap;
 
 	private static class UpgradeServiceTrackerCustomizer
@@ -480,6 +502,30 @@ public class ReleaseManagerOSGiCommands {
 							}
 
 						});
+
+					Dictionary<String, Object> properties =
+						new HashMapDictionary<>();
+
+					Class<?> upgradeStepClass = upgradeStep.getClass();
+
+					properties.put(
+						"upgrade.step.class.name", upgradeStepClass.getName());
+
+					properties.put(
+						"upgrade.from.schema.version",
+						upgradeInfo.getFromSchemaVersionString());
+					properties.put(
+						"upgrade.to.schema.version",
+						upgradeInfo.getToSchemaVersionString());
+
+					ServiceRegistration<UpgradeProcessCompletionMarker>
+						serviceRegistration = _bundleContext.registerService(
+							UpgradeProcessCompletionMarker.class,
+							new UpgradeProcessCompletionMarker() {},
+							properties);
+
+					_serviceRegistrations.put(
+						upgradeStepClass.getName(), serviceRegistration);
 
 					_releaseLocalService.updateRelease(
 						_bundleSymbolicName,
