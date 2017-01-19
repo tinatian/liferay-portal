@@ -516,6 +516,8 @@ public class ReleaseManagerOSGiCommands {
 				}
 			}
 
+			CacheRegistryUtil.clear();
+
 			Dictionary<String, Object> properties = new HashMapDictionary<>();
 
 			properties.put("upgrade.bundle.symbolic.name", _bundleSymbolicName);
@@ -526,8 +528,6 @@ public class ReleaseManagerOSGiCommands {
 					new UpgradeProcessCompletionMarker() {}, properties);
 
 			_serviceRegistrations.put(_bundleSymbolicName, serviceRegistration);
-
-			CacheRegistryUtil.clear();
 		}
 
 		private final String _bundleSymbolicName;
