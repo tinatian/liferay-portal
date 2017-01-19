@@ -48,6 +48,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.felix.utils.log.Logger;
 
@@ -200,6 +201,8 @@ public class ReleaseManagerOSGiCommands {
 		final BundleContext bundleContext, Map<String, Object> properties) {
 
 		_bundleContext = bundleContext;
+
+		_serviceRegistrations = new ConcurrentHashMap<>();
 
 		_logger = new Logger(bundleContext);
 
