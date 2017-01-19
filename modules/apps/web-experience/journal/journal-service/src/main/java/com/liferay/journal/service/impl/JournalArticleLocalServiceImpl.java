@@ -43,6 +43,7 @@ import com.liferay.journal.configuration.JournalFileUploadsConfiguration;
 import com.liferay.journal.configuration.JournalGroupServiceConfiguration;
 import com.liferay.journal.configuration.JournalServiceConfiguration;
 import com.liferay.journal.constants.JournalConstants;
+import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.exception.ArticleContentException;
 import com.liferay.journal.exception.ArticleDisplayDateException;
 import com.liferay.journal.exception.ArticleExpirationDateException;
@@ -127,6 +128,7 @@ import com.liferay.portal.kernel.social.SocialActivityManagerUtil;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.systemevent.SystemEventHierarchyEntryThreadLocal;
 import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -8259,6 +8261,13 @@ public class JournalArticleLocalServiceImpl
 
 	@ServiceReference(type = JournalFileUploadsConfiguration.class)
 	private JournalFileUploadsConfiguration _journalFileUploadsConfiguration;
+
+	@ServiceReference(
+		filterString = 
+			"(javax.portlet.name=" + JournalPortletKeys.JOURNAL + ")",
+		type = TemplateHandler.class
+	)
+	private TemplateHandler _templateHandler;
 
 	private Date _previousCheckDate;
 

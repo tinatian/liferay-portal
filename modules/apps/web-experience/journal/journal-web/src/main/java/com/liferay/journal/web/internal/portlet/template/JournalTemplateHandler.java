@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.upgrade.release.UpgradeProcessCompletionMarker;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -180,6 +181,11 @@ public class JournalTemplateHandler extends BaseDDMTemplateHandler {
 					"boolean", "date", "document-library", "geolocation",
 					"image", "link-to-page"
 				}));
+
+	@Reference(
+		target = "(upgrade.bundle.symbolic.name=com.liferay.journal.service)"
+	)
+	private UpgradeProcessCompletionMarker _upgradeProcessCompletionMarker;
 
 	@Reference
 	private Portal _portal;
