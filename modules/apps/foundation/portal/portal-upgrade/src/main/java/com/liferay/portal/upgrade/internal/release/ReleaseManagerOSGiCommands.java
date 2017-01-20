@@ -265,11 +265,20 @@ public class ReleaseManagerOSGiCommands {
 					getSchemaVersionString(bundleSymbolicName));
 		}
 
-		if (size == 0) {
-			return;
+		if (size != 0) {
+			executeUpgradeInfos(bundleSymbolicName, upgradeInfosList.get(0));
 		}
 
-		executeUpgradeInfos(bundleSymbolicName, upgradeInfosList.get(0));
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+
+		properties.put("upgrade.bundle.symbolic.name", bundleSymbolicName);
+
+		ServiceRegistration<UpgradeProcessCompletionMarker>
+			serviceRegistration = _bundleContext.registerService(
+				UpgradeProcessCompletionMarker.class,
+				new UpgradeProcessCompletionMarker() {}, properties);
+
+		_serviceRegistrations.put(bundleSymbolicName, serviceRegistration);
 	}
 
 	protected void executeAll(
@@ -517,17 +526,6 @@ public class ReleaseManagerOSGiCommands {
 			}
 
 			CacheRegistryUtil.clear();
-
-			Dictionary<String, Object> properties = new HashMapDictionary<>();
-
-			properties.put("upgrade.bundle.symbolic.name", _bundleSymbolicName);
-
-			ServiceRegistration<UpgradeProcessCompletionMarker>
-				serviceRegistration = _bundleContext.registerService(
-					UpgradeProcessCompletionMarker.class,
-					new UpgradeProcessCompletionMarker() {}, properties);
-
-			_serviceRegistrations.put(_bundleSymbolicName, serviceRegistration);
 		}
 
 		private final String _bundleSymbolicName;
