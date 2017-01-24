@@ -123,7 +123,9 @@ public class ReleaseManagerOSGiCommands {
 	}
 
 	public void execute(String bundleSymbolicName) {
-		doExecute(bundleSymbolicName, _serviceTrackerMap);
+		doExecute(
+			bundleSymbolicName,
+			getUpgradeInfosList(bundleSymbolicName, _serviceTrackerMap));
 	}
 
 	public void execute(String bundleSymbolicName, String toVersionString) {
@@ -132,10 +134,11 @@ public class ReleaseManagerOSGiCommands {
 		ReleaseGraphManager releaseGraphManager = new ReleaseGraphManager(
 			_serviceTrackerMap.getService(bundleSymbolicName));
 
-		executeUpgradeInfos(
+		doExecute(
 			bundleSymbolicName,
-			releaseGraphManager.getUpgradeInfos(
-				schemaVersionString, toVersionString));
+			Collections.singletonList(
+				releaseGraphManager.getUpgradeInfos(
+					schemaVersionString, toVersionString)));
 	}
 
 	public void executeAll() {
@@ -251,11 +254,7 @@ public class ReleaseManagerOSGiCommands {
 	}
 
 	protected void doExecute(
-		String bundleSymbolicName,
-		ServiceTrackerMap<String, List<UpgradeInfo>> serviceTrackerMap) {
-
-		List<List<UpgradeInfo>> upgradeInfosList = getUpgradeInfosList(
-			bundleSymbolicName, serviceTrackerMap);
+		String bundleSymbolicName, List<List<UpgradeInfo>> upgradeInfosList) {
 
 		int size = upgradeInfosList.size();
 
@@ -298,7 +297,10 @@ public class ReleaseManagerOSGiCommands {
 				upgradableBundleSymbolicNames) {
 
 			try {
-				doExecute(upgradableBundleSymbolicName, _serviceTrackerMap);
+				doExecute(
+					upgradableBundleSymbolicName,
+					getUpgradeInfosList(
+						upgradableBundleSymbolicName, _serviceTrackerMap));
 			}
 			catch (Exception e) {
 				upgradeThrewExceptionBundleSymbolicNames.add(
@@ -471,7 +473,7 @@ public class ReleaseManagerOSGiCommands {
 			final String key, UpgradeInfo upgradeInfo,
 			List<UpgradeInfo> upgradeInfos) {
 
-			doExecute(key, serviceTrackerMap);
+			doExecute(key, getUpgradeInfosList(key, serviceTrackerMap));
 		}
 
 		@Override
