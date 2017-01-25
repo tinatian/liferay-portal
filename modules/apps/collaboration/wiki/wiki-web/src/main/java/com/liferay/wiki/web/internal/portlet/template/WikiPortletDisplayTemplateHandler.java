@@ -118,7 +118,7 @@ public class WikiPortletDisplayTemplateHandler
 	private Portal _portal;
 
 	@Reference(
-		target = "(upgrade.bundle.symbolic.name=com.liferay.wiki.service)"
+		target = "(release.bundle.symbolic.name=com.liferay.wiki.service)"
 	)
 	private Release _release;
 

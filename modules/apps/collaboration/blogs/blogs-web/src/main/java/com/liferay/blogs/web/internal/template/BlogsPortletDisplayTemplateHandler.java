@@ -141,7 +141,7 @@ public class BlogsPortletDisplayTemplateHandler
 	private Portal _portal;
 
 	@Reference(
-		target = "(upgrade.bundle.symbolic.name=com.liferay.blogs.service)"
+		target = "(release.bundle.symbolic.name=com.liferay.blogs.service)"
 	)
 	private Release _release;
 

@@ -202,7 +202,7 @@ public class DDLDisplayTemplateHandler extends BaseDDMTemplateHandler {
 	private Portal _portal;
 
 	@Reference(
-		target = "(upgrade.bundle.symbolic.name=com.liferay.dynamic.data.lists.service)"
+		target = "(release.bundle.symbolic.name=com.liferay.dynamic.data.lists.service)"
 	)
 	private Release _release;
 

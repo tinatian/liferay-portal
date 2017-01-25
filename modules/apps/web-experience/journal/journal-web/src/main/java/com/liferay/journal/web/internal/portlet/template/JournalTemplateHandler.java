@@ -183,7 +183,7 @@ public class JournalTemplateHandler extends BaseDDMTemplateHandler {
 				}));
 
 	@Reference(
-		target = "(upgrade.bundle.symbolic.name=com.liferay.journal.service)"
+		target = "(release.bundle.symbolic.name=com.liferay.journal.service)"
 	)
 	private Release _release;
 
