@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portlet.display.template.PortletDisplayTemplateConstants;
 import com.liferay.wiki.constants.WikiPortletKeys;
+import com.liferay.wiki.internal.upgrade.WikiServiceUpgrade;
 import com.liferay.wiki.model.WikiPage;
 import com.liferay.wiki.service.WikiNodeLocalService;
 import com.liferay.wiki.service.WikiNodeService;
@@ -115,5 +116,8 @@ public class WikiPortletDisplayTemplateHandler
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private WikiServiceUpgrade _wikiServiceUpgrade;
 
 }
