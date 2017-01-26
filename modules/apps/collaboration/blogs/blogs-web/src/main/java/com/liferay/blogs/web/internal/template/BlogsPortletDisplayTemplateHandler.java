@@ -22,6 +22,7 @@ import com.liferay.blogs.web.constants.BlogsPortletKeys;
 import com.liferay.blogs.web.internal.util.BlogsUtil;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
@@ -135,6 +136,9 @@ public class BlogsPortletDisplayTemplateHandler
 	}
 
 	private volatile BlogsConfiguration _blogsConfiguration;
+
+	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
+	private ModuleServiceLifecycle _moduleServiceLifecycle;
 
 	@Reference
 	private Portal _portal;

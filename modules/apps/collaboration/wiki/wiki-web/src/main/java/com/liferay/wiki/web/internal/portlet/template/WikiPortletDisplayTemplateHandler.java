@@ -16,6 +16,7 @@ package com.liferay.wiki.web.internal.portlet.template;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
@@ -112,6 +113,9 @@ public class WikiPortletDisplayTemplateHandler
 		return "com/liferay/wiki/web/portlet/template/dependencies" +
 			"/portlet-display-templates.xml";
 	}
+
+	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
+	private ModuleServiceLifecycle _moduleServiceLifecycle;
 
 	@Reference
 	private Portal _portal;
