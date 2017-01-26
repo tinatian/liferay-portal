@@ -25,7 +25,13 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Adolfo Pérez
  */
-@Component(immediate = true, service = UpgradeStepRegistrator.class)
+@Component(
+	immediate = true,
+	property = {
+		"concrete.class.name=com.liferay.blogs.internal.upgrade.BlogsServiceUpgrade"
+	},
+	service = UpgradeStepRegistrator.class
+)
 public class BlogsServiceUpgrade implements UpgradeStepRegistrator {
 
 	@Override
