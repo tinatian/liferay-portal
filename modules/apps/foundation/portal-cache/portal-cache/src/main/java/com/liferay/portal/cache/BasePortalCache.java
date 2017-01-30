@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.cache.PortalCacheManager;
 
 import java.io.Serializable;
 
+import java.util.Collection;
+
 /**
  * @author Tina Tian
  */
@@ -134,6 +136,13 @@ public abstract class BasePortalCache<K extends Serializable, V>
 		}
 
 		return doRemove(key, value);
+	}
+
+	@Override
+	public void removeAll(Collection<K> keys) {
+		for (K key : keys) {
+			remove(key);
+		}
 	}
 
 	@Override
