@@ -62,6 +62,7 @@ public class SchedulerEntryImpl implements SchedulerEntry {
 	 */
 	@Deprecated
 	public void setDescription(String description) {
+		_description = description;
 	}
 
 	/**
@@ -69,6 +70,7 @@ public class SchedulerEntryImpl implements SchedulerEntry {
 	 */
 	@Deprecated
 	public void setEventListenerClass(String eventListenerClass) {
+		_eventListenerClass = eventListenerClass;
 	}
 
 	/**
@@ -76,6 +78,7 @@ public class SchedulerEntryImpl implements SchedulerEntry {
 	 */
 	@Deprecated
 	public void setTrigger(Trigger trigger) {
+		_trigger = trigger;
 	}
 
 	@Override
@@ -91,8 +94,8 @@ public class SchedulerEntryImpl implements SchedulerEntry {
 		return sb.toString();
 	}
 
-	private final String _description;
-	private final String _eventListenerClass;
-	private final Trigger _trigger;
+	private String _description;
+	private String _eventListenerClass;
+	private Trigger _trigger;
 
 }
