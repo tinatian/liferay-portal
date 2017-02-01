@@ -14,7 +14,7 @@ index ead4f5e..9d09f67 100644
 -        }
 -        // END OF IASRI 4641975/6172992
 +
-+		if (!response.isCommitted()) {
++		if ((sz > 0) && !response.isCommitted()) {
 +			// START OF IASRI 4641975/6172992
 +			try {
 +				response.setBufferSize(sz);
@@ -38,7 +38,7 @@ index ead4f5e..9d09f67 100644
 -        }
 -        // END OF IASRI 4641975/6172992
 +
-+		if (!response.isCommitted()) {
++		if ((sz > 0) && !response.isCommitted()) {
 +			// START OF IASRI 4641975/6172992
 +			try {
 +				response.setBufferSize(sz);
