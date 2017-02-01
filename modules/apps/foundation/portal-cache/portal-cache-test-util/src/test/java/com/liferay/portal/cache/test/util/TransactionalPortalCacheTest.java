@@ -1186,6 +1186,11 @@ public class TransactionalPortalCacheTest {
 		private final boolean _newTransaction;
 		private final boolean _rollbackOnly;
 
+		@Override
+		public Object getPlatformTransactionManager() {
+			return null;
+		}
+
 	}
 
 }
