@@ -1160,6 +1160,11 @@ public class TransactionalPortalCacheTest {
 	private static class TestTrasactionStatus implements TransactionStatus {
 
 		@Override
+		public Object getPlatformTransactionManager() {
+			return null;
+		}
+
+		@Override
 		public boolean isCompleted() {
 			return _completed;
 		}
@@ -1185,11 +1190,6 @@ public class TransactionalPortalCacheTest {
 		private final boolean _completed;
 		private final boolean _newTransaction;
 		private final boolean _rollbackOnly;
-
-		@Override
-		public Object getPlatformTransactionManager() {
-			return null;
-		}
 
 	}
 

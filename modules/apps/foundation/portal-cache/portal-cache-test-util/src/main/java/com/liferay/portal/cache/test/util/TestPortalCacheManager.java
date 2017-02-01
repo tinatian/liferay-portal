@@ -18,8 +18,6 @@ import com.liferay.portal.cache.BasePortalCacheManager;
 import com.liferay.portal.cache.configuration.PortalCacheConfiguration;
 import com.liferay.portal.cache.configuration.PortalCacheManagerConfiguration;
 import com.liferay.portal.kernel.cache.PortalCache;
-import com.liferay.portal.kernel.cache.PortalCacheListener;
-import com.liferay.portal.kernel.cache.PortalCacheManager;
 
 import java.io.Serializable;
 
@@ -131,11 +129,11 @@ public class TestPortalCacheManager<K extends Serializable, V>
 		aggregatedPortalCacheManagerListener.init();
 	}
 
-	private ConcurrentMap<String, TestPortalCache<K, V>> _testPortalCaches;
-
 	@Override
 	protected void removeConfigurableEhcachePortalCacheListeners(
 		PortalCache<K, V> portalCache) {
 	}
+
+	private ConcurrentMap<String, TestPortalCache<K, V>> _testPortalCaches;
 
 }
