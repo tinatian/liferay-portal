@@ -101,8 +101,32 @@ public class PortalPreferencesImpl
 
 		if (_portalPreferences == null) {
 			return new PortalPreferencesImpl(
-				getOwnerId(), getOwnerType(), getOriginalXML(),
+				getOwnerId(), getOwnerType(), originalXML,
 				new HashMap<>(getOriginalPreferences()), isSignedIn());
+		}
+		else if (Objects.equals(originalXML, _portalPreferences.getPreferences())) {
+			Map<String, Preference> map1 = getOriginalPreferences();
+			Map<String, Preference> map2 = 
+				PortletPreferencesFactoryImpl.createPreferencesMap(
+				_portalPreferences.getPreferences());
+
+			if (!map1.equals(map2)) {
+				throw new RuntimeException(
+					"Map 1 " + map1 + " is not same as map 2 " + map2);
+			}
+
+			PortalPreferencesImpl portalPreferencesImpl = 
+				new PortalPreferencesImpl(
+					getOwnerId(), getOwnerType(), originalXML,
+					new HashMap<>(getOriginalPreferences()), isSignedIn());
+
+			if (_portalPreferences != null) {
+				portalPreferencesImpl._portalPreferences =
+					(com.liferay.portal.kernel.model.PortalPreferences)
+						_portalPreferences.clone();
+			}
+			
+			return portalPreferencesImpl;
 		}
 
 		if (Objects.equals(originalXML, _portalPreferences.getPreferences())) {
