@@ -138,18 +138,18 @@ public class FreeMarkerTemplate extends AbstractSingleResourceTemplate {
 	}
 
 	private void _initializeContext() throws TemplateModelException {
-		boolean isSetupComplete = false;
+		boolean setupComplete = false;
 
 		Object userObject = context.get("user");
 
 		if (userObject != null) {
 			User user = (User)userObject;
 
-			isSetupComplete = user.isSetupComplete();
+			setupComplete = user.isSetupComplete();
 		}
 
 		String cssMainFile = StringPool.BLANK;
-		boolean isSignedIn = false;
+		boolean signedIn = false;
 		String jsMainFile = StringPool.BLANK;
 
 		Object themeDisplayObject = context.get("themeDisplay");
@@ -164,7 +164,7 @@ public class FreeMarkerTemplate extends AbstractSingleResourceTemplate {
 					httpServletRequest,
 					themeDisplay.getPathThemeCss() + "/main.css"));
 
-			isSignedIn = themeDisplay.isSignedIn();
+			signedIn = themeDisplay.isSignedIn();
 
 			jsMainFile = HtmlUtil.escape(
 				PortalUtil.getStaticResourceURL(
@@ -173,8 +173,8 @@ public class FreeMarkerTemplate extends AbstractSingleResourceTemplate {
 		}
 
 		context.put("css_main_file", cssMainFile);
-		context.put("is_setup_complete", isSetupComplete);
-		context.put("is_signed_in", isSignedIn);
+		context.put("is_setup_complete", setupComplete);
+		context.put("is_signed_in", signedIn);
 		context.put("js_main_file", jsMainFile);
 	}
 
