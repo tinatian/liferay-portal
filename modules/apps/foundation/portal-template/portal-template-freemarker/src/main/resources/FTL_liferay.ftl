@@ -1,30 +1,3 @@
-<#ftl strip_whitespace=true>
-
-<#--
-Use computer number format to prevent issues with locale settings. See
-LPS-30525.
--->
-
-<#setting number_format = "computer">
-
-<#assign
-	css_main_file = ""
-	is_signed_in = false
-	js_main_file = ""
-/>
-
-<#if themeDisplay??>
-	<#assign css_main_file = htmlUtil.escape(portalUtil.getStaticResourceURL(request, "${themeDisplay.getPathThemeCss()}/main.css")) />
-	<#assign is_signed_in = themeDisplay.isSignedIn() />
-	<#assign js_main_file = htmlUtil.escape(portalUtil.getStaticResourceURL(request, "${themeDisplay.getPathThemeJavaScript()}/main.js")) />
-</#if>
-
-<#assign is_setup_complete = false />
-
-<#if user??>
-	<#assign is_setup_complete = user.isSetupComplete() />
-</#if>
-
 <#function max x y>
 	<#if x < y>
 		<#return y>

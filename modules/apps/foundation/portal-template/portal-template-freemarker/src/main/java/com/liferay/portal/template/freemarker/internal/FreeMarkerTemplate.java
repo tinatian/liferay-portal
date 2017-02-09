@@ -14,10 +14,15 @@
 
 package com.liferay.portal.template.freemarker.internal;
 
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.template.StringTemplateResource;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.template.AbstractSingleResourceTemplate;
 import com.liferay.portal.template.TemplateContextHelper;
 import com.liferay.portal.template.TemplateResourceThreadLocal;
@@ -26,6 +31,7 @@ import freemarker.core.ParseException;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateModelException;
 
 import java.io.Writer;
 
@@ -34,6 +40,8 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mika Koivisto
@@ -127,6 +135,47 @@ public class FreeMarkerTemplate extends AbstractSingleResourceTemplate {
 			TemplateResourceThreadLocal.setTemplateResource(
 				TemplateConstants.LANG_TYPE_FTL, null);
 		}
+	}
+
+	private void _initializeContext() throws TemplateModelException {
+		boolean setupComplete = false;
+
+		Object userObject = context.get("user");
+
+		if (userObject != null) {
+			User user = (User)userObject;
+
+			setupComplete = user.isSetupComplete();
+		}
+
+		String cssMainFile = StringPool.BLANK;
+		boolean signedIn = false;
+		String jsMainFile = StringPool.BLANK;
+
+		Object themeDisplayObject = context.get("themeDisplay");
+		HttpServletRequest httpServletRequest = (HttpServletRequest)context.get(
+			"request");
+
+		if (themeDisplayObject != null) {
+			ThemeDisplay themeDisplay = (ThemeDisplay)themeDisplayObject;
+
+			cssMainFile = HtmlUtil.escape(
+				PortalUtil.getStaticResourceURL(
+					httpServletRequest,
+					themeDisplay.getPathThemeCss() + "/main.css"));
+
+			signedIn = themeDisplay.isSignedIn();
+
+			jsMainFile = HtmlUtil.escape(
+				PortalUtil.getStaticResourceURL(
+					httpServletRequest,
+					themeDisplay.getPathThemeJavaScript() + "/main.js"));
+		}
+
+		context.put("css_main_file", cssMainFile);
+		context.put("is_setup_complete", setupComplete);
+		context.put("is_signed_in", signedIn);
+		context.put("js_main_file", jsMainFile);
 	}
 
 	private final Configuration _configuration;
