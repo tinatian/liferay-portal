@@ -5408,21 +5408,42 @@ public class JournalArticleLocalServiceImpl
 
 		article.setSmallImageURL(smallImageURL);
 
-		if (latestArticle.isPending()) {
-			article.setStatus(latestArticle.getStatus());
-		}
-		else if (!expired) {
-			article.setStatus(WorkflowConstants.STATUS_DRAFT);
-		}
-		else {
-			article.setStatus(WorkflowConstants.STATUS_EXPIRED);
-		}
-
 		ExpandoBridgeUtil.setExpandoBridgeAttributes(
 			latestArticle.getExpandoBridge(), article.getExpandoBridge(),
 			serviceContext);
+		
+		// Status
 
-		journalArticlePersistence.update(article);
+		if (expired && imported) {
+			updateStatus(
+				userId, article, article.getStatus(), articleURL,
+				serviceContext, new HashMap<String, Serializable>());
+		}
+		else {
+			if (latestArticle.isPending()) {
+				article.setStatus(latestArticle.getStatus());
+			}
+			else if (!expired) {
+				article.setStatus(WorkflowConstants.STATUS_DRAFT);
+			}
+			else {
+				article.setStatus(WorkflowConstants.STATUS_EXPIRED);
+			}
+
+			journalArticlePersistence.update(article);
+			
+
+			// Asset
+
+			if (hasModifiedLatestApprovedVersion(groupId, articleId, version)) {
+				updateAsset(
+					userId, article, serviceContext.getAssetCategoryIds(),
+					serviceContext.getAssetTagNames(),
+					serviceContext.getAssetLinkEntryIds(),
+					serviceContext.getAssetPriority());
+			}
+		}
+		
 
 		// Dynamic data mapping
 
@@ -5448,26 +5469,6 @@ public class JournalArticleLocalServiceImpl
 
 		PortletPreferences preferences =
 			ServiceContextUtil.getPortletPreferences(serviceContext);
-
-		// Workflow
-
-		if (expired && imported) {
-			updateStatus(
-				userId, article, article.getStatus(), articleURL,
-				serviceContext, new HashMap<String, Serializable>());
-		}
-		else {
-
-			// Asset
-
-			if (hasModifiedLatestApprovedVersion(groupId, articleId, version)) {
-				updateAsset(
-					userId, article, serviceContext.getAssetCategoryIds(),
-					serviceContext.getAssetTagNames(),
-					serviceContext.getAssetLinkEntryIds(),
-					serviceContext.getAssetPriority());
-			}
-		}
 
 		if (serviceContext.getWorkflowAction() ==
 				WorkflowConstants.ACTION_PUBLISH) {
