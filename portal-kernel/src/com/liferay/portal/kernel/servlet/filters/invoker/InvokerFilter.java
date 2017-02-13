@@ -34,16 +34,19 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Mika Koivisto
@@ -66,6 +69,31 @@ public class InvokerFilter extends BasePortalLifecycle implements Filter {
 		HttpServletRequest request = (HttpServletRequest)servletRequest;
 
 		HttpServletResponse response = (HttpServletResponse)servletResponse;
+
+		HttpSession httpSession = request.getSession(true);
+
+		String requestURI = request.getRequestURI();
+
+		String forwardRequestURI = (String)request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI);
+		String includeRequestURI = (String)request.getAttribute(RequestDispatcher.INCLUDE_REQUEST_URI);
+
+		if ((!requestURI.contains("poller")) && (forwardRequestURI == null) && (includeRequestURI == null)) {
+			Enumeration<String> names1 = httpSession.getAttributeNames();
+
+			StringBundler sb1 = new StringBundler();
+
+			sb1.append("####################Starting values for Session: " + httpSession.getId() + "\n");
+
+			while (names1.hasMoreElements()) {
+				String name = names1.nextElement();
+
+				sb1.append("name: " + name);
+				sb1.append(", value: " + httpSession.getAttribute(name));
+				sb1.append("\n");
+			}
+
+			System.out.println(sb1.toString());
+		}
 
 		String originalURI = getOriginalRequestURI(request);
 
@@ -100,6 +128,32 @@ public class InvokerFilter extends BasePortalLifecycle implements Filter {
 		}
 		finally {
 			request.removeAttribute(WebKeys.INVOKER_FILTER_URI);
+
+			if ((requestURI.contains("poller")) || (forwardRequestURI != null) || (includeRequestURI != null)) {
+				return;
+			}
+
+
+			try {
+				Enumeration<String> names2 = httpSession.getAttributeNames();
+
+				StringBundler sb2 = new StringBundler();
+
+				sb2.append("####################Closing values for Session: " + httpSession.getId() + "\n");
+
+				while (names2.hasMoreElements()) {
+					String name = names2.nextElement();
+
+					sb2.append("name: " + name);
+					sb2.append(", value: " + httpSession.getAttribute(name));
+					sb2.append("\n");
+				}
+
+				System.out.println(sb2.toString());
+			}
+			catch (IllegalStateException ise) {
+				System.out.println("####################Session: " + httpSession.getId() + " is invalidated");
+			}
 		}
 	}
 
