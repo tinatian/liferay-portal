@@ -129,7 +129,7 @@ public class PortletURLImpl
 
 		this(
 			PortalUtil.getHttpServletRequest(portletRequest),
-			portlet.getPortletId(), portlet, null, portletRequest,
+			portlet.getPortletId(), portlet, portletRequest,
 			layout.getPlid(), layout, lifecycle);
 	}
 
