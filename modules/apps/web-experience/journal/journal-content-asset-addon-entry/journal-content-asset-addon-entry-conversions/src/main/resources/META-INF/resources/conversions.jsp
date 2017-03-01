@@ -35,8 +35,6 @@
 
 <liferay-theme:defineObjects />
 
-<portlet:defineObjects />
-
 <%
 JournalArticleDisplay articleDisplay = (JournalArticleDisplay)request.getAttribute(WebKeys.JOURNAL_ARTICLE_DISPLAY);
 
