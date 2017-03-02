@@ -28,10 +28,10 @@ page import="com.liferay.portal.kernel.util.GetterUtil" %><%@
 page import="com.liferay.social.kernel.util.SocialInteractionsConfiguration" %><%@
 page import="com.liferay.social.kernel.util.SocialInteractionsConfigurationUtil" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>

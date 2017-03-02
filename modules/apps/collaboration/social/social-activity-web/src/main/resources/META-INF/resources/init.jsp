@@ -37,10 +37,10 @@ page import="com.liferay.social.kernel.util.SocialConfigurationUtil" %>
 page import="java.util.List" %><%@
 page import="java.util.Map" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>

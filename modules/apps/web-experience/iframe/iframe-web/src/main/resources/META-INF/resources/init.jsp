@@ -37,11 +37,11 @@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 
 <%@ page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 IFrameDisplayContext iFrameDisplayContext = new IFrameDisplayContext(renderRequest);

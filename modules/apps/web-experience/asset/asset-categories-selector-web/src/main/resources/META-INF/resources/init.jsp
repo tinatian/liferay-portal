@@ -26,11 +26,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ page import="com.liferay.asset.categories.selector.web.display.context.AssetCategoriesSelectorDisplayContext" %><%@
 page import="com.liferay.portal.kernel.util.HtmlUtil" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 AssetCategoriesSelectorDisplayContext assetCategoriesSelectorDisplayContext = new AssetCategoriesSelectorDisplayContext(renderRequest, renderResponse, request);

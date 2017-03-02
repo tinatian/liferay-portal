@@ -22,11 +22,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.asset.display.web.internal.display.context.AssetDisplayDisplayContext" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 AssetDisplayDisplayContext assetDisplayDisplayContext = new AssetDisplayDisplayContext(request);

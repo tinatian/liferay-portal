@@ -27,8 +27,8 @@ page import="com.liferay.portal.kernel.util.ResourceBundleUtil" %>
 
 <%@ page import="javax.portlet.PortletPreferences" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

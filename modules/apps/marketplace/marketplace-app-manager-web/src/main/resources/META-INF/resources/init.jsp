@@ -75,8 +75,8 @@ page import="javax.portlet.PortletURL" %>
 page import="org.osgi.framework.BundleContext" %><%@
 page import="org.osgi.framework.ServiceReference" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

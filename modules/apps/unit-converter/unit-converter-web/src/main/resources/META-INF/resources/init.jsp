@@ -30,10 +30,10 @@ page import="com.liferay.unit.converter.web.internal.util.UnitConverterUtil" %>
 
 <%@ page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>

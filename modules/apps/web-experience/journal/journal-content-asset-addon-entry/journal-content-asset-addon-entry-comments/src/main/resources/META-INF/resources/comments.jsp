@@ -29,9 +29,9 @@
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 
-<liferay-frontend:defineObjects />
-
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 CommentsContentMetadataAssetAddonEntry commentsContentMetadataAssetAddonEntry = (CommentsContentMetadataAssetAddonEntry)request.getAttribute(WebKeys.ASSET_ADDON_ENTRY);

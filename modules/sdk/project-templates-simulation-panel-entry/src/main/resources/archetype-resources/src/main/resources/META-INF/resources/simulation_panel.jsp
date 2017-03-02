@@ -8,11 +8,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <div class="list-group-panel" id="<portlet:namespace />simulationOptionsContainer">
 	<p class="text-center"><liferay-ui:message key="simulation-description" /></p>
