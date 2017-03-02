@@ -31,11 +31,11 @@
 <%@ page import="com.liferay.portal.kernel.util.StringUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 JournalArticleDisplay articleDisplay = (JournalArticleDisplay)request.getAttribute(WebKeys.JOURNAL_ARTICLE_DISPLAY);

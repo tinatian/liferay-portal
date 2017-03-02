@@ -59,10 +59,10 @@ page import="java.util.List" %>
 <%@ page import="javax.portlet.PortletURL" %><%@
 page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>

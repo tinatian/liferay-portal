@@ -33,8 +33,8 @@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 
 <%@ page import="java.util.List" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

@@ -26,10 +26,10 @@ page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PwdGenerator" %><%@
 page import="com.liferay.portal.kernel.util.StringPool" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>

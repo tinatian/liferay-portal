@@ -31,11 +31,11 @@ page import="com.liferay.portal.kernel.util.HttpUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.taglib.aui.AUIUtil" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 GoogleMapsDisplayContext googleMapDisplayContext = new GoogleMapsDisplayContext(request);

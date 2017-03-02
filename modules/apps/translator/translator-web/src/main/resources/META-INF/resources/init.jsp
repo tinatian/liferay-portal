@@ -35,11 +35,11 @@ page import="com.liferay.translator.web.internal.util.TranslatorUtil" %>
 
 <%@ page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 TranslatorConfiguration translatorConfiguration = (TranslatorConfiguration)request.getAttribute(TranslatorConfiguration.class.getName());

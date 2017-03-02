@@ -48,8 +48,8 @@ page import="com.liferay.portal.util.PropsValues" %>
 <%@ page import="java.util.ArrayList" %><%@
 page import="java.util.List" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

@@ -45,8 +45,8 @@ page import="com.liferay.push.notifications.web.internal.util.ResourceBundleLoad
 
 <%@ page import="javax.portlet.PortletURL" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

@@ -41,11 +41,11 @@ page import="java.util.Map" %>
 
 <%@ page import="javax.portlet.PortletURL" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 SiteBrowserDisplayContext siteBrowserDisplayContext = new SiteBrowserDisplayContext(request, liferayPortletRequest, liferayPortletResponse);

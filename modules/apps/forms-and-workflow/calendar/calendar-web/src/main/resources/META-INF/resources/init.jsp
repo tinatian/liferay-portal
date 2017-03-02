@@ -130,11 +130,11 @@ page import="java.util.TimeZone" %>
 
 <%@ page import="javax.portlet.PortletURL" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 int defaultDuration = GetterUtil.getInteger(portletPreferences.getValue("defaultDuration", null), 60);

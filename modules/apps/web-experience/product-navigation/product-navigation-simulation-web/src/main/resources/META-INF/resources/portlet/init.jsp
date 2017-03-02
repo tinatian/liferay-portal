@@ -34,8 +34,8 @@ page import="com.liferay.product.navigation.simulation.application.list.Simulati
 page import="com.liferay.product.navigation.simulation.web.constants.ProductNavigationSimulationPortletKeys" %><%@
 page import="com.liferay.taglib.aui.AUIUtil" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

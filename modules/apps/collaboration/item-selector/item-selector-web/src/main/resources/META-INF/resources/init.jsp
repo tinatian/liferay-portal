@@ -42,8 +42,8 @@ page import="com.liferay.portal.kernel.util.Validator" %>
 
 <%@ page import="javax.portlet.PortletURL" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

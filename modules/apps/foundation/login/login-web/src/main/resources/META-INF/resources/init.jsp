@@ -97,11 +97,11 @@ page import="java.util.Date" %>
 
 <%@ page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 String authType = portletPreferences.getValue("authType", StringPool.BLANK);

@@ -40,11 +40,11 @@ page import="java.util.HashMap" %><%@
 page import="java.util.Map" %><%@
 page import="java.util.Objects" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 AssetBrowserDisplayContext assetBrowserDisplayContext = new AssetBrowserDisplayContext(renderRequest, renderResponse);

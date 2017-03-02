@@ -13,11 +13,11 @@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
 <%@ page import="java.util.List" %><%@
 page import="java.util.Map" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 Map<String, Object> context = (Map<String, Object>)request.getAttribute("context");

@@ -75,10 +75,10 @@ page import="com.liferay.portlet.layoutsadmin.display.context.GroupDisplayContex
 page import="java.util.List" %><%@
 page import="java.util.Set" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-staging:defineObjects />
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
