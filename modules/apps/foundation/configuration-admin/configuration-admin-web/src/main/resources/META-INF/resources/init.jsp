@@ -40,8 +40,8 @@ page import="java.util.ResourceBundle" %>
 
 <%@ page import="org.osgi.service.metatype.AttributeDefinition" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

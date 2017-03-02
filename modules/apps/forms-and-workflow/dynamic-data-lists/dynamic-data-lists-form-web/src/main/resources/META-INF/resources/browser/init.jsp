@@ -28,11 +28,11 @@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@ page import="java.util.HashMap" %><%@
 page import="java.util.Map" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 DDLFormBrowserDisplayContext ddlFormBrowserDisplayContext = (DDLFormBrowserDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
