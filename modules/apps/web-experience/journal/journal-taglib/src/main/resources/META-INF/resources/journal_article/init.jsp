@@ -24,5 +24,3 @@
 page import="com.liferay.portal.kernel.util.GetterUtil" %>
 
 <liferay-theme:defineObjects />
-
-<portlet:defineObjects />
