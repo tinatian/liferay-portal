@@ -5424,16 +5424,6 @@ public class JournalArticleLocalServiceImpl
 
 		journalArticlePersistence.update(article);
 
-		// Asset
-
-		if (hasModifiedLatestApprovedVersion(groupId, articleId, version)) {
-			updateAsset(
-				userId, article, serviceContext.getAssetCategoryIds(),
-				serviceContext.getAssetTagNames(),
-				serviceContext.getAssetLinkEntryIds(),
-				serviceContext.getAssetPriority());
-		}
-
 		// Dynamic data mapping
 
 		if (classNameLocalService.getClassNameId(DDMStructure.class) ==
@@ -5465,6 +5455,18 @@ public class JournalArticleLocalServiceImpl
 			updateStatus(
 				userId, article, article.getStatus(), articleURL,
 				serviceContext, new HashMap<String, Serializable>());
+		}
+		else {
+
+			// Asset
+
+			if (hasModifiedLatestApprovedVersion(groupId, articleId, version)) {
+				updateAsset(
+					userId, article, serviceContext.getAssetCategoryIds(),
+					serviceContext.getAssetTagNames(),
+					serviceContext.getAssetLinkEntryIds(),
+					serviceContext.getAssetPriority());
+			}
 		}
 
 		if (serviceContext.getWorkflowAction() ==
