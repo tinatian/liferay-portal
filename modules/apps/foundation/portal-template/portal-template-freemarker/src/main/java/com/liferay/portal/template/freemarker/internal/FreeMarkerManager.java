@@ -279,6 +279,13 @@ public class FreeMarkerManager extends BaseSingleTemplateManager {
 		_configuration.setNewBuiltinClassResolver(_templateClassResolver);
 		_configuration.setObjectWrapper(new LiferayObjectWrapper());
 
+		// Use computer number format to prevent issues with locale settings.
+		// See LPS-30525.
+
+		_configuration.setNumberFormat("computer");
+
+		_configuration.setWhitespaceStripping(true);
+
 		try {
 			_configuration.setSetting(
 				"auto_import",
