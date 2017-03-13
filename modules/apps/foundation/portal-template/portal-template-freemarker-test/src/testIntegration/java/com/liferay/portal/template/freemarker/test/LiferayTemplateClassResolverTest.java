@@ -15,14 +15,19 @@
 package com.liferay.portal.template.freemarker.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import freemarker.core.TemplateClassResolver;
 
 import freemarker.template.TemplateException;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.concurrent.CountDownLatch;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -34,8 +39,6 @@ import org.junit.runner.RunWith;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceEvent;
-import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
@@ -49,7 +52,7 @@ import org.osgi.util.tracker.ServiceTracker;
 public class LiferayTemplateClassResolverTest {
 
 	@BeforeClass
-	public static void setUpClass() {
+	public static void setUpClass() throws ClassNotFoundException {
 		Bundle bundle = FrameworkUtil.getBundle(
 			LiferayTemplateClassResolverTest.class);
 
@@ -59,10 +62,32 @@ public class LiferayTemplateClassResolverTest {
 		_serviceTracker.open();
 
 		_liferayTemplateClassResolver = _serviceTracker.getService();
+
+		_freeMarkerEngineConfigurationInvocationHandler =
+			new FreeMarkerEngineConfigurationInvocationHandler();
+
+		ClassLoader classLoader =
+			_liferayTemplateClassResolver.getClass().getClassLoader();
+
+		Class<?> clazz = classLoader.loadClass(
+			"com.liferay.portal.template.freemarker.configuration." +
+				"FreeMarkerEngineConfiguration");
+
+		ReflectionTestUtil.setFieldValue(
+			_liferayTemplateClassResolver, "_freemarkerEngineConfiguration",
+			ProxyUtil.newProxyInstance(
+				_liferayTemplateClassResolver.getClass().getClassLoader(),
+				new Class<?>[] {clazz},
+				_freeMarkerEngineConfigurationInvocationHandler));
 	}
 
 	@AfterClass
 	public static void tearDownClass() {
+		ReflectionTestUtil.setFieldValue(
+			_liferayTemplateClassResolver, "_freemarkerEngineConfiguration",
+			_freeMarkerEngineConfigurationInvocationHandler.
+				getFreeMarkerEngineConfiguration());
+
 		_serviceTracker.close();
 	}
 
@@ -95,7 +120,7 @@ public class LiferayTemplateClassResolverTest {
 
 	@After
 	public void tearDown() throws Exception {
-		_updateProperties(_properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(null);
 	}
 
 	@Test
@@ -106,7 +131,8 @@ public class LiferayTemplateClassResolverTest {
 			"allowedClasses", "freemarker.template.utility.ClassUtil");
 		properties.put("restrictedClasses", "");
 
-		_updateProperties(properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(
+			properties);
 
 		_liferayTemplateClassResolver.resolve(
 			"freemarker.template.utility.ClassUtil", null, null);
@@ -119,7 +145,8 @@ public class LiferayTemplateClassResolverTest {
 		properties.put("allowedClasses", "freemarker.template.utility.*");
 		properties.put("restrictedClasses", "");
 
-		_updateProperties(properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(
+			properties);
 
 		_liferayTemplateClassResolver.resolve(
 			"freemarker.template.utility.ClassUtil", null, null);
@@ -132,7 +159,8 @@ public class LiferayTemplateClassResolverTest {
 		properties.put("allowedClasses", "freemarker.template.utility.*");
 		properties.put("restrictedClasses", "");
 
-		_updateProperties(properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(
+			properties);
 
 		_liferayTemplateClassResolver.resolve(
 			"freemarker.template.utility.Execute", null, null);
@@ -145,7 +173,8 @@ public class LiferayTemplateClassResolverTest {
 		properties.put("allowedClasses", "freemarker.template.utility.*");
 		properties.put("restrictedClasses", "");
 
-		_updateProperties(properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(
+			properties);
 
 		_liferayTemplateClassResolver.resolve(
 			"freemarker.template.utility.ObjectConstructor", null, null);
@@ -158,7 +187,8 @@ public class LiferayTemplateClassResolverTest {
 		properties.put(
 			"allowedClasses", "com.liferay.portal.kernel.model.User");
 
-		_updateProperties(properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(
+			properties);
 
 		_liferayTemplateClassResolver.resolve(
 			"com.liferay.portal.kernel.model.User", null, null);
@@ -175,7 +205,8 @@ public class LiferayTemplateClassResolverTest {
 		properties.put(
 			"restrictedClasses", "com.liferay.portal.kernel.model.*");
 
-		_updateProperties(properties);
+		_freeMarkerEngineConfigurationInvocationHandler.setProperties(
+			properties);
 
 		_liferayTemplateClassResolver.resolve(
 			"com.liferay.portal.kernel.model.User", null, null);
@@ -215,53 +246,56 @@ public class LiferayTemplateClassResolverTest {
 		_liferayTemplateClassResolver.resolve("java.lang.Thread", null, null);
 	}
 
-	private void _updateProperties(Dictionary<String, Object> dictionary)
-		throws Exception {
-
-		final CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		Bundle bundle = FrameworkUtil.getBundle(
-			_liferayTemplateClassResolver.getClass());
-
-		final BundleContext bundleContext = bundle.getBundleContext();
-
-		ServiceListener serviceListener = new ServiceListener() {
-
-			@Override
-			public void serviceChanged(ServiceEvent serviceEvent) {
-				if (serviceEvent.getType() != ServiceEvent.MODIFIED) {
-					return;
-				}
-
-				ServiceReference<?> serviceReference =
-					serviceEvent.getServiceReference();
-
-				Object service = bundleContext.getService(serviceReference);
-
-				if (service == _liferayTemplateClassResolver) {
-					countDownLatch.countDown();
-				}
-			}
-
-		};
-
-		bundleContext.addServiceListener(serviceListener);
-
-		try {
-			_freemarkerTemplateConfiguration.update(dictionary);
-
-			countDownLatch.await();
-		}
-		finally {
-			bundleContext.removeServiceListener(serviceListener);
-		}
-	}
-
+	private static FreeMarkerEngineConfigurationInvocationHandler
+		_freeMarkerEngineConfigurationInvocationHandler;
 	private static TemplateClassResolver _liferayTemplateClassResolver;
 	private static ServiceTracker<TemplateClassResolver, TemplateClassResolver>
 		_serviceTracker;
 
 	private Configuration _freemarkerTemplateConfiguration;
 	private Dictionary<String, Object> _properties;
+
+	private static class FreeMarkerEngineConfigurationInvocationHandler
+		implements InvocationHandler {
+
+		public Object getFreeMarkerEngineConfiguration() {
+			return _freeMarkerEngineConfiguration;
+		}
+
+		@Override
+		public Object invoke(Object proxy, Method method, Object[] args)
+			throws Throwable {
+
+			if (_properties != null) {
+				String propertyName = method.getName();
+
+				Object value = _properties.get(propertyName);
+
+				if (value != null) {
+					if (propertyName.equals("allowedClasses") ||
+						propertyName.equals("restrictedClasses")) {
+
+						return StringUtil.split((String)value, '|');
+					}
+
+					return value;
+				}
+			}
+
+			return method.invoke(_freeMarkerEngineConfiguration, args);
+		}
+
+		public void setProperties(Dictionary<String, Object> properties) {
+			_properties = properties;
+		}
+
+		private static final Object _freeMarkerEngineConfiguration =
+			ReflectionTestUtil.getFieldValue(
+				_liferayTemplateClassResolver,
+				"_freemarkerEngineConfiguration");
+
+		private Dictionary<String, Object> _properties;
+
+	}
 
 }
