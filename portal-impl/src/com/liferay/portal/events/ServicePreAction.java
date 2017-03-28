@@ -1545,11 +1545,19 @@ public class ServicePreAction extends Action {
 		for (int i = 0; i < layouts.size(); i++) {
 			Layout curLayout = layouts.get(i);
 
-			if (!curLayout.isHidden() &&
-				(hasAccessPermission(
-					permissionChecker, curLayout, doAsGroupId, false) ||
-				 hasViewStagingPermission)) {
+			boolean curHasViewLayoutPermission = false;
 
+			if (curLayout == layout) {
+				curHasViewLayoutPermission = hasViewLayoutPermission;
+			}
+			else if (hasAccessPermission(
+						permissionChecker, curLayout, doAsGroupId, false) ||
+					 hasViewStagingPermission) {
+
+				curHasViewLayoutPermission = true;
+			}
+
+			if (!curLayout.isHidden() && curHasViewLayoutPermission) {
 				if (accessibleLayouts.isEmpty() && !hasViewLayoutPermission) {
 					layout = curLayout;
 				}
