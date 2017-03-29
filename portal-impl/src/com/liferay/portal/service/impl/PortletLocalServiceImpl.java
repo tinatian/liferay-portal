@@ -704,18 +704,11 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	public boolean hasPortlet(long companyId, String portletId) {
 		portletId = PortalUtil.getJsSafePortletId(portletId);
 
-		Portlet portlet = null;
-
 		Map<String, Portlet> companyPortletsMap = getPortletsMap(companyId);
 
 		String rootPortletId = PortletConstants.getRootPortletId(portletId);
 
-		if (portletId.equals(rootPortletId)) {
-			portlet = companyPortletsMap.get(portletId);
-		}
-		else {
-			portlet = companyPortletsMap.get(rootPortletId);
-		}
+		Portlet portlet = companyPortletsMap.get(rootPortletId);
 
 		if (portlet == null) {
 			return false;
