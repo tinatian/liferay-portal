@@ -218,7 +218,7 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	@Transactional(enabled = false)
 	public void clearCompanyPortletsPool() {
 		_portletsMaps.clear();
-		_instanceablePortlets.clear();
+		_instanceablePortletsMaps.clear();
 	}
 
 	@Clusterable
@@ -226,7 +226,7 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	@Transactional(enabled = false)
 	public void clearPortletsMap() {
 		_portletsMaps.clear();
-		_instanceablePortlets.clear();
+		_instanceablePortletsMaps.clear();
 	}
 
 	@Override
