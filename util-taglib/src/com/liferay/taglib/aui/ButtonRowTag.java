@@ -21,6 +21,7 @@ import com.liferay.taglib.aui.base.BaseButtonRowTag;
 import com.liferay.taglib.util.InlineUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
 /**
@@ -29,6 +30,13 @@ import javax.servlet.jsp.JspWriter;
  * @author Brian Wing Shun Chan
  */
 public class ButtonRowTag extends BaseButtonRowTag {
+
+	@Override
+	public int doStartTag() throws JspException {
+		setNestable(false);
+
+		return super.doStartTag();
+	}
 
 	@Override
 	protected boolean isCleanUpSetAttributes() {

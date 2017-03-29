@@ -39,6 +39,8 @@ public class FieldsetTag extends BaseFieldsetTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		FieldsetGroupTag fieldsetGroupTag =
 			(FieldsetGroupTag)findAncestorWithClass(
 				this, FieldsetGroupTag.class);

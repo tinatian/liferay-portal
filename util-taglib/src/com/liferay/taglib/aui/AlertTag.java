@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.aui.base.BaseAlertTag;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 
 /**
  * @author Eduardo Lundgren
@@ -27,6 +28,13 @@ import javax.servlet.http.HttpServletRequest;
  * @author Julio Camarero
  */
 public class AlertTag extends BaseAlertTag {
+
+	@Override
+	public int doStartTag() throws JspException {
+		setNestable(false);
+
+		return super.doStartTag();
+	}
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {

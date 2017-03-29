@@ -30,6 +30,8 @@ public class ButtonTag extends BaseButtonTag implements BodyTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		super.doStartTag();
 
 		return BodyTag.EVAL_BODY_BUFFERED;

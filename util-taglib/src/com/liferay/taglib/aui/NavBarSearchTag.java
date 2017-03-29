@@ -39,6 +39,8 @@ public class NavBarSearchTag extends BaseNavBarSearchTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		NavBarTag navBarTag = (NavBarTag)findAncestorWithClass(
 			this, NavBarTag.class);
 

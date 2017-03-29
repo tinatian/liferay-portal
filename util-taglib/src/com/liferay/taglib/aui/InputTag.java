@@ -51,6 +51,8 @@ public class InputTag extends BaseInputTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		addModelValidatorTags();
 
 		if (getRequired()) {

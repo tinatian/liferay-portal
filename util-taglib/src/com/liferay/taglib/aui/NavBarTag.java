@@ -42,6 +42,8 @@ public class NavBarTag extends BaseNavBarTag implements BodyTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		request.setAttribute("aui:nav-bar:navItemCount", new IntegerWrapper());
 
 		return super.doStartTag();

@@ -68,6 +68,8 @@ public class SelectTag extends BaseSelectTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		addModelValidatorTags();
 
 		if (getRequired()) {
