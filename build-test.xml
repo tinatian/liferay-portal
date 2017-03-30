@@ -9279,6 +9279,24 @@ jdbc.default.password=${database.mysql.password}</echo>
 		<get-testcase-property property.name="skip.start-app-server" />
 
 		<if>
+			<equals arg1="${app.server.type}" arg2="tomcat" />
+			<then>
+				<replace file="${app.server.dir}/conf/web.xml">
+				<replacetoken><![CDATA[<servlet>
+        <servlet-name>jsp</servlet-name>
+        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>]]></replacetoken>
+				<replacevalue><![CDATA[<servlet>
+        <servlet-name>jsp</servlet-name>
+        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+    <init-param>
+      <param-name>trimSpaces</param-name>
+      <param-value>true</param-value>
+    </init-param>]]></replacevalue>
+				</replace>
+			</then>
+		</if>
+
+		<if>
 			<not>
 				<equals arg1="${skip.start-app-server}" arg2="true" />
 			</not>
