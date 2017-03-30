@@ -30,8 +30,8 @@ page import="com.liferay.application.list.display.context.logic.PanelCategoryHel
 page import="com.liferay.product.navigation.simulation.application.list.SimulationPanelCategory" %><%@
 page import="com.liferay.taglib.aui.AUIUtil" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />

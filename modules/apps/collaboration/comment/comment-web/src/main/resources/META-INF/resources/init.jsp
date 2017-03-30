@@ -51,11 +51,11 @@ page import="com.liferay.portlet.asset.util.AssetUtil" %>
 
 <%@ page import="java.text.Format" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);

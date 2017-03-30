@@ -50,11 +50,11 @@ page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 DDLFormDisplayContext ddlFormDisplayContext = (DDLFormDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);

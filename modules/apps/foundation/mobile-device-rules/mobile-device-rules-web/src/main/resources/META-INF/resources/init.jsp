@@ -109,11 +109,11 @@ page import="java.util.Set" %>
 <%@ page import="javax.portlet.PortletURL" %><%@
 page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 long groupId = ParamUtil.getLong(request, "groupId", themeDisplay.getSiteGroupId());

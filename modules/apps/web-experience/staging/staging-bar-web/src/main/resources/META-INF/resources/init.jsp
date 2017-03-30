@@ -82,13 +82,13 @@ page import="java.util.List" %>
 page import="javax.portlet.PortletRequest" %><%@
 page import="javax.portlet.PortletURL" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-staging:defineObjects />
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 layout = LayoutLocalServiceUtil.fetchLayout(plid);
