@@ -34,10 +34,10 @@ page import="com.liferay.social.requests.web.internal.constants.SocialRequestsWe
 
 <%@ page import="java.util.List" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>

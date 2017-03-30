@@ -102,11 +102,11 @@ page import="javax.portlet.WindowState" %>
 page import="org.apache.log4j.LogManager" %><%@
 page import="org.apache.log4j.Logger" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 PortletMode portletMode = liferayPortletRequest.getPortletMode();

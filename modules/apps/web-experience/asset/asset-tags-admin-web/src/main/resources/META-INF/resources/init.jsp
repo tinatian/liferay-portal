@@ -45,11 +45,11 @@ page import="com.liferay.portlet.asset.util.AssetUtil" %>
 
 <%@ page import="javax.portlet.PortletURL" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 AssetTagsDisplayContext assetTagsDisplayContext = new AssetTagsDisplayContext(renderRequest, renderResponse, request);
