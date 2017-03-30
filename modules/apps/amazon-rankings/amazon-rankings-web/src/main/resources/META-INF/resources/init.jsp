@@ -45,11 +45,11 @@ page import="java.util.TreeSet" %>
 <%@ page import="javax.portlet.ValidatorException" %><%@
 page import="javax.portlet.WindowState" %>
 
-<liferay-frontend:defineObjects />
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-frontend:defineObjects />
 
 <%
 AmazonRankingsConfiguration amazonRankingsConfiguration = (AmazonRankingsConfiguration)request.getAttribute(AmazonRankingsConfiguration.class.getName());
