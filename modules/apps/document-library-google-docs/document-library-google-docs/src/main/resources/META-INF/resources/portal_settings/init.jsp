@@ -30,5 +30,3 @@ page import="com.liferay.portal.kernel.util.ResourceBundleUtil" %>
 <liferay-frontend:defineObjects />
 
 <liferay-theme:defineObjects />
-
-<portlet:defineObjects />
