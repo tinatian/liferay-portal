@@ -46,9 +46,11 @@ public class DefineObjectsTag extends TagSupport {
 		PortletRequest portletRequest = (PortletRequest)request.getAttribute(
 			JavaConstants.JAVAX_PORTLET_REQUEST);
 
+		LiferayPortletRequest liferayPortletRequest = null;
+
 		if (portletRequest != null) {
-			LiferayPortletRequest liferayPortletRequest =
-				PortalUtil.getLiferayPortletRequest(portletRequest);
+			liferayPortletRequest = PortalUtil.getLiferayPortletRequest(
+				portletRequest);
 
 			PortletResponse portletResponse =
 				(PortletResponse)request.getAttribute(
@@ -65,9 +67,6 @@ public class DefineObjectsTag extends TagSupport {
 					"currentURL", currentURLObj.toString());
 				pageContext.setAttribute("currentURLObj", currentURLObj);
 			}
-
-			pageContext.setAttribute(
-				"windowState", liferayPortletRequest.getWindowState());
 		}
 
 		if (_overrideResourceBundle != null) {
@@ -79,6 +78,14 @@ public class DefineObjectsTag extends TagSupport {
 			pageContext.setAttribute(
 				"resourceBundle",
 				TagResourceBundleUtil.getResourceBundle(request, locale));
+		}
+
+		if (liferayPortletRequest != null) {
+			pageContext.setAttribute(
+				"windowState", liferayPortletRequest.getWindowState());
+		}
+		else {
+			pageContext.setAttribute("windowState", null);
 		}
 
 		return SKIP_BODY;
