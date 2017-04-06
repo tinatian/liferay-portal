@@ -424,7 +424,7 @@ public class EntityCacheImpl
 	}
 
 	private Serializable _toEntityModel(Serializable result) {
-		if (result == StringPool.BLANK) {
+		if (result == null) {
 			return null;
 		}
 
