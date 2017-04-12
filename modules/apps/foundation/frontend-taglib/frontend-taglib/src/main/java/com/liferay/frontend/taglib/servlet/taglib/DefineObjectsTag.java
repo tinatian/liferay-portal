@@ -40,15 +40,53 @@ public class DefineObjectsTag extends TagSupport {
 
 	@Override
 	public int doStartTag() throws JspException {
-		PortletURL currentURLObj = getCurrentURLObj();
+		HttpServletRequest request =
+			(HttpServletRequest)pageContext.getRequest();
 
-		if (currentURLObj != null) {
-			pageContext.setAttribute("currentURL", currentURLObj.toString());
-			pageContext.setAttribute("currentURLObj", currentURLObj);
+		PortletRequest portletRequest = (PortletRequest)request.getAttribute(
+			JavaConstants.JAVAX_PORTLET_REQUEST);
+
+		LiferayPortletRequest liferayPortletRequest = null;
+
+		if (portletRequest != null) {
+			liferayPortletRequest = PortalUtil.getLiferayPortletRequest(
+				portletRequest);
+
+			PortletResponse portletResponse =
+				(PortletResponse)request.getAttribute(
+					JavaConstants.JAVAX_PORTLET_RESPONSE);
+
+			if (portletResponse != null) {
+				LiferayPortletResponse liferayPortletResponse =
+					PortalUtil.getLiferayPortletResponse(portletResponse);
+
+				PortletURL currentURLObj = PortletURLUtil.getCurrent(
+					liferayPortletRequest, liferayPortletResponse);
+
+				pageContext.setAttribute(
+					"currentURL", currentURLObj.toString());
+				pageContext.setAttribute("currentURLObj", currentURLObj);
+			}
 		}
 
-		pageContext.setAttribute("resourceBundle", getResourceBundle());
-		pageContext.setAttribute("windowState", getWindowState());
+		if (_overrideResourceBundle != null) {
+			pageContext.setAttribute("resourceBundle", _overrideResourceBundle);
+		}
+		else {
+			Locale locale = PortalUtil.getLocale(request);
+
+			pageContext.setAttribute(
+				"resourceBundle",
+				TagResourceBundleUtil.getResourceBundle(request, locale));
+		}
+
+		if (liferayPortletRequest != null) {
+			pageContext.setAttribute(
+				"windowState", liferayPortletRequest.getWindowState());
+		}
+		else {
+			pageContext.setAttribute("windowState", null);
+		}
 
 		return SKIP_BODY;
 	}
@@ -59,6 +97,10 @@ public class DefineObjectsTag extends TagSupport {
 		_overrideResourceBundle = overrideResourceBundle;
 	}
 
+	/**
+	 * @deprecated As of 2.1.0, with no direct replacement
+	 */
+	@Deprecated
 	protected PortletURL getCurrentURLObj() {
 		LiferayPortletRequest liferayPortletRequest =
 			getLiferayPortletRequest();
@@ -76,15 +118,11 @@ public class DefineObjectsTag extends TagSupport {
 			liferayPortletRequest, liferayPortletResponse);
 	}
 
+	/**
+	 * @deprecated As of 2.1.0, with no direct replacement
+	 */
+	@Deprecated
 	protected LiferayPortletRequest getLiferayPortletRequest() {
-		LiferayPortletRequest liferayPortletRequest =
-			(LiferayPortletRequest)pageContext.getAttribute(
-				"liferayPortletRequest");
-
-		if (liferayPortletRequest != null) {
-			return liferayPortletRequest;
-		}
-
 		HttpServletRequest request =
 			(HttpServletRequest)pageContext.getRequest();
 
@@ -98,15 +136,11 @@ public class DefineObjectsTag extends TagSupport {
 		return PortalUtil.getLiferayPortletRequest(portletRequest);
 	}
 
+	/**
+	 * @deprecated As of 2.1.0, with no direct replacement
+	 */
+	@Deprecated
 	protected LiferayPortletResponse getLiferayPortletResponse() {
-		LiferayPortletResponse liferayPortletResponse =
-			(LiferayPortletResponse)pageContext.getAttribute(
-				"liferayPortletResponse");
-
-		if (liferayPortletResponse != null) {
-			return liferayPortletResponse;
-		}
-
 		HttpServletRequest request =
 			(HttpServletRequest)pageContext.getRequest();
 
@@ -120,6 +154,10 @@ public class DefineObjectsTag extends TagSupport {
 		return PortalUtil.getLiferayPortletResponse(portletResponse);
 	}
 
+	/**
+	 * @deprecated As of 2.1.0, with no direct replacement
+	 */
+	@Deprecated
 	protected ResourceBundle getResourceBundle() {
 		if (_overrideResourceBundle != null) {
 			return _overrideResourceBundle;
@@ -133,6 +171,10 @@ public class DefineObjectsTag extends TagSupport {
 		return TagResourceBundleUtil.getResourceBundle(request, locale);
 	}
 
+	/**
+	 * @deprecated As of 2.1.0, with no direct replacement
+	 */
+	@Deprecated
 	protected WindowState getWindowState() {
 		LiferayPortletRequest liferayPortletRequest =
 			getLiferayPortletRequest();
