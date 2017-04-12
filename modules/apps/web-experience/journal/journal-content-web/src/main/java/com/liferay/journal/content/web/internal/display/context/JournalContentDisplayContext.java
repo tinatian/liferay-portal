@@ -446,6 +446,33 @@ public class JournalContentDisplayContext {
 		return _portletResource;
 	}
 
+	public PortletURL getRedirectURL() throws Exception {
+		if (_rediectURL != null) {
+			return _rediectURL;
+		}
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)_portletRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		PortletURL redirectURL = PortletURLFactoryUtil.create(
+			_portletRequest, JournalContentPortletKeys.JOURNAL_CONTENT,
+			PortletRequest.RENDER_PHASE);
+
+		redirectURL.setParameter(
+			"mvcPath", "/update_journal_article_redirect.jsp");
+
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+
+		redirectURL.setParameter(
+			"referringPortletResource", portletDisplay.getId());
+
+		redirectURL.setWindowState(LiferayWindowState.POP_UP);
+
+		_rediectURL = redirectURL;
+
+		return _rediectURL;
+	}
+
 	public List<ContentMetadataAssetAddonEntry>
 		getSelectedContentMetadataAssetAddonEntries() {
 
@@ -557,27 +584,9 @@ public class JournalContentDisplayContext {
 				assetRendererFactory.getAssetRenderer(
 					article, AssetRendererFactory.TYPE_LATEST_APPROVED);
 
-			ThemeDisplay themeDisplay =
-				(ThemeDisplay)_portletRequest.getAttribute(
-					WebKeys.THEME_DISPLAY);
-
-			PortletURL redirectURL = PortletURLFactoryUtil.create(
-				_portletRequest, JournalContentPortletKeys.JOURNAL_CONTENT,
-				PortletRequest.RENDER_PHASE);
-
-			redirectURL.setParameter(
-				"mvcPath", "/update_journal_article_redirect.jsp");
-
-			PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-
-			redirectURL.setParameter(
-				"referringPortletResource", portletDisplay.getId());
-
-			redirectURL.setWindowState(LiferayWindowState.POP_UP);
-
 			PortletURL portletURL = latestArticleAssetRenderer.getURLEdit(
 				(LiferayPortletRequest)_portletRequest, null,
-				LiferayWindowState.POP_UP, redirectURL);
+				LiferayWindowState.POP_UP, getRedirectURL());
 
 			portletURL.setParameter(
 				"hideDefaultSuccessMessage", Boolean.TRUE.toString());
@@ -594,10 +603,6 @@ public class JournalContentDisplayContext {
 
 	public String getURLEditTemplate() {
 		try {
-			ThemeDisplay themeDisplay =
-				(ThemeDisplay)_portletRequest.getAttribute(
-					WebKeys.THEME_DISPLAY);
-
 			PortletURL portletURL = PortletURLFactoryUtil.create(
 				_portletRequest,
 				PortletProviderUtil.getPortletId(
@@ -614,21 +619,7 @@ public class JournalContentDisplayContext {
 				"hideDefaultSuccessMessage", Boolean.TRUE.toString());
 			portletURL.setParameter("mvcPath", "/edit_template.jsp");
 			portletURL.setParameter("navigationStartsOn", "SELECT_TEMPLATE");
-
-			PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-
-			PortletURL redirectURL = PortletURLFactoryUtil.create(
-				_portletRequest, portletDisplay.getId(),
-				PortletRequest.RENDER_PHASE);
-
-			redirectURL.setParameter(
-				"mvcPath", "/update_journal_article_redirect.jsp");
-			redirectURL.setParameter(
-				"referringPortletResource", portletDisplay.getId());
-			redirectURL.setWindowState(LiferayWindowState.POP_UP);
-
-			portletURL.setParameter("redirect", redirectURL.toString());
-
+			portletURL.setParameter("redirect", getRedirectURL().toString());
 			portletURL.setParameter("showBackURL", Boolean.FALSE.toString());
 			portletURL.setParameter(
 				"showCacheableInput", Boolean.TRUE.toString());
@@ -985,6 +976,7 @@ public class JournalContentDisplayContext {
 	private String _portletResource;
 	private final PortletResponse _portletResponse;
 	private Boolean _print;
+	private PortletURL _rediectURL;
 	private Boolean _showAddArticleIcon;
 	private Boolean _showArticle;
 	private Boolean _showEditArticleIcon;

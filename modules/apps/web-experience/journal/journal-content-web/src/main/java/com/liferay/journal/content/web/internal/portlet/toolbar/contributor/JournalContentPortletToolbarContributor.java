@@ -17,6 +17,7 @@ package com.liferay.journal.content.web.internal.portlet.toolbar.contributor;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.content.web.constants.JournalContentPortletKeys;
+import com.liferay.journal.content.web.internal.display.context.JournalContentDisplayContext;
 import com.liferay.journal.model.JournalFolderConstants;
 import com.liferay.journal.service.JournalFolderService;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -69,7 +70,7 @@ public class JournalContentPortletToolbarContributor
 
 	protected void addPortletTitleAddJournalArticleMenuItems(
 			List<MenuItem> menuItems, ThemeDisplay themeDisplay,
-			PortletRequest portletRequest)
+			PortletRequest portletRequest, PortletResponse portletResponse)
 		throws Exception {
 
 		long plid = themeDisplay.getPlid();
@@ -80,6 +81,10 @@ public class JournalContentPortletToolbarContributor
 			portletRequest, JournalPortletKeys.JOURNAL,
 			PortletRequest.RENDER_PHASE);
 
+		JournalContentDisplayContext journalContentDisplayContext =
+			JournalContentDisplayContext.create(
+				portletRequest, portletResponse, portletDisplay, scopeGroupId);
+
 		portletURL.setParameter(
 			"hideDefaultSuccessMessage", Boolean.TRUE.toString());
 		portletURL.setParameter("groupId", String.valueOf(scopeGroupId));
@@ -87,7 +92,7 @@ public class JournalContentPortletToolbarContributor
 		portletURL.setParameter("portletResource", portletDisplay.getId());
 		portletURL.setParameter(
 			"redirect",
-			_getAddJournalArticleRedirectURL(themeDisplay, portletRequest));
+			journalContentDisplayContext.getRedirectURL().toString());
 		portletURL.setParameter("referringPlid", String.valueOf(plid));
 		portletURL.setParameter("showHeader", Boolean.FALSE.toString());
 
@@ -157,7 +162,7 @@ public class JournalContentPortletToolbarContributor
 
 		try {
 			addPortletTitleAddJournalArticleMenuItems(
-				menuItems, themeDisplay, portletRequest);
+				menuItems, themeDisplay, portletRequest, portletResponse);
 		}
 		catch (Exception e) {
 			_log.error("Unable to add folder menu item", e);
