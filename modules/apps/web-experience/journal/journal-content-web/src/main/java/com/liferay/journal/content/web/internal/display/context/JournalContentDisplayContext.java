@@ -618,7 +618,7 @@ public class JournalContentDisplayContext {
 			PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 			PortletURL redirectURL = PortletURLFactoryUtil.create(
-				_portletRequest, portletDisplay.getId(),
+				_portletRequest, JournalContentPortletKeys.JOURNAL_CONTENT,
 				PortletRequest.RENDER_PHASE);
 
 			redirectURL.setParameter(
