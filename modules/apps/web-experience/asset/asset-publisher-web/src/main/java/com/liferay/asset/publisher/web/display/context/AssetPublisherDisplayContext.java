@@ -600,8 +600,12 @@ public class AssetPublisherDisplayContext {
 		return _rssName;
 	}
 
-	public Map<Long, Map<String, PortletURL>> getScopeAddPortletURLs(int max)
+	public Map<Long, Map<String, PortletURL>> getScopeAddPortletURLs()
 		throws Exception {
+
+		if (_scopeAddPortletURLs != null) {
+			return _scopeAddPortletURLs;
+		}
 
 		long[] groupIds = getGroupIds();
 
@@ -643,12 +647,24 @@ public class AssetPublisherDisplayContext {
 				scopeAddPortletURLs.put(groupId, addPortletURLs);
 			}
 
-			if (scopeAddPortletURLs.size() > max) {
+			if (scopeAddPortletURLs.size() > 1) {
 				break;
 			}
 		}
 
-		return scopeAddPortletURLs;
+		_scopeAddPortletURLs = Collections.unmodifiableMap(scopeAddPortletURLs);
+
+		return _scopeAddPortletURLs;
+	}
+
+	/**
+	 * @deprecated As of 2.0.0, replaced by {@link #getScopeAddPortletURLs()}
+	 */
+	@Deprecated
+	public Map<Long, Map<String, PortletURL>> getScopeAddPortletURLs(int max)
+		throws Exception {
+
+		return getScopeAddPortletURLs();
 	}
 
 	public Long getScopeGroupId() {
@@ -1272,6 +1288,7 @@ public class AssetPublisherDisplayContext {
 	private String _rssDisplayStyle;
 	private String _rssFeedType;
 	private String _rssName;
+	private Map<Long, Map<String, PortletURL>> _scopeAddPortletURLs;
 	private Long _scopeGroupId;
 	private String _selectionStyle;
 	private Boolean _showAddContentButton;
