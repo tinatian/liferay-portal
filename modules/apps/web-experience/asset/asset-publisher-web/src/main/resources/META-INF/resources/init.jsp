@@ -139,7 +139,7 @@ page import="javax.portlet.PortletURL" %>
 
 <%
 AssetPublisherCustomizer assetPublisherCustomizer = (AssetPublisherCustomizer)request.getAttribute(AssetPublisherWebKeys.ASSET_PUBLISHER_CUSTOMIZER);
-AssetPublisherDisplayContext assetPublisherDisplayContext = new AssetPublisherDisplayContext(assetPublisherCustomizer, liferayPortletRequest, liferayPortletResponse, portletPreferences);
+AssetPublisherDisplayContext assetPublisherDisplayContext = AssetPublisherDisplayContext.create(liferayPortletRequest, liferayPortletResponse);
 AssetPublisherWebConfiguration assetPublisherWebConfiguration = (AssetPublisherWebConfiguration)request.getAttribute(AssetPublisherWebKeys.ASSET_PUBLISHER_WEB_CONFIGURATION);
 
 Format dateFormatDate = FastDateFormatFactoryUtil.getDate(locale, timeZone);
