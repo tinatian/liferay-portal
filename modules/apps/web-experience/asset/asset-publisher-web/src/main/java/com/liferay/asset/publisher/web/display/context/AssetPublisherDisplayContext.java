@@ -94,6 +94,31 @@ public class AssetPublisherDisplayContext {
 		PAGINATION_TYPE_NONE, PAGINATION_TYPE_REGULAR, PAGINATION_TYPE_SIMPLE
 	};
 
+	public static AssetPublisherDisplayContext create(
+			PortletRequest portletRequest, PortletResponse portletResponse)
+		throws PortalException {
+
+		AssetPublisherDisplayContext assetPublisherDisplayContext =
+			(AssetPublisherDisplayContext)portletRequest.getAttribute(
+				AssetPublisherDisplayContext.class.getName());
+
+		if (assetPublisherDisplayContext == null) {
+			AssetPublisherCustomizer assetPublisherCustomizer =
+			(AssetPublisherCustomizer)portletRequest.getAttribute(
+				AssetPublisherWebKeys.ASSET_PUBLISHER_CUSTOMIZER);
+
+			assetPublisherDisplayContext = new AssetPublisherDisplayContext(
+				assetPublisherCustomizer, portletRequest, portletResponse,
+				portletRequest.getPreferences());
+
+			portletRequest.setAttribute(
+				AssetPublisherDisplayContext.class.getName(),
+				assetPublisherDisplayContext);
+		}
+
+		return assetPublisherDisplayContext;
+	}
+
 	public AssetPublisherDisplayContext(
 		AssetPublisherCustomizer assetPublisherCustomizer,
 		PortletRequest portletRequest, PortletResponse portletResponse,

@@ -17,9 +17,7 @@ package com.liferay.asset.publisher.web.internal.portlet.toolbar.contributor;
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.publisher.web.constants.AssetPublisherPortletKeys;
-import com.liferay.asset.publisher.web.constants.AssetPublisherWebKeys;
 import com.liferay.asset.publisher.web.display.context.AssetPublisherDisplayContext;
-import com.liferay.asset.publisher.web.util.AssetPublisherCustomizer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -86,14 +84,9 @@ public class AssetPublisherPortletToolbarContributor
 
 		String portletName = portletDisplay.getPortletName();
 
-		AssetPublisherCustomizer assetPublisherCustomizer =
-			(AssetPublisherCustomizer)portletRequest.getAttribute(
-				AssetPublisherWebKeys.ASSET_PUBLISHER_CUSTOMIZER);
-
 		AssetPublisherDisplayContext assetPublisherDisplayContext =
-			new AssetPublisherDisplayContext(
-				assetPublisherCustomizer, portletRequest, portletResponse,
-				portletRequest.getPreferences());
+			AssetPublisherDisplayContext.create(
+				portletRequest, portletResponse);
 
 		if (!assetPublisherDisplayContext.isShowAddContentButton() ||
 			layout.isLayoutPrototypeLinkActive() ||
