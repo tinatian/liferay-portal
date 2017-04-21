@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.taglib.FileAvailabilityUtil;
 import com.liferay.taglib.servlet.PipingServletResponse;
 
@@ -153,6 +154,12 @@ public class IncludeTag extends AttributesTagSupport {
 	protected void callSetAttributes() {
 		HttpServletRequest request = getOriginalServletRequest();
 
+		if ((_uuid != null) && 
+			_uuid.equals(getNamespacedAttribute(request, _UUID_KEY))) {
+
+			return;
+		}
+
 		if (isCleanUpSetAttributes()) {
 			_trackedRequest = new TrackedServletRequest(request);
 
@@ -164,6 +171,10 @@ public class IncludeTag extends AttributesTagSupport {
 			request, "dynamicAttributes", getDynamicAttributes());
 
 		setAttributes(request);
+
+		_uuid = PortalUUIDUtil.generate();
+
+		setNamespacedAttribute(request, _UUID_KEY, _uuid);
 	}
 
 	protected void cleanUp() {
@@ -504,11 +515,14 @@ public class IncludeTag extends AttributesTagSupport {
 		GetterUtil.getBoolean(
 			PropsUtil.get(PropsKeys.THEME_JSP_OVERRIDE_ENABLED));
 
+	private static final String _UUID_KEY = "_UUID_KEY";
+
 	private static final Log _log = LogFactoryUtil.getLog(IncludeTag.class);
 
 	private String _page;
 	private boolean _strict;
 	private TrackedServletRequest _trackedRequest;
 	private boolean _useCustomPage = true;
+	private String _uuid;
 
 }
