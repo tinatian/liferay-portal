@@ -218,6 +218,7 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	@Transactional(enabled = false)
 	public void clearCompanyPortletsPool() {
 		_portletsMaps.clear();
+		_instanceablePortletsMaps.clear();
 	}
 
 	@Clusterable
@@ -225,6 +226,7 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	@Transactional(enabled = false)
 	public void clearPortletsMap() {
 		_portletsMaps.clear();
+		_instanceablePortletsMaps.clear();
 	}
 
 	@Override
@@ -403,16 +405,34 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 
 		Map<String, Portlet> companyPortletsMap = getPortletsMap(companyId);
 
-		String rootPortletId = PortletConstants.getRootPortletId(portletId);
+		Portlet portlet = companyPortletsMap.get(portletId);
 
-		if (portletId.equals(rootPortletId)) {
-			return companyPortletsMap.get(portletId);
+		if (portlet != null) {
+			return portlet;
 		}
 
-		Portlet portlet = companyPortletsMap.get(rootPortletId);
+		Map<String, Portlet> instanceablePortletsMap =
+			_instanceablePortletsMaps.get(companyId);
+
+		if (instanceablePortletsMap == null) {
+			instanceablePortletsMap = new ConcurrentHashMap<>();
+
+			_instanceablePortletsMaps.put(companyId, instanceablePortletsMap);
+		}
+
+		portlet = instanceablePortletsMap.get(portletId);
+
+		if (portlet != null) {
+			return portlet;
+		}
+
+		portlet = companyPortletsMap.get(
+			PortletConstants.getRootPortletId(portletId));
 
 		if (portlet != null) {
 			portlet = portlet.getClonedInstance(portletId);
+
+			instanceablePortletsMap.put(portletId, portlet);
 		}
 
 		return portlet;
@@ -684,18 +704,11 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	public boolean hasPortlet(long companyId, String portletId) {
 		portletId = PortalUtil.getJsSafePortletId(portletId);
 
-		Portlet portlet = null;
-
 		Map<String, Portlet> companyPortletsMap = getPortletsMap(companyId);
 
 		String rootPortletId = PortletConstants.getRootPortletId(portletId);
 
-		if (portletId.equals(rootPortletId)) {
-			portlet = companyPortletsMap.get(portletId);
-		}
-		else {
-			portlet = companyPortletsMap.get(rootPortletId);
-		}
+		Portlet portlet = companyPortletsMap.get(rootPortletId);
 
 		if (portlet == null) {
 			return false;
@@ -2622,6 +2635,8 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletLocalServiceImpl.class);
 
+	private static final Map<Long, Map<String, Portlet>>
+		_instanceablePortletsMaps = new ConcurrentHashMap<>();
 	private static final Map<String, PortletApp> _portletApps =
 		new ConcurrentHashMap<>();
 	private static volatile Map<String, String> _portletIdsByStrutsPath;
