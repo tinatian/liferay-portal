@@ -155,6 +155,14 @@ public class EntityCacheImpl
 			localCacheKey = new LocalCacheKey(clazz.getName(), primaryKey);
 
 			result = localCache.get(localCacheKey);
+
+			if (result != null) {
+				if (result == _NULL_OBJECT) {
+					return null;
+				}
+
+				return result;
+			}
 		}
 
 		if (result == null) {
@@ -163,16 +171,19 @@ public class EntityCacheImpl
 
 			result = portalCache.get(primaryKey);
 
-			if (result == null) {
-				result = StringPool.BLANK;
-			}
+			result = _toEntityModel(result);
 
 			if (_localCacheAvailable) {
-				localCache.put(localCacheKey, result);
+				if (result == null) {
+					localCache.put(localCacheKey, _NULL_OBJECT);
+				}
+				else {
+					localCache.put(localCacheKey, result);
+				}
 			}
 		}
 
-		return _toEntityModel(result);
+		return result;
 	}
 
 	@Override
@@ -216,6 +227,14 @@ public class EntityCacheImpl
 			localCacheKey = new LocalCacheKey(clazz.getName(), primaryKey);
 
 			result = localCache.get(localCacheKey);
+
+			if (result != null) {
+				if (result == _NULL_OBJECT) {
+					return null;
+				}
+
+				return result;
+			}
 		}
 
 		Serializable loadResult = null;
@@ -254,16 +273,24 @@ public class EntityCacheImpl
 				}
 			}
 
+			if (loadResult != null) {
+				result = loadResult;
+			}
+			else {
+				result = _toEntityModel(result);
+			}
+
 			if (_localCacheAvailable) {
-				localCache.put(localCacheKey, result);
+				if (result == null) {
+					localCache.put(localCacheKey, _NULL_OBJECT);
+				}
+				else {
+					localCache.put(localCacheKey, result);
+				}
 			}
 		}
 
-		if (loadResult != null) {
-			return loadResult;
-		}
-
-		return _toEntityModel(result);
+		return result;
 	}
 
 	@Override
@@ -294,8 +321,6 @@ public class EntityCacheImpl
 			return;
 		}
 
-		result = ((BaseModel<?>)result).toCacheModel();
-
 		if (_localCacheAvailable) {
 			Map<Serializable, Serializable> localCache = _localCache.get();
 
@@ -304,6 +329,8 @@ public class EntityCacheImpl
 
 			localCache.put(localCacheKey, result);
 		}
+
+		result = ((BaseModel<?>)result).toCacheModel();
 
 		PortalCache<Serializable, Serializable> portalCache = getPortalCache(
 			clazz);
@@ -397,7 +424,7 @@ public class EntityCacheImpl
 	}
 
 	private Serializable _toEntityModel(Serializable result) {
-		if (result == StringPool.BLANK) {
+		if (result == null) {
 			return null;
 		}
 
@@ -412,6 +439,8 @@ public class EntityCacheImpl
 
 	private static final String _GROUP_KEY_PREFIX =
 		EntityCache.class.getName() + StringPool.PERIOD;
+
+	private static final Serializable _NULL_OBJECT = new Serializable() {};
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EntityCacheImpl.class);
