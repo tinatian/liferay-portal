@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 
 /**
  * @author Julio Camarero
@@ -32,6 +33,13 @@ import javax.servlet.http.HttpServletRequest;
  * @author Brian Wing Shun Chan
  */
 public class FormTag extends BaseFormTag {
+
+	@Override
+	public int doStartTag() throws JspException {
+		setNestable(false);
+
+		return super.doStartTag();
+	}
 
 	@Override
 	public String getAction() {

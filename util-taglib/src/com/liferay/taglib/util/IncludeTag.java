@@ -153,6 +153,12 @@ public class IncludeTag extends AttributesTagSupport {
 	protected void callSetAttributes() {
 		HttpServletRequest request = getOriginalServletRequest();
 
+		if (_calledSetAttributes && !_nestable) {
+			return;
+		}
+
+		_calledSetAttributes = true;
+
 		if (isCleanUpSetAttributes()) {
 			_trackedRequest = new TrackedServletRequest(request);
 
@@ -177,6 +183,8 @@ public class IncludeTag extends AttributesTagSupport {
 
 			_trackedRequest = null;
 		}
+
+		_calledSetAttributes = false;
 	}
 
 	protected void doClearTag() {
@@ -464,6 +472,10 @@ public class IncludeTag extends AttributesTagSupport {
 	protected void setAttributes(HttpServletRequest request) {
 	}
 
+	protected void setNestable(boolean nestable) {
+		_nestable = nestable;
+	}
+
 	protected boolean themeResourceExists(String page) throws Exception {
 		if ((page == null) || !_THEME_JSP_OVERRIDE_ENABLED || _strict) {
 			return false;
@@ -506,6 +518,8 @@ public class IncludeTag extends AttributesTagSupport {
 
 	private static final Log _log = LogFactoryUtil.getLog(IncludeTag.class);
 
+	private boolean _calledSetAttributes;
+	private boolean _nestable = true;
 	private String _page;
 	private boolean _strict;
 	private TrackedServletRequest _trackedRequest;

@@ -79,6 +79,13 @@ public class IconTag extends BaseIconTag {
 	}
 
 	@Override
+	public int doStartTag() throws JspException {
+		setNestable(false);
+
+		return super.doStartTag();
+	}
+
+	@Override
 	protected String getPage() {
 		return _PAGE;
 	}

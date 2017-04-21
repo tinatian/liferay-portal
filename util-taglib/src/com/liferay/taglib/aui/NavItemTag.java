@@ -37,6 +37,8 @@ public class NavItemTag extends BaseNavItemTag implements BodyTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		setNestable(false);
+
 		NavBarTag navBarTag = (NavBarTag)findAncestorWithClass(
 			this, NavBarTag.class);
 

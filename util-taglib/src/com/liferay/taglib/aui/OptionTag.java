@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.aui.base.BaseOptionTag;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
 /**
@@ -27,6 +28,13 @@ import javax.servlet.jsp.JspWriter;
  * @author Brian Wing Shun Chan
  */
 public class OptionTag extends BaseOptionTag {
+
+	@Override
+	public int doStartTag() throws JspException {
+		setNestable(false);
+
+		return super.doStartTag();
+	}
 
 	@Override
 	protected boolean isCleanUpSetAttributes() {

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
 /**
@@ -33,6 +34,13 @@ import javax.servlet.jsp.JspWriter;
  * @author Brian Wing Shun Chan
  */
 public class FieldWrapperTag extends BaseFieldWrapperTag {
+
+	@Override
+	public int doStartTag() throws JspException {
+		setNestable(false);
+
+		return super.doStartTag();
+	}
 
 	@Override
 	protected String getEndPage() {
