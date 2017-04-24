@@ -17,6 +17,8 @@
 <%@ include file="/blogs/init.jsp" %>
 
 <%
+BlogsGroupServiceOverriddenConfiguration blogsGroupServiceOverriddenConfiguration = ConfigurationProviderUtil.getConfiguration(BlogsGroupServiceOverriddenConfiguration.class, new GroupServiceSettingsLocator(themeDisplay.getSiteGroupId(), BlogsConstants.SERVICE_NAME));
+
 String mvcRenderCommandName = ParamUtil.getString(request, "mvcRenderCommandName");
 
 long assetCategoryId = ParamUtil.getLong(request, "categoryId");
