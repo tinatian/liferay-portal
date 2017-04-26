@@ -105,6 +105,14 @@ public class SetUpTestableTomcatTask
 		};
 	}
 
+	public SetUpTestableTomcatTask catalinaOptsAppend(
+		String catalinaOptsAppend) {
+
+		_catalinaOptsAppend = catalinaOptsAppend;
+
+		return this;
+	}
+
 	public SetUpTestableTomcatTask catalinaOptsReplacement(
 		String oldSub, Object newSub) {
 
@@ -123,6 +131,11 @@ public class SetUpTestableTomcatTask
 
 	public File getBinDir() {
 		return new File(getDir(), "bin");
+	}
+
+	@Input
+	public String getCatalinaOptsAppend() {
+		return _catalinaOptsAppend;
 	}
 
 	@Input
@@ -245,6 +258,21 @@ public class SetUpTestableTomcatTask
 		_zipUrl = zipUrl;
 	}
 
+	private void _append(String fileName, String catalinaOptsAppend)
+		throws IOException {
+
+		File dir = getDir();
+
+		Path dirPath = dir.toPath();
+
+		Path path = dirPath.resolve(fileName);
+
+		String content = "\nCATALINA_OPTS=\"${CATALINA_OPTS} ".concat(
+			catalinaOptsAppend).concat("\"");
+
+		Files.write(path, content.getBytes(), StandardOpenOption.APPEND);
+	}
+
 	private boolean _contains(String fileName, String s) throws IOException {
 		File file = new File(getDir(), fileName);
 
@@ -312,12 +340,17 @@ public class SetUpTestableTomcatTask
 	private void _setUpCatalinaOpts() throws IOException {
 		Map<String, Object> replacements = getCatalinaOptsReplacements();
 
-		if (replacements.isEmpty()) {
-			return;
+		if (!replacements.isEmpty()) {
+			_replace("bin/setenv.bat", replacements);
+			_replace("bin/setenv.sh", replacements);
 		}
 
-		_replace("bin/setenv.bat", replacements);
-		_replace("bin/setenv.sh", replacements);
+		String catalinaOptsAppend = getCatalinaOptsAppend();
+
+		if (catalinaOptsAppend != null) {
+			_append("bin/setenv.bat", catalinaOptsAppend);
+			_append("bin/setenv.sh", catalinaOptsAppend);
+		}
 	}
 
 	private void _setUpJmx() throws IOException {
@@ -522,6 +555,7 @@ public class SetUpTestableTomcatTask
 		"tomcat"
 	};
 
+	private String _catalinaOptsAppend;
 	private final Map<String, Object> _catalinaOptsReplacements =
 		new LinkedHashMap<>();
 	private boolean _debugLogging;
