@@ -88,6 +88,10 @@ public class TestIntegrationDefaultsPlugin
 				setenvGCOld, setenvGCNew);
 		}
 
+		setUpTestableTomcatTask.catalinaOptsAppend(
+			GradleUtil.getProperty(
+				project, "app.server.tomcat.setenv.extra", (String)null));
+
 		setUpTestableTomcatTask.setZipUrl(
 			new Callable<String>() {
 
