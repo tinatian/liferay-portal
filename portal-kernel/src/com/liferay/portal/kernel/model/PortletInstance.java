@@ -77,6 +77,10 @@ public class PortletInstance {
 	}
 
 	public String getPortletInstanceKey() {
+		if (_portletInstanceKey != null) {
+			return _portletInstanceKey;
+		}
+
 		StringBundler sb = new StringBundler(5);
 
 		sb.append(_portletName);
@@ -91,7 +95,9 @@ public class PortletInstance {
 			sb.append(_instanceId);
 		}
 
-		return sb.toString();
+		_portletInstanceKey = sb.toString();
+
+		return _portletInstanceKey;
 	}
 
 	public String getPortletName() {
@@ -245,6 +251,7 @@ public class PortletInstance {
 	private static final String _USER_SEPARATOR = "_USER_";
 
 	private final String _instanceId;
+	private String _portletInstanceKey;
 	private final String _portletName;
 	private final long _userId;
 
