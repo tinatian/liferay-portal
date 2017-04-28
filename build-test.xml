@@ -2956,6 +2956,8 @@ go</echo>
 
 			<setup-testable-tomcat-aspectj-agent />
 
+			<setup-testable-tomcat-gc />
+
 			<setup-testable-tomcat-jmx />
 
 			<setup-testable-tomcat-jpda-address />
@@ -2978,6 +2980,28 @@ go</echo>
 							CATALINA_OPTS="${CATALINA_OPTS} ${aspectj.agent} -Dorg.aspectj.weaver.loadtime.configuration=${aspectj.configuration}"
 						]]>
 					</echo>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="setup-testable-tomcat-gc">
+		<sequential>
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${app.server.tomcat.setenv.gc.new}" />
+				</not>
+				<then>
+					<replace file="${app.server.tomcat.dir}/bin/setenv.bat" token="${app.server.tomcat.setenv.gc.old}" value="${app.server.tomcat.setenv.gc.new}" />
+				</then>
+			</if>
+
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${app.server.tomcat.setenv.gc.new}" />
+				</not>
+				<then>
+					<replace file="${app.server.tomcat.dir}/bin/setenv.sh" token="${app.server.tomcat.setenv.gc.old}" value="${app.server.tomcat.setenv.gc.new}" />
 				</then>
 			</if>
 		</sequential>
