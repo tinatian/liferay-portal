@@ -2950,6 +2950,8 @@ go</echo>
 
 			<setup-testable-tomcat-gc />
 
+			<setup-testable-tomcat-heap-dump-on-OOM />
+
 			<setup-testable-tomcat-jmx />
 
 			<setup-testable-tomcat-jpda-address />
@@ -2996,6 +2998,37 @@ go</echo>
 				</not>
 				<then>
 					<replace file="${app.server.tomcat.dir}/bin/setenv.sh" token="${app.server.tomcat.setenv.gc.old}" value="${app.server.tomcat.setenv.gc.new}" />
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="setup-testable-tomcat-heap-dump-on-OOM">
+		<sequential>
+			<var name="heap.dump.on.OOM" value="-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${app.server.tomcat.setenv.heap.dump.path}" />
+
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${heap.dump.on.OOM}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+						<![CDATA[
+							set "CATALINA_OPTS=%CATALINA_OPTS% ${heap.dump.on.OOM}"
+						]]>
+					</echo>
+				</then>
+			</if>
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${heap.dump.on.OOM}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+						<![CDATA[
+							CATALINA_OPTS="${CATALINA_OPTS} ${heap.dump.on.OOM}"
+						]]>
+					</echo>
 				</then>
 			</if>
 		</sequential>
