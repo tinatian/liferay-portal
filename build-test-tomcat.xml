@@ -15,6 +15,7 @@
 				<isset property="build.app.server" />
 			</not>
 			<then>
+				<echo>#################### Rebuild</echo>
 				<ant antfile="build-dist.xml" target="build-dist-tomcat" />
 			</then>
 		</if>

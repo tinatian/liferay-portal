@@ -617,6 +617,7 @@ app.server.type=@{app.server.type}]]></echo>
 				</test-action>
 
 				<test-set-up>
+					<echo>################# test- set up</echo>
 					<if>
 						<and>
 							<or>
@@ -627,6 +628,7 @@ app.server.type=@{app.server.type}]]></echo>
 						</and>
 						<then>
 							<propertycopy from="app.server.${app.server.type}.bin.dir" name="test.app.server.bin.dir" />
+							<echo>#################### branch1</echo>
 
 							<antcall inheritAll="false" target="prepare-test-bundle">
 								<param name="app.server.type" value="${app.server.type}" />
@@ -689,10 +691,12 @@ app.server.type=@{app.server.type}]]></echo>
 								<available file="liferay-portal-source.zip" />
 							</and>
 							<then>
+								<echo>#################### branch2</echo>
 								<prepare-test-environment app.server.type="${app.server.type}" />
 							</then>
 						</elseif>
 						<else>
+							<echo>#################### branch2</echo>
 							<antcall target="compile" />
 
 							<if>
