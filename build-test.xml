@@ -2957,6 +2957,8 @@ go</echo>
 			<setup-testable-tomcat-manager />
 
 			<setup-testable-tomcat-osgi-modules />
+
+			<setup-testable-tomcat-print-final-flags />
 		</sequential>
 	</macrodef>
 
@@ -3199,6 +3201,37 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 			<copy todir="${liferay.home}/osgi/modules">
 				<fileset dir="${liferay.home}/osgi/test" />
 			</copy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="setup-testable-tomcat-print-final-flags">
+		<sequential>
+			<var name="print.final.flags" value="-XX:+PrintFlagsFinal" />
+
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${print.final.flags}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+						<![CDATA[
+							set "CATALINA_OPTS=%CATALINA_OPTS% ${print.final.flags}"
+						]]>
+					</echo>
+				</then>
+			</if>
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${print.final.flags}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+						<![CDATA[
+							CATALINA_OPTS="${CATALINA_OPTS} ${print.final.flags}"
+						]]>
+					</echo>
+				</then>
+			</if>
 		</sequential>
 	</macrodef>
 
