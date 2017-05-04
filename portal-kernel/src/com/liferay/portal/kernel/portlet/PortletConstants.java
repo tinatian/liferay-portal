@@ -12,47 +12,21 @@
  * details.
  */
 
-package com.liferay.portal.kernel.model;
+package com.liferay.portal.kernel.portlet;
 
+import com.liferay.portal.kernel.model.PortletInstance;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 /**
- * @author Brian Wing Shun Chan
- * @deprecated As of 7.0.0, replaced by {@link
- *             com.liferay.portal.kernel.portlet.PortletConstants}
+ * @author Tina Tian
  */
-@Deprecated
 public class PortletConstants {
 
 	/**
 	 * Default preferences.
 	 */
 	public static final String DEFAULT_PREFERENCES = "<portlet-preferences />";
-
-	/**
-	 * Facebook integration method for FBML.
-	 *
-	 * @deprecated As of 7.0.0, with no direct replacement
-	 */
-	@Deprecated
-	public static final String FACEBOOK_INTEGRATION_FBML = "fbml";
-
-	/**
-	 * Facebook integration method for IFrame.
-	 *
-	 * @deprecated As of 7.0.0, with no direct replacement
-	 */
-	@Deprecated
-	public static final String FACEBOOK_INTEGRATION_IFRAME = "iframe";
-
-	/**
-	 * Instance separator.
-	 *
-	 * @deprecated As of 7.0.0, with no direct replacement
-	 */
-	@Deprecated
-	public static final String INSTANCE_SEPARATOR = "_INSTANCE_";
 
 	/**
 	 * Layout separator.
@@ -69,14 +43,6 @@ public class PortletConstants {
 	 * User principal strategy for screen name.
 	 */
 	public static final String USER_PRINCIPAL_STRATEGY_USER_ID = "userId";
-
-	/**
-	 * User separator.
-	 *
-	 * @deprecated As of 7.0.0, with no direct replacement
-	 */
-	@Deprecated
-	public static final String USER_SEPARATOR = "_USER_";
 
 	/**
 	 * War file separator.
