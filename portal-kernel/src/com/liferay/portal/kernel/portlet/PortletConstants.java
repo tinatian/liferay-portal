@@ -15,8 +15,14 @@
 package com.liferay.portal.kernel.portlet;
 
 import com.liferay.portal.kernel.model.PortletInstance;
+import com.liferay.portal.kernel.util.CharPool;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+
+import java.security.InvalidParameterException;
 
 /**
  * @author Tina Tian
@@ -149,6 +155,27 @@ public class PortletConstants {
 		return portletInstance.getPortletInstanceKey();
 	}
 
+	public static String assembleUserAndInstanceId(
+		long userId, String instanceId) {
+
+		if ((userId <= 0) && Validator.isBlank(instanceId)) {
+			return null;
+		}
+
+		StringBundler sb = new StringBundler(3);
+
+		if (userId > 0) {
+			sb.append(userId);
+			sb.append(StringPool.UNDERLINE);
+		}
+
+		if (instanceId != null) {
+			sb.append(instanceId);
+		}
+
+		return sb.toString();
+	}
+
 	public static String generateInstanceId() {
 		return StringUtil.randomString(12);
 	}
@@ -164,6 +191,47 @@ public class PortletConstants {
 			PortletInstance.fromPortletInstanceKey(portletId);
 
 		return portletInstance.getInstanceId();
+	}
+
+	public static String getInstanceIdFromUserIdAndInstanceId(
+		String userIdAndInstanceId) {
+
+		if (userIdAndInstanceId == null) {
+			throw new InvalidParameterException("Instance ID are null");
+		}
+
+		if (userIdAndInstanceId.isEmpty()) {
+			return null;
+		}
+
+		int underlineCount = StringUtil.count(
+			userIdAndInstanceId, CharPool.UNDERLINE);
+
+		if (underlineCount > 1) {
+			throw new InvalidParameterException(
+				"User ID and instance ID has more than one underscore");
+		}
+
+		if (underlineCount == 1) {
+			int index = userIdAndInstanceId.indexOf(CharPool.UNDERLINE);
+
+			String instanceId = null;
+
+			if (index < (userIdAndInstanceId.length() - 1)) {
+				instanceId = userIdAndInstanceId.substring(index + 1);
+
+				int slashCount = StringUtil.count(instanceId, CharPool.SLASH);
+
+				if (slashCount > 0) {
+					throw new InvalidParameterException(
+						"Instance ID contain slashes");
+				}
+			}
+
+			return instanceId;
+		}
+
+		return userIdAndInstanceId;
 	}
 
 	/**
@@ -191,6 +259,41 @@ public class PortletConstants {
 			PortletInstance.fromPortletInstanceKey(portletId);
 
 		return portletInstance.getUserId();
+	}
+
+	public static long getUserIdFromUserIdAndInstanceId(
+		String userIdAndInstanceId) {
+
+		if (userIdAndInstanceId == null) {
+			throw new InvalidParameterException("User ID is null");
+		}
+
+		if (userIdAndInstanceId.isEmpty()) {
+			return 0;
+		}
+
+		int underlineCount = StringUtil.count(
+			userIdAndInstanceId, CharPool.UNDERLINE);
+
+		if (underlineCount > 1) {
+			throw new InvalidParameterException(
+				"User ID and instance ID has more than one underscore");
+		}
+
+		if (underlineCount == 1) {
+			int index = userIdAndInstanceId.indexOf(CharPool.UNDERLINE);
+
+			long userId = GetterUtil.getLong(
+				userIdAndInstanceId.substring(0, index), -1);
+
+			if (userId == -1) {
+				throw new InvalidParameterException("User ID is not a number");
+			}
+
+			return userId;
+		}
+
+		return 0;
 	}
 
 	public static boolean hasIdenticalRootPortletId(
