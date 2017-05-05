@@ -25,8 +25,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
-import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.portlet.DisplayInformationProvider;
+import com.liferay.portal.kernel.portlet.PortletConstants;
 import com.liferay.portal.kernel.util.PortletKeys;
 
 import java.util.ArrayList;
