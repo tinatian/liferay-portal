@@ -29,6 +29,30 @@ public class PortletConstants {
 	public static final String DEFAULT_PREFERENCES = "<portlet-preferences />";
 
 	/**
+	 * Facebook integration method for FBML.
+	 *
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public static final String FACEBOOK_INTEGRATION_FBML = "fbml";
+
+	/**
+	 * Facebook integration method for IFrame.
+	 *
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public static final String FACEBOOK_INTEGRATION_IFRAME = "iframe";
+
+	/**
+	 * Instance separator.
+	 *
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public static final String INSTANCE_SEPARATOR = "_INSTANCE_";
+
+	/**
 	 * Layout separator.
 	 */
 	public static final String LAYOUT_SEPARATOR = "_LAYOUT_";
@@ -43,6 +67,14 @@ public class PortletConstants {
 	 * User principal strategy for screen name.
 	 */
 	public static final String USER_PRINCIPAL_STRATEGY_USER_ID = "userId";
+
+	/**
+	 * User separator.
+	 *
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public static final String USER_SEPARATOR = "_USER_";
 
 	/**
 	 * War file separator.
