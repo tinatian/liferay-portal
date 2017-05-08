@@ -97,15 +97,7 @@ public class PortletConstants {
 	 * @return the properly assembled portlet ID
 	 */
 	public static String assemblePortletId(String portletId, long userId) {
-		PortletInstance portletInstance = null;
-
-		String rootPortletId = getRootPortletId(portletId);
-		String instanceId = getInstanceId(portletId);
-
-		portletInstance = new PortletInstance(
-			rootPortletId, userId, instanceId);
-
-		return portletInstance.getPortletInstanceKey();
+		return assemblePortletId(portletId, userId, null);
 	}
 
 	/**
@@ -159,10 +151,7 @@ public class PortletConstants {
 	public static String assemblePortletId(
 		String portletId, String instanceId) {
 
-		PortletInstance portletInstance = new PortletInstance(
-			portletId, instanceId);
-
-		return portletInstance.getPortletInstanceKey();
+		return assemblePortletId(portletId, 0, instanceId);
 	}
 
 	public static String generateInstanceId() {
@@ -232,12 +221,10 @@ public class PortletConstants {
 	public static boolean hasIdenticalRootPortletId(
 		String portletId1, String portletId2) {
 
-		PortletInstance portletInstance1 =
-			PortletInstance.fromPortletInstanceKey(portletId1);
-		PortletInstance portletInstance2 =
-			PortletInstance.fromPortletInstanceKey(portletId2);
+		portletId1 = getRootPortletId(portletId1);
+		portletId2 = getRootPortletId(portletId2);
 
-		return portletInstance1.hasIdenticalPortletName(portletInstance2);
+		return portletId1.equals(portletId2);
 	}
 
 	/**
@@ -248,10 +235,7 @@ public class PortletConstants {
 	 *         <code>false</code> otherwise
 	 */
 	public static boolean hasInstanceId(String portletId) {
-		PortletInstance portletInstance =
-			PortletInstance.fromPortletInstanceKey(portletId);
-
-		return portletInstance.hasInstanceId();
+		return Validator.isNotNull(getInstanceId(portletId));
 	}
 
 	/**
@@ -262,10 +246,11 @@ public class PortletConstants {
 	 *         <code>false</code> otherwise
 	 */
 	public static boolean hasUserId(String portletId) {
-		PortletInstance portletInstance =
-			PortletInstance.fromPortletInstanceKey(portletId);
+		if (getUserId(portletId) > 0) {
+			return true;
+		}
 
-		return portletInstance.hasUserId();
+		return false;
 	}
 
 	private static final String _INSTANCE_SEPARATOR = "_INSTANCE_";
