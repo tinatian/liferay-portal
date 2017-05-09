@@ -15,6 +15,7 @@
 package com.liferay.portal.kernel.model;
 
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -124,10 +125,21 @@ public class PortletConstants {
 			instanceId = getInstanceId(portletId);
 		}
 
-		PortletInstance portletInstance = new PortletInstance(
-			rootPortletId, userId, instanceId);
+		StringBundler sb = new StringBundler(5);
 
-		return portletInstance.getPortletInstanceKey();
+		sb.append(rootPortletId);
+
+		if (userId > 0) {
+			sb.append(_USER_SEPARATOR);
+			sb.append(userId);
+		}
+
+		if (Validator.isNotNull(instanceId)) {
+			sb.append(_INSTANCE_SEPARATOR);
+			sb.append(instanceId);
+		}
+
+		return sb.toString();
 	}
 
 	/**
