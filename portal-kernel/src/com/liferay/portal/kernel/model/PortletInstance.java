@@ -41,6 +41,10 @@ public class PortletInstance {
 			_getInstanceId(portletInstanceKey));
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public static PortletInstance fromPortletNameAndUserIdAndInstanceId(
 		String portletName, String userIdAndInstanceId) {
 
@@ -102,6 +106,10 @@ public class PortletInstance {
 		return _userId;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public String getUserIdAndInstanceId() {
 		UserIdAndInstanceIdEncoder userIdAndInstanceIdEncoder =
 			new UserIdAndInstanceIdEncoder(_userId, _instanceId);
