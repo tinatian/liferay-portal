@@ -29,6 +29,11 @@ import java.security.InvalidParameterException;
  */
 public class PortletInstance {
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 *				PortletConstants#PORTLET_INSTANCE_KEY_MAX_LENGTH}
+	 */
+	@Deprecated
 	public static final int PORTLET_INSTANCE_KEY_MAX_LENGTH =
 		255 - PortletInstance._INSTANCE_SEPARATOR.length() +
 			PortletInstance._USER_SEPARATOR.length() + 39;

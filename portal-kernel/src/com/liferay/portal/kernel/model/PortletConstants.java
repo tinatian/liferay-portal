@@ -58,6 +58,10 @@ public class PortletConstants {
 	 */
 	public static final String LAYOUT_SEPARATOR = "_LAYOUT_";
 
+	public static final int PORTLET_INSTANCE_KEY_MAX_LENGTH =
+		255 - PortletConstants._INSTANCE_SEPARATOR.length() +
+			PortletConstants._USER_SEPARATOR.length() + 39;
+
 	/**
 	 * User principal strategy for screen name.
 	 */
