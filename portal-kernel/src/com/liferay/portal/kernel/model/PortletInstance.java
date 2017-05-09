@@ -26,7 +26,9 @@ import java.security.InvalidParameterException;
 /**
  * @author Brian Wing Shun Chan
  * @author Jorge Ferrer
+ * @deprecated As of 7.0.0, replaced by {@link	PortletConstants}
  */
+@Deprecated
 public class PortletInstance {
 
 	/**
