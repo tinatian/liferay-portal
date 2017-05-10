@@ -47,10 +47,7 @@ public class PortletConstants {
 
 	/**
 	 * Instance separator.
-	 *
-	 * @deprecated As of 7.0.0, with no direct replacement
 	 */
-	@Deprecated
 	public static final String INSTANCE_SEPARATOR = "_INSTANCE_";
 
 	/**
@@ -71,10 +68,7 @@ public class PortletConstants {
 
 	/**
 	 * User separator.
-	 *
-	 * @deprecated As of 7.0.0, with no direct replacement
 	 */
-	@Deprecated
 	public static final String USER_SEPARATOR = "_USER_";
 
 	/**
@@ -122,12 +116,12 @@ public class PortletConstants {
 		sb.append(rootPortletId);
 
 		if (userId > 0) {
-			sb.append(_USER_SEPARATOR);
+			sb.append(USER_SEPARATOR);
 			sb.append(userId);
 		}
 
 		if (Validator.isNotNull(instanceId)) {
-			sb.append(_INSTANCE_SEPARATOR);
+			sb.append(INSTANCE_SEPARATOR);
 			sb.append(instanceId);
 		}
 
@@ -161,13 +155,13 @@ public class PortletConstants {
 	 * @return the instance ID of the portlet
 	 */
 	public static String getInstanceId(String portletId) {
-		int index = portletId.indexOf(_INSTANCE_SEPARATOR);
+		int index = portletId.indexOf(INSTANCE_SEPARATOR);
 
 		if (index == -1) {
 			return null;
 		}
 
-		return portletId.substring(index + _INSTANCE_SEPARATOR.length());
+		return portletId.substring(index + INSTANCE_SEPARATOR.length());
 	}
 
 	/**
@@ -177,8 +171,8 @@ public class PortletConstants {
 	 * @return the root portlet ID of the portlet
 	 */
 	public static String getRootPortletId(String portletId) {
-		int x = portletId.indexOf(_USER_SEPARATOR);
-		int y = portletId.indexOf(_INSTANCE_SEPARATOR);
+		int x = portletId.indexOf(USER_SEPARATOR);
+		int y = portletId.indexOf(INSTANCE_SEPARATOR);
 
 		if ((x == -1) && (y == -1)) {
 			return portletId;
@@ -198,8 +192,8 @@ public class PortletConstants {
 	 * @return the user ID of the portlet
 	 */
 	public static long getUserId(String portletId) {
-		int x = portletId.indexOf(_USER_SEPARATOR);
-		int y = portletId.indexOf(_INSTANCE_SEPARATOR);
+		int x = portletId.indexOf(USER_SEPARATOR);
+		int y = portletId.indexOf(INSTANCE_SEPARATOR);
 
 		if (x == -1) {
 			return 0;
@@ -207,11 +201,11 @@ public class PortletConstants {
 
 		if (y != -1) {
 			return GetterUtil.getLong(
-				portletId.substring(x + _USER_SEPARATOR.length(), y));
+				portletId.substring(x + USER_SEPARATOR.length(), y));
 		}
 
 		return GetterUtil.getLong(
-			portletId.substring(x + _USER_SEPARATOR.length()));
+			portletId.substring(x + USER_SEPARATOR.length()));
 	}
 
 	public static boolean hasIdenticalRootPortletId(
@@ -248,9 +242,5 @@ public class PortletConstants {
 
 		return false;
 	}
-
-	private static final String _INSTANCE_SEPARATOR = "_INSTANCE_";
-
-	private static final String _USER_SEPARATOR = "_USER_";
 
 }
