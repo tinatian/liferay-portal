@@ -244,10 +244,7 @@ public class PortletConstants {
 	 *         <code>false</code> otherwise
 	 */
 	public static boolean hasInstanceId(String portletId) {
-		PortletInstance portletInstance =
-			PortletInstance.fromPortletInstanceKey(portletId);
-
-		return portletInstance.hasInstanceId();
+		return Validator.isNotNull(getInstanceId(portletId));
 	}
 
 	/**
