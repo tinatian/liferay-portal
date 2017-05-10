@@ -93,15 +93,7 @@ public class PortletConstants {
 	 * @return the properly assembled portlet ID
 	 */
 	public static String assemblePortletId(String portletId, long userId) {
-		PortletInstance portletInstance = null;
-
-		String rootPortletId = getRootPortletId(portletId);
-		String instanceId = getInstanceId(portletId);
-
-		portletInstance = new PortletInstance(
-			rootPortletId, userId, instanceId);
-
-		return portletInstance.getPortletInstanceKey();
+		return assemblePortletId(portletId, userId, null);
 	}
 
 	/**
@@ -155,10 +147,7 @@ public class PortletConstants {
 	public static String assemblePortletId(
 		String portletId, String instanceId) {
 
-		PortletInstance portletInstance = new PortletInstance(
-			portletId, instanceId);
-
-		return portletInstance.getPortletInstanceKey();
+		return assemblePortletId(portletId, 0, instanceId);
 	}
 
 	public static String generateInstanceId() {
