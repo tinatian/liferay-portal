@@ -106,7 +106,7 @@ public class AssetPublisherPortletToolbarContributor
 		}
 
 		Map<Long, Map<String, PortletURL>> scopeAddPortletURLs =
-			assetPublisherDisplayContext.getScopeAddPortletURLs(1);
+			assetPublisherDisplayContext.getScopeAddPortletURLs();
 
 		if (MapUtil.isEmpty(scopeAddPortletURLs)) {
 			return;
