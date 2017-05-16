@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.model.PortletCategory;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.PortletFilter;
 import com.liferay.portal.kernel.model.PortletInfo;
-import com.liferay.portal.kernel.model.PortletInstance;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.model.PortletURLListener;
 import com.liferay.portal.kernel.model.PublicRenderParameter;
@@ -2074,13 +2073,13 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 		portletId = PortalUtil.getJsSafePortletId(portletId);
 
 		if (portletId.length() >
-				PortletInstance.PORTLET_INSTANCE_KEY_MAX_LENGTH) {
+				PortletConstants.PORTLET_INSTANCE_KEY_MAX_LENGTH) {
 
 			// LPS-32878
 
 			throw new PortletIdException(
 				"Portlet ID " + portletId + " has more than " +
-					PortletInstance.PORTLET_INSTANCE_KEY_MAX_LENGTH +
+					PortletConstants.PORTLET_INSTANCE_KEY_MAX_LENGTH +
 						" characters");
 		}
 
