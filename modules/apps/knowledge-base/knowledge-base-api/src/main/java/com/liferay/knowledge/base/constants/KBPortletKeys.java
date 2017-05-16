@@ -14,7 +14,7 @@
 
 package com.liferay.knowledge.base.constants;
 
-import com.liferay.portal.kernel.model.PortletConstants;
+import com.liferay.portal.kernel.portlet.PortletConstants;
 
 /**
  * @author Brian Wing Shun Chan

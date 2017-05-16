@@ -16,8 +16,6 @@ package com.liferay.portal.kernel.portlet;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.PortletConstants;
-import com.liferay.portal.kernel.model.PortletInstance;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
@@ -266,16 +264,16 @@ public class DefaultFriendlyURLMapper extends BaseFriendlyURLMapper {
 		if (Validator.isNotNull(portletInstanceKey)) {
 			routeParameters.put("p_p_id", portletInstanceKey);
 
-			PortletInstance portletInstance =
-				PortletInstance.fromPortletInstanceKey(portletInstanceKey);
+			long userId = PortletConstants.getUserId(portletInstanceKey);
+			String instanceId = PortletConstants.getInstanceId(
+				portletInstanceKey);
 
 			routeParameters.put(
 				"userIdAndInstanceId",
-				portletInstance.getUserIdAndInstanceId());
+				PortletConstants.assembleUserAndInstanceId(userId, instanceId));
 
-			if (portletInstance.hasInstanceId()) {
-				routeParameters.put(
-					"instanceId", portletInstance.getInstanceId());
+			if (Validator.isNotNull(instanceId)) {
+				routeParameters.put("instanceId", instanceId);
 			}
 		}
 
@@ -327,11 +325,12 @@ public class DefaultFriendlyURLMapper extends BaseFriendlyURLMapper {
 		}
 
 		if (Validator.isNotNull(userIdAndInstanceId)) {
-			PortletInstance portletInstance =
-				PortletInstance.fromPortletNameAndUserIdAndInstanceId(
-					getPortletId(), userIdAndInstanceId);
-
-			return portletInstance.getPortletInstanceKey();
+			return PortletConstants.assemblePortletId(
+				getPortletId(),
+				PortletConstants.getUserIdFromUserIdAndInstanceId(
+					userIdAndInstanceId),
+				PortletConstants.getInstanceIdFromUserIdAndInstanceId(
+					userIdAndInstanceId));
 		}
 
 		String instanceId = routeParameters.remove("instanceId");

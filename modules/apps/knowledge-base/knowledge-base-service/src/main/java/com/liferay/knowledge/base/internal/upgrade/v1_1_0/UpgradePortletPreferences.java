@@ -14,7 +14,7 @@
 
 package com.liferay.knowledge.base.internal.upgrade.v1_1_0;
 
-import com.liferay.portal.kernel.model.PortletConstants;
+import com.liferay.portal.kernel.portlet.PortletConstants;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.upgrade.CamelCaseUpgradePortletPreferences;
 import com.liferay.portal.kernel.util.StringUtil;

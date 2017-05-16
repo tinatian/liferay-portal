@@ -17,7 +17,7 @@ package com.liferay.document.library.web.internal.portlet.action;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.web.constants.DLPortletKeys;
-import com.liferay.portal.kernel.model.PortletConstants;
+import com.liferay.portal.kernel.portlet.PortletConstants;
 import com.liferay.portal.kernel.portlet.PortletLayoutFinder;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.struts.FindActionHelper;

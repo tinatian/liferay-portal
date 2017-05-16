@@ -14,8 +14,8 @@
 
 package com.liferay.portal.kernel.util;
 
-import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.Theme;
+import com.liferay.portal.kernel.portlet.PortletConstants;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateResourceLoaderUtil;
 
