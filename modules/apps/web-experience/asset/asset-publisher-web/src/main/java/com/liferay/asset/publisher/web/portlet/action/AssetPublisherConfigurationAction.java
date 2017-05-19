@@ -36,9 +36,9 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutRevision;
 import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.LayoutTypePortletConstants;
-import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
@@ -114,7 +114,7 @@ public class AssetPublisherConfigurationAction
 		String portletResource = ParamUtil.getString(
 			request, "portletResource");
 
-		String rootPortletId = PortletConstants.getRootPortletId(
+		String rootPortletId = PortletIdCodec.decodePortletName(
 			portletResource);
 
 		AssetPublisherCustomizer assetPublisherCustomizer =
