@@ -31,6 +31,4 @@ page import="com.liferay.portal.kernel.service.permission.LayoutPermissionUtil" 
 
 <liferay-theme:defineObjects />
 
-<portlet:defineObjects />
-
 <%@ include file="/init-ext.jsp" %>
