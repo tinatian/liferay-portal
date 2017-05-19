@@ -126,8 +126,6 @@ public class DDMFormTemplateContextFactoryImpl
 		setDDMFormFieldsEvaluableProperty(ddmForm);
 
 		templateContext.put(
-			"definition", _ddmFormJSONSerializer.serialize(ddmForm));
-		templateContext.put(
 			"evaluatorURL", getDDMFormContextProviderServletURL());
 
 		List<DDMFormFieldType> ddmFormFieldTypes =
@@ -137,9 +135,6 @@ public class DDMFormTemplateContextFactoryImpl
 			"fieldTypes",
 			_ddmFormFieldTypesJSONSerializer.serialize(ddmFormFieldTypes));
 
-		templateContext.put(
-			"layout", _ddmFormLayoutJSONSerializer.serialize(ddmFormLayout));
-
 		List<Object> pages = getPages(
 			ddmForm, ddmFormLayout, ddmFormRenderingContext);
 
@@ -148,6 +143,8 @@ public class DDMFormTemplateContextFactoryImpl
 		templateContext.put(
 			"portletNamespace", ddmFormRenderingContext.getPortletNamespace());
 		templateContext.put("readOnly", ddmFormRenderingContext.isReadOnly());
+
+		templateContext.put("rules", ddmForm.getDDMFormRules());
 
 		Locale locale = ddmFormRenderingContext.getLocale();
 
@@ -273,6 +270,9 @@ public class DDMFormTemplateContextFactoryImpl
 		}
 		else if (Objects.equals(paginationMode, DDMFormLayout.TABBED_MODE)) {
 			return "ddm.tabbed_form";
+		}
+		else if (Objects.equals(paginationMode, DDMFormLayout.WIZARD_MODE)) {
+			return "ddm.wizard_form";
 		}
 
 		return "ddm.paginated_form";
