@@ -31,7 +31,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.PortletConstants;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -220,7 +220,7 @@ public class AssetPublisherPortlet extends MVCPortlet {
 		try (OutputStream outputStream =
 				resourceResponse.getPortletOutputStream()) {
 
-			String rootPortletId = PortletConstants.getRootPortletId(
+			String rootPortletId = PortletIdCodec.decodePortletName(
 				portal.getPortletId(resourceRequest));
 
 			AssetPublisherCustomizer assetPublisherCustomizer =
@@ -297,7 +297,7 @@ public class AssetPublisherPortlet extends MVCPortlet {
 		throws IOException, PortletException {
 
 		try {
-			String rootPortletId = PortletConstants.getRootPortletId(
+			String rootPortletId = PortletIdCodec.decodePortletName(
 				portal.getPortletId(renderRequest));
 
 			AssetPublisherCustomizer assetPublisherCustomizer =
