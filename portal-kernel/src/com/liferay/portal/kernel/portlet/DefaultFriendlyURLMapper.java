@@ -330,7 +330,7 @@ public class DefaultFriendlyURLMapper extends BaseFriendlyURLMapper {
 				PortletIdCodec.decodeUserIdAndInstanceId(userIdAndInstanceId);
 
 			return PortletIdCodec.encode(
-				portletInstanceKey, objectValuePair.getKey(),
+				getPortletId(), objectValuePair.getKey(),
 				objectValuePair.getValue());
 		}
 
