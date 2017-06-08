@@ -57,45 +57,6 @@ import org.springframework.mock.web.MockHttpSession;
 @NewEnv(type = NewEnv.Type.CLASSLOADER)
 public class PortletSessionImplTest {
 
-	@Aspect
-	public static class PropsUtilAdvice {
-
-		public static void setProps(String name, String value) {
-			_props.put(name, value);
-		}
-
-		@Around(
-			"execution(public static String com.liferay.portal.util." +
-				"PropsUtil.get(String)) && args(key)"
-		)
-		public Object get(String key) {
-			return _props.get(key);
-		}
-
-		private static Map<String, String> _props = new HashMap<>();
-
-	}
-
-	@Aspect
-	public static class PortalClassLoaderUtilAdvice {
-
-		public static void setPortalClassLoader(boolean portalClassLoader) {
-			_portalClassLoader = portalClassLoader;
-		}
-
-		@Around(
-			"execution(public static boolean com.liferay.portal.kernel.util." +
-				"PortalClassLoaderUtil.isPortalClassLoader(ClassLoader)) && " +
-					"args(classLoader)"
-		)
-		public boolean isPortalClassLoader(ClassLoader classLoader) {
-			return _portalClassLoader;
-		}
-
-		private static boolean _portalClassLoader;
-
-	}
-
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
@@ -436,6 +397,61 @@ public class PortletSessionImplTest {
 			value, _mockHttpSession.getAttribute(scopePrefix.concat(key)));
 	}
 
+	@Aspect
+	public static class PropsUtilAdvice {
+
+		public static void setProps(String name, String value) {
+			_props.put(name, value);
+		}
+
+		@Around(
+			"execution(public static String com.liferay.portal.util." +
+				"PropsUtil.get(String)) && args(key)"
+		)
+		public Object get(String key) {
+			return _props.get(key);
+		}
+
+		private static Map<String, String> _props = new HashMap<>();
+
+	}
+
+	@Aspect
+	public static class PortalClassLoaderUtilAdvice {
+
+		public static void setPortalClassLoader(boolean portalClassLoader) {
+			_portalClassLoader = portalClassLoader;
+		}
+
+		@Around(
+			"execution(public static boolean com.liferay.portal.kernel.util." +
+				"PortalClassLoaderUtil.isPortalClassLoader(ClassLoader)) && " +
+					"args(classLoader)"
+		)
+		public boolean isPortalClassLoader(ClassLoader classLoader) {
+			return _portalClassLoader;
+		}
+
+		private static boolean _portalClassLoader;
+
+	}
+
+	private PortletSessionImpl _getPortletSessionImpl() {
+		PortletSessionImpl portletSessionImpl = new PortletSessionImpl(
+			_mockHttpSession, _portletContext, _PORTLET_NAME, _PLID);
+
+		String scopePrefix = portletSessionImpl.scopePrefix;
+
+		_mockHttpSession.setAttribute(scopePrefix.concat(_KEY_1), _value1);
+		_mockHttpSession.setAttribute(scopePrefix.concat(_KEY_2), _value2);
+		_mockHttpSession.setAttribute(scopePrefix.concat(_KEY_3), _value3);
+
+		_mockHttpSession.setAttribute(_KEY_4, _value4);
+		_mockHttpSession.setAttribute(_KEY_5, _value5);
+
+		return portletSessionImpl;
+	}
+
 	private static final String _KEY_1 = "key1";
 
 	private static final String _KEY_2 = "key2";
@@ -466,22 +482,6 @@ public class PortletSessionImplTest {
 				}
 
 			});
-
-	private PortletSessionImpl _getPortletSessionImpl() {
-		PortletSessionImpl portletSessionImpl = new PortletSessionImpl(
-			_mockHttpSession, _portletContext, _PORTLET_NAME, _PLID);
-
-		String scopePrefix = portletSessionImpl.scopePrefix;
-
-		_mockHttpSession.setAttribute(scopePrefix.concat(_KEY_1), _value1);
-		_mockHttpSession.setAttribute(scopePrefix.concat(_KEY_2), _value2);
-		_mockHttpSession.setAttribute(scopePrefix.concat(_KEY_3), _value3);
-
-		_mockHttpSession.setAttribute(_KEY_4, _value4);
-		_mockHttpSession.setAttribute(_KEY_5, _value5);
-
-		return portletSessionImpl;
-	}
 
 	private final MockHttpSession _mockHttpSession = new MockHttpSession();
 	private final Object _value1 = new Object();
