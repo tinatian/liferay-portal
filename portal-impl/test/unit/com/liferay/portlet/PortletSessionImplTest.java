@@ -398,25 +398,6 @@ public class PortletSessionImplTest {
 	}
 
 	@Aspect
-	public static class PropsUtilAdvice {
-
-		public static void setProps(String name, String value) {
-			_props.put(name, value);
-		}
-
-		@Around(
-			"execution(public static String com.liferay.portal.util." +
-				"PropsUtil.get(String)) && args(key)"
-		)
-		public Object get(String key) {
-			return _props.get(key);
-		}
-
-		private static Map<String, String> _props = new HashMap<>();
-
-	}
-
-	@Aspect
 	public static class PortalClassLoaderUtilAdvice {
 
 		public static void setPortalClassLoader(boolean portalClassLoader) {
@@ -433,6 +414,25 @@ public class PortletSessionImplTest {
 		}
 
 		private static boolean _portalClassLoader;
+
+	}
+
+	@Aspect
+	public static class PropsUtilAdvice {
+
+		public static void setProps(String name, String value) {
+			_props.put(name, value);
+		}
+
+		@Around(
+			"execution(public static String com.liferay.portal.util." +
+				"PropsUtil.get(String)) && args(key)"
+		)
+		public Object get(String key) {
+			return _props.get(key);
+		}
+
+		private static Map<String, String> _props = new HashMap<>();
 
 	}
 
