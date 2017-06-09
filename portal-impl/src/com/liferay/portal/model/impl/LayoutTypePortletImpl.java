@@ -31,11 +31,11 @@ import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.LayoutTypePortletConstants;
 import com.liferay.portal.kernel.model.Plugin;
 import com.liferay.portal.kernel.model.Portlet;
-import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.PortletPreferencesIds;
 import com.liferay.portal.kernel.model.PortletWrapper;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.PortletLayoutListener;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -1313,10 +1313,10 @@ public class LayoutTypePortletImpl
 		}
 
 		if (portlet.isInstanceable() &&
-			!PortletConstants.hasInstanceId(portletId)) {
+			!PortletIdCodec.hasInstanceId(portletId)) {
 
-			portletId = PortletConstants.assemblePortletId(
-				portletId, PortletConstants.generateInstanceId());
+			portletId = PortletIdCodec.encode(
+				PortletIdCodec.decodePortletName(portletId));
 		}
 
 		if (hasPortletId(portletId, strictHasPortlet)) {
@@ -1343,8 +1343,8 @@ public class LayoutTypePortletImpl
 			}
 
 			if (hasUserPreferences()) {
-				portletId = PortletConstants.assemblePortletId(
-					portletId, userId);
+				portletId = PortletIdCodec.encode(
+					PortletIdCodec.decodePortletName(portletId), userId);
 			}
 		}
 
@@ -1482,8 +1482,9 @@ public class LayoutTypePortletImpl
 				}
 
 				if (Validator.isNull(portletIdColumnId) &&
-					PortletConstants.hasIdenticalRootPortletId(
-						columnPortletId, portletId)) {
+					PortletIdCodec.hasIdenticalPortletName(
+						PortletIdCodec.decodePortletName(columnPortletId),
+						PortletIdCodec.decodePortletName(portletId))) {
 
 					portletIdColumnId = columnId;
 				}
@@ -1723,7 +1724,7 @@ public class LayoutTypePortletImpl
 					continue;
 				}
 
-				String rootPortletId = PortletConstants.getRootPortletId(
+				String rootPortletId = PortletIdCodec.decodePortletName(
 					portletId);
 
 				if (!PortletPermissionUtil.contains(
@@ -1752,17 +1753,18 @@ public class LayoutTypePortletImpl
 				_log.error(se, se);
 			}
 
-			if (PortletConstants.hasInstanceId(portletId) ||
+			if (PortletIdCodec.hasInstanceId(portletId) ||
 				preferencesUniquePerLayout) {
 
 				String instanceId = null;
 
-				if (PortletConstants.hasInstanceId(portletId)) {
-					instanceId = PortletConstants.generateInstanceId();
+				if (PortletIdCodec.hasInstanceId(portletId)) {
+					instanceId = PortletIdCodec.generateInstanceId();
 				}
 
-				newPortletId = PortletConstants.assemblePortletId(
-					portletId, _portalPreferences.getUserId(), instanceId);
+				newPortletId = PortletIdCodec.encode(
+					PortletIdCodec.decodePortletName(portletId),
+					_portalPreferences.getUserId(), instanceId);
 
 				copyPreferences(
 					_portalPreferences.getUserId(), portletId, newPortletId);
@@ -1806,7 +1808,7 @@ public class LayoutTypePortletImpl
 
 		for (String nonstaticPortletId : columnValues) {
 			if (nonstaticPortletId.equals(portletId) ||
-				PortletConstants.getRootPortletId(
+				PortletIdCodec.decodePortletName(
 					nonstaticPortletId).equals(portletId)) {
 
 				return true;
@@ -1825,7 +1827,7 @@ public class LayoutTypePortletImpl
 
 		for (String staticPortletId : staticPortletIdsStart) {
 			if (staticPortletId.equals(portletId) ||
-				PortletConstants.getRootPortletId(
+				PortletIdCodec.decodePortletName(
 					staticPortletId).equals(portletId)) {
 
 				return true;
@@ -1834,7 +1836,7 @@ public class LayoutTypePortletImpl
 
 		for (String staticPortletId : staticPortletIdsEnd) {
 			if (staticPortletId.equals(portletId) ||
-				PortletConstants.getRootPortletId(
+				PortletIdCodec.decodePortletName(
 					staticPortletId).equals(portletId)) {
 
 				return true;
@@ -1874,7 +1876,7 @@ public class LayoutTypePortletImpl
 
 			portletIdList.add(portletId);
 
-			String rootPortletId = PortletConstants.getRootPortletId(portletId);
+			String rootPortletId = PortletIdCodec.decodePortletName(portletId);
 
 			if (rootPortletId.equals(PortletKeys.NESTED_PORTLETS)) {
 				String portletNamespace = PortalUtil.getPortletNamespace(
