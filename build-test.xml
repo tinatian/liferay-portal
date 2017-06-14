@@ -3100,6 +3100,42 @@ go</echo>
 		</sequential>
 	</macrodef>
 
+    <macrodef name="setup-testable-tomcat-jacoco">
+		<sequential>
+			<var name="testable.tomcat.jacoco.opts" value="-javaagent:${app.server.tomcat.dir}/webapps/ROOT/WEB-INF/lib/jacocoagent.jar=destfile=/tmp/jacoco-report.exec,output=file,append=true" />
+
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${testable.tomcat.jacoco.opts}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+						<![CDATA[
+							set "JACOCO_OPTS=${testable.tomcat.jacoco.opts}"
+
+							set "CATALINA_OPTS=%CATALINA_OPTS% %JACOCO_OPTS%"
+						]]>
+					</echo>
+				</then>
+			</if>
+
+			<if>
+				<not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${testable.tomcat.jacoco.opts}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+						<![CDATA[
+							JACOCO_OPTS="${testable.tomcat.jacoco.opts}"
+
+							CATALINA_OPTS="${CATALINA_OPTS} ${JACOCO_OPTS}"
+						]]>
+					</echo>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="setup-testable-tomcat-jmx">
 		<sequential>
 			<var name="testable.tomcat.jmx.opts" value="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=${jmx.remote.authenticate} -Dcom.sun.management.jmxremote.port=${jmx.remote.port} -Dcom.sun.management.jmxremote.ssl=${jmx.remote.ssl}" />
@@ -3343,6 +3379,8 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 			<setup-testable-tomcat-gc />
 
 			<setup-testable-tomcat-heap-dump-on-oom />
+
+            <setup-testable-tomcat-jacoco />
 
 			<setup-testable-tomcat-jmx />
 
