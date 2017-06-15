@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.net.ConnectException;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -319,6 +320,14 @@ public class PortletContainerTestUtil {
 			return new Response(
 				httpURLConnection.getResponseCode(),
 				StringUtil.read(inputStream), headerFields.get("Set-Cookie"));
+		}
+		catch (ConnectException ce) {
+			ConnectException ce1 = new ConnectException(
+				StringUtil.read(httpURLConnection.getErrorStream()));
+
+			ce1.initCause(ce);
+
+			throw ce1;
 		}
 		catch (IOException ioe) {
 			try (InputStream inputStream = httpURLConnection.getErrorStream()) {
