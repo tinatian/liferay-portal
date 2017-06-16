@@ -3103,11 +3103,14 @@ go</echo>
 	</macrodef>
 
     <macrodef name="setup-testable-tomcat-jacoco-agent">
-		<sequential if:set="${jacoco.agent}">
+		<sequential>
 			<if>
-				<not>
-					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${jacoco.agent}" />
-				</not>
+                <and>
+                    <isset property="jacoco.agent" />
+				    <not>
+					    <resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${jacoco.agent}" />
+				    </not>
+                </and>
 				<then>
 					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
 						<![CDATA[
@@ -3120,9 +3123,12 @@ go</echo>
 			</if>
 
 			<if>
-				<not>
-					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${jacoco.agent}" />
-				</not>
+                <and>
+                    <isset property="jacoco.agent" />
+				    <not>
+					    <resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${jacoco.agent}" />
+				    </not>
+                </and>
 				<then>
 					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
 						<![CDATA[
