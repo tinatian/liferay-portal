@@ -40,7 +40,7 @@
 	<property location="${project.dir}/tools/putty/plink.exe" name="plink.executable" />
 	<property location="${project.dir}/tools/putty/pscp.exe" name="pscp.executable" />
 
-    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="-javaagent:${project.dir}/lib/portal/jacocoagent.jar=destfile=${jacoco.code.coverage.dest.file.path},output=file,append=false" />
+    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="-javaagent:${project.dir}/lib/portal/jacocoagent.jar=destfile=${jacoco.code.coverage.dest.file.path},output=file,append=false -XX:+PrintFlagsFinal" />
 
 	<macrodef name="apply-portal-ext-properties">
 		<sequential>
