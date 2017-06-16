@@ -710,12 +710,14 @@ information.
 				<sysproperty key="liferay.temp.dir" value="${app.server.tomcat.temp.dir}" />
 				<sysproperty if:true="${aspectj.weaver.enabled}" key="org.aspectj.weaver.loadtime.configuration" value="${aspectj.configuration}" />
 				<sysproperty key="whip.agent" value="${whip.agent}" />
+                <sysproperty key="jacoco.agent" value="-javaagent:${project.dir}/lib/portal/jacocoagent.jar=destfile=/tmp/jacoco-report.exec,output=file,append=false" />
 				<sysproperty file="test-coverage/@{test.type}/whip.dat" key="whip.datafile" />
 				<sysproperty key="whip.instrument.dump" value="${whip.instrument.dump}" />
 				<jvmarg if:true="${aspectj.weaver.enabled}" line="${aspectj.agent}" />
 				<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 				<jvmarg line="${junit.java.gc}" />
 				<jvmarg line="${whip.agent}" />
+                <jvmarg line="${jacoco.agent}" />
 				<jvmarg value="-Xss2m" />
 				<jvmarg value="-Dexternal-properties=${test.properties}" />
 				<jvmarg value="-Dfile.encoding=UTF-8" />
