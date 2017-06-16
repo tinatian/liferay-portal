@@ -40,6 +40,8 @@
 	<property location="${project.dir}/tools/putty/plink.exe" name="plink.executable" />
 	<property location="${project.dir}/tools/putty/pscp.exe" name="pscp.executable" />
 
+    <property name="jacoco.agent" value="-javaagent:${project.dir}/lib/portal/jacocoagent.jar=destfile=${jacoco.code.coverage.dump.file},output=file,append=true" />
+
 	<macrodef name="apply-portal-ext-properties">
 		<sequential>
 			<if>
@@ -3100,6 +3102,40 @@ go</echo>
 		</sequential>
 	</macrodef>
 
+    <macrodef name="setup-testable-tomcat-jacoco-agent" >
+		<sequential>
+			<if if:true="${jacoco.code.coverage.enabled}">
+                <not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${jacoco.agent}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+						<![CDATA[
+							set "JACOCO_OPTS=${jacoco.agent}"
+
+							set "CATALINA_OPTS=%CATALINA_OPTS% %JACOCO_OPTS%"
+						]]>
+					</echo>
+				</then>
+			</if>
+
+			<if if:true="${jacoco.code.coverage.enabled}">
+                <not>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${jacoco.agent}" />
+				</not>
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+						<![CDATA[
+							JACOCO_OPTS="${jacoco.agent}"
+
+							CATALINA_OPTS="${CATALINA_OPTS} ${JACOCO_OPTS}"
+						]]>
+					</echo>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="setup-testable-tomcat-jmx">
 		<sequential>
 			<var name="testable.tomcat.jmx.opts" value="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=${jmx.remote.authenticate} -Dcom.sun.management.jmxremote.port=${jmx.remote.port} -Dcom.sun.management.jmxremote.ssl=${jmx.remote.ssl}" />
@@ -3343,6 +3379,8 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 			<setup-testable-tomcat-gc />
 
 			<setup-testable-tomcat-heap-dump-on-oom />
+
+            <setup-testable-tomcat-jacoco-agent />
 
 			<setup-testable-tomcat-jmx />
 
