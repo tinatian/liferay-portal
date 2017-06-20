@@ -109,6 +109,17 @@ public class CodeCoverageAssertor implements TestRule {
 
 		appendAssertClasses(assertClasses);
 
+		String jacocoCoverage = System.getProperty(
+			"junit.jacoco.code.coverage");
+
+		if (jacocoCoverage.equals("true")) {
+			for (Class<?> clazz : assertClasses) {
+				System.out.println("Skip asserting class " + clazz.getName());
+			}
+
+			return;
+		}
+
 		try {
 			_ASSERT_COVERAGE_METHOD.invoke(
 				null, _includeInnerClasses,
