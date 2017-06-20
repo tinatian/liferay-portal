@@ -51,6 +51,16 @@ public class CodeCoverageAssertor implements TestRule {
 		_includes = includes;
 		_excludes = excludes;
 		_includeInnerClasses = includeInnerClasses;
+
+		String jacocoCoverage = System.getProperty(
+			"junit.jacoco.code.coverage");
+
+		if ((jacocoCoverage != null) && jacocoCoverage.equals("true")) {
+			_skip = true;
+		}
+		else {
+			_skip = false;
+		}
 	}
 
 	public void appendAssertClasses(List<Class<?>> assertClasses) {
@@ -59,6 +69,10 @@ public class CodeCoverageAssertor implements TestRule {
 	@Override
 	public Statement apply(
 		final Statement statement, final Description description) {
+
+		if (_skip) {
+			return statement;
+		}
 
 		if (description.getMethodName() != null) {
 			return statement;
@@ -235,5 +249,6 @@ public class CodeCoverageAssertor implements TestRule {
 	private final String[] _excludes;
 	private final boolean _includeInnerClasses;
 	private final String[] _includes;
+	private final boolean _skip;
 
 }
