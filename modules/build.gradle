@@ -119,7 +119,7 @@ gradle.beforeProject {
 					jacoco {
 						append = true
 						if (jacocoDumpFile != null) {
-							destPath = jacocoDumpFile
+							destinationFile = file(jacocoDumpFile)
 						}
 					}
 
@@ -130,7 +130,7 @@ gradle.beforeProject {
 					jacoco {
 						append = true
 						if (jacocoDumpFile != null) {
-							destPath = jacocoDumpFile
+							destinationFile = file(jacocoDumpFile)
 						}
 					}
 
