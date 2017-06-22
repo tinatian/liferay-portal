@@ -497,6 +497,34 @@ app.server.type=@{app.server.type}]]></echo>
 		</sequential>
 	</macrodef>
 
+	<macrodef name="replace-first">
+		<attribute name="file.name" />
+		<attribute name="replace.token" />
+		<attribute name="replace.value" />
+
+		<sequential>
+			<property name="file.name" value="@{file.name}" />
+			<property name="replace.token" value="@{replace.token}" />
+			<property name="replace.value" value="@{replace.value}" />
+
+			<beanshell>
+				<![CDATA[
+					import org.apache.commons.io.FileUtils;
+
+					File file = new File(project.getProperty("file.name"));
+
+					String content = FileUtils.readFileToString(file);
+
+					content = content.replaceFirst(
+						project.getProperty("replace.token"),
+						project.getProperty("replace.value"));
+
+					FileUtils.writeStringToFile(file, content, null);
+				]]>
+			</beanshell>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="run-batch-test">
 		<attribute default="false" name="tomcat.gc.log" />
 		<attribute default="false" name="tsant.gc.log" />
@@ -797,6 +825,16 @@ app.server.type=@{app.server.type}]]></echo>
 								dest="${liferay.home}/deploy"
 								src="@{test.plugin.zip.url}"
 							/>
+						</then>
+					</if>
+
+					<if>
+						<and>
+							<equals arg1="${app.server.type}" arg2="tomcat" />
+							<equals arg1="${jacoco.code.coverage.enabled}" arg2="true" />
+						</and>
+						<then>
+							<antcall target="enable-jacoco-tomcat" />
 						</then>
 					</if>
 
@@ -1522,6 +1560,62 @@ app.server.type=@{app.server.type}]]></echo>
 
 	<target name="empty-temp-dir-jdk8">
 		<run-empty-temp-dir-test />
+	</target>
+
+	<target name="enable-jacoco-tomcat">
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${jacoco.agent}" />
+			</not>
+			<then>
+                <if>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="-javaagent:" />
+					<then>
+						<replace-first
+							file.name="${app.server.tomcat.dir}/bin/setenv.bat"
+							replace.token="-javaagent:"
+							replace.value="${jacoco.agent} -javaagent:"
+						/>
+					</then>
+					<else>
+						<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+							<![CDATA[
+								set "JACOCO_OPTS=${jacoco.agent}"
+
+								set "CATALINA_OPTS=%CATALINA_OPTS% %JACOCO_OPTS%"
+							]]>
+						</echo>
+					</else>
+                </if>
+			</then>
+		</if>
+
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${jacoco.agent}" />
+			</not>
+			<then>
+				<if>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="-javaagent:" />
+					<then>
+						<replace-first
+							file.name="${app.server.tomcat.dir}/bin/setenv.sh"
+							replace.token="-javaagent:"
+							replace.value="${jacoco.agent} -javaagent:"
+						/>
+					</then>
+					<else>
+						<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+							<![CDATA[
+								JACOCO_OPTS="${jacoco.agent}"
+
+								CATALINA_OPTS="${CATALINA_OPTS} ${JACOCO_OPTS}"
+							]]>
+						</echo>
+					</else>
+                </if>
+			</then>
+		</if>
 	</target>
 
 	<target name="functional-bundle-jboss-db2105-jdk8">
