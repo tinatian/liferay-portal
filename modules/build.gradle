@@ -121,6 +121,7 @@ gradle.beforeProject {
 						if (jacocoDumpFile != null) {
 							destinationFile = file(jacocoDumpFile)
 						}
+                        toolVersion = "0.7.9"
 					}
 
 					systemProperty 'jacoco.code.coverage', 'true'
@@ -132,6 +133,7 @@ gradle.beforeProject {
 						if (jacocoDumpFile != null) {
 							destinationFile = file(jacocoDumpFile)
 						}
+                        toolVersion = "0.7.9"
 					}
 
 					systemProperty 'jacoco.code.coverage', 'true'
