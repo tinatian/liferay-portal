@@ -672,6 +672,7 @@ information.
 	<macrodef name="junit-cmd">
 		<attribute name="forkmode" />
 		<attribute name="test.type" />
+        <attribute default="" name="jacoco.agent" />
 		<element name="misc" optional="yes" />
 		<element name="test.classes" />
 
@@ -715,6 +716,7 @@ information.
 				<sysproperty key="whip.agent" value="${whip.agent}" />
 				<sysproperty file="test-coverage/@{test.type}/whip.dat" key="whip.datafile" />
 				<sysproperty key="whip.instrument.dump" value="${whip.instrument.dump}" />
+				<jvmarg line="@{jacoco.agent}" />
 				<jvmarg if:true="${aspectj.weaver.enabled}" line="${aspectj.agent}" />
 				<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 				<jvmarg line="${junit.java.gc}" />
@@ -1208,6 +1210,7 @@ rerun your task.
 	</macrodef>
 
 	<macrodef name="test-cmd">
+        <attribute default="" name="jacoco.agent" />
 		<attribute name="junit.forkmode" />
 		<attribute name="test.includes" />
 		<attribute name="test.type" />
@@ -1242,6 +1245,7 @@ rerun your task.
 					<junit-cmd
 						forkmode="@{junit.forkmode}"
 						test.type="@{test.type}"
+                        jacoco.agent="@{jacoco.agent}"
 					>
 						<misc>
 							<jvmarg value="-Dliferay.lib.portal.dir=${project.dir}/lib/portal" />
@@ -1618,6 +1622,15 @@ rerun your task.
 		<propertycopy from="TEST_CLASS_GROUP_${test.class.group.index}" name="test.classes" />
 
 		<if>
+			<not>
+				<isset property="jacoco.agent" />
+			</not>
+			<then>
+				<property name="jacoco.agent" value="" />
+			</then>
+		</if>
+
+		<if>
 			<or>
 				<not>
 					<isset property="test.type" />
@@ -1629,6 +1642,7 @@ rerun your task.
 					junit.forkmode="perTest"
 					test.includes="${test.classes}"
 					test.type="unit"
+                    jacoco.agent="${jacoco.agent}"
 				/>
 
 				<report-test-coverage
@@ -1649,6 +1663,7 @@ rerun your task.
 					junit.forkmode="once"
 					test.includes="${test.classes}"
 					test.type="integration"
+                    jacoco.agent="${jacoco.agent}"
 				/>
 
 				<report-test-coverage

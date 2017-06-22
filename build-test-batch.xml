@@ -832,6 +832,7 @@ app.server.type=@{app.server.type}]]></echo>
 								<property name="database.type" value="@{database.type}" />
 								<property name="test.class.group.index" value="${axis.variable}" />
 								<property name="test.type" value="integration" />
+                                <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 							</ant>
 						</test-action>
 					</database-test-run-test>
@@ -1464,15 +1465,18 @@ app.server.type=@{app.server.type}]]></echo>
 
 				<ant dir="portal-kernel" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="0" />
+                    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 				</ant>
 
 				<ant dir="portal-impl" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="0" />
 					<property name="test.type" value="unit" />
+                    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 				</ant>
 
 				<ant dir="util-java" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="0" />
+                    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 				</ant>
 			</test-action>
 
@@ -2839,6 +2843,7 @@ ${output.content}</echo>
 
 						<ant antfile="build-test-tck.xml" target="test-class-group">
 							<property name="test.class.group.index" value="${axis.variable}" />
+                            <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 						</ant>
 					</test-action>
 				</database-test-run-test>
@@ -2869,15 +2874,18 @@ ${output.content}</echo>
 			<test-action>
 				<ant dir="portal-kernel" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="${axis.variable}" />
+                    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 				</ant>
 
 				<ant dir="portal-impl" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="${axis.variable}" />
 					<property name="test.type" value="unit" />
+                    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 				</ant>
 
 				<ant dir="util-java" inheritAll="false" target="test-class-group">
 					<property name="test.class.group.index" value="${axis.variable}" />
+                    <property if:true="${jacoco.code.coverage.enabled}" name="jacoco.agent" value="${jacoco.agent}" />
 				</ant>
 			</test-action>
 
