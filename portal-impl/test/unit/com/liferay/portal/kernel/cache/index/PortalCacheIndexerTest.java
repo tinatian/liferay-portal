@@ -17,12 +17,16 @@ package com.liferay.portal.kernel.cache.index;
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
+import com.liferay.portal.kernel.cache.PortalCacheManager;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.concurrent.test.MappedMethodCallableInvocationHandler;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.ToolDependencies;
+import com.liferay.portal.util.PropsImpl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -46,13 +50,16 @@ public class PortalCacheIndexerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		PropsUtil.setProps(new PropsImpl());
+
 		ToolDependencies.wireCaches();
 
 		_portalCache = MultiVMPoolUtil.getPortalCache(
 			RandomTestUtil.randomString());
 
 		_portalCacheIndexer = new PortalCacheIndexer<>(
-			_indexEncoder, _portalCache);
+			_indexEncoder,
+			_wrapPortalCache(_portalCache, PortalCacheManagerNames.MULTI_VM));
 
 		List<PortalCacheListener<?, ?>> portalCacheListeners =
 			ReflectionTestUtil.getFieldValue(
@@ -130,7 +137,8 @@ public class PortalCacheIndexerTest {
 		_portalCache.put(_INDEX_1_KEY_1, _VALUE);
 
 		_portalCacheIndexer = new PortalCacheIndexer<>(
-			_indexEncoder, _portalCache);
+			_indexEncoder,
+			_wrapPortalCache(_portalCache, PortalCacheManagerNames.SINGLE_VM));
 
 		assertIndexCacheSynchronization();
 	}
@@ -320,6 +328,32 @@ public class PortalCacheIndexerTest {
 		}
 
 		Assert.assertEquals(expectedTestKeys, actualTestKeys);
+	}
+
+	private PortalCache<TestKey, String> _wrapPortalCache(
+		PortalCache<TestKey, String> portalCache, String cacheManagerName) {
+
+		PortalCacheManager<TestKey, String> portalCacheManager =
+			(PortalCacheManager<TestKey, String>)ProxyUtil.newProxyInstance(
+				ClassLoader.getSystemClassLoader(),
+				new Class<?>[] {PortalCacheManager.class},
+				(proxy, method, args) -> {
+					Assert.assertEquals(
+						"getPortalCacheManagerName", method.getName());
+
+					return cacheManagerName;
+				});
+
+		return (PortalCache<TestKey, String>)ProxyUtil.newProxyInstance(
+			ClassLoader.getSystemClassLoader(),
+			new Class<?>[] {PortalCache.class},
+			(proxy, method, args) -> {
+				if ("getPortalCacheManager".equals(method.getName())) {
+					return portalCacheManager;
+				}
+
+				return method.invoke(portalCache, args);
+			});
 	}
 
 	private static final TestKey _INDEX_1_KEY_1 = new TestKey(1L, 1L);
