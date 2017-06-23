@@ -16,8 +16,21 @@ package com.liferay.portal.kernel.cache.index;
 
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
+import com.liferay.portal.kernel.cache.PortalCacheManager;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
+import com.liferay.portal.kernel.cache.SkipReplicationThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterInvokeAcceptor;
+import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterableInvokerUtil;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
+import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Method;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,7 +41,8 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author Shuyang Zhou
  */
-public class PortalCacheIndexer<I, K extends Serializable, V> {
+public class PortalCacheIndexer<I, K extends Serializable, V>
+	implements IdentifiableOSGiService {
 
 	public PortalCacheIndexer(
 		IndexEncoder<I, K> indexEncoder, PortalCache<K, V> portalCache) {
@@ -43,6 +57,28 @@ public class PortalCacheIndexer<I, K extends Serializable, V> {
 		for (K indexedCacheKey : _portalCache.getKeys()) {
 			_addIndexedCacheKey(indexedCacheKey);
 		}
+
+		Class<? extends IndexEncoder> clazz = indexEncoder.getClass();
+
+		_name =
+			clazz.getName() + StringPool.UNDERLINE +
+				portalCache.getPortalCacheName();
+
+		PortalCacheManager<K, V> portalCacheManager =
+			portalCache.getPortalCacheManager();
+
+		if (PortalCacheManagerNames.MULTI_VM.equals(
+				portalCacheManager.getPortalCacheManagerName())) {
+
+			_multiVM = true;
+
+			Registry registry = RegistryUtil.getRegistry();
+
+			registry.registerService(IdentifiableOSGiService.class, this);
+		}
+		else {
+			_multiVM = false;
+		}
 	}
 
 	public Set<K> getKeys(I index) {
@@ -55,16 +91,34 @@ public class PortalCacheIndexer<I, K extends Serializable, V> {
 		return new HashSet<>(keys);
 	}
 
-	public void removeKeys(I index) {
-		Set<K> keys = _indexedCacheKeys.remove(index);
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _name;
+	}
 
-		if (keys == null) {
+	public void removeKeys(I index) {
+		if (!_multiVM) {
+			_removeKeys(index);
+
 			return;
 		}
 
-		for (K key : keys) {
-			_portalCache.remove(key);
+		boolean enabled = SkipReplicationThreadLocal.isEnabled();
+
+		if (!enabled) {
+			SkipReplicationThreadLocal.setEnabled(true);
 		}
+
+		try {
+			_removeKeys(index);
+		}
+		finally {
+			if (!enabled) {
+				SkipReplicationThreadLocal.setEnabled(false);
+			}
+		}
+
+		_sendClearIndexMessage(index);
 	}
 
 	private void _addIndexedCacheKey(K key) {
@@ -106,9 +160,42 @@ public class PortalCacheIndexer<I, K extends Serializable, V> {
 		}
 	}
 
+	private void _removeKeys(I index) {
+		Set<K> keys = _indexedCacheKeys.remove(index);
+
+		if (keys == null) {
+			return;
+		}
+
+		for (K key : keys) {
+			_portalCache.remove(key);
+		}
+	}
+
+	private void _sendClearIndexMessage(I index) {
+		if (!ClusterInvokeThreadLocal.isEnabled()) {
+			return;
+		}
+
+		try {
+			ClusterableInvokerUtil.invokeOnCluster(
+				ClusterInvokeAcceptor.class, this, _method,
+				new Object[] {index});
+		}
+		catch (Throwable t) {
+			ReflectionUtil.throwException(t);
+		}
+	}
+
+	private static final Method _method = ReflectionUtil.getDeclaredMethod(
+		ExceptionInInitializerError.class, PortalCacheIndexer.class,
+		"removeKeys", Object.class);
+
 	private final ConcurrentMap<I, Set<K>> _indexedCacheKeys =
 		new ConcurrentHashMap<>();
 	private final IndexEncoder<I, K> _indexEncoder;
+	private final boolean _multiVM;
+	private final String _name;
 	private final PortalCache<K, V> _portalCache;
 
 	private class IndexerPortalCacheListener
