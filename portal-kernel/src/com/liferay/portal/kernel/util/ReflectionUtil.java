@@ -88,6 +88,32 @@ public class ReflectionUtil {
 		return method;
 	}
 
+	public static <T extends Throwable> Method getDeclaredMethod(
+			Class<T> wrapperException, Class<?> clazz, String name,
+			Class<?>... parameterTypes)
+		throws T {
+
+		try {
+			return getDeclaredMethod(clazz, name, parameterTypes);
+		}
+		catch (Exception cause) {
+			T exception = null;
+
+			try {
+				exception = wrapperException.newInstance();
+			}
+			catch (Exception e) {
+				cause.addSuppressed(e);
+
+				throwException(cause);
+			}
+
+			exception.initCause(cause);
+
+			throw exception;
+		}
+	}
+
 	public static Type getGenericInterface(
 		Object object, Class<?> interfaceClass) {
 
