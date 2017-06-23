@@ -17,18 +17,30 @@ package com.liferay.portal.kernel.cache.index;
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
+import com.liferay.portal.kernel.cache.PortalCacheManager;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
+import com.liferay.portal.kernel.cache.SkipReplicationThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterExecutor;
+import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
+import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.concurrent.test.MappedMethodCallableInvocationHandler;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.ToolDependencies;
+import com.liferay.portal.util.PropsImpl;
 
+import java.lang.reflect.UndeclaredThrowableException;
+
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,13 +58,16 @@ public class PortalCacheIndexerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		PropsUtil.setProps(new PropsImpl());
+
 		ToolDependencies.wireCaches();
 
 		_portalCache = MultiVMPoolUtil.getPortalCache(
 			RandomTestUtil.randomString());
 
 		_portalCacheIndexer = new PortalCacheIndexer<>(
-			_indexEncoder, _portalCache);
+			_indexEncoder,
+			_wrapPortalCache(_portalCache, PortalCacheManagerNames.MULTI_VM));
 
 		List<PortalCacheListener<?, ?>> portalCacheListeners =
 			ReflectionTestUtil.getFieldValue(
@@ -123,6 +138,44 @@ public class PortalCacheIndexerTest {
 	}
 
 	@Test
+	public void testClusterMessage() {
+		_assertClusterMessages(true);
+	}
+
+	@Test
+	public void testClusterRequestFailure() {
+		Object clusterExecutor = ReflectionTestUtil.getFieldValue(
+			ClusterExecutorUtil.class, "_clusterExecutor");
+
+		Exception exception = new Exception();
+
+		try {
+			ReflectionTestUtil.setFieldValue(
+				ClusterExecutorUtil.class, "_clusterExecutor",
+				ProxyUtil.newProxyInstance(
+					ClassLoader.getSystemClassLoader(),
+					new Class<?>[] {ClusterExecutor.class},
+					(proxy, method, args) -> {
+						throw exception;
+					}));
+
+			_portalCacheIndexer.removeKeys(0L);
+
+			Assert.fail();
+		}
+		catch (Exception e) {
+			Assert.assertTrue(
+				e.toString(), e instanceof UndeclaredThrowableException);
+
+			Assert.assertSame(e.toString(), exception, e.getCause());
+		}
+		finally {
+			ReflectionTestUtil.setFieldValue(
+				ClusterExecutorUtil.class, "_clusterExecutor", clusterExecutor);
+		}
+	}
+
+	@Test
 	public void testConstructor() {
 		_portalCache = MultiVMPoolUtil.getPortalCache(
 			RandomTestUtil.randomString());
@@ -130,7 +183,8 @@ public class PortalCacheIndexerTest {
 		_portalCache.put(_INDEX_1_KEY_1, _VALUE);
 
 		_portalCacheIndexer = new PortalCacheIndexer<>(
-			_indexEncoder, _portalCache);
+			_indexEncoder,
+			_wrapPortalCache(_portalCache, PortalCacheManagerNames.SINGLE_VM));
 
 		assertIndexCacheSynchronization();
 	}
@@ -220,6 +274,37 @@ public class PortalCacheIndexerTest {
 	}
 
 	@Test
+	public void testRemoveClusterInvokerDisabled() {
+		boolean enabled = ClusterInvokeThreadLocal.isEnabled();
+
+		try {
+			ClusterInvokeThreadLocal.setEnabled(false);
+
+			_assertClusterMessages(false);
+		}
+		finally {
+			ClusterInvokeThreadLocal.setEnabled(enabled);
+		}
+	}
+
+	@Test
+	public void testRemoveEachIndex() {
+		_portalCache.put(_INDEX_1_KEY_1, _VALUE);
+		_portalCache.put(_INDEX_1_KEY_2, _VALUE);
+		_portalCache.put(_INDEX_2_KEY_3, _VALUE);
+
+		_portalCacheIndexer.removeKeys(_indexEncoder.encode(_INDEX_1_KEY_1));
+		_portalCacheIndexer.removeKeys(_indexEncoder.encode(_INDEX_2_KEY_3));
+
+		Assert.assertSame(
+			Collections.emptySet(),
+			_portalCacheIndexer.getKeys(_indexEncoder.encode(_INDEX_1_KEY_2)));
+		Assert.assertSame(
+			Collections.emptySet(),
+			_portalCacheIndexer.getKeys(_indexEncoder.encode(_INDEX_2_KEY_3)));
+	}
+
+	@Test
 	public void testRemoveIndexedCacheKeyConcurrentPut()
 		throws ReflectiveOperationException {
 
@@ -304,6 +389,32 @@ public class PortalCacheIndexerTest {
 		assertIndexCacheSynchronization();
 	}
 
+	@Test
+	public void testRemoveIndexSingleVM() {
+		_portalCache = MultiVMPoolUtil.getPortalCache(
+			RandomTestUtil.randomString());
+
+		_portalCacheIndexer = new PortalCacheIndexer<>(
+			_indexEncoder,
+			_wrapPortalCache(_portalCache, PortalCacheManagerNames.SINGLE_VM));
+
+		_assertClusterMessages(false);
+	}
+
+	@Test
+	public void testRemoveIndexSkipReplication() {
+		boolean enabled = SkipReplicationThreadLocal.isEnabled();
+
+		try {
+			SkipReplicationThreadLocal.setEnabled(true);
+
+			_portalCacheIndexer.removeKeys(0L);
+		}
+		finally {
+			SkipReplicationThreadLocal.setEnabled(enabled);
+		}
+	}
+
 	protected void assertIndexCacheSynchronization() {
 		Set<TestKey> expectedTestKeys = new HashSet<>(_portalCache.getKeys());
 
@@ -320,6 +431,60 @@ public class PortalCacheIndexerTest {
 		}
 
 		Assert.assertEquals(expectedTestKeys, actualTestKeys);
+	}
+
+	private void _assertClusterMessages(boolean messageSent) {
+		Object clusterExecutor = ReflectionTestUtil.getFieldValue(
+			ClusterExecutorUtil.class, "_clusterExecutor");
+
+		AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+		try {
+			ReflectionTestUtil.setFieldValue(
+				ClusterExecutorUtil.class, "_clusterExecutor",
+				ProxyUtil.newProxyInstance(
+					ClassLoader.getSystemClassLoader(),
+					new Class<?>[] {ClusterExecutor.class},
+					(proxy, method, args) -> {
+						atomicBoolean.set(true);
+
+						return null;
+					}));
+
+			_portalCacheIndexer.removeKeys(0L);
+		}
+		finally {
+			ReflectionTestUtil.setFieldValue(
+				ClusterExecutorUtil.class, "_clusterExecutor", clusterExecutor);
+		}
+
+		Assert.assertEquals(messageSent, atomicBoolean.get());
+	}
+
+	private PortalCache<TestKey, String> _wrapPortalCache(
+		PortalCache<TestKey, String> portalCache, String cacheManagerName) {
+
+		PortalCacheManager<TestKey, String> portalCacheManager =
+			(PortalCacheManager<TestKey, String>)ProxyUtil.newProxyInstance(
+				ClassLoader.getSystemClassLoader(),
+				new Class<?>[] {PortalCacheManager.class},
+				(proxy, method, args) -> {
+					Assert.assertEquals(
+						"getPortalCacheManagerName", method.getName());
+
+					return cacheManagerName;
+				});
+
+		return (PortalCache<TestKey, String>)ProxyUtil.newProxyInstance(
+			ClassLoader.getSystemClassLoader(),
+			new Class<?>[] {PortalCache.class},
+			(proxy, method, args) -> {
+				if ("getPortalCacheManager".equals(method.getName())) {
+					return portalCacheManager;
+				}
+
+				return method.invoke(portalCache, args);
+			});
 	}
 
 	private static final TestKey _INDEX_1_KEY_1 = new TestKey(1L, 1L);
