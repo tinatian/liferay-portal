@@ -805,7 +805,7 @@ app.server.type=@{app.server.type}]]></echo>
 							<equals arg1="${app.server.type}" arg2="tomcat" />
 						</and>
 						<then>
-							<antcall if:ture="jacoco.code.coverage.enabled" target="enable-jacoco-tomcat" />
+							<antcall if:true="${jacoco.code.coverage.enabled}" target="enable-jacoco-tomcat" />
 							<antcall target="enable-aspectj-tomcat" />
 						</then>
 					</if>
