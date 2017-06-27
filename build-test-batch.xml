@@ -800,6 +800,16 @@ app.server.type=@{app.server.type}]]></echo>
 						</then>
 					</if>
 
+					<if>
+						<and>
+							<equals arg1="${app.server.type}" arg2="tomcat" />
+						</and>
+						<then>
+							<antcall if:true="${jacoco.code.coverage.enabled}" target="enable-jacoco-tomcat" />
+							<antcall target="enable-aspectj-tomcat" />
+						</then>
+					</if>
+
 					<echo if:set="env.JENKINS_HOME">ANT_OPTS=${env.ANT_OPTS}</echo>
 				</test-set-up>
 
@@ -1522,6 +1532,53 @@ app.server.type=@{app.server.type}]]></echo>
 
 	<target name="empty-temp-dir-jdk8">
 		<run-empty-temp-dir-test />
+	</target>
+
+	<target name="enable-aspectj-tomcat">
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${aspectj.agent}" />
+			</not>
+			<then>
+				<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+					<![CDATA[
+						CATALINA_OPTS="${CATALINA_OPTS} ${aspectj.agent} -Dorg.aspectj.weaver.loadtime.configuration=${aspectj.configuration}"
+					]]>
+				</echo>
+			</then>
+		</if>
+	</target>
+
+	<target name="enable-jacoco-tomcat">
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${jacoco.agent}" />
+			</not>
+			<then>
+                <echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+					<![CDATA[
+						set "JACOCO_OPTS=${jacoco.agent}"
+
+						set "CATALINA_OPTS=%CATALINA_OPTS% %JACOCO_OPTS%"
+					]]>
+				</echo>
+			</then>
+		</if>
+
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${jacoco.agent}" />
+			</not>
+			<then>
+				<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+					<![CDATA[
+						JACOCO_OPTS="${jacoco.agent}"
+
+						CATALINA_OPTS="${CATALINA_OPTS} ${JACOCO_OPTS}"
+					]]>
+				</echo>
+			</then>
+		</if>
 	</target>
 
 	<target name="functional-bundle-jboss-db2105-jdk8">
