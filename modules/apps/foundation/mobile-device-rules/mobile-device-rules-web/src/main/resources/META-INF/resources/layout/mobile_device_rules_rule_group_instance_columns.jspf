@@ -41,7 +41,9 @@ List<MDRAction> mdrActions = MDRActionLocalServiceUtil.getActions(mdrRuleGroupIn
 
 <c:if test="<%= MDRRuleGroupInstanceServiceUtil.getRuleGroupInstancesCount(className, classPK) > 1 %>">
 	<liferay-ui:search-container-column-text
-		property="priority"
+		cssClass="table-cell-content"
+		name="priority"
+		value="<%= Integer.toString(index) %>"
 	/>
 </c:if>
 
