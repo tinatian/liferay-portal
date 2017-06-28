@@ -497,6 +497,34 @@ app.server.type=@{app.server.type}]]></echo>
 		</sequential>
 	</macrodef>
 
+	<macrodef name="replace-first">
+		<attribute name="file.name" />
+		<attribute name="replace.token" />
+		<attribute name="replace.value" />
+
+		<sequential>
+			<property name="file.name" value="@{file.name}" />
+			<property name="replace.token" value="@{replace.token}" />
+			<property name="replace.value" value="@{replace.value}" />
+
+			<beanshell>
+				<![CDATA[
+					import org.apache.commons.io.FileUtils;
+
+					File file = new File(project.getProperty("file.name"));
+
+					String content = FileUtils.readFileToString(file);
+
+					content = content.replaceFirst(
+						project.getProperty("replace.token"),
+						project.getProperty("replace.value"));
+
+					FileUtils.writeStringToFile(file, content, null);
+				]]>
+			</beanshell>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="run-batch-test">
 		<attribute default="false" name="tomcat.gc.log" />
 		<attribute default="false" name="tsant.gc.log" />
@@ -800,6 +828,16 @@ app.server.type=@{app.server.type}]]></echo>
 						</then>
 					</if>
 
+					<if>
+						<and>
+							<equals arg1="${app.server.type}" arg2="tomcat" />
+							<equals arg1="${jacoco.code.coverage.enabled}" arg2="true" />
+						</and>
+						<then>
+							<antcall target="enable-jacoco-tomcat" />
+						</then>
+					</if>
+
 					<echo if:set="env.JENKINS_HOME">ANT_OPTS=${env.ANT_OPTS}</echo>
 				</test-set-up>
 
@@ -830,6 +868,7 @@ app.server.type=@{app.server.type}]]></echo>
 
 							<ant dir="portal-impl" inheritAll="false" target="test-class-group">
 								<property name="database.type" value="@{database.type}" />
+								<property name="jacoco.code.coverage" value="${jacoco.code.coverage.enabled}" />
 								<property name="test.class.group.index" value="${axis.variable}" />
 								<property name="test.type" value="integration" />
 							</ant>
@@ -1306,6 +1345,8 @@ app.server.type=@{app.server.type}]]></echo>
 							<gradle-execute dir="modules" task="testIntegration">
 								<arg value="-Ddatabase.type=@{database.type}" />
 								<arg value="-Dbuild.exclude.ant.plugin=true" />
+								<arg value="-Djacoco.code.coverage=${jacoco.code.coverage.enabled}" />
+								<arg value="-Djacoco.dump.file=${jacoco.dump.file}" />
 								<arg value="-Dtest.class.group.index=${axis.variable}" />
 							</gradle-execute>
 
@@ -1522,6 +1563,62 @@ app.server.type=@{app.server.type}]]></echo>
 
 	<target name="empty-temp-dir-jdk8">
 		<run-empty-temp-dir-test />
+	</target>
+
+	<target name="enable-jacoco-tomcat">
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="${jacoco.agent}" />
+			</not>
+			<then>
+                <if>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.bat" substring="-javaagent:" />
+					<then>
+						<replace-first
+							file.name="${app.server.tomcat.dir}/bin/setenv.bat"
+							replace.token="-javaagent:"
+							replace.value="${jacoco.agent} -javaagent:"
+						/>
+					</then>
+					<else>
+						<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+							<![CDATA[
+								set "JACOCO_OPTS=${jacoco.agent}"
+
+								set "CATALINA_OPTS=%CATALINA_OPTS% %JACOCO_OPTS%"
+							]]>
+						</echo>
+					</else>
+                </if>
+			</then>
+		</if>
+
+		<if>
+			<not>
+				<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="${jacoco.agent}" />
+			</not>
+			<then>
+				<if>
+					<resourcecontains resource="${app.server.tomcat.dir}/bin/setenv.sh" substring="-javaagent:" />
+					<then>
+						<replace-first
+							file.name="${app.server.tomcat.dir}/bin/setenv.sh"
+							replace.token="-javaagent:"
+							replace.value="${jacoco.agent} -javaagent:"
+						/>
+					</then>
+					<else>
+						<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+							<![CDATA[
+								JACOCO_OPTS="${jacoco.agent}"
+
+								CATALINA_OPTS="${CATALINA_OPTS} ${JACOCO_OPTS}"
+							]]>
+						</echo>
+					</else>
+                </if>
+			</then>
+		</if>
 	</target>
 
 	<target name="functional-bundle-jboss-db2105-jdk8">
@@ -2047,6 +2144,8 @@ app.server.type=@{app.server.type}]]></echo>
 			<test-action>
 				<gradle-execute dir="modules" task="test">
 					<arg value="-Dbuild.exclude.ant.plugin=true" />
+					<arg value="-Djacoco.code.coverage=${jacoco.code.coverage.enabled}" />
+					<arg value="-Djacoco.dump.file=${jacoco.dump.file}" />
 					<arg value="-Dtest.class.group.index=${axis.variable}" />
 				</gradle-execute>
 			</test-action>
@@ -2868,15 +2967,18 @@ ${output.content}</echo>
 		<run-batch-test>
 			<test-action>
 				<ant dir="portal-kernel" inheritAll="false" target="test-class-group">
+					<property name="jacoco.code.coverage" value="${jacoco.code.coverage.enabled}" />
 					<property name="test.class.group.index" value="${axis.variable}" />
 				</ant>
 
 				<ant dir="portal-impl" inheritAll="false" target="test-class-group">
+					<property name="jacoco.code.coverage" value="${jacoco.code.coverage.enabled}" />
 					<property name="test.class.group.index" value="${axis.variable}" />
 					<property name="test.type" value="unit" />
 				</ant>
 
 				<ant dir="util-java" inheritAll="false" target="test-class-group">
+					<property name="jacoco.code.coverage" value="${jacoco.code.coverage.enabled}" />
 					<property name="test.class.group.index" value="${axis.variable}" />
 				</ant>
 			</test-action>
