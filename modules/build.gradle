@@ -110,6 +110,34 @@ gradle.beforeProject {
 		}
 
 		pluginManager.withPlugin("com.liferay.osgi.plugin") {
+            if (Boolean.getBoolean("jacoco.code.coverage")) {
+				apply plugin: "jacoco"
+
+				String jacocoDumpFile = System.getProperty("jacoco.dump.file")
+
+				test {
+					jacoco {
+						append = true
+						if (jacocoDumpFile != null) {
+							destinationFile = file(jacocoDumpFile)
+						}
+					}
+
+					systemProperty 'jacoco.code.coverage', 'true'
+				}
+
+				testIntegration {
+					jacoco {
+						append = true
+						if (jacocoDumpFile != null) {
+							destinationFile = file(jacocoDumpFile)
+						}
+					}
+
+					systemProperty 'jacoco.code.coverage', 'true'
+				}
+            }
+
 			afterEvaluate {
 				bundle.jarBuilderFactory.contextClassLoader = buildscript.classLoader
 
