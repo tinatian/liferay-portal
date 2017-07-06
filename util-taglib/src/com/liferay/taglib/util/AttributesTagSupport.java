@@ -38,6 +38,12 @@ public class AttributesTagSupport
 		return _attributeNamespace;
 	}
 
+	public Object getNamespacedAttribute(
+		HttpServletRequest request, String key) {
+
+		return request.getAttribute(_encodeKey(key));
+	}
+
 	/**
 	 * @deprecated As of 7.0.0, with no direct replacement
 	 */
