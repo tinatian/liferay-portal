@@ -162,6 +162,14 @@ public class SetUpTestableTomcatTask
 		return _overwriteTestModules;
 	}
 
+	public void setAspectJAgent(String aspectJAgent) {
+		_aspectJAgent = aspectJAgent;
+	}
+
+	public void setAspectJConfiguration(String aspectJConfiguration) {
+		_aspectJConfiguration = aspectJConfiguration;
+	}
+
 	public void setDebugLogging(boolean debugLogging) {
 		_debugLogging = debugLogging;
 	}
@@ -204,6 +212,7 @@ public class SetUpTestableTomcatTask
 
 	@TaskAction
 	public void setUpTestableTomcat() throws Exception {
+		_setUpAspectJ();
 		_setUpJmx();
 		_setUpJpda();
 		_setUpLogging();
@@ -277,6 +286,29 @@ public class SetUpTestableTomcatTask
 		}
 
 		Files.write(path, content.getBytes());
+	}
+
+	private void _setUpAspectJ() throws IOException {
+		if ((_aspectJAgent != null) &&
+			!_contains("bin/setenv.sh", _aspectJAgent)) {
+
+			try (PrintWriter printWriter = _getAppendPrintWriter(
+					"bin/setenv.sh")) {
+
+				printWriter.println();
+
+				printWriter.print("CATALINA_OPTS=\"${CATALINA_OPTS} ");
+				printWriter.print(_aspectJAgent);
+				printWriter.print(
+					" -Dorg.aspectj.weaver.loadtime.configuration=");
+
+				if (_aspectJConfiguration != null) {
+					printWriter.print(_aspectJConfiguration);
+				}
+
+				printWriter.println("\"");
+			}
+		}
 	}
 
 	private void _setUpJmx() throws IOException {
@@ -493,6 +525,8 @@ public class SetUpTestableTomcatTask
 		"tomcat"
 	};
 
+	private String _aspectJAgent;
+	private String _aspectJConfiguration;
 	private boolean _debugLogging;
 	private Object _dir;
 	private boolean _jmxRemoteAuthenticate;
