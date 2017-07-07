@@ -212,12 +212,10 @@ public class SetUpTestableTomcatTask
 
 	@TaskAction
 	public void setUpTestableTomcat() throws Exception {
-		_setUpAspectJ();
-		_setUpJmx();
-		_setUpJpda();
 		_setUpLogging();
 		_setUpManager();
 		_setUpOsgiModules();
+		_setUpSetEnv();
 	}
 
 	public void setZipUrl(Object zipUrl) {
@@ -518,6 +516,12 @@ public class SetUpTestableTomcatTask
 				}
 
 			});
+	}
+
+	private void _setUpSetEnv() throws IOException {
+		_setUpAspectJ();
+		_setUpJmx();
+		_setUpJpda();
 	}
 
 	private static final String[] _TOMCAT_USERS_ROLE_NAMES = {
