@@ -41,7 +41,6 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -105,29 +104,8 @@ public class SetUpTestableTomcatTask
 		};
 	}
 
-	public SetUpTestableTomcatTask catalinaOptsReplacement(
-		String oldSub, Object newSub) {
-
-		_catalinaOptsReplacements.put(oldSub, newSub);
-
-		return this;
-	}
-
-	public SetUpTestableTomcatTask catalinaOptsReplacements(
-		Map<String, ?> catalinaOptsReplacements) {
-
-		_catalinaOptsReplacements.putAll(catalinaOptsReplacements);
-
-		return this;
-	}
-
 	public File getBinDir() {
 		return new File(getDir(), "bin");
-	}
-
-	@Input
-	public Map<String, Object> getCatalinaOptsReplacements() {
-		return _catalinaOptsReplacements;
 	}
 
 	@Input
@@ -184,14 +162,6 @@ public class SetUpTestableTomcatTask
 		return _overwriteTestModules;
 	}
 
-	public void setCatalinaOptsReplacements(
-		Map<String, ?> catalinaOptsReplacements) {
-
-		_catalinaOptsReplacements.clear();
-
-		catalinaOptsReplacements(catalinaOptsReplacements);
-	}
-
 	public void setDebugLogging(boolean debugLogging) {
 		_debugLogging = debugLogging;
 	}
@@ -234,7 +204,6 @@ public class SetUpTestableTomcatTask
 
 	@TaskAction
 	public void setUpTestableTomcat() throws Exception {
-		_setUpCatalinaOpts();
 		_setUpJmx();
 		_setUpLogging();
 		_setUpManager();
@@ -307,17 +276,6 @@ public class SetUpTestableTomcatTask
 		}
 
 		Files.write(path, content.getBytes());
-	}
-
-	private void _setUpCatalinaOpts() throws IOException {
-		Map<String, Object> replacements = getCatalinaOptsReplacements();
-
-		if (replacements.isEmpty()) {
-			return;
-		}
-
-		_replace("bin/setenv.bat", replacements);
-		_replace("bin/setenv.sh", replacements);
 	}
 
 	private void _setUpJmx() throws IOException {
@@ -522,8 +480,6 @@ public class SetUpTestableTomcatTask
 		"tomcat"
 	};
 
-	private final Map<String, Object> _catalinaOptsReplacements =
-		new LinkedHashMap<>();
 	private boolean _debugLogging;
 	private Object _dir;
 	private boolean _jmxRemoteAuthenticate;
