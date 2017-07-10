@@ -41,7 +41,6 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -105,29 +104,8 @@ public class SetUpTestableTomcatTask
 		};
 	}
 
-	public SetUpTestableTomcatTask catalinaOptsReplacement(
-		String oldSub, Object newSub) {
-
-		_catalinaOptsReplacements.put(oldSub, newSub);
-
-		return this;
-	}
-
-	public SetUpTestableTomcatTask catalinaOptsReplacements(
-		Map<String, ?> catalinaOptsReplacements) {
-
-		_catalinaOptsReplacements.putAll(catalinaOptsReplacements);
-
-		return this;
-	}
-
 	public File getBinDir() {
 		return new File(getDir(), "bin");
-	}
-
-	@Input
-	public Map<String, Object> getCatalinaOptsReplacements() {
-		return _catalinaOptsReplacements;
 	}
 
 	@Input
@@ -184,12 +162,12 @@ public class SetUpTestableTomcatTask
 		return _overwriteTestModules;
 	}
 
-	public void setCatalinaOptsReplacements(
-		Map<String, ?> catalinaOptsReplacements) {
+	public void setAspectJAgent(String aspectJAgent) {
+		_aspectJAgent = aspectJAgent;
+	}
 
-		_catalinaOptsReplacements.clear();
-
-		catalinaOptsReplacements(catalinaOptsReplacements);
+	public void setAspectJConfiguration(String aspectJConfiguration) {
+		_aspectJConfiguration = aspectJConfiguration;
 	}
 
 	public void setDebugLogging(boolean debugLogging) {
@@ -234,11 +212,10 @@ public class SetUpTestableTomcatTask
 
 	@TaskAction
 	public void setUpTestableTomcat() throws Exception {
-		_setUpCatalinaOpts();
-		_setUpJmx();
 		_setUpLogging();
 		_setUpManager();
 		_setUpOsgiModules();
+		_setUpSetEnv();
 	}
 
 	public void setZipUrl(Object zipUrl) {
@@ -309,15 +286,27 @@ public class SetUpTestableTomcatTask
 		Files.write(path, content.getBytes());
 	}
 
-	private void _setUpCatalinaOpts() throws IOException {
-		Map<String, Object> replacements = getCatalinaOptsReplacements();
+	private void _setUpAspectJ() throws IOException {
+		if ((_aspectJAgent != null) &&
+			!_contains("bin/setenv.sh", _aspectJAgent)) {
 
-		if (replacements.isEmpty()) {
-			return;
+			try (PrintWriter printWriter = _getAppendPrintWriter(
+					"bin/setenv.sh")) {
+
+				printWriter.println();
+
+				printWriter.print("CATALINA_OPTS=\"${CATALINA_OPTS} ");
+				printWriter.print(_aspectJAgent);
+				printWriter.print(
+					" -Dorg.aspectj.weaver.loadtime.configuration=");
+
+				if (_aspectJConfiguration != null) {
+					printWriter.print(_aspectJConfiguration);
+				}
+
+				printWriter.println("\"");
+			}
 		}
-
-		_replace("bin/setenv.bat", replacements);
-		_replace("bin/setenv.sh", replacements);
 	}
 
 	private void _setUpJmx() throws IOException {
@@ -354,6 +343,18 @@ public class SetUpTestableTomcatTask
 
 				printWriter.println(
 					"CATALINA_OPTS=\"${CATALINA_OPTS} ${JMX_OPTS}\"");
+			}
+		}
+	}
+
+	private void _setUpJpda() throws IOException {
+		if (!_contains("bin/setenv.sh", "JPDA_ADDRESS")) {
+			try (PrintWriter printWriter = _getAppendPrintWriter(
+					"bin/setenv.sh")) {
+
+				printWriter.println();
+
+				printWriter.println("JPDA_ADDRESS=\"8000\"");
 			}
 		}
 	}
@@ -517,13 +518,19 @@ public class SetUpTestableTomcatTask
 			});
 	}
 
+	private void _setUpSetEnv() throws IOException {
+		_setUpAspectJ();
+		_setUpJmx();
+		_setUpJpda();
+	}
+
 	private static final String[] _TOMCAT_USERS_ROLE_NAMES = {
 		"manager-gui", "manager-jmx", "manager-script", "manager-status",
 		"tomcat"
 	};
 
-	private final Map<String, Object> _catalinaOptsReplacements =
-		new LinkedHashMap<>();
+	private String _aspectJAgent;
+	private String _aspectJConfiguration;
 	private boolean _debugLogging;
 	private Object _dir;
 	private boolean _jmxRemoteAuthenticate;
