@@ -4,7 +4,6 @@ Bundle-Version: 2.2.4
 DynamicImport-Package: *
 Export-Package:\
 	com.liferay.portal.cache,\
-	com.liferay.portal.cache.configuration,\
-	com.liferay.portal.cache.io
+	com.liferay.portal.cache.configuration
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: Cache Engines
