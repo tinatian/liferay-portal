@@ -356,7 +356,10 @@ public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 			_configureSourceSetTestIntegration(
 				project, portalConfiguration, portalTestConfiguration);
 
-			if (Boolean.getBoolean("jacoco.code.coverage")) {
+			if (Boolean.getBoolean("junit.jacoco.code.coverage") ||
+				GradleUtil.getProperty(
+					project, "junit.jacoco.code.coverage", false)) {
+
 				JaCoCoPlugin.INSTANCE.apply(project);
 			}
 		}
