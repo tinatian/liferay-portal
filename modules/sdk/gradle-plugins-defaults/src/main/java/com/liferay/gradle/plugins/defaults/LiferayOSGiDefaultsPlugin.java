@@ -227,6 +227,13 @@ import org.w3c.dom.NodeList;
  */
 public class LiferayOSGiDefaultsPlugin implements Plugin<Project> {
 
+	/**
+	 * @deprecated As of 1.2.0, with no direct replacement
+	 */
+	@Deprecated
+	public static final String ASPECTJ_WEAVER_CONFIGURATION_NAME =
+		"aspectJWeaver";
+
 	public static final String CHECK_OSGI_BUNDLE_STATE_TASK_NAME =
 		"checkOSGiBundleState";
 
