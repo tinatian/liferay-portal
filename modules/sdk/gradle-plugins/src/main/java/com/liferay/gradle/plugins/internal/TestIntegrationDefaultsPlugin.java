@@ -94,6 +94,9 @@ public class TestIntegrationDefaultsPlugin
 			GradleUtil.getProperty(
 				project, "aspectj.configuration", (String)null));
 
+		setUpTestableTomcatTask.setJaCoCoAgent(
+			GradleUtil.getProperty(project, "jacoco.agent", (String)null));
+
 		setUpTestableTomcatTask.setZipUrl(
 			new Callable<String>() {
 
