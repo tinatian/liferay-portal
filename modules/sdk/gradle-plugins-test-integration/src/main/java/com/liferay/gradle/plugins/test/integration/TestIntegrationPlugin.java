@@ -424,7 +424,10 @@ public class TestIntegrationPlugin implements Plugin<Project> {
 			"Starts the local Liferay Tomcat bundle.");
 		startTestableTomcatTask.setExecutable(
 			_getTomcatExecutableFileName("catalina"));
-		startTestableTomcatTask.setExecutableArgs(Collections.singleton("run"));
+		startTestableTomcatTask.setExecutableArgs(
+			Collections.singleton(
+				System.getProperty(
+					"app.server.start.executable.arg.line", "run")));
 		startTestableTomcatTask.setGroup(JavaBasePlugin.VERIFICATION_GROUP);
 
 		startTestableTomcatTask.setLiferayHome(
