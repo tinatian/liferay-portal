@@ -1,10 +1,9 @@
 Bundle-Name: Liferay Portal Cache
 Bundle-SymbolicName: com.liferay.portal.cache
-Bundle-Version: 2.2.5
+Bundle-Version: 3.0.0
 DynamicImport-Package: *
 Export-Package:\
 	com.liferay.portal.cache,\
-	com.liferay.portal.cache.configuration,\
-	com.liferay.portal.cache.io
+	com.liferay.portal.cache.configuration
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: Cache Engines
