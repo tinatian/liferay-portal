@@ -24,8 +24,10 @@ import com.liferay.gradle.plugins.test.integration.TestIntegrationTomcatExtensio
 import com.liferay.gradle.plugins.test.integration.tasks.SetUpTestableTomcatTask;
 import com.liferay.gradle.plugins.test.integration.tasks.StartTestableTomcatTask;
 import com.liferay.gradle.plugins.test.integration.tasks.StopAppServerTask;
+import com.liferay.gradle.util.Validator;
 
 import java.io.File;
+import java.util.Collections;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -138,6 +140,13 @@ public class TestIntegrationDefaultsPlugin
 
 				@Override
 				public List<String> call() throws Exception {
+					String startExecutableArgs = System.getProperty(
+						"app.server.start.executable.arg.line");
+
+					if (Validator.isNotNull(startExecutableArgs)) {
+						return Collections.singletonList(startExecutableArgs);
+					}
+
 					return tomcatAppServer.getStartExecutableArgs();
 				}
 
