@@ -483,7 +483,7 @@ app.server.type=@{app.server.type}]]></echo>
 						]]>
 					</execute>
 
-					<prepare-test-build-unit if:true="${test.batch.code.coverage}" portal.bundle.dir="bundles" />
+					<prepare-liferay-classes if:true="${test.batch.code.coverage}" liferay.classes.jar="${project.dir}/jacoco/liferay-classes.jar" portal.bundle.dir="bundles" />
 				</then>
 			</if>
 
