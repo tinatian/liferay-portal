@@ -330,6 +330,36 @@ mariadb.executable=${mariadb.executable}]]></echo>
 		</sequential>
 	</macrodef>
 
+	<macrodef name="prepare-liferay-classes" >
+		<attribute name="portal.bundle.dir" />
+		<attribute name="liferay.classes.jar" />
+
+		<sequential>
+			<var name="liferay-classes" value="${project.dir}/jacoco/liferay-classes" />
+
+			<delete dir="${liferay-classes}" />
+			<mkdir dir="${liferay-classes}" />
+
+			<unzip dest="${liferay-classes}">
+				<patternset>
+					<include name="**/com/liferay/**" />
+				</patternset>
+				<fileset dir="@{portal.bundle.dir}">
+					 <include name="**/*.jar" />
+					 <include name="**/*.war" />
+				</fileset>
+			</unzip>
+
+			<jar destfile="@{liferay.classes.jar}" update="true">
+				<fileset dir="${liferay-classes}">
+					<include name="**/*.class" />
+				</fileset>
+			</jar>
+
+			<delete dir="${liferay-classes}" />
+		</sequential>
+	</macrodef>
+
 	<macrodef name="prepare-test-build">
 		<sequential>
 			<trycatch property="exception.message">
@@ -452,6 +482,8 @@ app.server.type=@{app.server.type}]]></echo>
 							git diff --cached --name-only -z | grep -E -v -z '^\.gitignore|bundles/|^modules/\.gitignore' | xargs -0 -n 1000 zip -v liferay-portal-source.zip
 						]]>
 					</execute>
+
+					<prepare-test-build-unit if:true="${test.batch.code.coverage}" portal.bundle.dir="bundles" />
 				</then>
 			</if>
 
