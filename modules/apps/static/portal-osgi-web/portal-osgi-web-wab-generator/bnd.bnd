@@ -8,6 +8,4 @@ Import-Package:\
 	*
 Liferay-Releng-Module-Group-Description:
 Liferay-Releng-Module-Group-Title: WAB
--conditionalpackage:\
-	com.liferay.ant.bnd.jsp,\
-	com.liferay.whip.util
+-conditionalpackage: com.liferay.ant.bnd.jsp
