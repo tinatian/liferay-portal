@@ -16,8 +16,7 @@ package com.liferay.portal.osgi.web.wab.generator.internal.artifact;
 
 import aQute.bnd.osgi.Jar;
 import aQute.bnd.osgi.Resource;
-
-import com.liferay.whip.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
