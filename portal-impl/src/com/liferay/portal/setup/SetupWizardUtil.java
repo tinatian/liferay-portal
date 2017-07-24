@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropertiesParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
@@ -285,6 +286,11 @@ public class SetupWizardUtil {
 		PropsValues.ADMIN_EMAIL_FROM_ADDRESS = emailAddress;
 
 		unicodeProperties.put(PropsKeys.ADMIN_EMAIL_FROM_ADDRESS, emailAddress);
+
+		String[] emailAddressSplit = StringUtil.split(emailAddress, '@');
+
+		unicodeProperties.put(
+			PropsKeys.DEFAULT_ADMIN_EMAIL_ADDRESS_PREFIX, emailAddressSplit[0]);
 
 		String firstName = ParamUtil.getString(
 			request, "adminFirstName", PropsValues.DEFAULT_ADMIN_FIRST_NAME);
