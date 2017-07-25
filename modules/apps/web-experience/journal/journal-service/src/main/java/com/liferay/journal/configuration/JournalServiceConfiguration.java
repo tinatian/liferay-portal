@@ -97,7 +97,7 @@ public interface JournalServiceConfiguration {
 	public boolean expireAllArticleVersionsEnabled();
 
 	@Meta.AD(
-		deflt = "false", description = "journal-article-view-permission-check",
+		deflt = "true", description = "journal-article-view-permission-check",
 		required = false
 	)
 	public boolean articleViewPermissionsCheckEnabled();
