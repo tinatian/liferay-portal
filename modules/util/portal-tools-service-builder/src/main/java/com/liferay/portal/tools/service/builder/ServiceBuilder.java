@@ -5142,6 +5142,7 @@ public class ServiceBuilder {
 		List<EntityColumn> columnList = new ArrayList<>();
 
 		boolean permissionedModel = false;
+		boolean resourcedModel = false;
 
 		List<Element> columnElements = entityElement.elements("column");
 
@@ -5177,12 +5178,6 @@ public class ServiceBuilder {
 
 		for (Element columnElement : columnElements) {
 			String columnName = columnElement.attributeValue("name");
-
-			if (columnName.equals("resourceBlockId") &&
-				!ejbName.equals("ResourceBlock")) {
-
-				permissionedModel = true;
-			}
 
 			String columnDBName = columnElement.attributeValue("db-name");
 
@@ -5230,6 +5225,16 @@ public class ServiceBuilder {
 				columnElement.attributeValue("container-model"));
 			boolean parentContainerModel = GetterUtil.getBoolean(
 				columnElement.attributeValue("parent-container-model"));
+
+			if (columnName.equals("resourceBlockId") &&
+				!ejbName.equals("ResourceBlock")) {
+
+				permissionedModel = true;
+			}
+
+			if (columnName.equals("resourcePrimKey") && !primary) {
+				resourcedModel = true;
+			}
 
 			EntityColumn col = new EntityColumn(
 				columnName, columnDBName, columnType, primary, accessor,
@@ -5407,6 +5412,20 @@ public class ServiceBuilder {
 				"finder-column");
 
 			finderColumnElement.addAttribute("name", "resourceBlockId");
+
+			finderElements.add(0, finderElement);
+		}
+
+		if (resourcedModel) {
+			Element finderElement = DocumentHelper.createElement("finder");
+
+			finderElement.addAttribute("name", "ResourcePrimKey");
+			finderElement.addAttribute("return-type", "Collection");
+
+			Element finderColumnElement = finderElement.addElement(
+				"finder-column");
+
+			finderColumnElement.addAttribute("name", "resourcePrimKey");
 
 			finderElements.add(0, finderElement);
 		}
