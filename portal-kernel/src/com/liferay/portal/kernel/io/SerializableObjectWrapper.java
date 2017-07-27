@@ -24,6 +24,8 @@ import java.io.Serializable;
 
 import java.nio.ByteBuffer;
 
+import java.util.Objects;
+
 /**
  * @author Tina Tian
  */
@@ -37,7 +39,7 @@ public class SerializableObjectWrapper implements Externalizable {
 		SerializableObjectWrapper serializableWrapper =
 			(SerializableObjectWrapper)object;
 
-		return (T)serializableWrapper._serializable;
+		return (T)serializableWrapper.getSerializable();
 	}
 
 	/**
@@ -64,12 +66,36 @@ public class SerializableObjectWrapper implements Externalizable {
 		SerializableObjectWrapper serializableWrapper =
 			(SerializableObjectWrapper)object;
 
-		return _serializable.equals(serializableWrapper._serializable);
+		return Objects.equals(
+			getSerializable(), serializableWrapper.getSerializable());
+	}
+
+	public Serializable getSerializable() {
+		if (_serializable != null) {
+			return _serializable;
+		}
+
+		if (_data == null) {
+			return null;
+		}
+
+		Deserializer deserializer = new Deserializer(ByteBuffer.wrap(_data));
+
+		try {
+			_serializable = deserializer.readObject();
+
+			_data = null;
+		}
+		catch (ClassNotFoundException cnfe) {
+			_log.error("Unable to deserialize object", cnfe);
+		}
+
+		return _serializable;
 	}
 
 	@Override
 	public int hashCode() {
-		return _serializable.hashCode();
+		return Objects.hashCode(getSerializable());
 	}
 
 	@Override
@@ -78,21 +104,14 @@ public class SerializableObjectWrapper implements Externalizable {
 
 		objectInput.readFully(data);
 
-		Deserializer deserializer = new Deserializer(ByteBuffer.wrap(data));
-
-		try {
-			_serializable = deserializer.readObject();
-		}
-		catch (ClassNotFoundException cnfe) {
-			_log.error("Unable to deserialize object", cnfe);
-		}
+		_data = data;
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		Serializer serializer = new Serializer();
 
-		serializer.writeObject(_serializable);
+		serializer.writeObject(getSerializable());
 
 		ByteBuffer byteBuffer = serializer.toByteBuffer();
 
@@ -105,6 +124,7 @@ public class SerializableObjectWrapper implements Externalizable {
 	private static final Log _log = LogFactoryUtil.getLog(
 		SerializableObjectWrapper.class);
 
+	private byte[] _data;
 	private Serializable _serializable;
 
 }
