@@ -1830,6 +1830,21 @@ attribute in Ivy `<dependency>` elements.
 `QUIET` instead of `LIFECYCLE`.
 - [LPS-73855]: Update the [Liferay Gradle Plugins] dependency to version 3.4.17.
 
+## 5.0.1 - 2017-08-01
+
+### Changed
+- Update the [Liferay Gradle Plugins] dependency to version 3.4.18.
+
+## 5.0.2 - 2017-08-01
+
+### Added
+- [LPS-73955]: Change project inclusion logic based on the value of the
+`build.profile` system property:
+	- if `build.profile` is equal to `"[foo]"`, include only projects containing
+	a `.lfrbuild-[foo]` marker file
+	- if `build.profile` is equal to `"[foo]-[bar]"`, include projects
+	containing a `.lfrbuild-[foo]` or a `.lfrbuild-[foo]-[bar]` marker file
+
 [Find Security Bugs]: https://github.com/liferay/liferay-portal/tree/master/modules/third-party/com-h3xstream-findsecbugs
 [Liferay CDN]: https://cdn.lfrs.sl/repository.liferay.com/nexus/content/groups/public
 [Liferay Gradle Plugins]: https://github.com/liferay/liferay-portal/tree/master/modules/sdk/gradle-plugins
@@ -2025,6 +2040,7 @@ attribute in Ivy `<dependency>` elements.
 [LPS-73807]: https://issues.liferay.com/browse/LPS-73807
 [LPS-73818]: https://issues.liferay.com/browse/LPS-73818
 [LPS-73855]: https://issues.liferay.com/browse/LPS-73855
+[LPS-73955]: https://issues.liferay.com/browse/LPS-73955
 [LRDOCS-2594]: https://issues.liferay.com/browse/LRDOCS-2594
 [LRDOCS-2841]: https://issues.liferay.com/browse/LRDOCS-2841
 [LRDOCS-2981]: https://issues.liferay.com/browse/LRDOCS-2981
