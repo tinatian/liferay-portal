@@ -38,10 +38,11 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 
 	public PortalCacheCacheEventListener(
 		AggregatedPortalCacheListener<K, V> aggregatedPortalCacheListener,
-		PortalCache<K, V> portalCache) {
+		PortalCache<K, V> portalCache, boolean debugEnabled) {
 
 		_aggregatedPortalCacheListener = aggregatedPortalCacheListener;
 		_portalCache = portalCache;
+		_debugEnabled = debugEnabled;
 
 		boolean requireSerialization = false;
 
@@ -55,7 +56,7 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 	@Override
 	public Object clone() {
 		return new PortalCacheCacheEventListener<>(
-			_aggregatedPortalCacheListener, _portalCache);
+			_aggregatedPortalCacheListener, _portalCache, _debugEnabled);
 	}
 
 	@Override
@@ -75,6 +76,10 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 		return _portalCache;
 	}
 
+	public boolean isDebugEnabled() {
+		return _debugEnabled;
+	}
+
 	@Override
 	public void notifyElementEvicted(Ehcache ehcache, Element element) {
 		if (_aggregatedPortalCacheListener.isEmpty()) {
@@ -88,8 +93,8 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 		_aggregatedPortalCacheListener.notifyEntryEvicted(
 			_portalCache, key, value, timeToLive);
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Evicted " + key + " from " + ehcache.getName());
+		if (_debugEnabled && _log.isInfoEnabled()) {
+			_log.info("Evicted " + key + " from " + ehcache.getName());
 		}
 	}
 
@@ -106,8 +111,8 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 		_aggregatedPortalCacheListener.notifyEntryExpired(
 			_portalCache, key, value, timeToLive);
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Expired " + key + " from " + ehcache.getName());
+		if (_debugEnabled && _log.isInfoEnabled()) {
+			_log.info("Expired " + key + " from " + ehcache.getName());
 		}
 	}
 
@@ -126,8 +131,8 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 		_aggregatedPortalCacheListener.notifyEntryPut(
 			_portalCache, key, value, timeToLive);
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Inserted " + key + " into " + ehcache.getName());
+		if (_debugEnabled && _log.isInfoEnabled()) {
+			_log.info("Inserted " + key + " into " + ehcache.getName());
 		}
 	}
 
@@ -146,8 +151,8 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 		_aggregatedPortalCacheListener.notifyEntryRemoved(
 			_portalCache, key, value, timeToLive);
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Removed " + key + " from " + ehcache.getName());
+		if (_debugEnabled && _log.isInfoEnabled()) {
+			_log.info("Removed " + key + " from " + ehcache.getName());
 		}
 	}
 
@@ -166,8 +171,8 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 		_aggregatedPortalCacheListener.notifyEntryUpdated(
 			_portalCache, key, value, timeToLive);
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Updated " + key + " in " + ehcache.getName());
+		if (_debugEnabled && _log.isInfoEnabled()) {
+			_log.info("Updated " + key + " in " + ehcache.getName());
 		}
 	}
 
@@ -179,8 +184,8 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 
 		_aggregatedPortalCacheListener.notifyRemoveAll(_portalCache);
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Cleared " + ehcache.getName());
+		if (_debugEnabled && _log.isInfoEnabled()) {
+			_log.info("Cleared " + ehcache.getName());
 		}
 	}
 
@@ -205,6 +210,7 @@ public class PortalCacheCacheEventListener<K extends Serializable, V>
 
 	private final AggregatedPortalCacheListener<K, V>
 		_aggregatedPortalCacheListener;
+	private final boolean _debugEnabled;
 	private final PortalCache<K, V> _portalCache;
 	private final boolean _requireSerialization;
 
