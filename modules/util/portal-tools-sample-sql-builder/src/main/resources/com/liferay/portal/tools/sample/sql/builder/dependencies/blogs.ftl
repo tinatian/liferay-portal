@@ -1,9 +1,13 @@
-<#assign blogsEntryModels = dataFactory.newBlogsEntryModels(groupId) />
+<#assign blogsEntryModels = blogDataFactory.newBlogsEntryModels(groupId) />
 
 <#list blogsEntryModels as blogsEntryModel>
-	${dataFactory.toInsertSQL(blogsEntryModel)}
+	${blogDataFactory.toInsertSQL(blogsEntryModel)}
 
-	${dataFactory.toInsertSQL(dataFactory.newFriendlyURLEntryModel(blogsEntryModel))}
+	${resourcePermissionDataFactory.generateResourcePermissionSQL(blogsEntryModel)}
+
+	${blogDataFactory.toInsertSQL(blogDataFactory.newFriendlyURLEntryModel(blogsEntryModel))}
+
+	${resourcePermissionDataFactory.generateResourcePermissionSQL(blogDataFactory.newFriendlyURLEntryModel(blogsEntryModel))}
 
 	<@insertAssetEntry
 		_categoryAndTag=true
@@ -11,22 +15,26 @@
 	/>
 
 	<#assign
-		mbThreadId = dataFactory.getCounterNext()
-		mbRootMessageId = dataFactory.getCounterNext()
+		mbThreadId = counterDataFactory.getCounterNext()
+		mbRootMessageId = counterDataFactory.getCounterNext()
 	/>
 
 	<@insertMBDiscussion
-		_classNameId=dataFactory.blogsEntryClassNameId
+		_classNameId=blogDataFactory.blogsEntryClassNameId
 		_classPK=blogsEntryModel.entryId
 		_groupId=groupId
-		_maxCommentCount=dataFactory.maxBlogsEntryCommentCount
+		_maxCommentCount=initContext.maxBlogsEntryCommentCount
 		_mbRootMessageId=mbRootMessageId
 		_mbThreadId=mbThreadId
 	/>
 
-	${dataFactory.toInsertSQL(dataFactory.newSubscriptionModel(blogsEntryModel))}
+	${blogDataFactory.toInsertSQL(subscriptionDataFactory.newSubscriptionModel(blogsEntryModel))}
 
-	${dataFactory.toInsertSQL(dataFactory.newSocialActivityModel(blogsEntryModel))}
+	${resourcePermissionDataFactory.generateResourcePermissionSQL(subscriptionDataFactory.newSubscriptionModel(blogsEntryModel))}
 
-	${dataFactory.getCSVWriter("blog").write(blogsEntryModel.entryId + "," + blogsEntryModel.urlTitle + "," + mbThreadId + "," + mbRootMessageId + "\n")}
+	${blogDataFactory.toInsertSQL(socialActivityDataFactory.newSocialActivityModel(blogsEntryModel))}
+
+	${resourcePermissionDataFactory.generateResourcePermissionSQL(socialActivityDataFactory.newSocialActivityModel(blogsEntryModel))}
+
+	${initContext.getCSVWriter("blog").write(blogsEntryModel.entryId + "," + blogsEntryModel.urlTitle + "," + mbThreadId + "," + mbRootMessageId + "\n")}
 </#list>

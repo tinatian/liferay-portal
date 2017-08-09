@@ -1,7 +1,13 @@
-${dataFactory.toInsertSQL(dataFactory.companyModel)}
+${userDataFactory.toInsertSQL(userDataFactory.companyModel)}
 
-${dataFactory.toInsertSQL(dataFactory.accountModel)}
+${resourcePermissionDataFactory.generateResourcePermissionSQL(userDataFactory.companyModel)}
 
-${dataFactory.toInsertSQL(dataFactory.virtualHostModel)}
+${userDataFactory.toInsertSQL(userDataFactory.accountModel)}
 
-${dataFactory.getCSVWriter("company").write(dataFactory.companyModel.companyId + "\n")}
+${resourcePermissionDataFactory.generateResourcePermissionSQL(userDataFactory.accountModel)}
+
+${userDataFactory.toInsertSQL(userDataFactory.virtualHostModel)}
+
+${resourcePermissionDataFactory.generateResourcePermissionSQL(userDataFactory.virtualHostModel)}
+
+${initContext.getCSVWriter("company").write(userDataFactory.companyModel.companyId + "\n")}
