@@ -25,8 +25,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +56,8 @@ import org.apache.commons.cli.ParseException;
  * @author David Truong
  */
 public class UpgradeClient {
+
+	public static final File JAR_DIR;
 
 	public static void main(String[] args) {
 		try {
@@ -80,19 +90,21 @@ public class UpgradeClient {
 			File logFile = null;
 
 			if (commandLine.hasOption("log-file")) {
-				logFile = new File(commandLine.getOptionValue("log-file"));
+				logFile = new File(
+					JAR_DIR, commandLine.getOptionValue("log-file"));
 			}
 			else {
-				logFile = new File("upgrade.log");
+				logFile = new File(JAR_DIR, "upgrade.log");
 			}
 
 			if (logFile.exists()) {
 				String logFileName = logFile.getName();
 
 				logFile.renameTo(
-					new File(logFileName + "." + logFile.lastModified()));
+					new File(
+						JAR_DIR, logFileName + "." + logFile.lastModified()));
 
-				logFile = new File(logFileName);
+				logFile = new File(JAR_DIR, logFileName);
 			}
 
 			boolean shell = false;
@@ -125,18 +137,18 @@ public class UpgradeClient {
 		_logFile = logFile;
 		_shell = shell;
 
-		_appServerPropertiesFile = new File("app-server.properties");
+		_appServerPropertiesFile = new File(JAR_DIR, "app-server.properties");
 
 		_appServerProperties = _readProperties(_appServerPropertiesFile);
 
 		_portalUpgradeDatabasePropertiesFile = new File(
-			"portal-upgrade-database.properties");
+			JAR_DIR, "portal-upgrade-database.properties");
 
 		_portalUpgradeDatabaseProperties = _readProperties(
 			_portalUpgradeDatabasePropertiesFile);
 
 		_portalUpgradeExtPropertiesFile = new File(
-			"portal-upgrade-ext.properties");
+			JAR_DIR, "portal-upgrade-ext.properties");
 
 		_portalUpgradeExtProperties = _readProperties(
 			_portalUpgradeExtPropertiesFile);
@@ -160,7 +172,7 @@ public class UpgradeClient {
 		}
 
 		commands.add("-cp");
-		commands.add(_getClassPath());
+		commands.add(_getBootstrapClassPath());
 
 		Collections.addAll(commands, _jvmOpts.split(" "));
 
@@ -168,18 +180,26 @@ public class UpgradeClient {
 		commands.add(
 			"-Dserver.detector.server.id=" +
 				_appServer.getServerDetectorServerId());
-		commands.add("com.liferay.portal.tools.DBUpgrader");
+		commands.add(DBUpgraderLauncher.class.getName());
 
 		processBuilder.command(commands);
+
+		processBuilder.directory(JAR_DIR);
 
 		processBuilder.redirectErrorStream(true);
 
 		Process process = processBuilder.start();
 
-		try (InputStreamReader inputStreamReader = new InputStreamReader(
+		try (ObjectOutputStream bootstrapObjectOutputStream =
+				new ObjectOutputStream(process.getOutputStream());
+			InputStreamReader inputStreamReader = new InputStreamReader(
 				process.getInputStream());
 			BufferedReader bufferedReader = new BufferedReader(
 				inputStreamReader)) {
+
+			bootstrapObjectOutputStream.writeObject(_getClassPath());
+
+			bootstrapObjectOutputStream.flush();
 
 			String line = null;
 
@@ -295,6 +315,14 @@ public class UpgradeClient {
 		closeable.close();
 	}
 
+	private String _getBootstrapClassPath() throws IOException {
+		StringBuilder sb = new StringBuilder();
+
+		_appendClassPath(sb, new File(JAR_DIR, "."));
+
+		return sb.toString();
+	}
+
 	private String _getClassPath() throws IOException {
 		StringBuilder sb = new StringBuilder();
 
@@ -305,8 +333,8 @@ public class UpgradeClient {
 			sb.append(File.pathSeparator);
 		}
 
-		_appendClassPath(sb, new File("lib"));
-		_appendClassPath(sb, new File("."));
+		_appendClassPath(sb, new File(JAR_DIR, "lib"));
+		_appendClassPath(sb, new File(JAR_DIR, "."));
 		_appendClassPath(sb, _appServer.getGlobalLibDir());
 		_appendClassPath(sb, _appServer.getExtraLibDirs());
 
@@ -644,7 +672,7 @@ public class UpgradeClient {
 				response = "../../";
 			}
 
-			File liferayHome = new File(response);
+			File liferayHome = new File(JAR_DIR, response);
 
 			_portalUpgradeExtProperties.setProperty(
 				"liferay.home", liferayHome.getCanonicalPath());
@@ -659,6 +687,25 @@ public class UpgradeClient {
 		new LinkedHashMap<>();
 
 	static {
+		Class<?> clazz = UpgradeClient.class;
+
+		ProtectionDomain protectionDomain = clazz.getProtectionDomain();
+
+		CodeSource codeSource = protectionDomain.getCodeSource();
+
+		URL location = codeSource.getLocation();
+
+		try {
+			Path path = Paths.get(location.toURI());
+
+			File jarFile = path.toFile();
+
+			JAR_DIR = jarFile.getParentFile();
+		}
+		catch (URISyntaxException urise) {
+			throw new ExceptionInInitializerError(urise);
+		}
+
 		_appServers.put("jboss", AppServer.getJBossEAPAppServer());
 		_appServers.put("jonas", AppServer.getJOnASAppServer());
 		_appServers.put("resin", AppServer.getResinAppServer());

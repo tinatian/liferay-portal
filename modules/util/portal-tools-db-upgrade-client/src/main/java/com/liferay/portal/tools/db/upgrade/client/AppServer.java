@@ -80,9 +80,11 @@ public class AppServer {
 		String dirName, String extraLibDirNames, String globalLibDirName,
 		String portalDirName, String serverDetectorServerId) {
 
-		_dir = new File(dirName);
-		_globalLibDir = new File(dirName, globalLibDirName);
-		_portalDir = new File(dirName, portalDirName);
+		_dir = new File(UpgradeClient.JAR_DIR, dirName);
+
+		_globalLibDir = new File(_dir, globalLibDirName);
+		_portalDir = new File(_dir, portalDirName);
+
 		_serverDetectorServerId = serverDetectorServerId;
 
 		_setExtraLibDirNames(extraLibDirNames);
@@ -121,7 +123,7 @@ public class AppServer {
 	}
 
 	public void setDirName(String dirName) {
-		_dir = new File(dirName);
+		_dir = new File(UpgradeClient.JAR_DIR, dirName);
 	}
 
 	public void setExtraLibDirNames(String extraLibDirNames) {
