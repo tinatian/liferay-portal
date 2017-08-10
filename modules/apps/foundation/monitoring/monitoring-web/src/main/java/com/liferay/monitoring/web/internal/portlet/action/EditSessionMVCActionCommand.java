@@ -15,8 +15,12 @@
 package com.liferay.monitoring.web.internal.portlet.action;
 
 import com.liferay.monitoring.web.internal.constants.MonitoringPortletKeys;
+import com.liferay.portal.kernel.cluster.ClusterInvokeAcceptor;
+import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterableInvokerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
@@ -26,6 +30,8 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+
+import java.lang.reflect.Method;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -44,9 +50,10 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.name=" + MonitoringPortletKeys.MONITORING,
 		"mvc.command.name=/monitoring/edit_session"
 	},
-	service = MVCActionCommand.class
+	service = {IdentifiableOSGiService.class, MVCActionCommand.class}
 )
-public class EditSessionMVCActionCommand extends BaseMVCActionCommand {
+public class EditSessionMVCActionCommand
+	extends BaseMVCActionCommand implements IdentifiableOSGiService {
 
 	@Override
 	public void doProcessAction(
@@ -74,31 +81,58 @@ public class EditSessionMVCActionCommand extends BaseMVCActionCommand {
 		sendRedirect(actionRequest, actionResponse);
 	}
 
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return EditSessionMVCActionCommand.class.getName();
+	}
+
+	public void invalidateSession(String sessionId) {
+		HttpSession userSession = PortalSessionContext.get(sessionId);
+
+		if (userSession != null) {
+			userSession.invalidate();
+		}
+	}
+
 	protected void invalidateSession(ActionRequest actionRequest)
 		throws Exception {
 
 		String sessionId = ParamUtil.getString(actionRequest, "sessionId");
 
-		HttpSession userSession = PortalSessionContext.get(sessionId);
+		PortletSession portletSession = actionRequest.getPortletSession();
 
-		if (userSession != null) {
+		if (!sessionId.equals(portletSession.getId())) {
 			try {
-				PortletSession portletSession =
-					actionRequest.getPortletSession();
+				invalidateSession(sessionId);
 
-				String portletSessionId = portletSession.getId();
-
-				if (!portletSessionId.equals(sessionId)) {
-					userSession.invalidate();
+				if (ClusterInvokeThreadLocal.isEnabled()) {
+					ClusterableInvokerUtil.invokeOnCluster(
+						ClusterInvokeAcceptor.class, this,
+						_invalidateSessionMethod, new Object[] {sessionId});
 				}
 			}
-			catch (Exception e) {
-				_log.error("Unable to invalidate session", e);
+			catch (Throwable t) {
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to invalidate session", t);
+				}
 			}
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditSessionMVCActionCommand.class);
+
+	private static final Method _invalidateSessionMethod;
+
+	static {
+		try {
+			_invalidateSessionMethod =
+				EditSessionMVCActionCommand.class.getMethod(
+					"invalidateSession", String.class);
+		}
+		catch (Exception e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
 
 }
