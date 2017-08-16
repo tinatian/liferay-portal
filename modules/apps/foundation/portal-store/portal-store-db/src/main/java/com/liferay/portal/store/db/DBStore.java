@@ -60,7 +60,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Tina Tian
  */
 @Component(
-	immediate = true,
+	enabled = false, immediate = true,
 	property = "store.type=com.liferay.portal.store.db.DBStore",
 	service = Store.class
 )
