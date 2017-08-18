@@ -63,6 +63,7 @@ import java.io.Writer;
 import java.security.Key;
 import java.security.PrivilegedAction;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -403,14 +404,12 @@ public class PortletURLImpl
 			throw new IllegalArgumentException("Cacheability is null");
 		}
 
-		String cacheabilityValue = _cacheabilities.get(cacheability);
+		String mappedCacheability = _cacheabilities.getOrDefault(
+			cacheability, cacheability);
 
-		if (cacheabilityValue != null) {
-			cacheability = cacheabilityValue;
-		}
-
-		if (!cacheability.equals(FULL) && !cacheability.equals(PORTLET) &&
-			!cacheability.equals(PAGE)) {
+		if (!mappedCacheability.equals(FULL) &&
+			!mappedCacheability.equals(PORTLET) &&
+			!mappedCacheability.equals(PAGE)) {
 
 			throw new IllegalArgumentException(
 				"Cacheability " + cacheability + " is not FULL, " + FULL +
@@ -423,14 +422,14 @@ public class PortletURLImpl
 			String parentCacheability = resourceRequest.getCacheability();
 
 			if (parentCacheability.equals(FULL)) {
-				if (!cacheability.equals(FULL)) {
+				if (!mappedCacheability.equals(FULL)) {
 					throw new IllegalStateException(
 						"Unable to set a weaker cacheability " + cacheability);
 				}
 			}
 			else if (parentCacheability.equals(PORTLET)) {
-				if (!cacheability.equals(FULL) &&
-					!cacheability.equals(PORTLET)) {
+				if (!mappedCacheability.equals(FULL) &&
+					!mappedCacheability.equals(PORTLET)) {
 
 					throw new IllegalStateException(
 						"Unable to set a weaker cacheability " + cacheability);
@@ -438,7 +437,7 @@ public class PortletURLImpl
 			}
 		}
 
-		_cacheability = cacheability;
+		_cacheability = mappedCacheability;
 
 		clearCache();
 	}
