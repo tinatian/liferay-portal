@@ -16,13 +16,13 @@ package com.liferay.portal.store.jcr.test.activator.configuration;
 
 import com.liferay.document.library.kernel.store.Store;
 import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.portal.store.test.util.BaseBundleActivator;
 
-import java.io.IOException;
-
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Set;
 
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
@@ -32,10 +32,12 @@ import org.osgi.util.tracker.ServiceTracker;
 /**
  * @author Manuel de la Peña
  */
-public class ConfigurationAdminBundleActivator implements BundleActivator {
+public class ConfigurationAdminBundleActivator extends BaseBundleActivator {
 
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
+		super.start(bundleContext);
+
 		ServiceReference<ConfigurationAdmin> serviceReference =
 			bundleContext.getServiceReference(ConfigurationAdmin.class);
 
@@ -86,7 +88,9 @@ public class ConfigurationAdminBundleActivator implements BundleActivator {
 	}
 
 	@Override
-	public void stop(BundleContext bundleContext) throws IOException {
+	public void stop(BundleContext bundleContext) throws Exception {
+		super.stop(bundleContext);
+
 		ServiceReference<ConfigurationAdmin> serviceReference =
 			bundleContext.getServiceReference(ConfigurationAdmin.class);
 
@@ -105,6 +109,16 @@ public class ConfigurationAdminBundleActivator implements BundleActivator {
 		finally {
 			bundleContext.ungetService(serviceReference);
 		}
+	}
+
+	@Override
+	protected Set<String> getComponentNames() {
+		return Collections.singleton("com.liferay.portal.store.jcr.JCRStore");
+	}
+
+	@Override
+	protected String getTargetBundleName() {
+		return "com.liferay.portal.store.jcr.test";
 	}
 
 }
