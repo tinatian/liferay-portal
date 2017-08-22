@@ -308,6 +308,12 @@ public class SetupWizardUtil {
 		unicodeProperties.put(
 			PropsKeys.ADMIN_EMAIL_FROM_NAME, user.getFullName());
 
+		String companyDefaultLocale = ParamUtil.getString(
+			request, "companyLocale", PropsValues.COMPANY_DEFAULT_LOCALE);
+
+		unicodeProperties.put(
+			PropsKeys.COMPANY_DEFAULT_LOCALE, companyDefaultLocale);
+
 		HttpSession session = request.getSession();
 
 		session.setAttribute(WebKeys.EMAIL_ADDRESS, emailAddress);
