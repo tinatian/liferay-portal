@@ -42,7 +42,7 @@
 		<@insertLayout _layoutModel=publicLayoutModel />
 	</#list>
 
-	<#assign publicPageCount = publicLayoutModels?size + dataFactory.maxDDLRecordSetCount + dataFactory.maxJournalArticleCount />
+	<#assign publicPageCount = publicLayoutModels?size + initPropertiesContext.maxDDLRecordSetCount + initPropertiesContext.maxJournalArticleCount />
 
 	<@insertGroup
 		_groupModel=groupModel

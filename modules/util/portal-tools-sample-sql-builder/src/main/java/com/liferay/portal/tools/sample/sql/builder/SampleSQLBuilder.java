@@ -43,7 +43,6 @@ import java.io.Writer;
 import java.nio.channels.FileChannel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,9 +66,18 @@ public class SampleSQLBuilder {
 
 			properties.load(reader);
 
-			DataFactory dataFactory = new DataFactory(properties);
+			InitPropertiesContext initPropertiesContext =
+				new InitPropertiesContext(properties);
 
-			new SampleSQLBuilder(properties, dataFactory);
+			InitRuntimeContext initRuntimeContext = new InitRuntimeContext(
+				initPropertiesContext);
+
+			DataFactory dataFactory = new DataFactory(
+				initRuntimeContext, initPropertiesContext);
+
+			new SampleSQLBuilder(
+				properties, dataFactory, initPropertiesContext,
+				initRuntimeContext);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +94,10 @@ public class SampleSQLBuilder {
 		}
 	}
 
-	public SampleSQLBuilder(Properties properties, DataFactory dataFactory)
+	public SampleSQLBuilder(
+			Properties properties, DataFactory dataFactory,
+			InitPropertiesContext initPropertiesContext,
+			InitRuntimeContext initRuntimeContext)
 		throws Exception {
 
 		_dbType = DBType.valueOf(
@@ -99,6 +110,9 @@ public class SampleSQLBuilder {
 		_script = properties.getProperty("sample.sql.script");
 
 		_dataFactory = dataFactory;
+
+		_initPropertiesContext = initPropertiesContext;
+		_initRuntimeContext = initRuntimeContext;
 
 		// Generic
 
@@ -300,16 +314,21 @@ public class SampleSQLBuilder {
 			@Override
 			public void run() {
 				Writer sampleSQLWriter = null;
+				Map<String, Object> context = new HashMap<>();
 
 				try {
 					sampleSQLWriter = new UnsyncTeeWriter(
 						createUnsyncBufferedWriter(charPipe.getWriter()),
 						createFileWriter(new File(_outputDir, "sample.sql")));
 
-					FreeMarkerUtil.process(
-						_script,
-						Collections.singletonMap("dataFactory", _dataFactory),
-						sampleSQLWriter);
+					//context = _dataFactory.getDataFactories();
+
+					context.put("dataFactory", _dataFactory);
+					context.put(
+						"initPropertiesContext", _initPropertiesContext);
+					context.put("initRuntimeContext", _initRuntimeContext);
+
+					FreeMarkerUtil.process(_script, context, sampleSQLWriter);
 				}
 				catch (Throwable t) {
 					_freeMarkerThrowable = t;
@@ -409,6 +428,8 @@ public class SampleSQLBuilder {
 	private final DataFactory _dataFactory;
 	private final DBType _dbType;
 	private volatile Throwable _freeMarkerThrowable;
+	private final InitPropertiesContext _initPropertiesContext;
+	private final InitRuntimeContext _initRuntimeContext;
 	private final int _optimizeBufferSize;
 	private final String _outputDir;
 	private final String _script;
