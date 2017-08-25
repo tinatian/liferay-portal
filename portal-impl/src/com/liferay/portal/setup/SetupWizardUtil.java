@@ -24,12 +24,14 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropertiesParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
@@ -286,6 +288,12 @@ public class SetupWizardUtil {
 
 		unicodeProperties.put(PropsKeys.ADMIN_EMAIL_FROM_ADDRESS, emailAddress);
 
+		String[] emailAddressSplit = StringUtil.split(
+			emailAddress, CharPool.AT);
+
+		unicodeProperties.put(
+			PropsKeys.DEFAULT_ADMIN_EMAIL_ADDRESS_PREFIX, emailAddressSplit[0]);
+
 		String firstName = ParamUtil.getString(
 			request, "adminFirstName", PropsValues.DEFAULT_ADMIN_FIRST_NAME);
 		String lastName = ParamUtil.getString(
@@ -299,6 +307,12 @@ public class SetupWizardUtil {
 
 		unicodeProperties.put(
 			PropsKeys.ADMIN_EMAIL_FROM_NAME, user.getFullName());
+
+		String companyDefaultLocale = ParamUtil.getString(
+			request, "companyLocale", PropsValues.COMPANY_DEFAULT_LOCALE);
+
+		unicodeProperties.put(
+			PropsKeys.COMPANY_DEFAULT_LOCALE, companyDefaultLocale);
 
 		HttpSession session = request.getSession();
 
