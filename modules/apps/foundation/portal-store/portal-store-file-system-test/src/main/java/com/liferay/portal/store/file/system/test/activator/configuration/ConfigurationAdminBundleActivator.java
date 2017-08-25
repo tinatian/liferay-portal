@@ -19,11 +19,13 @@ import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.store.test.util.BaseBundleActivator;
 
 import java.util.Dictionary;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
@@ -33,10 +35,12 @@ import org.osgi.util.tracker.ServiceTracker;
 /**
  * @author Manuel de la Peña
  */
-public class ConfigurationAdminBundleActivator implements BundleActivator {
+public class ConfigurationAdminBundleActivator extends BaseBundleActivator {
 
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
+		super.start(bundleContext);
+
 		ServiceReference<ConfigurationAdmin> serviceReference =
 			bundleContext.getServiceReference(ConfigurationAdmin.class);
 
@@ -79,6 +83,8 @@ public class ConfigurationAdminBundleActivator implements BundleActivator {
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
+		super.stop(bundleContext);
+
 		ServiceReference<ConfigurationAdmin> serviceReference =
 			bundleContext.getServiceReference(ConfigurationAdmin.class);
 
@@ -107,6 +113,18 @@ public class ConfigurationAdminBundleActivator implements BundleActivator {
 		}
 	}
 
+	@Override
+	protected Set<String> getComponentNames() {
+		Set<String> componentNames = new HashSet<>();
+
+		componentNames.add(
+			"com.liferay.portal.store.file.system.AdvancedFileSystemStore");
+		componentNames.add(
+			"com.liferay.portal.store.file.system.FileSystemStore");
+
+		return componentNames;
+	}
+
 	protected Configuration getConfiguration(
 			BundleContext bundleContext,
 			ServiceReference<ConfigurationAdmin> serviceReference,
@@ -117,6 +135,11 @@ public class ConfigurationAdminBundleActivator implements BundleActivator {
 			serviceReference);
 
 		return configurationAdmin.getConfiguration(configurationPid, null);
+	}
+
+	@Override
+	protected String getTargetBundleName() {
+		return "com.liferay.portal.store.file.system";
 	}
 
 	protected void waitForService(
