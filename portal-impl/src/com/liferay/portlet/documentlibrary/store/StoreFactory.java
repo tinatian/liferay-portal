@@ -122,7 +122,8 @@ public class StoreFactory {
 		}
 
 		if (_store == null) {
-			throw new IllegalStateException("Store is not available");
+			throw new IllegalStateException(
+				"Store is not available " + _storeType);
 		}
 
 		return _store;
