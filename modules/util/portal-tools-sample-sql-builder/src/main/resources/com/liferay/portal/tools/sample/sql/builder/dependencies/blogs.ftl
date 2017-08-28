@@ -19,7 +19,7 @@
 		_classNameId=dataFactory.blogsEntryClassNameId
 		_classPK=blogsEntryModel.entryId
 		_groupId=groupId
-		_maxCommentCount=dataFactory.maxBlogsEntryCommentCount
+		_maxCommentCount=initPropertiesContext.maxBlogsEntryCommentCount
 		_mbRootMessageId=mbRootMessageId
 		_mbThreadId=mbThreadId
 	/>

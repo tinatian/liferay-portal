@@ -11,7 +11,7 @@
 ${dataFactory.toInsertSQL(ddmTemplateModel)}
 
 <#assign
-	journalArticlePageCounts = dataFactory.getSequence(dataFactory.maxJournalArticlePageCount)
+	journalArticlePageCounts = dataFactory.getSequence(initPropertiesContext.maxJournalArticlePageCount)
 
 	resourcePermissionModels = dataFactory.newResourcePermissionModels("com.liferay.journal", groupId)
 />
@@ -37,14 +37,14 @@ ${dataFactory.toInsertSQL(ddmTemplateModel)}
 		${dataFactory.toInsertSQL(portletPreferencesModel)}
 	</#list>
 
-	<#assign journalArticleCounts = dataFactory.getSequence(dataFactory.maxJournalArticleCount) />
+	<#assign journalArticleCounts = dataFactory.getSequence(initPropertiesContext.maxJournalArticleCount) />
 
 	<#list journalArticleCounts as journalArticleCount>
 		<#assign journalArticleResourceModel = dataFactory.newJournalArticleResourceModel(groupId) />
 
 		${dataFactory.toInsertSQL(journalArticleResourceModel)}
 
-		<#assign versionCounts = dataFactory.getSequence(dataFactory.maxJournalArticleVersionCount) />
+		<#assign versionCounts = dataFactory.getSequence(initPropertiesContext.maxJournalArticleVersionCount) />
 
 		<#list versionCounts as versionCount>
 			<#assign journalArticleModel = dataFactory.newJournalArticleModel(journalArticleResourceModel, journalArticleCount, versionCount) />
@@ -61,7 +61,7 @@ ${dataFactory.toInsertSQL(ddmTemplateModel)}
 
 			${dataFactory.toInsertSQL(dataFactory.newSocialActivityModel(journalArticleModel))}
 
-			<#if versionCount = dataFactory.maxJournalArticleVersionCount>
+			<#if versionCount = initPropertiesContext.maxJournalArticleVersionCount>
 				<@insertAssetEntry
 					_categoryAndTag=true
 					_entry=dataFactory.newObjectValuePair(journalArticleModel, journalArticleLocalizationModel)
