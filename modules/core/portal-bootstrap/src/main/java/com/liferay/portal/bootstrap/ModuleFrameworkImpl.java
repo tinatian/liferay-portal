@@ -56,6 +56,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.nio.file.DirectoryStream;
@@ -250,6 +251,8 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 		if (_log.isDebugEnabled()) {
 			_log.debug("Initializing the OSGi framework");
 		}
+
+		_validateModuleFrameworkBaseDirForEquinox();
 
 		_initRequiredStartupDirs();
 
@@ -1541,6 +1544,39 @@ public class ModuleFrameworkImpl implements ModuleFramework {
 							" is already unregistered");
 				}
 			}
+		}
+	}
+
+	private void _validateModuleFrameworkBaseDirForEquinox()
+		throws MalformedURLException {
+
+		File baseDir = new File(PropsValues.MODULE_FRAMEWORK_BASE_DIR);
+
+		baseDir = baseDir.getAbsoluteFile();
+
+		// LPS-71758: Do what Equinox internally does to get a file path and
+		// validate it.
+		// Equinox converts a File into URL by File.toURL(), and later creates
+		// the osgi persistence dir using the URL's file part, which doesn't
+		// properly handle special character escaping and decoding.
+
+		URL equinoxInternallyCreatedURL = baseDir.toURL();
+
+		File equinoxInternallyCreatedDir = new File(
+			equinoxInternallyCreatedURL.getFile());
+
+		if (!baseDir.equals(equinoxInternallyCreatedDir) &&
+			_log.isWarnEnabled()) {
+
+			StringBundler sb = new StringBundler(5);
+
+			sb.append(" The module.framework.base.dir path \"");
+			sb.append(baseDir);
+			sb.append("\" contains character that Equinox can't handle; ");
+			sb.append("the osgi persistence data will be stored under \"");
+			sb.append(equinoxInternallyCreatedDir);
+
+			_log.warn(sb.toString());
 		}
 	}
 
