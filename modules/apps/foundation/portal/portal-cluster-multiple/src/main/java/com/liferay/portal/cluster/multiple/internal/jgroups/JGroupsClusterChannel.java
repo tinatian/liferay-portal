@@ -40,7 +40,7 @@ import org.jgroups.stack.ProtocolStack;
 public class JGroupsClusterChannel implements ClusterChannel {
 
 	public JGroupsClusterChannel(
-		String channelProperties, String clusterName,
+		String channelProperties, String clusterName, String clusterLogicName,
 		ClusterReceiver clusterReceiver, InetAddress bindInetAddress) {
 
 		if (Validator.isNull(channelProperties)) {
@@ -56,6 +56,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		}
 
 		_clusterName = clusterName;
+		_clusterLogicName = clusterLogicName;
 		_clusterReceiver = clusterReceiver;
 
 		try {
@@ -71,6 +72,9 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 			_jChannel.setReceiver(new JGroupsReceiver(clusterReceiver));
 
+			_jChannel.setName(_clusterLogicName);
+
+			_log.info("multi cluster logic name is: " + _clusterLogicName);
 			_jChannel.connect(_clusterName);
 
 			_localAddress = new AddressImpl(_jChannel.getAddress());
@@ -113,6 +117,11 @@ public class JGroupsClusterChannel implements ClusterChannel {
 	@Override
 	public String getClusterName() {
 		return _clusterName;
+	}
+
+	@Override
+	public String getCLusterLogicName() {
+		return _clusterLogicName;
 	}
 
 	@Override
@@ -186,6 +195,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		JGroupsClusterChannel.class);
 
 	private final String _clusterName;
+	private final String _clusterLogicName;
 	private final ClusterReceiver _clusterReceiver;
 	private final JChannel _jChannel;
 	private final Address _localAddress;
