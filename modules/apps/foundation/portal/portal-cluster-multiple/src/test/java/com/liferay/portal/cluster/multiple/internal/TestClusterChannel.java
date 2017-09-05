@@ -152,8 +152,8 @@ public class TestClusterChannel implements ClusterChannel {
 
 	private final InetAddress _bindInetAddress;
 	private boolean _closed;
-	private final String _clusterName;
 	private final String _clusterLogicName;
+	private final String _clusterName;
 	private final ClusterReceiver _clusterReceiver;
 	private final Address _localAddress;
 
