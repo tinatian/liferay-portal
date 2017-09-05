@@ -31,6 +31,8 @@ public interface ClusterChannel {
 
 	public String getClusterName();
 
+	public String getClusterLogicName();
+
 	public ClusterReceiver getClusterReceiver();
 
 	public Address getLocalAddress();
