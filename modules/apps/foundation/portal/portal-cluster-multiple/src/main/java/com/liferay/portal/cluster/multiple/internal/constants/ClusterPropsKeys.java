@@ -26,6 +26,11 @@ public class ClusterPropsKeys {
 	public static final String CHANNEL_NAME_TRANSPORT_PREFIX =
 		"channel.name.transport";
 
+	public static final String CHANNEL_LOGIC_NAME_CONTROL = "channel.logic.name.control";
+
+	public static final String CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX =
+		"channel.logic.name.transport";
+
 	public static final String CHANNEL_PROPERTIES_CONTROL =
 		"channel.properties.control";
 
