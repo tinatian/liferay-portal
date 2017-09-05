@@ -67,10 +67,11 @@ public class TestClusterChannel implements ClusterChannel {
 	}
 
 	public TestClusterChannel(
-		String channelProperties, String clusterName,
+		String channelProperties, String clusterName, String clusterLogicName,
 		ClusterReceiver clusterReceiver) {
 
 		_clusterName = clusterName;
+		_clusterLogicName = clusterLogicName;
 		_clusterReceiver = clusterReceiver;
 
 		_bindInetAddress = InetAddress.getLoopbackAddress();
@@ -112,6 +113,11 @@ public class TestClusterChannel implements ClusterChannel {
 	}
 
 	@Override
+	public String getClusterLogicName() {
+		return _clusterLogicName;
+	}
+
+	@Override
 	public ClusterReceiver getClusterReceiver() {
 		return _clusterReceiver;
 	}
@@ -147,6 +153,7 @@ public class TestClusterChannel implements ClusterChannel {
 	private final InetAddress _bindInetAddress;
 	private boolean _closed;
 	private final String _clusterName;
+	private final String _clusterLogicName;
 	private final ClusterReceiver _clusterReceiver;
 	private final Address _localAddress;
 
