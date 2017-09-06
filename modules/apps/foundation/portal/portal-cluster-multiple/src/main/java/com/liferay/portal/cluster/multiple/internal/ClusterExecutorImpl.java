@@ -545,12 +545,6 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 					"\" or \"" + ClusterPropsKeys.CHANNEL_NAME_CONTROL + "\"");
 		}
 
-		if (Validator.isNull(channelLogicName)) {
-			throw new IllegalStateException(
-				"Set \"" + PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_CONTROL +
-					"\" or \"" + ClusterPropsKeys.CHANNEL_LOGIC_NAME_CONTROL + "\"");
-		}
-
 		_executorService = _portalExecutorManager.getPortalExecutor(
 			ClusterExecutorImpl.class.getName());
 

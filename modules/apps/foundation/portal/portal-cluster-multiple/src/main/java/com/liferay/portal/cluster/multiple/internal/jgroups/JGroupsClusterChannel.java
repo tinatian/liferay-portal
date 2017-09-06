@@ -51,16 +51,11 @@ public class JGroupsClusterChannel implements ClusterChannel {
 			throw new NullPointerException("Cluster name is null");
 		}
 
-		if (Validator.isNull(clusterLogicName)) {
-			throw new NullPointerException("Cluster logic name is null");
-		}
-
 		if (clusterReceiver == null) {
 			throw new NullPointerException("Cluster receiver is null");
 		}
 
 		_clusterName = clusterName;
-		_clusterLogicName = clusterLogicName;
 		_clusterReceiver = clusterReceiver;
 
 		try {
@@ -76,9 +71,13 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 			_jChannel.setReceiver(new JGroupsReceiver(clusterReceiver));
 
-			_jChannel.setName(_clusterLogicName);
+			if (Validator.isNotNull(clusterLogicName)) {
+				_jChannel.setName(clusterLogicName);
+			}
 
 			_jChannel.connect(_clusterName);
+
+			_clusterLogicName = _jChannel.getName();
 
 			_localAddress = new AddressImpl(_jChannel.getAddress());
 
