@@ -29,9 +29,9 @@ public interface ClusterChannel {
 
 	public InetAddress getBindInetAddress();
 
-	public String getClusterName();
-
 	public String getClusterLogicName();
+
+	public String getClusterName();
 
 	public ClusterReceiver getClusterReceiver();
 

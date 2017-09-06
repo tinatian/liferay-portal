@@ -52,7 +52,8 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		ClusterReceiver clusterReceiver) {
 
 		return new JGroupsClusterChannel(
-			channelProperties, clusterName, clusterLogicName, clusterReceiver, _bindInetAddress);
+			channelProperties, clusterName, clusterLogicName, clusterReceiver,
+			_bindInetAddress);
 	}
 
 	@Override

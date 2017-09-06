@@ -108,13 +108,13 @@ public class TestClusterChannel implements ClusterChannel {
 	}
 
 	@Override
-	public String getClusterName() {
-		return _clusterName;
+	public String getClusterLogicName() {
+		return _clusterLogicName;
 	}
 
 	@Override
-	public String getClusterLogicName() {
-		return _clusterLogicName;
+	public String getClusterName() {
+		return _clusterName;
 	}
 
 	@Override
@@ -152,8 +152,8 @@ public class TestClusterChannel implements ClusterChannel {
 
 	private final InetAddress _bindInetAddress;
 	private boolean _closed;
-	private final String _clusterName;
 	private final String _clusterLogicName;
+	private final String _clusterName;
 	private final ClusterReceiver _clusterReceiver;
 	private final Address _localAddress;
 
