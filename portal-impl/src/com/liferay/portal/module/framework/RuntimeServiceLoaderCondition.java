@@ -22,7 +22,6 @@ import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
@@ -49,16 +48,7 @@ public class RuntimeServiceLoaderCondition implements ServiceLoaderCondition {
 
 		URI moduleFrameworkBaseDirURI = moduleFrameworkBaseDirFile.toURI();
 
-		try {
-			URL moduleFrameworkBaseDirURL = moduleFrameworkBaseDirURI.toURL();
-
-			moduleFrameworkBaseDirName = moduleFrameworkBaseDirURL.getPath();
-		}
-		catch (MalformedURLException murle) {
-			return false;
-		}
-
-		return path.contains(moduleFrameworkBaseDirName);
+		return path.contains(moduleFrameworkBaseDirURI.getPath());
 	}
 
 }
