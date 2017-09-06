@@ -40,7 +40,7 @@ import org.jgroups.stack.ProtocolStack;
 public class JGroupsClusterChannel implements ClusterChannel {
 
 	public JGroupsClusterChannel(
-		String channelProperties, String clusterName,
+		String channelProperties, String clusterName, String clusterLogicName,
 		ClusterReceiver clusterReceiver, InetAddress bindInetAddress) {
 
 		if (Validator.isNull(channelProperties)) {
@@ -51,11 +51,16 @@ public class JGroupsClusterChannel implements ClusterChannel {
 			throw new NullPointerException("Cluster name is null");
 		}
 
+		if (Validator.isNull(clusterLogicName)) {
+			throw new NullPointerException("Cluster logic name is null");
+		}
+
 		if (clusterReceiver == null) {
 			throw new NullPointerException("Cluster receiver is null");
 		}
 
 		_clusterName = clusterName;
+		_clusterLogicName = clusterLogicName;
 		_clusterReceiver = clusterReceiver;
 
 		try {
@@ -70,6 +75,8 @@ public class JGroupsClusterChannel implements ClusterChannel {
 			}
 
 			_jChannel.setReceiver(new JGroupsReceiver(clusterReceiver));
+
+			_jChannel.setName(_clusterLogicName);
 
 			_jChannel.connect(_clusterName);
 
@@ -108,6 +115,11 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		TP transportProtocol = (TP)protocol;
 
 		return (InetAddress)transportProtocol.getValue("bind_addr");
+	}
+
+	@Override
+	public String getClusterLogicName() {
+		return _clusterLogicName;
 	}
 
 	@Override
@@ -185,6 +197,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 	private static final Log _log = LogFactoryUtil.getLog(
 		JGroupsClusterChannel.class);
 
+	private final String _clusterLogicName;
 	private final String _clusterName;
 	private final ClusterReceiver _clusterReceiver;
 	private final JChannel _jChannel;
