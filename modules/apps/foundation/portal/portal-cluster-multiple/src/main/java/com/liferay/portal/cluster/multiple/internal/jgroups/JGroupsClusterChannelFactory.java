@@ -48,11 +48,12 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 
 	@Override
 	public ClusterChannel createClusterChannel(
-		String channelProperties, String clusterName,
+		String channelProperties, String clusterName, String clusterLogicName,
 		ClusterReceiver clusterReceiver) {
 
 		return new JGroupsClusterChannel(
-			channelProperties, clusterName, clusterReceiver, _bindInetAddress);
+			channelProperties, clusterName, clusterLogicName, clusterReceiver,
+			_bindInetAddress);
 	}
 
 	@Override
