@@ -95,7 +95,7 @@ public class ClusterLinkImpl implements ClusterLink {
 		if (_enabled) {
 			initialize(
 				getChannelPropertiesStrings(properties),
-				getChannelNames(properties));
+				getChannelNames(properties), getChannelLogicNames(properties));
 		}
 	}
 
@@ -281,7 +281,8 @@ public class ClusterLinkImpl implements ClusterLink {
 
 			ClusterChannel clusterChannel =
 				_clusterChannelFactory.createClusterChannel(
-					channelPropertiesString, channelName, clusterReceiver);
+					channelPropertiesString, channelName, channelLogicName,
+					clusterReceiver);
 
 			_clusterChannels.add(clusterChannel);
 
