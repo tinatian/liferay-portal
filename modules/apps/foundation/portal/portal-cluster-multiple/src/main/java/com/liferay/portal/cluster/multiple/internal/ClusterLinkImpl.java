@@ -95,8 +95,7 @@ public class ClusterLinkImpl implements ClusterLink {
 		if (_enabled) {
 			initialize(
 				getChannelPropertiesStrings(properties),
-				getChannelNames(properties),
-				getChannelLogicNames(properties));
+				getChannelNames(properties), getChannelLogicNames(properties));
 		}
 	}
 
@@ -136,6 +135,40 @@ public class ClusterLinkImpl implements ClusterLink {
 		return _clusterChannels.get(channelIndex);
 	}
 
+	protected Map<String, String> getChannelLogicNames(
+		Map<String, Object> properties) {
+
+		Map<String, String> channelLogicNames = new HashMap<>();
+
+		int prefixLength =
+			ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX.length();
+
+		for (Entry<String, Object> entry : properties.entrySet()) {
+			String key = entry.getKey();
+
+			if (key.startsWith(
+					ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX)) {
+
+				channelLogicNames.put(
+					key.substring(prefixLength + 1), (String)entry.getValue());
+			}
+		}
+
+		if (channelLogicNames.isEmpty()) {
+			Properties channelNameProperties = _props.getProperties(
+				PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_TRANSPORT, true);
+
+			for (Map.Entry<Object, Object> entry :
+					channelNameProperties.entrySet()) {
+
+				channelLogicNames.put(
+					(String)entry.getKey(), (String)entry.getValue());
+			}
+		}
+
+		return channelLogicNames;
+	}
+
 	protected Map<String, String> getChannelNames(
 		Map<String, Object> properties) {
 
@@ -168,40 +201,6 @@ public class ClusterLinkImpl implements ClusterLink {
 		}
 
 		return channelNames;
-	}
-
-	protected Map<String, String> getChannelLogicNames(
-		Map<String, Object> properties) {
-
-		Map<String, String> channelLogicNames = new HashMap<>();
-
-		int prefixLength =
-			ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX.length();
-
-		for (Entry<String, Object> entry : properties.entrySet()) {
-			String key = entry.getKey();
-
-			if (key.startsWith(
-				ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX)) {
-
-				channelLogicNames.put(
-					key.substring(prefixLength + 1), (String)entry.getValue());
-			}
-		}
-
-		if (channelLogicNames.isEmpty()) {
-			Properties channelNameProperties = _props.getProperties(
-				PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_TRANSPORT, true);
-
-			for (Map.Entry<Object, Object> entry :
-				channelNameProperties.entrySet()) {
-
-				channelLogicNames.put(
-					(String)entry.getKey(), (String)entry.getValue());
-			}
-		}
-
-		return channelLogicNames;
 	}
 
 	protected Map<String, String> getChannelPropertiesStrings(
@@ -282,7 +281,8 @@ public class ClusterLinkImpl implements ClusterLink {
 
 			ClusterChannel clusterChannel =
 				_clusterChannelFactory.createClusterChannel(
-					channelPropertiesString, channelName, channelLogicName, clusterReceiver);
+					channelPropertiesString, channelName, channelLogicName,
+					clusterReceiver);
 
 			_clusterChannels.add(clusterChannel);
 
@@ -300,7 +300,8 @@ public class ClusterLinkImpl implements ClusterLink {
 			ClusterLinkImpl.class.getName());
 
 		try {
-			initChannels(channelPropertiesStrings, channelNames, channelLogicNames);
+			initChannels(
+				channelPropertiesStrings, channelNames, channelLogicNames);
 		}
 		catch (Exception e) {
 			_log.error("Unable to initialize channels", e);
