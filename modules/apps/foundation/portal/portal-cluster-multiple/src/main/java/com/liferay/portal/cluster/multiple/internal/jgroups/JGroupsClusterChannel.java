@@ -185,6 +185,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 	private static final Log _log = LogFactoryUtil.getLog(
 		JGroupsClusterChannel.class);
 
+	private final String _clusterLogicName;
 	private final String _clusterName;
 	private final ClusterReceiver _clusterReceiver;
 	private final JChannel _jChannel;
