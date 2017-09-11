@@ -95,7 +95,7 @@ public class ClusterLinkImpl implements ClusterLink {
 		if (_enabled) {
 			initialize(
 				getChannelPropertiesStrings(properties),
-				getChannelNames(properties));
+				getChannelNames(properties), getChannelLogicNames(properties));
 		}
 	}
 
