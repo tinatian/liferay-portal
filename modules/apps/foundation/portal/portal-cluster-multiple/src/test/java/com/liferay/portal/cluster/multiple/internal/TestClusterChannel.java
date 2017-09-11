@@ -67,10 +67,11 @@ public class TestClusterChannel implements ClusterChannel {
 	}
 
 	public TestClusterChannel(
-		String channelProperties, String clusterName,
+		String channelProperties, String clusterName, String clusterLogicName,
 		ClusterReceiver clusterReceiver) {
 
 		_clusterName = clusterName;
+		_clusterLogicName = clusterLogicName;
 		_clusterReceiver = clusterReceiver;
 
 		_bindInetAddress = InetAddress.getLoopbackAddress();
