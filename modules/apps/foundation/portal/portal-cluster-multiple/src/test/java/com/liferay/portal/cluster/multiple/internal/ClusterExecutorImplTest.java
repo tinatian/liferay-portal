@@ -452,6 +452,9 @@ public class ClusterExecutorImplTest extends BaseClusterTestCase {
 		properties.put(
 			ClusterPropsKeys.CHANNEL_NAME_CONTROL, "test-channel-name-control");
 		properties.put(
+			ClusterPropsKeys.CHANNEL_LOGIC_NAME_CONTROL,
+			"test-control-channel-logic-name");
+		properties.put(
 			ClusterPropsKeys.CHANNEL_PROPERTIES_CONTROL,
 			"test-channel-properties-control");
 
