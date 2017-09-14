@@ -32,4 +32,13 @@ public interface ClusterExecutorConfiguration {
 	@Meta.AD(deflt = "false", required = false)
 	public boolean debugEnabled();
 
+	@Meta.AD(required = false)
+	public String channelLogicName();
+
+	@Meta.AD(required = false)
+	public String channelName();
+
+	@Meta.AD(required = false)
+	public String channelProperties();
+
 }
