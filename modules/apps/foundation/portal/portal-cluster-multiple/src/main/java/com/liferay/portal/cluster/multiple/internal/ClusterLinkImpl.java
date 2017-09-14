@@ -43,6 +43,7 @@ import java.util.concurrent.ExecutorService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -481,6 +482,11 @@ public class ClusterLinkImpl implements ClusterLink {
 		for (ClusterReceiver clusterReceiver : _clusterReceivers) {
 			clusterReceiver.openLatch();
 		}
+	}
+
+	@Modified
+	protected synchronized void modified(Map<String, Object> properties) {
+		//leave empty just to ignore changes of OSGI properties after set up
 	}
 
 	protected void sendLocalMessage(Message message) {
