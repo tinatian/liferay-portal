@@ -14,7 +14,9 @@
 
 package com.liferay.portal.cluster.multiple.internal;
 
+import com.liferay.portal.cluster.multiple.configuration.ClusterLinkConfiguration;
 import com.liferay.portal.cluster.multiple.internal.constants.ClusterPropsKeys;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterLink;
@@ -41,6 +43,7 @@ import java.util.concurrent.ExecutorService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -49,7 +52,10 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 /**
  * @author Shuyang Zhou
  */
-@Component(immediate = true, service = ClusterLink.class)
+@Component(
+	configurationPid = "com.liferay.portal.cluster.configuration.ClusterLinkConfiguration",
+	immediate = true, service = ClusterLink.class
+)
 public class ClusterLinkImpl implements ClusterLink {
 
 	@Override
@@ -92,8 +98,12 @@ public class ClusterLinkImpl implements ClusterLink {
 		_enabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.CLUSTER_LINK_ENABLED));
 
+		clusterLinkConfiguration = ConfigurableUtil.createConfigurable(
+			ClusterLinkConfiguration.class, properties);
+
 		if (_enabled) {
 			initialize(
+				getChannelLogicNames(properties),
 				getChannelPropertiesStrings(properties),
 				getChannelNames(properties));
 		}
@@ -135,6 +145,90 @@ public class ClusterLinkImpl implements ClusterLink {
 		return _clusterChannels.get(channelIndex);
 	}
 
+	protected Map<String, String> getChannelLogicNames(
+		Map<String, Object> properties) {
+
+		Map<String, String> channelLogicNames = new HashMap<>();
+
+		int prefixLength =
+			ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX.length();
+
+		for (Entry<String, Object> entry : properties.entrySet()) {
+			String key = entry.getKey();
+
+			if (key.startsWith(
+					ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX)) {
+
+				channelLogicNames.put(
+					key.substring(prefixLength + 1), (String)entry.getValue());
+			}
+		}
+
+		if (channelLogicNames.isEmpty()) {
+			Properties channelLogicNameProperties = _props.getProperties(
+				PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_TRANSPORT, true);
+
+			for (Map.Entry<Object, Object> entry :
+					channelLogicNameProperties.entrySet()) {
+
+				channelLogicNames.put(
+					(String)entry.getKey(), (String)entry.getValue());
+			}
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName0())) {
+			channelLogicNames.put(
+				".0", clusterLinkConfiguration.channelLogicName0());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName1())) {
+			channelLogicNames.put(
+				".1", clusterLinkConfiguration.channelLogicName1());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName2())) {
+			channelLogicNames.put(
+				".2", clusterLinkConfiguration.channelLogicName2());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName3())) {
+			channelLogicNames.put(
+				".3", clusterLinkConfiguration.channelLogicName3());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName4())) {
+			channelLogicNames.put(
+				".4", clusterLinkConfiguration.channelLogicName4());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName5())) {
+			channelLogicNames.put(
+				".5", clusterLinkConfiguration.channelLogicName5());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName6())) {
+			channelLogicNames.put(
+				".6", clusterLinkConfiguration.channelLogicName6());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName7())) {
+			channelLogicNames.put(
+				".7", clusterLinkConfiguration.channelLogicName7());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName8())) {
+			channelLogicNames.put(
+				".8", clusterLinkConfiguration.channelLogicName8());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName9())) {
+			channelLogicNames.put(
+				".9", clusterLinkConfiguration.channelLogicName9());
+		}
+
+		return channelLogicNames;
+	}
+
 	protected Map<String, String> getChannelNames(
 		Map<String, Object> properties) {
 
@@ -164,6 +258,46 @@ public class ClusterLinkImpl implements ClusterLink {
 				channelNames.put(
 					(String)entry.getKey(), (String)entry.getValue());
 			}
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName0())) {
+			channelNames.put(".0", clusterLinkConfiguration.channelName0());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName1())) {
+			channelNames.put(".1", clusterLinkConfiguration.channelName1());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName2())) {
+			channelNames.put(".2", clusterLinkConfiguration.channelName2());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName3())) {
+			channelNames.put(".3", clusterLinkConfiguration.channelName3());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName4())) {
+			channelNames.put(".4", clusterLinkConfiguration.channelName4());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName5())) {
+			channelNames.put(".5", clusterLinkConfiguration.channelName5());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName6())) {
+			channelNames.put(".6", clusterLinkConfiguration.channelName6());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName7())) {
+			channelNames.put(".7", clusterLinkConfiguration.channelName7());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName8())) {
+			channelNames.put(".8", clusterLinkConfiguration.channelName8());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName9())) {
+			channelNames.put(".9", clusterLinkConfiguration.channelName9());
 		}
 
 		return channelNames;
@@ -200,6 +334,76 @@ public class ClusterLinkImpl implements ClusterLink {
 			}
 		}
 
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties0())) {
+
+			channelPropertiesStrings.put(
+				".0", clusterLinkConfiguration.channelProperties0());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties1())) {
+
+			channelPropertiesStrings.put(
+				".1", clusterLinkConfiguration.channelProperties1());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties2())) {
+
+			channelPropertiesStrings.put(
+				".2", clusterLinkConfiguration.channelProperties2());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties3())) {
+
+			channelPropertiesStrings.put(
+				".3", clusterLinkConfiguration.channelProperties3());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties4())) {
+
+			channelPropertiesStrings.put(
+				".4", clusterLinkConfiguration.channelProperties4());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties5())) {
+
+			channelPropertiesStrings.put(
+				".5", clusterLinkConfiguration.channelProperties5());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties6())) {
+
+			channelPropertiesStrings.put(
+				".6", clusterLinkConfiguration.channelProperties6());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties7())) {
+
+			channelPropertiesStrings.put(
+				".7", clusterLinkConfiguration.channelProperties7());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties8())) {
+
+			channelPropertiesStrings.put(
+				".8", clusterLinkConfiguration.channelProperties8());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties9())) {
+
+			channelPropertiesStrings.put(
+				".9", clusterLinkConfiguration.channelProperties9());
+		}
+
 		return channelPropertiesStrings;
 	}
 
@@ -212,6 +416,7 @@ public class ClusterLinkImpl implements ClusterLink {
 	}
 
 	protected void initChannels(
+			Map<String, String> channelLogicNames,
 			Map<String, String> channelPropertiesStrings,
 			Map<String, String> channelNames)
 		throws Exception {
@@ -234,6 +439,7 @@ public class ClusterLinkImpl implements ClusterLink {
 		for (String key : keys) {
 			String channelPropertiesString = channelPropertiesStrings.get(key);
 			String channelName = channelNames.get(key);
+			String channelLogicName = channelLogicNames.get(key);
 
 			if (Validator.isNull(channelPropertiesString) ||
 				Validator.isNull(channelName)) {
@@ -245,7 +451,8 @@ public class ClusterLinkImpl implements ClusterLink {
 
 			ClusterChannel clusterChannel =
 				_clusterChannelFactory.createClusterChannel(
-					channelPropertiesString, channelName, clusterReceiver);
+					channelLogicName, channelPropertiesString, channelName,
+					clusterReceiver);
 
 			_clusterChannels.add(clusterChannel);
 
@@ -255,6 +462,7 @@ public class ClusterLinkImpl implements ClusterLink {
 	}
 
 	protected void initialize(
+		Map<String, String> channelLogicNames,
 		Map<String, String> channelPropertiesStrings,
 		Map<String, String> channelNames) {
 
@@ -262,7 +470,8 @@ public class ClusterLinkImpl implements ClusterLink {
 			ClusterLinkImpl.class.getName());
 
 		try {
-			initChannels(channelPropertiesStrings, channelNames);
+			initChannels(
+				channelLogicNames, channelPropertiesStrings, channelNames);
 		}
 		catch (Exception e) {
 			_log.error("Unable to initialize channels", e);
@@ -273,6 +482,11 @@ public class ClusterLinkImpl implements ClusterLink {
 		for (ClusterReceiver clusterReceiver : _clusterReceivers) {
 			clusterReceiver.openLatch();
 		}
+	}
+
+	@Modified
+	protected synchronized void modified(Map<String, Object> properties) {
+		//leave empty just to ignore changes of OSGI properties after set up
 	}
 
 	protected void sendLocalMessage(Message message) {
@@ -331,6 +545,8 @@ public class ClusterLinkImpl implements ClusterLink {
 	protected void unsetMessageBus(MessageBus messageBus) {
 		_messageBus = null;
 	}
+
+	protected volatile ClusterLinkConfiguration clusterLinkConfiguration;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ClusterLinkImpl.class);
