@@ -14,7 +14,9 @@
 
 package com.liferay.portal.cluster.multiple.internal;
 
+import com.liferay.portal.cluster.multiple.configuration.ClusterLinkConfiguration;
 import com.liferay.portal.cluster.multiple.internal.constants.ClusterPropsKeys;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterLink;
@@ -49,7 +51,10 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 /**
  * @author Shuyang Zhou
  */
-@Component(immediate = true, service = ClusterLink.class)
+@Component(
+	configurationPid = "com.liferay.portal.cluster.configuration.ClusterLinkConfiguration",
+	immediate = true, service = ClusterLink.class
+)
 public class ClusterLinkImpl implements ClusterLink {
 
 	@Override
@@ -91,6 +96,9 @@ public class ClusterLinkImpl implements ClusterLink {
 	protected void activate(Map<String, Object> properties) {
 		_enabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.CLUSTER_LINK_ENABLED));
+
+		clusterLinkConfiguration = ConfigurableUtil.createConfigurable(
+			ClusterLinkConfiguration.class, properties);
 
 		if (_enabled) {
 			initialize(
@@ -371,6 +379,8 @@ public class ClusterLinkImpl implements ClusterLink {
 	protected void unsetMessageBus(MessageBus messageBus) {
 		_messageBus = null;
 	}
+
+	protected volatile ClusterLinkConfiguration clusterLinkConfiguration;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ClusterLinkImpl.class);
