@@ -242,11 +242,37 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 			ClusterExecutorConfiguration.class,
 			componentContext.getProperties());
 
-		String channelLogicName = getChannelLogicName(
-			componentContext.getProperties());
-		String channelPropertiesString = getChannelPropertiesString(
-			componentContext.getProperties());
-		String channelName = getChannelName(componentContext.getProperties());
+		String channelLogicName;
+		String channelPropertiesString;
+		String channelName;
+
+		if (Validator.isNotNull(
+				clusterExecutorConfiguration.channelLogicName())) {
+
+			channelLogicName = clusterExecutorConfiguration.channelLogicName();
+		}
+		else {
+			channelLogicName = getChannelLogicName(
+				componentContext.getProperties());
+		}
+
+		if (Validator.isNotNull(
+				clusterExecutorConfiguration.channelProperties())) {
+
+			channelPropertiesString =
+				clusterExecutorConfiguration.channelProperties();
+		}
+		else {
+			channelPropertiesString = getChannelPropertiesString(
+				componentContext.getProperties());
+		}
+
+		if (Validator.isNotNull(clusterExecutorConfiguration.channelName())) {
+			channelName = clusterExecutorConfiguration.channelName();
+		}
+		else {
+			channelName = getChannelName(componentContext.getProperties());
+		}
 
 		initialize(channelLogicName, channelPropertiesString, channelName);
 

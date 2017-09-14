@@ -175,6 +175,56 @@ public class ClusterLinkImpl implements ClusterLink {
 			}
 		}
 
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName0())) {
+			channelLogicNames.put(
+				".0", clusterLinkConfiguration.channelLogicName0());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName1())) {
+			channelLogicNames.put(
+				".1", clusterLinkConfiguration.channelLogicName1());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName2())) {
+			channelLogicNames.put(
+				".2", clusterLinkConfiguration.channelLogicName2());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName3())) {
+			channelLogicNames.put(
+				".3", clusterLinkConfiguration.channelLogicName3());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName4())) {
+			channelLogicNames.put(
+				".4", clusterLinkConfiguration.channelLogicName4());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName5())) {
+			channelLogicNames.put(
+				".5", clusterLinkConfiguration.channelLogicName5());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName6())) {
+			channelLogicNames.put(
+				".6", clusterLinkConfiguration.channelLogicName6());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName7())) {
+			channelLogicNames.put(
+				".7", clusterLinkConfiguration.channelLogicName7());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName8())) {
+			channelLogicNames.put(
+				".8", clusterLinkConfiguration.channelLogicName8());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelLogicName9())) {
+			channelLogicNames.put(
+				".9", clusterLinkConfiguration.channelLogicName9());
+		}
+
 		return channelLogicNames;
 	}
 
@@ -209,6 +259,46 @@ public class ClusterLinkImpl implements ClusterLink {
 			}
 		}
 
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName0())) {
+			channelNames.put(".0", clusterLinkConfiguration.channelName0());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName1())) {
+			channelNames.put(".1", clusterLinkConfiguration.channelName1());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName2())) {
+			channelNames.put(".2", clusterLinkConfiguration.channelName2());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName3())) {
+			channelNames.put(".3", clusterLinkConfiguration.channelName3());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName4())) {
+			channelNames.put(".4", clusterLinkConfiguration.channelName4());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName5())) {
+			channelNames.put(".5", clusterLinkConfiguration.channelName5());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName6())) {
+			channelNames.put(".6", clusterLinkConfiguration.channelName6());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName7())) {
+			channelNames.put(".7", clusterLinkConfiguration.channelName7());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName8())) {
+			channelNames.put(".8", clusterLinkConfiguration.channelName8());
+		}
+
+		if (Validator.isNotNull(clusterLinkConfiguration.channelName9())) {
+			channelNames.put(".9", clusterLinkConfiguration.channelName9());
+		}
+
 		return channelNames;
 	}
 
@@ -241,6 +331,76 @@ public class ClusterLinkImpl implements ClusterLink {
 				channelPropertiesStrings.put(
 					(String)entry.getKey(), (String)entry.getValue());
 			}
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties0())) {
+
+			channelPropertiesStrings.put(
+				".0", clusterLinkConfiguration.channelProperties0());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties1())) {
+
+			channelPropertiesStrings.put(
+				".1", clusterLinkConfiguration.channelProperties1());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties2())) {
+
+			channelPropertiesStrings.put(
+				".2", clusterLinkConfiguration.channelProperties2());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties3())) {
+
+			channelPropertiesStrings.put(
+				".3", clusterLinkConfiguration.channelProperties3());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties4())) {
+
+			channelPropertiesStrings.put(
+				".4", clusterLinkConfiguration.channelProperties4());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties5())) {
+
+			channelPropertiesStrings.put(
+				".5", clusterLinkConfiguration.channelProperties5());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties6())) {
+
+			channelPropertiesStrings.put(
+				".6", clusterLinkConfiguration.channelProperties6());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties7())) {
+
+			channelPropertiesStrings.put(
+				".7", clusterLinkConfiguration.channelProperties7());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties8())) {
+
+			channelPropertiesStrings.put(
+				".8", clusterLinkConfiguration.channelProperties8());
+		}
+
+		if (Validator.isNotNull(
+				clusterLinkConfiguration.channelProperties9())) {
+
+			channelPropertiesStrings.put(
+				".9", clusterLinkConfiguration.channelProperties9());
 		}
 
 		return channelPropertiesStrings;
