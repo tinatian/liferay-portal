@@ -798,6 +798,21 @@ public class ClusterMasterExecutorImplTest extends BaseClusterTestCase {
 			clusterExecutorConfiguration = new ClusterExecutorConfiguration() {
 
 				@Override
+				public String channelLogicName() {
+					return "mockChannelLogicName";
+				}
+
+				@Override
+				public String channelName() {
+					return "mockChannelName";
+				}
+
+				@Override
+				public String channelProperties() {
+					return "mockChannelProperty";
+				}
+
+				@Override
 				public boolean debugEnabled() {
 					return false;
 				}
