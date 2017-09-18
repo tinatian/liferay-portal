@@ -242,11 +242,21 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 			ClusterExecutorConfiguration.class,
 			componentContext.getProperties());
 
-		String channelLogicName = getChannelLogicName(
-			componentContext.getProperties());
-		String channelPropertiesString = getChannelPropertiesString(
-			componentContext.getProperties());
-		String channelName = getChannelName(componentContext.getProperties());
+		String channelLogicName = getChannelSetting(
+			componentContext.getProperties(),
+			ClusterPropsKeys.CHANNEL_LOGIC_NAME_CONTROL,
+			PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_CONTROL,
+			clusterExecutorConfiguration.channelLogicName());
+		String channelPropertiesString = getChannelSetting(
+			componentContext.getProperties(),
+			ClusterPropsKeys.CHANNEL_PROPERTIES_CONTROL,
+			PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL,
+			clusterExecutorConfiguration.channelProperties());
+		String channelName = getChannelSetting(
+			componentContext.getProperties(),
+			ClusterPropsKeys.CHANNEL_NAME_CONTROL,
+			PropsKeys.CLUSTER_LINK_CHANNEL_NAME_CONTROL,
+			clusterExecutorConfiguration.channelName());
 
 		initialize(channelLogicName, channelPropertiesString, channelName);
 
@@ -362,44 +372,22 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 		return uuid.toString();
 	}
 
-	protected String getChannelLogicName(
-		Dictionary<String, Object> properties) {
+	protected String getChannelSetting(
+		Dictionary<String, Object> properties, String channelPropsKey,
+		String propsKey, String osgiSetting) {
 
-		String channelLogicName = GetterUtil.getString(
-			properties.get(ClusterPropsKeys.CHANNEL_LOGIC_NAME_CONTROL));
-
-		if (Validator.isNull(channelLogicName)) {
-			channelLogicName = _props.get(
-				PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_CONTROL);
+		if (Validator.isNotNull(osgiSetting)) {
+			return osgiSetting;
 		}
 
-		return channelLogicName;
-	}
+		String channelSetting = GetterUtil.getString(
+			properties.get(channelPropsKey));
 
-	protected String getChannelName(Dictionary<String, Object> properties) {
-		String channelName = GetterUtil.getString(
-			properties.get(ClusterPropsKeys.CHANNEL_NAME_CONTROL));
-
-		if (Validator.isNull(channelName)) {
-			channelName = _props.get(
-				PropsKeys.CLUSTER_LINK_CHANNEL_NAME_CONTROL);
+		if (Validator.isNull(channelSetting)) {
+			channelSetting = _props.get(propsKey);
 		}
 
-		return channelName;
-	}
-
-	protected String getChannelPropertiesString(
-		Dictionary<String, Object> properties) {
-
-		String channelPropertiesString = GetterUtil.getString(
-			properties.get(ClusterPropsKeys.CHANNEL_PROPERTIES_CONTROL));
-
-		if (Validator.isNull(channelPropertiesString)) {
-			channelPropertiesString = _props.get(
-				PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL);
-		}
-
-		return channelPropertiesString;
+		return channelSetting;
 	}
 
 	protected ClusterChannel getClusterChannel() {
