@@ -402,6 +402,10 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 		return channelPropertiesString;
 	}
 
+	protected String getChannelSetting(String propsKey) {
+		return _props.get(propsKey);
+	}
+
 	protected ClusterChannel getClusterChannel() {
 		return _clusterChannel;
 	}
