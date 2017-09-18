@@ -19,26 +19,22 @@ import aQute.bnd.annotation.metatype.Meta;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 /**
- * @author Michael C. Han
+ * @author Lance Ji
  */
 @ExtendedObjectClassDefinition(category = "foundation")
 @Meta.OCD(
-	id = "com.liferay.portal.cluster.configuration.ClusterExecutorConfiguration",
-	localization = "content/Language",
-	name = "cluster-executor-configuration-name"
+	id = "com.liferay.portal.cluster.configuration.ClusterLinkConfiguration",
+	localization = "content/Language", name = "cluster-link-configuration-name"
 )
-public interface ClusterExecutorConfiguration {
-
-	@Meta.AD(deflt = "false", required = false)
-	public boolean debugEnabled();
+public interface ClusterLinkConfiguration {
 
 	@Meta.AD(required = false)
-	public String channelLogicName();
+	public String[] channelLogicNames();
 
 	@Meta.AD(required = false)
-	public String channelName();
+	public String[] channelNames();
 
 	@Meta.AD(required = false)
-	public String channelProperties();
+	public String[] channelProperties();
 
 }

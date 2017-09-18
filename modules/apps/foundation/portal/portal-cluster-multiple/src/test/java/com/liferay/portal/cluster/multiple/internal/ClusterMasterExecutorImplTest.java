@@ -798,6 +798,49 @@ public class ClusterMasterExecutorImplTest extends BaseClusterTestCase {
 			clusterExecutorConfiguration = new ClusterExecutorConfiguration() {
 
 				@Override
+				public String channelLogicName() {
+					return "mockChannelLogicName";
+				}
+
+				@Override
+				public String channelName() {
+					return "mockChannelName";
+				}
+
+				@Override
+				public String channelProperties() {
+					StringBuilder sb = new StringBuilder();
+
+					sb.append("UDP(bind_addr=${cluster.link.bind.addr");
+					sb.append("[\"cluster-link-control\"]};mcast_group_addr=");
+					sb.append("${multicast.group.address[\"cluster-link-");
+					sb.append("control\"]};mcast_port=${multicast.group.port");
+					sb.append("[\"cluster-link-control\"]}):PING:MERGE3(");
+					sb.append(
+						"min_interval=10000;max_interval=30000):FD_SOCK:");
+					sb.append("FD_ALL:VERIFY_SUSPECT(timeout=1500):");
+					sb.append("pbcast.NAKACK2(xmit_interval=500;");
+					sb.append(
+						"xmit_table_num_rows=100;xmit_table_msgs_per_row");
+					sb.append("=2000;xmit_table_max_compaction_time=30000;");
+					sb.append("max_msg_batch_size=500;use_mcast_xmit=false;");
+					sb.append("discard_delivered_msgs=true):UNICAST3(");
+					sb.append("xmit_interval=500;xmit_table_num_rows=100;");
+					sb.append("xmit_table_msgs_per_row=2000;xmit_table_max_");
+					sb.append("compaction_time=60000;conn_expiry_timeout=0;");
+					sb.append("max_msg_batch_size=500):pbcast.STABLE(");
+					sb.append("stability_delay=1000;desired_avg_gossip=50000;");
+					sb.append("max_bytes=4M):pbcast.GMS(join_timeout=2000;");
+					sb.append("print_local_addr=true;view_bundling=true):");
+					sb.append("UFC(max_credits=2M;min_threshold=0.4):MFC(");
+					sb.append("max_credits=2M;min_threshold=0.4):FRAG2(");
+					sb.append("frag_size=60K):RSVP(resend_interval=2000;");
+					sb.append("timeout=10000)");
+
+					return sb.toString();
+				}
+
+				@Override
 				public boolean debugEnabled() {
 					return false;
 				}

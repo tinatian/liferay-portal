@@ -14,7 +14,9 @@
 
 package com.liferay.portal.cluster.multiple.internal;
 
+import com.liferay.portal.cluster.multiple.configuration.ClusterLinkConfiguration;
 import com.liferay.portal.cluster.multiple.internal.constants.ClusterPropsKeys;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterLink;
@@ -27,6 +29,7 @@ import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
@@ -41,6 +44,7 @@ import java.util.concurrent.ExecutorService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -49,7 +53,10 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 /**
  * @author Shuyang Zhou
  */
-@Component(immediate = true, service = ClusterLink.class)
+@Component(
+	configurationPid = "com.liferay.portal.cluster.configuration.ClusterLinkConfiguration",
+	immediate = true, service = ClusterLink.class
+)
 public class ClusterLinkImpl implements ClusterLink {
 
 	@Override
@@ -92,11 +99,14 @@ public class ClusterLinkImpl implements ClusterLink {
 		_enabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.CLUSTER_LINK_ENABLED));
 
+		clusterLinkConfiguration = ConfigurableUtil.createConfigurable(
+			ClusterLinkConfiguration.class, properties);
+
 		if (_enabled) {
 			initialize(
-				getChannelLogicNames(properties),
-				getChannelPropertiesStrings(properties),
-				getChannelNames(properties));
+				getChannelProperty(properties, PropertyType.CHANNEL_LOGIC_NAME),
+				getChannelProperty(properties, PropertyType.CHANNEL_PROPERTIES),
+				getChannelProperty(properties, PropertyType.CHANNEL_NAME));
 		}
 	}
 
@@ -136,106 +146,73 @@ public class ClusterLinkImpl implements ClusterLink {
 		return _clusterChannels.get(channelIndex);
 	}
 
-	protected Map<String, String> getChannelLogicNames(
-		Map<String, Object> properties) {
+	protected Map<String, String> getChannelProperty(
+		Map<String, Object> properties, PropertyType propertyType) {
 
-		Map<String, String> channelLogicNames = new HashMap<>();
+		Map<String, String> result = new HashMap<>();
 
-		int prefixLength =
-			ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX.length();
+		String clusterPropertyPrefix;
+		String propertyPrefix;
+		String[] osgiProperties;
+
+		switch (propertyType) {
+			case CHANNEL_LOGIC_NAME:
+				clusterPropertyPrefix =
+					ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX;
+				propertyPrefix =
+					PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_TRANSPORT;
+				osgiProperties = clusterLinkConfiguration.channelLogicNames();
+				break;
+			case CHANNEL_PROPERTIES:
+				clusterPropertyPrefix =
+					ClusterPropsKeys.CHANNEL_PROPERTIES_TRANSPORT_PREFIX;
+				propertyPrefix =
+					PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_TRANSPORT;
+				osgiProperties = clusterLinkConfiguration.channelProperties();
+				break;
+			case CHANNEL_NAME:
+				clusterPropertyPrefix =
+					ClusterPropsKeys.CHANNEL_NAME_TRANSPORT_PREFIX;
+				propertyPrefix = PropsKeys.CLUSTER_LINK_CHANNEL_NAME_TRANSPORT;
+				osgiProperties = clusterLinkConfiguration.channelNames();
+				break;
+			default:
+				throw new IllegalArgumentException(
+					"Unknown channel property type: " + propertyType);
+		}
 
 		for (Entry<String, Object> entry : properties.entrySet()) {
 			String key = entry.getKey();
 
-			if (key.startsWith(
-					ClusterPropsKeys.CHANNEL_LOGIC_NAME_TRANSPORT_PREFIX)) {
-
-				channelLogicNames.put(
-					key.substring(prefixLength + 1), (String)entry.getValue());
+			if (key.startsWith(clusterPropertyPrefix)) {
+				result.put(
+					key.substring(clusterPropertyPrefix.length() + 1),
+					(String)entry.getValue());
 			}
 		}
 
-		if (channelLogicNames.isEmpty()) {
-			Properties channelLogicNameProperties = _props.getProperties(
-				PropsKeys.CLUSTER_LINK_CHANNEL_LOGIC_NAME_TRANSPORT, true);
-
-			for (Map.Entry<Object, Object> entry :
-					channelLogicNameProperties.entrySet()) {
-
-				channelLogicNames.put(
-					(String)entry.getKey(), (String)entry.getValue());
-			}
-		}
-
-		return channelLogicNames;
-	}
-
-	protected Map<String, String> getChannelNames(
-		Map<String, Object> properties) {
-
-		Map<String, String> channelNames = new HashMap<>();
-
-		int prefixLength =
-			ClusterPropsKeys.CHANNEL_NAME_TRANSPORT_PREFIX.length();
-
-		for (Entry<String, Object> entry : properties.entrySet()) {
-			String key = entry.getKey();
-
-			if (key.startsWith(
-					ClusterPropsKeys.CHANNEL_NAME_TRANSPORT_PREFIX)) {
-
-				channelNames.put(
-					key.substring(prefixLength + 1), (String)entry.getValue());
-			}
-		}
-
-		if (channelNames.isEmpty()) {
-			Properties channelNameProperties = _props.getProperties(
-				PropsKeys.CLUSTER_LINK_CHANNEL_NAME_TRANSPORT, true);
-
-			for (Map.Entry<Object, Object> entry :
-					channelNameProperties.entrySet()) {
-
-				channelNames.put(
-					(String)entry.getKey(), (String)entry.getValue());
-			}
-		}
-
-		return channelNames;
-	}
-
-	protected Map<String, String> getChannelPropertiesStrings(
-		Map<String, Object> properties) {
-
-		Map<String, String> channelPropertiesStrings = new HashMap<>();
-
-		int prefixLength =
-			ClusterPropsKeys.CHANNEL_PROPERTIES_TRANSPORT_PREFIX.length();
-
-		for (Entry<String, Object> entry : properties.entrySet()) {
-			String key = entry.getKey();
-
-			if (key.startsWith(
-					ClusterPropsKeys.CHANNEL_PROPERTIES_TRANSPORT_PREFIX)) {
-
-				channelPropertiesStrings.put(
-					key.substring(prefixLength + 1), (String)entry.getValue());
-			}
-		}
-
-		if (channelPropertiesStrings.isEmpty()) {
+		if (result.isEmpty()) {
 			Properties channelProperties = _props.getProperties(
-				PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_TRANSPORT, true);
+				propertyPrefix, true);
 
 			for (Map.Entry<Object, Object> entry :
 					channelProperties.entrySet()) {
 
-				channelPropertiesStrings.put(
-					(String)entry.getKey(), (String)entry.getValue());
+				result.put((String)entry.getKey(), (String)entry.getValue());
 			}
 		}
 
-		return channelPropertiesStrings;
+		int channelCount = 0;
+
+		for (String osgiProperty : osgiProperties) {
+			if (Validator.isNotNull(osgiProperty)) {
+				result.put(StringPool.PERIOD + channelCount, osgiProperty);
+			}
+
+			channelCount++;
+		}
+
+		return result;
 	}
 
 	protected ExecutorService getExecutorService() {
@@ -315,6 +292,15 @@ public class ClusterLinkImpl implements ClusterLink {
 		}
 	}
 
+	@Modified
+	protected synchronized void modified(Map<String, Object> properties) {
+		if (_log.isInfoEnabled()) {
+			_log.info(
+				"Channel configuration can not be changed after setup." +
+					"Changes will be applied after restart");
+		}
+	}
+
 	protected void sendLocalMessage(Message message) {
 		String destinationName = message.getDestinationName();
 
@@ -372,6 +358,8 @@ public class ClusterLinkImpl implements ClusterLink {
 		_messageBus = null;
 	}
 
+	protected volatile ClusterLinkConfiguration clusterLinkConfiguration;
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ClusterLinkImpl.class);
 
@@ -385,5 +373,10 @@ public class ClusterLinkImpl implements ClusterLink {
 	private MessageBus _messageBus;
 	private PortalExecutorManager _portalExecutorManager;
 	private Props _props;
+
+	private enum PropertyType {
+
+		CHANNEL_LOGIC_NAME, CHANNEL_PROPERTIES, CHANNEL_NAME
+	};
 
 }
