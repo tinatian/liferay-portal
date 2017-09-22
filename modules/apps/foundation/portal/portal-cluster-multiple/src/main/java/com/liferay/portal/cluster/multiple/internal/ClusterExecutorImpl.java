@@ -373,6 +373,10 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 		return _props.get(PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL);
 	}
 
+	protected String getChannelSetting(String propsKey) {
+		return _props.get(propsKey);
+	}
+
 	protected ClusterChannel getClusterChannel() {
 		return _clusterChannel;
 	}
