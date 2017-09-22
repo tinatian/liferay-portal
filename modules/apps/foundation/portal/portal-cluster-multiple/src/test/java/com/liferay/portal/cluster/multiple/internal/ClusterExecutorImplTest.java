@@ -139,6 +139,21 @@ public class ClusterExecutorImplTest extends BaseClusterTestCase {
 			new ClusterExecutorConfiguration() {
 
 				@Override
+				public String channelLogicName() {
+					return "test-control-logic";
+				}
+
+				@Override
+				public String channelName() {
+					return "test-control-name";
+				}
+
+				@Override
+				public String channelProperties() {
+					return "test-control-property";
+				}
+
+				@Override
 				public boolean debugEnabled() {
 					return true;
 				}
