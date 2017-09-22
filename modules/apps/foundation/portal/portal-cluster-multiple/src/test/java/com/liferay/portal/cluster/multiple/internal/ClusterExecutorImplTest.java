@@ -15,7 +15,6 @@
 package com.liferay.portal.cluster.multiple.internal;
 
 import com.liferay.portal.cluster.multiple.configuration.ClusterExecutorConfiguration;
-import com.liferay.portal.cluster.multiple.internal.constants.ClusterPropsKeys;
 import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.cluster.ClusterEvent;
 import com.liferay.portal.kernel.cluster.ClusterEventListener;
@@ -39,7 +38,6 @@ import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -447,18 +445,8 @@ public class ClusterExecutorImplTest extends BaseClusterTestCase {
 		clusterExecutorImpl.setPortalExecutorManager(
 			new MockPortalExecutorManager());
 
-		Dictionary<String, Object> properties = new HashMapDictionary<>();
-
-		properties.put(
-			ClusterPropsKeys.CHANNEL_LOGIC_NAME_CONTROL,
-			"test-control-channel-logic-name");
-		properties.put(
-			ClusterPropsKeys.CHANNEL_NAME_CONTROL, "test-channel-name-control");
-		properties.put(
-			ClusterPropsKeys.CHANNEL_PROPERTIES_CONTROL,
-			"test-channel-properties-control");
-
-		clusterExecutorImpl.activate(new MockComponentContext(properties));
+		clusterExecutorImpl.activate(
+			new MockComponentContext(new HashMapDictionary<>()));
 
 		return clusterExecutorImpl;
 	}
