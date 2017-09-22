@@ -14,7 +14,6 @@
 
 package com.liferay.portal.cluster.multiple.internal;
 
-import com.liferay.portal.cluster.multiple.internal.constants.ClusterPropsKeys;
 import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.cluster.Priority;
 import com.liferay.portal.kernel.configuration.Filter;
@@ -33,7 +32,6 @@ import java.io.Serializable;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -340,20 +338,7 @@ public class ClusterLinkImplTest extends BaseClusterTestCase {
 		clusterLinkImpl.setPortalExecutorManager(
 			new MockPortalExecutorManager());
 
-		Map<String, Object> properties = new HashMap<>();
-
-		for (int i = 0; i < channels; i++) {
-			properties.put(
-				ClusterPropsKeys.CHANNEL_NAME_TRANSPORT_PREFIX +
-					StringPool.PERIOD + i,
-				"test-channel-name-transport-" + i);
-			properties.put(
-				ClusterPropsKeys.CHANNEL_PROPERTIES_TRANSPORT_PREFIX +
-					StringPool.PERIOD + i,
-				"test-channel-properties-transport-" + i);
-		}
-
-		clusterLinkImpl.activate(properties);
+		clusterLinkImpl.activate(new HashMap<>());
 
 		return clusterLinkImpl;
 	}
