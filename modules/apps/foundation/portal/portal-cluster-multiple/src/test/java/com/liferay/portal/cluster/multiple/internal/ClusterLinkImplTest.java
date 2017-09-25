@@ -31,9 +31,7 @@ import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.io.Serializable;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -375,9 +373,7 @@ public class ClusterLinkImplTest extends BaseClusterTestCase {
 		clusterLinkImpl.setPortalExecutorManager(
 			new MockPortalExecutorManager());
 
-		Map<String, Object> properties = new HashMap<>();
-
-		clusterLinkImpl.activate(properties);
+		clusterLinkImpl.activate();
 
 		return clusterLinkImpl;
 	}
