@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypeController;
+import com.liferay.portal.kernel.servlet.ReloadHeadersRequestDispatcherWrapper;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -85,7 +86,8 @@ public abstract class BaseLayoutTypeControllerImpl
 		throws Exception {
 
 		RequestDispatcher requestDispatcher =
-			servletContext.getRequestDispatcher(getViewPage());
+			new ReloadHeadersRequestDispatcherWrapper(
+				servletContext.getRequestDispatcher(getViewPage()));
 
 		UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
 
