@@ -35,7 +35,9 @@ import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.Props;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.AdviseWith;
 import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
@@ -790,7 +792,7 @@ public class ClusterMasterExecutorImplTest extends BaseClusterTestCase {
 			return _clusterNodes.get(address);
 		}
 
-		private MockClusterExecutor(boolean enabled) {
+		private MockClusterExecutor(final boolean enabled) {
 			_enabled = enabled;
 
 			setClusterChannelFactory(new TestClusterChannelFactory());
@@ -816,7 +818,20 @@ public class ClusterMasterExecutorImplTest extends BaseClusterTestCase {
 
 					@Override
 					public String get(String key) {
-						return null;
+						switch (key) {
+							case PropsKeys.CLUSTER_LINK_ENABLED:
+								return String.valueOf(enabled);
+							case PropsKeys.
+									CLUSTER_LINK_CHANNEL_LOGIC_NAME_CONTROL:
+								return "test-control-channel-logic-name";
+							case PropsKeys.CLUSTER_LINK_CHANNEL_NAME_CONTROL:
+								return "test-channel-name-control";
+							case PropsKeys.
+									CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL:
+								return "test-channel-properties-control";
+							default:
+								return StringPool.BLANK;
+						}
 					}
 
 					@Override
