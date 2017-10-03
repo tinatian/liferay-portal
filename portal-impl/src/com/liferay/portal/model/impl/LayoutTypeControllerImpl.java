@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.model.LayoutTypeController;
 import com.liferay.portal.kernel.servlet.DirectRequestDispatcherFactoryUtil;
+import com.liferay.portal.kernel.servlet.ReloadHeadersRequestDispatcherWrapper;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -157,6 +158,9 @@ public class LayoutTypeControllerImpl implements LayoutTypeController {
 		RequestDispatcher requestDispatcher =
 			DirectRequestDispatcherFactoryUtil.getRequestDispatcher(
 				servletContext, path);
+
+		requestDispatcher =
+			new ReloadHeadersRequestDispatcherWrapper(requestDispatcher);
 
 		UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
 
