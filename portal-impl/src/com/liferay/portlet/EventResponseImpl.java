@@ -16,6 +16,8 @@ package com.liferay.portlet;
 
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
@@ -38,6 +40,14 @@ public class EventResponseImpl
 
 	@Override
 	public void setRenderParameters(EventRequest eventRequest) {
+		if (eventRequest == null) {
+			throw new IllegalArgumentException();
+		}
+
+		LiferayPortletRequest liferayPortletRequest =
+			PortalUtil.getLiferayPortletRequest(eventRequest);
+
+		setRenderParameters(liferayPortletRequest.getRenderParameters());
 	}
 
 	/**
