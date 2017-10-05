@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermissio
 
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -32,6 +33,13 @@ public class PortletResponseHeadersHelperUtil {
 			PortletResponseHeadersHelperUtil.class);
 
 		return _portletResponseHeadersHelper;
+	}
+
+	public static RequestDispatcher getReloadHeadersRequestDispatcher(
+		RequestDispatcher requestDispatcher) {
+
+		return getPortletResponseHeadersHelper().
+			getReloadHeadersRequestDispatcher(requestDispatcher);
 	}
 
 	public static void transferHeaders(
