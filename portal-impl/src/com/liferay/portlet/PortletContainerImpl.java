@@ -50,6 +50,7 @@ import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.servlet.BufferCacheServletResponse;
 import com.liferay.portal.kernel.servlet.DirectRequestDispatcherFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.PortletResponseHeadersHelperUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -689,6 +690,10 @@ public class PortletContainerImpl implements PortletContainer {
 		RequestDispatcher requestDispatcher =
 			DirectRequestDispatcherFactoryUtil.getRequestDispatcher(
 				request, path);
+
+		requestDispatcher =
+			PortletResponseHeadersHelperUtil.getReloadHeadersRequestDispatcher(
+				requestDispatcher);
 
 		BufferCacheServletResponse bufferCacheServletResponse = null;
 
