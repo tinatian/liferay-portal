@@ -515,6 +515,11 @@ public abstract class PortletRequestImpl implements LiferayPortletRequest {
 	}
 
 	@Override
+	public Map<String, String[]> getRenderParameters() {
+		return RenderParametersPool.getOrCreate(_request, _plid, _portletName);
+	}
+
+	@Override
 	public String getRequestedSessionId() {
 		if (_session != null) {
 			return _session.getId();
