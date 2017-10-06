@@ -249,6 +249,11 @@ public class MVCActionCommandTest {
 			return null;
 		}
 
+		@Override
+		public Map<String, String[]> getRenderParameters() {
+			return null;
+		}
+
 		private final MockHttpServletRequest _mockHttpServletRequest =
 			new MockHttpServletRequest();
 
