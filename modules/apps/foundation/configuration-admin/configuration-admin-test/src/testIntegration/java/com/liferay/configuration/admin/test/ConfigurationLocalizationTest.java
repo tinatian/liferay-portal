@@ -100,12 +100,13 @@ public class ConfigurationLocalizationTest {
 					extendedObjectClassDefinition.getAttributeDefinitions(
 						ObjectClassDefinition.ALL);
 
-				for (ExtendedAttributeDefinition ead :
+				for (ExtendedAttributeDefinition extendedAttributeDefinition :
 						extendedAttributeDefinitions) {
 
 					Assert.assertNotNull(
 						ResourceBundleUtil.getString(
-							resourceBundle, ead.getName()));
+							resourceBundle, 
+							extendedAttributeDefinition.getName()));
 				}
 			}
 		}
