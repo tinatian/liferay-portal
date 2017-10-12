@@ -15,14 +15,13 @@
 package com.liferay.configuration.admin.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
-import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDefinition;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeInformation;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeService;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
+import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -33,7 +32,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -63,14 +61,6 @@ public class ConfigurationLocalizationTest {
 			ConfigurationLocalizationTest.class);
 
 		_bundleContext = bundle.getBundleContext();
-
-		_resourceBundleLoaders = ServiceTrackerMapFactory.openSingleValueMap(
-			_bundleContext, ResourceBundleLoader.class, "bundle.symbolic.name");
-	}
-
-	@After
-	public void tearDown() {
-		_resourceBundleLoaders.close();
 	}
 
 	@Test
@@ -93,7 +83,9 @@ public class ConfigurationLocalizationTest {
 			}
 
 			ResourceBundleLoader resourceBundleLoader =
-				_resourceBundleLoaders.getService(bundle.getSymbolicName());
+				ResourceBundleLoaderUtil.
+					getResourceBundleLoaderByBundleSymbolicName(
+						bundle.getSymbolicName());
 
 			Assert.assertNotNull(resourceBundleLoader);
 
@@ -129,7 +121,5 @@ public class ConfigurationLocalizationTest {
 	private static ExtendedMetaTypeService _extendedMetaTypeService;
 
 	private BundleContext _bundleContext;
-	private ServiceTrackerMap<String, ResourceBundleLoader>
-		_resourceBundleLoaders;
 
 }
