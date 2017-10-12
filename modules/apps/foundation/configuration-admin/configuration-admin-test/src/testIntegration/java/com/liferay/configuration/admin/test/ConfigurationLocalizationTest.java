@@ -33,7 +33,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,19 +54,14 @@ public class ConfigurationLocalizationTest {
 	public static final AggregateTestRule aggregateTestRule =
 		new LiferayIntegrationTestRule();
 
-	@Before
-	public void setUp() {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ConfigurationLocalizationTest.class);
-
-		_bundleContext = bundle.getBundleContext();
-	}
-
 	@Test
 	public void testBundleLocalizationTest() {
-		Bundle[] bundles = _bundleContext.getBundles();
+		Bundle currentBundle = FrameworkUtil.getBundle(
+			ConfigurationLocalizationTest.class);
 
-		for (Bundle bundle : bundles) {
+		BundleContext bundleContext = currentBundle.getBundleContext();
+
+		for (Bundle bundle : bundleContext.getBundles()) {
 			ExtendedMetaTypeInformation extendedMetaTypeInformation =
 				_extendedMetaTypeService.getMetaTypeInformation(bundle);
 
@@ -119,7 +113,5 @@ public class ConfigurationLocalizationTest {
 
 	@Inject
 	private static ExtendedMetaTypeService _extendedMetaTypeService;
-
-	private BundleContext _bundleContext;
 
 }
