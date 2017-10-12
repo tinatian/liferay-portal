@@ -21,8 +21,11 @@ import com.liferay.portal.configuration.metatype.definitions.ExtendedAttributeDe
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeInformation;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeService;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,13 +36,14 @@ import java.util.ResourceBundle;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 import org.osgi.service.metatype.ObjectClassDefinition;
 
 /**
@@ -48,6 +52,11 @@ import org.osgi.service.metatype.ObjectClassDefinition;
 @RunWith(Arquillian.class)
 public class ConfigurationLocalizationTest {
 
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
+
 	@Before
 	public void setUp() {
 		Bundle bundle = FrameworkUtil.getBundle(
@@ -55,20 +64,12 @@ public class ConfigurationLocalizationTest {
 
 		_bundleContext = bundle.getBundleContext();
 
-		_extendedMetaTypeServiceServiceReference =
-			_bundleContext.getServiceReference(ExtendedMetaTypeService.class);
-
-		_extendedMetaTypeService = _bundleContext.getService(
-			_extendedMetaTypeServiceServiceReference);
-
 		_resourceBundleLoaders = ServiceTrackerMapFactory.openSingleValueMap(
 			_bundleContext, ResourceBundleLoader.class, "bundle.symbolic.name");
 	}
 
 	@After
 	public void tearDown() {
-		_bundleContext.ungetService(_extendedMetaTypeServiceServiceReference);
-
 		_resourceBundleLoaders.close();
 	}
 
@@ -124,10 +125,10 @@ public class ConfigurationLocalizationTest {
 		}
 	}
 
+	@Inject
+	private static ExtendedMetaTypeService _extendedMetaTypeService;
+
 	private BundleContext _bundleContext;
-	private ExtendedMetaTypeService _extendedMetaTypeService;
-	private ServiceReference<ExtendedMetaTypeService>
-		_extendedMetaTypeServiceServiceReference;
 	private ServiceTrackerMap<String, ResourceBundleLoader>
 		_resourceBundleLoaders;
 
