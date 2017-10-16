@@ -56,10 +56,13 @@ public class SerializableObjectWrapper implements Externalizable {
 	 * this for any other purpose.
 	 */
 	public SerializableObjectWrapper() {
+		_hashCode = 0;
 	}
 
 	public SerializableObjectWrapper(Serializable serializable) {
 		_serializable = serializable;
+
+		_hashCode = serializable.hashCode();
 	}
 
 	@Override
@@ -83,22 +86,36 @@ public class SerializableObjectWrapper implements Externalizable {
 			LazySerializable lazySerializable2 =
 				(LazySerializable)serializableWrapper._serializable;
 
-			return Arrays.equals(
-				lazySerializable1.getData(), lazySerializable2.getData());
+			if (Arrays.equals(
+					lazySerializable1.getData(), lazySerializable2.getData())) {
+
+				return true;
+			}
 		}
 
 		if (_serializable instanceof LazySerializable) {
 			LazySerializable lazySerializable = (LazySerializable)_serializable;
 
-			_serializable = lazySerializable.getSerializable();
+			Serializable serializable = lazySerializable.getSerializable();
+
+			if (serializable == null) {
+				return false;
+			}
+
+			_serializable = serializable;
 		}
 
 		if (serializableWrapper._serializable instanceof LazySerializable) {
 			LazySerializable lazySerializable =
 				(LazySerializable)serializableWrapper._serializable;
 
-			serializableWrapper._serializable =
-				lazySerializable.getSerializable();
+			Serializable serializable = lazySerializable.getSerializable();
+
+			if (serializable == null) {
+				return false;
+			}
+
+			serializableWrapper._serializable = serializable;
 		}
 
 		return _serializable.equals(serializableWrapper._serializable);
@@ -106,17 +123,13 @@ public class SerializableObjectWrapper implements Externalizable {
 
 	@Override
 	public int hashCode() {
-		if (_serializable instanceof LazySerializable) {
-			LazySerializable lazySerializable = (LazySerializable)_serializable;
-
-			_serializable = lazySerializable.getSerializable();
-		}
-
-		return _serializable.hashCode();
+		return _hashCode;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		_hashCode = objectInput.readInt();
+
 		byte[] data = new byte[objectInput.readInt()];
 
 		objectInput.readFully(data);
@@ -140,6 +153,7 @@ public class SerializableObjectWrapper implements Externalizable {
 
 		Serializer serializer = new Serializer();
 
+		serializer.writeInt(_hashCode);
 		serializer.writeObject(_serializable);
 
 		ByteBuffer byteBuffer = serializer.toByteBuffer();
@@ -153,6 +167,7 @@ public class SerializableObjectWrapper implements Externalizable {
 	private static final Log _log = LogFactoryUtil.getLog(
 		SerializableObjectWrapper.class);
 
+	private int _hashCode;
 	private volatile Serializable _serializable;
 
 	private static class LazySerializable implements Serializable {
