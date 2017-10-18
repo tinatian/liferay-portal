@@ -51,7 +51,7 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 			boolean clusterable) {
 
 		PortalCacheIndexer<I, K, V> portalCacheIndexer =
-			new PortalCacheIndexer<>(indexEncoder, portalCache);
+			new PortalCacheIndexer<>(portalCache, indexEncoder);
 
 		if (!ClusterExecutorUtil.isEnabled() || !clusterable) {
 			return portalCacheIndexer;
@@ -66,12 +66,22 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 			portalCacheIndexer);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public PortalCacheIndexer(
 		IndexEncoder<I, K> indexEncoder, PortalCache<K, V> portalCache) {
 
-		_indexEncoder = indexEncoder;
+		this(portalCache, indexEncoder);
+	}
+
+	private PortalCacheIndexer(
+		PortalCache<K, V> portalCache, IndexEncoder<I, K> indexEncoder) {
 
 		_portalCache = portalCache;
+
+		_indexEncoder = indexEncoder;
 
 		_portalCache.registerPortalCacheListener(
 			new IndexerPortalCacheListener());
