@@ -76,27 +76,6 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 		this(portalCache, indexEncoder);
 	}
 
-	private PortalCacheIndexer(
-		PortalCache<K, V> portalCache, IndexEncoder<I, K> indexEncoder) {
-
-		_portalCache = portalCache;
-
-		_indexEncoder = indexEncoder;
-
-		_portalCache.registerPortalCacheListener(
-			new IndexerPortalCacheListener());
-
-		for (K indexedCacheKey : _portalCache.getKeys()) {
-			_addIndexedCacheKey(indexedCacheKey);
-		}
-
-		Class<? extends IndexEncoder> clazz = indexEncoder.getClass();
-
-		_name =
-			clazz.getName() + StringPool.UNDERLINE +
-				portalCache.getPortalCacheName();
-	}
-
 	public Set<K> getKeys(I index) {
 		Set<K> keys = _indexedCacheKeys.get(index);
 
@@ -123,6 +102,27 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 		for (K key : keys) {
 			_portalCache.remove(key);
 		}
+	}
+
+	private PortalCacheIndexer(
+		PortalCache<K, V> portalCache, IndexEncoder<I, K> indexEncoder) {
+
+		_portalCache = portalCache;
+
+		_indexEncoder = indexEncoder;
+
+		_portalCache.registerPortalCacheListener(
+			new IndexerPortalCacheListener());
+
+		for (K indexedCacheKey : _portalCache.getKeys()) {
+			_addIndexedCacheKey(indexedCacheKey);
+		}
+
+		Class<? extends IndexEncoder> clazz = indexEncoder.getClass();
+
+		_name =
+			clazz.getName() + StringPool.UNDERLINE +
+				portalCache.getPortalCacheName();
 	}
 
 	private void _addIndexedCacheKey(K key) {
