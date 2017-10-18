@@ -49,9 +49,18 @@ public class ClusterableInvokerUtil {
 		Class<? extends ClusterInvokeAcceptor> clusterInvokeAcceptorClass,
 		Object targetObject, Method method, Object[] arguments) {
 
+		return createMethodHandler(
+			clusterInvokeAcceptorClass, targetObject, new MethodKey(method),
+			arguments);
+	}
+
+	public static MethodHandler createMethodHandler(
+		Class<? extends ClusterInvokeAcceptor> clusterInvokeAcceptorClass,
+		Object targetObject, MethodKey methodKey, Object[] arguments) {
+
 		MethodHandler methodHandler =
 			IdentifiableOSGiServiceInvokerUtil.createMethodHandler(
-				targetObject, method, arguments);
+				targetObject, methodKey, arguments);
 
 		Map<String, Serializable> context =
 			ClusterableContextThreadLocal.collectThreadLocalContext();
@@ -75,8 +84,18 @@ public class ClusterableInvokerUtil {
 			Object targetObject, Method method, Object[] arguments)
 		throws Throwable {
 
+		invokeOnCluster(
+			clusterInvokeAcceptorClass, targetObject, new MethodKey(method),
+			arguments);
+	}
+
+	public static void invokeOnCluster(
+			Class<? extends ClusterInvokeAcceptor> clusterInvokeAcceptorClass,
+			Object targetObject, MethodKey methodKey, Object[] arguments)
+		throws Throwable {
+
 		MethodHandler methodHandler = createMethodHandler(
-			clusterInvokeAcceptorClass, targetObject, method, arguments);
+			clusterInvokeAcceptorClass, targetObject, methodKey, arguments);
 
 		ClusterRequest clusterRequest = ClusterRequest.createMulticastRequest(
 			methodHandler, true);
@@ -91,8 +110,18 @@ public class ClusterableInvokerUtil {
 			Object targetObject, Method method, Object[] arguments)
 		throws Throwable {
 
+		return invokeOnMaster(
+			clusterInvokeAcceptorClass, targetObject, new MethodKey(method),
+			arguments);
+	}
+
+	public static Object invokeOnMaster(
+			Class<? extends ClusterInvokeAcceptor> clusterInvokeAcceptorClass,
+			Object targetObject, MethodKey methodKey, Object[] arguments)
+		throws Throwable {
+
 		MethodHandler methodHandler = createMethodHandler(
-			clusterInvokeAcceptorClass, targetObject, method, arguments);
+			clusterInvokeAcceptorClass, targetObject, methodKey, arguments);
 
 		Future<Object> futureResult = ClusterMasterExecutorUtil.executeOnMaster(
 			methodHandler);

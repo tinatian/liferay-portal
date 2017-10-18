@@ -29,7 +29,13 @@ public class IdentifiableOSGiServiceInvokerUtil {
 	public static MethodHandler createMethodHandler(
 		Object targetObject, Method method, Object[] args) {
 
-		MethodHandler methodHandler = new MethodHandler(method, args);
+		return createMethodHandler(targetObject, new MethodKey(method), args);
+	}
+
+	public static MethodHandler createMethodHandler(
+		Object targetObject, MethodKey methodKey, Object[] args) {
+
+		MethodHandler methodHandler = new MethodHandler(methodKey, args);
 
 		String threadContextServletContextName = ClassLoaderPool.getContextName(
 			ClassLoaderUtil.getContextClassLoader());
