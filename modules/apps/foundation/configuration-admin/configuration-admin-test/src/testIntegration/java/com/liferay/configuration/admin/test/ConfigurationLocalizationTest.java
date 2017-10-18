@@ -101,6 +101,13 @@ public class ConfigurationLocalizationTest {
 			ResourceBundle resourceBundle =
 				resourceBundleLoader.loadResourceBundle(Locale.getDefault());
 
+			ResourceBundle koResourceBundle =
+				resourceBundleLoader.loadResourceBundle(Locale.KOREA);
+
+			if (Objects.equals(resourceBundle, koResourceBundle)) {
+				errorMessageList.add("Missing generated resource files");
+			}
+
 			for (String pid : pids) {
 				ExtendedObjectClassDefinition extendedObjectClassDefinition =
 					extendedMetaTypeInformation.getObjectClassDefinition(
