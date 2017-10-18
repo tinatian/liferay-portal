@@ -20,17 +20,12 @@ import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
 import com.liferay.portal.kernel.cache.index.IndexEncoder;
 import com.liferay.portal.kernel.cache.index.PortalCacheIndexer;
-import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
-import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
-import com.liferay.portal.kernel.cluster.ClusterRequest;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.security.permission.ResourceBlockIdsBag;
 import com.liferay.portal.kernel.security.permission.UserBag;
 import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.MethodHandler;
-import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.util.PropsValues;
@@ -95,8 +90,6 @@ public class PermissionCacheUtil {
 
 		_permissionPortalCache.removeAll();
 		_resourceBlockIdsBagCache.removeAll();
-
-		_sendClearCacheClusterMessage(_clearCacheMethodKey, userIds);
 	}
 
 	public static void clearPrimaryKeyRoleCache() {
@@ -122,9 +115,6 @@ public class PermissionCacheUtil {
 		_resourceBlockIdsBagCacheIndexer.removeKeys(
 			ResourceBlockIdsBagKeyIndexEncoder.encode(
 				companyId, groupId, name));
-
-		_sendClearCacheClusterMessage(
-			_clearResourceBlockCacheMethodKey, companyId, groupId, name);
 	}
 
 	public static void clearResourceCache() {
@@ -147,16 +137,10 @@ public class PermissionCacheUtil {
 		if (scope == ResourceConstants.SCOPE_INDIVIDUAL) {
 			_permissionPortalCacheNamePrimKeyIndexer.removeKeys(
 				PermissionKeyNamePrimKeyIndexEncoder.encode(name, primKey));
-
-			_sendClearCacheClusterMessage(
-				_clearResourcePermissionCacheMethodKey, scope, name, primKey);
 		}
 		else if (scope == ResourceConstants.SCOPE_GROUP) {
 			_permissionPortalCacheGroupIdIndexer.removeKeys(
 				Long.valueOf(primKey));
-
-			_sendClearCacheClusterMessage(
-				_clearResourcePermissionCacheMethodKey, scope, name, primKey);
 		}
 		else {
 			_permissionPortalCache.removeAll();
@@ -335,41 +319,20 @@ public class PermissionCacheUtil {
 		_userPrimaryKeyRolePortalCache.remove(userPrimaryKeyRoleKey);
 	}
 
-	private static void _sendClearCacheClusterMessage(
-		MethodKey methodKey, Object... arguments) {
-
-		if (!ClusterInvokeThreadLocal.isEnabled()) {
-			return;
-		}
-
-		ClusterRequest clusterRequest = ClusterRequest.createMulticastRequest(
-			new MethodHandler(methodKey, arguments), true);
-
-		clusterRequest.setFireAndForget(true);
-
-		ClusterExecutorUtil.execute(clusterRequest);
-	}
-
-	private static final MethodKey _clearCacheMethodKey = new MethodKey(
-		PermissionCacheUtil.class, "clearCache", long[].class);
-	private static final MethodKey _clearResourceBlockCacheMethodKey =
-		new MethodKey(
-			PermissionCacheUtil.class, "clearResourceBlockCache", long.class,
-			long.class, String.class);
-	private static final MethodKey _clearResourcePermissionCacheMethodKey =
-		new MethodKey(
-			PermissionCacheUtil.class, "clearResourcePermissionCache",
-			int.class, String.class, String.class);
 	private static final PortalCache<PermissionKey, Boolean>
 		_permissionPortalCache = MultiVMPoolUtil.getPortalCache(
 			PERMISSION_CACHE_NAME,
 			PropsValues.PERMISSIONS_OBJECT_BLOCKING_CACHE);
 	private static final PortalCacheIndexer<Long, PermissionKey, Boolean>
-		_permissionPortalCacheGroupIdIndexer = new PortalCacheIndexer<>(
-			new PermissionKeyGroupIdIndexEncoder(), _permissionPortalCache);
+		_permissionPortalCacheGroupIdIndexer =
+			PortalCacheIndexer.createPortalCacheIndexer(
+				new PermissionKeyGroupIdIndexEncoder(), _permissionPortalCache,
+				true);
 	private static final PortalCacheIndexer<String, PermissionKey, Boolean>
-		_permissionPortalCacheNamePrimKeyIndexer = new PortalCacheIndexer<>(
-			new PermissionKeyNamePrimKeyIndexEncoder(), _permissionPortalCache);
+		_permissionPortalCacheNamePrimKeyIndexer =
+			PortalCacheIndexer.createPortalCacheIndexer(
+				new PermissionKeyNamePrimKeyIndexEncoder(),
+				_permissionPortalCache);
 	private static final
 		PortalCache<ResourceBlockIdsBagKey, ResourceBlockIdsBag>
 			_resourceBlockIdsBagCache = MultiVMPoolUtil.getPortalCache(
@@ -388,9 +351,10 @@ public class PermissionCacheUtil {
 			PERMISSION_CHECKER_BAG_CACHE_NAME,
 			PropsValues.PERMISSIONS_OBJECT_BLOCKING_CACHE);
 	private static final PortalCacheIndexer<Long, UserGroupRoleIdsKey, long[]>
-		_userGroupRoleIdsPortalCacheIndexer = new PortalCacheIndexer<>(
-			new UserGroupRoleIdsKeyIndexEncoder(),
-			_userGroupRoleIdsPortalCache);
+		_userGroupRoleIdsPortalCacheIndexer =
+			PortalCacheIndexer.createPortalCacheIndexer(
+				new UserGroupRoleIdsKeyIndexEncoder(),
+				_userGroupRoleIdsPortalCache);
 	private static final PortalCache<UserPrimaryKeyRoleKey, Boolean>
 		_userPrimaryKeyRolePortalCache = MultiVMPoolUtil.getPortalCache(
 			USER_PRIMARY_KEY_ROLE_CACHE_NAME,
@@ -406,8 +370,9 @@ public class PermissionCacheUtil {
 			USER_ROLE_CACHE_NAME,
 			PropsValues.PERMISSIONS_OBJECT_BLOCKING_CACHE);
 	private static final PortalCacheIndexer<Long, UserRoleKey, Boolean>
-		_userRolePortalCacheIndexer = new PortalCacheIndexer<>(
-			new UserRoleKeyIndexEncoder(), _userRolePortalCache);
+		_userRolePortalCacheIndexer =
+			PortalCacheIndexer.createPortalCacheIndexer(
+				new UserRoleKeyIndexEncoder(), _userRolePortalCache);
 
 	private static class PermissionKey implements Serializable {
 
