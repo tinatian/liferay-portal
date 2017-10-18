@@ -20,6 +20,8 @@ import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeInf
 import com.liferay.portal.configuration.metatype.definitions.ExtendedMetaTypeService;
 import com.liferay.portal.configuration.metatype.definitions.ExtendedObjectClassDefinition;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -28,8 +30,11 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.junit.Assert;
@@ -61,7 +66,13 @@ public class ConfigurationLocalizationTest {
 
 		BundleContext bundleContext = currentBundle.getBundleContext();
 
+		Map<String, List<String>> errorMap = new HashMap<>();
+
 		for (Bundle bundle : bundleContext.getBundles()) {
+			List<String> errorMessageList = new ArrayList<>();
+
+			String currentBundleSymbolicName = bundle.getSymbolicName();
+
 			ExtendedMetaTypeInformation extendedMetaTypeInformation =
 				_extendedMetaTypeService.getMetaTypeInformation(bundle);
 
@@ -79,22 +90,30 @@ public class ConfigurationLocalizationTest {
 			ResourceBundleLoader resourceBundleLoader =
 				ResourceBundleLoaderUtil.
 					getResourceBundleLoaderByBundleSymbolicName(
-						bundle.getSymbolicName());
+						currentBundleSymbolicName);
 
-			Assert.assertNotNull(resourceBundleLoader);
+			if (resourceBundleLoader == null) {
+				errorMessageList.add("No resource bundle");
+				errorMap.put(currentBundleSymbolicName, errorMessageList);
+				continue;
+			}
 
 			ResourceBundle resourceBundle =
-				resourceBundleLoader.loadResourceBundle(new Locale("en"));
+				resourceBundleLoader.loadResourceBundle(Locale.getDefault());
 
 			for (String pid : pids) {
 				ExtendedObjectClassDefinition extendedObjectClassDefinition =
 					extendedMetaTypeInformation.getObjectClassDefinition(
-						pid, "en");
+						pid, Locale.getDefault().getLanguage());
 
-				Assert.assertNotNull(
-					ResourceBundleUtil.getString(
-						resourceBundle,
-						extendedObjectClassDefinition.getName()));
+				String objectClassDefinitionName = ResourceBundleUtil.getString(
+					resourceBundle, extendedObjectClassDefinition.getName());
+
+				if (objectClassDefinitionName == null) {
+					errorMessageList.add(
+						"ObjectClassDefinition name value is empty in " +
+							"configuration " + pid);
+				}
 
 				ExtendedAttributeDefinition[] extendedAttributeDefinitions =
 					extendedObjectClassDefinition.getAttributeDefinitions(
@@ -103,13 +122,46 @@ public class ConfigurationLocalizationTest {
 				for (ExtendedAttributeDefinition extendedAttributeDefinition :
 						extendedAttributeDefinitions) {
 
-					Assert.assertNotNull(
+					String attributeDefinitionName =
+						extendedAttributeDefinition.getName();
+
+					String attributeDefinitionString =
 						ResourceBundleUtil.getString(
-							resourceBundle, 
-							extendedAttributeDefinition.getName()));
+							resourceBundle, attributeDefinitionName);
+
+					if (attributeDefinitionString == null) {
+						errorMessageList.add(
+							"AttributeDefinition with name: \"" +
+								attributeDefinitionName + "\" has no value " +
+									"in language.properties file, " +
+										"configurationPid: " + pid);
+					}
 				}
 			}
+
+			if (ListUtil.isNotEmpty(errorMessageList)) {
+				errorMap.put(currentBundleSymbolicName, errorMessageList);
+			}
 		}
+
+		if (MapUtil.isNotEmpty(errorMap)) {
+			Assert.fail(_printErrorMessage(errorMap));
+		}
+	}
+
+	private String _printErrorMessage(Map<String, List<String>> errorMap) {
+		String errorMessage = "";
+
+		for (String key : errorMap.keySet()) {
+			errorMessage += "\nBundle with symbolic name \"" + key + "\":\n";
+			List<String> messageList = errorMap.get(key);
+
+			for (String message : messageList) {
+				errorMessage += message + "\n";
+			}
+		}
+
+		return errorMessage;
 	}
 
 	@Inject
