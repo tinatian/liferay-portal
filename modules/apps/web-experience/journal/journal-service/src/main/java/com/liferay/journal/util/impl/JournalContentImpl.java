@@ -24,9 +24,6 @@ import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.index.IndexEncoder;
 import com.liferay.portal.kernel.cache.index.PortalCacheIndexer;
-import com.liferay.portal.kernel.cluster.ClusterInvokeAcceptor;
-import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
-import com.liferay.portal.kernel.cluster.ClusterableInvokerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -40,15 +37,12 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Method;
 
 import java.util.Date;
 import java.util.Objects;
@@ -86,33 +80,11 @@ public class JournalContentImpl
 		_journalArticlePortalCacheIndexer.removeKeys(
 			JournalContentArticleKeyIndexEncoder.encode(
 				groupId, articleId, ddmTemplateKey));
-
-		if (ClusterInvokeThreadLocal.isEnabled()) {
-			try {
-				ClusterableInvokerUtil.invokeOnCluster(
-					ClusterInvokeAcceptor.class, this, _clearArticleCacheMethod,
-					new Object[] {groupId, articleId, ddmTemplateKey});
-			}
-			catch (Throwable t) {
-				ReflectionUtil.throwException(t);
-			}
-		}
 	}
 
 	@Override
 	public void clearCache(String ddmTemplateKey) {
 		_journalTemplatePortalCacheIndexer.removeKeys(ddmTemplateKey);
-
-		if (ClusterInvokeThreadLocal.isEnabled()) {
-			try {
-				ClusterableInvokerUtil.invokeOnCluster(
-					ClusterInvokeAcceptor.class, this,
-					_clearTemplateCacheMethod, new Object[] {ddmTemplateKey});
-			}
-			catch (Throwable t) {
-				ReflectionUtil.throwException(t);
-			}
-		}
 	}
 
 	@Override
@@ -427,10 +399,12 @@ public class JournalContentImpl
 			(PortalCache<JournalContentKey, JournalArticleDisplay>)
 				multiVMPool.getPortalCache(CACHE_NAME);
 
-		_journalArticlePortalCacheIndexer = new PortalCacheIndexer<>(
-			new JournalContentArticleKeyIndexEncoder(), _portalCache);
-		_journalTemplatePortalCacheIndexer = new PortalCacheIndexer<>(
-			new JournalContentTemplateKeyIndexEncoder(), _portalCache);
+		_journalArticlePortalCacheIndexer =
+			PortalCacheIndexer.createPortalCacheIndexer(
+				new JournalContentArticleKeyIndexEncoder(), _portalCache);
+		_journalTemplatePortalCacheIndexer =
+			PortalCacheIndexer.createPortalCacheIndexer(
+				new JournalContentTemplateKeyIndexEncoder(), _portalCache);
 	}
 
 	protected static final String CACHE_NAME = JournalContent.class.getName();
@@ -449,8 +423,6 @@ public class JournalContentImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalContentImpl.class);
 
-	private static final Method _clearArticleCacheMethod;
-	private static final Method _clearTemplateCacheMethod;
 	private static PortalCacheIndexer
 		<String, JournalContentKey, JournalArticleDisplay>
 			_journalArticlePortalCacheIndexer;
@@ -459,19 +431,6 @@ public class JournalContentImpl
 			_journalTemplatePortalCacheIndexer;
 	private static PortalCache<JournalContentKey, JournalArticleDisplay>
 		_portalCache;
-
-	static {
-		try {
-			_clearArticleCacheMethod = JournalContent.class.getMethod(
-				"clearCache", long.class, String.class, String.class);
-
-			_clearTemplateCacheMethod = JournalContent.class.getMethod(
-				"clearCache", String.class);
-		}
-		catch (NoSuchMethodException nsme) {
-			throw new ExceptionInInitializerError(nsme);
-		}
-	}
 
 	private JournalArticleLocalService _journalArticleLocalService;
 
