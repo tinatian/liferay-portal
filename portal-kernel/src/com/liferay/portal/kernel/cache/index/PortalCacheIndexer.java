@@ -17,7 +17,6 @@ package com.liferay.portal.kernel.cache.index;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
 import com.liferay.portal.kernel.cache.PortalCacheManager;
-import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.cache.SkipReplicationThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterInvokeAcceptor;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
@@ -66,9 +65,7 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 		PortalCacheManager<K, V> portalCacheManager =
 			portalCache.getPortalCacheManager();
 
-		if (PortalCacheManagerNames.MULTI_VM.equals(
-				portalCacheManager.getPortalCacheManagerName())) {
-
+		if (portalCacheManager.isClusterAware()) {
 			_multiVM = true;
 
 			Registry registry = RegistryUtil.getRegistry();
