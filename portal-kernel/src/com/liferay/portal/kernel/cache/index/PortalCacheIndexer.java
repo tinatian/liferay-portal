@@ -67,14 +67,14 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 			portalCache.getPortalCacheManager();
 
 		if (portalCacheManager.isClusterAware()) {
-			_multiVM = true;
+			_clusterAware = true;
 
 			Registry registry = RegistryUtil.getRegistry();
 
 			registry.registerService(IdentifiableOSGiService.class, this);
 		}
 		else {
-			_multiVM = false;
+			_clusterAware = false;
 		}
 	}
 
@@ -94,7 +94,7 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 	}
 
 	public void removeKeys(I index) {
-		if (!_multiVM || !ClusterExecutorUtil.isEnabled()) {
+		if (!_clusterAware || !ClusterExecutorUtil.isEnabled()) {
 			_removeKeys(index);
 
 			return;
@@ -187,10 +187,10 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 	private static final MethodKey _removeKeysMethodKey = new MethodKey(
 		PortalCacheIndexer.class, "removeKeys", Object.class);
 
+	private final boolean _clusterAware;
 	private final ConcurrentMap<I, Set<K>> _indexedCacheKeys =
 		new ConcurrentHashMap<>();
 	private final IndexEncoder<I, K> _indexEncoder;
-	private final boolean _multiVM;
 	private final String _name;
 	private final PortalCache<K, V> _portalCache;
 
