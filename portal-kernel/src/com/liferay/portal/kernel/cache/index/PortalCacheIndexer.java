@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.PortalCacheListener;
 import com.liferay.portal.kernel.cache.PortalCacheManager;
 import com.liferay.portal.kernel.cache.SkipReplicationThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
 import com.liferay.portal.kernel.cluster.ClusterInvokeAcceptor;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterableInvokerUtil;
@@ -93,7 +94,7 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 	}
 
 	public void removeKeys(I index) {
-		if (!_multiVM) {
+		if (!_multiVM || !ClusterExecutorUtil.isEnabled()) {
 			_removeKeys(index);
 
 			return;
