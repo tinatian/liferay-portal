@@ -23,14 +23,13 @@ import com.liferay.portal.kernel.cluster.ClusterInvokeAcceptor;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.cluster.ClusterableInvokerUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Method;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -179,17 +178,16 @@ public class PortalCacheIndexer<I, K extends Serializable, V>
 
 		try {
 			ClusterableInvokerUtil.invokeOnCluster(
-				ClusterInvokeAcceptor.class, this, _method,
-				new Object[] {index});
+				ClusterInvokeAcceptor.class, this,
+				_removeKeysMethodKey.getMethod(), new Object[] {index});
 		}
 		catch (Throwable t) {
 			ReflectionUtil.throwException(t);
 		}
 	}
 
-	private static final Method _method = ReflectionUtil.getDeclaredMethod(
-		ExceptionInInitializerError.class, PortalCacheIndexer.class,
-		"removeKeys", Object.class);
+	private static final MethodKey _removeKeysMethodKey = new MethodKey(
+		PortalCacheIndexer.class, "removeKeys", Object.class);
 
 	private final ConcurrentMap<I, Set<K>> _indexedCacheKeys =
 		new ConcurrentHashMap<>();
