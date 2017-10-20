@@ -26,7 +26,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 @ExtendedObjectClassDefinition(category = "foundation")
 @ObjectClassDefinition(
 	id = "com.liferay.frontend.js.loader.modules.extender.internal.Details",
-	localization = "content/Language", name = "details.configuration.name"
+	localization = "content/Language", name = "details-configuration-name"
 )
 public @interface Details {
 
@@ -38,10 +38,10 @@ public @interface Details {
 
 	public static final String OSGI_WEBRESOURCE = "osgi.webresource";
 
-	@Meta.AD(deflt = "true")
+	@Meta.AD(deflt = "true", name = "apply-versioning")
 	public boolean applyVersioning() default true;
 
-	@Meta.AD(deflt = "true")
+	@Meta.AD(deflt = "true", name = "expose-global")
 	public boolean exposeGlobal() default true;
 
 }

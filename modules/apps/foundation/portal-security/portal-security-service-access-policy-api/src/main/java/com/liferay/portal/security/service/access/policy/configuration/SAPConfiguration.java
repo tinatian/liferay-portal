@@ -28,34 +28,43 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface SAPConfiguration {
 
-	@Meta.AD(deflt = "true", required = false)
+	@Meta.AD(deflt = "true", name = "use-system-sapentries", required = false)
 	public boolean useSystemSAPEntries();
 
-	@Meta.AD(deflt = "SYSTEM_DEFAULT", required = false)
+	@Meta.AD(
+		deflt = "SYSTEM_DEFAULT", name = "system-default-sapentry-name",
+		required = false
+	)
 	public String systemDefaultSAPEntryName();
 
 	@Meta.AD(
 		deflt = "System Service Access Policy Applied on Every Request",
-		required = false
+		name = "system-default-sapentry-description", required = false
 	)
 	public String systemDefaultSAPEntryDescription();
 
 	@Meta.AD(
 		deflt = "com.liferay.portal.kernel.service.CountryService#getCountries\ncom.liferay.portal.kernel.service.RegionService#getRegions",
-		required = false
+		name = "system-default-sapentry-service-signatures", required = false
 	)
 	public String systemDefaultSAPEntryServiceSignatures();
 
-	@Meta.AD(deflt = "SYSTEM_USER_PASSWORD", required = false)
+	@Meta.AD(
+		deflt = "SYSTEM_USER_PASSWORD",
+		name = "system-user-password-sapentry-name", required = false
+	)
 	public String systemUserPasswordSAPEntryName();
 
 	@Meta.AD(
 		deflt = "System Service Access Policy for Requests Authenticated Using User Password",
-		required = false
+		name = "system-user-password-sapentry-description", required = false
 	)
 	public String systemUserPasswordSAPEntryDescription();
 
-	@Meta.AD(deflt = "*", required = false)
+	@Meta.AD(
+		deflt = "*", name = "system-user-password-sapentry-service-signatures",
+		required = false
+	)
 	public String systemUserPasswordSAPEntryServiceSignatures();
 
 }
