@@ -16,19 +16,21 @@ package com.liferay.portal.cache.io;
 
 import com.liferay.portal.kernel.io.Deserializer;
 import com.liferay.portal.kernel.io.Serializer;
-import com.liferay.portal.kernel.util.AggregateClassLoader;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import java.io.Externalizable;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.io.Serializable;
 
 import java.nio.ByteBuffer;
 
 /**
- * @author     Tina Tian
+ * @author Tina Tian
  */
-public class SerializableObjectWrapper implements Serializable {
+public class SerializableObjectWrapper implements Externalizable {
 
 	public static <T> T unwrap(Object object) {
 		if (!(object instanceof SerializableObjectWrapper)) {
@@ -39,6 +41,13 @@ public class SerializableObjectWrapper implements Serializable {
 			(SerializableObjectWrapper)object;
 
 		return (T)serializableWrapper._serializable;
+	}
+
+	/**
+	 * The empty constructor is required by {@link Externalizable}. Do not use
+	 * this for any other purpose.
+	 */
+	public SerializableObjectWrapper() {
 	}
 
 	public SerializableObjectWrapper(Serializable serializable) {
@@ -66,66 +75,38 @@ public class SerializableObjectWrapper implements Serializable {
 		return _serializable.hashCode();
 	}
 
-	private void readObject(ObjectInputStream objectInputStream)
-		throws ClassNotFoundException, IOException {
+	@Override
+	public void readExternal(ObjectInput objectInput) throws IOException {
+		byte[] data = new byte[objectInput.readInt()];
 
-		Thread currentThread = Thread.currentThread();
+		objectInput.readFully(data);
 
-		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
-
-		currentThread.setContextClassLoader(_classLoader);
+		Deserializer deserializer = new Deserializer(ByteBuffer.wrap(data));
 
 		try {
-			int size = objectInputStream.readInt();
-
-			byte[] data = new byte[size];
-
-			objectInputStream.readFully(data);
-
-			Deserializer deserializer = new Deserializer(ByteBuffer.wrap(data));
-
 			_serializable = deserializer.readObject();
 		}
-		finally {
-			currentThread.setContextClassLoader(contextClassLoader);
+		catch (ClassNotFoundException cnfe) {
+			_log.error("Unable to deserialize object", cnfe);
 		}
 	}
 
-	private void writeObject(ObjectOutputStream objectOutputStream)
-		throws IOException {
+	@Override
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		Serializer serializer = new Serializer();
 
-		Thread currentThread = Thread.currentThread();
+		serializer.writeObject(_serializable);
 
-		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+		ByteBuffer byteBuffer = serializer.toByteBuffer();
 
-		currentThread.setContextClassLoader(_classLoader);
+		objectOutput.writeInt(byteBuffer.remaining());
 
-		try {
-			Serializer serializer = new Serializer();
-
-			serializer.writeObject(_serializable);
-
-			ByteBuffer byteBuffer = serializer.toByteBuffer();
-
-			objectOutputStream.writeInt(byteBuffer.remaining());
-			objectOutputStream.write(
-				byteBuffer.array(), byteBuffer.position(),
-				byteBuffer.remaining());
-		}
-		finally {
-			currentThread.setContextClassLoader(contextClassLoader);
-		}
+		objectOutput.write(
+			byteBuffer.array(), byteBuffer.position(), byteBuffer.remaining());
 	}
 
-	private static final ClassLoader _classLoader;
-
-	static {
-		Thread currentThread = Thread.currentThread();
-
-		_classLoader = AggregateClassLoader.getAggregateClassLoader(
-			currentThread.getContextClassLoader(),
-			SerializableObjectWrapper.class.getClassLoader());
-	}
+	private static final Log _log = LogFactoryUtil.getLog(
+		SerializableObjectWrapper.class);
 
 	private Serializable _serializable;
 
