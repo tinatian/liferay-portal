@@ -83,9 +83,7 @@ public class ConfigurationLocalizationTest {
 			sb.append(bundleError);
 		}
 
-		if (sb.length() > 0) {
-			Assert.fail(sb.toString());
-		}
+		Assert.assertEquals(sb.toString(), 0, sb.length());
 	}
 
 	private String _collectBundleError(Bundle bundle) {
@@ -162,8 +160,7 @@ public class ConfigurationLocalizationTest {
 				resourceBundle, extendedObjectClassDefinition.getName()) ==
 					null) {
 
-			sb.append(
-				"\n\t\tMissing localization for configuration: ");
+			sb.append("\n\t\tMissing localization for ObjectClassDefinition: ");
 			sb.append(extendedObjectClassDefinition.getID());
 		}
 
