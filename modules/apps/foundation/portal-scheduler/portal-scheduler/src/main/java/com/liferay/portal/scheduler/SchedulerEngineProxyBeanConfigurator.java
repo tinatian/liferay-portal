@@ -36,7 +36,7 @@ import org.osgi.service.component.annotations.Deactivate;
  * @author Tina Tian
  */
 @Component(immediate = true)
-public class BaseSchedulerEngineConfigurator {
+public class SchedulerEngineProxyBeanConfigurator {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
