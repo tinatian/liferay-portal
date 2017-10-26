@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.scheduler.configuration;
+package com.liferay.portal.scheduler.internal.configuration;
 
 import aQute.bnd.annotation.metatype.Meta;
 
