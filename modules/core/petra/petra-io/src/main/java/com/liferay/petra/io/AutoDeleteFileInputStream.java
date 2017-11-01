@@ -12,26 +12,33 @@
  * details.
  */
 
-package com.liferay.portal.security.pacl.test.hook.service.impl;
+package com.liferay.petra.io;
 
-import com.liferay.message.boards.kernel.service.MBMessageLocalService;
-import com.liferay.message.boards.kernel.service.MBMessageLocalServiceWrapper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author Shuyang Zhou
  */
-public class TestPACLMBMessageLocalServiceImpl
-	extends MBMessageLocalServiceWrapper {
+public class AutoDeleteFileInputStream extends FileInputStream {
 
-	public TestPACLMBMessageLocalServiceImpl(
-		MBMessageLocalService mbMessageLocalService) {
+	public AutoDeleteFileInputStream(File file) throws FileNotFoundException {
+		super(file);
 
-		super(mbMessageLocalService);
+		_file = file;
 	}
 
 	@Override
-	public int getMBMessagesCount() {
-		return -123;
+	public void close() throws IOException {
+		super.close();
+
+		if (!_file.delete()) {
+			_file.deleteOnExit();
+		}
 	}
+
+	private final File _file;
 
 }
