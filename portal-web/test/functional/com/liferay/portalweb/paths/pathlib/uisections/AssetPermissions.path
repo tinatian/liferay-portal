@@ -9,16 +9,6 @@
 </thead>
 <tbody>
 <tr>
-	<td>IFRAME</td>
-	<td>//iframe[@class='dialog-iframe-node ']</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<tr>
 	<td>VIEWABLE_AS_SELECT</td>
 	<td>//select[contains(@id,'_inputPermissionsViewRole')]</td>
 	<td></td>
@@ -131,6 +121,16 @@
 <tr>
 	<td>OWNER_VIEW_CHECKBOX</td>
 	<td>//input[@id='owner_ACTION_VIEW']</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>ROLE_LINK</td>
+	<td>//div[contains(@class,'edit-permissions')]//td/a[normalize-space(.//text())='${key_roleName}']</td>
 	<td></td>
 </tr>
 <tr>

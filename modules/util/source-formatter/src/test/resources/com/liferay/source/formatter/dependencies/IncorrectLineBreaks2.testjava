@@ -14,7 +14,8 @@
 
 package com.liferay.source.formatter.dependencies;
 
-import com.liferay.portal.kernel.util.CharPool;
+import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
 /**
@@ -31,5 +32,41 @@ public class IncorrectLineBreaks2 {
 			new char[] {
 				CharPool.NEW_LINE, CharPool.NO_BREAK_SPACE, CharPool.TAB});
 	}
+
+	public void method2() {}
+
+	public String method3(String inputString) {
+		return StringUtil.replace(
+			inputString, new String[] {"hello world", "Hello World"},
+			new String[] {
+				"hello world hello world hello world",
+				"Hello World, Hello World, Hello World"
+			}
+		);
+	}
+
+	public String method4(String inputString) {
+		return StringUtil.replace
+			(inputString, "Hello World Hello", "World Hello World");
+	}
+
+	public void method5() {
+		List<String> stringList = ListUtil.fromArray(
+			new String[] {
+				"Hello World Hello World Hello World",
+				"World Hello World Hello World Hello"
+			}
+		);
+
+		String stringWithAMediumLongVariableName = "Hello World";
+
+		int i = StringUtil.indexOfAny(
+			stringWithAMediumLongVariableName, stringList
+		);
+	}
+
+	private class TestClass {}
+
+	private enum TestEnum { TEST_VALUE }
 
 }

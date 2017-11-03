@@ -15,21 +15,22 @@
 package com.liferay.taglib.aui;
 
 import com.liferay.portal.kernel.servlet.taglib.aui.ToolTag;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.taglib.aui.base.BasePanelTag;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.tagext.BodyTag;
 
 /**
  * @author Julio Camarero
  * @author Brian Wing Shun Chan
  */
-public class PanelTag extends BasePanelTag {
+public class PanelTag extends BasePanelTag implements BodyTag {
 
 	public void addToolTag(ToolTag toolTag) {
 		if (_toolTags == null) {
@@ -59,6 +60,11 @@ public class PanelTag extends BasePanelTag {
 	@Override
 	protected boolean isCleanUpSetAttributes() {
 		return _CLEAN_UP_SET_ATTRIBUTES;
+	}
+
+	@Override
+	protected int processStartTag() throws Exception {
+		return EVAL_BODY_BUFFERED;
 	}
 
 	@Override

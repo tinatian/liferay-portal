@@ -14,6 +14,7 @@
 
 package com.liferay.portal.repository.capabilities;
 
+import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.repository.Repository;
@@ -29,9 +30,8 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 
 import java.io.File;
 import java.io.InputStream;
@@ -187,9 +187,11 @@ public class CapabilityRepository
 
 		FileVersion fileVersion = repository.cancelCheckOut(fileEntryId);
 
-		_repositoryEventTrigger.trigger(
-			RepositoryEventType.Update.class, FileEntry.class,
-			fileVersion.getFileEntry());
+		if (fileVersion != null) {
+			_repositoryEventTrigger.trigger(
+				RepositoryEventType.Update.class, FileEntry.class,
+				fileVersion.getFileEntry());
+		}
 
 		return fileVersion;
 	}
@@ -213,14 +215,14 @@ public class CapabilityRepository
 
 	@Override
 	public void checkInFileEntry(
-			long userId, long fileEntryId, boolean major, String changeLog,
-			ServiceContext serviceContext)
+			long userId, long fileEntryId, boolean majorVersion,
+			String changeLog, ServiceContext serviceContext)
 		throws PortalException {
 
 		Repository repository = getRepository();
 
 		repository.checkInFileEntry(
-			userId, fileEntryId, major, changeLog, serviceContext);
+			userId, fileEntryId, majorVersion, changeLog, serviceContext);
 
 		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
 
@@ -238,21 +240,6 @@ public class CapabilityRepository
 
 		repository.checkInFileEntry(
 			userId, fileEntryId, lockUuid, serviceContext);
-
-		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
-
-		_repositoryEventTrigger.trigger(
-			RepositoryEventType.Update.class, FileEntry.class, fileEntry);
-	}
-
-	@Deprecated
-	@Override
-	public void checkInFileEntry(long fileEntryId, String lockUuid)
-		throws PortalException {
-
-		Repository repository = getRepository();
-
-		repository.checkInFileEntry(fileEntryId, lockUuid);
 
 		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
 

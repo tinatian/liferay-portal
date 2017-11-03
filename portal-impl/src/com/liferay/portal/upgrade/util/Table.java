@@ -15,6 +15,10 @@
 package com.liferay.portal.upgrade.util;
 
 import com.liferay.portal.dao.jdbc.postgresql.PostgreSQLJDBCUtil;
+import com.liferay.portal.kernel.dao.db.DB;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
+import com.liferay.portal.kernel.dao.db.DBType;
+import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedReader;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedWriter;
@@ -32,10 +36,10 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-import com.liferay.portal.util.PropsUtil;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Reader;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,7 +47,6 @@ import java.nio.file.Paths;
 
 import java.sql.Clob;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,8 +81,9 @@ public class Table {
 
 		if (value == null) {
 			throw new UpgradeException(
-				"Nulls should never be inserted into the database. " +
-					"Attempted to append column to " + sb.toString() + ".");
+				StringBundler.concat(
+					"Nulls should never be inserted into the database. ",
+					"Attempted to append column to ", sb.toString(), "."));
 		}
 		else if (value instanceof byte[]) {
 			sb.append(Base64.encode((byte[])value));
@@ -162,7 +166,8 @@ public class Table {
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
-				"Starting backup of " + _tableName + " to " + tempFileName);
+				StringBundler.concat(
+					"Starting backup of ", _tableName, " to ", tempFileName));
 		}
 
 		UnsyncBufferedWriter unsyncBufferedWriter = new UnsyncBufferedWriter(
@@ -188,16 +193,18 @@ public class Table {
 				catch (StagnantRowException sre) {
 					if (_log.isWarnEnabled()) {
 						_log.warn(
-							"Skipping stagnant data in " + _tableName + ": " +
-								sre.getMessage());
+							StringBundler.concat(
+								"Skipping stagnant data in ", _tableName, ": ",
+								sre.getMessage()));
 					}
 				}
 			}
 
 			if (_log.isInfoEnabled()) {
 				_log.info(
-					"Finished backup of " + _tableName + " to " +
-						tempFileName + " in " + stopWatch.getTime() + " ms");
+					StringBundler.concat(
+						"Finished backup of ", _tableName, " to ", tempFileName,
+						" in ", String.valueOf(stopWatch.getTime()), " ms"));
 			}
 		}
 		catch (Exception e) {
@@ -206,7 +213,7 @@ public class Table {
 			throw e;
 		}
 		finally {
-			DataAccess.cleanUp(null, ps, rs);
+			DataAccess.cleanUp(ps, rs);
 
 			unsyncBufferedWriter.close();
 		}
@@ -369,7 +376,13 @@ public class Table {
 			value = GetterUtil.getBoolean(rs.getBoolean(name));
 		}
 		else if ((t == Types.BLOB) || (t == Types.LONGVARBINARY)) {
-			if (PostgreSQLJDBCUtil.isPGStatement(rs.getStatement())) {
+			DB db = DBManagerUtil.getDB();
+
+			DBType dbType = db.getDBType();
+
+			if (dbType.equals(DBType.POSTGRESQL) &&
+				PostgreSQLJDBCUtil.isPGStatement(rs.getStatement())) {
+
 				value = PostgreSQLJDBCUtil.getLargeObject(rs, name);
 			}
 			else {
@@ -391,22 +404,26 @@ public class Table {
 					value = StringPool.BLANK;
 				}
 				else {
-					UnsyncBufferedReader unsyncBufferedReader =
-						new UnsyncBufferedReader(clob.getCharacterStream());
+					try (Reader reader = clob.getCharacterStream();
+						UnsyncBufferedReader unsyncBufferedReader =
+							new UnsyncBufferedReader(reader)) {
 
-					StringBundler sb = new StringBundler();
+						StringBundler sb = new StringBundler();
 
-					String line = null;
+						String line = null;
 
-					while ((line = unsyncBufferedReader.readLine()) != null) {
-						if (sb.length() != 0) {
-							sb.append(_SAFE_TABLE_NEWLINE_CHARACTER);
+						while ((line =
+									unsyncBufferedReader.readLine()) != null) {
+
+							if (sb.length() != 0) {
+								sb.append(_SAFE_TABLE_NEWLINE_CHARACTER);
+							}
+
+							sb.append(line);
 						}
 
-						sb.append(line);
+						value = sb.toString();
 					}
-
-					value = sb.toString();
 				}
 			}
 			catch (Exception e) {
@@ -476,25 +493,12 @@ public class Table {
 			return;
 		}
 
-		PreparedStatement ps = null;
+		try (PreparedStatement ps = AutoBatchPreparedStatementUtil.autoBatch(
+				con.prepareStatement(getInsertSQL()));
+			UnsyncBufferedReader unsyncBufferedReader =
+				new UnsyncBufferedReader(new FileReader(_tempFileName))) {
 
-		String insertSQL = getInsertSQL();
-
-		UnsyncBufferedReader unsyncBufferedReader = new UnsyncBufferedReader(
-			new FileReader(_tempFileName));
-
-		String line = null;
-
-		try {
-			DatabaseMetaData databaseMetaData = con.getMetaData();
-
-			if (!databaseMetaData.supportsBatchUpdates()) {
-				if (_log.isDebugEnabled()) {
-					_log.debug("Database does not support batch updates");
-				}
-			}
-
-			int count = 0;
+			String line = null;
 
 			while ((line = unsyncBufferedReader.readLine()) != null) {
 				String[] values = StringUtil.split(line);
@@ -503,12 +507,9 @@ public class Table {
 
 				if (values.length != columns.length) {
 					throw new UpgradeException(
-						"Column lengths differ between temp file and schema. " +
-							"Attempted to insert row " + line + ".");
-				}
-
-				if (count == 0) {
-					ps = con.prepareStatement(insertSQL);
+						StringBundler.concat(
+							"Column lengths differ between temp file and ",
+							"schema. Attempted to insert row ", line, "."));
 				}
 
 				int[] order = getOrder();
@@ -519,33 +520,10 @@ public class Table {
 					setColumn(ps, i, (Integer)columns[pos][1], values[pos]);
 				}
 
-				if (databaseMetaData.supportsBatchUpdates()) {
-					ps.addBatch();
-
-					if (count == _BATCH_SIZE) {
-						populateTableRows(ps, true);
-
-						count = 0;
-					}
-					else {
-						count++;
-					}
-				}
-				else {
-					populateTableRows(ps, false);
-				}
+				ps.addBatch();
 			}
 
-			if (databaseMetaData.supportsBatchUpdates()) {
-				if (count != 0) {
-					populateTableRows(ps, true);
-				}
-			}
-		}
-		finally {
-			DataAccess.cleanUp(null, ps);
-
-			unsyncBufferedReader.close();
+			ps.executeBatch();
 		}
 
 		if (_log.isDebugEnabled()) {
@@ -697,9 +675,7 @@ public class Table {
 			ps.executeUpdate();
 		}
 		catch (SQLException sqle) {
-			if (_log.isErrorEnabled()) {
-				_log.error(sqle, sqle);
-			}
+			_log.error(sqle, sqle);
 
 			throw new RuntimeException("Unable to execute " + sql, sqle);
 		}
@@ -707,9 +683,6 @@ public class Table {
 			DataAccess.cleanUp(con, ps);
 		}
 	}
-
-	private static final int _BATCH_SIZE = GetterUtil.getInteger(
-		PropsUtil.get("hibernate.jdbc.batch_size"));
 
 	private static final String[][] _SAFE_TABLE_CHARS = {
 		{StringPool.COMMA, StringPool.NEW_LINE, StringPool.RETURN},

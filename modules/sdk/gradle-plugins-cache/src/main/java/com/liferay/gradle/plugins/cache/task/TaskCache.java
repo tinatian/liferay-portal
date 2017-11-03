@@ -14,7 +14,7 @@
 
 package com.liferay.gradle.plugins.cache.task;
 
-import com.liferay.gradle.util.FileUtil;
+import com.liferay.gradle.plugins.cache.util.StringUtil;
 import com.liferay.gradle.util.GradleUtil;
 
 import groovy.lang.Closure;
@@ -23,11 +23,10 @@ import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.file.FileCollection;
@@ -46,13 +45,17 @@ public class TaskCache implements PatternFilterable {
 	public TaskCache(String name, Project project) {
 		_baseDir = project.getProjectDir();
 		_cacheDir = project.file(".cache/" + name);
+		_disabled = GradleUtil.getProperty(
+			project, name + "CacheDisabled", false);
 		_name = name;
 		_project = project;
 	}
 
 	@Override
-	public TaskCache exclude(@SuppressWarnings("rawtypes") Closure closure) {
-		_patternFilterable.exclude(closure);
+	public TaskCache exclude(
+		@SuppressWarnings("rawtypes") Closure excludeSpec) {
+
+		_patternFilterable.exclude(excludeSpec);
 
 		return this;
 	}
@@ -65,14 +68,14 @@ public class TaskCache implements PatternFilterable {
 	}
 
 	@Override
-	public TaskCache exclude(Spec<FileTreeElement> spec) {
-		_patternFilterable.exclude(spec);
+	public TaskCache exclude(Spec<FileTreeElement> excludeSpec) {
+		_patternFilterable.exclude(excludeSpec);
 
 		return this;
 	}
 
 	@Override
-	public TaskCache exclude(String ... excludes) {
+	public TaskCache exclude(String... excludes) {
 		_patternFilterable.exclude(excludes);
 
 		return this;
@@ -110,25 +113,20 @@ public class TaskCache implements PatternFilterable {
 		return _project;
 	}
 
-	public Set<Task> getSkippedTaskDependencies() {
-		Set<Task> skippedTaskDependencies = new HashSet<>();
+	public String getRefreshDigestTaskName() {
+		return "refresh" + StringUtil.capitalize(getName()) + "Digest";
+	}
 
-		for (Object skippedDependencyTask : _skippedTaskDependencies) {
-			skippedDependencyTask = GradleUtil.toObject(skippedDependencyTask);
+	public String getRestoreCacheTaskName() {
+		return "restore" + StringUtil.capitalize(getName()) + "Cache";
+	}
 
-			if (skippedDependencyTask instanceof Task) {
-				skippedTaskDependencies.add((Task)skippedDependencyTask);
-			}
-			else {
-				String taskName = GradleUtil.toString(skippedDependencyTask);
+	public String getSaveCacheTaskName() {
+		return "save" + StringUtil.capitalize(getName()) + "Cache";
+	}
 
-				Task task = GradleUtil.getTask(_project, taskName);
-
-				skippedTaskDependencies.add(task);
-			}
-		}
-
-		return skippedTaskDependencies;
+	public Set<Object> getSkippedTaskDependencies() {
+		return _skippedTaskDependencies;
 	}
 
 	public Task getTask() {
@@ -140,8 +138,10 @@ public class TaskCache implements PatternFilterable {
 	}
 
 	@Override
-	public TaskCache include(@SuppressWarnings("rawtypes") Closure closure) {
-		_patternFilterable.include(closure);
+	public TaskCache include(
+		@SuppressWarnings("rawtypes") Closure includeSpec) {
+
+		_patternFilterable.include(includeSpec);
 
 		return this;
 	}
@@ -154,39 +154,25 @@ public class TaskCache implements PatternFilterable {
 	}
 
 	@Override
-	public TaskCache include(Spec<FileTreeElement> spec) {
-		_patternFilterable.include(spec);
+	public TaskCache include(Spec<FileTreeElement> includeSpec) {
+		_patternFilterable.include(includeSpec);
 
 		return this;
 	}
 
 	@Override
-	public TaskCache include(String ... includes) {
+	public TaskCache include(String... includes) {
 		_patternFilterable.include(includes);
 
 		return this;
 	}
 
-	public boolean isFailIfOutOfDate() {
-		return _failIfOutOfDate;
+	public boolean isDisabled() {
+		return _disabled;
 	}
 
-	public boolean isUpToDate() {
-		FileCollection testFiles = getTestFiles();
-
-		if (testFiles.isEmpty()) {
-			throw new GradleException("At least one test file is required");
-		}
-
-		File cacheDir = getCacheDir();
-
-		for (File testFile : testFiles) {
-			if (!FileUtil.isUpToDate(_project, testFile, cacheDir)) {
-				return false;
-			}
-		}
-
-		return true;
+	public boolean isExcludeIgnoredTestFiles() {
+		return _excludeIgnoredTestFiles;
 	}
 
 	public void setBaseDir(Object baseDir) {
@@ -197,15 +183,19 @@ public class TaskCache implements PatternFilterable {
 		_cacheDir = cacheDir;
 	}
 
+	public void setDisabled(boolean disabled) {
+		_disabled = disabled;
+	}
+
+	public void setExcludeIgnoredTestFiles(boolean excludeIgnoredTestFiles) {
+		_excludeIgnoredTestFiles = excludeIgnoredTestFiles;
+	}
+
 	@Override
 	public TaskCache setExcludes(Iterable<String> excludes) {
 		_patternFilterable.setExcludes(excludes);
 
 		return this;
-	}
-
-	public void setFailIfOutOfDate(boolean failIfOutOfDate) {
-		_failIfOutOfDate = failIfOutOfDate;
 	}
 
 	@Override
@@ -223,7 +213,7 @@ public class TaskCache implements PatternFilterable {
 		skipTaskDependency(skippedTaskDependencies);
 	}
 
-	public void setSkippedTaskDependencies(Object ... skippedTaskDependencies) {
+	public void setSkippedTaskDependencies(Object... skippedTaskDependencies) {
 		setSkippedTaskDependencies(Arrays.asList(skippedTaskDependencies));
 	}
 
@@ -233,7 +223,7 @@ public class TaskCache implements PatternFilterable {
 		testFile(testFiles);
 	}
 
-	public void setTestFiles(Object ... testFiles) {
+	public void setTestFiles(Object... testFiles) {
 		setTestFiles(Arrays.asList(testFiles));
 	}
 
@@ -246,7 +236,7 @@ public class TaskCache implements PatternFilterable {
 		return this;
 	}
 
-	public TaskCache skipTaskDependency(Object ... skippedTaskDependencies) {
+	public TaskCache skipTaskDependency(Object... skippedTaskDependencies) {
 		return skipTaskDependency(Arrays.asList(skippedTaskDependencies));
 	}
 
@@ -256,17 +246,23 @@ public class TaskCache implements PatternFilterable {
 		return this;
 	}
 
-	public TaskCache testFile(Object ... testFiles) {
+	public TaskCache testFile(Object... testFiles) {
 		return testFile(Arrays.asList(testFiles));
+	}
+
+	@Override
+	public String toString() {
+		return "task cache '" + _name + "'";
 	}
 
 	private Object _baseDir;
 	private Object _cacheDir;
-	private boolean _failIfOutOfDate;
+	private boolean _disabled;
+	private boolean _excludeIgnoredTestFiles = true;
 	private final String _name;
 	private final PatternFilterable _patternFilterable = new PatternSet();
 	private final Project _project;
-	private final List<Object> _skippedTaskDependencies = new ArrayList<>();
+	private final Set<Object> _skippedTaskDependencies = new LinkedHashSet<>();
 	private final List<Object> _testFiles = new ArrayList<>();
 
 }

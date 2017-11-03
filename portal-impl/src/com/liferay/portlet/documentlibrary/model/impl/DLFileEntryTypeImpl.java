@@ -14,19 +14,18 @@
 
 package com.liferay.portlet.documentlibrary.model.impl;
 
+import com.liferay.document.library.kernel.model.DLFileEntryType;
+import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructureLink;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructureLinkManagerUtil;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructureManagerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.PredicateFilter;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryType;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryTypeConstants;
-import com.liferay.portlet.dynamicdatamapping.DDMStructure;
-import com.liferay.portlet.dynamicdatamapping.DDMStructureLink;
-import com.liferay.portlet.dynamicdatamapping.DDMStructureLinkManagerUtil;
-import com.liferay.portlet.dynamicdatamapping.DDMStructureManagerUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,41 +61,44 @@ public class DLFileEntryTypeImpl extends DLFileEntryTypeBaseImpl {
 	}
 
 	@Override
+	public String getName(String languageId) {
+		String name = super.getName(languageId);
+
+		if (getFileEntryTypeId() ==
+				DLFileEntryTypeConstants.FILE_ENTRY_TYPE_ID_BASIC_DOCUMENT) {
+
+			name = LanguageUtil.get(LanguageUtil.getLocale(languageId), name);
+		}
+
+		return name;
+	}
+
+	@Override
 	public String getUnambiguousName(
-			List<DLFileEntryType> dlFileEntryTypes, long groupId,
-			final Locale locale)
+			List<DLFileEntryType> dlFileEntryTypes, long groupId, Locale locale)
 		throws PortalException {
 
-		if (getGroupId() == groupId ) {
-			return getName(locale);
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		String name = getName(languageId);
+
+		if ((getGroupId() == groupId) || (dlFileEntryTypes == null)) {
+			return name;
 		}
 
-		boolean hasAmbiguousName = ListUtil.exists(
-			dlFileEntryTypes,
-			new PredicateFilter<DLFileEntryType>() {
+		long fileEntryTypeId = getFileEntryTypeId();
 
-				@Override
-				public boolean filter(DLFileEntryType fileEntryType) {
-					String name = fileEntryType.getName(locale);
+		for (DLFileEntryType dlFileEntryType : dlFileEntryTypes) {
+			if ((dlFileEntryType.getFileEntryTypeId() != fileEntryTypeId) &&
+				name.equals(dlFileEntryType.getName(languageId))) {
 
-					if (name.equals(getName(locale)) &&
-						(fileEntryType.getFileEntryTypeId() !=
-							getFileEntryTypeId())) {
+				Group group = GroupLocalServiceUtil.getGroup(getGroupId());
 
-						return true;
-					}
-
-					return false;
-				}
-			});
-
-		if (hasAmbiguousName) {
-			Group group = GroupLocalServiceUtil.getGroup(getGroupId());
-
-			return group.getUnambiguousName(getName(locale), locale);
+				return group.getUnambiguousName(name, locale);
+			}
 		}
 
-		return getName(locale);
+		return name;
 	}
 
 	@Override

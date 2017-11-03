@@ -20,15 +20,15 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
+import com.liferay.portal.kernel.service.persistence.TeamFinder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Team;
 import com.liferay.portal.model.impl.TeamImpl;
-import com.liferay.portal.security.permission.InlineSQLHelperUtil;
-import com.liferay.portal.service.persistence.TeamFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.Iterator;
@@ -44,14 +44,17 @@ public class TeamFinderImpl extends TeamFinderBaseImpl implements TeamFinder {
 	public static final String COUNT_BY_G_N_D =
 		TeamFinder.class.getName() + ".countByG_N_D";
 
+	public static final String FIND_BY_G_U =
+		TeamFinder.class.getName() + ".findByG_U";
+
 	public static final String FIND_BY_G_N_D =
 		TeamFinder.class.getName() + ".findByG_N_D";
 
-	public static final String JOIN_BY_USERS_TEAMS =
-		TeamFinder.class.getName() + ".joinByUsersTeams";
-
 	public static final String JOIN_BY_USERS_USER_GROUPS =
 		TeamFinder.class.getName() + ".joinByUsersUserGroups";
+
+	public static final String JOIN_BY_USERS_TEAMS =
+		TeamFinder.class.getName() + ".joinByUsersTeams";
 
 	@Override
 	public int countByG_N_D(
@@ -77,6 +80,14 @@ public class TeamFinderImpl extends TeamFinderBaseImpl implements TeamFinder {
 
 		return doFindByG_N_D(
 			groupId, name, description, params, start, end, obc, true);
+	}
+
+	@Override
+	public List<Team> findByG_U(
+		long groupId, long userId, int start, int end,
+		OrderByComparator<Team> obc) {
+
+		return doFindByG_U(groupId, userId, start, end, obc);
 	}
 
 	@Override
@@ -136,6 +147,39 @@ public class TeamFinderImpl extends TeamFinderBaseImpl implements TeamFinder {
 			}
 
 			return 0;
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected List<Team> doFindByG_U(
+		long groupId, long userId, int start, int end,
+		OrderByComparator<Team> obc) {
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_G_U);
+
+			sql = CustomSQLUtil.replaceOrderBy(sql, obc);
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addEntity("Team", TeamImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(groupId);
+			qPos.add(userId);
+			qPos.add(userId);
+
+			return (List<Team>)QueryUtil.list(q, getDialect(), start, end);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);

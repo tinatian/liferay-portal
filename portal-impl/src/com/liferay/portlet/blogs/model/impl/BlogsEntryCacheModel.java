@@ -16,12 +16,12 @@ package com.liferay.portlet.blogs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.blogs.kernel.model.BlogsEntry;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.blogs.model.BlogsEntry;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -279,9 +279,13 @@ public class BlogsEntryCacheModel implements CacheModel<BlogsEntry>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		entryId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
@@ -292,18 +296,26 @@ public class BlogsEntryCacheModel implements CacheModel<BlogsEntry>,
 		description = objectInput.readUTF();
 		content = objectInput.readUTF();
 		displayDate = objectInput.readLong();
+
 		allowPingbacks = objectInput.readBoolean();
+
 		allowTrackbacks = objectInput.readBoolean();
 		trackbacks = objectInput.readUTF();
 		coverImageCaption = objectInput.readUTF();
+
 		coverImageFileEntryId = objectInput.readLong();
 		coverImageURL = objectInput.readUTF();
+
 		smallImage = objectInput.readBoolean();
+
 		smallImageFileEntryId = objectInput.readLong();
+
 		smallImageId = objectInput.readLong();
 		smallImageURL = objectInput.readUTF();
 		lastPublishDate = objectInput.readLong();
+
 		status = objectInput.readInt();
+
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
@@ -320,8 +332,11 @@ public class BlogsEntryCacheModel implements CacheModel<BlogsEntry>,
 		}
 
 		objectOutput.writeLong(entryId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
@@ -370,7 +385,9 @@ public class BlogsEntryCacheModel implements CacheModel<BlogsEntry>,
 		}
 
 		objectOutput.writeLong(displayDate);
+
 		objectOutput.writeBoolean(allowPingbacks);
+
 		objectOutput.writeBoolean(allowTrackbacks);
 
 		if (trackbacks == null) {
@@ -397,7 +414,9 @@ public class BlogsEntryCacheModel implements CacheModel<BlogsEntry>,
 		}
 
 		objectOutput.writeBoolean(smallImage);
+
 		objectOutput.writeLong(smallImageFileEntryId);
+
 		objectOutput.writeLong(smallImageId);
 
 		if (smallImageURL == null) {
@@ -408,7 +427,9 @@ public class BlogsEntryCacheModel implements CacheModel<BlogsEntry>,
 		}
 
 		objectOutput.writeLong(lastPublishDate);
+
 		objectOutput.writeInt(status);
+
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {

@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchTicketException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,22 +26,26 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchTicketException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Ticket;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.TicketPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.Ticket;
 import com.liferay.portal.model.impl.TicketImpl;
 import com.liferay.portal.model.impl.TicketModelImpl;
-import com.liferay.portal.service.persistence.TicketPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,6 +53,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -60,7 +65,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see TicketPersistence
- * @see com.liferay.portal.service.persistence.TicketUtil
+ * @see com.liferay.portal.kernel.service.persistence.TicketUtil
  * @generated
  */
 @ProviderType
@@ -116,8 +121,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchTicketException(msg.toString());
@@ -158,7 +163,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		if (result instanceof Ticket) {
 			Ticket ticket = (Ticket)result;
 
-			if (!Validator.equals(key, ticket.getKey())) {
+			if (!Objects.equals(key, ticket.getKey())) {
 				result = null;
 			}
 		}
@@ -204,11 +209,15 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 						list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"TicketPersistenceImpl.fetchByKey(String, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"TicketPersistenceImpl.fetchByKey(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					Ticket ticket = list.get(0);
@@ -355,7 +364,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Returns all the tickets where classNameId = &#63; and classPK = &#63; and type = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @return the matching tickets
 	 */
@@ -373,7 +382,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * </p>
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param start the lower bound of the range of tickets
 	 * @param end the upper bound of the range of tickets (not inclusive)
@@ -393,7 +402,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * </p>
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param start the lower bound of the range of tickets
 	 * @param end the upper bound of the range of tickets (not inclusive)
@@ -415,7 +424,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * </p>
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param start the lower bound of the range of tickets
 	 * @param end the upper bound of the range of tickets (not inclusive)
@@ -470,7 +479,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(5 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(5);
@@ -544,7 +553,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Returns the first ticket in the ordered set where classNameId = &#63; and classPK = &#63; and type = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching ticket
@@ -583,7 +592,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Returns the first ticket in the ordered set where classNameId = &#63; and classPK = &#63; and type = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching ticket, or <code>null</code> if a matching ticket could not be found
@@ -605,7 +614,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Returns the last ticket in the ordered set where classNameId = &#63; and classPK = &#63; and type = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching ticket
@@ -644,7 +653,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Returns the last ticket in the ordered set where classNameId = &#63; and classPK = &#63; and type = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching ticket, or <code>null</code> if a matching ticket could not be found
@@ -673,7 +682,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 *
 	 * @param ticketId the primary key of the current ticket
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next ticket
@@ -717,10 +726,11 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		if (orderByComparator != null) {
 			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(5);
 		}
 
 		query.append(_SQL_SELECT_TICKET_WHERE);
@@ -827,7 +837,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Removes all the tickets where classNameId = &#63; and classPK = &#63; and type = &#63; from the database.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 */
 	@Override
@@ -842,7 +852,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 * Returns the number of tickets where classNameId = &#63; and classPK = &#63; and type = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param type the type
 	 * @return the number of matching tickets
 	 */
@@ -905,6 +915,23 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 	public TicketPersistenceImpl() {
 		setModelClass(Ticket.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("key", "key_");
+			dbColumnNames.put("type", "type_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -972,7 +999,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((TicketModelImpl)ticket);
+		clearUniqueFindersCache((TicketModelImpl)ticket, true);
 	}
 
 	@Override
@@ -984,42 +1011,31 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 			entityCache.removeResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
 				TicketImpl.class, ticket.getPrimaryKey());
 
-			clearUniqueFindersCache((TicketModelImpl)ticket);
+			clearUniqueFindersCache((TicketModelImpl)ticket, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(TicketModelImpl ticketModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] { ticketModelImpl.getKey() };
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_KEY, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_KEY, args,
-				ticketModelImpl);
-		}
-		else {
-			if ((ticketModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_KEY.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { ticketModelImpl.getKey() };
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_KEY, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_KEY, args,
-					ticketModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(TicketModelImpl ticketModelImpl) {
+	protected void cacheUniqueFindersCache(TicketModelImpl ticketModelImpl) {
 		Object[] args = new Object[] { ticketModelImpl.getKey() };
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_KEY, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_KEY, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_KEY, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_KEY, args, ticketModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(TicketModelImpl ticketModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] { ticketModelImpl.getKey() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_KEY, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_KEY, args);
+		}
 
 		if ((ticketModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_KEY.getColumnBitmask()) != 0) {
-			args = new Object[] { ticketModelImpl.getOriginalKey() };
+			Object[] args = new Object[] { ticketModelImpl.getOriginalKey() };
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_KEY, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_KEY, args);
@@ -1038,6 +1054,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		ticket.setNew(true);
 		ticket.setPrimaryKey(ticketId);
+
+		ticket.setCompanyId(companyProvider.getCompanyId());
 
 		return ticket;
 	}
@@ -1071,8 +1089,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 			Ticket ticket = (Ticket)session.get(TicketImpl.class, primaryKey);
 
 			if (ticket == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchTicketException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1155,8 +1173,23 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !TicketModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!TicketModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					ticketModelImpl.getClassNameId(),
+					ticketModelImpl.getClassPK(), ticketModelImpl.getType()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C_T, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C_T,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1186,8 +1219,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		entityCache.putResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketImpl.class, ticket.getPrimaryKey(), ticket, false);
 
-		clearUniqueFindersCache(ticketModelImpl);
-		cacheUniqueFindersCache(ticketModelImpl, isNew);
+		clearUniqueFindersCache(ticketModelImpl, false);
+		cacheUniqueFindersCache(ticketModelImpl);
 
 		ticket.resetOriginalValues();
 
@@ -1219,7 +1252,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	}
 
 	/**
-	 * Returns the ticket with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the ticket with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the ticket
 	 * @return the ticket
@@ -1231,8 +1264,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		Ticket ticket = fetchByPrimaryKey(primaryKey);
 
 		if (ticket == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchTicketException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1262,12 +1295,14 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	 */
 	@Override
 	public Ticket fetchByPrimaryKey(Serializable primaryKey) {
-		Ticket ticket = (Ticket)entityCache.getResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
 				TicketImpl.class, primaryKey);
 
-		if (ticket == _nullTicket) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Ticket ticket = (Ticket)serializable;
 
 		if (ticket == null) {
 			Session session = null;
@@ -1282,7 +1317,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 				}
 				else {
 					entityCache.putResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
-						TicketImpl.class, primaryKey, _nullTicket);
+						TicketImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1336,18 +1371,20 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Ticket ticket = (Ticket)entityCache.getResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
 					TicketImpl.class, primaryKey);
 
-			if (ticket == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, ticket);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Ticket)serializable);
+				}
 			}
 		}
 
@@ -1361,7 +1398,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		query.append(_SQL_SELECT_TICKET_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -1389,7 +1426,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(TicketModelImpl.ENTITY_CACHE_ENABLED,
-					TicketImpl.class, primaryKey, _nullTicket);
+					TicketImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1490,7 +1527,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_TICKET);
 
@@ -1615,6 +1652,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_TICKET = "SELECT ticket FROM Ticket ticket";
@@ -1629,34 +1668,4 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"key", "type"
 			});
-	private static final Ticket _nullTicket = new TicketImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Ticket> toCacheModel() {
-				return _nullTicketCacheModel;
-			}
-		};
-
-	private static final CacheModel<Ticket> _nullTicketCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<Ticket>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public Ticket toEntityModel() {
-			return _nullTicket;
-		}
-	}
 }

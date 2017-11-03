@@ -18,12 +18,13 @@ import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portlet.social.model.SocialActivityCounter;
-import com.liferay.portlet.social.model.SocialActivityCounterConstants;
-import com.liferay.portlet.social.model.SocialActivityLimit;
-import com.liferay.portlet.social.util.SocialCounterPeriodUtil;
 import com.liferay.portlet.social.util.test.SocialActivityTestUtil;
+import com.liferay.social.kernel.model.SocialActivityCounter;
+import com.liferay.social.kernel.model.SocialActivityCounterConstants;
+import com.liferay.social.kernel.model.SocialActivityLimit;
+import com.liferay.social.kernel.service.SocialActivityCounterLocalServiceUtil;
+import com.liferay.social.kernel.service.SocialActivitySettingLocalServiceUtil;
+import com.liferay.social.kernel.util.SocialCounterPeriodUtil;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class SocialActivityCounterLocalServiceTest
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			SynchronousDestinationTestRule.INSTANCE);
 
 	@Before
@@ -127,7 +128,7 @@ public class SocialActivityCounterLocalServiceTest
 				group.getGroupId(), "asset.test.2",
 				SocialCounterPeriodUtil.getStartPeriod(), -1);
 
-		Assert.assertEquals(1, counters.size());
+		Assert.assertEquals(counters.toString(), 1, counters.size());
 
 		SocialActivityCounterLocalServiceUtil.disableActivityCounters(
 			assetEntry.getClassName(), assetEntry.getClassPK());
@@ -151,7 +152,7 @@ public class SocialActivityCounterLocalServiceTest
 				group.getGroupId(), "asset.test.2",
 				SocialCounterPeriodUtil.getStartPeriod(), -1);
 
-		Assert.assertEquals(0, counters.size());
+		Assert.assertEquals(counters.toString(), 0, counters.size());
 
 		SocialActivityCounterLocalServiceUtil.enableActivityCounters(
 			assetEntry.getClassName(), assetEntry.getClassPK());
@@ -174,7 +175,7 @@ public class SocialActivityCounterLocalServiceTest
 				group.getGroupId(), "asset.test.2",
 				SocialCounterPeriodUtil.getStartPeriod(), -1);
 
-		Assert.assertEquals(1, counters.size());
+		Assert.assertEquals(counters.toString(), 1, counters.size());
 	}
 
 }

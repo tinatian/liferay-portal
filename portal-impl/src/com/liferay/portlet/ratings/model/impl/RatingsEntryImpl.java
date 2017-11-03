@@ -14,8 +14,8 @@
 
 package com.liferay.portlet.ratings.model.impl;
 
-import com.liferay.portlet.exportimport.lar.StagedModelType;
-import com.liferay.portlet.ratings.model.RatingsEntry;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.ratings.kernel.model.RatingsEntry;
 
 /**
  * @author Brian Wing Shun Chan

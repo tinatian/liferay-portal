@@ -52,7 +52,7 @@ public class NettyFabricWorkerBridgeRPCCallableTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			CodeCoverageAssertor.INSTANCE, AspectJNewEnvTestRule.INSTANCE);
+			AspectJNewEnvTestRule.INSTANCE, CodeCoverageAssertor.INSTANCE);
 
 	@Before
 	public void setUp() {
@@ -67,10 +67,9 @@ public class NettyFabricWorkerBridgeRPCCallableTest {
 	@AdviseWith(adviceClasses = NettyUtilAdvice.class)
 	@Test
 	public void testCall() throws Exception {
-		FabricWorker<Serializable> fabricWorker =
-			new LocalFabricWorker<Serializable>(
-				new EmbeddedProcessChannel<Serializable>(
-					new DefaultNoticeableFuture<Serializable>()));
+		FabricWorker<Serializable> fabricWorker = new LocalFabricWorker<>(
+			new EmbeddedProcessChannel<Serializable>(
+				new DefaultNoticeableFuture<Serializable>()));
 
 		NettyChannelAttributes.putFabricWorker(
 			_embeddedChannel, 0, fabricWorker);
@@ -86,7 +85,8 @@ public class NettyFabricWorkerBridgeRPCCallableTest {
 							return null;
 						}
 
-					}, 0);
+					},
+					0);
 
 		NoticeableFuture<Serializable> noticeableFuture =
 			nettyFabricWorkerBridgeRPCCallable.call();
@@ -102,14 +102,14 @@ public class NettyFabricWorkerBridgeRPCCallableTest {
 				new EmbeddedProcessChannel<Serializable>(
 					new DefaultNoticeableFuture<Serializable>()) {
 
-						@Override
-						public <V extends Serializable> NoticeableFuture<V>
-							write(ProcessCallable<V> processCallable) {
+					@Override
+					public <V extends Serializable> NoticeableFuture<V>
+						write(ProcessCallable<V> processCallable) {
 
-							return new DefaultNoticeableFuture<>();
-						}
+						return new DefaultNoticeableFuture<>();
+					}
 
-					});
+				});
 
 		NettyChannelAttributes.putFabricWorker(
 			_embeddedChannel, 0, fabricWorker);
@@ -125,7 +125,8 @@ public class NettyFabricWorkerBridgeRPCCallableTest {
 							return null;
 						}
 
-					}, 0);
+					},
+					0);
 
 		NoticeableFuture<Serializable> noticeableFuture =
 			nettyFabricWorkerBridgeRPCCallable.call();
@@ -147,7 +148,8 @@ public class NettyFabricWorkerBridgeRPCCallableTest {
 							return null;
 						}
 
-					}, 0);
+					},
+					0);
 
 		try {
 			nettyFabricWorkerBridgeRPCCallable.call();

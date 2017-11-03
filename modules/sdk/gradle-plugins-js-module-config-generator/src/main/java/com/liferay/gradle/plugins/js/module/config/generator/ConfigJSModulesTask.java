@@ -14,98 +14,80 @@
 
 package com.liferay.gradle.plugins.js.module.config.generator;
 
-import com.liferay.gradle.plugins.node.tasks.ExecuteNodeTask;
+import com.liferay.gradle.plugins.node.tasks.ExecuteNodeScriptTask;
 import com.liferay.gradle.util.FileUtil;
 import com.liferay.gradle.util.GradleUtil;
-import com.liferay.gradle.util.StringUtil;
+import com.liferay.gradle.util.Validator;
 
 import groovy.lang.Closure;
 
 import java.io.File;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.gradle.api.Action;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.file.FileTreeElement;
-import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.Optional;
-import org.gradle.api.tasks.OutputDirectory;
-import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.SkipWhenEmpty;
 import org.gradle.api.tasks.util.PatternFilterable;
 import org.gradle.api.tasks.util.PatternSet;
-import org.gradle.util.GUtil;
 
 /**
  * @author Andrea Di Giorgi
  */
-public class ConfigJSModulesTask extends ExecuteNodeTask {
+public class ConfigJSModulesTask
+	extends ExecuteNodeScriptTask implements PatternFilterable {
 
 	public ConfigJSModulesTask() {
-		dependsOn(
-			JSModuleConfigGeneratorPlugin.
-				DOWNLOAD_LFR_MODULE_CONFIG_GENERATOR_TASK_NAME);
-		dependsOn(
-			BasePlugin.CLEAN_TASK_NAME + StringUtil.capitalize(getName()));
-
-		onlyIf(
-			new Spec<Task>() {
-
-				@Override
-				public boolean isSatisfiedBy(Task task) {
-					ConfigJSModulesTask configJSModulesTask =
-						(ConfigJSModulesTask)task;
-
-					File file = configJSModulesTask.getModuleConfigFile();
-
-					if ((file != null) && file.exists()) {
-						return true;
-					}
-
-					return false;
-				}
-
-			});
+		include("**/*.es.js*", "**/*.soy.js*");
 	}
 
-	public ConfigJSModulesTask exclude(Closure<?> closure) {
-		_patternFilterable.exclude(closure);
+	@Override
+	public ConfigJSModulesTask exclude(
+		@SuppressWarnings("rawtypes") Closure excludeSpec) {
+
+		_patternFilterable.exclude(excludeSpec);
 
 		return this;
 	}
 
+	@Override
 	public ConfigJSModulesTask exclude(Iterable<String> excludes) {
 		_patternFilterable.exclude(excludes);
 
 		return this;
 	}
 
-	public ConfigJSModulesTask exclude(Spec<FileTreeElement> spec) {
-		_patternFilterable.exclude(spec);
+	@Override
+	public ConfigJSModulesTask exclude(Spec<FileTreeElement> excludeSpec) {
+		_patternFilterable.exclude(excludeSpec);
 
 		return this;
 	}
 
-	public ConfigJSModulesTask exclude(String ... excludes) {
+	@Override
+	public ConfigJSModulesTask exclude(String... excludes) {
 		_patternFilterable.exclude(excludes);
 
 		return this;
 	}
 
 	@Override
-	public void executeNode() {
+	public void executeNode() throws Exception {
 		Project project = getProject();
+
+		final File outputDir = getOutputDir();
+
+		project.delete(getOutputFile(), outputDir);
 
 		project.copy(
 			new Action<CopySpec>() {
@@ -113,12 +95,10 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 				@Override
 				public void execute(CopySpec copySpec) {
 					copySpec.from(getSourceFiles());
-					copySpec.into(getOutputDir());
+					copySpec.into(outputDir);
 				}
 
 			});
-
-		setArgs(getCompleteArgs());
 
 		super.executeNode();
 
@@ -127,7 +107,7 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 
 				@Override
 				public void execute(CopySpec copySpec) {
-					copySpec.from(getOutputDir());
+					copySpec.from(outputDir);
 					copySpec.into(getSourceDir());
 				}
 
@@ -140,10 +120,18 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 		return GradleUtil.toString(_configVariable);
 	}
 
+	@Input
+	@Optional
+	public String getCustomDefine() {
+		return GradleUtil.toString(_customDefine);
+	}
+
+	@Override
 	public Set<String> getExcludes() {
 		return _patternFilterable.getExcludes();
 	}
 
+	@Override
 	public Set<String> getIncludes() {
 		return _patternFilterable.getIncludes();
 	}
@@ -166,16 +154,15 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 		return GradleUtil.toString(_moduleFormat);
 	}
 
-	@OutputDirectory
 	public File getOutputDir() {
 		return new File(getTemporaryDir(), "files");
 	}
 
-	@OutputFile
 	public File getOutputFile() {
 		return GradleUtil.toFile(getProject(), _outputFile);
 	}
 
+	@Input
 	public File getSourceDir() {
 		return GradleUtil.toFile(getProject(), _sourceDir);
 	}
@@ -185,34 +172,42 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 	public FileCollection getSourceFiles() {
 		Project project = getProject();
 
-		if (_sourceDir == null) {
+		File sourceDir = getSourceDir();
+
+		if (sourceDir == null) {
 			return project.files();
 		}
 
-		FileTree fileTree = project.fileTree(_sourceDir);
+		FileTree fileTree = project.fileTree(sourceDir);
 
 		return fileTree.matching(_patternFilterable);
 	}
 
-	public ConfigJSModulesTask include(Closure<?> closure) {
-		_patternFilterable.include(closure);
+	@Override
+	public ConfigJSModulesTask include(
+		@SuppressWarnings("rawtypes") Closure includeSpec) {
+
+		_patternFilterable.include(includeSpec);
 
 		return this;
 	}
 
+	@Override
 	public ConfigJSModulesTask include(Iterable<String> includes) {
 		_patternFilterable.include(includes);
 
 		return this;
 	}
 
-	public ConfigJSModulesTask include(Spec<FileTreeElement> spec) {
-		_patternFilterable.include(spec);
+	@Override
+	public ConfigJSModulesTask include(Spec<FileTreeElement> includeSpec) {
+		_patternFilterable.include(includeSpec);
 
 		return this;
 	}
 
-	public ConfigJSModulesTask include(String ... includes) {
+	@Override
+	public ConfigJSModulesTask include(String... includes) {
 		_patternFilterable.include(includes);
 
 		return this;
@@ -237,6 +232,11 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 		_configVariable = configVariable;
 	}
 
+	public void setCustomDefine(Object customDefine) {
+		_customDefine = customDefine;
+	}
+
+	@Override
 	public ConfigJSModulesTask setExcludes(Iterable<String> excludes) {
 		_patternFilterable.setExcludes(excludes);
 
@@ -247,6 +247,7 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 		_ignorePath = ignorePath;
 	}
 
+	@Override
 	public ConfigJSModulesTask setIncludes(Iterable<String> includes) {
 		_patternFilterable.setIncludes(includes);
 
@@ -281,16 +282,9 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 		_sourceDir = sourceDir;
 	}
 
-	protected List<Object> getCompleteArgs() {
-		List<Object> completeArgs = new ArrayList<>();
-
-		File scriptFile = new File(
-			getNodeDir(),
-			"node_modules/lfr-module-config-generator/bin/index.js");
-
-		completeArgs.add(FileUtil.getAbsolutePath(scriptFile));
-
-		GUtil.addToCollection(completeArgs, getArgs());
+	@Override
+	protected List<String> getCompleteArgs() {
+		List<String> completeArgs = super.getCompleteArgs();
 
 		String configVariable = getConfigVariable();
 
@@ -317,25 +311,32 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 
 		if (ignorePath) {
 			completeArgs.add("--ignorePath");
-			completeArgs.add(ignorePath);
+			completeArgs.add(String.valueOf(ignorePath));
 		}
 
 		boolean keepFileExtension = isKeepFileExtension();
 
 		if (keepFileExtension) {
 			completeArgs.add("--keepExtension");
-			completeArgs.add(keepFileExtension);
+			completeArgs.add(String.valueOf(keepFileExtension));
 		}
 
 		boolean lowerCase = isLowerCase();
 
 		if (lowerCase) {
 			completeArgs.add("--lowerCase");
-			completeArgs.add(lowerCase);
+			completeArgs.add(String.valueOf(lowerCase));
 		}
 
 		completeArgs.add("--moduleConfig");
 		completeArgs.add(FileUtil.getAbsolutePath(getModuleConfigFile()));
+
+		String customDefine = getCustomDefine();
+
+		if (Validator.isNotNull(customDefine)) {
+			completeArgs.add("--namespace");
+			completeArgs.add(customDefine);
+		}
 
 		completeArgs.add("--output");
 		completeArgs.add(FileUtil.getAbsolutePath(getOutputFile()));
@@ -351,6 +352,7 @@ public class ConfigJSModulesTask extends ExecuteNodeTask {
 	}
 
 	private Object _configVariable;
+	private Object _customDefine = "Liferay.Loader";
 	private boolean _ignorePath;
 	private boolean _keepFileExtension;
 	private boolean _lowerCase;

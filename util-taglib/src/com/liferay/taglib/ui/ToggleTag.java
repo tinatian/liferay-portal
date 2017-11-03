@@ -15,12 +15,12 @@
 package com.liferay.taglib.ui;
 
 import com.liferay.portal.kernel.servlet.DirectRequestDispatcherFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.DeterminateKeyGenerator;
+import com.liferay.portal.kernel.util.SessionClicks;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.SessionClicks;
 import com.liferay.taglib.servlet.PipingServletResponse;
 import com.liferay.taglib.util.IncludeTag;
 
@@ -104,17 +104,17 @@ public class ToggleTag extends IncludeTag {
 				ToggleTag.class.getName());
 		}
 
-		request.setAttribute("liferay-ui:toggle:id", id);
-		request.setAttribute("liferay-ui:toggle:showImage", showImage);
-		request.setAttribute("liferay-ui:toggle:hideImage", hideImage);
-		request.setAttribute("liferay-ui:toggle:showMessage", showMessage);
-		request.setAttribute("liferay-ui:toggle:hideMessage", hideMessage);
-		request.setAttribute("liferay-ui:toggle:stateVar", stateVar);
-		request.setAttribute(
-			"liferay-ui:toggle:defaultStateValue", defaultStateValue);
 		request.setAttribute("liferay-ui:toggle:defaultImage", defaultImage);
 		request.setAttribute(
 			"liferay-ui:toggle:defaultMessage", defaultMessage);
+		request.setAttribute(
+			"liferay-ui:toggle:defaultStateValue", defaultStateValue);
+		request.setAttribute("liferay-ui:toggle:hideImage", hideImage);
+		request.setAttribute("liferay-ui:toggle:hideMessage", hideMessage);
+		request.setAttribute("liferay-ui:toggle:id", id);
+		request.setAttribute("liferay-ui:toggle:showImage", showImage);
+		request.setAttribute("liferay-ui:toggle:showMessage", showMessage);
+		request.setAttribute("liferay-ui:toggle:stateVar", stateVar);
 
 		RequestDispatcher requestDispatcher =
 			DirectRequestDispatcherFactoryUtil.getRequestDispatcher(
@@ -129,7 +129,8 @@ public class ToggleTag extends IncludeTag {
 			doTag(
 				getPage(), _id, _showImage, _hideImage, _showMessage,
 				_hideMessage, _defaultShowContent, _stateVar, servletContext,
-				request, new PipingServletResponse(pageContext));
+				request,
+				PipingServletResponse.createPipingServletResponse(pageContext));
 
 			return EVAL_PAGE;
 		}

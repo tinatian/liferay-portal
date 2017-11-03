@@ -17,6 +17,7 @@ package com.liferay.gradle.plugins.jasper.jspc;
 import com.liferay.gradle.util.FileUtil;
 import com.liferay.gradle.util.GradleUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -32,18 +33,15 @@ import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.JavaExec;
-import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.SkipWhenEmpty;
 
 /**
  * @author Andrea Di Giorgi
  */
-public class CompileJSPTask extends JavaExec implements CompileJSPSpec {
+public class CompileJSPTask extends JavaExec {
 
 	public CompileJSPTask() {
 		setMain("com.liferay.jasper.jspc.JspC");
@@ -51,10 +49,15 @@ public class CompileJSPTask extends JavaExec implements CompileJSPSpec {
 
 	@Override
 	public void exec() {
-		super.setClasspath(getClasspath());
+		setArgs(_getCompleteArgs());
 
-		setArgs(getCompleteArgs());
-		setSystemProperties(getCompleteSystemProperties());
+		FileCollection jspCClasspath = getJspCClasspath();
+
+		if (jspCClasspath != null) {
+			String jspClasspath = jspCClasspath.getAsPath();
+
+			setStandardInput(new ByteArrayInputStream(jspClasspath.getBytes()));
+		}
 
 		OutputStream taskErrorOutput = getErrorOutput();
 
@@ -95,6 +98,11 @@ public class CompileJSPTask extends JavaExec implements CompileJSPSpec {
 	}
 
 	@InputFiles
+	public FileCollection getJspCClasspath() {
+		return _jspCClasspath;
+	}
+
+	@InputFiles
 	@SkipWhenEmpty
 	public FileCollection getJSPFiles() {
 		Project project = getProject();
@@ -115,36 +123,16 @@ public class CompileJSPTask extends JavaExec implements CompileJSPSpec {
 		return project.fileTree(args);
 	}
 
-	@InputDirectory
-	@Optional
-	@Override
-	public File getPortalDir() {
-		return GradleUtil.toFile(getProject(), _portalDir);
-	}
-
-	@Override
 	public File getWebAppDir() {
 		return GradleUtil.toFile(getProject(), _webAppDir);
-	}
-
-	@Input
-	@Override
-	public boolean isModuleWeb() {
-		return _moduleWeb;
 	}
 
 	public void setDestinationDir(Object destinationDir) {
 		_destinationDir = destinationDir;
 	}
 
-	@Override
-	public void setModuleWeb(boolean moduleWeb) {
-		_moduleWeb = moduleWeb;
-	}
-
-	@Override
-	public void setPortalDir(Object portalDir) {
-		_portalDir = portalDir;
+	public void setJspCClasspath(FileCollection jspCClasspath) {
+		_jspCClasspath = jspCClasspath;
 	}
 
 	@Override
@@ -152,12 +140,11 @@ public class CompileJSPTask extends JavaExec implements CompileJSPSpec {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public void setWebAppDir(Object webAppDir) {
 		_webAppDir = webAppDir;
 	}
 
-	protected List<String> getCompleteArgs() {
+	private List<String> _getCompleteArgs() {
 		List<String> completeArgs = new ArrayList<>(getArgs());
 
 		completeArgs.add("-d");
@@ -170,27 +157,11 @@ public class CompileJSPTask extends JavaExec implements CompileJSPSpec {
 		return completeArgs;
 	}
 
-	protected Map<String, Object> getCompleteSystemProperties() {
-		Map<String, Object> completeSystemProperties = new HashMap<>(
-			getSystemProperties());
-
-		completeSystemProperties.put("jspc.module.web", isModuleWeb());
-
-		File portalDir = getPortalDir();
-
-		if (portalDir != null) {
-			completeSystemProperties.put("jspc.portal.dir", portalDir);
-		}
-
-		return completeSystemProperties;
-	}
-
 	private static final Logger _logger = Logging.getLogger(
 		CompileJSPTask.class);
 
 	private Object _destinationDir;
-	private boolean _moduleWeb;
-	private Object _portalDir;
+	private FileCollection _jspCClasspath;
 	private Object _webAppDir;
 
 }

@@ -1,15 +1,125 @@
 <definition>
 	<var name="formName" value="Created Form Name" />
 
-	<command name="gotoAdd">
+	<command name="gotoAddDataProvider">
+		<execute macro="IFrame#selectDialogFrame" />
+
+		<execute function="Click" locator1="FormsAdmin#DATA_PROVIDER_PLUS_BUTTON" />
+	</command>
+
+	<command name="gotoAddForm">
 		<execute function="Click" locator1="Button#PLUS" />
 	</command>
 
+	<command name="gotoDataProviders">
+		<execute function="Click" locator1="Icon#HEADER_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Data Providers">
+			<var name="key_menuItem" value="Data Providers" />
+		</execute>
+	</command>
+
+	<command name="gotoDeleteField">
+		<var name="key_fieldName" value="${fieldName}" />
+
+		<execute function="MouseOver" locator1="Form#FIELD_LABEL" />
+
+		<execute function="Click" locator1="Form#FIELD_ELLIPSIS" />
+
+		<execute function="Click" locator1="Form#FIELD_DELETE_BUTTON" />
+	</command>
+
+	<command name="gotoEdit">
+		<execute macro="LexiconEntry#gotoEntryMenuItem">
+			<var name="menuItem" value="Edit" />
+			<var name="rowEntry" value="${formName}" />
+		</execute>
+	</command>
+
+	<command name="gotoEditField">
+		<var name="key_fieldName" value="${fieldName}" />
+
+		<execute function="MouseOver" locator1="Form#FIELD_LABEL" />
+
+		<execute function="Click" locator1="Form#FIELD_ELLIPSIS" />
+
+		<execute function="Click" locator1="Form#FIELD_EDIT_BUTTON" />
+	</command>
+
+	<command name="gotoEditFormByName">
+		<execute function="AssertClick" locator1="FormsAdmin#FORMS_TABLE_NAME" value1="${formName}">
+			<var name="key_formName" value="${formName}" />
+		</execute>
+	</command>
+
+	<command name="gotoPermissions">
+		<execute macro="LexiconEntry#gotoEntryMenuItem">
+			<var name="menuItem" value="Permissions" />
+			<var name="rowEntry" value="${formName}" />
+		</execute>
+
+		<execute macro="IFrame#selectDialogFrame" />
+	</command>
+
+	<command name="gotoPreviewForm">
+		<execute function="AssertClick" locator1="Message#INFO_LINK" value1="Click here to preview the form in a new window." />
+	</command>
+
+	<command name="gotoPublish">
+		<execute function="AssertElementPresent" locator1="Form#NAME_FIELD" />
+
+		<execute function="Click" locator1="Icon#HEADER_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Publish">
+			<var name="key_menuItem" value="Publish" />
+		</execute>
+	</command>
+
+	<command name="gotoSettings">
+		<execute function="AssertElementPresent" locator1="Form#NAME_FIELD" />
+
+		<execute function="Click" locator1="Icon#HEADER_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Settings">
+			<var name="key_menuItem" value="Settings" />
+		</execute>
+	</command>
+
+	<command name="gotoView">
+		<execute function="AssertElementPresent" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
+
+		<execute function="Click#waitForMenuToggleJSClick" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="View">
+			<var name="key_menuItem" value="View" />
+		</execute>
+	</command>
+
 	<command name="gotoViewEntries">
-		<var name="key_formName" value="${formName}" />
+		<execute function="AssertElementPresent" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
 
-		<execute function="Click" locator1="FormsAdmin#FORMS_TABLE_ELLIPSIS" />
+		<execute function="Click#waitForMenuToggleJSClick" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
 
-		<execute function="AssertClick" locator1="MenuItem#VIEW_ENTRIES" value1="View Entries" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="View Entries">
+			<var name="key_menuItem" value="View Entries" />
+		</execute>
+	</command>
+
+	<command name="gotoViewEntriesViaIcon">
+		<execute function="Click#waitForMenuToggleJSClick" locator1="Icon#ROW_VERTICAL_ELLIPSIS">
+			<var name="key_rowEntry" value="${formName}" />
+		</execute>
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="View Entries">
+			<var name="key_menuItem" value="View Entries" />
+		</execute>
+	</command>
+
+	<command name="openPublishURL">
+		<var method="selenium#getElementValue(Form#PUBLISH_FORM_PUBLIC_URL)" name="publishFormURL" />
+
+		<execute macro="Navigator#openSpecificURL">
+			<var name="url" value="${publishFormURL}" />
+		</execute>
 	</command>
 </definition>

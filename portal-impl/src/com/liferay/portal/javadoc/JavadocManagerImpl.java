@@ -15,15 +15,19 @@
 package com.liferay.portal.javadoc;
 
 import com.liferay.portal.kernel.javadoc.BaseJavadoc;
+import com.liferay.portal.kernel.javadoc.EmptyJavadocMethod;
 import com.liferay.portal.kernel.javadoc.JavadocClass;
 import com.liferay.portal.kernel.javadoc.JavadocManager;
 import com.liferay.portal.kernel.javadoc.JavadocMethod;
+import com.liferay.portal.kernel.javadoc.JavadocMethodImpl;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.pacl.DoPrivileged;
 import com.liferay.portal.kernel.util.StreamUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
@@ -99,8 +103,9 @@ public class JavadocManagerImpl implements JavadocManager {
 
 		if (_log.isDebugEnabled()) {
 			_log.debug(
-				"Attempting to load method from class " + implClassName +
-					" instead of " + className);
+				StringBundler.concat(
+					"Attempting to load method from class ", implClassName,
+					" instead of ", className));
 		}
 
 		try {
@@ -115,8 +120,9 @@ public class JavadocManagerImpl implements JavadocManager {
 		catch (NoSuchMethodException nsme) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Unable to load method " + method.getName() +
-						" from class " + implClassName);
+					StringBundler.concat(
+						"Unable to load method ", method.getName(),
+						" from class ", implClassName));
 			}
 		}
 		catch (Exception e) {
@@ -190,6 +196,12 @@ public class JavadocManagerImpl implements JavadocManager {
 				continue;
 			}
 
+			String className = clazz.getName();
+
+			if (className.endsWith("LocalServiceImpl")) {
+				continue;
+			}
+
 			JavadocClass javadocClass = parseJavadocClass(
 				servletContextName, javadocElement, clazz);
 
@@ -214,8 +226,9 @@ public class JavadocManagerImpl implements JavadocManager {
 
 					if (_log.isWarnEnabled()) {
 						_log.warn(
-							"Unable to load method " + methodName +
-								" from class " + type);
+							StringBundler.concat(
+								"Unable to load method ", methodName,
+								" from class ", type));
 					}
 				}
 			}
@@ -224,8 +237,6 @@ public class JavadocManagerImpl implements JavadocManager {
 
 	protected JavadocClass parseJavadocClass(
 		String servletContextName, Element javadocElement, Class<?> clazz) {
-
-		JavadocClass javadocClass = new JavadocClass(clazz);
 
 		List<Element> authorElements = javadocElement.elements("author");
 
@@ -237,15 +248,9 @@ public class JavadocManagerImpl implements JavadocManager {
 			authors[i] = authorElement.getText();
 		}
 
-		javadocClass.setAuthors(authors);
-
-		String comment = javadocElement.elementText("comment");
-
-		javadocClass.setComment(comment);
-
-		javadocClass.setServletContextName(servletContextName);
-
-		return javadocClass;
+		return new JavadocClass(
+			servletContextName, javadocElement.elementText("comment"), clazz,
+			authors);
 	}
 
 	protected JavadocMethod parseJavadocMethod(
@@ -282,23 +287,19 @@ public class JavadocManagerImpl implements JavadocManager {
 
 		Method method = clazz.getDeclaredMethod(name, parameterTypeClasses);
 
-		JavadocMethod javadocMethod = new JavadocMethod(method);
-
 		String comment = methodElement.elementText("comment");
 
-		javadocMethod.setComment(comment);
+		if (Validator.isNull(comment)) {
+			return new EmptyJavadocMethod(servletContextName, method);
+		}
 
-		javadocMethod.setParameterComments(parameterComments);
+		String returnComment = null;
 
 		Element returnElement = methodElement.element("return");
 
 		if (returnElement != null) {
-			String returnComment = returnElement.elementText("comment");
-
-			javadocMethod.setReturnComment(returnComment);
+			returnComment = returnElement.elementText("comment");
 		}
-
-		javadocMethod.setServletContextName(servletContextName);
 
 		List<Element> throwsElements = methodElement.elements("throws");
 
@@ -310,9 +311,9 @@ public class JavadocManagerImpl implements JavadocManager {
 			throwsComments[i] = throwElement.elementText("comment");
 		}
 
-		javadocMethod.setThrowsComments(throwsComments);
-
-		return javadocMethod;
+		return new JavadocMethodImpl(
+			servletContextName, comment, method, parameterComments,
+			returnComment, throwsComments);
 	}
 
 	protected void unload(

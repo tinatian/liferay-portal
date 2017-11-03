@@ -21,13 +21,17 @@ import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.file.FileTree;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.JavaExec;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.SkipWhenEmpty;
 import org.gradle.util.GUtil;
@@ -50,7 +54,7 @@ public class BuildDeploymentHelperTask extends JavaExec {
 	}
 
 	public BuildDeploymentHelperTask deploymentFiles(
-		Object ... deploymentFiles) {
+		Object... deploymentFiles) {
 
 		return deploymentFiles(Arrays.asList(deploymentFiles));
 	}
@@ -62,15 +66,35 @@ public class BuildDeploymentHelperTask extends JavaExec {
 		super.exec();
 	}
 
-	@InputFiles
-	@SkipWhenEmpty
 	public FileCollection getDeploymentFiles() {
 		Project project = getProject();
 
 		return project.files(_deploymentFiles);
 	}
 
+	@InputFiles
+	@SkipWhenEmpty
+	public FileCollection getDeploymentInputFiles() {
+		Project project = getProject();
+
+		List<Object> inputFiles = new ArrayList<>();
+
+		for (File deploymentFile : getDeploymentFiles()) {
+			if (deploymentFile.isDirectory()) {
+				FileTree fileTree = getJarsFileTree(deploymentFile);
+
+				inputFiles.add(fileTree);
+			}
+			else {
+				inputFiles.add(deploymentFile);
+			}
+		}
+
+		return project.files(inputFiles);
+	}
+
 	@Input
+	@Optional
 	public File getDeploymentPath() {
 		return GradleUtil.toFile(getProject(), _deploymentPath);
 	}
@@ -86,7 +110,7 @@ public class BuildDeploymentHelperTask extends JavaExec {
 		deploymentFiles(deploymentFiles);
 	}
 
-	public void setDeploymentFiles(Object ... deploymentFiles) {
+	public void setDeploymentFiles(Object... deploymentFiles) {
 		setDeploymentFiles(Arrays.asList(deploymentFiles));
 	}
 
@@ -103,12 +127,16 @@ public class BuildDeploymentHelperTask extends JavaExec {
 
 		GUtil.addToCollection(completeArgs, getArgs());
 
-		completeArgs.add("deployment.files=" + getDeploymentFileNames());
+		completeArgs.add("--fileNames=" + getDeploymentFileNames());
 		completeArgs.add(
-			"deployment.output.file=" +
-				FileUtil.getAbsolutePath(getOutputFile()));
-		completeArgs.add(
-			"deployment.path=" + FileUtil.getAbsolutePath(getDeploymentPath()));
+			"--outputFile=" + FileUtil.getAbsolutePath(getOutputFile()));
+
+		File deploymentPath = getDeploymentPath();
+
+		if (deploymentPath != null) {
+			completeArgs.add(
+				"--path=" + FileUtil.getAbsolutePath(deploymentPath));
+		}
 
 		return completeArgs;
 	}
@@ -124,6 +152,17 @@ public class BuildDeploymentHelperTask extends JavaExec {
 		sb.setLength(sb.length() - 1);
 
 		return sb.toString();
+	}
+
+	protected FileTree getJarsFileTree(File dir) {
+		Project project = getProject();
+
+		Map<String, Object> args = new HashMap<>();
+
+		args.put("dir", dir);
+		args.put("include", "**/*.jar");
+
+		return project.fileTree(args);
 	}
 
 	private final List<Object> _deploymentFiles = new ArrayList<>();

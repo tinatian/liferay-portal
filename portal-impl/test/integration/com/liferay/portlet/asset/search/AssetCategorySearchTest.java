@@ -14,22 +14,21 @@
 
 package com.liferay.portlet.asset.search;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryConstants;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.Group;
 import com.liferay.portal.search.test.BaseSearchTestCase;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.model.AssetCategoryConstants;
-import com.liferay.portlet.asset.model.AssetVocabulary;
-import com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil;
-import com.liferay.portlet.asset.service.AssetCategoryServiceUtil;
-import com.liferay.portlet.asset.service.AssetVocabularyServiceUtil;
 
 import java.util.Locale;
 import java.util.Map;
@@ -50,7 +49,7 @@ public class AssetCategorySearchTest extends BaseSearchTestCase {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			SynchronousDestinationTestRule.INSTANCE);
 
 	@Ignore
@@ -134,9 +133,9 @@ public class AssetCategorySearchTest extends BaseSearchTestCase {
 		AssetVocabulary vocabulary = (AssetVocabulary)parentBaseModel;
 
 		return AssetCategoryServiceUtil.addCategory(
-				serviceContext.getScopeGroupId(),
-				AssetCategoryConstants.DEFAULT_PARENT_CATEGORY_ID, keywordsMap,
-				null, vocabulary.getVocabularyId(), null, serviceContext);
+			serviceContext.getScopeGroupId(),
+			AssetCategoryConstants.DEFAULT_PARENT_CATEGORY_ID, keywordsMap,
+			null, vocabulary.getVocabularyId(), null, serviceContext);
 	}
 
 	@Override

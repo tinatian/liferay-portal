@@ -14,15 +14,15 @@
 
 package com.liferay.portlet.asset.service;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
-import com.liferay.portal.model.Group;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portlet.asset.model.AssetEntry;
-import com.liferay.portlet.asset.service.persistence.AssetEntryQuery;
 import com.liferay.portlet.asset.util.test.AssetTestUtil;
 import com.liferay.portlet.ratings.util.test.RatingsTestUtil;
 
@@ -45,8 +45,7 @@ public class AssetEntryServiceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -90,7 +89,8 @@ public class AssetEntryServiceTest {
 			assetEntryQuery);
 
 		Assert.assertEquals(
-			initialAssetEntries.size() + 1, assetEntries.size());
+			assetEntries.toString(), initialAssetEntries.size() + 1,
+			assetEntries.size());
 
 		AssetEntry assetEntry = assetEntries.get(0);
 
@@ -174,7 +174,8 @@ public class AssetEntryServiceTest {
 		List<AssetEntry> actualAssetEntries) {
 
 		Assert.assertEquals(
-			expectedAssetEntries.size(), actualAssetEntries.size());
+			actualAssetEntries.toString(), expectedAssetEntries.size(),
+			actualAssetEntries.size());
 
 		for (int i = 0; i < expectedAssetEntries.size(); i++) {
 			AssetEntry expectedAssetEntry = expectedAssetEntries.get(i);

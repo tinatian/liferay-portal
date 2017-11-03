@@ -16,10 +16,21 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.LocaleException;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.LayoutRevision;
+import com.liferay.portal.kernel.model.LayoutRevisionModel;
+import com.liferay.portal.kernel.model.LayoutRevisionSoap;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -29,16 +40,6 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.LayoutRevision;
-import com.liferay.portal.model.LayoutRevisionModel;
-import com.liferay.portal.model.LayoutRevisionSoap;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -101,8 +102,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 			{ "iconImageId", Types.BIGINT },
 			{ "themeId", Types.VARCHAR },
 			{ "colorSchemeId", Types.VARCHAR },
-			{ "wapThemeId", Types.VARCHAR },
-			{ "wapColorSchemeId", Types.VARCHAR },
 			{ "css", Types.CLOB },
 			{ "status", Types.INTEGER },
 			{ "statusByUserId", Types.BIGINT },
@@ -136,8 +135,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		TABLE_COLUMNS_MAP.put("iconImageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("themeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("colorSchemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("wapThemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("wapColorSchemeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("css", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
@@ -145,7 +142,7 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LayoutRevision (mvccVersion LONG default 0,layoutRevisionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,layoutSetBranchId LONG,layoutBranchId LONG,parentLayoutRevisionId LONG,head BOOLEAN,major BOOLEAN,plid LONG,privateLayout BOOLEAN,name STRING null,title STRING null,description STRING null,keywords STRING null,robots STRING null,typeSettings TEXT null,iconImageId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,wapThemeId VARCHAR(75) null,wapColorSchemeId VARCHAR(75) null,css TEXT null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table LayoutRevision (mvccVersion LONG default 0 not null,layoutRevisionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,layoutSetBranchId LONG,layoutBranchId LONG,parentLayoutRevisionId LONG,head BOOLEAN,major BOOLEAN,plid LONG,privateLayout BOOLEAN,name STRING null,title STRING null,description STRING null,keywords STRING null,robots STRING null,typeSettings TEXT null,iconImageId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css TEXT null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LayoutRevision";
 	public static final String ORDER_BY_JPQL = " ORDER BY layoutRevision.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LayoutRevision.modifiedDate DESC";
@@ -153,13 +150,13 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.LayoutRevision"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.LayoutRevision"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.LayoutRevision"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.LayoutRevision"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.LayoutRevision"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.LayoutRevision"),
 			true);
 	public static final long HEAD_COLUMN_BITMASK = 1L;
 	public static final long LAYOUTBRANCHID_COLUMN_BITMASK = 2L;
@@ -206,8 +203,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		model.setIconImageId(soapModel.getIconImageId());
 		model.setThemeId(soapModel.getThemeId());
 		model.setColorSchemeId(soapModel.getColorSchemeId());
-		model.setWapThemeId(soapModel.getWapThemeId());
-		model.setWapColorSchemeId(soapModel.getWapColorSchemeId());
 		model.setCss(soapModel.getCss());
 		model.setStatus(soapModel.getStatus());
 		model.setStatusByUserId(soapModel.getStatusByUserId());
@@ -238,7 +233,7 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.LayoutRevision"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.LayoutRevision"));
 
 	public LayoutRevisionModelImpl() {
 	}
@@ -301,8 +296,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		attributes.put("iconImageId", getIconImageId());
 		attributes.put("themeId", getThemeId());
 		attributes.put("colorSchemeId", getColorSchemeId());
-		attributes.put("wapThemeId", getWapThemeId());
-		attributes.put("wapColorSchemeId", getWapColorSchemeId());
 		attributes.put("css", getCss());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
@@ -460,18 +453,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 
 		if (colorSchemeId != null) {
 			setColorSchemeId(colorSchemeId);
-		}
-
-		String wapThemeId = (String)attributes.get("wapThemeId");
-
-		if (wapThemeId != null) {
-			setWapThemeId(wapThemeId);
-		}
-
-		String wapColorSchemeId = (String)attributes.get("wapColorSchemeId");
-
-		if (wapColorSchemeId != null) {
-			setWapColorSchemeId(wapColorSchemeId);
 		}
 
 		String css = (String)attributes.get("css");
@@ -697,6 +678,7 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		return _head;
 	}
 
+	@JSON
 	@Override
 	public boolean isHead() {
 		return _head;
@@ -725,6 +707,7 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		return _major;
 	}
 
+	@JSON
 	@Override
 	public boolean isMajor() {
 		return _major;
@@ -764,6 +747,7 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		return _privateLayout;
 	}
 
+	@JSON
 	@Override
 	public boolean isPrivateLayout() {
 		return _privateLayout;
@@ -1336,38 +1320,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 
 	@JSON
 	@Override
-	public String getWapThemeId() {
-		if (_wapThemeId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _wapThemeId;
-		}
-	}
-
-	@Override
-	public void setWapThemeId(String wapThemeId) {
-		_wapThemeId = wapThemeId;
-	}
-
-	@JSON
-	@Override
-	public String getWapColorSchemeId() {
-		if (_wapColorSchemeId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _wapColorSchemeId;
-		}
-	}
-
-	@Override
-	public void setWapColorSchemeId(String wapColorSchemeId) {
-		_wapColorSchemeId = wapColorSchemeId;
-	}
-
-	@JSON
-	@Override
 	public String getCss() {
 		if (_css == null) {
 			return StringPool.BLANK;
@@ -1457,15 +1409,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_statusDate = statusDate;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #isApproved}
-	 */
-	@Deprecated
-	@Override
-	public boolean getApproved() {
-		return isApproved();
 	}
 
 	@Override
@@ -1745,8 +1688,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		layoutRevisionImpl.setIconImageId(getIconImageId());
 		layoutRevisionImpl.setThemeId(getThemeId());
 		layoutRevisionImpl.setColorSchemeId(getColorSchemeId());
-		layoutRevisionImpl.setWapThemeId(getWapThemeId());
-		layoutRevisionImpl.setWapColorSchemeId(getWapColorSchemeId());
 		layoutRevisionImpl.setCss(getCss());
 		layoutRevisionImpl.setStatus(getStatus());
 		layoutRevisionImpl.setStatusByUserId(getStatusByUserId());
@@ -1964,22 +1905,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 			layoutRevisionCacheModel.colorSchemeId = null;
 		}
 
-		layoutRevisionCacheModel.wapThemeId = getWapThemeId();
-
-		String wapThemeId = layoutRevisionCacheModel.wapThemeId;
-
-		if ((wapThemeId != null) && (wapThemeId.length() == 0)) {
-			layoutRevisionCacheModel.wapThemeId = null;
-		}
-
-		layoutRevisionCacheModel.wapColorSchemeId = getWapColorSchemeId();
-
-		String wapColorSchemeId = layoutRevisionCacheModel.wapColorSchemeId;
-
-		if ((wapColorSchemeId != null) && (wapColorSchemeId.length() == 0)) {
-			layoutRevisionCacheModel.wapColorSchemeId = null;
-		}
-
 		layoutRevisionCacheModel.css = getCss();
 
 		String css = layoutRevisionCacheModel.css;
@@ -2014,7 +1939,7 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(63);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
@@ -2064,10 +1989,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		sb.append(getThemeId());
 		sb.append(", colorSchemeId=");
 		sb.append(getColorSchemeId());
-		sb.append(", wapThemeId=");
-		sb.append(getWapThemeId());
-		sb.append(", wapColorSchemeId=");
-		sb.append(getWapColorSchemeId());
 		sb.append(", css=");
 		sb.append(getCss());
 		sb.append(", status=");
@@ -2085,10 +2006,10 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(97);
+		StringBundler sb = new StringBundler(91);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.LayoutRevision");
+		sb.append("com.liferay.portal.kernel.model.LayoutRevision");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -2188,14 +2109,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 		sb.append(getColorSchemeId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>wapThemeId</column-name><column-value><![CDATA[");
-		sb.append(getWapThemeId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>wapColorSchemeId</column-name><column-value><![CDATA[");
-		sb.append(getWapColorSchemeId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>css</column-name><column-value><![CDATA[");
 		sb.append(getCss());
 		sb.append("]]></column-value></column>");
@@ -2265,8 +2178,6 @@ public class LayoutRevisionModelImpl extends BaseModelImpl<LayoutRevision>
 	private long _iconImageId;
 	private String _themeId;
 	private String _colorSchemeId;
-	private String _wapThemeId;
-	private String _wapColorSchemeId;
 	private String _css;
 	private int _status;
 	private int _originalStatus;

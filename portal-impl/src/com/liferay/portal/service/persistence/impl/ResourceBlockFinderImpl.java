@@ -19,9 +19,9 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.security.permission.ResourceBlockIdsBag;
+import com.liferay.portal.kernel.service.persistence.ResourceBlockFinder;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.security.permission.ResourceBlockIdsBag;
-import com.liferay.portal.service.persistence.ResourceBlockFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.Iterator;

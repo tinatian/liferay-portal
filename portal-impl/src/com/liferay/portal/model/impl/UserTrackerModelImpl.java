@@ -16,21 +16,22 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserTracker;
+import com.liferay.portal.kernel.model.UserTrackerModel;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserTracker;
-import com.liferay.portal.model.UserTrackerModel;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -87,7 +88,7 @@ public class UserTrackerModelImpl extends BaseModelImpl<UserTracker>
 		TABLE_COLUMNS_MAP.put("userAgent", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table UserTracker (mvccVersion LONG default 0,userTrackerId LONG not null primary key,companyId LONG,userId LONG,modifiedDate DATE null,sessionId VARCHAR(200) null,remoteAddr VARCHAR(75) null,remoteHost VARCHAR(75) null,userAgent VARCHAR(200) null)";
+	public static final String TABLE_SQL_CREATE = "create table UserTracker (mvccVersion LONG default 0 not null,userTrackerId LONG not null primary key,companyId LONG,userId LONG,modifiedDate DATE null,sessionId VARCHAR(200) null,remoteAddr VARCHAR(75) null,remoteHost VARCHAR(75) null,userAgent VARCHAR(200) null)";
 	public static final String TABLE_SQL_DROP = "drop table UserTracker";
 	public static final String ORDER_BY_JPQL = " ORDER BY userTracker.userTrackerId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY UserTracker.userTrackerId ASC";
@@ -95,20 +96,20 @@ public class UserTrackerModelImpl extends BaseModelImpl<UserTracker>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.UserTracker"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.UserTracker"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.UserTracker"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.UserTracker"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.UserTracker"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.UserTracker"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long SESSIONID_COLUMN_BITMASK = 2L;
 	public static final long USERID_COLUMN_BITMASK = 4L;
 	public static final long USERTRACKERID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.UserTracker"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.UserTracker"));
 
 	public UserTrackerModelImpl() {
 	}
@@ -583,7 +584,7 @@ public class UserTrackerModelImpl extends BaseModelImpl<UserTracker>
 		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.UserTracker");
+		sb.append("com.liferay.portal.kernel.model.UserTracker");
 		sb.append("</model-name>");
 
 		sb.append(

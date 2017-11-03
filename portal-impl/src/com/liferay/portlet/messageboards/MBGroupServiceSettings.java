@@ -14,6 +14,7 @@
 
 package com.liferay.portlet.messageboards;
 
+import com.liferay.message.boards.kernel.constants.MBConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.settings.FallbackKeys;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
@@ -23,10 +24,9 @@ import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsFactoryUtil;
 import com.liferay.portal.kernel.settings.TypedSettings;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.RSSUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.messageboards.constants.MBConstants;
 import com.liferay.portlet.messageboards.util.MBUtil;
 
 import java.util.Map;
@@ -59,6 +59,11 @@ public class MBGroupServiceSettings {
 			parameterMap, settings);
 
 		return new MBGroupServiceSettings(parameterMapSettings);
+	}
+
+	public static void registerSettingsMetadata() {
+		SettingsFactoryUtil.registerSettingsMetadata(
+			MBGroupServiceSettings.class, null, _getFallbackKeys());
 	}
 
 	public MBGroupServiceSettings(Settings settings) {

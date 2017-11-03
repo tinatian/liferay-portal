@@ -14,6 +14,8 @@
 
 package com.liferay.portal.verify.model;
 
+import com.liferay.portal.kernel.verify.model.VerifiableUUIDModel;
+
 /**
  * @author Miguel Pastor
  */
@@ -21,12 +23,12 @@ public class EmailAddressVerifiableModel implements VerifiableUUIDModel {
 
 	@Override
 	public String getPrimaryKeyColumnName() {
-		return "groupId";
+		return "emailAddressId";
 	}
 
 	@Override
 	public String getTableName() {
-		return "Group_";
+		return "EmailAddress";
 	}
 
 }

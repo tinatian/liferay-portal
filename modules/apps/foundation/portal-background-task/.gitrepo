@@ -1,0 +1,11 @@
+;
+; Do not manually edit this file.
+;
+[subrepo]
+	autopull = false
+	cmdver = liferay
+	commit = a0dc43ada3ea368ff79ff12cc0159fffa614ca22
+	mergebuttonmergecommits = false
+	mode = push
+	parent = 44319325ec25ff963667b3e69641cfeb8bcc4b77
+	remote = git@github.com:liferay/com-liferay-portal-background-task.git

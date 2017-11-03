@@ -15,10 +15,10 @@
 package com.liferay.portal.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.model.ResourceBlock;
-import com.liferay.portal.model.ResourceBlockConstants;
-import com.liferay.portal.model.ResourceBlockPermission;
-import com.liferay.portal.model.ResourceBlockPermissionsContainer;
+import com.liferay.portal.kernel.model.ResourceBlock;
+import com.liferay.portal.kernel.model.ResourceBlockConstants;
+import com.liferay.portal.kernel.model.ResourceBlockPermission;
+import com.liferay.portal.kernel.model.ResourceBlockPermissionsContainer;
 import com.liferay.portal.service.base.ResourceBlockPermissionLocalServiceBaseImpl;
 
 import java.util.Collections;
@@ -129,7 +129,7 @@ public class ResourceBlockPermissionLocalServiceImpl
 
 	@Override
 	public ResourceBlockPermissionsContainer
-			getResourceBlockPermissionsContainer(long resourceBlockId) {
+		getResourceBlockPermissionsContainer(long resourceBlockId) {
 
 		List<ResourceBlockPermission> resourceBlockPermissions =
 			resourceBlockPermissionPersistence.findByResourceBlockId(

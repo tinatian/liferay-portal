@@ -14,20 +14,31 @@
 
 package com.liferay.portal.security.permission;
 
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
 import com.liferay.portal.kernel.cache.index.IndexEncoder;
 import com.liferay.portal.kernel.cache.index.PortalCacheIndexer;
+import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
+import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
+import com.liferay.portal.kernel.cluster.ClusterRequest;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.security.permission.ResourceBlockIdsBag;
+import com.liferay.portal.kernel.security.permission.UserBag;
 import com.liferay.portal.kernel.util.HashUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.exportimport.lar.ExportImportThreadLocal;
 
 import java.io.Serializable;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author Charles May
@@ -84,6 +95,18 @@ public class PermissionCacheUtil {
 
 		_permissionPortalCache.removeAll();
 		_resourceBlockIdsBagCache.removeAll();
+
+		_sendClearCacheClusterMessage(_clearCacheMethodKey, userIds);
+	}
+
+	public static void clearPrimaryKeyRoleCache() {
+		if (ExportImportThreadLocal.isImportInProcess()) {
+			return;
+		}
+
+		_permissionPortalCache.removeAll();
+		_resourceBlockIdsBagCache.removeAll();
+		_userPrimaryKeyRolePortalCache.removeAll();
 	}
 
 	public static void clearResourceBlockCache(
@@ -99,6 +122,9 @@ public class PermissionCacheUtil {
 		_resourceBlockIdsBagCacheIndexer.removeKeys(
 			ResourceBlockIdsBagKeyIndexEncoder.encode(
 				companyId, groupId, name));
+
+		_sendClearCacheClusterMessage(
+			_clearResourceBlockCacheMethodKey, companyId, groupId, name);
 	}
 
 	public static void clearResourceCache() {
@@ -121,10 +147,16 @@ public class PermissionCacheUtil {
 		if (scope == ResourceConstants.SCOPE_INDIVIDUAL) {
 			_permissionPortalCacheNamePrimKeyIndexer.removeKeys(
 				PermissionKeyNamePrimKeyIndexEncoder.encode(name, primKey));
+
+			_sendClearCacheClusterMessage(
+				_clearResourcePermissionCacheMethodKey, scope, name, primKey);
 		}
 		else if (scope == ResourceConstants.SCOPE_GROUP) {
 			_permissionPortalCacheGroupIdIndexer.removeKeys(
 				Long.valueOf(primKey));
+
+			_sendClearCacheClusterMessage(
+				_clearResourcePermissionCacheMethodKey, scope, name, primKey);
 		}
 		else {
 			_permissionPortalCache.removeAll();
@@ -132,11 +164,11 @@ public class PermissionCacheUtil {
 	}
 
 	public static Boolean getPermission(
-		long userId, boolean signedIn, long groupId, String name,
-		String primKey, String actionId) {
+		long groupId, String name, String primKey, long[] roleIds,
+		String actionId) {
 
 		PermissionKey permissionKey = new PermissionKey(
-			userId, signedIn, groupId, name, primKey, actionId);
+			groupId, name, primKey, roleIds, actionId);
 
 		return _permissionPortalCache.get(permissionKey);
 	}
@@ -187,19 +219,21 @@ public class PermissionCacheUtil {
 
 		userRole = userBag.hasRole(role);
 
-		_userRolePortalCache.put(userRoleKey, userRole);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_userRolePortalCache, userRoleKey, userRole);
 
 		return userRole;
 	}
 
 	public static void putPermission(
-		long userId, boolean signedIn, long groupId, String name,
-		String primKey, String actionId, Boolean value) {
+		long groupId, String name, String primKey, long[] roleIds,
+		String actionId, Boolean value) {
 
 		PermissionKey permissionKey = new PermissionKey(
-			userId, signedIn, groupId, name, primKey, actionId);
+			groupId, name, primKey, roleIds, actionId);
 
-		_permissionPortalCache.put(permissionKey, value);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_permissionPortalCache, permissionKey, value);
 	}
 
 	public static void putResourceBlockIdsBag(
@@ -213,12 +247,14 @@ public class PermissionCacheUtil {
 		ResourceBlockIdsBagKey resourceBlockIdsBagKey =
 			new ResourceBlockIdsBagKey(companyId, groupId, userId, name);
 
-		_resourceBlockIdsBagCache.put(
-			resourceBlockIdsBagKey, resourceBlockIdsBag);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_resourceBlockIdsBagCache, resourceBlockIdsBagKey,
+			resourceBlockIdsBag);
 	}
 
 	public static void putUserBag(long userId, UserBag userBag) {
-		_userBagPortalCache.put(userId, userBag);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_userBagPortalCache, userId, userBag);
 	}
 
 	public static void putUserGroupRoleIds(
@@ -231,7 +267,8 @@ public class PermissionCacheUtil {
 		UserGroupRoleIdsKey userGroupRoleIdsKey = new UserGroupRoleIdsKey(
 			userId, groupId);
 
-		_userGroupRoleIdsPortalCache.put(userGroupRoleIdsKey, roleIds);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_userGroupRoleIdsPortalCache, userGroupRoleIdsKey, roleIds);
 	}
 
 	public static void putUserPrimaryKeyRole(
@@ -244,7 +281,8 @@ public class PermissionCacheUtil {
 		UserPrimaryKeyRoleKey userPrimaryKeyRoleKey = new UserPrimaryKeyRoleKey(
 			userId, primaryKey, roleName);
 
-		_userPrimaryKeyRolePortalCache.put(userPrimaryKeyRoleKey, value);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_userPrimaryKeyRolePortalCache, userPrimaryKeyRoleKey, value);
 	}
 
 	public static void putUserRole(long userId, Role role, Boolean value) {
@@ -254,15 +292,16 @@ public class PermissionCacheUtil {
 
 		UserRoleKey userRoleKey = new UserRoleKey(userId, role.getRoleId());
 
-		_userRolePortalCache.put(userRoleKey, value);
+		PortalCacheHelperUtil.putWithoutReplicator(
+			_userRolePortalCache, userRoleKey, value);
 	}
 
 	public static void removePermission(
-		long userId, boolean signedIn, long groupId, String name,
-		String primKey, String actionId) {
+		long groupId, String name, String primKey, long[] roleIds,
+		String actionId) {
 
 		PermissionKey permissionKey = new PermissionKey(
-			userId, signedIn, groupId, name, primKey, actionId);
+			groupId, name, primKey, roleIds, actionId);
 
 		_permissionPortalCache.remove(permissionKey);
 	}
@@ -296,6 +335,31 @@ public class PermissionCacheUtil {
 		_userPrimaryKeyRolePortalCache.remove(userPrimaryKeyRoleKey);
 	}
 
+	private static void _sendClearCacheClusterMessage(
+		MethodKey methodKey, Object... arguments) {
+
+		if (!ClusterInvokeThreadLocal.isEnabled()) {
+			return;
+		}
+
+		ClusterRequest clusterRequest = ClusterRequest.createMulticastRequest(
+			new MethodHandler(methodKey, arguments), true);
+
+		clusterRequest.setFireAndForget(true);
+
+		ClusterExecutorUtil.execute(clusterRequest);
+	}
+
+	private static final MethodKey _clearCacheMethodKey = new MethodKey(
+		PermissionCacheUtil.class, "clearCache", long[].class);
+	private static final MethodKey _clearResourceBlockCacheMethodKey =
+		new MethodKey(
+			PermissionCacheUtil.class, "clearResourceBlockCache", long.class,
+			long.class, String.class);
+	private static final MethodKey _clearResourcePermissionCacheMethodKey =
+		new MethodKey(
+			PermissionCacheUtil.class, "clearResourcePermissionCache",
+			int.class, String.class, String.class);
 	private static final PortalCache<PermissionKey, Boolean>
 		_permissionPortalCache = MultiVMPoolUtil.getPortalCache(
 			PERMISSION_CACHE_NAME,
@@ -351,12 +415,11 @@ public class PermissionCacheUtil {
 		public boolean equals(Object obj) {
 			PermissionKey permissionKey = (PermissionKey)obj;
 
-			if ((permissionKey._userId == _userId) &&
-				(permissionKey._signedIn == _signedIn) &&
-				(permissionKey._groupId == _groupId) &&
-				Validator.equals(permissionKey._name, _name) &&
-				Validator.equals(permissionKey._primKey, _primKey) &&
-				Validator.equals(permissionKey._actionId, _actionId)) {
+			if ((permissionKey._groupId == _groupId) &&
+				Objects.equals(permissionKey._name, _name) &&
+				Objects.equals(permissionKey._primKey, _primKey) &&
+				Arrays.equals(permissionKey._roleIds, _roleIds) &&
+				Objects.equals(permissionKey._actionId, _actionId)) {
 
 				return true;
 			}
@@ -366,26 +429,29 @@ public class PermissionCacheUtil {
 
 		@Override
 		public int hashCode() {
-			int hashCode = HashUtil.hash(0, _userId);
+			int hashCode = HashUtil.hash(0, _groupId);
 
-			hashCode = HashUtil.hash(hashCode, _signedIn);
-			hashCode = HashUtil.hash(hashCode, _groupId);
 			hashCode = HashUtil.hash(hashCode, _name);
 			hashCode = HashUtil.hash(hashCode, _primKey);
+			hashCode = HashUtil.hash(hashCode, _roleIds.length);
+
+			for (long roleId : _roleIds) {
+				hashCode = HashUtil.hash(hashCode, roleId);
+			}
+
 			hashCode = HashUtil.hash(hashCode, _actionId);
 
 			return hashCode;
 		}
 
 		private PermissionKey(
-			long userId, boolean signedIn, long groupId, String name,
-			String primKey, String actionId) {
+			long groupId, String name, String primKey, long[] roleIds,
+			String actionId) {
 
-			_userId = userId;
-			_signedIn = signedIn;
 			_groupId = groupId;
 			_name = name;
 			_primKey = primKey;
+			_roleIds = roleIds;
 			_actionId = actionId;
 		}
 
@@ -395,8 +461,7 @@ public class PermissionCacheUtil {
 		private final long _groupId;
 		private final String _name;
 		private final String _primKey;
-		private final boolean _signedIn;
-		private final long _userId;
+		private final long[] _roleIds;
 
 	}
 
@@ -434,7 +499,7 @@ public class PermissionCacheUtil {
 			if ((resourceBlockIdsKey._companyId == _companyId) &&
 				(resourceBlockIdsKey._groupId == _groupId) &&
 				(resourceBlockIdsKey._userId == _userId) &&
-				Validator.equals(resourceBlockIdsKey._name, _name)) {
+				Objects.equals(resourceBlockIdsKey._name, _name)) {
 
 				return true;
 			}
@@ -553,12 +618,12 @@ public class PermissionCacheUtil {
 
 		@Override
 		public boolean equals(Object obj) {
-			UserPrimaryKeyRoleKey UserPrimaryKeyRoleKey =
+			UserPrimaryKeyRoleKey userPrimaryKeyRoleKey =
 				(UserPrimaryKeyRoleKey)obj;
 
-			if ((UserPrimaryKeyRoleKey._userId == _userId) &&
-				(UserPrimaryKeyRoleKey._primaryKey == _primaryKey) &&
-				Validator.equals(UserPrimaryKeyRoleKey._name, _name)) {
+			if ((userPrimaryKeyRoleKey._userId == _userId) &&
+				(userPrimaryKeyRoleKey._primaryKey == _primaryKey) &&
+				Objects.equals(userPrimaryKeyRoleKey._name, _name)) {
 
 				return true;
 			}

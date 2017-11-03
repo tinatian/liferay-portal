@@ -16,20 +16,21 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ResourcePermission;
+import com.liferay.portal.kernel.model.ResourcePermissionModel;
+import com.liferay.portal.kernel.model.ResourcePermissionSoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.ResourcePermission;
-import com.liferay.portal.model.ResourcePermissionModel;
-import com.liferay.portal.model.ResourcePermissionSoap;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -92,7 +93,7 @@ public class ResourcePermissionModelImpl extends BaseModelImpl<ResourcePermissio
 		TABLE_COLUMNS_MAP.put("viewActionId", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table ResourcePermission (mvccVersion LONG default 0,resourcePermissionId LONG not null primary key,companyId LONG,name VARCHAR(255) null,scope INTEGER,primKey VARCHAR(255) null,primKeyId LONG,roleId LONG,ownerId LONG,actionIds LONG,viewActionId BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table ResourcePermission (mvccVersion LONG default 0 not null,resourcePermissionId LONG not null primary key,companyId LONG,name VARCHAR(255) null,scope INTEGER,primKey VARCHAR(255) null,primKeyId LONG,roleId LONG,ownerId LONG,actionIds LONG,viewActionId BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table ResourcePermission";
 	public static final String ORDER_BY_JPQL = " ORDER BY resourcePermission.resourcePermissionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ResourcePermission.resourcePermissionId ASC";
@@ -100,13 +101,13 @@ public class ResourcePermissionModelImpl extends BaseModelImpl<ResourcePermissio
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.ResourcePermission"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.ResourcePermission"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.ResourcePermission"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.ResourcePermission"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.ResourcePermission"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.ResourcePermission"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long NAME_COLUMN_BITMASK = 2L;
@@ -167,7 +168,7 @@ public class ResourcePermissionModelImpl extends BaseModelImpl<ResourcePermissio
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.ResourcePermission"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.ResourcePermission"));
 
 	public ResourcePermissionModelImpl() {
 	}
@@ -487,6 +488,7 @@ public class ResourcePermissionModelImpl extends BaseModelImpl<ResourcePermissio
 		return _viewActionId;
 	}
 
+	@JSON
 	@Override
 	public boolean isViewActionId() {
 		return _viewActionId;
@@ -717,7 +719,7 @@ public class ResourcePermissionModelImpl extends BaseModelImpl<ResourcePermissio
 		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.ResourcePermission");
+		sb.append("com.liferay.portal.kernel.model.ResourcePermission");
 		sb.append("</model-name>");
 
 		sb.append(

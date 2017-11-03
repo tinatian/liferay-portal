@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,12 +30,13 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
-import com.liferay.portlet.ratings.NoSuchStatsException;
-import com.liferay.portlet.ratings.model.RatingsStats;
-import com.liferay.portlet.ratings.service.RatingsStatsLocalServiceUtil;
-import com.liferay.portlet.ratings.service.persistence.RatingsStatsPersistence;
-import com.liferay.portlet.ratings.service.persistence.RatingsStatsUtil;
+import com.liferay.ratings.kernel.exception.NoSuchStatsException;
+import com.liferay.ratings.kernel.model.RatingsStats;
+import com.liferay.ratings.kernel.service.RatingsStatsLocalServiceUtil;
+import com.liferay.ratings.kernel.service.persistence.RatingsStatsPersistence;
+import com.liferay.ratings.kernel.service.persistence.RatingsStatsUtil;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -117,6 +117,8 @@ public class RatingsStatsPersistenceTest {
 
 		RatingsStats newRatingsStats = _persistence.create(pk);
 
+		newRatingsStats.setCompanyId(RandomTestUtil.nextLong());
+
 		newRatingsStats.setClassNameId(RandomTestUtil.nextLong());
 
 		newRatingsStats.setClassPK(RandomTestUtil.nextLong());
@@ -133,6 +135,8 @@ public class RatingsStatsPersistenceTest {
 
 		Assert.assertEquals(existingRatingsStats.getStatsId(),
 			newRatingsStats.getStatsId());
+		Assert.assertEquals(existingRatingsStats.getCompanyId(),
+			newRatingsStats.getCompanyId());
 		Assert.assertEquals(existingRatingsStats.getClassNameId(),
 			newRatingsStats.getClassNameId());
 		Assert.assertEquals(existingRatingsStats.getClassPK(),
@@ -151,6 +155,12 @@ public class RatingsStatsPersistenceTest {
 			RandomTestUtil.nextLong());
 
 		_persistence.countByC_C(0L, 0L);
+	}
+
+	@Test
+	public void testCountByC_CArrayable() throws Exception {
+		_persistence.countByC_C(RandomTestUtil.nextLong(),
+			new long[] { RandomTestUtil.nextLong(), 0L });
 	}
 
 	@Test
@@ -177,8 +187,8 @@ public class RatingsStatsPersistenceTest {
 
 	protected OrderByComparator<RatingsStats> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("RatingsStats", "statsId",
-			true, "classNameId", true, "classPK", true, "totalEntries", true,
-			"totalScore", true, "averageScore", true);
+			true, "companyId", true, "classNameId", true, "classPK", true,
+			"totalEntries", true, "totalScore", true, "averageScore", true);
 	}
 
 	@Test
@@ -393,6 +403,8 @@ public class RatingsStatsPersistenceTest {
 		long pk = RandomTestUtil.nextLong();
 
 		RatingsStats ratingsStats = _persistence.create(pk);
+
+		ratingsStats.setCompanyId(RandomTestUtil.nextLong());
 
 		ratingsStats.setClassNameId(RandomTestUtil.nextLong());
 

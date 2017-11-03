@@ -25,8 +25,8 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.service.ServiceContext;
 
 import java.io.File;
 import java.io.InputStream;
@@ -39,6 +39,9 @@ import java.util.List;
 public class InitializedRepository
 	extends InitializedDocumentRepository<Repository> implements Repository {
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public FileEntry addFileEntry(
@@ -54,6 +57,9 @@ public class InitializedRepository
 			file, serviceContext);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public FileEntry addFileEntry(
@@ -69,6 +75,9 @@ public class InitializedRepository
 			is, size, serviceContext);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public Folder addFolder(
@@ -89,6 +98,9 @@ public class InitializedRepository
 		return documentRepository.cancelCheckOut(fileEntryId);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public void checkInFileEntry(
@@ -102,16 +114,9 @@ public class InitializedRepository
 			fileEntryId, major, changeLog, serviceContext);
 	}
 
-	@Deprecated
-	@Override
-	public void checkInFileEntry(long fileEntryId, String lockUuid)
-		throws PortalException {
-
-		checkDocumentRepository();
-
-		documentRepository.checkInFileEntry(fileEntryId, lockUuid);
-	}
-
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public void checkInFileEntry(
@@ -147,6 +152,9 @@ public class InitializedRepository
 			fileEntryId, owner, expirationTime, serviceContext);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public FileEntry copyFileEntry(
@@ -455,6 +463,9 @@ public class InitializedRepository
 			folderId, owner, inheritable, expirationTime);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public FileEntry moveFileEntry(
@@ -467,6 +478,9 @@ public class InitializedRepository
 			fileEntryId, newFolderId, serviceContext);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public Folder moveFolder(
@@ -502,6 +516,9 @@ public class InitializedRepository
 			lockUuid, companyId, expirationTime);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public void revertFileEntry(
@@ -569,6 +586,9 @@ public class InitializedRepository
 		documentRepository.unlockFolder(parentFolderId, name, lockUuid);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public FileEntry updateFileEntry(
@@ -584,6 +604,9 @@ public class InitializedRepository
 			changeLog, majorVersion, file, serviceContext);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public FileEntry updateFileEntry(

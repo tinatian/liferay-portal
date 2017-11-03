@@ -14,19 +14,19 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.DuplicateTeamException;
-import com.liferay.portal.TeamNameException;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.DuplicateTeamException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.TeamNameException;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.Team;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.base.TeamLocalServiceBaseImpl;
 
 import java.util.LinkedHashMap;
@@ -38,7 +38,6 @@ import java.util.List;
 public class TeamLocalServiceImpl extends TeamLocalServiceBaseImpl {
 
 	/**
-	 * @throws     PortalException
 	 * @deprecated As of 7.0.0, replaced by {@link #addTeam(long, long, String,
 	 *             String, ServiceContext)}
 	 */
@@ -144,6 +143,12 @@ public class TeamLocalServiceImpl extends TeamLocalServiceBaseImpl {
 	@Override
 	public Team getTeam(long groupId, String name) throws PortalException {
 		return teamPersistence.findByG_N(groupId, name);
+	}
+
+	@Override
+	public List<Team> getUserOrUserGroupTeams(long groupId, long userId) {
+		return teamFinder.findByG_U(
+			groupId, userId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	@Override

@@ -20,7 +20,7 @@
 </tr>
 <tr>
 	<td>ADD_EVENT_BUTTON</td>
-	<td>//button[contains(@id,'_addButton')]</td>
+	<td>//button[contains(@id,'addButton')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -30,7 +30,7 @@
 </tr>
 <tr>
 	<td>PUBLISH_TEMPLATES_BUTTON</td>
-	<td>//a[contains(@title,'Publish Templates')]</td>
+	<td>xpath=(//a[contains(.,'Publish Templates')])[1]</td>
 	<td></td>
 </tr>
 <tr>
@@ -41,17 +41,17 @@
 <!--DATE-->
 <tr>
 	<td>DATE_NOW_RADIO</td>
-	<td>//input[contains(@id,'_publishingEventNow')]</td>
+	<td>//input[contains(@id,'publishingEventNow')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DATE_SCHEDULE_RADIO</td>
-	<td>//input[contains(@id,'_publishingEventSchedule')]</td>
+	<td>//input[contains(@id,'publishingEventSchedule')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DATE_SCHEDULE_TITLE_FIELD</td>
-	<td>//input[contains(@id,'ExportImportPortlet_description')]</td>
+	<td>//input[contains(@id,'ExportImportPortlet_name')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -61,12 +61,22 @@
 </tr>
 <tr>
 	<td>DATE_SCHEDULE_END_DATE_NO_END_DATE_RADIO</td>
-	<td>//input[contains(@id,'_schedulerNoEndDate')]</td>
+	<td>//input[contains(@id,'schedulerNoEndDate')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>DATE_SCHEDULE_REPEAT_DAILY_RADIO</td>
-	<td>//input[contains(@id,'_recurrenceTypeDaily')]</td>
+	<td>DATE_SCHEDULE_END_DATE_END_BY_RADIO</td>
+	<td>//input[contains(@id,'schedulerEndBy')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DATE_SCHEDULE_END_DATE_INPUT</td>
+	<td>//input[contains(@id,'schedulerEndDate')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DATE_SCHEDULE_REPEAT_RADIO</td>
+	<td>//input[contains(@id,'recurrenceType${key_frequency}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -88,17 +98,37 @@
 <!--APPLICATION_CONFIGURATION-->
 <tr>
 	<td>APPLICATION_CONFIGURATION_ALL_APPLICATIONS_RADIO</td>
-	<td>//input[contains(@id,'_allApplications')]</td>
+	<td>//input[contains(@id,'allApplications')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>APPLICATION_CONFIGURATION_CHOOSE_APPLICATIONS_RADIO</td>
-	<td>//input[contains(@id,'_chooseApplications')]</td>
+	<td>//input[contains(@id,'chooseApplications')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>APPLICATION_CONFIGURATION_CHOOSE_APPLICATIONS_APPLICATION_CHECKBOX</td>
-	<td>//ul[contains(@id,'_selectApplications')]//label[contains(.,'${key_applicationName}')]/input[2]</td>
+	<td>//ul[contains(@id,'selectApplications')]//label[contains(.,'${key_applicationName}')]/input[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>APPLICATION_CONFIGURATION_APPLICATION_CHANGE_LINK</td>
+	<td>//a[contains(@class,'configuration-link modify-link') and contains(.,'Change')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>APPLICATION_CONFIGURATION_APPLICATION_SETUP_CHECK</td>
+	<td>//label[contains(.,'Setup')]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>APPLICATION_CONFIGURATION_CHOOSE_APPLICATION_SUBAPPLICATION_CHECKBOX</td>
+	<td>//div[contains(@class,'widget-content-expanded') and contains(.,'${key_applicationName}')]//div[contains(@class,'modal-body')]//input[@data-name='${key_subApplication}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>APPLICATION_CONFIGURATION_CHOOSE_APPLICATION_SUBAPPLICATION_OK_BUTTON</td>
+	<td>//div[contains(@class,'widget-content-expanded') and contains(.,'${key_applicationName}')]//button[contains(.,'OK')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -108,28 +138,23 @@
 </tr>
 <!--CONTENT-->
 <tr>
-	<td>CONTENT_ALL_CONTENT_RADIO</td>
-	<td>//input[contains(@id,'_allContent')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>CONTENT_CHOOSE_CONTENT_RADIO</td>
-	<td>//input[contains(@id,'_chooseContent')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>CONTENT_CHOOSE_CONTENT_DELETION_CHECKBOX</td>
-	<td>//label[contains(.,'Deletions')]/input</td>
+	<td>//input[contains(@name,'DELETIONS')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_CHOOSE_CONTENT_DELETION_HEADER</td>
+	<td>//div[contains(@id,'deletionsTitle')]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONTENT_CHOOSE_CONTENT_CONTENT_CHANGE_LINK</td>
-	<td>//a[@data-portlettitle='${key_contentName}']</td>
+	<td>//a[@data-portlettitle='${key_uncheckContent}']</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONTENT_CHOOSE_CONTENT_SUBCONTENT_CHECKBOX</td>
-	<td>//div[contains(@class,'widget-content-expanded') and contains(.,'${key_contentName}')]//div[contains(@class,'modal-body')]//input[contains(@data-name,'${key_subContent}')]</td>
+	<td>//input[contains(@data-name,'Referenced Content')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -150,7 +175,7 @@
 </tr>
 <tr>
 	<td>CHOOSE_CONTENT_DATE_RANGE_CHANGE_LINK</td>
-	<td>//a[contains(@id,'_rangeLink')]</td>
+	<td>//a[contains(@id,'rangeLink')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -167,22 +192,6 @@
 <tr>
 	<td>DATE_RANGE_POPUP_OK_BUTTON</td>
 	<td>//div[contains(@class,'modal-content') and contains (.,'Date Range')]//button[contains(.,'OK')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<!--DATE_RANGE-->
-<tr>
-	<td>DATE_RANGE_START_DATE</td>
-	<td>//input[contains(@name,'startDate')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DATE_RANGE_END_DATE</td>
-	<td>//input[contains(@name,'endDate')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -214,7 +223,7 @@
 </tr>
 <tr>
 	<td>CURRENT_AND_PREVIOUS_TABLE_STATUS</td>
-	<td>//tr/td[contains(@class,'status-column')]</td>
+	<td>//tr/td[contains(@class,'status-column')][1]</td>
 	<td></td>
 </tr>
 <tr>
@@ -235,12 +244,12 @@
 <!--SCHEDULED_TABLE-->
 <tr>
 	<td>SCHEDULED_TABLE_TITLE</td>
-	<td>//tr[contains(.,'${key_scheduleTitleName}')]/td[1]</td>
+	<td>//tr[contains(.,'${key_scheduleTitleName}')]/td[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>SCHEDULED_TABLE_END_DATE</td>
-	<td>//tr[contains(.,'${key_scheduleTitleName}')]/td[3]</td>
+	<td>//tr[contains(.,'${key_scheduleTitleName}')]/td[4]</td>
 	<td></td>
 </tr>
 <tr>
@@ -267,22 +276,22 @@
 <!--PUBLISH_TEMPLATES_TABLE-->
 <tr>
 	<td>PUBLISH_TEMPLATES_TABLE_NAME</td>
-	<td>//div[contains(@id,'_savedConfigurations')]//tr[contains(.,'${key_publishTemplateName}')]/td[2]/a</td>
+	<td>//div[contains(@id,'Configurations')]//tr[contains(.,'${key_publishTemplateName}')]/td[2]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PUBLISH_TEMPLATES_TABLE_DESCRIPTION</td>
-	<td>//div[contains(@id,'_savedConfigurations')]//tr[contains(.,'${key_publishTemplateName}')]/td[3]</td>
+	<td>//div[contains(@id,'Configurations')]//tr[contains(.,'${key_publishTemplateName}')]/td[3]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PUBLISH_TEMPLATES_TABLE_PUBLISH_TO_LIVE_ARROW_BUTTON</td>
-	<td>//div[contains(@id,'_savedConfigurations')]//tr[contains(.,'${key_publishTemplateName}')]/td/span/a[contains(.,'Publish to Live')]</td>
+	<td>//ul[contains(@aria-labelledby,'ConfigurationsSearchContainer')]/li/a[contains(.,'Publish')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PUBLISH_TEMPLATES_TABLE_MOVE_TO_THE_RECYCLE_BIN_BUTTON</td>
-	<td>//div[contains(@id,'_savedConfigurations')]//tr[contains(.,'${key_publishTemplateName}')]//a/span[contains(.,'Recycle Bin')]</td>
+	<td>//div[contains(@id,'Configurations')]//tr[contains(.,'${key_publishTemplateName}')]//a/span[contains(.,'Recycle Bin')]</td>
 	<td></td>
 </tr>
 <tr>

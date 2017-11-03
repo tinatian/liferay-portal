@@ -14,10 +14,11 @@
 
 package com.liferay.portlet.exportimport.staging;
 
-import com.liferay.portal.kernel.util.AutoResetThreadLocal;
-import com.liferay.portal.model.Layout;
+import com.liferay.petra.lang.CentralizedThreadLocal;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,13 +30,21 @@ public class ProxiedLayoutsThreadLocal {
 		_proxiedLayouts.remove();
 	}
 
-	public static Map<Layout, Object> getProxiedLayouts() {
+	public static ObjectValuePair<ServiceContext, Map<Layout, Object>>
+		getProxiedLayouts() {
+
 		return _proxiedLayouts.get();
 	}
 
-	private static final ThreadLocal<Map<Layout, Object>> _proxiedLayouts =
-		new AutoResetThreadLocal<Map<Layout, Object>>(
-			ProxiedLayoutsThreadLocal.class + "._proxiedLayouts",
-			new HashMap<Layout, Object>());
+	public static void setProxiedLayouts(
+		ObjectValuePair<ServiceContext, Map<Layout, Object>> objectValuePair) {
+
+		_proxiedLayouts.set(objectValuePair);
+	}
+
+	private static final
+		ThreadLocal<ObjectValuePair<ServiceContext, Map<Layout, Object>>>
+			_proxiedLayouts = new CentralizedThreadLocal<>(
+				ProxiedLayoutsThreadLocal.class + "._proxiedLayouts");
 
 }

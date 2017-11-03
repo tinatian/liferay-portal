@@ -14,18 +14,18 @@
 
 package com.liferay.portlet.blogs;
 
+import com.liferay.blogs.kernel.model.BlogsEntry;
 import com.liferay.portal.kernel.editor.EditorConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portletfilerepository.PortletFileRepositoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.portletfilerepository.PortletFileRepositoryUtil;
 import com.liferay.portlet.blogs.constants.BlogsConstants;
-import com.liferay.portlet.blogs.model.BlogsEntry;
 
 import java.io.File;
 import java.io.InputStream;
@@ -42,9 +42,9 @@ import java.util.regex.Pattern;
 public class BlogsEntryAttachmentFileEntryHelper {
 
 	public List<BlogsEntryAttachmentFileEntryReference>
-		addBlogsEntryAttachmentFileEntries(
-			long groupId, long userId, long blogsEntryId, long folderId,
-			List<FileEntry> tempFileEntries)
+			addBlogsEntryAttachmentFileEntries(
+				long groupId, long userId, long blogsEntryId, long folderId,
+				List<FileEntry> tempFileEntries)
 		throws PortalException {
 
 		List<BlogsEntryAttachmentFileEntryReference>
@@ -64,6 +64,19 @@ public class BlogsEntryAttachmentFileEntryHelper {
 		}
 
 		return blogsEntryAttachmentFileEntryReferences;
+	}
+
+	public FileEntry addBlogsEntryAttachmentFileEntry(
+			long groupId, long userId, long blogsEntryId, long folderId,
+			String fileName, String mimeType, byte[] bytes)
+		throws PortalException {
+
+		String uniqueFileName = getUniqueFileName(groupId, fileName, folderId);
+
+		return PortletFileRepositoryUtil.addPortletFileEntry(
+			groupId, userId, BlogsEntry.class.getName(), blogsEntryId,
+			BlogsConstants.SERVICE_NAME, folderId, bytes, uniqueFileName,
+			mimeType, true);
 	}
 
 	public FileEntry addBlogsEntryAttachmentFileEntry(
@@ -115,8 +128,15 @@ public class BlogsEntryAttachmentFileEntryHelper {
 		return tempBlogsEntryAttachmentFileEntries;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 *             com.liferay.blogs.util.BlogsEntryAttachmentContentUpdater#updateContent(
+	 *             String, List)}
+	 */
+	@Deprecated
 	public String updateContent(
-		String content, List<BlogsEntryAttachmentFileEntryReference>
+		String content,
+		List<BlogsEntryAttachmentFileEntryReference>
 			blogsEntryAttachmentFileEntryReferences) {
 
 		for (BlogsEntryAttachmentFileEntryReference
@@ -184,8 +204,9 @@ public class BlogsEntryAttachmentFileEntryHelper {
 		}
 
 		throw new PortalException(
-			"Unable to get a unique file name for " + fileName + " in folder " +
-				folderId);
+			StringBundler.concat(
+				"Unable to get a unique file name for ", fileName,
+				" in folder ", String.valueOf(folderId)));
 	}
 
 	private FileEntry _fetchPortletFileEntry(

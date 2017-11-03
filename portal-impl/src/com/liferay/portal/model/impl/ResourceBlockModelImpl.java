@@ -16,20 +16,21 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ResourceBlock;
+import com.liferay.portal.kernel.model.ResourceBlockModel;
+import com.liferay.portal.kernel.model.ResourceBlockSoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.ResourceBlock;
-import com.liferay.portal.model.ResourceBlockModel;
-import com.liferay.portal.model.ResourceBlockSoap;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -84,7 +85,7 @@ public class ResourceBlockModelImpl extends BaseModelImpl<ResourceBlock>
 		TABLE_COLUMNS_MAP.put("referenceCount", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table ResourceBlock (mvccVersion LONG default 0,resourceBlockId LONG not null primary key,companyId LONG,groupId LONG,name VARCHAR(75) null,permissionsHash VARCHAR(75) null,referenceCount LONG)";
+	public static final String TABLE_SQL_CREATE = "create table ResourceBlock (mvccVersion LONG default 0 not null,resourceBlockId LONG not null primary key,companyId LONG,groupId LONG,name VARCHAR(75) null,permissionsHash VARCHAR(75) null,referenceCount LONG)";
 	public static final String TABLE_SQL_DROP = "drop table ResourceBlock";
 	public static final String ORDER_BY_JPQL = " ORDER BY resourceBlock.resourceBlockId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ResourceBlock.resourceBlockId ASC";
@@ -92,13 +93,13 @@ public class ResourceBlockModelImpl extends BaseModelImpl<ResourceBlock>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.ResourceBlock"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.ResourceBlock"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.ResourceBlock"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.ResourceBlock"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.ResourceBlock"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.ResourceBlock"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
@@ -151,7 +152,7 @@ public class ResourceBlockModelImpl extends BaseModelImpl<ResourceBlock>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.ResourceBlock"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.ResourceBlock"));
 
 	public ResourceBlockModelImpl() {
 	}
@@ -556,7 +557,7 @@ public class ResourceBlockModelImpl extends BaseModelImpl<ResourceBlock>
 		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.ResourceBlock");
+		sb.append("com.liferay.portal.kernel.model.ResourceBlock");
 		sb.append("</model-name>");
 
 		sb.append(

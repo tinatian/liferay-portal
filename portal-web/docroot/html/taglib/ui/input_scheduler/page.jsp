@@ -21,26 +21,14 @@ Calendar cal = CalendarFactoryUtil.getCalendar(timeZone, locale);
 
 int endAmPm = ParamUtil.get(request, "schedulerEndDateAmPm", cal.get(Calendar.AM_PM));
 int endDay = ParamUtil.get(request, "schedulerEndDateDay", cal.get(Calendar.DATE));
-
-int endHour = ParamUtil.get(request, "schedulerEndDateHour", cal.get(Calendar.HOUR_OF_DAY));
-
-if (DateUtil.isFormatAmPm(locale)) {
-	endHour = ParamUtil.get(request, "schedulerEndDateHour", cal.get(Calendar.HOUR));
-}
-
+int endHour = ParamUtil.get(request, "schedulerEndDateHour", cal.get(Calendar.HOUR));
 int endMinute = ParamUtil.get(request, "schedulerEndDateMinute", cal.get(Calendar.MINUTE));
 int endMonth = ParamUtil.get(request, "schedulerEndDateMonth", cal.get(Calendar.MONTH));
 int endYear = ParamUtil.get(request, "schedulerEndDateYear", cal.get(Calendar.YEAR));
 
 int startAmPm = ParamUtil.get(request, "schedulerStartDateAmPm", cal.get(Calendar.AM_PM));
 int startDay = ParamUtil.get(request, "schedulerStartDateDay", cal.get(Calendar.DATE));
-
-int startHour = ParamUtil.get(request, "schedulerStartDateHour", cal.get(Calendar.HOUR_OF_DAY));
-
-if (DateUtil.isFormatAmPm(locale)) {
-	startHour = ParamUtil.get(request, "schedulerStartDateHour", cal.get(Calendar.HOUR));
-}
-
+int startHour = ParamUtil.get(request, "schedulerStartDateHour", cal.get(Calendar.HOUR));
 int startMinute = ParamUtil.get(request, "schedulerStartDateMinute", cal.get(Calendar.MINUTE));
 int startMonth = ParamUtil.get(request, "schedulerStartDateMonth", cal.get(Calendar.MONTH));
 int startYear = ParamUtil.get(request, "schedulerStartDateYear", cal.get(Calendar.YEAR));
@@ -48,29 +36,32 @@ int startYear = ParamUtil.get(request, "schedulerStartDateYear", cal.get(Calenda
 
 <aui:fieldset>
 	<aui:field-wrapper label="start-date">
-		<div class="field-row">
+		<div class="flex-container">
 			<liferay-ui:input-date
+				cssClass="form-group form-group-inline"
 				dayParam="schedulerStartDateDay"
 				dayValue="<%= startDay %>"
 				disabled="<%= false %>"
 				firstDayOfWeek="<%= cal.getFirstDayOfWeek() - 1 %>"
 				monthParam="schedulerStartDateMonth"
 				monthValue="<%= startMonth %>"
-				name="startDate"
+				name="schedulerStartDate"
 				yearParam="schedulerStartDateYear"
 				yearValue="<%= startYear %>"
 			/>
 
-			&nbsp;
+			<liferay-ui:icon icon="calendar" markupView="lexicon" />
 
 			<liferay-ui:input-time
 				amPmParam="schedulerStartDateAmPm"
 				amPmValue="<%= startAmPm %>"
+				cssClass="form-group form-group-inline"
+				dateParam="schedulerStartTimeDate"
 				hourParam="schedulerStartDateHour"
 				hourValue="<%= startHour %>"
 				minuteParam="schedulerStartDateMinute"
 				minuteValue="<%= startMinute %>"
-				name="startTime"
+				name="schedulerStartTime"
 			/>
 		</div>
 	</aui:field-wrapper>
@@ -79,29 +70,32 @@ int startYear = ParamUtil.get(request, "schedulerStartDateYear", cal.get(Calenda
 		<aui:input checked="<%= true %>" id="schedulerNoEndDate" label="no-end-date" name="endDateType" type="radio" value="0" />
 		<aui:input first="<%= true %>" id="schedulerEndBy" label="end-by" name="endDateType" type="radio" value="1" />
 
-		<div class="field-row hide" id="<portlet:namespace />schedulerEndDateType">
+		<div class="flex-container hide" id="<portlet:namespace />schedulerEndDateType">
 			<liferay-ui:input-date
+				cssClass="form-group form-group-inline"
 				dayParam="schedulerEndDateDay"
 				dayValue="<%= endDay %>"
 				disabled="<%= false %>"
 				firstDayOfWeek="<%= cal.getFirstDayOfWeek() - 1 %>"
 				monthParam="schedulerEndDateMonth"
 				monthValue="<%= endMonth %>"
-				name="endDate"
+				name="schedulerEndDate"
 				yearParam="schedulerEndDateYear"
 				yearValue="<%= endYear %>"
 			/>
 
-			&nbsp;
+			<liferay-ui:icon icon="calendar" markupView="lexicon" />
 
 			<liferay-ui:input-time
 				amPmParam="schedulerEndDateAmPm"
 				amPmValue="<%= endAmPm %>"
+				cssClass="form-group form-group-inline"
+				dateParam="schedulerEndTimeDate"
 				hourParam="schedulerEndDateHour"
 				hourValue="<%= endHour %>"
 				minuteParam="schedulerEndDateMinute"
 				minuteValue="<%= endMinute %>"
-				name="endTime"
+				name="schedulerEndTime"
 			/>
 		</div>
 	</aui:field-wrapper>

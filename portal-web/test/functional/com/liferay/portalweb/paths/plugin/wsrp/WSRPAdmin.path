@@ -26,12 +26,12 @@
 <!--CONSUMER_TABLE-->
 <tr>
 	<td>CONSUMER_TABLE_NAME</td>
-	<td>//tr[contains(.,'${key_consumerName}')]/td[1]/a</td>
+	<td>//tr[contains(.,'${key_consumerName}')]/td[1]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONSUMER_TABLE_ACTIONS_BUTTON</td>
-	<td>//tr[contains(.,'${key_consumerName}')]//div/a[@id='_1_WAR_wsrpportlet_wsrpConsumersSearchContainer_1_menu']</td>
+	<td>//tr[contains(.,'${key_consumerName}')]//div/a[contains(@id,'Consumers')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -47,12 +47,12 @@
 <!--PRODUCER_TABLE-->
 <tr>
 	<td>PRODUCER_TABLE_PRODUCER</td>
-	<td>//tr[contains(.,'${key_producerName}')]/td[1]/a</td>
+	<td>//tr[contains(.,'${key_producerName}')]/td[1]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PRODUCER_TABLE_URL</td>
-	<td>//tr[contains(.,'${key_producerName}')]/td[2]/a</td>
+	<td>//tr[contains(.,'${key_producerName}')]/td[2]//a</td>
 	<td></td>
 </tr>
 <tr>

@@ -15,12 +15,14 @@
 package com.liferay.portal.xmlrpc;
 
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Tuple;
 import com.liferay.portal.kernel.xmlrpc.Fault;
 import com.liferay.portal.kernel.xmlrpc.Response;
 import com.liferay.portal.kernel.xmlrpc.Success;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
+
+import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -36,8 +38,7 @@ public class XmlRpcParserTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Test
 	public void testFaultResponseGenerator() throws Exception {
@@ -78,7 +79,7 @@ public class XmlRpcParserTest {
 		Object[] arguments = (Object[])tuple.getObject(1);
 
 		Assert.assertEquals("method.name", methodName);
-		Assert.assertEquals(2, arguments.length);
+		Assert.assertEquals(Arrays.toString(arguments), 2, arguments.length);
 		Assert.assertEquals("hello", arguments[0]);
 		Assert.assertEquals("world", arguments[1]);
 	}
@@ -91,7 +92,7 @@ public class XmlRpcParserTest {
 		Object[] arguments = (Object[])tuple.getObject(1);
 
 		Assert.assertEquals("params", methodName);
-		Assert.assertEquals(3, arguments.length);
+		Assert.assertEquals(Arrays.toString(arguments), 3, arguments.length);
 		Assert.assertEquals(1024, arguments[0]);
 		Assert.assertEquals("hello", arguments[1]);
 		Assert.assertEquals("world", arguments[2]);
@@ -103,7 +104,8 @@ public class XmlRpcParserTest {
 			arguments = (Object[])tuple.getObject(1);
 
 			Assert.assertEquals("noParams", methodName);
-			Assert.assertEquals(0, arguments.length);
+			Assert.assertEquals(
+				Arrays.toString(arguments), 0, arguments.length);
 		}
 	}
 
@@ -130,87 +132,91 @@ public class XmlRpcParserTest {
 		}
 	}
 
-	private static final String[] _FAULT_RESPONSES = new String[] {
-		"<?xml version=\"1.0\"?>" +
-		"<methodResponse>" +
-		"<fault>" +
-		"<value>" +
-		"<struct>" +
-		"<member>" +
-		"<name>faultCode</name>" +
-		"<value><int>4</int></value>" +
-		"</member>" +
-		"<member>" +
-		"<name>faultString</name>" +
-		"<value><string>Too many parameters.</string></value>" +
-		"</member>" +
-		"</struct>" +
-		"</value>" +
-		"</fault>" +
-		"</methodResponse>"
-		,
-		"<?xml version=\"1.0\"?>" +
-		"<methodResponse>" +
-		"<fault>" +
-		"<value>" +
-		"<struct>" +
-		"<member>" +
-		"<name>faultCode</name>" +
-		"<value><i4>4</i4></value>" +
-		"</member>" +
-		"<member>" +
-		"<name>faultString</name>" +
-		"<value>Too many parameters.</value>" +
-		"</member>" +
-		"</struct>" +
-		"</value>" +
-		"</fault>" +
-		"</methodResponse>"
+	private static final String[] _FAULT_RESPONSES = {
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodResponse>",
+			"<fault>",
+			"<value>",
+			"<struct>",
+			"<member>",
+			"<name>faultCode</name>",
+			"<value><int>4</int></value>",
+			"</member>",
+			"<member>",
+			"<name>faultString</name>",
+			"<value><string>Too many parameters.</string></value>",
+			"</member>",
+			"</struct>",
+			"</value>",
+			"</fault>",
+			"</methodResponse>"),
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodResponse>",
+			"<fault>",
+			"<value>",
+			"<struct>",
+			"<member>",
+			"<name>faultCode</name>",
+			"<value><i4>4</i4></value>",
+			"</member>",
+			"<member>",
+			"<name>faultString</name>",
+			"<value>Too many parameters.</value>",
+			"</member>",
+			"</struct>",
+			"</value>",
+			"</fault>",
+			"</methodResponse>")
 	};
 
-	private static final String[] _NON_PARAMETERIZED_METHODS = new String[] {
-		"<?xml version=\"1.0\"?>" +
-		"<methodCall>" +
-		"<methodName>noParams</methodName>" +
-		"<params>" +
-		"</params>" +
-		"</methodCall>"
-		,
-		"<?xml version=\"1.0\"?>" +
-		"<methodCall>" +
-		"<methodName>noParams</methodName>" +
-		"</methodCall>"
+	private static final String[] _NON_PARAMETERIZED_METHODS = {
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodCall>",
+			"<methodName>noParams</methodName>",
+			"<params>",
+			"</params>",
+			"</methodCall>"),
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodCall>",
+			"<methodName>noParams</methodName>",
+			"</methodCall>")
 	};
 
 	private static final String _PARAMETERIZED_METHOD =
-		"<?xml version=\"1.0\"?>" +
-		"<methodCall>" +
-		"<methodName>params</methodName>" +
-		"<params>" +
-		"<param><value><i4>1024</i4></value></param>" +
-		"<param><value>hello</value></param>" +
-		"<param><value><string>world</string></value></param>" +
-		"</params>" +
-		"</methodCall>";
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodCall>",
+			"<methodName>params</methodName>",
+			"<params>",
+			"<param><value><i4>1024</i4></value></param>",
+			"<param><value>hello</value></param>",
+			"<param><value><string>world</string></value></param>",
+			"</params>",
+			"</methodCall>");
 
-	private static final String[] _SUCCESS_RESPONSES = new String[] {
-		"<?xml version=\"1.0\"?>" +
-		"<methodResponse>" +
-		"<params>" +
-		"<param>" +
-		"<value><string>South Dakota</string></value>" +
-		"</param>" +
-		"</params>" +
-		"</methodResponse>"
-		,
-		"<?xml version=\"1.0\"?>" +
-		"<methodResponse>" +
-		"<params>" +
-		"<param>" +
-		"<value>South Dakota</value>" +
-		"</param>" +
-		"</params>" +
-		"</methodResponse>"
+	private static final String[] _SUCCESS_RESPONSES = {
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodResponse>",
+			"<params>",
+			"<param>",
+			"<value><string>South Dakota</string></value>",
+			"</param>",
+			"</params>",
+			"</methodResponse>"),
+		StringBundler.concat(
+			"<?xml version=\"1.0\"?>",
+			"<methodResponse>",
+			"<params>",
+			"<param>",
+			"<value>South Dakota</value>",
+			"</param>",
+			"</params>",
+			"</methodResponse>")
 	};
 
 }

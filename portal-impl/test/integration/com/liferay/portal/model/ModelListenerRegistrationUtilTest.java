@@ -14,10 +14,12 @@
 
 package com.liferay.portal.model;
 
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.model.ModelListenerRegistrationUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.model.bundle.modellistenerregistrationutil.TestModelListener;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
 
 import org.junit.Assert;
@@ -34,7 +36,7 @@ public class ModelListenerRegistrationUtilTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule("bundle.modellistenerregistrationutil"));
 
 	@Test

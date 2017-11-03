@@ -16,26 +16,26 @@ package com.liferay.portal.layoutconfiguration.util.velocity;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.LayoutTypePortlet;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletContainerUtil;
 import com.liferay.portal.kernel.portlet.PortletJSONUtil;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.BufferCacheServletResponse;
 import com.liferay.portal.kernel.settings.ModifiableSettings;
 import com.liferay.portal.kernel.settings.PortletInstanceSettingsLocator;
 import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ClassUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.layoutconfiguration.util.PortletRenderer;
-import com.liferay.portal.model.LayoutTypePortlet;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.WebKeys;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -103,10 +103,9 @@ public class TemplateProcessor implements ColumnProcessor {
 
 		List<Portlet> portlets = layoutTypePortlet.getAllPortlets(columnId);
 
-		StringBundler sb = new StringBundler(portlets.size() + 11);
+		StringBundler sb = new StringBundler(portlets.size() * 3 + 10);
 
-		sb.append("<div class=\"");
-		sb.append("portlet-dropzone");
+		sb.append("<div class=\"portlet-dropzone");
 
 		if (layoutTypePortlet.isCustomizable() &&
 			layoutTypePortlet.isColumnDisabled(columnId)) {
@@ -182,15 +181,6 @@ public class TemplateProcessor implements ColumnProcessor {
 		return bufferCacheServletResponse.getString();
 	}
 
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #processMax()}
-	 */
-	@Deprecated
-	@Override
-	public String processMax(String classNames) throws Exception {
-		return processMax();
-	}
-
 	@Override
 	public String processPortlet(String portletId) throws Exception {
 		_request.setAttribute(WebKeys.RENDER_PORTLET_RESOURCE, Boolean.TRUE);
@@ -251,8 +241,9 @@ public class TemplateProcessor implements ColumnProcessor {
 			}
 			else {
 				throw new IllegalArgumentException(
-					"Key " + key + " has unsupported value of type " +
-						ClassUtil.getClassName(value.getClass()));
+					StringBundler.concat(
+						"Key ", key, " has unsupported value of type ",
+						ClassUtil.getClassName(value.getClass())));
 			}
 		}
 

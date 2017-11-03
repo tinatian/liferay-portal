@@ -10,7 +10,7 @@
 <tbody>
 <tr>
 	<td>SITE_NAME</td>
-	<td>//div[contains(@class,'toolbar-group-content') and contains(.,'${key_siteName}')]</td>
+	<td>//span[contains(@class,'site-name') and contains(@title,'${key_siteName}')] | //div[contains(@class,'site-name') and contains(.,'${key_siteName}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -26,22 +26,32 @@
 <!--NAVIGATION-->
 <tr>
 	<td>NAVIGATION_PUBLIC_PAGES</td>
-	<td>//li[contains(@id,'tabs')]/a[contains(.,'Public Pages')]</td>
+	<td>//a[contains(@title,'Public Pages')]/span[contains(@class,'icon-cog')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>NAVIGATION_PRIVATE_PAGES</td>
-	<td>//li[contains(@id,'tabs')]/a[contains(.,'Private Pages')]</td>
+	<td>//a[contains(@title,'Private Pages')]/span[contains(@class,'icon-cog')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>NAVIGATION_MY_PROFILE</td>
-	<td>//li[contains(@id,'tabs')]/a[contains(.,'My Profile')]</td>
+	<td>//a[contains(.,'My Profile') and contains(@data-qa-id,'goToPublicPages')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>NAVIGATION_MY_DASHBOARD</td>
-	<td>//li[contains(@id,'tabs')]/a[contains(.,'My Dashboard')]</td>
+	<td>//a[contains(@title,'Dashboard')]//span/*[name()='svg'][contains(@class,'icon-cog')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>NAVIGATION_SPECIFIC_PAGE</td>
+	<td>//ul[contains(.,'Navigation')]//li[contains(.,'${key_page}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>NAVIGATION_SPECIFIC_PAGE_X_DELETE</td>
+	<td>//ul[contains(.,'Navigation')]//li[contains(.,'${key_page}')]//span[@class='delete-tab']</td>
 	<td></td>
 </tr>
 <tr>
@@ -123,27 +133,32 @@
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_ARROW_1</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')]/../../span[contains(@class,'tree-hitarea')])[1]</td>
+	<td>xpath=(//span[contains(@class,'tree-hitarea') and contains(@class,'icon-plus')])[1]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_ARROW_2</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')]/../../span[contains(@class,'tree-hitarea')])[2]</td>
+	<td>xpath=(//span[contains(@class,'tree-hitarea') and contains(@class,'icon-plus')])[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_ARROW_3</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')]/../../span[contains(@class,'tree-hitarea')])[3]</td>
+	<td>xpath=(//span[contains(@class,'tree-hitarea') and contains(@class,'icon-plus')])[3]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_ARROW_4</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')]/../../i[contains(@class,'tree-hitarea')])[4]</td>
+	<td>xpath=(//span[contains(@class,'tree-hitarea') and contains(@class,'icon-plus')])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_TREE_PAGE_EDIT_COG</td>
+	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[1]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_SPECIFIC_PAGE</td>
-	<td>//span[contains(@class,'tree-label')]/a[contains(.,'${key_sitePageName}')]</td>
+	<td>//a[span[contains(.,'${key_page}')]]</td>
 	<td></td>
 </tr>
 <tr>
@@ -153,52 +168,52 @@
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_') and contains(.,'${key_sitePageName}')])</td>
+	<td>//div[@class='list-group-item']//span/a[@title='${key_page}']</td>
 	<td></td>
 </tr>
 <tr>
-	<td>PAGE_TREE_PAGE_LINK_1</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[1]</td>
+	<td>PAGE_TREE_PAGE_EDIT_COG</td>
+	<td>//a[contains(@class,'tree-edit') and contains(.,'${key_page}')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_2</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[2]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[3]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_3</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[3]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[4]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_4</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[4]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[5]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_5</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[5]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[6]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_6</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[6]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[7]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_7</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[7]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[8]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_8</td>
-	<td>xpath=(//a[contains(@id,'layoutsTree_layout_')])[8]</td>
+	<td>xpath=(//span[contains(@class,'tree-label')])[9]/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TREE_PAGE_LINK_TO_PAGE</td>
-	<td>xpath=(//li[contains(@id,'layoutsTree_layoutId_2')]/div/span[contains(@class,'icon-link')])</td>
+	<td>//span[contains(@class,'icon-link')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -213,7 +228,7 @@
 </tr>
 <!--DETAILS-->
 <tr>
-	<td>DETAILS_LANGAUGE_TRANSLATIONS</td>
+	<td>DETAILS_LANGUAGE_TRANSLATIONS</td>
 	<td>//div[contains(@id,'nameContentBox')]//li[contains(@data-value,'${key_pageTranslation}')]</td>
 	<td></td>
 </tr>
@@ -230,6 +245,11 @@
 <tr>
 	<td>DETAILS_FRIENDLY_URL_FIELD</td>
 	<td>//input[contains(@id,'friendlyURL')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DETAILS_NAVIGATION_ADVANCED</td>
+	<td>//li[contains(@id,'GroupPagesPortlet')]//a[contains(.,'Advanced')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -255,7 +275,7 @@
 </tr>
 <tr>
 	<td>DETAILS_PAGE_TYPE_PANEL_CHECKBOX_INPUT</td>
-	<td>//li[contains(@id,'detailsselectPortletsRootNode')]//span[contains(.,'${key_componentOrPortletName}')]/../span[contains(@class,'tree-node-checkbox')]/input</td>
+	<td>//li[contains(@id,'selectPortletsRootNode')]//span[contains(.,'${key_componentOrPortletName}')]/../span[contains(@class,'tree-node-checkbox')]/input</td>
 	<td></td>
 </tr>
 <tr>
@@ -266,12 +286,7 @@
 <!--STAGING-->
 <tr>
 	<td>STAGING_SITE_PAGES_VARIATION_BUTTON</td>
-	<td>//ul[@aria-label='Site Pages']/li/a/span</td>
-	<td></td>
-</tr>
-<tr>
-	<td>STAGING_SITE_PAGES_VARIATION_MENULIST_VARIATION_NAME</td>
-	<td>//ul[contains(@class,'dropdown-menu')]/li/a[contains(.,'${key_sitePagesVariationName}')]</td>
+	<td>//ul[contains(@aria-labelledby,'panel-manage-site_administration_navigation')]//div[contains(@class,'scope-selector')]/span[2]/div/a</td>
 	<td></td>
 </tr>
 <tr>
@@ -282,7 +297,7 @@
 <!--INCOMPLETE_STAGING_PAGE_VARIATION-->
 <tr>
 	<td>INCOMPLETE_STAGING_PAGE_VARIATION_INFO_MESSAGE</td>
-	<td>//form[contains(@class,'form edit-layout-form')]</td>
+	<td>//div[contains(@class,'manage-view')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -309,6 +324,11 @@
 <tr>
 	<td>LOGO_UPLOAD_IMAGE_IFRAME</td>
 	<td>//iframe[contains(@id,'changeLogo_iframe_')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOGO_UPLOAD_IMAGE_BUTTON</td>
+	<td>//label[contains(@for,'ImageUploaderPortlet')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -366,6 +386,73 @@
 <tr>
 	<td>JAVASCRIPT_LABEL</td>
 	<td>//label[contains(@for,'javascript')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--MENUITEM-->
+<tr>
+	<td>ADD_PUBLIC_PAGE_MENUITEM</td>
+	<td>//*[@data-qa-id='addPublicPage']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EDIT_PUBLIC_PAGE_MENUITEM</td>
+	<td>//*[@data-qa-id='editPublicPages']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_PRIVATE_PAGE_MENUITEM</td>
+	<td>//*[@data-qa-id='addPrivatePage']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EDIT_PRIVATE_PAGE_MENUITEM</td>
+	<td>//*[@data-qa-id='editPrivatePages']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_CHILD_PAGE</td>
+	<td>//div[*[@aria-expanded='true']]//*[@data-qa-id='addChildPage']/span[contains(.,'Add Child Page of ${key_page}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EDIT_SPECIFIC_PAGE</td>
+	<td>//li[contains(.,'${key_page}')]/*[@data-qa-id='editPage']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DELETE_SPECIFIC_PAGE</td>
+	<td>//li[contains(.,'${key_page}')]/*[@data-qa-id='deletePage']</td>
+	<td></td>
+</tr>
+<!--ELLIPSIS-->
+<tr>
+	<td>PUBLIC_PAGE_ELLIPSIS</td>
+	<td>//*[@data-qa-id='publicPagesOptions']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PRIVATE_PAGE_ELLIPSIS</td>
+	<td>//*[@data-qa-id='privatePagesOptions']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGES_ELLIPSIS</td>
+	<td>//*[@data-qa-id='pagesOptions']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_PAGE_ELLIPSIS</td>
+	<td>//div[contains(.,'${key_page}')]/*[@data-qa-id='pageOptions']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_ELLIPSIS_2</td>
+	<td>xpath=(//*[@data-qa-id='pageOptions'])[2]</td>
 	<td></td>
 </tr>
 </tbody>

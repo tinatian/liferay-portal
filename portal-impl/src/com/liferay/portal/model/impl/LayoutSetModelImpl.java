@@ -16,20 +16,21 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutSetModel;
+import com.liferay.portal.kernel.model.LayoutSetSoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.LayoutSet;
-import com.liferay.portal.model.LayoutSetModel;
-import com.liferay.portal.model.LayoutSetSoap;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -75,8 +76,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 			{ "logoId", Types.BIGINT },
 			{ "themeId", Types.VARCHAR },
 			{ "colorSchemeId", Types.VARCHAR },
-			{ "wapThemeId", Types.VARCHAR },
-			{ "wapColorSchemeId", Types.VARCHAR },
 			{ "css", Types.CLOB },
 			{ "pageCount", Types.INTEGER },
 			{ "settings_", Types.CLOB },
@@ -96,8 +95,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		TABLE_COLUMNS_MAP.put("logoId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("themeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("colorSchemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("wapThemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("wapColorSchemeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("css", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("pageCount", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("settings_", Types.CLOB);
@@ -105,7 +102,7 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		TABLE_COLUMNS_MAP.put("layoutSetPrototypeLinkEnabled", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LayoutSet (mvccVersion LONG default 0,layoutSetId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,privateLayout BOOLEAN,logoId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,wapThemeId VARCHAR(75) null,wapColorSchemeId VARCHAR(75) null,css TEXT null,pageCount INTEGER,settings_ TEXT null,layoutSetPrototypeUuid VARCHAR(75) null,layoutSetPrototypeLinkEnabled BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table LayoutSet (mvccVersion LONG default 0 not null,layoutSetId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,privateLayout BOOLEAN,logoId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css TEXT null,pageCount INTEGER,settings_ TEXT null,layoutSetPrototypeUuid VARCHAR(75) null,layoutSetPrototypeLinkEnabled BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table LayoutSet";
 	public static final String ORDER_BY_JPQL = " ORDER BY layoutSet.layoutSetId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LayoutSet.layoutSetId ASC";
@@ -113,18 +110,19 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.LayoutSet"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.LayoutSet"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.LayoutSet"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.LayoutSet"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.LayoutSet"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.LayoutSet"),
 			true);
 	public static final long GROUPID_COLUMN_BITMASK = 1L;
 	public static final long LAYOUTSETPROTOTYPEUUID_COLUMN_BITMASK = 2L;
-	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 4L;
-	public static final long LAYOUTSETID_COLUMN_BITMASK = 8L;
+	public static final long LOGOID_COLUMN_BITMASK = 4L;
+	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 8L;
+	public static final long LAYOUTSETID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -149,8 +147,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		model.setLogoId(soapModel.getLogoId());
 		model.setThemeId(soapModel.getThemeId());
 		model.setColorSchemeId(soapModel.getColorSchemeId());
-		model.setWapThemeId(soapModel.getWapThemeId());
-		model.setWapColorSchemeId(soapModel.getWapColorSchemeId());
 		model.setCss(soapModel.getCss());
 		model.setPageCount(soapModel.getPageCount());
 		model.setSettings(soapModel.getSettings());
@@ -181,7 +177,7 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.LayoutSet"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.LayoutSet"));
 
 	public LayoutSetModelImpl() {
 	}
@@ -230,8 +226,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		attributes.put("logoId", getLogoId());
 		attributes.put("themeId", getThemeId());
 		attributes.put("colorSchemeId", getColorSchemeId());
-		attributes.put("wapThemeId", getWapThemeId());
-		attributes.put("wapColorSchemeId", getWapColorSchemeId());
 		attributes.put("css", getCss());
 		attributes.put("pageCount", getPageCount());
 		attributes.put("settings", getSettings());
@@ -305,18 +299,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 
 		if (colorSchemeId != null) {
 			setColorSchemeId(colorSchemeId);
-		}
-
-		String wapThemeId = (String)attributes.get("wapThemeId");
-
-		if (wapThemeId != null) {
-			setWapThemeId(wapThemeId);
-		}
-
-		String wapColorSchemeId = (String)attributes.get("wapColorSchemeId");
-
-		if (wapColorSchemeId != null) {
-			setWapColorSchemeId(wapColorSchemeId);
 		}
 
 		String css = (String)attributes.get("css");
@@ -442,6 +424,7 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		return _privateLayout;
 	}
 
+	@JSON
 	@Override
 	public boolean isPrivateLayout() {
 		return _privateLayout;
@@ -472,7 +455,19 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 
 	@Override
 	public void setLogoId(long logoId) {
+		_columnBitmask |= LOGOID_COLUMN_BITMASK;
+
+		if (!_setOriginalLogoId) {
+			_setOriginalLogoId = true;
+
+			_originalLogoId = _logoId;
+		}
+
 		_logoId = logoId;
+	}
+
+	public long getOriginalLogoId() {
+		return _originalLogoId;
 	}
 
 	@JSON
@@ -505,38 +500,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 	@Override
 	public void setColorSchemeId(String colorSchemeId) {
 		_colorSchemeId = colorSchemeId;
-	}
-
-	@JSON
-	@Override
-	public String getWapThemeId() {
-		if (_wapThemeId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _wapThemeId;
-		}
-	}
-
-	@Override
-	public void setWapThemeId(String wapThemeId) {
-		_wapThemeId = wapThemeId;
-	}
-
-	@JSON
-	@Override
-	public String getWapColorSchemeId() {
-		if (_wapColorSchemeId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _wapColorSchemeId;
-		}
-	}
-
-	@Override
-	public void setWapColorSchemeId(String wapColorSchemeId) {
-		_wapColorSchemeId = wapColorSchemeId;
 	}
 
 	@JSON
@@ -614,6 +577,7 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		return _layoutSetPrototypeLinkEnabled;
 	}
 
+	@JSON
 	@Override
 	public boolean isLayoutSetPrototypeLinkEnabled() {
 		return _layoutSetPrototypeLinkEnabled;
@@ -681,8 +645,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		layoutSetImpl.setLogoId(getLogoId());
 		layoutSetImpl.setThemeId(getThemeId());
 		layoutSetImpl.setColorSchemeId(getColorSchemeId());
-		layoutSetImpl.setWapThemeId(getWapThemeId());
-		layoutSetImpl.setWapColorSchemeId(getWapColorSchemeId());
 		layoutSetImpl.setCss(getCss());
 		layoutSetImpl.setPageCount(getPageCount());
 		layoutSetImpl.setSettings(getSettings());
@@ -760,6 +722,10 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 
 		layoutSetModelImpl._setOriginalPrivateLayout = false;
 
+		layoutSetModelImpl._originalLogoId = layoutSetModelImpl._logoId;
+
+		layoutSetModelImpl._setOriginalLogoId = false;
+
 		layoutSetModelImpl._originalLayoutSetPrototypeUuid = layoutSetModelImpl._layoutSetPrototypeUuid;
 
 		setCompanyFallbackVirtualHostname(null);
@@ -819,22 +785,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 			layoutSetCacheModel.colorSchemeId = null;
 		}
 
-		layoutSetCacheModel.wapThemeId = getWapThemeId();
-
-		String wapThemeId = layoutSetCacheModel.wapThemeId;
-
-		if ((wapThemeId != null) && (wapThemeId.length() == 0)) {
-			layoutSetCacheModel.wapThemeId = null;
-		}
-
-		layoutSetCacheModel.wapColorSchemeId = getWapColorSchemeId();
-
-		String wapColorSchemeId = layoutSetCacheModel.wapColorSchemeId;
-
-		if ((wapColorSchemeId != null) && (wapColorSchemeId.length() == 0)) {
-			layoutSetCacheModel.wapColorSchemeId = null;
-		}
-
 		layoutSetCacheModel.css = getCss();
 
 		String css = layoutSetCacheModel.css;
@@ -873,7 +823,7 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
@@ -895,10 +845,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		sb.append(getThemeId());
 		sb.append(", colorSchemeId=");
 		sb.append(getColorSchemeId());
-		sb.append(", wapThemeId=");
-		sb.append(getWapThemeId());
-		sb.append(", wapColorSchemeId=");
-		sb.append(getWapColorSchemeId());
 		sb.append(", css=");
 		sb.append(getCss());
 		sb.append(", pageCount=");
@@ -916,10 +862,10 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.LayoutSet");
+		sb.append("com.liferay.portal.kernel.model.LayoutSet");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -961,14 +907,6 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 		sb.append(
 			"<column><column-name>colorSchemeId</column-name><column-value><![CDATA[");
 		sb.append(getColorSchemeId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>wapThemeId</column-name><column-value><![CDATA[");
-		sb.append(getWapThemeId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>wapColorSchemeId</column-name><column-value><![CDATA[");
-		sb.append(getWapColorSchemeId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>css</column-name><column-value><![CDATA[");
@@ -1013,10 +951,10 @@ public class LayoutSetModelImpl extends BaseModelImpl<LayoutSet>
 	private boolean _originalPrivateLayout;
 	private boolean _setOriginalPrivateLayout;
 	private long _logoId;
+	private long _originalLogoId;
+	private boolean _setOriginalLogoId;
 	private String _themeId;
 	private String _colorSchemeId;
-	private String _wapThemeId;
-	private String _wapColorSchemeId;
 	private String _css;
 	private int _pageCount;
 	private String _settings;

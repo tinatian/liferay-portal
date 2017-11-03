@@ -84,7 +84,8 @@ public class GitUpToDateCacheTask extends Task {
 					Boolean.toString(
 						!UpToDateUtil.hasChangedSince(
 							repository, relativePath,
-							getModuleSnapshotGitHash(path))));
+							getModuleSnapshotGitHash(path),
+							_ignoredMessagePattern)));
 			}
 
 			if (properties.size() > 1) {
@@ -93,7 +94,7 @@ public class GitUpToDateCacheTask extends Task {
 				cacheFile.deleteOnExit();
 
 				try (OutputStream outputStream = new FileOutputStream(
-					cacheFile)) {
+						cacheFile)) {
 
 					properties.store(outputStream, null);
 				}
@@ -116,13 +117,17 @@ public class GitUpToDateCacheTask extends Task {
 		_gitDir = gitDir;
 	}
 
+	public void setIgnoredMessagePattern(String ignoredMessagePattern) {
+		_ignoredMessagePattern = ignoredMessagePattern;
+	}
+
 	public void setSnapshotFileName(String snapshotFileName) {
 		_snapshotFileName = snapshotFileName;
 	}
 
 	protected String getModuleSnapshotGitHash(Path path) throws IOException {
 		try (InputStream inputStream = Files.newInputStream(
-			path.resolve(_snapshotFileName))) {
+				path.resolve(_snapshotFileName))) {
 
 			Properties properties = new Properties();
 
@@ -165,6 +170,7 @@ public class GitUpToDateCacheTask extends Task {
 	private String _cacheFileName = "uptodate.properties";
 	private String _dir;
 	private File _gitDir;
+	private String _ignoredMessagePattern;
 	private String _snapshotFileName = "snapshot.properties";
 
 }

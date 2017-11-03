@@ -14,9 +14,11 @@
 
 package com.liferay.portal.upgrade.v7_0_0;
 
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portlet.asset.model.AssetTag;
+import com.liferay.portal.kernel.util.LoggingTimer;
+import com.liferay.portal.kernel.util.StringBundler;
 
 /**
  * @author Andrew Betts
@@ -25,10 +27,17 @@ public class UpgradeAssetTagsResourcePermission extends UpgradeProcess {
 
 	@Override
 	public void doUpgrade() throws Exception {
-		runSQL(
-			"delete from ResourcePermission where name = '" +
-				AssetTag.class.getName() + "' and scope = " +
-					ResourceConstants.SCOPE_INDIVIDUAL);
+		deleteResourcePermissions();
+	}
+
+	protected void deleteResourcePermissions() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			runSQL(
+				StringBundler.concat(
+					"delete from ResourcePermission where name = '",
+					AssetTag.class.getName(), "' and scope = ",
+					String.valueOf(ResourceConstants.SCOPE_INDIVIDUAL)));
+		}
 	}
 
 }

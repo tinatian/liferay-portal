@@ -14,6 +14,12 @@
 
 package com.liferay.portlet.announcements.service.persistence.test;
 
+import com.liferay.announcements.kernel.exception.NoSuchFlagException;
+import com.liferay.announcements.kernel.model.AnnouncementsFlag;
+import com.liferay.announcements.kernel.service.AnnouncementsFlagLocalServiceUtil;
+import com.liferay.announcements.kernel.service.persistence.AnnouncementsFlagPersistence;
+import com.liferay.announcements.kernel.service.persistence.AnnouncementsFlagUtil;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -22,7 +28,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,12 +36,7 @@ import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
-
-import com.liferay.portlet.announcements.NoSuchFlagException;
-import com.liferay.portlet.announcements.model.AnnouncementsFlag;
-import com.liferay.portlet.announcements.service.AnnouncementsFlagLocalServiceUtil;
-import com.liferay.portlet.announcements.service.persistence.AnnouncementsFlagPersistence;
-import com.liferay.portlet.announcements.service.persistence.AnnouncementsFlagUtil;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -117,6 +117,8 @@ public class AnnouncementsFlagPersistenceTest {
 
 		AnnouncementsFlag newAnnouncementsFlag = _persistence.create(pk);
 
+		newAnnouncementsFlag.setCompanyId(RandomTestUtil.nextLong());
+
 		newAnnouncementsFlag.setUserId(RandomTestUtil.nextLong());
 
 		newAnnouncementsFlag.setCreateDate(RandomTestUtil.nextDate());
@@ -131,6 +133,8 @@ public class AnnouncementsFlagPersistenceTest {
 
 		Assert.assertEquals(existingAnnouncementsFlag.getFlagId(),
 			newAnnouncementsFlag.getFlagId());
+		Assert.assertEquals(existingAnnouncementsFlag.getCompanyId(),
+			newAnnouncementsFlag.getCompanyId());
 		Assert.assertEquals(existingAnnouncementsFlag.getUserId(),
 			newAnnouncementsFlag.getUserId());
 		Assert.assertEquals(Time.getShortTimestamp(
@@ -181,8 +185,8 @@ public class AnnouncementsFlagPersistenceTest {
 
 	protected OrderByComparator<AnnouncementsFlag> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("AnnouncementsFlag",
-			"flagId", true, "userId", true, "createDate", true, "entryId",
-			true, "value", true);
+			"flagId", true, "companyId", true, "userId", true, "createDate",
+			true, "entryId", true, "value", true);
 	}
 
 	@Test
@@ -402,6 +406,8 @@ public class AnnouncementsFlagPersistenceTest {
 		long pk = RandomTestUtil.nextLong();
 
 		AnnouncementsFlag announcementsFlag = _persistence.create(pk);
+
+		announcementsFlag.setCompanyId(RandomTestUtil.nextLong());
 
 		announcementsFlag.setUserId(RandomTestUtil.nextLong());
 

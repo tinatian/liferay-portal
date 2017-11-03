@@ -15,17 +15,22 @@
 package com.liferay.portal.security.permission;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.OrganizationLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.security.permission.UserBag;
+import com.liferay.portal.kernel.security.permission.UserBagFactory;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.util.PropsValues;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -45,39 +50,71 @@ public class UserBagFactoryImpl implements UserBagFactory {
 		}
 
 		try {
-			List<Group> userGroups = GroupLocalServiceUtil.getUserGroups(
-				userId, true);
+			Set<Long> allGroupIds = new HashSet<>();
 
-			Set<Organization> userOrgs = getUserOrgs(userId);
+			Collection<Organization> userOrgs = getUserOrgs(userId);
 
-			Set<Group> userOrgGroups = new HashSet<>(userOrgs.size());
+			Set<Long> userOrgGroupIds = new HashSet<>(userOrgs.size());
 
 			for (Organization organization : userOrgs) {
-				userOrgGroups.add(organization.getGroup());
+				userOrgGroupIds.add(organization.getGroupId());
 			}
+
+			allGroupIds.addAll(userOrgGroupIds);
 
 			List<UserGroup> userUserGroups =
 				UserGroupLocalServiceUtil.getUserUserGroups(userId);
 
-			List<Group> userUserGroupGroups =
-				GroupLocalServiceUtil.getUserGroupsGroups(userUserGroups);
+			long[] userUserGroupGroupIds = new long[userUserGroups.size()];
 
-			Set<Role> userRoles = new HashSet<>();
+			for (int i = 0; i < userUserGroups.size(); i++) {
+				UserGroup userUserGroup = userUserGroups.get(i);
 
-			if (!userGroups.isEmpty()) {
-				List<Role> userRelatedRoles =
-					RoleLocalServiceUtil.getUserRelatedRoles(
-						userId, userGroups);
+				long groupId = userUserGroup.getGroupId();
 
-				userRoles.addAll(userRelatedRoles);
+				userUserGroupGroupIds[i] = groupId;
+
+				allGroupIds.add(groupId);
+			}
+
+			long[] userGroupIds = null;
+
+			if (userOrgs.isEmpty() && userUserGroups.isEmpty()) {
+				userGroupIds = UserLocalServiceUtil.getGroupPrimaryKeys(userId);
 			}
 			else {
-				userRoles.addAll(RoleLocalServiceUtil.getUserRoles(userId));
+				List<Group> userGroups = GroupLocalServiceUtil.getUserGroups(
+					userId, true);
+
+				userGroupIds = new long[userGroups.size()];
+
+				for (int i = 0; i < userGroups.size(); i++) {
+					Group userGroup = userGroups.get(i);
+
+					long groupId = userGroup.getGroupId();
+
+					userGroupIds[i] = groupId;
+
+					allGroupIds.add(groupId);
+				}
 			}
 
-			userBag = new UserBagImpl(
-				userId, SetUtil.fromList(userGroups), userOrgs, userOrgGroups,
-				SetUtil.fromList(userUserGroupGroups), userRoles);
+			if (allGroupIds.isEmpty()) {
+				long[] userRoleIds = UserLocalServiceUtil.getRolePrimaryKeys(
+					userId);
+
+				userBag = new UserBagImpl(
+					userId, userGroupIds, userOrgs, userOrgGroupIds,
+					userUserGroups, userUserGroupGroupIds, userRoleIds);
+			}
+			else {
+				List<Role> userRoles = RoleLocalServiceUtil.getUserRelatedRoles(
+					userId, ArrayUtil.toLongArray(allGroupIds));
+
+				userBag = new UserBagImpl(
+					userId, userGroupIds, userOrgs, userOrgGroupIds,
+					userUserGroups, userUserGroupGroupIds, userRoles);
+			}
 
 			PermissionCacheUtil.putUserBag(userId, userBag);
 
@@ -90,22 +127,24 @@ public class UserBagFactoryImpl implements UserBagFactory {
 		}
 	}
 
-	protected Set<Organization> getUserOrgs(long userId)
+	protected Collection<Organization> getUserOrgs(long userId)
 		throws PortalException {
 
 		List<Organization> userOrgs =
 			OrganizationLocalServiceUtil.getUserOrganizations(userId);
 
 		if (userOrgs.isEmpty()) {
-			return new HashSet<>(userOrgs);
+			return Collections.emptyList();
+		}
+
+		if (PropsValues.ORGANIZATIONS_MEMBERSHIP_STRICT) {
+			return userOrgs;
 		}
 
 		Set<Organization> organizations = new LinkedHashSet<>();
 
 		for (Organization organization : userOrgs) {
-			if (organizations.add(organization) &&
-				!PropsValues.ORGANIZATIONS_MEMBERSHIP_STRICT) {
-
+			if (organizations.add(organization)) {
 				List<Organization> ancestorOrganizations =
 					OrganizationLocalServiceUtil.getParentOrganizations(
 						organization.getOrganizationId());

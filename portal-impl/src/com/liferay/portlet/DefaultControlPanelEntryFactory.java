@@ -14,38 +14,43 @@
 
 package com.liferay.portlet;
 
+import com.liferay.portal.kernel.portlet.ControlPanelEntry;
 import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceTracker;
 
 /**
- * @author Brian Wing Shun Chan
- * @author Shuyang Zhou
- * @author Peter Fellwock
+ * @author     Brian Wing Shun Chan
+ * @author     Shuyang Zhou
+ * @author     Peter Fellwock
+ * @deprecated As of 7.0.0, with no direct replacement
  */
+@Deprecated
 public class DefaultControlPanelEntryFactory {
 
 	public static ControlPanelEntry getInstance() {
-		return _instance._serviceTracker.getService();
+		return ServiceTrackerHolder._serviceTracker.getService();
 	}
 
-	private DefaultControlPanelEntryFactory() {
-		Registry registry = RegistryUtil.getRegistry();
+	private static class ServiceTrackerHolder {
 
-		Filter filter = registry.getFilter(
-			"(&(!(javax.portlet.name=*))(objectClass=" +
-				ControlPanelEntry.class.getName() + "))");
+		private static final
+			ServiceTracker<ControlPanelEntry, ControlPanelEntry>
+				_serviceTracker;
 
-		_serviceTracker = registry.trackServices(filter);
+		static {
+			Registry registry = RegistryUtil.getRegistry();
 
-		_serviceTracker.open();
+			Filter filter = registry.getFilter(
+				"(&(!(javax.portlet.name=*))(objectClass=" +
+					ControlPanelEntry.class.getName() + "))");
+
+			_serviceTracker = registry.trackServices(filter);
+
+			_serviceTracker.open();
+		}
+
 	}
-
-	private static final DefaultControlPanelEntryFactory _instance =
-		new DefaultControlPanelEntryFactory();
-
-	private final ServiceTracker<ControlPanelEntry, ControlPanelEntry>
-		_serviceTracker;
 
 }

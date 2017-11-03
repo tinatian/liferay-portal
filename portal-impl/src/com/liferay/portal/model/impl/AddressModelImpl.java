@@ -16,27 +16,29 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.Address;
+import com.liferay.portal.kernel.model.AddressModel;
+import com.liferay.portal.kernel.model.AddressSoap;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Address;
-import com.liferay.portal.model.AddressModel;
-import com.liferay.portal.model.AddressSoap;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
 
 import java.io.Serializable;
 
@@ -118,7 +120,7 @@ public class AddressModelImpl extends BaseModelImpl<Address>
 		TABLE_COLUMNS_MAP.put("primary_", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Address (mvccVersion LONG default 0,uuid_ VARCHAR(75) null,addressId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,classNameId LONG,classPK LONG,street1 VARCHAR(75) null,street2 VARCHAR(75) null,street3 VARCHAR(75) null,city VARCHAR(75) null,zip VARCHAR(75) null,regionId LONG,countryId LONG,typeId LONG,mailing BOOLEAN,primary_ BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table Address (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,addressId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,classNameId LONG,classPK LONG,street1 VARCHAR(75) null,street2 VARCHAR(75) null,street3 VARCHAR(75) null,city VARCHAR(75) null,zip VARCHAR(75) null,regionId LONG,countryId LONG,typeId LONG,mailing BOOLEAN,primary_ BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Address";
 	public static final String ORDER_BY_JPQL = " ORDER BY address.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Address.createDate ASC";
@@ -126,13 +128,13 @@ public class AddressModelImpl extends BaseModelImpl<Address>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.Address"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.Address"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.Address"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.Address"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.Address"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.Address"),
 			true);
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
@@ -201,7 +203,7 @@ public class AddressModelImpl extends BaseModelImpl<Address>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.Address"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.Address"));
 
 	public AddressModelImpl() {
 	}
@@ -729,6 +731,7 @@ public class AddressModelImpl extends BaseModelImpl<Address>
 		return _mailing;
 	}
 
+	@JSON
 	@Override
 	public boolean isMailing() {
 		return _mailing;
@@ -757,6 +760,7 @@ public class AddressModelImpl extends BaseModelImpl<Address>
 		return _primary;
 	}
 
+	@JSON
 	@Override
 	public boolean isPrimary() {
 		return _primary;
@@ -1084,7 +1088,7 @@ public class AddressModelImpl extends BaseModelImpl<Address>
 		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.Address");
+		sb.append("com.liferay.portal.kernel.model.Address");
 		sb.append("</model-name>");
 
 		sb.append(

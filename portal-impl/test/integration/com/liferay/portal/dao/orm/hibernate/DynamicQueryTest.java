@@ -16,17 +16,16 @@ package com.liferay.portal.dao.orm.hibernate;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.test.randomizerbumpers.UniqueStringRandomizerBumper;
+import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
-import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.model.ClassName;
-import com.liferay.portal.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -44,26 +43,30 @@ public class DynamicQueryTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() {
-		_allClassNames = new ArrayList<>(
-			ClassNameLocalServiceUtil.getClassNames(
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS));
+		_allClassNames = ClassNameLocalServiceUtil.getClassNames(
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
 
-		_oldClassNameCount = _allClassNames.size();
+	@Test
+	public void testCriterion() {
+		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
 
-		for (int i = 0; i < _BATCH_SIZE; i++) {
-			ClassName className = ClassNameLocalServiceUtil.addClassName(
-				RandomTestUtil.randomString(
-					UniqueStringRandomizerBumper.INSTANCE));
+		Property classNameIdProperty = PropertyFactoryUtil.forName(
+			"classNameId");
 
-			_newClassNames.add(className);
+		ClassName className = _allClassNames.get(10);
 
-			_allClassNames.add(className);
-		}
+		dynamicQuery.add(classNameIdProperty.eq(className.getClassNameId()));
+
+		List<ClassName> classNames = ClassNameLocalServiceUtil.dynamicQuery(
+			dynamicQuery);
+
+		Assert.assertEquals(classNames.toString(), 1, classNames.size());
+		Assert.assertEquals(className, classNames.get(0));
 	}
 
 	@Test
@@ -71,10 +74,10 @@ public class DynamicQueryTest {
 		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
 
 		dynamicQuery.addOrder(OrderFactoryUtil.asc("classNameId"));
-		dynamicQuery.setLimit(_oldClassNameCount, QueryUtil.ALL_POS);
+		dynamicQuery.setLimit(10, _allClassNames.size());
 
 		Assert.assertEquals(
-			_newClassNames,
+			_allClassNames.subList(10, _allClassNames.size()),
 			ClassNameLocalServiceUtil.<ClassName>dynamicQuery(dynamicQuery));
 	}
 
@@ -83,11 +86,10 @@ public class DynamicQueryTest {
 		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
 
 		dynamicQuery.addOrder(OrderFactoryUtil.asc("classNameId"));
-		dynamicQuery.setLimit(
-			_oldClassNameCount, _oldClassNameCount + _BATCH_SIZE);
+		dynamicQuery.setLimit(10, _allClassNames.size());
 
 		Assert.assertEquals(
-			_newClassNames,
+			_allClassNames.subList(10, _allClassNames.size()),
 			ClassNameLocalServiceUtil.<ClassName>dynamicQuery(dynamicQuery));
 	}
 
@@ -108,7 +110,7 @@ public class DynamicQueryTest {
 		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
 
 		dynamicQuery.addOrder(OrderFactoryUtil.asc("classNameId"));
-		dynamicQuery.setLimit(-50, QueryUtil.ALL_POS);
+		dynamicQuery.setLimit(-50, _allClassNames.size());
 
 		Assert.assertEquals(
 			_allClassNames,
@@ -133,9 +135,14 @@ public class DynamicQueryTest {
 
 		dynamicQuery.addOrder(OrderFactoryUtil.asc("classNameId"));
 
-		Assert.assertEquals(
-			_allClassNames,
-			ClassNameLocalServiceUtil.<ClassName>dynamicQuery(dynamicQuery));
+		List<ClassName> classNames = ClassNameLocalServiceUtil.dynamicQuery(
+			dynamicQuery);
+
+		for (ClassName className : _allClassNames) {
+			if (!classNames.contains(className)) {
+				Assert.fail("Class names do not contain " + className);
+			}
+		}
 	}
 
 	@Test
@@ -151,6 +158,29 @@ public class DynamicQueryTest {
 	}
 
 	@Test
+	public void testOrderBy() {
+		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
+
+		Property classNameIdProperty = PropertyFactoryUtil.forName(
+			"classNameId");
+
+		ClassName lastClassName = _allClassNames.get(_allClassNames.size() - 1);
+
+		dynamicQuery.add(
+			classNameIdProperty.le(lastClassName.getClassNameId()));
+
+		dynamicQuery.addOrder(OrderFactoryUtil.desc("classNameId"));
+
+		_allClassNames = new ArrayList<>(_allClassNames);
+
+		Collections.reverse(_allClassNames);
+
+		Assert.assertEquals(
+			_allClassNames,
+			ClassNameLocalServiceUtil.<ClassName>dynamicQuery(dynamicQuery));
+	}
+
+	@Test
 	public void testSingleResult() {
 		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
 
@@ -160,7 +190,9 @@ public class DynamicQueryTest {
 		List<ClassName> dynamicQueryClassNames =
 			ClassNameLocalServiceUtil.dynamicQuery(dynamicQuery);
 
-		Assert.assertEquals(1, dynamicQueryClassNames.size());
+		Assert.assertEquals(
+			dynamicQueryClassNames.toString(), 1,
+			dynamicQueryClassNames.size());
 		Assert.assertEquals(
 			_allClassNames.get(10), dynamicQueryClassNames.get(0));
 	}
@@ -182,20 +214,13 @@ public class DynamicQueryTest {
 		DynamicQuery dynamicQuery = ClassNameLocalServiceUtil.dynamicQuery();
 
 		dynamicQuery.addOrder(OrderFactoryUtil.asc("classNameId"));
-		dynamicQuery.setLimit(QueryUtil.ALL_POS, _BATCH_SIZE);
+		dynamicQuery.setLimit(QueryUtil.ALL_POS, 10);
 
 		Assert.assertEquals(
-			_allClassNames.subList(0, _BATCH_SIZE),
+			_allClassNames.subList(0, 10),
 			ClassNameLocalServiceUtil.<ClassName>dynamicQuery(dynamicQuery));
 	}
 
-	private static final int _BATCH_SIZE = 50;
-
 	private List<ClassName> _allClassNames;
-
-	@DeleteAfterTestRun
-	private final List<ClassName> _newClassNames = new ArrayList<>();
-
-	private int _oldClassNameCount;
 
 }

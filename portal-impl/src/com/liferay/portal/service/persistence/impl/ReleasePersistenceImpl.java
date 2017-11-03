@@ -16,7 +16,6 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchReleaseException;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,24 +25,26 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchReleaseException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Release;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.ReleasePersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.Release;
 import com.liferay.portal.model.impl.ReleaseImpl;
 import com.liferay.portal.model.impl.ReleaseModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextThreadLocal;
-import com.liferay.portal.service.persistence.ReleasePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -52,6 +53,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -63,7 +65,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see ReleasePersistence
- * @see com.liferay.portal.service.persistence.ReleaseUtil
+ * @see com.liferay.portal.kernel.service.persistence.ReleaseUtil
  * @generated
  */
 @ProviderType
@@ -120,8 +122,8 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchReleaseException(msg.toString());
@@ -163,7 +165,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		if (result instanceof Release) {
 			Release release = (Release)result;
 
-			if (!Validator.equals(servletContextName,
+			if (!Objects.equals(servletContextName,
 						release.getServletContextName())) {
 				result = null;
 			}
@@ -331,6 +333,22 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 
 	public ReleasePersistenceImpl() {
 		setModelClass(Release.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("state", "state_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -398,7 +416,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ReleaseModelImpl)release);
+		clearUniqueFindersCache((ReleaseModelImpl)release, true);
 	}
 
 	@Override
@@ -410,46 +428,37 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 			entityCache.removeResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 				ReleaseImpl.class, release.getPrimaryKey());
 
-			clearUniqueFindersCache((ReleaseModelImpl)release);
+			clearUniqueFindersCache((ReleaseModelImpl)release, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(ReleaseModelImpl releaseModelImpl,
-		boolean isNew) {
-		if (isNew) {
+	protected void cacheUniqueFindersCache(ReleaseModelImpl releaseModelImpl) {
+		Object[] args = new Object[] { releaseModelImpl.getServletContextName() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_SERVLETCONTEXTNAME, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME, args,
+			releaseModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(ReleaseModelImpl releaseModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
 			Object[] args = new Object[] {
 					releaseModelImpl.getServletContextName()
 				};
 
-			finderCache.putResult(FINDER_PATH_COUNT_BY_SERVLETCONTEXTNAME,
-				args, Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME,
-				args, releaseModelImpl);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVLETCONTEXTNAME,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME,
+				args);
 		}
-		else {
-			if ((releaseModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						releaseModelImpl.getServletContextName()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_SERVLETCONTEXTNAME,
-					args, Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME,
-					args, releaseModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(ReleaseModelImpl releaseModelImpl) {
-		Object[] args = new Object[] { releaseModelImpl.getServletContextName() };
-
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVLETCONTEXTNAME, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME, args);
 
 		if ((releaseModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_SERVLETCONTEXTNAME.getColumnBitmask()) != 0) {
-			args = new Object[] { releaseModelImpl.getOriginalServletContextName() };
+			Object[] args = new Object[] {
+					releaseModelImpl.getOriginalServletContextName()
+				};
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVLETCONTEXTNAME,
 				args);
@@ -504,8 +513,8 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 			Release release = (Release)session.get(ReleaseImpl.class, primaryKey);
 
 			if (release == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchReleaseException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -610,15 +619,21 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ReleaseModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ReleaseModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 			ReleaseImpl.class, release.getPrimaryKey(), release, false);
 
-		clearUniqueFindersCache(releaseModelImpl);
-		cacheUniqueFindersCache(releaseModelImpl, isNew);
+		clearUniqueFindersCache(releaseModelImpl, false);
+		cacheUniqueFindersCache(releaseModelImpl);
 
 		release.resetOriginalValues();
 
@@ -651,7 +666,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 	}
 
 	/**
-	 * Returns the release with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the release with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the release
 	 * @return the release
@@ -663,8 +678,8 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		Release release = fetchByPrimaryKey(primaryKey);
 
 		if (release == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchReleaseException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -695,12 +710,14 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 	 */
 	@Override
 	public Release fetchByPrimaryKey(Serializable primaryKey) {
-		Release release = (Release)entityCache.getResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 				ReleaseImpl.class, primaryKey);
 
-		if (release == _nullRelease) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Release release = (Release)serializable;
 
 		if (release == null) {
 			Session session = null;
@@ -715,7 +732,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 				}
 				else {
 					entityCache.putResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
-						ReleaseImpl.class, primaryKey, _nullRelease);
+						ReleaseImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -769,18 +786,20 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Release release = (Release)entityCache.getResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 					ReleaseImpl.class, primaryKey);
 
-			if (release == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, release);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Release)serializable);
+				}
 			}
 		}
 
@@ -794,7 +813,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		query.append(_SQL_SELECT_RELEASE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -822,7 +841,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
-					ReleaseImpl.class, primaryKey, _nullRelease);
+					ReleaseImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -923,7 +942,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_RELEASE);
 
@@ -1062,34 +1081,4 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"state"
 			});
-	private static final Release _nullRelease = new ReleaseImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Release> toCacheModel() {
-				return _nullReleaseCacheModel;
-			}
-		};
-
-	private static final CacheModel<Release> _nullReleaseCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<Release>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public Release toEntityModel() {
-			return _nullRelease;
-		}
-	}
 }

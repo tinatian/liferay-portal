@@ -14,18 +14,18 @@
 
 package com.liferay.portal.security.pacl.test;
 
+import com.liferay.message.boards.kernel.service.MBMessageLocalService;
+import com.liferay.message.boards.kernel.service.MBMessageLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletClassLoaderUtil;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
+import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.UserLocalService;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.test.rule.PACLTestRule;
-import com.liferay.portal.util.Portal;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.blogs.service.BlogsEntryLocalService;
-import com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -47,7 +47,9 @@ public class ClassLoaderTest {
 	@Test
 	public void testCreate1() throws Exception {
 		try {
-			new URLClassLoader(new URL[0], getClass().getClassLoader());
+			Class<?> clazz = getClass();
+
+			new URLClassLoader(new URL[0], clazz.getClassLoader());
 
 			Assert.fail();
 		}
@@ -58,10 +60,10 @@ public class ClassLoaderTest {
 	@Test
 	public void testGet1() throws Exception {
 		try {
-			BlogsEntryLocalService blogsEntryLocalService =
-				BlogsEntryLocalServiceUtil.getService();
+			MBMessageLocalService mbMessageLocalService =
+				MBMessageLocalServiceUtil.getService();
 
-			Class<?> clazz = blogsEntryLocalService.getClass();
+			Class<?> clazz = mbMessageLocalService.getClass();
 
 			clazz.getClassLoader();
 
@@ -155,7 +157,7 @@ public class ClassLoaderTest {
 
 	@Test
 	public void testGet11() throws Exception {
-		PortalRuntimePermission.checkGetClassLoader("flash-portlet");
+		PortalRuntimePermission.checkGetClassLoader("pacl-1-test-portlet");
 	}
 
 	@Test
@@ -194,7 +196,7 @@ public class ClassLoaderTest {
 	@Test
 	public void testGet15() throws Exception {
 		try {
-			PortletClassLoaderUtil.getClassLoader("1_WAR_chatportlet");
+			PortletClassLoaderUtil.getClassLoader("2_WAR_pacl_testportlet");
 
 			Assert.fail();
 		}
@@ -204,13 +206,13 @@ public class ClassLoaderTest {
 
 	@Test
 	public void testGet16() throws Exception {
-		PortletClassLoaderUtil.getClassLoader("1_WAR_flashportlet");
+		PortletClassLoaderUtil.getClassLoader("1_WAR_pacl_testportlet");
 	}
 
 	@Test
 	public void testGet17() throws Exception {
 		try {
-			PortletClassLoaderUtil.getClassLoader("chat-portlet");
+			PortletClassLoaderUtil.getClassLoader("pacl-2-test-portlet");
 
 			Assert.fail();
 		}
@@ -220,7 +222,13 @@ public class ClassLoaderTest {
 
 	@Test
 	public void testGet18() throws Exception {
-		PortletClassLoaderUtil.getClassLoader("flash-portlet");
+		try {
+			PortletClassLoaderUtil.getClassLoader("pacl-1-test-portlet");
+
+			Assert.fail();
+		}
+		catch (SecurityException se) {
+		}
 	}
 
 	@Test

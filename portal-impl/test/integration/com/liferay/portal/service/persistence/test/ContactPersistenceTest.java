@@ -14,27 +14,27 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchContactException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchContactException;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.service.ContactLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.ContactPersistence;
+import com.liferay.portal.kernel.service.persistence.ContactUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.model.Contact;
-import com.liferay.portal.service.ContactLocalServiceUtil;
-import com.liferay.portal.service.persistence.ContactPersistence;
-import com.liferay.portal.service.persistence.ContactUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -153,21 +153,13 @@ public class ContactPersistenceTest {
 
 		newContact.setSmsSn(RandomTestUtil.randomString());
 
-		newContact.setAimSn(RandomTestUtil.randomString());
-
 		newContact.setFacebookSn(RandomTestUtil.randomString());
 
-		newContact.setIcqSn(RandomTestUtil.randomString());
-
 		newContact.setJabberSn(RandomTestUtil.randomString());
-
-		newContact.setMySpaceSn(RandomTestUtil.randomString());
 
 		newContact.setSkypeSn(RandomTestUtil.randomString());
 
 		newContact.setTwitterSn(RandomTestUtil.randomString());
-
-		newContact.setYmSn(RandomTestUtil.randomString());
 
 		newContact.setEmployeeStatusId(RandomTestUtil.randomString());
 
@@ -223,19 +215,14 @@ public class ContactPersistenceTest {
 				existingContact.getBirthday()),
 			Time.getShortTimestamp(newContact.getBirthday()));
 		Assert.assertEquals(existingContact.getSmsSn(), newContact.getSmsSn());
-		Assert.assertEquals(existingContact.getAimSn(), newContact.getAimSn());
 		Assert.assertEquals(existingContact.getFacebookSn(),
 			newContact.getFacebookSn());
-		Assert.assertEquals(existingContact.getIcqSn(), newContact.getIcqSn());
 		Assert.assertEquals(existingContact.getJabberSn(),
 			newContact.getJabberSn());
-		Assert.assertEquals(existingContact.getMySpaceSn(),
-			newContact.getMySpaceSn());
 		Assert.assertEquals(existingContact.getSkypeSn(),
 			newContact.getSkypeSn());
 		Assert.assertEquals(existingContact.getTwitterSn(),
 			newContact.getTwitterSn());
-		Assert.assertEquals(existingContact.getYmSn(), newContact.getYmSn());
 		Assert.assertEquals(existingContact.getEmployeeStatusId(),
 			newContact.getEmployeeStatusId());
 		Assert.assertEquals(existingContact.getEmployeeNumber(),
@@ -299,9 +286,8 @@ public class ContactPersistenceTest {
 			"classNameId", true, "classPK", true, "accountId", true,
 			"parentContactId", true, "emailAddress", true, "firstName", true,
 			"middleName", true, "lastName", true, "prefixId", true, "suffixId",
-			true, "male", true, "birthday", true, "smsSn", true, "aimSn", true,
-			"facebookSn", true, "icqSn", true, "jabberSn", true, "mySpaceSn",
-			true, "skypeSn", true, "twitterSn", true, "ymSn", true,
+			true, "male", true, "birthday", true, "smsSn", true, "facebookSn",
+			true, "jabberSn", true, "skypeSn", true, "twitterSn", true,
 			"employeeStatusId", true, "employeeNumber", true, "jobTitle", true,
 			"jobClass", true, "hoursOfOperation", true);
 	}
@@ -539,21 +525,13 @@ public class ContactPersistenceTest {
 
 		contact.setSmsSn(RandomTestUtil.randomString());
 
-		contact.setAimSn(RandomTestUtil.randomString());
-
 		contact.setFacebookSn(RandomTestUtil.randomString());
 
-		contact.setIcqSn(RandomTestUtil.randomString());
-
 		contact.setJabberSn(RandomTestUtil.randomString());
-
-		contact.setMySpaceSn(RandomTestUtil.randomString());
 
 		contact.setSkypeSn(RandomTestUtil.randomString());
 
 		contact.setTwitterSn(RandomTestUtil.randomString());
-
-		contact.setYmSn(RandomTestUtil.randomString());
 
 		contact.setEmployeeStatusId(RandomTestUtil.randomString());
 

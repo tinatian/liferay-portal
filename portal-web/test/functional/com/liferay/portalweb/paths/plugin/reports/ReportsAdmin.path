@@ -23,31 +23,20 @@
 	<td></td>
 	<td></td>
 </tr>
-<!--OPTIONS_MENULIST-->
-<tr>
-	<td>OPTIONS_MENULIST_CONFIGURATION</td>
-	<td>//a[contains(@id,'_menu_configuration')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
 <!--NAVIGATION-->
 <tr>
 	<td>NAVIGATION_REPORTS</td>
-	<td>//li[contains(@id,'reportsportlet_tabs')]/a[contains(text(),'Reports')]</td>
+	<td>//div[contains(@class,'navbar')]//ul/li/a[contains(.,'Reports')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>NAVIGATION_DEFINITIONS</td>
-	<td>//li[contains(@id,'reportsportlet_tabs')]/a[contains(text(),'Definitions')]</td>
+	<td>//div[contains(@class,'navbar')]//ul/li/a[contains(.,'Definitions')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>NAVIGATION_SOURCES</td>
-	<td>//li[contains(@id,'reportsportlet_tabs')]/a[contains(text(),'Sources')]</td>
+	<td>//div[contains(@class,'navbar')]//ul/li/a[contains(.,'Sources')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -58,17 +47,17 @@
 <!--REPORTS_ENTRY_TABLE-->
 <tr>
 	<td>REPORTS_ENTRY_TABLE_DEFINITION_NAME</td>
-	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[1]/a</td>
+	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[1]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>REPORTS_ENTRY_TABLE_ACTIONS</td>
-	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[4]/div/a</td>
+	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[4]//div/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>REPORTS_ENTRY_TABLE_ACTIONS_1</td>
-	<td>xpath=(//tr/td[4]/div/a)[1]</td>
+	<td>xpath=(//tr/td[4]//div/a)[1]</td>
 	<td></td>
 </tr>
 <tr>
@@ -101,17 +90,17 @@
 <!--DEFINITIONS_DEFINITION_TABLE-->
 <tr>
 	<td>DEFINITIONS_DEFINITION_TABLE_DEFINITION_NAME</td>
-	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[1]/a</td>
+	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[1]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DEFINITIONS_DEFINITION_TABLE_ACTIONS</td>
-	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[4]/div/a</td>
+	<td>//tr[contains(.,'${key_reportsDefinitionName}')]/td[4]//div/a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DEFINITIONS_DEFINITION_TABLE_ACTIONS_1</td>
-	<td>xpath=(//tr/td[4]/div/a)[1]</td>
+	<td>xpath=(//tr/td[4]//div/a)[1]</td>
 	<td></td>
 </tr>
 <tr>
@@ -145,42 +134,10 @@
 	<td></td>
 	<td></td>
 </tr>
-<!--DEFINITIONS_PAGINATION-->
-<tr>
-	<td>DEFINITIONS_PAGINATION_PAGE_NUMBER_DROPDOWN_BUTTON</td>
-	<td>//a[contains(@class,'dropdown-toggle') and contains(.,'of')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DEFINITIONS_PAGINATION_ITEMS_PER_PAGE_DROPDOWN_BUTTON</td>
-	<td>//a[contains(@class,'dropdown-toggle') and contains(.,'Items per')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DEFINITIONS_PAGINATION_ITEMS_PER_PAGE_DROPDOWN_MENU_ITEM</td>
-	<td>//ul[contains(@class,'menu-list')]/li/a/span[.='${key_itemsPerPage}']</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<!--SOURCES-->
-<tr>
-	<td>SOURCES_ADD_SOURCE_BUTTON</td>
-	<td>//a[contains(.,'Add Source')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
 <!--SOURCES_SOURCE-->
 <tr>
 	<td>SOURCES_SOURCE_TABLE_ACTIONS_1</td>
-	<td>xpath=(//tr/td[4]/div/a)[1]</td>
+	<td>xpath=(//tr/td[4]//div/a)[1]</td>
 	<td></td>
 </tr>
 <tr>

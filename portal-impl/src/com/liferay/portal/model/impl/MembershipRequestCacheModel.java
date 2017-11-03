@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.MembershipRequest;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.MembershipRequest;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -157,15 +157,21 @@ public class MembershipRequestCacheModel implements CacheModel<MembershipRequest
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		membershipRequestId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		comments = objectInput.readUTF();
 		replyComments = objectInput.readUTF();
 		replyDate = objectInput.readLong();
+
 		replierUserId = objectInput.readLong();
+
 		statusId = objectInput.readLong();
 	}
 
@@ -173,9 +179,13 @@ public class MembershipRequestCacheModel implements CacheModel<MembershipRequest
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(membershipRequestId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 		objectOutput.writeLong(createDate);
 
@@ -194,7 +204,9 @@ public class MembershipRequestCacheModel implements CacheModel<MembershipRequest
 		}
 
 		objectOutput.writeLong(replyDate);
+
 		objectOutput.writeLong(replierUserId);
+
 		objectOutput.writeLong(statusId);
 	}
 

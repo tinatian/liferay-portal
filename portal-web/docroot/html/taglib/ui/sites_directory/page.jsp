@@ -66,7 +66,7 @@
 							<c:otherwise>
 
 								<%
-								PortletURL portletURL = PortletURLFactoryUtil.create(request, portletDisplay.getId(), plid, PortletRequest.RENDER_PHASE);
+								PortletURL portletURL = PortletURLFactoryUtil.create(request, portletDisplay.getId(), PortletRequest.RENDER_PHASE);
 								%>
 
 								<liferay-ui:search-container emptyResultsMessage="no-sites-were-found" iteratorURL="<%= portletURL %>">
@@ -75,10 +75,10 @@
 									List<Group> childGroups = null;
 
 									if (rootGroup != null) {
-										childGroups = rootGroup.getChildrenWithLayouts(true, QueryUtil.ALL_POS, QueryUtil.ALL_POS, new GroupNameComparator(true));
+										childGroups = rootGroup.getChildrenWithLayouts(true, QueryUtil.ALL_POS, QueryUtil.ALL_POS, new GroupNameComparator(true, locale));
 									}
 									else {
-										childGroups = GroupLocalServiceUtil.getLayoutsGroups(group.getCompanyId(), GroupConstants.DEFAULT_LIVE_GROUP_ID, true, QueryUtil.ALL_POS, QueryUtil.ALL_POS, new GroupNameComparator(true));
+										childGroups = GroupLocalServiceUtil.getLayoutsGroups(group.getCompanyId(), GroupConstants.DEFAULT_LIVE_GROUP_ID, true, QueryUtil.ALL_POS, QueryUtil.ALL_POS, new GroupNameComparator(true, locale));
 									}
 
 									Set<Group> visibleGroups = new LinkedHashSet<Group>();
@@ -102,38 +102,62 @@
 									/>
 
 									<liferay-ui:search-container-row
-										className="com.liferay.portal.model.Group"
+										className="com.liferay.portal.kernel.model.Group"
+										keyProperty="groupId"
 										modelVar="childGroup"
 									>
-										<liferay-ui:search-container-column-text>
+										<c:choose>
+											<c:when test='<%= displayStyle.equals("icon") %>'>
+												<liferay-ui:app-view-entry
+													assetCategoryClassName="<%= Group.class.getName() %>"
+													assetCategoryClassPK="<%= childGroup.getGroupId() %>"
+													assetTagClassName="<%= Group.class.getName() %>"
+													assetTagClassPK="<%= childGroup.getGroupId() %>"
+													description="<%= childGroup.getDescription(locale) %>"
+													displayStyle="<%= displayStyle %>"
+													showCheckbox="<%= false %>"
+													thumbnailSrc="<%= childGroup.getLogoURL(themeDisplay, true) %>"
+													title="<%= childGroup.getDescriptiveName(locale) %>"
+													url="<%= (childGroup.getGroupId() != scopeGroupId) ? childGroup.getDisplayURL(themeDisplay) : null %>"
+												/>
+											</c:when>
+											<c:otherwise>
+												<liferay-ui:search-container-column-image
+													src="<%= childGroup.getLogoURL(themeDisplay, true) %>"
+												/>
 
-											<%
-											LayoutSet layoutSet = null;
+												<liferay-ui:search-container-column-text
+													colspan="<%= 2 %>"
+												>
+													<h5>
+														<aui:a href="<%= (childGroup.getGroupId() != scopeGroupId) ? childGroup.getDisplayURL(themeDisplay) : null %>">
+															<%= childGroup.getDescriptiveName(locale) %>
+														</aui:a>
+													</h5>
 
-											if (childGroup.hasPublicLayouts()) {
-												layoutSet = childGroup.getPublicLayoutSet();
-											}
-											else {
-												layoutSet = childGroup.getPrivateLayoutSet();
-											}
-											%>
+													<h6 class="text-default">
+														<%= HtmlUtil.escape(childGroup.getDescription(locale)) %>
+													</h6>
 
-											<liferay-ui:app-view-entry
-												assetCategoryClassName="<%= Group.class.getName() %>"
-												assetCategoryClassPK="<%= childGroup.getGroupId() %>"
-												assetTagClassName="<%= Group.class.getName() %>"
-												assetTagClassPK="<%= childGroup.getGroupId() %>"
-												description="<%= HtmlUtil.escape(childGroup.getDescription(locale)) %>"
-												displayStyle="<%= displayStyle %>"
-												showCheckbox="<%= false %>"
-												thumbnailSrc='<%= themeDisplay.getPathImage() + "/layout_set_logo?img_id=" + layoutSet.getLogoId() + "&t=" + WebServerServletTokenUtil.getToken(layoutSet.getLogoId()) %>'
-												title="<%= HtmlUtil.escape(childGroup.getDescriptiveName(locale)) %>"
-												url="<%= (childGroup.getGroupId() != scopeGroupId) ? childGroup.getDisplayURL(themeDisplay) : null %>"
-											/>
-										</liferay-ui:search-container-column-text>
+													<h6 class="text-default">
+														<liferay-ui:asset-tags-summary
+															className="<%= Group.class.getName() %>"
+															classPK="<%= childGroup.getGroupId() %>"
+														/>
+													</h6>
+
+													<h6 class="text-default">
+														<liferay-ui:asset-categories-summary
+															className="<%= Group.class.getName() %>"
+															classPK="<%= childGroup.getGroupId() %>"
+														/>
+													</h6>
+												</liferay-ui:search-container-column-text>
+											</c:otherwise>
+										</c:choose>
 									</liferay-ui:search-container-row>
 
-									<liferay-ui:search-iterator />
+									<liferay-ui:search-iterator displayStyle="<%= displayStyle %>" markupView="lexicon" />
 								</liferay-ui:search-container>
 							</c:otherwise>
 						</c:choose>
@@ -149,7 +173,6 @@
 						%>
 
 						<%= content %>
-
 					</c:otherwise>
 				</c:choose>
 			</c:otherwise>

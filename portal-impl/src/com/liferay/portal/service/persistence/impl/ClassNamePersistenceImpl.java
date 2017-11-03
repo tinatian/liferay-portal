@@ -16,7 +16,6 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchClassNameException;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,18 +25,17 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchClassNameException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.ClassName;
-import com.liferay.portal.model.MVCCModel;
 import com.liferay.portal.model.impl.ClassNameImpl;
 import com.liferay.portal.model.impl.ClassNameModelImpl;
-import com.liferay.portal.service.persistence.ClassNamePersistence;
 
 import java.io.Serializable;
 
@@ -47,6 +45,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -58,7 +57,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see ClassNamePersistence
- * @see com.liferay.portal.service.persistence.ClassNameUtil
+ * @see com.liferay.portal.kernel.service.persistence.ClassNameUtil
  * @generated
  */
 @ProviderType
@@ -114,8 +113,8 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchClassNameException(msg.toString());
@@ -156,7 +155,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 		if (result instanceof ClassName) {
 			ClassName className = (ClassName)result;
 
-			if (!Validator.equals(value, className.getValue())) {
+			if (!Objects.equals(value, className.getValue())) {
 				result = null;
 			}
 		}
@@ -385,7 +384,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ClassNameModelImpl)className);
+		clearUniqueFindersCache((ClassNameModelImpl)className, true);
 	}
 
 	@Override
@@ -397,43 +396,32 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 			entityCache.removeResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
 				ClassNameImpl.class, className.getPrimaryKey());
 
-			clearUniqueFindersCache((ClassNameModelImpl)className);
+			clearUniqueFindersCache((ClassNameModelImpl)className, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		ClassNameModelImpl classNameModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] { classNameModelImpl.getValue() };
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_VALUE, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_VALUE, args,
-				classNameModelImpl);
-		}
-		else {
-			if ((classNameModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_VALUE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { classNameModelImpl.getValue() };
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_VALUE, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_VALUE, args,
-					classNameModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		ClassNameModelImpl classNameModelImpl) {
 		Object[] args = new Object[] { classNameModelImpl.getValue() };
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_VALUE, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_VALUE, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_VALUE, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_VALUE, args,
+			classNameModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ClassNameModelImpl classNameModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] { classNameModelImpl.getValue() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_VALUE, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_VALUE, args);
+		}
 
 		if ((classNameModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_VALUE.getColumnBitmask()) != 0) {
-			args = new Object[] { classNameModelImpl.getOriginalValue() };
+			Object[] args = new Object[] { classNameModelImpl.getOriginalValue() };
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_VALUE, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_VALUE, args);
@@ -487,8 +475,8 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 					primaryKey);
 
 			if (className == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchClassNameException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -571,15 +559,21 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ClassNameModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ClassNameModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
 			ClassNameImpl.class, className.getPrimaryKey(), className, false);
 
-		clearUniqueFindersCache(classNameModelImpl);
-		cacheUniqueFindersCache(classNameModelImpl, isNew);
+		clearUniqueFindersCache(classNameModelImpl, false);
+		cacheUniqueFindersCache(classNameModelImpl);
 
 		className.resetOriginalValues();
 
@@ -604,7 +598,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 	}
 
 	/**
-	 * Returns the class name with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the class name with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the class name
 	 * @return the class name
@@ -616,8 +610,8 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 		ClassName className = fetchByPrimaryKey(primaryKey);
 
 		if (className == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchClassNameException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -648,12 +642,14 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 	 */
 	@Override
 	public ClassName fetchByPrimaryKey(Serializable primaryKey) {
-		ClassName className = (ClassName)entityCache.getResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
 				ClassNameImpl.class, primaryKey);
 
-		if (className == _nullClassName) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		ClassName className = (ClassName)serializable;
 
 		if (className == null) {
 			Session session = null;
@@ -669,7 +665,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 				}
 				else {
 					entityCache.putResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
-						ClassNameImpl.class, primaryKey, _nullClassName);
+						ClassNameImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -723,18 +719,20 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			ClassName className = (ClassName)entityCache.getResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
 					ClassNameImpl.class, primaryKey);
 
-			if (className == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, className);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (ClassName)serializable);
+				}
 			}
 		}
 
@@ -748,7 +746,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 		query.append(_SQL_SELECT_CLASSNAME_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -776,7 +774,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(ClassNameModelImpl.ENTITY_CACHE_ENABLED,
-					ClassNameImpl.class, primaryKey, _nullClassName);
+					ClassNameImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -878,7 +876,7 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_CLASSNAME);
 
@@ -1009,34 +1007,4 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ClassName exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ClassName exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(ClassNamePersistenceImpl.class);
-	private static final ClassName _nullClassName = new ClassNameImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<ClassName> toCacheModel() {
-				return _nullClassNameCacheModel;
-			}
-		};
-
-	private static final CacheModel<ClassName> _nullClassNameCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<ClassName>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public ClassName toEntityModel() {
-			return _nullClassName;
-		}
-	}
 }

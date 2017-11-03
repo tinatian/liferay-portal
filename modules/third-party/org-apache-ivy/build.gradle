@@ -2,18 +2,14 @@ import com.liferay.gradle.plugins.patcher.PatchTask
 
 apply plugin: "com.liferay.patcher"
 
-dependencies {
-	compile group: "org.apache.ivy", name: "ivy", optional, version: "2.4.0"
-}
-
-liferay {
-	deployDir = file("${liferayHome}/osgi/modules")
-}
+task patch(type: PatchTask)
 
 sourceCompatibility = "1.6"
 targetCompatibility = "1.6"
 
-task patch(type: PatchTask)
+dependencies {
+	compile group: "org.apache.ivy", name: "ivy", optional, version: "2.4.0"
+}
 
 patch {
 	ext {

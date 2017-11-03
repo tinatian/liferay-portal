@@ -15,10 +15,11 @@
 package com.liferay.portal.service.permission;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.model.Account;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.AccountLocalServiceUtil;
+import com.liferay.portal.kernel.model.Account;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.AccountLocalServiceUtil;
+import com.liferay.portal.kernel.service.permission.AccountPermission;
 
 /**
  * @author Brian Wing Shun Chan
@@ -55,11 +56,8 @@ public class AccountPermissionImpl implements AccountPermission {
 	public boolean contains(
 		PermissionChecker permissionChecker, Account account, String actionId) {
 
-		//long groupId = account.getGroupId();
-		long groupId = 0;
-
 		return permissionChecker.hasPermission(
-			groupId, Account.class.getName(), account.getAccountId(), actionId);
+			null, Account.class.getName(), account.getAccountId(), actionId);
 	}
 
 	@Override

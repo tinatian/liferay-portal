@@ -17,6 +17,8 @@ package com.liferay.portal.plugin;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.model.Plugin;
 import com.liferay.portal.kernel.plugin.License;
 import com.liferay.portal.kernel.plugin.PluginPackage;
 import com.liferay.portal.kernel.plugin.RemotePluginPackageRepository;
@@ -48,8 +50,6 @@ import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.model.CompanyConstants;
-import com.liferay.portal.model.Plugin;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
 
@@ -535,8 +535,8 @@ public class PluginPackageUtil {
 	}
 
 	private boolean _isInstallationInProcess(String context) {
-		if (_installedPluginPackages.getInstallingPluginPackage(
-				context) != null) {
+		if (_installedPluginPackages.getInstallingPluginPackage(context) !=
+				null) {
 
 			return true;
 		}
@@ -641,9 +641,8 @@ public class PluginPackageUtil {
 			if (responseCode != HttpServletResponse.SC_OK) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
-						"A repository for version " +
-							ReleaseInfo.getVersion() + " was not found. " +
-								"Checking general repository");
+						"A repository for version " + ReleaseInfo.getVersion() +
+							" was not found. Checking general repository");
 				}
 
 				sb.setIndex(0);
@@ -667,8 +666,10 @@ public class PluginPackageUtil {
 
 				if (responseCode != HttpServletResponse.SC_OK) {
 					throw new PluginPackageException(
-						"Unable to download file " + pluginsXmlURL +
-							" because of response code " + responseCode);
+						StringBundler.concat(
+							"Unable to download file ", pluginsXmlURL,
+							" because of response code ",
+							String.valueOf(responseCode)));
 				}
 			}
 
@@ -678,6 +679,7 @@ public class PluginPackageUtil {
 
 				_repositoryCache.put(repositoryURL, repository);
 				_availableTagsCache.addAll(repository.getTags());
+
 				_lastUpdateDate = new Date();
 				_updateAvailable = null;
 
@@ -717,7 +719,8 @@ public class PluginPackageUtil {
 
 		if (_log.isDebugEnabled()) {
 			_log.debug(
-				"Loading plugin repository " + repositoryURL + ":\n" + xml);
+				StringBundler.concat(
+					"Loading plugin repository ", repositoryURL, ":\n", xml));
 		}
 
 		RemotePluginPackageRepository pluginPackageRepository =
@@ -897,13 +900,22 @@ public class PluginPackageUtil {
 				moduleVersion = displayName.substring(moduleVersionPos);
 			}
 			else {
-				moduleVersion = ReleaseInfo.getVersion();
+				String moduleIncrementalVersion = GetterUtil.getString(
+					properties.getProperty("module-incremental-version"));
+
+				if (Validator.isNull(moduleIncrementalVersion)) {
+					moduleVersion = ReleaseInfo.getVersion();
+				}
+				else {
+					moduleVersion =
+						ReleaseInfo.getVersion() + "." +
+							moduleIncrementalVersion;
+				}
 			}
 		}
 
-		String moduleId =
-			moduleGroupId + "/" + moduleArtifactId + "/" + moduleVersion +
-				"/war";
+		String moduleId = StringBundler.concat(
+			moduleGroupId, "/", moduleArtifactId, "/", moduleVersion, "/war");
 
 		String pluginName = GetterUtil.getString(
 			properties.getProperty("name"));
@@ -1045,7 +1057,7 @@ public class PluginPackageUtil {
 					_log.debug("Reading plugin package from MANIFEST.MF");
 				}
 
-				pluginPackage =_readPluginPackageServletManifest(
+				pluginPackage = _readPluginPackageServletManifest(
 					servletContext);
 			}
 		}
@@ -1103,14 +1115,16 @@ public class PluginPackageUtil {
 
 		if (version.equals(Version.UNKNOWN) && _log.isWarnEnabled()) {
 			_log.warn(
-				"Plugin package on context " + servletContextName +
-					" cannot be tracked because this WAR does not contain a " +
-						"liferay-plugin-package.xml file");
+				StringBundler.concat(
+					"Plugin package on context ", servletContextName,
+					" cannot be tracked because this WAR does not contain a ",
+					"liferay-plugin-package.xml file"));
 		}
 
 		PluginPackage pluginPackage = new PluginPackageImpl(
-			artifactGroupId + StringPool.SLASH + artifactId + StringPool.SLASH +
-				version + StringPool.SLASH + "war");
+			StringBundler.concat(
+				artifactGroupId, StringPool.SLASH, artifactId, StringPool.SLASH,
+				version, StringPool.SLASH, "war"));
 
 		pluginPackage.setName(artifactId);
 
@@ -1284,8 +1298,9 @@ public class PluginPackageUtil {
 				repositoryReport.addError(repositoryURL, ppe);
 
 				_log.error(
-					"Unable to load repository " + repositoryURL + " " +
-						ppe.toString());
+					StringBundler.concat(
+						"Unable to load repository ", repositoryURL, " ",
+						ppe.toString()));
 			}
 		}
 
@@ -1351,8 +1366,9 @@ public class PluginPackageUtil {
 		catch (PluginPackageException ppe) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Unable to reindex unistalled package " +
-						pluginPackage.getContext() + ": " + ppe.getMessage());
+					StringBundler.concat(
+						"Unable to reindex unistalled package ",
+						pluginPackage.getContext(), ": ", ppe.getMessage()));
 			}
 		}
 	}

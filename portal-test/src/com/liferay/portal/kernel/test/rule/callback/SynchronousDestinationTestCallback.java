@@ -25,12 +25,17 @@ import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.messaging.SynchronousDestination;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
+import com.liferay.portal.kernel.search.SearchEngineHelperUtil;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.rule.callback.SynchronousDestinationTestCallback.SyncHandler;
 import com.liferay.portal.kernel.transaction.Propagation;
-import com.liferay.portal.kernel.transaction.TransactionAttribute;
+import com.liferay.portal.kernel.transaction.TransactionConfig;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
@@ -49,13 +54,13 @@ import org.junit.runner.Description;
  * @author Shuyang Zhou
  */
 public class SynchronousDestinationTestCallback
-	extends BaseTestCallback<SyncHandler, SyncHandler> {
+	implements TestCallback<SyncHandler, SyncHandler> {
 
 	public static final SynchronousDestinationTestCallback INSTANCE =
 		new SynchronousDestinationTestCallback();
 
 	@Override
-	public void doAfterClass(Description description, SyncHandler syncHandler)
+	public void afterClass(Description description, SyncHandler syncHandler)
 		throws Exception {
 
 		if (syncHandler != null) {
@@ -64,7 +69,7 @@ public class SynchronousDestinationTestCallback
 	}
 
 	@Override
-	public void doAfterMethod(
+	public void afterMethod(
 		Description description, SyncHandler syncHandler, Object target) {
 
 		if (syncHandler != null) {
@@ -73,7 +78,7 @@ public class SynchronousDestinationTestCallback
 	}
 
 	@Override
-	public SyncHandler doBeforeClass(Description description) throws Throwable {
+	public SyncHandler beforeClass(Description description) throws Throwable {
 		Class<?> testClass = description.getTestClass();
 
 		Sync sync = testClass.getAnnotation(Sync.class);
@@ -96,16 +101,17 @@ public class SynchronousDestinationTestCallback
 
 		if (!hasSyncedMethod) {
 			throw new AssertionError(
-				testClass.getName() + " uses " +
-					SynchronousDestinationTestRule.class.getName() +
-						" without any usage of " + Sync.class.getName());
+				StringBundler.concat(
+					testClass.getName(), " uses ",
+					SynchronousDestinationTestRule.class.getName(),
+					" without any usage of ", Sync.class.getName()));
 		}
 
-		return super.doBeforeClass(description);
+		return null;
 	}
 
 	@Override
-	public SyncHandler doBeforeMethod(Description description, Object target) {
+	public SyncHandler beforeMethod(Description description, Object target) {
 		Class<?> testClass = description.getTestClass();
 
 		Sync sync = testClass.getAnnotation(Sync.class);
@@ -171,6 +177,17 @@ public class SynchronousDestinationTestCallback
 				mailFilter, pdfProcessorFilter, rawMetaDataProcessorFilter,
 				subscrpitionSenderFilter);
 
+			boolean schedulerEnabled = GetterUtil.getBoolean(
+				PropsUtil.get(PropsKeys.SCHEDULER_ENABLED));
+
+			if (schedulerEnabled) {
+				Filter kaleoGraphWalkerFilter = _registerDestinationFilter(
+					"liferay/kaleo_graph_walker");
+
+				serviceDependencyManager.registerDependencies(
+					kaleoGraphWalkerFilter);
+			}
+
 			serviceDependencyManager.waitForDependencies();
 
 			ProxyModeThreadLocal.setForceSync(true);
@@ -185,9 +202,29 @@ public class SynchronousDestinationTestCallback
 				DestinationNames.DOCUMENT_LIBRARY_SYNC_EVENT_PROCESSOR);
 			replaceDestination(DestinationNames.MAIL);
 			replaceDestination(DestinationNames.SCHEDULER_ENGINE);
-			replaceDestination(DestinationNames.SEARCH_READER);
-			replaceDestination(DestinationNames.SEARCH_WRITER);
 			replaceDestination(DestinationNames.SUBSCRIPTION_SENDER);
+			replaceDestination("liferay/adaptive_media_processor");
+			replaceDestination("liferay/report_request");
+			replaceDestination("liferay/reports_admin");
+
+			for (String name : _sync.destinationNames()) {
+				replaceDestination(name);
+			}
+
+			if (schedulerEnabled) {
+				replaceDestination("liferay/kaleo_graph_walker");
+			}
+
+			for (String searchEngineId :
+					SearchEngineHelperUtil.getSearchEngineIds()) {
+
+				replaceDestination(
+					SearchEngineHelperUtil.getSearchReaderDestinationName(
+						searchEngineId));
+				replaceDestination(
+					SearchEngineHelperUtil.getSearchWriterDestinationName(
+						searchEngineId));
+			}
 		}
 
 		public void replaceDestination(String destinationName) {
@@ -243,8 +280,9 @@ public class SynchronousDestinationTestCallback
 			Registry registry = RegistryUtil.getRegistry();
 
 			return registry.getFilter(
-				"(&(destination.name=" + destinationName +
-					")(objectClass=" + Destination.class.getName() + "))");
+				StringBundler.concat(
+					"(&(destination.name=", destinationName, ")(objectClass=",
+					Destination.class.getName(), "))"));
 		}
 
 		private final List<String> _absentDestinationNames = new ArrayList<>();
@@ -269,17 +307,16 @@ public class SynchronousDestinationTestCallback
 		return syncHandler;
 	}
 
-	private static final TransactionAttribute _transactionAttribute;
+	private static final TransactionConfig _transactionConfig;
 
 	static {
-		TransactionAttribute.Builder builder =
-			new TransactionAttribute.Builder();
+		TransactionConfig.Builder builder = new TransactionConfig.Builder();
 
 		builder.setPropagation(Propagation.NOT_SUPPORTED);
 		builder.setRollbackForClasses(
 			PortalException.class, SystemException.class);
 
-		_transactionAttribute = builder.build();
+		_transactionConfig = builder.build();
 	}
 
 	private static class CleanTransactionSynchronousDestination
@@ -289,16 +326,18 @@ public class SynchronousDestinationTestCallback
 		public void send(final Message message) {
 			try {
 				TransactionInvokerUtil.invoke(
-					_transactionAttribute, new Callable<Void>() {
+					_transactionConfig,
+					new Callable<Void>() {
 
-					@Override
-					public Void call() throws Exception {
-						CleanTransactionSynchronousDestination.super.send(
-							message);
+						@Override
+						public Void call() throws Exception {
+							CleanTransactionSynchronousDestination.super.send(
+								message);
 
-						return null;
-					}
-				});
+							return null;
+						}
+
+					});
 			}
 			catch (Throwable t) {
 				throw new RuntimeException(t);

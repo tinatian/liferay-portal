@@ -14,14 +14,14 @@
 
 package com.liferay.portal.template;
 
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.security.xml.SecureXMLFactoryProviderUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.security.xml.SecureXMLFactoryProviderImpl;
-import com.liferay.portal.security.xml.SecureXMLFactoryProviderUtil;
 import com.liferay.portal.tools.ToolDependencies;
 import com.liferay.portal.util.HtmlImpl;
 import com.liferay.portlet.PortletPreferencesFactoryImpl;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portlet.PortletPreferencesImpl;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class TemplatePortletPreferencesTest {
 	}
 
 	@Test
-	public void testSetValue() throws Exception {
+	public void testGetPreferences() throws Exception {
 		Callable<String> callable = new TemplateCallable();
 
 		List<Future<String>> futures = new ArrayList<>(_THREADS_SIZE);
@@ -95,7 +95,7 @@ public class TemplatePortletPreferencesTest {
 
 			Map<String, String[]> map = portletPreferencesImpl.getMap();
 
-			Assert.assertEquals(1, map.size());
+			Assert.assertEquals(map.toString(), 1, map.size());
 		}
 	}
 
@@ -121,15 +121,9 @@ public class TemplatePortletPreferencesTest {
 			// ways to prove that the fix indeed eliminates the race condition.
 
 			synchronized (_templatePortletPreferences) {
-				_templatePortletPreferences.setValue(
+				return _templatePortletPreferences.getPreferences(
 					randomString, randomString);
 			}
-
-			String xml = _templatePortletPreferences.toString();
-
-			_templatePortletPreferences.reset();
-
-			return xml;
 		}
 
 	}

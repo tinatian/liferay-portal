@@ -14,27 +14,27 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchBrowserTrackerException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchBrowserTrackerException;
+import com.liferay.portal.kernel.model.BrowserTracker;
+import com.liferay.portal.kernel.service.BrowserTrackerLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.BrowserTrackerPersistence;
+import com.liferay.portal.kernel.service.persistence.BrowserTrackerUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
-import com.liferay.portal.model.BrowserTracker;
-import com.liferay.portal.service.BrowserTrackerLocalServiceUtil;
-import com.liferay.portal.service.persistence.BrowserTrackerPersistence;
-import com.liferay.portal.service.persistence.BrowserTrackerUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -117,6 +117,8 @@ public class BrowserTrackerPersistenceTest {
 
 		newBrowserTracker.setMvccVersion(RandomTestUtil.nextLong());
 
+		newBrowserTracker.setCompanyId(RandomTestUtil.nextLong());
+
 		newBrowserTracker.setUserId(RandomTestUtil.nextLong());
 
 		newBrowserTracker.setBrowserKey(RandomTestUtil.nextLong());
@@ -129,6 +131,8 @@ public class BrowserTrackerPersistenceTest {
 			newBrowserTracker.getMvccVersion());
 		Assert.assertEquals(existingBrowserTracker.getBrowserTrackerId(),
 			newBrowserTracker.getBrowserTrackerId());
+		Assert.assertEquals(existingBrowserTracker.getCompanyId(),
+			newBrowserTracker.getCompanyId());
 		Assert.assertEquals(existingBrowserTracker.getUserId(),
 			newBrowserTracker.getUserId());
 		Assert.assertEquals(existingBrowserTracker.getBrowserKey(),
@@ -166,8 +170,8 @@ public class BrowserTrackerPersistenceTest {
 
 	protected OrderByComparator<BrowserTracker> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("BrowserTracker",
-			"mvccVersion", true, "browserTrackerId", true, "userId", true,
-			"browserKey", true);
+			"mvccVersion", true, "browserTrackerId", true, "companyId", true,
+			"userId", true, "browserKey", true);
 	}
 
 	@Test
@@ -383,6 +387,8 @@ public class BrowserTrackerPersistenceTest {
 		BrowserTracker browserTracker = _persistence.create(pk);
 
 		browserTracker.setMvccVersion(RandomTestUtil.nextLong());
+
+		browserTracker.setCompanyId(RandomTestUtil.nextLong());
 
 		browserTracker.setUserId(RandomTestUtil.nextLong());
 

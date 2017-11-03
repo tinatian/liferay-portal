@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.io.unsync.UnsyncBufferedReader;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -43,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -67,6 +70,10 @@ import org.dom4j.io.SAXReader;
 public class ToolsUtil {
 
 	public static final String AUTHOR = "Brian Wing Shun Chan";
+
+	public static final int PLUGINS_MAX_DIR_LEVEL = 3;
+
+	public static final int PORTAL_MAX_DIR_LEVEL = 7;
 
 	public static String getContent(String fileName) throws Exception {
 		Document document = _getContentDocument(fileName);
@@ -150,32 +157,77 @@ public class ToolsUtil {
 
 	public static String getPackagePath(File file) {
 		String fileName = StringUtil.replace(
-			file.toString(), StringPool.BACK_SLASH, StringPool.SLASH);
+			file.toString(), CharPool.BACK_SLASH, CharPool.SLASH);
 
-		int x = fileName.lastIndexOf("/com/liferay/");
-		int y = fileName.lastIndexOf(StringPool.SLASH);
+		return getPackagePath(fileName);
+	}
+
+	public static String getPackagePath(String fileName) {
+		int x = Math.max(
+			fileName.lastIndexOf("/com/"), fileName.lastIndexOf("/org/"));
+		int y = fileName.lastIndexOf(CharPool.SLASH);
 
 		String packagePath = fileName.substring(x + 1, y);
 
-		return StringUtil.replace(
-			packagePath, StringPool.SLASH, StringPool.PERIOD);
+		return StringUtil.replace(packagePath, CharPool.SLASH, CharPool.PERIOD);
 	}
 
 	public static boolean isInsideQuotes(String s, int pos) {
+		return isInsideQuotes(s, pos, true);
+	}
+
+	public static boolean isInsideQuotes(
+		String s, int pos, boolean allowEscapedQuotes) {
+
+		int start = s.lastIndexOf(CharPool.NEW_LINE, pos);
+
+		if (start == -1) {
+			start = 0;
+		}
+
+		int end = s.indexOf(CharPool.NEW_LINE, pos);
+
+		if (end == -1) {
+			end = s.length();
+		}
+
+		String line = s.substring(start, end);
+
+		pos -= start;
+
+		char delimeter = CharPool.SPACE;
 		boolean insideQuotes = false;
 
-		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
+		for (int i = 0; i < line.length(); i++) {
+			char c = line.charAt(i);
 
 			if (insideQuotes) {
-				if ((c == CharPool.QUOTE) &&
-					((c <= 1) || (s.charAt(i - 1) != CharPool.BACK_SLASH) ||
-					 (s.charAt(i - 2) == CharPool.BACK_SLASH))) {
+				if (c == delimeter) {
+					if (!allowEscapedQuotes) {
+						insideQuotes = false;
+					}
+					else {
+						int precedingBackSlashCount = 0;
 
-					insideQuotes = false;
+						for (int j = i - 1; j >= 0; j--) {
+							if (line.charAt(j) == CharPool.BACK_SLASH) {
+								precedingBackSlashCount += 1;
+							}
+							else {
+								break;
+							}
+						}
+
+						if ((precedingBackSlashCount == 0) ||
+							((precedingBackSlashCount % 2) == 0)) {
+
+							insideQuotes = false;
+						}
+					}
 				}
 			}
-			else if (c == CharPool.QUOTE) {
+			else if ((c == CharPool.APOSTROPHE) || (c == CharPool.QUOTE)) {
+				delimeter = c;
 				insideQuotes = true;
 			}
 
@@ -187,86 +239,151 @@ public class ToolsUtil {
 		return false;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link
+	 *             #stripFullyQualifiedClassNames(String, String)}
+	 */
+	@Deprecated
 	public static String stripFullyQualifiedClassNames(String content)
+		throws IOException {
+
+		return stripFullyQualifiedClassNames(content, null);
+	}
+
+	public static String stripFullyQualifiedClassNames(
+			String content, String packagePath)
 		throws IOException {
 
 		String imports = JavaImportsFormatter.getImports(content);
 
-		return stripFullyQualifiedClassNames(content, imports);
+		return stripFullyQualifiedClassNames(content, imports, packagePath);
 	}
 
 	public static String stripFullyQualifiedClassNames(
-			String content, String imports)
+			String content, String imports, String packagePath)
 		throws IOException {
 
 		if (Validator.isNull(content) || Validator.isNull(imports)) {
 			return content;
 		}
 
-		UnsyncBufferedReader unsyncBufferedReader = new UnsyncBufferedReader(
-			new UnsyncStringReader(imports));
+		String afterImportsContent = null;
 
-		String line = null;
+		int pos = content.indexOf(imports);
 
-		while ((line = unsyncBufferedReader.readLine()) != null) {
-			int x = line.indexOf("import ");
+		if (pos == -1) {
+			afterImportsContent = content;
+		}
+		else {
+			pos += imports.length();
 
-			if (x == -1) {
-				continue;
-			}
+			afterImportsContent = content.substring(pos);
+		}
 
-			String importPackageAndClassName = line.substring(
-				x + 7, line.lastIndexOf(StringPool.SEMICOLON));
+		Pattern pattern1 = Pattern.compile(
+			"\n(.*)" + StringUtil.replace(packagePath, CharPool.PERIOD, "\\.") +
+				"\\.([A-Z]\\w+)\\W");
 
-			x = -1;
+		outerLoop:
+		while (true) {
+			Matcher matcher1 = pattern1.matcher(afterImportsContent);
 
-			while (true) {
-				x = content.indexOf(importPackageAndClassName, x + 1);
+			while (matcher1.find()) {
+				String lineStart = StringUtil.trimLeading(matcher1.group(1));
 
-				if (x == -1) {
-					break;
-				}
+				if (lineStart.contains("//") ||
+					isInsideQuotes(afterImportsContent, matcher1.start(2))) {
 
-				if (isInsideQuotes(content, x)) {
 					continue;
 				}
 
-				if (content.length() >
-						(x + importPackageAndClassName.length())) {
+				String className = matcher1.group(2);
 
-					char nextChar = content.charAt(
+				Pattern pattern2 = Pattern.compile(
+					"import [\\w.]+\\." + className + ";");
+
+				Matcher matcher2 = pattern2.matcher(imports);
+
+				if (matcher2.find()) {
+					continue;
+				}
+
+				afterImportsContent = StringUtil.replaceFirst(
+					afterImportsContent, packagePath + ".", StringPool.BLANK,
+					matcher1.start());
+
+				continue outerLoop;
+			}
+
+			break;
+		}
+
+		try (UnsyncBufferedReader unsyncBufferedReader =
+				new UnsyncBufferedReader(new UnsyncStringReader(imports))) {
+
+			String line = null;
+
+			while ((line = unsyncBufferedReader.readLine()) != null) {
+				int x = line.indexOf("import ");
+
+				if (x == -1) {
+					continue;
+				}
+
+				String importPackageAndClassName = line.substring(
+					x + 7, line.lastIndexOf(StringPool.SEMICOLON));
+
+				if (importPackageAndClassName.contains(StringPool.STAR)) {
+					continue;
+				}
+
+				while (true) {
+					x = afterImportsContent.indexOf(
+						importPackageAndClassName, x + 1);
+
+					if (x == -1) {
+						break;
+					}
+
+					char nextChar = afterImportsContent.charAt(
 						x + importPackageAndClassName.length());
 
-					if (Character.isAlphabetic(nextChar) ||
-						Character.isDigit(nextChar) ||
-						(nextChar == CharPool.PERIOD) ||
-						(nextChar == CharPool.SEMICOLON) ||
-						(nextChar == CharPool.UNDERLINE)) {
-
+					if (Character.isLetterOrDigit(nextChar)) {
 						continue;
 					}
 
-					if (x > 0) {
-						char previousChar = content.charAt(x - 1);
+					int y = afterImportsContent.lastIndexOf(
+						CharPool.NEW_LINE, x);
 
-						if ((previousChar == CharPool.QUOTE) &&
-							(nextChar == CharPool.QUOTE)) {
+					String s = afterImportsContent.substring(y, x + 1);
 
-							continue;
-						}
+					if (isInsideQuotes(s, x - y)) {
+						continue;
 					}
+
+					s = StringUtil.trim(s);
+
+					if (s.startsWith("//")) {
+						continue;
+					}
+
+					String importClassName =
+						importPackageAndClassName.substring(
+							importPackageAndClassName.lastIndexOf(
+								StringPool.PERIOD) + 1);
+
+					afterImportsContent = StringUtil.replaceFirst(
+						afterImportsContent, importPackageAndClassName,
+						importClassName, x);
 				}
-
-				String importClassName = importPackageAndClassName.substring(
-					importPackageAndClassName.lastIndexOf(StringPool.PERIOD) +
-						1);
-
-				content = StringUtil.replaceFirst(
-					content, importPackageAndClassName, importClassName, x);
 			}
-		}
 
-		return content;
+			if (pos == -1) {
+				return afterImportsContent;
+			}
+
+			return content.substring(0, pos) + afterImportsContent;
+		}
 	}
 
 	public static void writeFile(
@@ -281,16 +398,27 @@ public class ToolsUtil {
 			Map<String, Object> jalopySettings, Set<String> modifiedFileNames)
 		throws IOException {
 
-		String packagePath = getPackagePath(file);
+		writeFile(
+			file, content, author, jalopySettings, modifiedFileNames, null);
+	}
+
+	public static void writeFile(
+			File file, String content, String author,
+			Map<String, Object> jalopySettings, Set<String> modifiedFileNames,
+			String packagePath)
+		throws IOException {
+
+		if (Validator.isNull(packagePath)) {
+			packagePath = getPackagePath(file);
+		}
 
 		String className = file.getName();
 
 		className = className.substring(0, className.length() - 5);
 
-		content = JavaImportsFormatter.stripJavaImports(
-			content, packagePath, className);
+		ImportsFormatter importsFormatter = new JavaImportsFormatter();
 
-		content = stripFullyQualifiedClassNames(content);
+		content = importsFormatter.format(content, packagePath, className);
 
 		File tempFile = new File(_TMP_DIR, "ServiceBuilder.temp");
 
@@ -346,6 +474,11 @@ public class ToolsUtil {
 
 		env.set("author", author);
 
+		// Fail on format error
+
+		boolean failOnFormatError = MapUtil.getBoolean(
+			jalopySettings, "failOnFormatError");
+
 		// File name
 
 		env.set("fileName", file.getName());
@@ -362,7 +495,7 @@ public class ToolsUtil {
 			ConventionKeys.COMMENT_JAVADOC_TEMPLATE_INTERFACE,
 			env.interpolate(classMask));
 
-		jalopy.format();
+		boolean formatSuccess = jalopy.format();
 
 		String newContent = sb.toString();
 
@@ -372,8 +505,7 @@ public class ToolsUtil {
 			"(?m)^[ \t]*((?:package|import) .*;)\\s*^[ \t]*/\\*\\*",
 			"$1\n\n/**");
 
-		/*
-		// Remove blank lines after try {
+		/*// Remove blank lines after try {
 
 		newContent = StringUtil.replace(newContent, "try {\n\n", "try {\n");
 
@@ -387,12 +519,16 @@ public class ToolsUtil {
 
 		// Add space to last }
 
-		newContent = newContent.substring(0, newContent.length() - 2) + "\n\n}";
-		*/
+		newContent =
+			newContent.substring(0, newContent.length() - 2) + "\n\n}";*/
 
 		writeFileRaw(file, newContent, modifiedFileNames);
 
 		tempFile.deleteOnExit();
+
+		if (failOnFormatError && !formatSuccess) {
+			throw new IOException("Unable to beautify " + file);
+		}
 	}
 
 	public static void writeFile(

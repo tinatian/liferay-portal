@@ -15,11 +15,11 @@
 package com.liferay.portlet.social.service;
 
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.social.model.SocialActivityDefinition;
-import com.liferay.portlet.social.util.SocialConfigurationUtil;
+import com.liferay.social.kernel.model.SocialActivityDefinition;
+import com.liferay.social.kernel.service.SocialActivitySettingLocalServiceUtil;
+import com.liferay.social.kernel.util.SocialConfigurationUtil;
 
 import java.util.List;
 
@@ -37,8 +37,7 @@ public class SocialActivitySettingLocalServiceTest
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Test
 	public void testGetActivityDefinition() throws Exception {
@@ -67,7 +66,8 @@ public class SocialActivitySettingLocalServiceTest
 		Assert.assertNotNull(activityDefinitions);
 		Assert.assertFalse(activityDefinitions.isEmpty());
 		Assert.assertEquals(
-			defaultActivityDefinitions.size(), activityDefinitions.size());
+			activityDefinitions.toString(), defaultActivityDefinitions.size(),
+			activityDefinitions.size());
 		Assert.assertTrue(
 			activityDefinitions.contains(defaultActivityDefinition));
 	}

@@ -14,10 +14,18 @@
 
 package com.liferay.gradle.plugins;
 
-import com.liferay.gradle.util.FileUtil;
+import com.liferay.gradle.plugins.internal.util.FileUtil;
+import com.liferay.gradle.plugins.internal.util.GradleUtil;
+
+import java.io.File;
+import java.io.IOException;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.UncheckedIOException;
 
 /**
  * @author Andrea Di Giorgi
@@ -28,26 +36,78 @@ public class LiferayPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
-		Plugin<Project> plugin = null;
+		Class<? extends Plugin<Project>> clazz;
 
-		if (FileUtil.exists(project, "bnd.bnd")) {
-			plugin = new LiferayOSGiPlugin();
+		if (_isAnt(project)) {
+			clazz = getAntPluginClass();
+		}
+		else if (_isOSGi(project)) {
+			clazz = getOSGiPluginClass();
+		}
+		else if (_isTheme(project)) {
+			clazz = getThemePluginClass();
 		}
 		else {
-			String projectName = project.getName();
-
-			if (projectName.endsWith("-shared")) {
-				plugin = new LiferayJavaPlugin();
-			}
-			else if (projectName.endsWith("-theme")) {
-				plugin = new LiferayThemePlugin();
-			}
-			else {
-				plugin = new LiferayWebAppPlugin();
-			}
+			clazz = getBasePluginClass();
 		}
 
-		plugin.apply(project);
+		GradleUtil.applyPlugin(project, clazz);
+	}
+
+	protected Class<? extends Plugin<Project>> getAntPluginClass() {
+		return LiferayAntPlugin.class;
+	}
+
+	protected Class<? extends Plugin<Project>> getBasePluginClass() {
+		return LiferayBasePlugin.class;
+	}
+
+	protected Class<? extends Plugin<Project>> getOSGiPluginClass() {
+		return LiferayOSGiPlugin.class;
+	}
+
+	protected Class<? extends Plugin<Project>> getThemePluginClass() {
+		return LiferayThemePlugin.class;
+	}
+
+	private boolean _isAnt(Project project) {
+		if (FileUtil.exists(project, "build.xml")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean _isOSGi(Project project) {
+		if (FileUtil.exists(project, "bnd.bnd")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean _isTheme(Project project) {
+		File gulpFile = project.file("gulpfile.js");
+
+		if (!gulpFile.exists()) {
+			return false;
+		}
+
+		String gulpFileContent;
+
+		try {
+			gulpFileContent = new String(
+				Files.readAllBytes(gulpFile.toPath()), StandardCharsets.UTF_8);
+		}
+		catch (IOException ioe) {
+			throw new UncheckedIOException(ioe);
+		}
+
+		if (gulpFileContent.contains("require('liferay-theme-tasks')")) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

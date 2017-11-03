@@ -45,7 +45,7 @@ public class SpringDependencyAnalyzerPlugin implements AnalyzerPlugin {
 
 	@Override
 	public boolean analyzeJar(Analyzer analyzer) throws Exception {
-		String property = analyzer.getProperty("-spring-dependency");
+		String property = analyzer.getProperty("-liferay-spring-dependency");
 
 		Parameters parameters = analyzer.parseHeader(property);
 
@@ -85,7 +85,7 @@ public class SpringDependencyAnalyzerPlugin implements AnalyzerPlugin {
 	}
 
 	protected String getReleaseInfo(Analyzer analyzer) {
-		String property = analyzer.getProperty("Require-SchemaVersion");
+		String property = analyzer.getProperty("Liferay-Require-SchemaVersion");
 
 		if (property == null) {
 			return "";
@@ -93,7 +93,7 @@ public class SpringDependencyAnalyzerPlugin implements AnalyzerPlugin {
 
 		StringBuffer sb = new StringBuffer(6);
 
-		sb.append("com.liferay.portal.model.Release ");
+		sb.append("com.liferay.portal.kernel.model.Release ");
 		sb.append("(&(release.bundle.symbolic.name=");
 
 		Map.Entry<String, Attrs> entry = analyzer.getBundleSymbolicName();

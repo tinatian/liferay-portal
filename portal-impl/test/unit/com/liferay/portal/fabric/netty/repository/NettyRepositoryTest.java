@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.rule.NewEnv;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.test.rule.AdviseWith;
 import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
@@ -74,7 +75,7 @@ public class NettyRepositoryTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			CodeCoverageAssertor.INSTANCE, AspectJNewEnvTestRule.INSTANCE);
+			AspectJNewEnvTestRule.INSTANCE, CodeCoverageAssertor.INSTANCE);
 
 	@Before
 	public void setUp() throws IOException {
@@ -132,6 +133,7 @@ public class NettyRepositoryTest {
 		Assert.assertSame(_repositoryPath, nettyRepository.getRepositoryPath());
 		Assert.assertEquals(Long.MAX_VALUE, nettyRepository.getFileTimeout);
 		Assert.assertNotNull(nettyRepository.pathMap);
+
 		Assert.assertTrue(
 			_annotatedObjectDecoder.removeFirst() instanceof
 				FileResponseChannelHandler);
@@ -166,9 +168,10 @@ public class NettyRepositoryTest {
 			Path localFilePath = noticeableFuture.get();
 
 			Assert.assertNotNull(localFilePath);
+
 			Assert.assertTrue(Files.notExists(tempFilePath));
 			Assert.assertTrue(Files.exists(localFilePath));
-			Assert.assertEquals(1, pathMap.size());
+			Assert.assertEquals(pathMap.toString(), 1, pathMap.size());
 			Assert.assertSame(localFilePath, pathMap.get(remoteFilePath));
 
 			_nettyRepository.dispose(false);
@@ -225,16 +228,17 @@ public class NettyRepositoryTest {
 			Assert.assertSame(localFilePath, noticeableFuture2.get());
 			Assert.assertSame(localFilePath, fileResponse.getLocalFile());
 			Assert.assertNotNull(localFilePath);
+
 			Assert.assertTrue(Files.notExists(tempFilePath));
 			Assert.assertTrue(Files.exists(localFilePath));
-			Assert.assertEquals(1, pathMap.size());
+			Assert.assertEquals(pathMap.toString(), 1, pathMap.size());
 			Assert.assertSame(localFilePath, pathMap.get(remoteFilePath));
 
 			Files.delete(localFilePath);
 
 			List<LogRecord> logRecords = captureHandler.getLogRecords();
 
-			Assert.assertEquals(4, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 4, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 
@@ -251,15 +255,17 @@ public class NettyRepositoryTest {
 			logRecord = logRecords.get(2);
 
 			Assert.assertEquals(
-				"Fetched remote file " + remoteFilePath + " to " +
-					localFilePath,
+				StringBundler.concat(
+					"Fetched remote file ", String.valueOf(remoteFilePath),
+					" to ", String.valueOf(localFilePath)),
 				logRecord.getMessage());
 
 			logRecord = logRecords.get(3);
 
 			Assert.assertEquals(
-				"Fetched remote file " + remoteFilePath + " to " +
-					localFilePath,
+				StringBundler.concat(
+					"Fetched remote file ", String.valueOf(remoteFilePath),
+					" to ", String.valueOf(localFilePath)),
 				logRecord.getMessage());
 		}
 		finally {
@@ -371,7 +377,7 @@ public class NettyRepositoryTest {
 
 			List<LogRecord> logRecords = captureHandler.getLogRecords();
 
-			Assert.assertEquals(1, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 
@@ -433,7 +439,7 @@ public class NettyRepositoryTest {
 
 			List<LogRecord> logRecords = captureHandler.getLogRecords();
 
-			Assert.assertEquals(2, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 2, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 
@@ -444,9 +450,10 @@ public class NettyRepositoryTest {
 			logRecord = logRecords.get(1);
 
 			Assert.assertEquals(
-				"Remote file " + remoteFilePath +
-					" is not modified, use cached local file " +
-						cachedLocalFilePath,
+				StringBundler.concat(
+					"Remote file ", String.valueOf(remoteFilePath),
+					" is not modified, use cached local file ",
+					String.valueOf(cachedLocalFilePath)),
 				logRecord.getMessage());
 		}
 
@@ -484,6 +491,7 @@ public class NettyRepositoryTest {
 			Paths.get("localFile1"));
 
 		pathMap.put(remoteFilePath1, localFilePath);
+
 		pathMap.put(remoteFilePath2, Paths.get("localFile2"));
 
 		NoticeableFuture<Map<Path, Path>> noticeableFuture =
@@ -513,7 +521,7 @@ public class NettyRepositoryTest {
 
 			List<LogRecord> logRecords = captureHandler.getLogRecords();
 
-			Assert.assertEquals(1, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 
@@ -523,7 +531,7 @@ public class NettyRepositoryTest {
 
 		Map<Path, Path> resultPathMap = noticeableFuture.get();
 
-		Assert.assertEquals(1, resultPathMap.size());
+		Assert.assertEquals(resultPathMap.toString(), 1, resultPathMap.size());
 		Assert.assertEquals(localFilePath, resultPathMap.get(remoteFilePath1));
 	}
 
@@ -535,6 +543,7 @@ public class NettyRepositoryTest {
 		Path remoteFilePath1 = Paths.get("remoteFile1");
 
 		pathMap.put(remoteFilePath1, Paths.get("localFile1"));
+
 		pathMap.put(Paths.get("remoteFile2"), Paths.get("requestFile2"));
 
 		NoticeableFuture<Map<Path, Path>> noticeableFuture =
@@ -554,9 +563,8 @@ public class NettyRepositoryTest {
 	}
 
 	@AdviseWith(
-		adviceClasses = {
-			NettyUtilAdvice.class, DefaultNoticeableFutureAdvice.class
-		}
+		adviceClasses =
+			{NettyUtilAdvice.class, DefaultNoticeableFutureAdvice.class}
 	)
 	@Test
 	public void testGetFilesCovertCausedException() throws Exception {
@@ -586,7 +594,7 @@ public class NettyRepositoryTest {
 
 			List<LogRecord> logRecords = captureHandler.getLogRecords();
 
-			Assert.assertEquals(1, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 
@@ -623,6 +631,7 @@ public class NettyRepositoryTest {
 		Path remoteFilePath1 = Paths.get("remoteFile1");
 
 		pathMap.put(remoteFilePath1, Paths.get("requestFile1"));
+
 		pathMap.put(Paths.get("remoteFile2"), Paths.get("requestFile2"));
 
 		NoticeableFuture<Map<Path, Path>> noticeableFuture =

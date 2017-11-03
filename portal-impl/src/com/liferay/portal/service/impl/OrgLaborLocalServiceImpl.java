@@ -15,8 +15,8 @@
 package com.liferay.portal.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.model.ListTypeConstants;
-import com.liferay.portal.model.OrgLabor;
+import com.liferay.portal.kernel.model.ListTypeConstants;
+import com.liferay.portal.kernel.model.OrgLabor;
 import com.liferay.portal.service.base.OrgLaborLocalServiceBaseImpl;
 
 import java.util.List;
@@ -101,7 +101,7 @@ public class OrgLaborLocalServiceImpl extends OrgLaborLocalServiceBaseImpl {
 	}
 
 	protected void validate(long typeId) throws PortalException {
-		listTypeService.validate(
+		listTypeLocalService.validate(
 			typeId, ListTypeConstants.ORGANIZATION_SERVICE);
 	}
 

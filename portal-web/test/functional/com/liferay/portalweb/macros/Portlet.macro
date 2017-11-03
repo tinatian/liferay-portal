@@ -104,66 +104,144 @@
 
 		<execute macro-mobile="MobileNavigator#clickRemoveIcon" />
 
-		<var method="TestPropsUtil#get('browser.type')" name="browserType" />
-
 		<if>
-			<equals arg1="${browserType}" arg2="internetexplorer" />
+			<condition function="IsNotVisible" locator1="ControlMenuAddPanel#CLOSE_ADD_PANEL" />
 			<then>
-				<execute function="MouseDown#javaScriptMouseDown" locator1="Dockbar#ADD_ICON" />
+				<var method="TestPropsUtil#get('browser.type')" name="browserType" />
 
-				<execute function="MouseUp#javaScriptMouseUp" locator1="Dockbar#ADD_ICON" />
+				<if>
+					<equals arg1="${browserType}" arg2="safari" />
+					<then>
+						<execute function="Pause" locator1="10000" />
+
+						<execute function="Click#clickAt" locator1="ControlMenu#ADD" />
+					</then>
+					<else>
+						<execute function="Click#clickAt" locator1="ControlMenu#ADD" />
+					</else>
+				</if>
 			</then>
-			<else>
-				<execute function="Click#clickAt" locator1="Dockbar#ADD_ICON" />
-			</else>
 		</if>
 
-		<execute function="AssertClick" locator1="DockbarAddpanelapplications#APPLICATIONS_TAB" value1="Applications" />
+		<execute function="AssertElementPresent" locator1="ControlMenuAddPanel#APPLICATIONS_ACCORDION_PANEL_TITLE" />
+		<execute function="AssertVisible" locator1="ControlMenuAddPanel#APPLICATIONS_ACCORDION_PANEL_TITLE" value1="Applications" />
+
+		<execute function="Pause" locator1="5000" />
+
+		<execute macro="Panel#expandSidebarApplicationsPanel" />
+
 		<execute function="Type#sendKeysApplicationSearch" locator1="NavBar#APPLICATION_SEARCH_FIELD" value1="${portletName}" />
 
 		<execute macro-desktop="Portlet#_clickAddPortlet" macro-mobile="Portlet#_mobileClickAddPortlet">
 			<var name="portletName" value="${portletName}" />
 		</execute>
 
-		<execute function="Pause" locator1="5000" />
+		<var name="key_portletName" value="${portletName}" />
 
-		<if>
-			<or>
-				<equals arg1="${portletName}" arg2="Asset Publisher" />
-				<equals arg1="${portletName}" arg2="Documents and Media" />
-				<equals arg1="${portletName}" arg2="Knowledge Base Display" />
-				<equals arg1="${portletName}" arg2="Media Gallery" />
-			</or>
+		<execute function="AssertElementPresent" locator1="Portlet#LOADED" />
+	</command>
+
+	<command name="assertServerShutdown">
+		<var name="shutdownPauseCount" value="0" />
+
+		<while>
+			<and>
+				<condition function="IsElementPresent" locator1="//body" />
+				<not>
+					<equals arg1="${shutdownPauseCount}" arg2="12" />
+				</not>
+			</and>
 			<then>
-				<execute function="Pause" locator1="30000" />
+				<execute function="Refresh" />
+
+				<execute function="Pause" locator1="10000" />
+
+				<var method="MathUtil#sum('${shutdownPauseCount}', '1')" name="shutdownPauseCount" />
+
+				<echo>Shutdown pause count: ${shutdownPauseCount}</echo>
 			</then>
-		</if>
+		</while>
+	</command>
+
+	<command name="assertServerStartup">
+		<var name="startupPauseCount" value="0" />
+
+		<while>
+			<and>
+				<not>
+					<condition function="IsElementPresent" locator1="UserBar#USER_SIGN_IN" />
+				</not>
+				<not>
+					<equals arg1="${startupPauseCount}" arg2="12" />
+				</not>
+			</and>
+			<then>
+				<execute function="Refresh" />
+
+				<execute function="Pause" locator1="10000" />
+
+				<var method="MathUtil#sum('${startupPauseCount}', '1')" name="startupPauseCount" />
+
+				<echo>Startup pause count: ${startupPauseCount}</echo>
+			</then>
+		</while>
 	</command>
 
 	<command name="changeDisplayStyle">
 		<var method="StringUtil#upperCase('${displayStyle}')" name="displayStyle" />
 
 		<if>
-			<condition function="IsElementPresent#isVisible" locator1="Icon#DISPLAY_STYLE_${displayStyle}" />
+			<condition function="IsElementNotPresent" locator1="Icon#DISPLAY_STYLE_${displayStyle}_ACTIVE" />
 			<then>
 				<execute function="Click" locator1="Icon#DISPLAY_STYLE_${displayStyle}" />
 			</then>
 		</if>
+
+		<execute function="AssertElementPresent" locator1="Icon#DISPLAY_STYLE_${displayStyle}_ACTIVE" />
+	</command>
+
+	<command name="clickPortletPlusIconPG">
+		<execute function="Click#makeVisibleClickAt" locator1="Portlet#ICON_PLUS_SIGN">
+			<var name="key_portletName" value="${portletName}" />
+		</execute>
+	</command>
+
+	<command name="configureCustomStylesViaLookandfeelPG">
+		<execute macro="Navigator#gotoNavTab">
+			<var name="navTab" value="Text Styles" />
+		</execute>
+
+		<execute function="Select" locator1="Portlet#TEXT_FONT_SELECT" value1="Verdana" />
+
+		<execute function="Select" locator1="Portlet#TEXT_FONT_SIZE_SELECT" value1="2em" />
+
+		<execute macro="Navigator#gotoNavTab">
+			<var name="navTab" value="Border Styles" />
+		</execute>
+
+		<execute function="Type" locator1="Portlet#BORDER_WIDTH_TOP_INPUT" value1="20" />
+
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="configureCustomTitleViaLookandfeelPG">
-		<execute function="Check" locator1="BasePortlet#PORTLET_CONFIGURATION_USE_CUSTOM_TITLE_CHECKBOX" />
-		<execute function="Type" locator1="BasePortlet#PORTLET_CONFIGURATION_CUSTOM_TITLE_FIELD" value1="${portletName} Custom" />
-		<execute function="AssertClick" locator1="BasePortlet#PORTLET_CONFIGURATION_SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="BasePortlet#PORTLET_CONFIGURATION_SUCCESS_MESSAGE" value1="Your request processed successfully." />
+		<execute function="Check#checkToggleSwitch" locator1="ToggleSwitch#USE_CUSTOM_TITLE" />
+
+		<execute function="Type" locator1="Portlet#CONFIGURATION_CUSTOM_TITLE_FIELD" value1="${portletName} Custom" />
+
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#SUCCESS" value1="Your request processed successfully." />
 	</command>
 
 	<command name="deletePG">
 		<var name="key_portletName" value="${portletName}" />
 
-		<execute function="Click#pauseClickAt" locator1="BasePortlet#SPECIFIC_PORTLET_OPTIONS_ICON" />
+		<execute function="Click#makeVisibleClickAt" locator1="Portlet#SPECIFIC_ELLIPSIS_ICON" />
 
-		<execute function="AssertClickNoError" locator1="BasePortlet#REMOVE" value1="Remove" />
+		<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Remove">
+			<var name="key_menuItem" value="Remove" />
+		</execute>
 
 		<execute function="Confirm" value1="Are you sure you want to remove this component?" />
 	</command>
@@ -174,34 +252,17 @@
 		<execute function="AssertTextEquals" locator1="Home#PAGE_COLUMN_PORTLET_COLUMN_${columnNumberFrom}_PORTLET_TITLE" value1="${portletName}" />
 		<execute function="DragAndDrop#dragAndDropPortletToObject" locator1="Home#PAGE_COLUMN_PORTLET_COLUMN_${columnNumberFrom}_PORTLET_HEADER" locator2="Home#PAGE_COLUMN_${columnNumberTo}" value1="${portletName}" />
 		<execute function="AssertTextEquals" locator1="Home#PAGE_COLUMN_PORTLET_COLUMN_${columnNumberTo}_PORTLET_TITLE" value1="${portletName}" />
-		<execute function="AssertTextEquals" locator1="Home#PAGE_COLUMN_PORTLET_COLUMN_${columnNumberTo}_PORTLET_TITLE" value1="${portletName}" />
 	</command>
 
-	<command name="flagAllDisplaySettingsCheckboxes">
-		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
-			<var name="portletOption" value="Configuration" />
-		</execute>
-
-		<execute function="SelectFrame" locator1="PGADTConfiguration#CONFIGURATION_IFRAME" />
-
-		<if>
-			<condition function="IsElementPresent" locator1="PGADTConfiguration#NAVIGATION_DISPLAY_SETTINGS" />
+	<command name="expandTree">
+		<while>
+			<condition function="IsElementPresent" locator1="Treeview#GLYPHICON_PLUS" />
 			<then>
-				<execute function="AssertClick" locator1="PGADTConfiguration#NAVIGATION_DISPLAY_SETTINGS" value1="Display Settings" />
+				<execute function="Click" locator1="Treeview#GLYPHICON_PLUS" />
 			</then>
-		</if>
+		</while>
 
-		<execute function="Check" locator1="Checkbox#ENABLE_PRINT" />
-		<execute function="Check" locator1="Checkbox#ENABLE_FLAGS" />
-		<execute function="Check" locator1="Checkbox#ENABLE_RELATED_ASSETS" />
-		<execute function="Check" locator1="Checkbox#ENABLE_RATINGS" />
-		<execute function="Check" locator1="Checkbox#ENABLE_COMMENTS" />
-		<execute function="Check" locator1="Checkbox#ENABLE_COMMENT_RATINGS" />
-		<execute function="Check" locator1="Checkbox#ENABLE_SOCIAL_BOOKMARKS" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
-		<execute function="SelectFrameTop" value1="relative=top" />
+		<execute function="AssertElementNotPresent" locator1="Treeview#GLYPHICON_PLUS" />
 	</command>
 
 	<command name="gotoPortletOptions">
@@ -210,54 +271,44 @@
 			<then>
 				<var name="key_portletName" value="${portletName}" />
 
-				<execute function="Click#makeVisibleClickAt" locator1="BasePortlet#SPECIFIC_PORTLET_OPTIONS_ICON" />
+				<execute function="Click#makeVisibleClickAt" locator1="Portlet#SPECIFIC_BORDERLESS_ELLIPSIS_ICON" />
 			</then>
-			<elseif>
-				<isset var="portletNameBorderless" />
-				<then>
-					<var name="key_portletName" value="${portletNameBorderless}" />
-
-					<execute function="MakeVisible" locator1="BasePortlet#SPECIFIC_PORTLET_BORDERLESS_BAR" />
-					<execute function="Click" locator1="BasePortlet#SPECIFIC_PORTLET_BORDERLESS_OPTIONS_ICON" />
-				</then>
-			</elseif>
 			<else>
-				<execute function="Click#mouseOverClick" locator1="BasePortlet#OPTIONS_ICON" />
+				<execute function="Click#makeVisibleClickAt" locator1="Portlet#OPTIONS_ICON" />
 			</else>
 		</if>
 
 		<if>
-			<equals arg1="${portletOption}" arg2="Look and Feel" />
+			<isset var="portletOption" />
 			<then>
-				<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_LOOK_AND_FEEL" value1="Look and Feel" />
+				<var name="key_menuItem" value="${portletOption}" />
+
+				<execute function="Click" locator1="MenuItem#ANY_MENU_ITEM" />
 			</then>
-			<elseif>
-				<equals arg1="${portletOption}" arg2="Configuration" />
-				<then>
-					<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
-				</then>
-			</elseif>
-			<elseif>
-				<equals arg1="${portletOption}" arg2="Preferences" />
-				<then>
-					<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_PREFERENCES" value1="Preferences" />
-				</then>
-			</elseif>
-			<elseif>
-				<equals arg1="${portletOption}" arg2="Export / Import" />
-				<then>
-					<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_EXPORT_IMPORT" value1="Export / Import" />
-				</then>
-			</elseif>
-			<else>
-				<fail message="Invalid var portletOption. Must be (Look and Feel|Configuration|Export / Import)." />
-			</else>
 		</if>
 	</command>
 
-	<command name="shutdownServer">
-		<description message="This will shutdown the server at ${base_branch}-bundles\tomcat." />
+	<command name="openAdminURL">
+		<execute function="Open" locator1="${adminURL}" />
+	</command>
 
+	<command name="selectApplicationDecorator">
+		<execute function="Select" locator1="Select#APPLICATION_DECORATORS" value1="${decorator}" />
+
+		<execute macro="PortletEntry#save" />
+	</command>
+
+	<command name="selectTreeNode">
+		<execute function="AssertClick#assertPartialTextClickAt" locator1="Treeview#NODE_UNSELECTED" value1="${nodeName}">
+			<var name="key_nodeName" value="${nodeName}" />
+		</execute>
+
+		<execute function="AssertElementPresent" locator1="Treeview#NODE_SELECTED">
+			<var name="key_nodeName" value="${nodeName}" />
+		</execute>
+	</command>
+
+	<command name="shutdownServer" summary="Shutdown the current Liferay Portal instance.">
 		<execute function="AntCommand" locator1="build-test.xml" value1="stop-app-server" />
 	</command>
 
@@ -271,9 +322,7 @@
 		<execute function="AntCommand" locator1="build-test.xml" value1="stop-app-server -Dapp.server.bundle.index=${bundleIndex}" />
 	</command>
 
-	<command name="startServer">
-		<description message="This will start the server at ${base_branch}-bundles\tomcat." />
-
+	<command name="startServer" summary="Start the current Liferay Portal instance.">
 		<if>
 			<equals arg1="${deleteLiferayHome}" arg2="false" />
 			<then>
@@ -303,26 +352,18 @@
 		</if>
 	</command>
 
-	<command name="tearDownPG">
-		<description message="Delete all ${portletName} portlets from the Welcome Page, except default portlets." />
+	<command name="viewApplicationDecorator">
+		<var method="StringUtil#lowerCase('${decorator}')" name="decorator" />
 
-		<var name="key_portletName" value="${portletName}" />
-
-		<while>
-			<condition function="IsElementPresent" locator1="BasePortlet#SPECIFIC_PORTLET_TITLE" value1="${portletName}" />
-			<then>
-				<execute macro="Portlet#deletePG">
-					<var name="portletLocator" value="${portletLocator}" />
-					<var name="portletName" value="${portletName}" />
-				</execute>
-			</then>
-		</while>
+		<execute function="AssertElementPresent" locator1="Portlet#PORTLET_BORDER_DECORATOR">
+			<var name="key_decorator" value="${decorator}" />
+		</execute>
 	</command>
 
 	<command name="viewBody" summary="Assert that the ${portletName} portlet body has the text '${portletBody}'">
 		<var name="key_portletName" value="${portletName}" />
 
-		<execute function="AssertTextEquals#assertPartialText" locator1="BasePortlet#PORTLET_BODY" value1="${portletBody}" />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Portlet#BODY" value1="${portletBody}" />
 	</command>
 
 	<command name="viewCannotAddPG">
@@ -341,14 +382,53 @@
 			</elseif>
 		</if>
 
-		<execute function="Click#clickAtSidebarClickAtWaitForScript" locator1="Icon#ADD" value1="Add" />
+		<execute function="Click#clickAtSidebarClickAtWaitForScript" locator1="ControlMenu#ADD" value1="Add" />
 
-		<execute function="AssertClick" locator1="NavPill#APPLICATIONS" value1="Applications" />
+		<execute macro="Panel#expandSidebarApplicationsPanel" />
+
 		<execute function="Type#sendKeysApplicationSearch" locator1="NavBar#APPLICATION_SEARCH_FIELD" value1="${portletName}" />
 
 		<var name="portletLocator" value="//span[@data-title=&quot;${portletName}&quot; and contains(@class,'add-content-item')]" />
 
-		<execute function="AssertElementNotPresent#assertNotVisible" locator1="${portletLocator}" />
+		<execute function="AssertElementNotPresent" locator1="${portletLocator}" />
+	</command>
+
+	<command name="viewCannotEdit">
+		<execute function="AssertElementNotPresent" locator1="Button#EDIT" />
+	</command>
+
+	<command name="viewCannotPublish">
+		<execute function="AssertElementNotPresent" locator1="Button#PUBLISH" value1="Publish" />
+	</command>
+
+	<command name="viewCannotSaveAsDraft">
+		<execute function="AssertElementNotPresent" locator1="Button#SAVE_AS_DRAFT" value1="Save as Draft" />
+	</command>
+
+	<command name="viewCustomStylesViaLookandfeelPG">
+		<execute function="SikuliClick" locator1="Portlet#SIGN_IN_CUSTOM_LOOK_AND_FEEL" />
+	</command>
+
+	<command name="viewDefaultDisplayStyle">
+		<var method="StringUtil#upperCase('${displayStyle}')" name="displayStyleUppercase" />
+
+		<execute function="AssertElementPresent" locator1="Icon#DISPLAY_STYLE_${displayStyleUppercase}_ACTIVE" />
+	</command>
+
+	<command name="viewDisplayStyles">
+		<for list="${displayStyleList}" param="displayStyle">
+			<var method="StringUtil#upperCase('${displayStyle}')" name="displayStyleUppercase" />
+
+			<execute function="AssertElementPresent" locator1="Icon#DISPLAY_STYLE_${displayStyleUppercase}" />
+		</for>
+	</command>
+
+	<command name="viewDisplayStylesNotPresent">
+		<for list="${displayStyleList}" param="displayStyle">
+			<var method="StringUtil#upperCase('${displayStyle}')" name="displayStyleUppercase" />
+
+			<execute function="AssertElementNotPresent" locator1="Icon#DISPLAY_STYLE_${displayStyleUppercase}" />
+		</for>
 	</command>
 
 	<command name="viewDuplicatePG">
@@ -361,15 +441,23 @@
 			<then>
 				<var method="MathUtil#sum('${i}', '1')" name="i" />
 
-				<execute function="AssertElementPresent" locator1="xpath=(//section[header/h1[contains(.,'${portletName}')]])[${i}]" />
+				<execute function="AssertElementPresent" locator1="xpath=(//h2[contains(.,'${portletName}')])[${i}]" />
 			</then>
 		</while>
+	</command>
+
+	<command name="viewEmptyMessage">
+		<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="There are no results." />
+	</command>
+
+	<command name="viewNoPortletsPresentPG">
+		<execute function="AssertElementNotPresent" locator1="Portlet#PORTLET_CONTENT" />
 	</command>
 
 	<command name="viewNoSpecificPG">
 		<var name="key_portletTitleName" value="${portletName}" />
 
-		<execute function="AssertElementNotPresent" locator1="BasePortlet#SPECIFIC_TITLE" value1="${portletName}" />
+		<execute function="AssertElementNotPresent" locator1="Portlet#SPECIFIC_TITLE" value1="${portletName}" />
 	</command>
 
 	<command name="viewPG">
@@ -393,18 +481,46 @@
 
 		<var method="StringUtil#upperCase('${portletName}')" name="portletNameUppercase" />
 
-		<execute function="AssertTextEquals" locator1="BasePortlet#TITLE" value1="${portletNameUppercase}" />
+		<execute function="AssertTextEquals" locator1="Portlet#TITLE" value1="${portletNameUppercase}" />
+	</command>
+
+	<command name="viewPortletOptionsMenulist">
+		<execute function="Click#makeVisibleClickAt" locator1="Portlet#OPTIONS_ICON" />
+
+		<execute function="AssertTextEquals" locator1="MenuItem#ANY_MENU_ITEM" value1="Look and Feel Configuration">
+			<var name="key_menuItem" value="Look and Feel Configuration" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration Templates">
+			<var name="key_menuItem" value="Configuration Templates" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="MenuItem#ANY_MENU_ITEM" value1="Export / Import">
+			<var name="key_menuItem" value="Export / Import" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="MenuItem#ANY_MENU_ITEM" value1="Permissions">
+			<var name="key_menuItem" value="Permissions" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="MenuItem#ANY_MENU_ITEM" value1="Remove">
+			<var name="key_menuItem" value="Remove" />
+		</execute>
 	</command>
 
 	<command name="viewSpecificPG">
 		<var name="key_portletTitleName" value="${portletName}" />
 
-		<execute function="AssertTextEquals" locator1="BasePortlet#SPECIFIC_TITLE" value1="${portletName}" />
+		<execute function="AssertTextEquals" locator1="Portlet#SPECIFIC_TITLE" value1="${portletName}" />
 	</command>
 
 	<command name="viewTitle" summary="Assert that the ${portletName} portlet title has the text '${portletName}'">
 		<var name="key_portletName" value="${portletName}" />
 
-		<execute function="AssertTextEquals" locator1="BasePortlet#TITLE" value1="${portletName}" />
+		<execute function="AssertTextEquals" locator1="Portlet#TITLE" value1="${portletName}" />
 	</command>
 </definition>

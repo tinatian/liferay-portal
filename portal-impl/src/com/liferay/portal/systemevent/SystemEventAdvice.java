@@ -14,22 +14,22 @@
 
 package com.liferay.portal.systemevent;
 
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.AuditedModel;
+import com.liferay.portal.kernel.model.ClassedModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.model.SystemEventConstants;
+import com.liferay.portal.kernel.model.TypedModel;
+import com.liferay.portal.kernel.service.SystemEventLocalServiceUtil;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.systemevent.SystemEventHierarchyEntry;
 import com.liferay.portal.kernel.systemevent.SystemEventHierarchyEntryThreadLocal;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.AuditedModel;
-import com.liferay.portal.model.ClassedModel;
-import com.liferay.portal.model.GroupedModel;
-import com.liferay.portal.model.StagedModel;
-import com.liferay.portal.model.SystemEventConstants;
-import com.liferay.portal.model.TypedModel;
-import com.liferay.portal.service.SystemEventLocalServiceUtil;
 import com.liferay.portal.spring.aop.AnnotationChainableMethodAdvice;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
 
 import java.io.Serializable;
 
@@ -244,7 +244,7 @@ public class SystemEventAdvice
 		try {
 			Class<?> modelClass = classedModel.getClass();
 
-			getUuidMethod = modelClass.getMethod("getUuid", new Class[0]);
+			getUuidMethod = modelClass.getMethod("getUuid", new Class<?>[0]);
 		}
 		catch (Exception e) {
 			return StringPool.BLANK;
@@ -333,13 +333,13 @@ public class SystemEventAdvice
 	private static final SystemEvent _nullSystemEvent = new SystemEvent() {
 
 		@Override
-		public Class<? extends Annotation> annotationType() {
-			return SystemEvent.class;
+		public int action() {
+			return SystemEventConstants.ACTION_NONE;
 		}
 
 		@Override
-		public int action() {
-			return SystemEventConstants.ACTION_NONE;
+		public Class<? extends Annotation> annotationType() {
+			return SystemEvent.class;
 		}
 
 		@Override

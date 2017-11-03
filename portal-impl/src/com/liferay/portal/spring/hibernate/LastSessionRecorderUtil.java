@@ -14,12 +14,12 @@
 
 package com.liferay.portal.spring.hibernate;
 
+import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.transaction.NewTransactionLifecycleListener;
 import com.liferay.portal.kernel.transaction.TransactionAttribute;
 import com.liferay.portal.kernel.transaction.TransactionLifecycleListener;
 import com.liferay.portal.kernel.transaction.TransactionStatus;
-import com.liferay.portal.kernel.util.AutoResetThreadLocal;
 
 import org.hibernate.Session;
 
@@ -31,15 +31,15 @@ public class LastSessionRecorderUtil {
 	public static final TransactionLifecycleListener
 		TRANSACTION_LIFECYCLE_LISTENER = new NewTransactionLifecycleListener() {
 
-		@Override
-		protected void doCreated(
-			TransactionAttribute transactionAttribute,
-			TransactionStatus transactionStatus) {
+			@Override
+			protected void doCreated(
+				TransactionAttribute transactionAttribute,
+				TransactionStatus transactionStatus) {
 
-			syncLastSessionState();
-		}
+				syncLastSessionState();
+			}
 
-	};
+		};
 
 	public static void syncLastSessionState() {
 		Session session = _lastSessionThreadLocal.get();
@@ -60,7 +60,7 @@ public class LastSessionRecorderUtil {
 	}
 
 	private static final ThreadLocal<Session> _lastSessionThreadLocal =
-		new AutoResetThreadLocal<Session>(
+		new CentralizedThreadLocal<>(
 			LastSessionRecorderUtil.class.getName() +
 				"._lastSessionThreadLocal");
 

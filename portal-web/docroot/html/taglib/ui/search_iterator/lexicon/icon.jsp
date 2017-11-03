@@ -14,168 +14,121 @@
  */
 --%>
 
-<%@ include file="/html/taglib/init.jsp" %>
+<%@ include file="/html/taglib/ui/search_iterator/init.jsp" %>
+
+<%@ include file="/html/taglib/ui/search_iterator/lexicon/top.jspf" %>
 
 <%
-SearchContainer searchContainer = (SearchContainer)request.getAttribute("liferay-ui:search:searchContainer");
+request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_CHECKER, rowChecker);
 
-String markupView = (String)request.getAttribute("liferay-ui:search-iterator:markupView");
-boolean paginate = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:search-iterator:paginate"));
-ResultRowSplitter resultRowSplitter = (ResultRowSplitter)request.getAttribute("liferay-ui:search-iterator:resultRowSplitter");
-String type = (String)request.getAttribute("liferay-ui:search:type");
+boolean allRowsIsChecked = true;
 
-String id = searchContainer.getId(request, namespace);
+List<ResultRowSplitterEntry> resultRowSplitterEntries = new ArrayList<ResultRowSplitterEntry>();
 
-List resultRows = searchContainer.getResultRows();
-List<String> headerNames = searchContainer.getHeaderNames();
-List<String> normalizedHeaderNames = searchContainer.getNormalizedHeaderNames();
-String emptyResultsMessage = searchContainer.getEmptyResultsMessage();
-RowChecker rowChecker = searchContainer.getRowChecker();
-
-if (rowChecker != null) {
-	if (headerNames != null) {
-		headerNames.add(0, StringPool.BLANK);
-
-		normalizedHeaderNames.add(0, "rowChecker");
-	}
+if (resultRowSplitter != null) {
+	resultRowSplitterEntries = resultRowSplitter.split(searchContainer.getResultRows());
+}
+else {
+	resultRowSplitterEntries.add(new ResultRowSplitterEntry(StringPool.BLANK, resultRows));
 }
 
-JSONArray primaryKeysJSONArray = JSONFactoryUtil.createJSONArray();
+for (int i = 0; i < resultRowSplitterEntries.size(); i++) {
+	ResultRowSplitterEntry resultRowSplitterEntry = resultRowSplitterEntries.get(i);
+
+	List<com.liferay.portal.kernel.dao.search.ResultRow> curResultRows = resultRowSplitterEntry.getResultRows();
 %>
 
-<c:if test="<%= resultRows.isEmpty() && (emptyResultsMessage != null) %>">
-	<liferay-ui:empty-result-message message="<%= emptyResultsMessage %>" />
-</c:if>
+	<c:if test="<%= Validator.isNotNull(resultRowSplitterEntry.getTitle()) %>">
+		<div class="splitter splitter-spaced">
+			<liferay-ui:message key="<%= resultRowSplitterEntry.getTitle() %>" />
+		</div>
+	</c:if>
 
-<div id="<%= namespace + id %>SearchContainer">
+	<ul class="display-style-icon list-unstyled row" data-qa-id="rows<%= i %>">
 
-	<%
-	request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_CHECKER, rowChecker);
+		<%
+		for (int j = 0; j < curResultRows.size(); j++) {
+			com.liferay.portal.kernel.dao.search.ResultRow row = curResultRows.get(j);
 
-	boolean allRowsIsChecked = true;
+			primaryKeysJSONArray.put(row.getPrimaryKey());
 
-	List<List<com.liferay.portal.kernel.dao.search.ResultRow>> resultRowsList = new ArrayList<List<com.liferay.portal.kernel.dao.search.ResultRow>>();
+			request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW, row);
 
-	if (resultRowSplitter != null) {
-		resultRowsList = resultRowSplitter.split(searchContainer.getResultRows());
-	}
-	else {
-		resultRowsList.add(resultRows);
-	}
+			List entries = row.getEntries();
 
-	for (int i = 0; i < resultRowsList.size(); i++) {
-		List<com.liferay.portal.kernel.dao.search.ResultRow> curResultRows = resultRowsList.get(i);
-	%>
+			boolean rowIsChecked = false;
+			boolean rowIsDisabled = false;
 
-		<ul class="<%= searchContainer.getCssClass() %> <%= resultRows.isEmpty() ? "hide" : StringPool.BLANK %> list-unstyled row">
+			if (rowChecker != null) {
+				rowIsChecked = rowChecker.isChecked(row.getObject());
+				rowIsDisabled = rowChecker.isDisabled(row.getObject());
 
-			<%
-			for (int j = 0; j < curResultRows.size(); j++) {
-				com.liferay.portal.kernel.dao.search.ResultRow row = curResultRows.get(j);
-
-				primaryKeysJSONArray.put(row.getPrimaryKey());
-
-				request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW, row);
-
-				List entries = row.getEntries();
-
-				boolean rowIsChecked = false;
-
-				if (rowChecker != null) {
-					rowIsChecked = rowChecker.isChecked(row.getObject());
-
-					if (!rowIsChecked) {
-						allRowsIsChecked = false;
-					}
+				if (!rowIsChecked) {
+					allRowsIsChecked = false;
 				}
 
-				request.setAttribute("liferay-ui:search-container-row:rowId", id.concat(StringPool.UNDERLINE.concat(row.getRowId())));
+				String rowSelector = rowChecker.getRowSelector();
 
-				Map<String, Object> data = row.getData();
-			%>
+				if (Validator.isNull(rowSelector)) {
+					Map<String, Object> rowData = row.getData();
 
-				<li class="<%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= rowIsChecked ? "active" : StringPool.BLANK %>"  <%= AUIUtil.buildData(data) %>>
-
-					<%
-					for (int k = 0; k < entries.size(); k++) {
-						com.liferay.portal.kernel.dao.search.SearchEntry entry = (com.liferay.portal.kernel.dao.search.SearchEntry)entries.get(k);
-
-						entry.setIndex(k);
-
-						request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_ENTRY, entry);
-					%>
-
-							<%
-							entry.print(pageContext.getOut(), request, response);
-							%>
-
-					<%
+					if (rowData == null) {
+						rowData = new HashMap<String, Object>();
 					}
-					%>
 
-				</li>
+					rowData.put("selectable", !rowIsDisabled);
+
+					row.setData(rowData);
+				}
+			}
+
+			request.setAttribute("liferay-ui:search-container-row:rowId", id.concat(StringPool.UNDERLINE.concat(row.getRowId())));
+
+			Map<String, Object> data = row.getData();
+
+			if (data == null) {
+				data = new HashMap<String, Object>();
+			}
+		%>
+
+			<li class="<%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= rowIsChecked ? "active" : StringPool.BLANK %>" data-qa-id="row" <%= AUIUtil.buildData(data) %>>
 
 				<%
-					request.removeAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
-					request.removeAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_ENTRY);
+				for (int k = 0; k < entries.size(); k++) {
+					com.liferay.portal.kernel.dao.search.SearchEntry entry = (com.liferay.portal.kernel.dao.search.SearchEntry)entries.get(k);
 
-					request.removeAttribute("liferay-ui:search-container-row:rowId");
+					entry.setIndex(k);
+
+					request.setAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_ENTRY, entry);
+				%>
+
+					<%
+					entry.print(pageContext.getOut(), request, response);
+					%>
+
+				<%
 				}
 				%>
 
-				<c:if test="<%= i == (resultRowsList.size() - 1) %>">
-					<li></li>
-				</c:if>
-			</ul>
+			</li>
 
 		<%
+			request.removeAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
+			request.removeAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW_ENTRY);
+
+			request.removeAttribute("liferay-ui:search-container-row:rowId");
 		}
 		%>
 
-</div>
+		<c:if test="<%= i == (resultRowSplitterEntries.size() - 1) %>">
+			<li></li>
+		</c:if>
+	</ul>
 
-<c:if test="<%= PropsValues.SEARCH_CONTAINER_SHOW_PAGINATION_BOTTOM && paginate %>">
-	<div class="<%= resultRows.isEmpty() ? "hide" : StringPool.BLANK %> taglib-search-iterator-page-iterator-bottom">
-		<liferay-ui:search-paginator id='<%= id + "PageIteratorBottom" %>' markupView="<%= markupView %>" searchContainer="<%= searchContainer %>" type="<%= type %>" />
-	</div>
-</c:if>
+<%
+}
 
-<c:if test="<%= Validator.isNotNull(id) %>">
-	<input id="<%= namespace + id %>PrimaryKeys" name="<%= namespace + id %>PrimaryKeys" type="hidden" value="" />
-
-	<aui:script use="liferay-search-container">
-		var searchContainer = new Liferay.SearchContainer(
-			{
-				classNameHover: '<%= _CLASS_NAME_HOVER %>',
-				hover: <%= searchContainer.isHover() %>,
-				id: '<%= namespace + id %>',
-				rowClassNameAlternate: '<%= _ROW_CLASS_NAME_ALTERNATE %>',
-				rowClassNameAlternateHover: '<%= _ROW_CLASS_NAME_ALTERNATE_HOVER %>',
-				rowClassNameBody: '<%= _ROW_CLASS_NAME_BODY %>',
-				rowClassNameBodyHover: '<%= _ROW_CLASS_NAME_BODY %>'
-			}
-		).render();
-
-		searchContainer.updateDataStore(<%= primaryKeysJSONArray.toString() %>);
-
-		var destroySearchContainer = function(event) {
-			if (event.portletId === '<%= portletDisplay.getRootPortletId() %>') {
-				searchContainer.destroy();
-
-				Liferay.detach('destroyPortlet', destroySearchContainer);
-			}
-		};
-
-		Liferay.on('destroyPortlet', destroySearchContainer);
-	</aui:script>
-</c:if>
-
-<%!
-private static final String _CLASS_NAME_HOVER = "hover";
-
-private static final String _ROW_CLASS_NAME_ALTERNATE = "";
-
-private static final String _ROW_CLASS_NAME_ALTERNATE_HOVER = "-hover";
-
-private static final String _ROW_CLASS_NAME_BODY = "";
+String rowHtmlTag = "li";
 %>
+
+<%@ include file="/html/taglib/ui/search_iterator/lexicon/bottom.jspf" %>

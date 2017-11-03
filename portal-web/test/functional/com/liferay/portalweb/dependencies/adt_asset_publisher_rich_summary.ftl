@@ -1,20 +1,30 @@
-<#assign liferay_ui = taglibLiferayHash["/WEB-INF/tld/liferay-ui.tld"] />
+<#if !entries?has_content>
+	<#if !themeDisplay.isSignedIn()>
+		${renderRequest.setAttribute("PORTLET_CONFIGURATOR_VISIBILITY", true)}
+	</#if>
+
+	<div class="alert alert-info">
+		<@liferay_ui["message"] key="there-are-no-results" />
+	</div>
+</#if>
 
 <#list entries as entry>
-	<#assign entry = entry />
+	<#assign
+		entry = entry
 
-	<#assign assetRenderer = entry.getAssetRenderer() />
+		assetRenderer = entry.getAssetRenderer()
 
-	<#assign entryTitle = htmlUtil.escape(assetRenderer.getTitle(locale)) />
+		entryTitle = htmlUtil.escape(assetRenderer.getTitle(locale))
 
-	<#assign viewURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, entry) />
+		viewURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, entry)
+	/>
 
-	<#if assetLinkBehavior != "showFullContent">
-		<#assign viewURL = assetRenderer.getURLViewInContext(renderRequest, renderResponse, viewURL) />
+	<#if !stringUtil.equals(assetLinkBehavior, "showFullContent")>
+		<#assign viewURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, entry, true) />
 	</#if>
 
 	<div class="asset-abstract">
-		<div class="lfr-meta-actions asset-actions">
+		<div class="asset-actions lfr-meta-actions">
 			<@getPrintIcon />
 
 			<@getFlagsIcon />
@@ -23,7 +33,9 @@
 		</div>
 
 		<h3 class="asset-title">
-			<a href="${viewURL}"><img alt="" src="${assetRenderer.getIconPath(renderRequest)}" />${entryTitle}</a>
+			<a href="${viewURL}">
+				${entryTitle}
+			</a>
 		</h3>
 
 		<@getMetadataField fieldName="tags" />
@@ -38,7 +50,7 @@
 			<div class="asset-summary">
 				<@getMetadataField fieldName="author" />
 
-				${htmlUtil.escape(assetRenderer.getSummary(locale))}
+				${htmlUtil.escape(assetRenderer.getSummary(renderRequest, renderResponse))}
 
 				<a href="${viewURL}"><@liferay.language key="read-more" /><span class="hide-accessible"><@liferay.language key="about" />${entryTitle}</span> &raquo;</a>
 			</div>
@@ -50,11 +62,10 @@
 			<@getDiscussion />
 		</div>
 	</div>
-
 </#list>
 
 <#macro getDiscussion>
-	<#if validator.isNotNull(assetRenderer.getDiscussionPath()) && getterUtil.getBoolean(enableComments)>
+	<#if getterUtil.getBoolean(enableComments) && assetRenderer.isCommentable()>
 		<br />
 
 		<#assign discussionURL = renderResponse.createActionURL() />
@@ -86,7 +97,7 @@
 			<#assign title = languageUtil.format(locale, "edit-x", entryTitle, false) />
 
 			<@liferay_ui["icon"]
-				image="edit"
+				iconCssClass="icon-edit-sign"
 				message=title
 				url="javascript:Liferay.Util.openWindow({id:'" + renderResponse.getNamespace() + "editAsset', title: '" + title + "', uri:'" + htmlUtil.escapeURL(editPortletURL.toString()) + "'});"
 			/>
@@ -96,7 +107,7 @@
 
 <#macro getFlagsIcon>
 	<#if getterUtil.getBoolean(enableFlags)>
-		<@liferay_ui["flags"]
+		<@liferay_flags["flags"]
 			className=entry.getClassName()
 			classPK=entry.getClassPK()
 			contentTitle=entry.getTitle(locale)
@@ -110,38 +121,34 @@
 	fieldName
 >
 	<#if stringUtil.split(metadataFields)?seq_contains(fieldName)>
-		<span class="metadata-entry metadata-"${fieldName}">
+		<span class="metadata-entry metadata-${fieldName}">
 			<#assign dateFormat = "dd MMM yyyy - HH:mm:ss" />
 
-			<#if fieldName == "author">
+			<#if stringUtil.equals(fieldName, "author")>
 				<@liferay.language key="by" /> ${portalUtil.getUserName(assetRenderer.getUserId(), assetRenderer.getUserName())}
-			<#elseif fieldName == "categories">
+			<#elseif stringUtil.equals(fieldName, "categories")>
 				<@liferay_ui["asset-categories-summary"]
 					className=entry.getClassName()
 					classPK=entry.getClassPK()
 					portletURL=renderResponse.createRenderURL()
 				/>
-			<#elseif fieldName == "create-date">
+			<#elseif stringUtil.equals(fieldName, "create-date")>
 				${dateUtil.getDate(entry.getCreateDate(), dateFormat, locale)}
-			<#elseif fieldName == "expiration-date">
+			<#elseif stringUtil.equals(fieldName, "expiration-date")>
 				${dateUtil.getDate(entry.getExpirationDate(), dateFormat, locale)}
-			<#elseif fieldName == "modified-date">
+			<#elseif stringUtil.equals(fieldName, "modified-date")>
 				${dateUtil.getDate(entry.getModifiedDate(), dateFormat, locale)}
-			<#elseif fieldName == "priority">
+			<#elseif stringUtil.equals(fieldName, "priority")>
 				${entry.getPriority()}
-			<#elseif fieldName == "publish-date">
+			<#elseif stringUtil.equals(fieldName, "publish-date")>
 				${dateUtil.getDate(entry.getPublishDate(), dateFormat, locale)}
-			<#elseif fieldName == "tags">
+			<#elseif stringUtil.equals(fieldName, "tags")>
 				<@liferay_ui["asset-tags-summary"]
 					className=entry.getClassName()
 					classPK=entry.getClassPK()
 					portletURL=renderResponse.createRenderURL()
 				/>
-			<#elseif fieldName == "view-count">
-				<@liferay_ui["icon"]
-					image="history"
-				/>
-
+			<#elseif stringUtil.equals(fieldName, "view-count")>
 				${entry.getViewCount()} <@liferay.language key="views" />
 			</#if>
 		</span>
@@ -157,8 +164,8 @@
 		${printURL.setParameter("viewMode", "print")}
 		${printURL.setParameter("type", entry.getAssetRendererFactory().getType())}
 
-		<#if (validator.isNotNull(assetRenderer.getUrlTitle()))>
-			<#if (assetRenderer.getGroupId() != themeDisplay.getScopeGroupId())>
+		<#if (assetRenderer.getUrlTitle()??) && validator.isNotNull(assetRenderer.getUrlTitle())>
+			<#if assetRenderer.getGroupId() != themeDisplay.getScopeGroupId()>
 				${printURL.setParameter("groupId", assetRenderer.getGroupId()?string)}
 			</#if>
 
@@ -168,7 +175,7 @@
 		${printURL.setWindowState("pop_up")}
 
 		<@liferay_ui["icon"]
-			image="print"
+			iconCssClass="icon-print"
 			message="print"
 			url="javascript:Liferay.Util.openWindow({id:'" + renderResponse.getNamespace() + "printAsset', title: '" + languageUtil.format(locale, "print-x-x", ["hide-accessible", entryTitle], false) + "', uri: '" + htmlUtil.escapeURL(printURL.toString()) + "'});"
 		/>
@@ -176,7 +183,7 @@
 </#macro>
 
 <#macro getRatings>
-	<#if getterUtil.getBoolean(enableRatings)>
+	<#if getterUtil.getBoolean(enableRatings) && assetRenderer.isRatable()>
 		<div class="asset-ratings">
 			<@liferay_ui["ratings"]
 				className=entry.getClassName()
@@ -188,9 +195,7 @@
 
 <#macro getRelatedAssets>
 	<#if getterUtil.getBoolean(enableRelatedAssets)>
-		<@liferay_ui["asset-links"]
-			assetEntryId=entry.getEntryId()
-		/>
+		<@liferay_ui["asset-links"] assetEntryId=entry.getEntryId() />
 	</#if>
 </#macro>
 

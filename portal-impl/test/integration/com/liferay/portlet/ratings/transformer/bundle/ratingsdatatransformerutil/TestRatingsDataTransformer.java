@@ -15,11 +15,11 @@
 package com.liferay.portlet.ratings.transformer.bundle.ratingsdatatransformerutil;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery.PerformActionMethod;
-import com.liferay.portal.kernel.util.StackTraceUtil;
-import com.liferay.portlet.ratings.RatingsType;
-import com.liferay.portlet.ratings.transformer.RatingsDataTransformer;
+import com.liferay.ratings.kernel.RatingsType;
+import com.liferay.ratings.kernel.model.RatingsEntry;
+import com.liferay.ratings.kernel.transformer.RatingsDataTransformer;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -34,19 +34,19 @@ import org.osgi.service.component.annotations.Reference;
 public class TestRatingsDataTransformer implements RatingsDataTransformer {
 
 	@Override
-	public PerformActionMethod transformRatingsData(
+	public PerformActionMethod<RatingsEntry> transformRatingsData(
 		RatingsType fromRatingsType, RatingsType toRatingsType) {
 
-		_atomicReference.set(StackTraceUtil.getCallerKey());
+		_atomicBoolean.set(Boolean.TRUE);
 
 		return null;
 	}
 
 	@Reference(target = "(test=AtomicState)")
-	protected void setAtomicReference(AtomicReference<String> atomicReference) {
-		_atomicReference = atomicReference;
+	protected void setAtomicBoolean(AtomicBoolean atomicBoolean) {
+		_atomicBoolean = atomicBoolean;
 	}
 
-	private AtomicReference<String> _atomicReference;
+	private AtomicBoolean _atomicBoolean;
 
 }

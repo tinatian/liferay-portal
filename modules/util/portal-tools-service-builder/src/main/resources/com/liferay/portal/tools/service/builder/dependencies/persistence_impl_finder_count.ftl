@@ -1,4 +1,4 @@
-<#assign finderColsList = finder.getColumns()>
+<#assign finderColsList = finder.getColumns() />
 
 /**
  * Returns the number of ${entity.humanNames} where ${finder.getHumanConditions(false)}.
@@ -108,13 +108,13 @@ public int countBy${finder.name}(
 				}
 				else if (${finderCol.names}.length > 1) {
 					${finderCol.names} =
-						<#if finderCol.type == "String">
+						<#if stringUtil.equals(finderCol.type, "String")>
 							ArrayUtil.distinct(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 						<#else>
 							ArrayUtil.unique(${finderCol.names});
 						</#if>
 
-					<#if finderCol.type == "String">
+					<#if stringUtil.equals(finderCol.type, "String")>
 						Arrays.sort(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 					<#else>
 						Arrays.sort(${finderCol.names});
@@ -155,9 +155,7 @@ public int countBy${finder.name}(
 					QueryPos qPos = QueryPos.getInstance(q);
 				</#if>
 
-				<@finderQPos
-					_arrayable=true
-				/>
+				<@finderQPos _arrayable=true />
 
 				count = (Long)q.uniqueResult();
 
@@ -198,7 +196,14 @@ public int countBy${finder.name}(
 	</#list>
 
 	) {
-		if (!InlineSQLHelperUtil.isEnabled(<#if finder.hasColumn("groupId")>groupId</#if>)) {
+		<#if finder.hasColumn("groupId")>
+			if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+		<#elseif finder.hasColumn("companyId")>
+			if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+		<#else>
+			if (!InlineSQLHelperUtil.isEnabled()) {
+		</#if>
+
 			return countBy${finder.name}(
 
 			<#list finderColsList as finderCol>
@@ -243,11 +248,11 @@ public int countBy${finder.name}(
 
 			query.append(_FILTER_SQL_COUNT_${entity.alias?upper_case}_WHERE);
 
-			<#assign sqlQuery = true>
+			<#assign sqlQuery = true />
 
 			<#include "persistence_impl_finder_cols.ftl">
 
-			<#assign sqlQuery = false>
+			<#assign sqlQuery = false />
 
 			String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(), ${entity.name}.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN<#if finder.hasColumn("groupId")>, groupId</#if>);
 
@@ -306,14 +311,19 @@ public int countBy${finder.name}(
 		</#list>
 
 		) {
-			if (!InlineSQLHelperUtil.isEnabled(
-				<#if finder.hasColumn("groupId")>
+			<#if finder.hasColumn("groupId")>
+				if (!InlineSQLHelperUtil.isEnabled(
 					<#if finder.getColumn("groupId").hasArrayableOperator()>
 						groupIds
 					<#else>
 						groupId
 					</#if>
-				</#if>)) {
+				)) {
+			<#elseif finder.hasColumn("companyId")>
+				if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			<#else>
+				if (!InlineSQLHelperUtil.isEnabled()) {
+			</#if>
 
 				return countBy${finder.name}(
 
@@ -339,13 +349,13 @@ public int countBy${finder.name}(
 					}
 					else if (${finderCol.names}.length > 1) {
 						${finderCol.names} =
-							<#if finderCol.type == "String">
+							<#if stringUtil.equals(finderCol.type, "String")>
 								ArrayUtil.distinct(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 							<#else>
 								ArrayUtil.unique(${finderCol.names});
 							</#if>
 
-						<#if finderCol.type == "String">
+						<#if stringUtil.equals(finderCol.type, "String")>
 							Arrays.sort(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 						<#else>
 							Arrays.sort(${finderCol.names});
@@ -378,9 +388,7 @@ public int countBy${finder.name}(
 						QueryPos qPos = QueryPos.getInstance(q);
 					</#if>
 
-					<@finderQPos
-						_arrayable=true
-					/>
+					<@finderQPos _arrayable=true />
 
 					Long count = (Long)q.uniqueResult();
 
@@ -397,11 +405,11 @@ public int countBy${finder.name}(
 
 				query.append(_FILTER_SQL_COUNT_${entity.alias?upper_case}_WHERE);
 
-				<#assign sqlQuery = true>
+				<#assign sqlQuery = true />
 
 				<#include "persistence_impl_finder_arrayable_cols.ftl">
 
-				<#assign sqlQuery = false>
+				<#assign sqlQuery = false />
 
 				String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(), ${entity.name}.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN
 
@@ -426,9 +434,7 @@ public int countBy${finder.name}(
 						QueryPos qPos = QueryPos.getInstance(q);
 					</#if>
 
-					<@finderQPos
-						_arrayable=true
-					/>
+					<@finderQPos _arrayable=true />
 
 					Long count = (Long)q.uniqueResult();
 

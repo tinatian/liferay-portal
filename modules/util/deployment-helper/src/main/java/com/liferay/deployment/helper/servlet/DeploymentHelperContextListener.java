@@ -14,6 +14,9 @@
 
 package com.liferay.deployment.helper.servlet;
 
+import com.liferay.portal.kernel.deploy.DeployManagerUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -50,10 +53,11 @@ public class DeploymentHelperContextListener implements ServletContextListener {
 			"deployment-path");
 
 		if ((deploymentPath == null) || deploymentPath.equals("")) {
-			servletContext.log(
-				"No deployment path is specified in the web.xml");
+			deploymentPath = PropsUtil.get("auto.deploy.deploy.dir");
 
-			return;
+			servletContext.log(
+				"Using deployment path " + deploymentPath +
+					" because it is not specified in web.xml");
 		}
 
 		File deploymentPathFile = new File(deploymentPath);
@@ -112,10 +116,19 @@ public class DeploymentHelperContextListener implements ServletContextListener {
 			}
 			catch (Exception e) {
 				servletContext.log(
-					"An error occured while attempting to process " +
-						deploymentFileName + ":\n" + e.getMessage(),
+					"Unable to process " + deploymentFileName + ":\n" +
+						e.getMessage(),
 					e);
 			}
+		}
+
+		try {
+			DeployManagerUtil.undeploy(servletContext.getServletContextName());
+		}
+		catch (Exception e) {
+			servletContext.log(
+				"Unable to undeploy " + servletContext.getServletContextName(),
+				e);
 		}
 	}
 

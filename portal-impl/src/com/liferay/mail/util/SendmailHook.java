@@ -14,10 +14,12 @@
 
 package com.liferay.mail.util;
 
-import com.liferay.mail.model.Filter;
+import com.liferay.mail.kernel.model.Filter;
+import com.liferay.mail.kernel.util.Hook;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedReader;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.process.LoggingOutputProcessor;
 import com.liferay.portal.kernel.process.ProcessUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -46,7 +48,9 @@ public class SendmailHook implements Hook {
 			if (emailAddresses != null) {
 				String home = PropsUtil.get(PropsKeys.MAIL_HOOK_SENDMAIL_HOME);
 
-				File file = new File(home + "/" + userId + "/.forward");
+				File file = new File(
+					StringBundler.concat(
+						home, "/", String.valueOf(userId), "/.forward"));
 
 				if (!emailAddresses.isEmpty()) {
 					StringBundler sb = new StringBundler(
@@ -56,6 +60,7 @@ public class SendmailHook implements Hook {
 						String emailAddress = emailAddresses.get(i);
 
 						sb.append(emailAddress);
+
 						sb.append("\n");
 					}
 
@@ -88,7 +93,16 @@ public class SendmailHook implements Hook {
 
 		try {
 			Future<?> future = ProcessUtil.execute(
-				ProcessUtil.LOGGING_OUTPUT_PROCESSOR, addUserCmd);
+				new LoggingOutputProcessor(
+					(stdErr, line) -> {
+						if (stdErr) {
+							_log.error(line);
+						}
+						else if (_log.isInfoEnabled()) {
+							_log.info(line);
+						}
+					}),
+				addUserCmd);
 
 			future.get();
 		}
@@ -127,7 +141,16 @@ public class SendmailHook implements Hook {
 
 		try {
 			Future<?> future = ProcessUtil.execute(
-				ProcessUtil.LOGGING_OUTPUT_PROCESSOR, deleteUserCmd);
+				new LoggingOutputProcessor(
+					(stdErr, line) -> {
+						if (stdErr) {
+							_log.error(line);
+						}
+						else if (_log.isInfoEnabled()) {
+							_log.info(line);
+						}
+					}),
+				deleteUserCmd);
 
 			future.get();
 		}
@@ -142,7 +165,9 @@ public class SendmailHook implements Hook {
 
 		String home = PropsUtil.get(PropsKeys.MAIL_HOOK_SENDMAIL_HOME);
 
-		File file = new File(home + "/" + userId + "/.procmailrc");
+		File file = new File(
+			StringBundler.concat(
+				home, "/", String.valueOf(userId), "/.procmailrc"));
 
 		if (ListUtil.isEmpty(blocked)) {
 			file.delete();
@@ -215,7 +240,16 @@ public class SendmailHook implements Hook {
 				PropsKeys.MAIL_HOOK_SENDMAIL_VIRTUSERTABLE_REFRESH);
 
 			Future<?> future = ProcessUtil.execute(
-				ProcessUtil.LOGGING_OUTPUT_PROCESSOR, virtusertableRefreshCmd);
+				new LoggingOutputProcessor(
+					(stdErr, line) -> {
+						if (stdErr) {
+							_log.error(line);
+						}
+						else if (_log.isInfoEnabled()) {
+							_log.info(line);
+						}
+					}),
+				virtusertableRefreshCmd);
 
 			future.get();
 		}
@@ -244,7 +278,16 @@ public class SendmailHook implements Hook {
 
 		try {
 			Future<?> future = ProcessUtil.execute(
-				ProcessUtil.LOGGING_OUTPUT_PROCESSOR, changePasswordCmd);
+				new LoggingOutputProcessor(
+					(stdErr, line) -> {
+						if (stdErr) {
+							_log.error(line);
+						}
+						else if (_log.isInfoEnabled()) {
+							_log.info(line);
+						}
+					}),
+				changePasswordCmd);
 
 			future.get();
 		}

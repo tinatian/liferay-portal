@@ -15,11 +15,19 @@
 package com.liferay.portal.tools;
 
 import com.liferay.portal.kernel.dao.db.DB;
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
+import com.liferay.portal.kernel.dao.db.DBType;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.IOException;
+
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.util.Map;
 
@@ -40,30 +48,34 @@ public class DBBuilder {
 
 		String databaseTypesString = arguments.get("db.database.types");
 
-		String[] databaseTypes = null;
+		DBType[] dbTypes = DBType.values();
 
-		if (databaseTypesString == null) {
-			databaseTypes = DB.TYPE_ALL;
-		}
-		else {
-			databaseTypes = StringUtil.split(databaseTypesString);
+		if (databaseTypesString != null) {
+			String[] databaseTypeValues = StringUtil.split(databaseTypesString);
+
+			dbTypes = new DBType[databaseTypeValues.length];
+
+			for (int i = 0; i < dbTypes.length; i++) {
+				dbTypes[i] = DBType.valueOf(
+					StringUtil.toUpperCase(databaseTypeValues[i]));
+			}
 		}
 
 		String sqlDir = arguments.get("db.sql.dir");
 
 		try {
-			new DBBuilder(databaseName, databaseTypes, sqlDir);
+			new DBBuilder(databaseName, dbTypes, sqlDir);
 		}
 		catch (Exception e) {
 			ArgumentsUtil.processMainException(arguments, e);
 		}
 	}
 
-	public DBBuilder(String databaseName, String[] databaseTypes, String sqlDir)
+	public DBBuilder(String databaseName, DBType[] dbTypes, String sqlDir)
 		throws Exception {
 
 		_databaseName = databaseName;
-		_databaseTypes = databaseTypes;
+		_dbTypes = dbTypes;
 
 		if (!sqlDir.endsWith("/META-INF/sql") &&
 			!sqlDir.endsWith("/WEB-INF/sql")) {
@@ -94,18 +106,20 @@ public class DBBuilder {
 		_buildSQLFile(sqlDir, "update-6.0.6-6.1.0");
 		_buildSQLFile(sqlDir, "update-6.0.12-6.1.0");
 		_buildSQLFile(sqlDir, "update-6.1.0-6.1.1");
-		_buildSQLFile(sqlDir, "update-6.1.1-6.2.0");
+		_buildSQLFiles(sqlDir, "update-6.1.1-6.2.0*");
+		_buildSQLFiles(sqlDir, "update-6.2.0-7.0.0*");
+		_buildSQLFiles(sqlDir, "update-7.0.0-7.0.1*");
 
 		_buildCreateFile(sqlDir);
 	}
 
 	private void _buildCreateFile(String sqlDir) throws IOException {
-		for (String databaseType : _databaseTypes) {
-			if (databaseType.equals(DB.TYPE_HYPERSONIC)) {
+		for (DBType dbType : _dbTypes) {
+			if (dbType == DBType.HYPERSONIC) {
 				continue;
 			}
 
-			DB db = DBFactoryUtil.getDB(databaseType, null);
+			DB db = DBManagerUtil.getDB(dbType, null);
 
 			if (db != null) {
 				if (!sqlDir.endsWith("/WEB-INF/sql")) {
@@ -121,12 +135,37 @@ public class DBBuilder {
 	private void _buildSQLFile(String sqlDir, String fileName)
 		throws IOException {
 
-		if (!FileUtil.exists(sqlDir + "/" + fileName + ".sql")) {
+		if (!FileUtil.exists(
+				StringBundler.concat(sqlDir, "/", fileName, ".sql"))) {
+
 			return;
 		}
 
-		for (String _databaseType : _databaseTypes) {
-			DB db = DBFactoryUtil.getDB(_databaseType, null);
+		_generateSQLFile(sqlDir, fileName);
+	}
+
+	private void _buildSQLFiles(String sqlDir, String regex)
+		throws IOException {
+
+		try (DirectoryStream<Path> paths = Files.newDirectoryStream(
+				Paths.get(sqlDir), regex)) {
+
+			for (Path path : paths) {
+				Path fileNamePath = path.getFileName();
+
+				String fileName = fileNamePath.toString();
+
+				_generateSQLFile(
+					sqlDir, fileName.replace(".sql", StringPool.BLANK));
+			}
+		}
+	}
+
+	private void _generateSQLFile(String sqlDir, String fileName)
+		throws IOException {
+
+		for (DBType dbType : _dbTypes) {
+			DB db = DBManagerUtil.getDB(dbType, null);
 
 			if (db != null) {
 				db.buildSQLFile(sqlDir, fileName);
@@ -135,6 +174,6 @@ public class DBBuilder {
 	}
 
 	private final String _databaseName;
-	private final String[] _databaseTypes;
+	private final DBType[] _dbTypes;
 
 }

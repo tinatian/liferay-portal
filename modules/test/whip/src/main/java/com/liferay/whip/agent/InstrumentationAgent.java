@@ -26,9 +26,12 @@ import java.io.IOException;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
+import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.objectweb.asm.Type;
 
 /**
  * @author Shuyang Zhou
@@ -36,7 +39,8 @@ import java.util.List;
 public class InstrumentationAgent {
 
 	public static synchronized void assertCoverage(
-		boolean includeInnerClasses, Class<?>... classes) {
+		boolean includeInnerClasses, List<Class<?>> classes,
+		List<Method> methods) {
 
 		if (!_dynamicallyInstrumented) {
 			return;
@@ -59,7 +63,7 @@ public class InstrumentationAgent {
 
 				ClassData classData = projectData.getClassData(clazz.getName());
 
-				_assertClassDataCoverage(assertionErrors, clazz, classData);
+				_assertClassDataCoverage(assertionErrors, classData);
 
 				if (includeInnerClasses) {
 					Class<?>[] declaredClasses = clazz.getDeclaredClasses();
@@ -79,10 +83,17 @@ public class InstrumentationAgent {
 						classData = projectData.getClassData(
 							declaredClass.getName());
 
-						_assertClassDataCoverage(
-							assertionErrors, declaredClass, classData);
+						_assertClassDataCoverage(assertionErrors, classData);
 					}
 				}
+			}
+
+			for (Method method : methods) {
+				Class<?> clazz = method.getDeclaringClass();
+
+				ClassData classData = projectData.getClassData(clazz.getName());
+
+				_assertMethodCoverage(assertionErrors, classData, method);
 			}
 
 			if (!assertionErrors.isEmpty()) {
@@ -183,7 +194,7 @@ public class InstrumentationAgent {
 
 		_instrumentation.addTransformer(_whipClassFileTransformer, true);
 
-		Class<?>[] allLoadedClasses =_instrumentation.getAllLoadedClasses();
+		Class<?>[] allLoadedClasses = _instrumentation.getAllLoadedClasses();
 
 		List<Class<?>> modifiableClasses = new ArrayList<>();
 
@@ -302,22 +313,20 @@ public class InstrumentationAgent {
 	}
 
 	private static void _assertClassDataCoverage(
-		List<AssertionError> assertionErrors, Class<?> clazz,
-		ClassData classData) {
-
-		if (clazz.isInterface()) {
-			return;
-		}
+		List<AssertionError> assertionErrors, ClassData classData) {
 
 		if ((classData.getBranchCoverageRate() != 1.0) ||
 			(classData.getLineCoverageRate() != 1.0)) {
 
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("%n[Whip] %s is not fully covered.%n[Whip]Branch ");
+			sb.append("coverage rate : %.2f, line coverage rate : ");
+			sb.append("%.2f.%n");
+
 			System.out.printf(
-				"%n[Whip] %s is not fully covered.%n[Whip]Branch " +
-					"coverage rate : %.2f, line coverage rate : %.2f.%n" +
-						"[Whip]Please rerun test with -Djunit.code." +
-							"coverage=true to see coverage report.%n",
-				classData.getName(), classData.getBranchCoverageRate(),
+				sb.toString(), classData.getName(),
+				classData.getBranchCoverageRate(),
 				classData.getLineCoverageRate());
 
 			for (LineData lineData : classData.getLines()) {
@@ -338,6 +347,42 @@ public class InstrumentationAgent {
 		}
 
 		System.out.printf("[Whip] %s is fully covered.%n", classData.getName());
+	}
+
+	private static void _assertMethodCoverage(
+		List<AssertionError> assertionErrors, ClassData classData,
+		Method method) {
+
+		boolean hasUncoveredLines = false;
+
+		for (LineData lineData : classData.getLines()) {
+			if (lineData.isCovered()) {
+				continue;
+			}
+
+			String methodName = lineData.getMethodName();
+
+			if (!methodName.equals(method.getName())) {
+				continue;
+			}
+
+			String methodDescriptor = Type.getMethodDescriptor(method);
+
+			if (!methodDescriptor.equals(lineData.getMethodDescriptor())) {
+				continue;
+			}
+
+			hasUncoveredLines = true;
+
+			System.out.printf(
+				"[Whip] %s line %d is not covered %n", method,
+				lineData.getLineNumber());
+		}
+
+		if (hasUncoveredLines) {
+			assertionErrors.add(
+				new AssertionError(method + " is not fully covered"));
+		}
 	}
 
 	private static final File _dataFile;

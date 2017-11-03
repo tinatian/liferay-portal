@@ -1,0 +1,11 @@
+<definition default="uploadTempFile">
+	<command name="uploadTempFile">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.UploadTempFile#uploadTempFile" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+	</command>
+</definition>

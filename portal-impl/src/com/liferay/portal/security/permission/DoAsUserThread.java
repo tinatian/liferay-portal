@@ -16,9 +16,13 @@ package com.liferay.portal.security.permission;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -43,9 +47,11 @@ public abstract class DoAsUserThread extends Thread {
 	public void run() {
 		for (int i = 0; i < _retries; i++) {
 			try {
-				PrincipalThreadLocal.setName(_userId);
-
 				User user = UserLocalServiceUtil.getUserById(_userId);
+
+				CompanyThreadLocal.setCompanyId(user.getCompanyId());
+
+				PrincipalThreadLocal.setName(_userId);
 
 				PermissionChecker permissionChecker =
 					PermissionCheckerFactoryUtil.create(user);

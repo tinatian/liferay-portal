@@ -9,8 +9,48 @@
 </thead>
 <tbody>
 <tr>
-	<td>TITLE_FIELD</td>
-	<td>//div[contains(@id,'titleEditor') and contains(@aria-label,'Rich Text Editor')]</td>
+	<td>CONTENT_ADD_BUTTON</td>
+	<td>//button[contains(@class,'ae-button') and contains(@class,'add')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_FIELD</td>
+	<td>//div[contains(@class,'alloy-editor-container')]//div[(contains(@data-placeholder,'Write your content here...') or contains(@data-placeholder,'Content')) and contains(@title,'Rich Text Editor')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_FIELD_BOLD</td>
+	<td>//div[contains(@class,'alloy-editor-container')]//div[(contains(@data-placeholder,'Write your content here...') or contains(@data-placeholder,'Content')) and contains(@title,'Rich Text Editor')]//strong[contains(.,'${key_boldContent}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_FIELD_LOCALIZED</td>
+	<td>//div[contains(@id,'contentEditor') and contains(@title,'${key_localizedText}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_FIELD_LOCALIZED_1</td>
+	<td>//div[contains(@class,'alloy-editor-container')]//div[(contains(@data-placeholder,'Escriba su comentario aquí...') or contains(@data-placeholder,'Content')) and contains(@title,'Editor de texto enriquecido')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_FIELD_ITALIC</td>
+	<td>//div[contains(@class,'alloy-editor-container')]//div[(contains(@data-placeholder,'Write your content here...') or contains(@data-placeholder,'Content')) and contains(@title,'Rich Text Editor')]//em[contains(.,'${key_blodContent}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_FIELD_UNDERLINE</td>
+	<td>//div[contains(@class,'alloy-editor-container')]//div[(contains(@data-placeholder,'Write your content here...') or contains(@data-placeholder,'Content')) and contains(@title,'Rich Text Editor')]//u[contains(.,'${key_blodContent}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DESCRIPTION_FIELD</td>
+	<td>//div[contains(@id,'descriptionEditor') and contains(@aria-label,'Rich Text Editor')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>NAME_FIELD</td>
+	<td>//div[contains(@id,'nameEditor') and contains(@aria-label,'Rich Text Editor')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -19,18 +59,13 @@
 	<td></td>
 </tr>
 <tr>
-	<td>CONTENT_FIELD</td>
-	<td>//div[contains(@id,'contentEditor') and contains(@aria-label,'Rich Text Editor')]</td>
+	<td>TITLE_FIELD</td>
+	<td>//div[contains(@id,'titleEditor') and contains(@aria-label,'Rich Text Editor')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>CONTENT_ADD_BUTTON</td>
-	<td>//button[contains(@class,'ae-button') and contains(@class,'add')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DESCRIPTION_FIELD</td>
-	<td>//div[contains(@id,'descriptionEditor') and contains(@aria-label,'Rich Text Editor')]</td>
+	<td>TITLE_FIELD_LOCALIZED</td>
+	<td>//div[contains(@id,'titleEditor') and contains(@aria-label,'${key_localizedText}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -78,12 +113,12 @@
 <!--TEXT_FORMATTING-->
 <tr>
 	<td>TEXT_FORMATTING_STYLE</td>
-	<td>//button[contains(@class,'alloy-editor-toolbar-element')]//span[contains(@class,'icon-arrow')]</td>
+	<td>//button[contains(@class,'ae-toolbar-element')]//span[contains(@class,'icon-arrow')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>TEXT_FORMATTING_STYLE_DROPDOWN</td>
-	<td>//button[contains(@class,'alloy-editor-toolbar-element') and contains(.,'${key_styleFormat}')]</td>
+	<td>//button[contains(@class,'ae-toolbar-element') and contains(@data-reactid,'${key_styleFormat}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -130,7 +165,7 @@
 <!--CONTENT_EDITOR-->
 <tr>
 	<td>CONTENT_EDITOR_SWITCH_ACE_EDITOR</td>
-	<td>//button[contains(@id,'contentEditorSwitch') and contains(.,'&lt;/&gt;')]</td>
+	<td>//button[contains(@id,'EditorSwitch')]/span/*[name()='svg'][contains(@class,'icon-code')]</td>
 	<td></td>
 </tr>
 <tr>

@@ -4,6 +4,13 @@
 	<var name="userPasswordReminderAnswer" value="test" />
 
 	<command name="_signIn">
+		<if>
+			<condition function="IsElementNotPresent" locator1="TextInput#EMAIL_ADDRESS" />
+			<then>
+				<execute function="AssertClick" locator1="UserBar#USER_SIGN_IN" value1="Sign In" />
+			</then>
+		</if>
+
 		<execute function="Type" locator1="TextInput#EMAIL_ADDRESS" value1="${userEmailAddress}" />
 		<execute function="Type" locator1="TextInput#PASSWORD" value1="${userPassword}" />
 
@@ -33,16 +40,6 @@
 		<execute function="AssertClick" locator1="Button#SIGN_IN" value1="Sign In" />
 	</command>
 
-	<command name="_signInViaDockbar">
-		<execute function="AssertClick" locator1="ControlMenu#USER_SIGN_IN" value1="Sign In" />
-
-		<execute macro="SignIn#_signIn">
-			<var name="rememberMe" value="${rememberMe}" />
-			<var name="userEmailAddress" value="${userEmailAddress}" />
-			<var name="userPassword" value="${userPassword}" />
-		</execute>
-	</command>
-
 	<command name="agreeToTermsOfUse" summary="Agree to Liferay Portal Terms of Use">
 		<execute function="AssertClick" locator1="Button#I_AGREE" value1="I Agree" />
 
@@ -53,7 +50,7 @@
 		<execute function="Type" locator1="TextInput#NEW_PASSWORD" value1="${userNewPassword}" />
 		<execute function="Type" locator1="TextInput#ENTER_AGAIN" value1="${userNewPassword}" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="Button#clickSave" />
 
 		<execute function="AssertElementNotPresent" locator1="Button#SAVE" value1="Save" />
 	</command>
@@ -61,7 +58,7 @@
 	<command name="setPasswordReminder" summary="Enter '${userPasswordReminderAnswer}' as password reminder">
 		<execute function="Type" locator1="TextInput#ANSWER" value1="${userPasswordReminderAnswer}" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="Button#clickSave" />
 	</command>
 
 	<command name="signIn" summary="Sign in to Liferay Portal as '${userEmailAddress}' using the password '${userPassword}'">
@@ -104,9 +101,9 @@
 		</execute>
 	</command>
 
-	<command name="signInPortalInstance">
+	<command name="signInPortalInstanceSetUp">
 		<execute macro="SignIn#signInSpecificURL">
-			<var name="url" value="http://localhost:8080" />
+			<var name="url" value="http://localhost:8080/" />
 		</execute>
 
 		<if>
@@ -123,24 +120,46 @@
 			</then>
 		</if>
 
-		<execute macro="ProductMenu#gotoControlPanelSystem">
-			<var name="portlet" value="Portal Instances" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Virtual Instances" />
 		</execute>
+
+		<while>
+			<condition function="IsElementPresent" locator1="PortalInstances#INSTANCE_TABLE_ACTIONS_GENERIC_2" />
+			<then>
+				<execute function="Click#waitForMenuToggleJSClick" locator1="PortalInstances#INSTANCE_TABLE_ACTIONS_GENERIC_2" />
+
+				<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+					<var name="key_menuItem" value="Delete" />
+				</execute>
+
+				<execute function="Confirm" value1="Are you sure you want to delete this? It will be deleted immediately." />
+
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+		</while>
 
 		<var method="TestPropsUtil#get('portal.url')" name="portalURL" />
 
 		<var method="StringUtil#replace('${portalURL}', 'http://', '')" name="portalURL" />
 		<var method="StringUtil#replace('${portalURL}', ':8080', '')" name="portalURL" />
 
-		<execute macro="PortalInstances#addCP">
-			<var name="mailDomain" value="liferay.com" />
-			<var name="virtualHost" value="${portalURL}" />
-			<var name="webId" value="${portalURL}" />
-		</execute>
+		<execute function="Click" locator1="Button#PLUS" />
+
+		<execute function="Type" locator1="TextInput#WEB_ID" value1="${portalURL}" />
+		<execute function="Type" locator1="TextInput#VIRTUAL_HOST" value1="${portalURL}" />
+		<execute function="Type" locator1="TextInput#MAIL_DOMAIN" value1="liferay.com" />
+
+		<execute macro="Button#clickSave" />
+
+		<var name="key_portalURL" value="${portalURL}" />
+
+		<execute function="AssertTextEquals" locator1="VirtualInstances#VIRTUAL_INSTANCES_TABLE_WEB_ID" value1="${portalURL}" />
+		<execute function="AssertTextEquals" locator1="VirtualInstances#VIRTUAL_INSTANCES_TABLE_VIRTUAL_HOST" value1="${portalURL}" />
 
 		<execute macro="Navigator#openURL" />
-
-		<execute macro="SignIn#signInTestSetup" />
 	</command>
 
 	<command name="signInSite">
@@ -185,28 +204,37 @@
 		</if>
 	</command>
 
-	<command name="signInViaDockbar">
-		<execute macro="Navigator#openURL" />
+	<command name="viewSignInError">
+		<if>
+			<isset var="nodePort" />
+			<then>
+				<execute function="Open" locator1="http://localhost:${nodePort}" />
+			</then>
+			<elseif>
+				<isset var="specificURL" />
+				<then>
+					<execute macro="Navigator#openSpecificURL">
+						<var name="url" value="${specificURL}" />
+					</execute>
+				</then>
+			</elseif>
+			<else>
+				<execute macro="Navigator#openURL" />
+			</else>
+		</if>
 
-		<execute macro="SignIn#_signInViaDockbar">
+		<execute macro="SignIn#_signIn">
 			<var name="rememberMe" value="${rememberMe}" />
 			<var name="userEmailAddress" value="${userEmailAddress}" />
 			<var name="userPassword" value="${userPassword}" />
 		</execute>
-	</command>
 
-	<command name="signInViaGoogle">
-		<execute macro="Navigator#openURL" />
-
-		<execute function="AssertClick" locator1="Link#GOOGLE_LOGIN" value1="Google" />
-
-		<execute function="SelectWindow" locator1="GoogleLogin#PAGE_TITLE" />
-
-		<execute macro="GoogleLogin#accountSignIn">
-			<var name="userEmailAddress" value="${userEmailAddress}" />
-			<var name="userPassword" value="${userPassword}" />
-		</execute>
-
-		<execute macro="GoogleLogin#acceptConditions" />
+		<if>
+			<equals arg1="${error}" arg2="internalServerError" />
+			<then>
+				<execute function="AssertTextEquals" locator1="Home#ERROR_MESSAGE_ALERT_ERROR" value1="Internal Server Error" />
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#URL_ERROR" value1="${urlErrorMessage}" />
+			</then>
+		</if>
 	</command>
 </definition>

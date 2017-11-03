@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.security.lang.DoPrivilegedFactory;
 import com.liferay.portal.spring.util.FilterClassLoader;
+import com.liferay.portal.util.PropsValues;
 
 import java.io.FileNotFoundException;
 
@@ -51,6 +52,10 @@ public class PortletApplicationContext extends XmlWebApplicationContext {
 
 	public static ClassLoader getBeanClassLoader() {
 		return _pacl.getBeanClassLoader();
+	}
+
+	public PortletApplicationContext() {
+		setClassLoader(getBeanClassLoader());
 	}
 
 	public interface PACL {
@@ -101,7 +106,7 @@ public class PortletApplicationContext extends XmlWebApplicationContext {
 			"WEB-INF/classes/META-INF/infrastructure-spring.xml");
 
 		return ArrayUtil.append(
-			configLocations,
+			PropsValues.SPRING_PORTLET_CONFIGS, configLocations,
 			serviceBuilderPropertiesConfigLocations.toArray(
 				new String[serviceBuilderPropertiesConfigLocations.size()]));
 	}

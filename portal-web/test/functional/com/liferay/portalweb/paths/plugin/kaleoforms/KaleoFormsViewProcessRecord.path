@@ -120,7 +120,7 @@
 <!--TASKS_TABLE_REVIEW-->
 <tr>
 	<td>TASKS_TABLE_REVIEW_TASK</td>
-	<td>//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(.,'Review')]/td[1]/span</td>
+	<td>//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(.,'Review')]/td[1]//span</td>
 	<td></td>
 </tr>
 <tr>
@@ -136,7 +136,7 @@
 <!--TASKS_TABLE_UPDATE-->
 <tr>
 	<td>TASKS_TABLE_UPDATE_TASK</td>
-	<td>//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(.,'Update')]/td[1]/span</td>
+	<td>//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(.,'Update')]/td[1]//span</td>
 	<td></td>
 </tr>
 <tr>
@@ -147,17 +147,6 @@
 <tr>
 	<td>TASKS_TABLE_UPDATE_ACTIONS</td>
 	<td>//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(.,'Update')]/td[4]//a</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<!--TASKS_UPDATE_MENULIST-->
-<tr>
-	<td>TASKS_UPDATE_MENULIST_RESUBMIT</td>
-	<td>//ul[contains(@class,'dropdown-menu')]//li/a[contains(.,'Resubmit')]</td>
 	<td></td>
 </tr>
 <tr>

@@ -16,8 +16,12 @@ package com.liferay.portal.model;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ModelHints;
+import com.liferay.portal.kernel.model.ModelHintsCallback;
+import com.liferay.portal.kernel.model.ModelHintsConstants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Tuple;
@@ -58,7 +62,9 @@ public abstract class BaseModelHintsImpl implements ModelHints {
 		_models = new TreeSet<>();
 
 		try {
-			ClassLoader classLoader = getClass().getClassLoader();
+			Class<?> clazz = getClass();
+
+			ClassLoader classLoader = clazz.getClassLoader();
 
 			for (String config : getModelHintsConfigs()) {
 				if (config.startsWith("classpath*:")) {
@@ -74,7 +80,10 @@ public abstract class BaseModelHintsImpl implements ModelHints {
 						URL url = enu.nextElement();
 
 						if (_log.isDebugEnabled()) {
-							_log.debug("Loading " + name + " from " + url);
+							_log.debug(
+								StringBundler.concat(
+									"Loading ", name, " from ",
+									String.valueOf(url)));
 						}
 
 						InputStream inputStream = url.openStream();

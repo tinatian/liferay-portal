@@ -25,11 +25,16 @@ import com.liferay.portal.kernel.process.local.LocalProcessExecutor;
 import com.liferay.portal.kernel.process.local.LocalProcessLauncher.ProcessContext;
 import com.liferay.portal.kernel.process.local.LocalProcessLauncher.ShutdownHook;
 import com.liferay.portal.kernel.test.rule.BaseTestRule.StatementWrapper;
+import com.liferay.portal.kernel.test.rule.NewEnv.Environment;
+import com.liferay.portal.kernel.test.rule.NewEnv.JVMArgsLine;
+import com.liferay.portal.kernel.util.CharPool;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MethodCache;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -43,9 +48,13 @@ import java.net.MalformedURLException;
 import java.net.URLClassLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.After;
 import org.junit.Before;
@@ -85,6 +94,8 @@ public class NewEnvTestRule implements TestRule {
 		builder.setArguments(createArguments(description));
 		builder.setBootstrapClassPath(CLASS_PATH);
 		builder.setRuntimeClassPath(CLASS_PATH);
+
+		setEnvironment(builder, description);
 
 		return new RunInNewJVMStatment(builder.build(), statement, description);
 	}
@@ -146,6 +157,20 @@ public class NewEnvTestRule implements TestRule {
 	protected List<String> createArguments(Description description) {
 		List<String> arguments = new ArrayList<>();
 
+		Class<?> testClass = description.getTestClass();
+
+		JVMArgsLine jvmArgsLine = testClass.getAnnotation(JVMArgsLine.class);
+
+		if (jvmArgsLine != null) {
+			arguments.addAll(processJVMArgsLine(jvmArgsLine));
+		}
+
+		jvmArgsLine = description.getAnnotation(JVMArgsLine.class);
+
+		if (jvmArgsLine != null) {
+			arguments.addAll(processJVMArgsLine(jvmArgsLine));
+		}
+
 		arguments.add("-Djava.net.preferIPv4Stack=true");
 
 		if (Boolean.getBoolean("jvm.debug")) {
@@ -154,6 +179,7 @@ public class NewEnvTestRule implements TestRule {
 		}
 
 		arguments.add("-Dliferay.mode=test");
+		arguments.add("-Dsun.zip.disableMemoryMapping=true");
 
 		String whipAgentLine = System.getProperty("whip.agent");
 
@@ -172,7 +198,9 @@ public class NewEnvTestRule implements TestRule {
 			arguments.add("-Dwhip.instrument.dump=true");
 		}
 
-		arguments.add("-Dwhip.static.instrument=true");
+		if (Boolean.getBoolean("whip.static.instrument")) {
+			arguments.add("-Dwhip.static.instrument=true");
+		}
 
 		return arguments;
 	}
@@ -199,11 +227,101 @@ public class NewEnvTestRule implements TestRule {
 		return newEnv;
 	}
 
+	protected Map<String, String> processEnvironmentVariables(
+		String[] variables) {
+
+		Map<String, String> environmentMap = new HashMap<>();
+
+		for (String variable : variables) {
+			String resolvedVariable = resolveSystemProperty(variable);
+
+			String[] parts = StringUtil.split(resolvedVariable, CharPool.EQUAL);
+
+			if (parts.length != 2) {
+				throw new IllegalArgumentException(
+					StringBundler.concat(
+						"Wrong environment variable ", variable,
+						" resolved as ", resolvedVariable,
+						". Need to be \"key=value\" format"));
+			}
+
+			environmentMap.put(parts[0], parts[1]);
+		}
+
+		return environmentMap;
+	}
+
+	protected List<String> processJVMArgsLine(JVMArgsLine jvmArgsLine) {
+		String[] jvmArgs = StringUtil.split(
+			jvmArgsLine.value(), StringPool.SPACE);
+
+		List<String> jvmArgsList = new ArrayList<>(jvmArgs.length);
+
+		for (String jvmArg : jvmArgs) {
+			jvmArgsList.add(resolveSystemProperty(jvmArg));
+		}
+
+		return jvmArgsList;
+	}
+
 	protected ProcessCallable<Serializable> processProcessCallable(
 		ProcessCallable<Serializable> processCallable,
 		MethodKey testMethodKey) {
 
 		return processCallable;
+	}
+
+	protected String resolveSystemProperty(String value) {
+		Matcher matcher = _systemPropertyReplacePattern.matcher(value);
+
+		StringBuffer sb = new StringBuffer();
+
+		while (matcher.find()) {
+			String key = matcher.group(1);
+
+			matcher.appendReplacement(
+				sb, GetterUtil.getString(System.getProperty(key)));
+		}
+
+		matcher.appendTail(sb);
+
+		return sb.toString();
+	}
+
+	protected void setEnvironment(Builder builder, Description description) {
+		Map<String, String> environmentMap = new HashMap<>(System.getenv());
+
+		Class<?> testClass = description.getTestClass();
+
+		Environment environment = testClass.getAnnotation(Environment.class);
+
+		if (environment != null) {
+			Map<String, String> map = processEnvironmentVariables(
+				environment.variables());
+
+			if (environment.append()) {
+				environmentMap.putAll(map);
+			}
+			else {
+				environmentMap = map;
+			}
+		}
+
+		environment = description.getAnnotation(Environment.class);
+
+		if (environment != null) {
+			Map<String, String> map = processEnvironmentVariables(
+				environment.variables());
+
+			if (environment.append()) {
+				environmentMap.putAll(map);
+			}
+			else {
+				environmentMap = map;
+			}
+		}
+
+		builder.setEnvironment(environmentMap);
 	}
 
 	protected static final String CLASS_PATH = ClassPathUtil.getJVMClassPath(
@@ -214,6 +332,8 @@ public class NewEnvTestRule implements TestRule {
 
 	private static final ProcessExecutor _processExecutor =
 		new LocalProcessExecutor();
+	private static final Pattern _systemPropertyReplacePattern =
+		Pattern.compile("\\$\\{(.*)\\}");
 
 	static {
 		Thread currentThread = Thread.currentThread();
@@ -302,6 +422,7 @@ public class NewEnvTestRule implements TestRule {
 
 			_afterMethodKeys = getMethodKeys(testClass, After.class);
 			_beforeMethodKeys = getMethodKeys(testClass, Before.class);
+
 			_newClassLoader = createClassLoader(description);
 			_testClassName = testClass.getName();
 			_testMethodKey = new MethodKey(

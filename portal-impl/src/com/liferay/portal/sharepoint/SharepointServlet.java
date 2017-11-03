@@ -16,15 +16,15 @@ package com.liferay.portal.sharepoint;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.webdav.WebDAVUtil;
-import com.liferay.portal.model.User;
 import com.liferay.portal.sharepoint.methods.Method;
 import com.liferay.portal.sharepoint.methods.MethodFactory;
-import com.liferay.portal.util.WebKeys;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +41,9 @@ public class SharepointServlet extends HttpServlet {
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
-				request.getHeader(HttpHeaders.USER_AGENT) + " " +
-					request.getMethod() + " " + request.getRequestURI());
+				StringBundler.concat(
+					request.getHeader(HttpHeaders.USER_AGENT), " ",
+					request.getMethod(), " ", request.getRequestURI()));
 		}
 
 		try {
@@ -103,9 +104,9 @@ public class SharepointServlet extends HttpServlet {
 
 				if (_log.isInfoEnabled()) {
 					_log.info(
-						request.getHeader(HttpHeaders.USER_AGENT) + " " +
-							method.getMethodName() + " " + uri + " " +
-								rootPath);
+						StringBundler.concat(
+							request.getHeader(HttpHeaders.USER_AGENT), " ",
+							method.getMethodName(), " ", uri, " ", rootPath));
 				}
 
 				method.process(sharepointRequest);
@@ -113,8 +114,9 @@ public class SharepointServlet extends HttpServlet {
 			else {
 				if (_log.isInfoEnabled()) {
 					_log.info(
-						request.getHeader(HttpHeaders.USER_AGENT) + " " +
-							request.getMethod() + " " + uri);
+						StringBundler.concat(
+							request.getHeader(HttpHeaders.USER_AGENT), " ",
+							request.getMethod(), " ", uri));
 				}
 			}
 		}

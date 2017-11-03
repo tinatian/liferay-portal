@@ -16,36 +16,34 @@ package com.liferay.portlet.messageboards.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchModelException;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.model.MBMessageModel;
+import com.liferay.message.boards.kernel.model.MBMessageSoap;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
-import com.liferay.portal.kernel.trash.TrashHandler;
-import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ContainerModel;
+import com.liferay.portal.kernel.model.TrashedModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.ContainerModel;
-import com.liferay.portal.model.TrashedModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
-import com.liferay.portlet.messageboards.model.MBMessage;
-import com.liferay.portlet.messageboards.model.MBMessageModel;
-import com.liferay.portlet.messageboards.model.MBMessageSoap;
-import com.liferay.portlet.trash.model.TrashEntry;
-import com.liferay.portlet.trash.service.TrashEntryLocalServiceUtil;
 
 import java.io.Serializable;
 
@@ -147,13 +145,13 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portlet.messageboards.model.MBMessage"),
+				"value.object.entity.cache.enabled.com.liferay.message.boards.kernel.model.MBMessage"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portlet.messageboards.model.MBMessage"),
+				"value.object.finder.cache.enabled.com.liferay.message.boards.kernel.model.MBMessage"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portlet.messageboards.model.MBMessage"),
+				"value.object.column.bitmask.enabled.com.liferay.message.boards.kernel.model.MBMessage"),
 			true);
 	public static final long ANSWER_COLUMN_BITMASK = 1L;
 	public static final long CATEGORYID_COLUMN_BITMASK = 2L;
@@ -233,7 +231,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portlet.messageboards.model.MBMessage"));
+				"lock.expiration.time.com.liferay.message.boards.kernel.model.MBMessage"));
 
 	public MBMessageModelImpl() {
 	}
@@ -832,6 +830,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 		return _anonymous;
 	}
 
+	@JSON
 	@Override
 	public boolean isAnonymous() {
 		return _anonymous;
@@ -859,6 +858,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 		return _allowPingbacks;
 	}
 
+	@JSON
 	@Override
 	public boolean isAllowPingbacks() {
 		return _allowPingbacks;
@@ -875,6 +875,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 		return _answer;
 	}
 
+	@JSON
 	@Override
 	public boolean isAnswer() {
 		return _answer;
@@ -992,19 +993,20 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 	}
 
 	@Override
-	public TrashEntry getTrashEntry() throws PortalException {
+	public com.liferay.trash.kernel.model.TrashEntry getTrashEntry()
+		throws PortalException {
 		if (!isInTrash()) {
 			return null;
 		}
 
-		TrashEntry trashEntry = TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(),
+		com.liferay.trash.kernel.model.TrashEntry trashEntry = com.liferay.trash.kernel.service.TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(),
 				getTrashEntryClassPK());
 
 		if (trashEntry != null) {
 			return trashEntry;
 		}
 
-		TrashHandler trashHandler = getTrashHandler();
+		com.liferay.portal.kernel.trash.TrashHandler trashHandler = getTrashHandler();
 
 		if (!Validator.isNull(trashHandler.getContainerModelClassName(
 						getPrimaryKey()))) {
@@ -1024,7 +1026,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 					return trashedModel.getTrashEntry();
 				}
 
-				trashHandler = TrashHandlerRegistryUtil.getTrashHandler(trashHandler.getContainerModelClassName(
+				trashHandler = com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil.getTrashHandler(trashHandler.getContainerModelClassName(
 							containerModel.getContainerModelId()));
 
 				if (trashHandler == null) {
@@ -1043,9 +1045,13 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 		return getPrimaryKey();
 	}
 
+	/**
+	* @deprecated As of 7.0.0, with no direct replacement
+	*/
+	@Deprecated
 	@Override
-	public TrashHandler getTrashHandler() {
-		return TrashHandlerRegistryUtil.getTrashHandler(getModelClassName());
+	public com.liferay.portal.kernel.trash.TrashHandler getTrashHandler() {
+		return com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil.getTrashHandler(getModelClassName());
 	}
 
 	@Override
@@ -1060,7 +1066,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 
 	@Override
 	public boolean isInTrashContainer() {
-		TrashHandler trashHandler = getTrashHandler();
+		com.liferay.portal.kernel.trash.TrashHandler trashHandler = getTrashHandler();
 
 		if ((trashHandler == null) ||
 				Validator.isNull(trashHandler.getContainerModelClassName(
@@ -1091,7 +1097,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 			return false;
 		}
 
-		TrashEntry trashEntry = TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(),
+		com.liferay.trash.kernel.model.TrashEntry trashEntry = com.liferay.trash.kernel.service.TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(),
 				getTrashEntryClassPK());
 
 		if (trashEntry != null) {
@@ -1107,7 +1113,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 			return false;
 		}
 
-		TrashEntry trashEntry = TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(),
+		com.liferay.trash.kernel.model.TrashEntry trashEntry = com.liferay.trash.kernel.service.TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(),
 				getTrashEntryClassPK());
 
 		if (trashEntry != null) {
@@ -1115,15 +1121,6 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 		}
 
 		return true;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #isApproved}
-	 */
-	@Deprecated
-	@Override
-	public boolean getApproved() {
-		return isApproved();
 	}
 
 	@Override
@@ -1573,7 +1570,7 @@ public class MBMessageModelImpl extends BaseModelImpl<MBMessage>
 		StringBundler sb = new StringBundler(82);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portlet.messageboards.model.MBMessage");
+		sb.append("com.liferay.message.boards.kernel.model.MBMessage");
 		sb.append("</model-name>");
 
 		sb.append(

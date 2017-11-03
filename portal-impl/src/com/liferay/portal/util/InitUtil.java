@@ -14,22 +14,31 @@
 
 package com.liferay.portal.util;
 
+import com.liferay.petra.log4j.Log4JUtil;
 import com.liferay.portal.bean.BeanLocatorImpl;
 import com.liferay.portal.configuration.ConfigurationFactoryImpl;
-import com.liferay.portal.dao.db.DBFactoryImpl;
+import com.liferay.portal.dao.db.DBManagerImpl;
 import com.liferay.portal.dao.jdbc.DataSourceFactoryImpl;
 import com.liferay.portal.kernel.bean.BeanLocator;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataSourceFactoryUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.log.SanitizerLogWrapper;
+import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
+import com.liferay.portal.kernel.upgrade.dao.orm.UpgradeOptimizedConnectionProviderRegistryUtil;
+import com.liferay.portal.kernel.util.BasePortalLifecycle;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.OSDetector;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.PortalLifecycle;
+import com.liferay.portal.kernel.util.PortalLifecycleUtil;
+import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.TimeZoneUtil;
@@ -38,11 +47,19 @@ import com.liferay.portal.module.framework.ModuleFrameworkUtilAdapter;
 import com.liferay.portal.security.lang.DoPrivilegedUtil;
 import com.liferay.portal.security.lang.SecurityManagerUtil;
 import com.liferay.portal.spring.context.ArrayApplicationContext;
-import com.liferay.util.log4j.Log4JUtil;
+import com.liferay.portal.upgrade.dao.orm.UpgradeOptimizedConnectionProviderRegistryImpl;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceRegistration;
 
 import com.sun.syndication.io.XmlReader;
 
+import java.lang.reflect.Field;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipFile;
 
 import org.apache.commons.lang.time.StopWatch;
 
@@ -57,6 +74,20 @@ public class InitUtil {
 	public static synchronized void init() {
 		if (_initialized) {
 			return;
+		}
+
+		try {
+			if (!OSDetector.isWindows()) {
+				Field field = ReflectionUtil.getDeclaredField(
+					ZipFile.class, "usemmap");
+
+				if ((boolean)field.get(null)) {
+					field.setBoolean(null, false);
+				}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		StopWatch stopWatch = new StopWatch();
@@ -139,9 +170,15 @@ public class InitUtil {
 		DataSourceFactoryUtil.setDataSourceFactory(
 			DoPrivilegedUtil.wrap(new DataSourceFactoryImpl()));
 
-		// DB factory
+		// DB manager
 
-		DBFactoryUtil.setDBFactory(DoPrivilegedUtil.wrap(new DBFactoryImpl()));
+		DBManagerUtil.setDBManager(DoPrivilegedUtil.wrap(new DBManagerImpl()));
+
+		// Upgrade optimized connection provider registry
+
+		UpgradeOptimizedConnectionProviderRegistryUtil.
+			setUpgradeOptimizedConnectionProviderRegistry(
+				new UpgradeOptimizedConnectionProviderRegistryImpl());
 
 		// ROME
 
@@ -155,28 +192,22 @@ public class InitUtil {
 		_initialized = true;
 	}
 
-	public synchronized static void initWithSpring(
-		boolean initModuleFramework) {
+	public static synchronized void initWithSpring(
+		boolean initModuleFramework, boolean registerContext) {
 
 		List<String> configLocations = ListUtil.fromArray(
 			PropsUtil.getArray(
 				com.liferay.portal.kernel.util.PropsKeys.SPRING_CONFIGS));
 
-		initWithSpring(configLocations, initModuleFramework);
+		initWithSpring(configLocations, initModuleFramework, registerContext);
 	}
 
-	public synchronized static void initWithSpring(
-		List<String> configLocations, boolean initModuleFramework) {
+	public static synchronized void initWithSpring(
+		List<String> configLocations, boolean initModuleFramework,
+		boolean registerContext) {
 
 		if (_initialized) {
 			return;
-		}
-
-		if (!_neverInitialized) {
-			PropsUtil.reload();
-		}
-		else {
-			_neverInitialized = false;
 		}
 
 		init();
@@ -189,29 +220,38 @@ public class InitUtil {
 				ModuleFrameworkUtilAdapter.initFramework();
 			}
 
-			ApplicationContext applicationContext = new ArrayApplicationContext(
-				PropsValues.SPRING_INFRASTRUCTURE_CONFIGS);
+			ApplicationContext infrastructureApplicationContext =
+				new ArrayApplicationContext(
+					PropsValues.SPRING_INFRASTRUCTURE_CONFIGS);
 
 			if (initModuleFramework) {
-				ModuleFrameworkUtilAdapter.registerContext(applicationContext);
+				ModuleFrameworkUtilAdapter.registerContext(
+					infrastructureApplicationContext);
 
 				ModuleFrameworkUtilAdapter.startFramework();
 			}
 
-			applicationContext = new ClassPathXmlApplicationContext(
-				configLocations.toArray(new String[configLocations.size()]),
-				applicationContext);
+			ApplicationContext appApplicationContext =
+				new ClassPathXmlApplicationContext(
+					configLocations.toArray(new String[configLocations.size()]),
+					infrastructureApplicationContext);
 
 			BeanLocator beanLocator = new BeanLocatorImpl(
-				ClassLoaderUtil.getPortalClassLoader(), applicationContext);
+				ClassLoaderUtil.getPortalClassLoader(), appApplicationContext);
 
 			PortalBeanLocatorUtil.setBeanLocator(beanLocator);
 
 			if (initModuleFramework) {
-				ModuleFrameworkUtilAdapter.registerContext(applicationContext);
-
 				ModuleFrameworkUtilAdapter.startRuntime();
 			}
+
+			_appApplicationContext = appApplicationContext;
+
+			if (initModuleFramework && registerContext) {
+				registerContext();
+			}
+
+			registerSpringInitialized();
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
@@ -224,7 +264,44 @@ public class InitUtil {
 		return _initialized;
 	}
 
-	public synchronized static void stopModuleFramework() {
+	public static void registerContext() {
+		if (_appApplicationContext != null) {
+			ModuleFrameworkUtilAdapter.registerContext(_appApplicationContext);
+		}
+	}
+
+	public static void registerSpringInitialized() {
+		Registry registry = RegistryUtil.getRegistry();
+
+		Map<String, Object> properties = new HashMap<>();
+
+		properties.put("module.service.lifecycle", "spring.initialized");
+		properties.put("service.vendor", ReleaseInfo.getVendor());
+		properties.put("service.version", ReleaseInfo.getVersion());
+
+		final ServiceRegistration<ModuleServiceLifecycle>
+			moduleServiceLifecycleServiceRegistration =
+				registry.registerService(
+					ModuleServiceLifecycle.class,
+					new ModuleServiceLifecycle() {}, properties);
+
+		PortalLifecycleUtil.register(
+			new BasePortalLifecycle() {
+
+				@Override
+				protected void doPortalDestroy() {
+					moduleServiceLifecycleServiceRegistration.unregister();
+				}
+
+				@Override
+				protected void doPortalInit() {
+				}
+
+			},
+			PortalLifecycle.METHOD_DESTROY);
+	}
+
+	public static synchronized void stopModuleFramework() {
 		try {
 			ModuleFrameworkUtilAdapter.stopFramework(0);
 		}
@@ -233,7 +310,7 @@ public class InitUtil {
 		}
 	}
 
-	public synchronized static void stopRuntime() {
+	public static synchronized void stopRuntime() {
 		try {
 			ModuleFrameworkUtilAdapter.stopRuntime();
 		}
@@ -244,7 +321,7 @@ public class InitUtil {
 
 	private static final boolean _PRINT_TIME = false;
 
+	private static ApplicationContext _appApplicationContext;
 	private static boolean _initialized;
-	private static boolean _neverInitialized = true;
 
 }

@@ -14,14 +14,14 @@
 
 package com.liferay.portal.repository.capabilities;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.capabilities.ThumbnailCapability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.repository.capabilities.util.RepositoryEntryChecker;
 import com.liferay.portal.repository.capabilities.util.RepositoryEntryConverter;
 import com.liferay.portal.repository.liferayrepository.model.LiferayFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
 
 /**
  * @author Iván Zaera
@@ -128,12 +128,7 @@ public class LiferayThumbnailCapability implements ThumbnailCapability {
 		return _repositoryEntryConverter.getDLFileEntry(fileEntry);
 	}
 
-	protected FileEntry updateDLFileEntry(DLFileEntry dlFileEntry) {
-		return new LiferayFileEntry(
-			DLFileEntryLocalServiceUtil.updateDLFileEntry(dlFileEntry));
-	}
-
-	private DLFileEntry getDLFileEntry(long fileEntryId)
+	protected DLFileEntry getDLFileEntry(long fileEntryId)
 		throws PortalException {
 
 		DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.getDLFileEntry(
@@ -142,6 +137,11 @@ public class LiferayThumbnailCapability implements ThumbnailCapability {
 		_repositoryEntryChecker.checkDLFileEntry(dlFileEntry);
 
 		return dlFileEntry;
+	}
+
+	protected FileEntry updateDLFileEntry(DLFileEntry dlFileEntry) {
+		return new LiferayFileEntry(
+			DLFileEntryLocalServiceUtil.updateDLFileEntry(dlFileEntry));
 	}
 
 	private final RepositoryEntryChecker _repositoryEntryChecker;

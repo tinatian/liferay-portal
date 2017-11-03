@@ -14,17 +14,17 @@
 
 package com.liferay.portal.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.Subscription;
+import com.liferay.portal.kernel.model.SubscriptionConstants;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.social.SocialActivityManagerUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.model.Subscription;
-import com.liferay.portal.model.SubscriptionConstants;
-import com.liferay.portal.model.User;
 import com.liferay.portal.service.base.SubscriptionLocalServiceBaseImpl;
-import com.liferay.portlet.asset.model.AssetEntry;
-import com.liferay.portlet.social.model.SocialActivityConstants;
+import com.liferay.social.kernel.model.SocialActivityConstants;
 
 import java.util.List;
 
@@ -60,7 +60,6 @@ public class SubscriptionLocalServiceImpl
 	 * @param  className the entity's class name
 	 * @param  classPK the primary key of the entity's instance
 	 * @return the subscription
-	 * @throws PortalException if a matching user or group could not be found
 	 */
 	@Override
 	public Subscription addSubscription(
@@ -92,7 +91,6 @@ public class SubscriptionLocalServiceImpl
 	 * @param  classPK the primary key of the entity's instance
 	 * @param  frequency the frequency for notifications
 	 * @return the subscription
-	 * @throws PortalException if a matching user or group could not be found
 	 */
 	@Override
 	public Subscription addSubscription(
@@ -138,7 +136,7 @@ public class SubscriptionLocalServiceImpl
 				assetEntry = assetEntryLocalService.updateEntry(
 					userId, groupId, subscription.getCreateDate(),
 					subscription.getModifiedDate(), className, classPK, null, 0,
-					null, null, false, null, null, null, null,
+					null, null, true, false, null, null, null, null, null,
 					String.valueOf(groupId), null, null, null, null, 0, 0,
 					null);
 			}
@@ -163,7 +161,6 @@ public class SubscriptionLocalServiceImpl
 	 *
 	 * @param  subscriptionId the primary key of the subscription
 	 * @return the subscription that was removed
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public Subscription deleteSubscription(long subscriptionId)
@@ -179,11 +176,9 @@ public class SubscriptionLocalServiceImpl
 	 * Deletes the user's subscription to the entity. A social activity with the
 	 * unsubscribe action is created.
 	 *
-	 * @param  userId the primary key of the user
-	 * @param  className the entity's class name
-	 * @param  classPK the primary key of the entity's instance
-	 * @throws PortalException if a matching user or subscription could not be
-	 *         found
+	 * @param userId the primary key of the user
+	 * @param className the entity's class name
+	 * @param classPK the primary key of the entity's instance
 	 */
 	@Override
 	public void deleteSubscription(long userId, String className, long classPK)
@@ -206,7 +201,6 @@ public class SubscriptionLocalServiceImpl
 	 *
 	 * @param  subscription the subscription
 	 * @return the subscription that was removed
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public Subscription deleteSubscription(Subscription subscription)
@@ -238,8 +232,7 @@ public class SubscriptionLocalServiceImpl
 	/**
 	 * Deletes all the subscriptions of the user.
 	 *
-	 * @param  userId the primary key of the user
-	 * @throws PortalException if a portal exception occurred
+	 * @param userId the primary key of the user
 	 */
 	@Override
 	public void deleteSubscriptions(long userId) throws PortalException {
@@ -266,10 +259,9 @@ public class SubscriptionLocalServiceImpl
 	/**
 	 * Deletes all the subscriptions to the entity.
 	 *
-	 * @param  companyId the primary key of the company
-	 * @param  className the entity's class name
-	 * @param  classPK the primary key of the entity's instance
-	 * @throws PortalException if a portal exception occurred
+	 * @param companyId the primary key of the company
+	 * @param className the entity's class name
+	 * @param classPK the primary key of the entity's instance
 	 */
 	@Override
 	public void deleteSubscriptions(
@@ -304,7 +296,6 @@ public class SubscriptionLocalServiceImpl
 	 * @param  className the entity's class name
 	 * @param  classPK the primary key of the entity's instance
 	 * @return the subscription of the user to the entity
-	 * @throws PortalException if a matching subscription could not be found
 	 */
 	@Override
 	public Subscription getSubscription(

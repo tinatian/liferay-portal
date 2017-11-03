@@ -15,6 +15,9 @@
 package com.liferay.portlet.social.service;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
@@ -22,13 +25,10 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.comparator.UserScreenNameComparator;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.util.comparator.UserScreenNameComparator;
-import com.liferay.portlet.social.model.SocialRelationConstants;
+import com.liferay.social.kernel.model.SocialRelationConstants;
+import com.liferay.social.kernel.service.SocialRelationLocalServiceUtil;
 
 import java.util.List;
 import java.util.Set;
@@ -48,8 +48,7 @@ public class SocialRelationLocalServiceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -219,7 +218,7 @@ public class SocialRelationLocalServiceTest {
 
 		users = ListUtil.remove(users, groupUsers);
 
-		Assert.assertEquals(2, users.size());
+		Assert.assertEquals(users.toString(), 2, users.size());
 
 		GroupLocalServiceUtil.deleteUserGroup(
 			dlc3User.getUserId(), TestPropsValues.getGroupId());
@@ -255,7 +254,7 @@ public class SocialRelationLocalServiceTest {
 			dlc2User.getUserId(), socialRelationTypes, "dlc", QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS);
 
-		Assert.assertEquals(5, users.size());
+		Assert.assertEquals(users.toString(), 5, users.size());
 
 		GroupLocalServiceUtil.deleteUserGroup(
 			dlc3User.getUserId(), TestPropsValues.getGroupId());
@@ -277,7 +276,7 @@ public class SocialRelationLocalServiceTest {
 			dlc1User.getUserId(), dlc2User.getUserId(), QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, new UserScreenNameComparator(true));
 
-		Assert.assertEquals(4, users.size());
+		Assert.assertEquals(users.toString(), 4, users.size());
 	}
 
 	@Test
@@ -295,7 +294,7 @@ public class SocialRelationLocalServiceTest {
 			SocialRelationConstants.TYPE_BI_FRIEND, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, new UserScreenNameComparator(true));
 
-		Assert.assertEquals(3, users.size());
+		Assert.assertEquals(users.toString(), 3, users.size());
 
 		Assert.assertEquals("dlc3", users.get(0).getScreenName());
 		Assert.assertEquals("dlc4", users.get(1).getScreenName());
@@ -320,7 +319,7 @@ public class SocialRelationLocalServiceTest {
 			SocialRelationConstants.TYPE_UNI_CHILD, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, new UserScreenNameComparator(true));
 
-		Assert.assertEquals(2, users.size());
+		Assert.assertEquals(users.toString(), 2, users.size());
 
 		Assert.assertEquals("fra1", users.get(0).getScreenName());
 		Assert.assertEquals("fra2", users.get(1).getScreenName());
@@ -332,7 +331,7 @@ public class SocialRelationLocalServiceTest {
 			SocialRelationConstants.TYPE_UNI_CHILD, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, new UserScreenNameComparator(true));
 
-		Assert.assertEquals(1, users.size());
+		Assert.assertEquals(users.toString(), 1, users.size());
 
 		Assert.assertEquals("fra1", users.get(0).getScreenName());
 	}
@@ -349,7 +348,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.NOT_EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(8, users.size());
+		Assert.assertEquals(users.toString(), 8, users.size());
 
 		Assert.assertEquals("dlc2", users.get(0).getScreenName());
 		Assert.assertEquals("dlc3", users.get(1).getScreenName());
@@ -379,7 +378,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(7, users.size());
+		Assert.assertEquals(users.toString(), 7, users.size());
 
 		Assert.assertEquals("dlc2", users.get(0).getScreenName());
 		Assert.assertEquals("dlc3", users.get(1).getScreenName());
@@ -396,7 +395,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(1, users.size());
+		Assert.assertEquals(users.toString(), 1, users.size());
 
 		Assert.assertEquals("dlc9", users.get(0).getScreenName());
 
@@ -408,7 +407,7 @@ public class SocialRelationLocalServiceTest {
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(1, users.size());
+		Assert.assertEquals(users.toString(), 1, users.size());
 
 		Assert.assertEquals("dlc2", users.get(0).getScreenName());
 
@@ -420,7 +419,7 @@ public class SocialRelationLocalServiceTest {
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(1, users.size());
+		Assert.assertEquals(users.toString(), 1, users.size());
 
 		Assert.assertEquals("dlc1", users.get(0).getScreenName());
 
@@ -432,7 +431,7 @@ public class SocialRelationLocalServiceTest {
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(0, users.size());
+		Assert.assertEquals(users.toString(), 0, users.size());
 	}
 
 	@Test
@@ -456,7 +455,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(8, users.size());
+		Assert.assertEquals(users.toString(), 8, users.size());
 
 		Assert.assertEquals("fra2", users.get(0).getScreenName());
 		Assert.assertEquals("fra3", users.get(1).getScreenName());
@@ -474,7 +473,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(0, users.size());
+		Assert.assertEquals(users.toString(), 0, users.size());
 
 		// Is fra3 a child of anyone?
 
@@ -483,7 +482,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(2, users.size());
+		Assert.assertEquals(users.toString(), 2, users.size());
 
 		Assert.assertEquals("fra1", users.get(0).getScreenName());
 		Assert.assertEquals("fra2", users.get(1).getScreenName());
@@ -495,7 +494,7 @@ public class SocialRelationLocalServiceTest {
 			StringPool.EQUAL, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			new UserScreenNameComparator(true));
 
-		Assert.assertEquals(0, users.size());
+		Assert.assertEquals(users.toString(), 0, users.size());
 	}
 
 	private static final User[] _dlcUsers = new User[9];

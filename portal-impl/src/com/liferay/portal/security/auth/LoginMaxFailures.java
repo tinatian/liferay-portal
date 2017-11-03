@@ -14,8 +14,10 @@
 
 package com.liferay.portal.security.auth;
 
+import com.liferay.portal.kernel.security.auth.AuthException;
+import com.liferay.portal.kernel.security.auth.AuthFailure;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
-import com.liferay.portal.service.UserLocalServiceUtil;
 
 import java.util.Map;
 
@@ -37,7 +39,7 @@ public class LoginMaxFailures implements AuthFailure {
 				companyId, emailAddress, true);
 		}
 		catch (Exception e) {
-			throw new AuthException();
+			throw new AuthException(e);
 		}
 	}
 
@@ -52,7 +54,7 @@ public class LoginMaxFailures implements AuthFailure {
 				companyId, screenName, true);
 		}
 		catch (Exception e) {
-			throw new AuthException();
+			throw new AuthException(e);
 		}
 	}
 
@@ -66,7 +68,7 @@ public class LoginMaxFailures implements AuthFailure {
 			UserLocalServiceUtil.updateLockoutById(userId, true);
 		}
 		catch (Exception e) {
-			throw new AuthException();
+			throw new AuthException(e);
 		}
 	}
 

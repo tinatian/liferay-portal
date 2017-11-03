@@ -14,6 +14,8 @@
 
 package com.liferay.portlet.documentlibrary.store;
 
+import com.liferay.document.library.kernel.store.Store;
+import com.liferay.document.library.kernel.store.StoreWrapper;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -83,17 +85,15 @@ public class StoreFactory {
 		}
 
 		if (_log.isWarnEnabled()) {
-			StringBundler sb = new StringBundler(13);
+			StringBundler sb = new StringBundler(11);
 
-			sb.append("Liferay is configured with the legacy ");
-			sb.append("property \"dl.hook.impl=");
+			sb.append("Liferay is configured with the legacy property ");
+			sb.append("\"dl.hook.impl=");
 			sb.append(dlHookImpl);
-			sb.append("\" ");
-			sb.append("in portal-ext.properties. Please reconfigure ");
-			sb.append("to use the new property \"");
+			sb.append("\" in portal-ext.properties. Please reconfigure to ");
+			sb.append("use the new property \"");
 			sb.append(PropsKeys.DL_STORE_IMPL);
-			sb.append("\". Liferay will ");
-			sb.append("attempt to temporarily set \"");
+			sb.append("\". Liferay will attempt to temporarily set \"");
 			sb.append(PropsKeys.DL_STORE_IMPL);
 			sb.append("=");
 			sb.append(PropsValues.DL_STORE_IMPL);
@@ -167,12 +167,6 @@ public class StoreFactory {
 		_storeType = key;
 	}
 
-	private StoreFactory() {
-		_storeServiceTrackerMap.open();
-
-		_storeWrapperServiceTrackerMap.open();
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(StoreFactory.class);
 
 	private static StoreFactory _storeFactory;
@@ -180,12 +174,12 @@ public class StoreFactory {
 
 	private volatile Store _store;
 	private final ServiceTrackerMap<String, Store> _storeServiceTrackerMap =
-		ServiceTrackerCollections.singleValueMap(
+		ServiceTrackerCollections.openSingleValueMap(
 			Store.class, "store.type", new StoreServiceTrackerCustomizer());
 	private String _storeType;
 	private final ServiceTrackerMap<String, List<StoreWrapper>>
 		_storeWrapperServiceTrackerMap =
-			ServiceTrackerCollections.multiValueMap(
+			ServiceTrackerCollections.openMultiValueMap(
 				StoreWrapper.class, "store.type");
 
 	private class StoreServiceTrackerCustomizer

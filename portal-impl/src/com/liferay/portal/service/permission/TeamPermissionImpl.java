@@ -14,12 +14,16 @@
 
 package com.liferay.portal.service.permission;
 
+import com.liferay.exportimport.kernel.staging.permission.StagingPermissionUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.model.Team;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.TeamLocalServiceUtil;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.TeamLocalServiceUtil;
+import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
+import com.liferay.portal.kernel.service.permission.TeamPermission;
+import com.liferay.portal.kernel.util.StringPool;
 
 /**
  * @author Brian Wing Shun Chan
@@ -63,6 +67,14 @@ public class TeamPermissionImpl implements TeamPermission {
 	public boolean contains(
 			PermissionChecker permissionChecker, Team team, String actionId)
 		throws PortalException {
+
+		Boolean hasPermission = StagingPermissionUtil.hasPermission(
+			permissionChecker, team.getGroupId(), Team.class.getName(),
+			team.getTeamId(), StringPool.BLANK, actionId);
+
+		if (hasPermission != null) {
+			return hasPermission.booleanValue();
+		}
 
 		if (GroupPermissionUtil.contains(
 				permissionChecker, team.getGroupId(),

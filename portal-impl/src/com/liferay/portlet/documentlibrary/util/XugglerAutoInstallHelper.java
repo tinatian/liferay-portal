@@ -25,8 +25,10 @@ import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xuggler.Xuggler;
+import com.liferay.portal.kernel.xuggler.XugglerInstallException;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.xuggler.XugglerImpl;
 
@@ -55,7 +57,7 @@ import java.util.regex.Pattern;
 public class XugglerAutoInstallHelper {
 
 	public static void installNativeLibraries() throws ProcessException {
-		if (isNativeLibraryInstalled()) {
+		if (_isNativeLibraryInstalled()) {
 			if (_log.isDebugEnabled()) {
 				_log.debug("Xuggler is already installed");
 			}
@@ -63,13 +65,14 @@ public class XugglerAutoInstallHelper {
 			return;
 		}
 
-		String xugglerJarFile = getXugglerJarFileName();
+		String xugglerJarFile = _getXugglerJarFileName();
 
 		if (xugglerJarFile == null) {
 			_log.error(
-				"Xuggler auto install is not supported on system: " +
-					System.getProperty("os.name") + "/" +
-						System.getProperty("os.arch"));
+				StringBundler.concat(
+					"Xuggler auto install is not supported on system: ",
+					System.getProperty("os.name"), "/",
+					System.getProperty("os.arch")));
 
 			return;
 		}
@@ -83,7 +86,12 @@ public class XugglerAutoInstallHelper {
 			Xuggler xuggler = new XugglerImpl();
 
 			try {
-				xuggler.installNativeLibraries(xugglerJarFile, null);
+				xuggler.installNativeLibraries(xugglerJarFile);
+			}
+			catch (XugglerInstallException.MustBeURLClassLoader xie) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(xie, xie);
+				}
 			}
 			catch (Exception e) {
 				throw new ProcessException(e);
@@ -152,7 +160,7 @@ public class XugglerAutoInstallHelper {
 
 	}
 
-	private static String getXugglerJarFileName() {
+	private static String _getXugglerJarFileName() {
 		String bitmode = OSDetector.getBitmode();
 
 		if (Validator.isNull(bitmode) ||
@@ -179,13 +187,13 @@ public class XugglerAutoInstallHelper {
 		return null;
 	}
 
-	private static boolean isNativeLibraryInstalled() {
+	private static boolean _isNativeLibraryInstalled() {
 		Properties properties = PropsUtil.getProperties(
 			PropsKeys.XUGGLER_JAR_FILE, false);
 
 		Set<Object> jarFiles = SetUtil.fromCollection(properties.values());
 
-		jarFiles.remove(getXugglerJarFileName());
+		jarFiles.remove(_getXugglerJarFileName());
 
 		Thread currentThread = Thread.currentThread();
 
@@ -221,8 +229,8 @@ public class XugglerAutoInstallHelper {
 		currentThread.setContextClassLoader(urlClassLoader);
 
 		try {
-			Class<Callable<Boolean>> clazz = (Class<Callable<Boolean>>)
-				urlClassLoader.loadClass(
+			Class<Callable<Boolean>> clazz =
+				(Class<Callable<Boolean>>)urlClassLoader.loadClass(
 					IsNativeLibraryInstalledCallable.class.getName());
 
 			Callable<Boolean> callable = clazz.newInstance();

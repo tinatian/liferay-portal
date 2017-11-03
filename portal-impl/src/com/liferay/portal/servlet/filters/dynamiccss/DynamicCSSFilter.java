@@ -14,25 +14,25 @@
 
 package com.liferay.portal.servlet.filters.dynamiccss;
 
-import com.liferay.portal.kernel.cache.key.CacheKeyGenerator;
-import com.liferay.portal.kernel.cache.key.CacheKeyGeneratorUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.BufferCacheServletResponse;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.PortalWebResourcesUtil;
-import com.liferay.portal.kernel.servlet.PortletResourcesUtil;
+import com.liferay.portal.kernel.servlet.ResourceUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.ObjectValuePair;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.URLUtil;
 import com.liferay.portal.servlet.filters.IgnoreModuleRequestFilter;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.servlet.filters.util.CacheFileNameGenerator;
 import com.liferay.portal.util.PropsUtil;
 
 import java.io.File;
@@ -69,25 +69,14 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 	}
 
 	protected String getCacheFileName(HttpServletRequest request) {
-		CacheKeyGenerator cacheKeyGenerator =
-			CacheKeyGeneratorUtil.getCacheKeyGenerator(
-				DynamicCSSFilter.class.getName());
-
-		cacheKeyGenerator.append(HttpUtil.getProtocol(request.isSecure()));
-		cacheKeyGenerator.append(StringPool.UNDERLINE);
-		cacheKeyGenerator.append(request.getRequestURI());
-
-		String queryString = request.getQueryString();
-
-		if (queryString != null) {
-			cacheKeyGenerator.append(sterilizeQueryString(queryString));
-		}
+		String cacheFileName = CacheFileNameGenerator.getCacheFileName(
+			request, DynamicCSSFilter.class.getName());
 
 		if (PortalUtil.isRightToLeft(request)) {
-			cacheKeyGenerator.append("_rtl");
+			return cacheFileName + _CACHE_FILE_NAME_RTL;
 		}
 
-		return String.valueOf(cacheKeyGenerator.finish());
+		return cacheFileName;
 	}
 
 	protected Object getDynamicContent(
@@ -95,48 +84,42 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 			FilterChain filterChain)
 		throws Exception {
 
-		ServletContext servletContext = _servletContext;
-
 		String requestPath = getRequestPath(request);
 
-		URL resourceURL = _servletContext.getResource(requestPath);
+		String originalRequestPath = request.getRequestURI();
 
-		if (resourceURL == null) {
-			ServletContext resourceServletContext =
-				PortalWebResourcesUtil.getPathServletContext(requestPath);
+		if (originalRequestPath.endsWith(_CSS_EXTENSION) &&
+			PortalUtil.isRightToLeft(request)) {
 
-			if (resourceServletContext != null) {
-				resourceURL = PortalWebResourcesUtil.getResource(
-					resourceServletContext, requestPath);
-			}
+			int pos = originalRequestPath.lastIndexOf(StringPool.PERIOD);
 
-			if (resourceURL == null) {
-				resourceServletContext =
-					PortletResourcesUtil.getPathServletContext(requestPath);
-
-				if (resourceServletContext != null) {
-					resourceURL = PortletResourcesUtil.getResource(
-						resourceServletContext, requestPath);
-				}
-			}
-
-			if (resourceURL == null) {
-				return null;
-			}
-
-			servletContext = resourceServletContext;
+			originalRequestPath =
+				originalRequestPath.substring(0, pos) + "_rtl" +
+					originalRequestPath.substring(pos);
 		}
+
+		ObjectValuePair<ServletContext, URL> objectValuePair =
+			ResourceUtil.getObjectValuePair(
+				originalRequestPath, requestPath, _servletContext);
+
+		if (objectValuePair == null) {
+			return null;
+		}
+
+		ServletContext servletContext = objectValuePair.getKey();
+
+		URL resourceURL = objectValuePair.getValue();
 
 		String cacheCommonFileName = getCacheFileName(request);
 
 		File cacheContentTypeFile = new File(
-			_tempDir, cacheCommonFileName + "_E_CONTENT_TYPE");
+			_tempDir, cacheCommonFileName + "_E_CTYPE");
 		File cacheDataFile = new File(
 			_tempDir, cacheCommonFileName + "_E_DATA");
 
 		if (cacheDataFile.exists() &&
 			(cacheDataFile.lastModified() >=
-				URLUtil.getLastModifiedTime(resourceURL))) {
+				getLastModified(request, resourceURL))) {
 
 			if (cacheContentTypeFile.exists()) {
 				String contentType = FileUtil.read(cacheContentTypeFile);
@@ -152,9 +135,9 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 		String content = null;
 
 		try {
-			if (requestPath.endsWith(_CSS_EXTENSION)) {
+			if (originalRequestPath.endsWith(_CSS_EXTENSION)) {
 				if (_log.isInfoEnabled()) {
-					_log.info("Replacing tokens on CSS " + requestPath);
+					_log.info("Replacing tokens on CSS " + originalRequestPath);
 				}
 
 				content = StringUtil.read(resourceURL.openStream());
@@ -166,20 +149,19 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 
 				FileUtil.write(cacheContentTypeFile, ContentTypes.TEXT_CSS);
 			}
-			else if (requestPath.endsWith(_JSP_EXTENSION)) {
+			else if (originalRequestPath.endsWith(_JSP_EXTENSION)) {
 				if (_log.isInfoEnabled()) {
 					_log.info(
-						"Replacing tokens on JSP or servlet " + requestPath);
+						"Replacing tokens on JSP or servlet " +
+							originalRequestPath);
 				}
 
 				BufferCacheServletResponse bufferCacheServletResponse =
 					new BufferCacheServletResponse(response);
 
 				processFilter(
-					DynamicCSSFilter.class, request, bufferCacheServletResponse,
-					filterChain);
-
-				bufferCacheServletResponse.finishResponse(false);
+					DynamicCSSFilter.class.getName(), request,
+					bufferCacheServletResponse, filterChain);
 
 				content = bufferCacheServletResponse.getString();
 
@@ -195,7 +177,8 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 			}
 		}
 		catch (Exception e) {
-			_log.error("Unable to replace tokens in CSS " + requestPath, e);
+			_log.error(
+				"Unable to replace tokens in CSS " + originalRequestPath, e);
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(content);
@@ -214,6 +197,16 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 		}
 
 		return dynamicContent;
+	}
+
+	protected long getLastModified(HttpServletRequest request, URL resourceURL)
+		throws Exception {
+
+		long resourceLastModified = URLUtil.getLastModifiedTime(resourceURL);
+
+		long requestLastModified = ParamUtil.getLong(request, "t", -1);
+
+		return Math.max(resourceLastModified, requestLastModified);
 	}
 
 	protected String getRequestPath(HttpServletRequest request) {
@@ -250,7 +243,8 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 
 		if (parsedContent == null) {
 			processFilter(
-				DynamicCSSFilter.class, request, response, filterChain);
+				DynamicCSSFilter.class.getName(), request, response,
+				filterChain);
 		}
 		else {
 			if (parsedContent instanceof File) {
@@ -262,11 +256,7 @@ public class DynamicCSSFilter extends IgnoreModuleRequestFilter {
 		}
 	}
 
-	protected String sterilizeQueryString(String queryString) {
-		return StringUtil.replace(
-			queryString, new String[] {StringPool.SLASH, StringPool.BACK_SLASH},
-			new String[] {StringPool.UNDERLINE, StringPool.UNDERLINE});
-	}
+	private static final String _CACHE_FILE_NAME_RTL = "_rtl";
 
 	private static final String _CSS_EXTENSION = ".css";
 

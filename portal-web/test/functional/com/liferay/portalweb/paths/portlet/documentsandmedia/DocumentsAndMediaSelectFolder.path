@@ -25,22 +25,22 @@
 </tr>
 <tr>
 	<td>FOLDER</td>
-	<td>//tbody[@class='table-data']//a[contains(.,'${key_dmFolderName}')]/span</td>
+	<td>//a[contains(.,'${key_dmFolderName}')]//span[contains(@class,'taglib-text')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>FOLDER_GENERIC</td>
-	<td>//tbody[@class='table-data']/tr/td/span/a</td>
+	<td>//tbody//span/a/span[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CHOOSE_BUTTON</td>
-	<td>//tbody[@class='table-data']//button[contains(@data-foldername,'${key_dmFolderName}')]</td>
+	<td>//tr[contains(.,'${key_dmFolderName}')]//button[contains(.,'Choose')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CHOOSE_BUTTON_GENERIC</td>
-	<td>//tbody[@class='table-data']/tr/td/button[contains(.,'Choose')]</td>
+	<td>//tbody//button[contains(.,'Choose')]</td>
 	<td></td>
 </tr>
 </tbody>

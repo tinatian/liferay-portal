@@ -14,7 +14,8 @@
 
 package com.liferay.portal.verify.model;
 
-import com.liferay.portlet.messageboards.model.MBCategory;
+import com.liferay.message.boards.kernel.model.MBCategory;
+import com.liferay.portal.kernel.verify.model.VerifiableResourcedModel;
 
 /**
  * @author Brian Wing Shun Chan

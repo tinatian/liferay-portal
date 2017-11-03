@@ -14,13 +14,15 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.NoSuchPortletItemException;
-import com.liferay.portal.PortletItemNameException;
+import com.liferay.portal.kernel.exception.NoSuchPortletItemException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PortletItemNameException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.PortletItem;
+import com.liferay.portal.kernel.model.PortletPreferences;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.PortletItem;
-import com.liferay.portal.model.PortletPreferences;
-import com.liferay.portal.model.User;
 import com.liferay.portal.service.base.PortletItemLocalServiceBaseImpl;
 
 import java.util.List;
@@ -107,6 +109,13 @@ public class PortletItemLocalServiceImpl
 			portletItemPersistence.update(portletItem);
 		}
 		catch (NoSuchPortletItemException nspie) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(nspie, nspie);
+			}
+
 			portletItem = addPortletItem(
 				userId, groupId, name, portletId,
 				PortletPreferences.class.getName());
@@ -120,5 +129,8 @@ public class PortletItemLocalServiceImpl
 			throw new PortletItemNameException();
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PortletItemLocalServiceImpl.class);
 
 }

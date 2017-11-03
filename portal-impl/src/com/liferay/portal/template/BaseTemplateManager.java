@@ -14,17 +14,16 @@
 
 package com.liferay.portal.template;
 
-import com.liferay.portal.kernel.security.pacl.NotPrivileged;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateManager;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.TemplateResourceLoader;
 
 import java.security.AccessControlContext;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -40,12 +39,14 @@ public abstract class BaseTemplateManager implements TemplateManager {
 		Map<String, Object> contextObjects,
 		Map<String, Object> newContextObjects) {
 
-		for (String variableName : newContextObjects.keySet()) {
+		for (Entry<String, Object> entry : newContextObjects.entrySet()) {
+			String variableName = entry.getKey();
+
 			if (contextObjects.containsKey(variableName)) {
 				continue;
 			}
 
-			Object object = newContextObjects.get(variableName);
+			Object object = entry.getValue();
 
 			if (object instanceof Class) {
 				addStaticClassSupport(
@@ -82,6 +83,12 @@ public abstract class BaseTemplateManager implements TemplateManager {
 	}
 
 	@Override
+	public void addTaglibSupport(
+		Map<String, Object> contextObjects, HttpServletRequest request,
+		HttpServletResponse response) {
+	}
+
+	@Override
 	public void addTaglibTheme(
 		Map<String, Object> contextObjects, String themeName,
 		HttpServletRequest request, HttpServletResponse response) {
@@ -90,51 +97,6 @@ public abstract class BaseTemplateManager implements TemplateManager {
 	@Override
 	public String[] getRestrictedVariables() {
 		return new String[0];
-	}
-
-	@NotPrivileged
-	@Override
-	public Template getTemplate(
-		TemplateResource templateResource, boolean restricted) {
-
-		return getTemplate(templateResource, null, restricted);
-	}
-
-	@NotPrivileged
-	@Override
-	public Template getTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, boolean restricted) {
-
-		TemplateControlContext templateControlContext =
-			templateContextHelper.getTemplateControlContext();
-
-		AccessControlContext accessControlContext =
-			templateControlContext.getAccessControlContext();
-
-		ClassLoader classLoader = templateControlContext.getClassLoader();
-
-		if (accessControlContext == null) {
-			Map<String, Object> helperUtilities =
-				templateContextHelper.getHelperUtilities(
-					classLoader, restricted);
-
-			return doGetTemplate(
-				templateResource, errorTemplateResource, restricted,
-				helperUtilities, false);
-		}
-
-		Map<String, Object> helperUtilities = AccessController.doPrivileged(
-			new DoGetHelperUtilitiesPrivilegedAction(
-				templateContextHelper, classLoader, restricted),
-			accessControlContext);
-
-		Template template = AccessController.doPrivileged(
-			new DoGetTemplatePrivilegedAction(
-				templateResource, errorTemplateResource, restricted,
-				helperUtilities));
-
-		return new PrivilegedTemplateWrapper(accessControlContext, template);
 	}
 
 	public void setTemplateContextHelper(
@@ -149,15 +111,47 @@ public abstract class BaseTemplateManager implements TemplateManager {
 		this.templateResourceLoader = templateResourceLoader;
 	}
 
-	protected abstract Template doGetTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, boolean restricted,
-		Map<String, Object> helperUtilities, boolean privileged);
+	protected AccessControlContext getAccessControlContext() {
+		TemplateControlContext templateControlContext =
+			templateContextHelper.getTemplateControlContext();
+
+		return templateControlContext.getAccessControlContext();
+	}
+
+	protected Map<String, Object> getHelperUtilities(boolean restricted) {
+		return templateContextHelper.getHelperUtilities(
+			getTemplateControlContextClassLoader(), restricted);
+	}
+
+	protected ClassLoader getTemplateControlContextClassLoader() {
+		TemplateControlContext templateControlContext =
+			templateContextHelper.getTemplateControlContext();
+
+		return templateControlContext.getClassLoader();
+	}
 
 	protected TemplateContextHelper templateContextHelper;
 	protected TemplateResourceLoader templateResourceLoader;
 
-	private class DoGetHelperUtilitiesPrivilegedAction
+	protected abstract class DoGetAbstractTemplatePrivilegedAction
+		implements PrivilegedAction<Template> {
+
+		public DoGetAbstractTemplatePrivilegedAction(
+			TemplateResource errorTemplateResource, boolean restricted,
+			Map<String, Object> helperUtilities) {
+
+			this.errorTemplateResource = errorTemplateResource;
+			this.restricted = restricted;
+			this.helperUtilities = helperUtilities;
+		}
+
+		protected final TemplateResource errorTemplateResource;
+		protected final Map<String, Object> helperUtilities;
+		protected boolean restricted;
+
+	}
+
+	protected class DoGetHelperUtilitiesPrivilegedAction
 		implements PrivilegedAction<Map<String, Object>> {
 
 		public DoGetHelperUtilitiesPrivilegedAction(
@@ -176,36 +170,8 @@ public abstract class BaseTemplateManager implements TemplateManager {
 		}
 
 		private final ClassLoader _classLoader;
-		private boolean _restricted;
+		private final boolean _restricted;
 		private final TemplateContextHelper _templateContextHelper;
-
-	}
-
-	private class DoGetTemplatePrivilegedAction
-		implements PrivilegedAction<Template> {
-
-		public DoGetTemplatePrivilegedAction(
-			TemplateResource templateResource,
-			TemplateResource errorTemplateResource, boolean restricted,
-			Map<String, Object> helperUtilities) {
-
-			_templateResource = templateResource;
-			_errorTemplateResource = errorTemplateResource;
-			_restricted = restricted;
-			_helperUtilities = helperUtilities;
-		}
-
-		@Override
-		public Template run() {
-			return doGetTemplate(
-				_templateResource, _errorTemplateResource, _restricted,
-				_helperUtilities, true);
-		}
-
-		private final TemplateResource _errorTemplateResource;
-		private final Map<String, Object> _helperUtilities;
-		private boolean _restricted;
-		private final TemplateResource _templateResource;
 
 	}
 

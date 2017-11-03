@@ -14,29 +14,56 @@
 
 package com.liferay.portal.model.impl;
 
+import com.liferay.asset.kernel.model.AssetRendererFactory;
+import com.liferay.expando.kernel.model.CustomAttributesDisplay;
+import com.liferay.exportimport.kernel.lar.PortletDataHandler;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
+import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.application.type.ApplicationType;
 import com.liferay.portal.kernel.atom.AtomCollectionAdapter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Plugin;
+import com.liferay.portal.kernel.model.PluginSetting;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.model.PortletApp;
+import com.liferay.portal.kernel.model.PortletConstants;
+import com.liferay.portal.kernel.model.PortletFilter;
+import com.liferay.portal.kernel.model.PortletInfo;
+import com.liferay.portal.kernel.model.PublicRenderParameter;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.plugin.PluginPackage;
 import com.liferay.portal.kernel.poller.PollerProcessor;
 import com.liferay.portal.kernel.pop.MessageListener;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
+import com.liferay.portal.kernel.portlet.ControlPanelEntry;
 import com.liferay.portal.kernel.portlet.FriendlyURLMapper;
 import com.liferay.portal.kernel.portlet.FriendlyURLMapperTracker;
 import com.liferay.portal.kernel.portlet.PortletBag;
 import com.liferay.portal.kernel.portlet.PortletBagPool;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.PortletLayoutListener;
+import com.liferay.portal.kernel.portlet.PortletQNameUtil;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.OpenSearch;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionPropagator;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.servlet.ServletContextUtil;
 import com.liferay.portal.kernel.servlet.URLEncoder;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.ServiceProxyFactory;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -44,36 +71,12 @@ import com.liferay.portal.kernel.webdav.WebDAVStorage;
 import com.liferay.portal.kernel.workflow.WorkflowHandler;
 import com.liferay.portal.kernel.xml.QName;
 import com.liferay.portal.kernel.xmlrpc.Method;
-import com.liferay.portal.model.Plugin;
-import com.liferay.portal.model.PluginSetting;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.model.PortletApp;
-import com.liferay.portal.model.PortletConstants;
-import com.liferay.portal.model.PortletFilter;
-import com.liferay.portal.model.PortletInfo;
-import com.liferay.portal.model.PublicRenderParameter;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
-import com.liferay.portal.security.permission.PermissionPropagator;
-import com.liferay.portal.security.permission.PermissionThreadLocal;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.service.permission.PortletPermissionUtil;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.ControlPanelEntry;
-import com.liferay.portlet.DefaultControlPanelEntryFactory;
-import com.liferay.portlet.PortletQNameUtil;
-import com.liferay.portlet.asset.model.AssetRendererFactory;
-import com.liferay.portlet.expando.model.CustomAttributesDisplay;
-import com.liferay.portlet.exportimport.lar.PortletDataHandler;
-import com.liferay.portlet.exportimport.lar.StagedModelDataHandler;
-import com.liferay.portlet.social.model.SocialActivityInterpreter;
-import com.liferay.portlet.social.model.SocialRequestInterpreter;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistrar;
+import com.liferay.social.kernel.model.SocialActivityInterpreter;
+import com.liferay.social.kernel.model.SocialRequestInterpreter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +89,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
@@ -161,7 +165,6 @@ public class PortletImpl extends PortletBaseImpl {
 		String popMessageListenerClass,
 		List<String> socialActivityInterpreterClasses,
 		String socialRequestInterpreterClass,
-		boolean socialInteractionsConfiguration,
 		String userNotificationDefinitions,
 		List<String> userNotificationHandlerClasses, String webDAVStorageToken,
 		String webDAVStorageClass, String xmlRpcMethodClass,
@@ -234,7 +237,6 @@ public class PortletImpl extends PortletBaseImpl {
 		_popMessageListenerClass = popMessageListenerClass;
 		_socialActivityInterpreterClasses = socialActivityInterpreterClasses;
 		_socialRequestInterpreterClass = socialRequestInterpreterClass;
-		_socialInteractionsConfiguration = socialInteractionsConfiguration;
 		_userNotificationDefinitions = userNotificationDefinitions;
 		_userNotificationHandlerClasses = userNotificationHandlerClasses;
 		_webDAVStorageToken = webDAVStorageToken;
@@ -373,7 +375,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public Object clone() {
-		Portlet portlet = new PortletImpl(
+		PortletImpl portletImpl = new PortletImpl(
 			getPortletId(), getRootPortlet(), getPluginPackage(),
 			getDefaultPluginSetting(), getCompanyId(), getIcon(),
 			getVirtualPath(), getStrutsPath(), getParentStrutsPath(),
@@ -387,7 +389,6 @@ public class PortletImpl extends PortletBaseImpl {
 			getPollerProcessorClass(), getPopMessageListenerClass(),
 			getSocialActivityInterpreterClasses(),
 			getSocialRequestInterpreterClass(),
-			getSocialInteractionsConfiguration(),
 			getUserNotificationDefinitions(),
 			getUserNotificationHandlerClasses(), getWebDAVStorageToken(),
 			getWebDAVStorageClass(), getXmlRpcMethodClass(),
@@ -420,11 +421,13 @@ public class PortletImpl extends PortletBaseImpl {
 			getPublishingEvents(), getPublicRenderParameters(),
 			getPortletApp());
 
-		portlet.setApplicationTypes(getApplicationTypes());
-		portlet.setId(getId());
-		portlet.setUndeployedPortlet(isUndeployedPortlet());
+		portletImpl.setApplicationTypes(getApplicationTypes());
+		portletImpl.setId(getId());
+		portletImpl.setUndeployedPortlet(isUndeployedPortlet());
 
-		return portlet;
+		portletImpl._rootPortletId = _rootPortletId;
+
+		return portletImpl;
 	}
 
 	/**
@@ -735,7 +738,7 @@ public class PortletImpl extends PortletBaseImpl {
 			portletBag.getControlPanelEntryInstances();
 
 		if (controlPanelEntryInstances.isEmpty()) {
-			return DefaultControlPanelEntryFactory.getInstance();
+			return _controlPanelEntry;
 		}
 
 		return controlPanelEntryInstances.get(0);
@@ -911,6 +914,10 @@ public class PortletImpl extends PortletBaseImpl {
 	public FriendlyURLMapper getFriendlyURLMapperInstance() {
 		PortletBag portletBag = PortletBagPool.get(getRootPortletId());
 
+		if (portletBag == null) {
+			return null;
+		}
+
 		FriendlyURLMapperTracker friendlyURLMapperTracker =
 			portletBag.getFriendlyURLMapperTracker();
 
@@ -924,7 +931,18 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public String getFriendlyURLMapping() {
-		return _friendlyURLMapping;
+		if (Validator.isNotNull(_friendlyURLMapping)) {
+			return _friendlyURLMapping;
+		}
+
+		FriendlyURLMapper friendlyURLMapperInstance =
+			getFriendlyURLMapperInstance();
+
+		if (friendlyURLMapperInstance == null) {
+			return null;
+		}
+
+		return friendlyURLMapperInstance.getMapping();
 	}
 
 	/**
@@ -1062,7 +1080,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public String getInstanceId() {
-		return PortletConstants.getInstanceId(getPortletId());
+		return PortletIdCodec.decodeInstanceId(getPortletId());
 	}
 
 	/**
@@ -1295,21 +1313,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public String getPortletDataHandlerClass() {
-		PortletBag portletBag = PortletBagPool.get(getRootPortletId());
-
-		if (portletBag == null) {
-			return _portletDataHandlerClass;
-		}
-
-		PortletDataHandler portletDataHandler = getPortletDataHandlerInstance();
-
-		if (portletDataHandler == null) {
-			return _portletDataHandlerClass;
-		}
-
-		Class<?> clazz = portletDataHandler.getClass();
-
-		return clazz.getName();
+		return _portletDataHandlerClass;
 	}
 
 	/**
@@ -1375,6 +1379,10 @@ public class PortletImpl extends PortletBaseImpl {
 	@Override
 	public PortletLayoutListener getPortletLayoutListenerInstance() {
 		PortletBag portletBag = PortletBagPool.get(getRootPortletId());
+
+		if (portletBag == null) {
+			return null;
+		}
 
 		List<PortletLayoutListener> portletLayoutListenerInstances =
 			portletBag.getPortletLayoutListenerInstances();
@@ -1527,7 +1535,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 * @param  uri the namespace URI
 	 * @param  localPart the local part
 	 * @return the spublic render parameter from a namespace URI and a local
-	 * part
+	 *         part
 	 */
 	@Override
 	public PublicRenderParameter getPublicRenderParameter(
@@ -1656,7 +1664,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public String getRootPortletId() {
-		return PortletConstants.getRootPortletId(getPortletId());
+		return _rootPortletId;
 	}
 
 	/**
@@ -1740,18 +1748,6 @@ public class PortletImpl extends PortletBaseImpl {
 		PortletBag portletBag = PortletBagPool.get(getRootPortletId());
 
 		return portletBag.getSocialActivityInterpreterInstances();
-	}
-
-	/**
-	 * Returns <code>true</code> if the portlet uses Social Interactions
-	 * Configuration
-	 *
-	 * @return <code>true</code> if the portlet uses Social Interactions
-	 *         Configuration
-	 */
-	@Override
-	public boolean getSocialInteractionsConfiguration() {
-		return _socialInteractionsConfiguration;
 	}
 
 	/**
@@ -2051,7 +2047,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public long getUserId() {
-		return PortletConstants.getUserId(getPortletId());
+		return PortletIdCodec.decodeUserId(getPortletId());
 	}
 
 	/**
@@ -2084,9 +2080,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 * @return the user notification handler instances of the portlet
 	 */
 	@Override
-	public List<UserNotificationHandler>
-		getUserNotificationHandlerInstances() {
-
+	public List<UserNotificationHandler> getUserNotificationHandlerInstances() {
 		if (_userNotificationHandlerClasses.isEmpty()) {
 			return null;
 		}
@@ -2339,6 +2333,28 @@ public class PortletImpl extends PortletBaseImpl {
 		Set<String> mimeTypePortletModes = _portletModes.get(mimeType);
 
 		if (mimeTypePortletModes == null) {
+			mimeTypePortletModes = _portletModes.get("*/*");
+
+			if (mimeTypePortletModes == null) {
+				String[] mimeTypeParts = StringUtil.split(
+					mimeType, CharPool.SLASH);
+
+				if (mimeTypeParts.length != 2) {
+					throw new IllegalArgumentException(
+						"Unable to handle MIME type " + mimeType);
+				}
+
+				mimeTypePortletModes = _portletModes.get(
+					mimeTypeParts[0].concat("/*"));
+
+				if (mimeTypePortletModes == null) {
+					mimeTypePortletModes = _portletModes.get(
+						"*/".concat(mimeTypeParts[1]));
+				}
+			}
+		}
+
+		if (mimeTypePortletModes == null) {
 			return false;
 		}
 
@@ -2580,13 +2596,13 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public boolean isReady() {
-		Boolean ready = _readyMap.get(getRootPortletId());
+		Readiness readiness = _readinessMap.get(getRootPortletId());
 
-		if (ready == null) {
+		if (readiness == null) {
 			return true;
 		}
 		else {
-			return ready;
+			return readiness._ready;
 		}
 	}
 
@@ -2665,18 +2681,6 @@ public class PortletImpl extends PortletBaseImpl {
 	@Override
 	public boolean isSinglePageApplication() {
 		return _singlePageApplication;
-	}
-
-	/**
-	 * Returns <code>true</code> if the portlet uses Social Interactions
-	 * Configuration
-	 *
-	 * @return <code>true</code> if the portlet uses Social Interactions
-	 *         Configuration
-	 */
-	@Override
-	public boolean isSocialInteractionsConfiguration() {
-		return _socialInteractionsConfiguration;
 	}
 
 	/**
@@ -2762,18 +2766,20 @@ public class PortletImpl extends PortletBaseImpl {
 			if (Validator.isNotNull(roleLink)) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
-						"Linking role for portlet [" + getPortletId() +
-							"] with role-name [" + unlinkedRole +
-								"] to role-link [" + roleLink + "]");
+						StringBundler.concat(
+							"Linking role for portlet [", getPortletId(),
+							"] with role-name [", unlinkedRole,
+							"] to role-link [", roleLink, "]"));
 				}
 
 				linkedRoles.add(roleLink);
 			}
 			else {
 				_log.error(
-					"Unable to link role for portlet [" + getPortletId() +
-						"] with role-name [" + unlinkedRole +
-							"] because role-link is null");
+					StringBundler.concat(
+						"Unable to link role for portlet [", getPortletId(),
+						"] with role-name [", unlinkedRole,
+						"] because role-link is null"));
 			}
 		}
 
@@ -2836,9 +2842,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public void setApplicationTypes(Set<ApplicationType> applicationTypes) {
-		for (ApplicationType applicationType : applicationTypes) {
-			addApplicationType(applicationType);
-		}
+		_applicationTypes.addAll(applicationTypes);
 	}
 
 	/**
@@ -3354,6 +3358,13 @@ public class PortletImpl extends PortletBaseImpl {
 		_portletFilters = portletFilters;
 	}
 
+	@Override
+	public void setPortletId(String portletId) {
+		super.setPortletId(portletId);
+
+		_rootPortletId = PortletIdCodec.decodePortletName(getPortletId());
+	}
+
 	/**
 	 * Sets the portlet info of the portlet.
 	 *
@@ -3498,8 +3509,11 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public void setProcessingEvents(Set<QName> processingEvents) {
+		_processingEvents.addAll(processingEvents);
+
 		for (QName processingEvent : processingEvents) {
-			addProcessingEvent(processingEvent);
+			_processingEventsByQName.put(
+				PortletQNameUtil.getKey(processingEvent), processingEvent);
 		}
 	}
 
@@ -3526,9 +3540,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public void setPublishingEvents(Set<QName> publishingEvents) {
-		for (QName publishingEvent : publishingEvents) {
-			addPublishingEvent(publishingEvent);
-		}
+		_publishingEvents.addAll(publishingEvents);
 	}
 
 	/**
@@ -3538,14 +3550,37 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public void setReady(boolean ready) {
-		_readyMap.put(getRootPortletId(), ready);
-
 		Registry registry = RegistryUtil.getRegistry();
 
-		synchronized (_serviceRegistrars) {
+		Readiness readiness = new Readiness(
+			ready, registry.getServiceRegistrar(Portlet.class));
+
+		String rootPortletId = getRootPortletId();
+
+		Readiness previousReadiness = _readinessMap.putIfAbsent(
+			rootPortletId, readiness);
+
+		if (previousReadiness != null) {
+			readiness = previousReadiness;
+		}
+
+		synchronized (readiness) {
+			if (readiness != _readinessMap.get(rootPortletId)) {
+				return;
+			}
+
+			readiness._ready = ready;
+
+			ServiceRegistrar<Portlet> serviceRegistrar =
+				readiness._serviceRegistrar;
+
 			if (ready) {
-				ServiceRegistrar<Portlet> serviceRegistrar =
-					registry.getServiceRegistrar(Portlet.class);
+				if (serviceRegistrar.isDestroyed()) {
+					serviceRegistrar = registry.getServiceRegistrar(
+						Portlet.class);
+
+					readiness._serviceRegistrar = serviceRegistrar;
+				}
 
 				Map<String, Object> properties = new HashMap<>();
 
@@ -3553,13 +3588,8 @@ public class PortletImpl extends PortletBaseImpl {
 
 				serviceRegistrar.registerService(
 					Portlet.class, this, properties);
-
-				_serviceRegistrars.put(getRootPortletId(), serviceRegistrar);
 			}
 			else {
-				ServiceRegistrar<Portlet> serviceRegistrar =
-					_serviceRegistrars.remove(getRootPortletId());
-
 				serviceRegistrar.destroy();
 			}
 		}
@@ -3673,9 +3703,7 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	@Override
 	public void setSchedulerEntries(List<SchedulerEntry> schedulerEntries) {
-		for (SchedulerEntry schedulerEntry : schedulerEntries) {
-			addSchedulerEntry(schedulerEntry);
-		}
+		_schedulerEntries.addAll(schedulerEntries);
 	}
 
 	/**
@@ -3737,13 +3765,6 @@ public class PortletImpl extends PortletBaseImpl {
 		_socialActivityInterpreterClasses = socialActivityInterpreterClasses;
 	}
 
-	@Override
-	public void setSocialInteractionsConfiguration(
-		boolean socialInteractionsConfiguration) {
-
-		_socialInteractionsConfiguration = socialInteractionsConfiguration;
-	}
-
 	/**
 	 * Sets the name of the social request interpreter class of the portlet.
 	 *
@@ -3756,12 +3777,6 @@ public class PortletImpl extends PortletBaseImpl {
 
 		_socialRequestInterpreterClass = socialRequestInterpreterClass;
 	}
-
-	/**
-	 * Returns the names of the classes that represent staged model data handlers associated with the portlet.
-	 *
-	 * @return the names of the classes that represent staged model data handlers associated with the portlet
-	 */
 
 	/**
 	 * Sets the names of the classes that represent staged model data handlers
@@ -4009,13 +4024,15 @@ public class PortletImpl extends PortletBaseImpl {
 
 	@Override
 	public void unsetReady() {
-		_readyMap.remove(getRootPortletId());
+		Readiness readiness = _readinessMap.remove(getRootPortletId());
 
-		synchronized (_serviceRegistrars) {
-			ServiceRegistrar<Portlet> serviceRegistrar =
-				_serviceRegistrars.remove(getRootPortletId());
+		if (readiness != null) {
+			synchronized (readiness) {
+				ServiceRegistrar<Portlet> serviceRegistrar =
+					readiness._serviceRegistrar;
 
-			serviceRegistrar.destroy();
+				serviceRegistrar.destroy();
+			}
 		}
 	}
 
@@ -4024,14 +4041,18 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	private static final Log _log = LogFactoryUtil.getLog(PortletImpl.class);
 
+	private static volatile ControlPanelEntry _controlPanelEntry =
+		ServiceProxyFactory.newServiceTrackedInstance(
+			ControlPanelEntry.class, PortletImpl.class, "_controlPanelEntry",
+			"(&(!(javax.portlet.name=*))(objectClass=" +
+				ControlPanelEntry.class.getName() + "))",
+			false);
+
 	/**
 	 * Map of the ready states of all portlets keyed by their root portlet ID.
 	 */
-	private static final Map<String, Boolean> _readyMap =
+	private static final ConcurrentMap<String, Readiness> _readinessMap =
 		new ConcurrentHashMap<>();
-
-	private static final Map<String, ServiceRegistrar<Portlet>>
-		_serviceRegistrars = new HashMap<>();
 
 	/**
 	 * The action timeout of the portlet.
@@ -4442,6 +4463,8 @@ public class PortletImpl extends PortletBaseImpl {
 	 */
 	private final Portlet _rootPortlet;
 
+	private String _rootPortletId;
+
 	/**
 	 * The scheduler entries of the portlet.
 	 */
@@ -4475,11 +4498,6 @@ public class PortletImpl extends PortletBaseImpl {
 	 * associated with the portlet.
 	 */
 	private List<String> _socialActivityInterpreterClasses;
-
-	/**
-	 * <code>True</code> if the portlet uses Social Interactions Configuration.
-	 */
-	private boolean _socialInteractionsConfiguration;
 
 	/**
 	 * The name of the social request interpreter class of the portlet.
@@ -4604,5 +4622,19 @@ public class PortletImpl extends PortletBaseImpl {
 	 * The name of the XML-RPC method class of the portlet.
 	 */
 	private String _xmlRpcMethodClass;
+
+	private static class Readiness {
+
+		private Readiness(
+			boolean ready, ServiceRegistrar<Portlet> serviceRegistrar) {
+
+			_ready = ready;
+			_serviceRegistrar = serviceRegistrar;
+		}
+
+		private volatile boolean _ready;
+		private ServiceRegistrar<Portlet> _serviceRegistrar;
+
+	}
 
 }

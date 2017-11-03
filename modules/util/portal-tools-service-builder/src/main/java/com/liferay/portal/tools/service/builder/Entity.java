@@ -32,7 +32,7 @@ import java.util.Set;
  * @author Brian Wing Shun Chan
  * @author Shuyang Zhou
  */
-public class Entity {
+public class Entity implements Comparable<Entity> {
 
 	public static final Accessor<Entity, String> NAME_ACCESSOR =
 		new Accessor<Entity, String>() {
@@ -90,27 +90,29 @@ public class Entity {
 
 	public Entity(String name) {
 		this(
-			null, null, null, name, null, null, null, false, false, false, true,
-			null, null, null, null, null, true, false, false, false, false,
-			false, null, null, null, null, null, null, null, null, null, null,
-			false);
+			null, null, null, null, name, null, null, null, false, false, false,
+			true, null, null, null, null, null, true, false, false, false,
+			false, false, null, null, null, null, null, null, null, null, null,
+			null, false);
 	}
 
 	public Entity(
-		String packagePath, String portletName, String portletShortName,
-		String name, String humanName, String table, String alias, boolean uuid,
-		boolean uuidAccessor, boolean localService, boolean remoteService,
-		String persistenceClass, String finderClass, String dataSource,
-		String sessionFactory, String txManager, boolean cacheEnabled,
-		boolean dynamicUpdateEnabled, boolean jsonEnabled, boolean mvccEnabled,
-		boolean trashEnabled, boolean deprecated, List<EntityColumn> pkList,
-		List<EntityColumn> regularColList, List<EntityColumn> blobList,
-		List<EntityColumn> collectionList, List<EntityColumn> columnList,
-		EntityOrder order, List<EntityFinder> finderList,
-		List<Entity> referenceList, List<String> unresolvedReferenceList,
-		List<String> txRequiredList, boolean resourceActionModel) {
+		String packagePath, String apiPackagePath, String portletName,
+		String portletShortName, String name, String humanName, String table,
+		String alias, boolean uuid, boolean uuidAccessor, boolean localService,
+		boolean remoteService, String persistenceClass, String finderClass,
+		String dataSource, String sessionFactory, String txManager,
+		boolean cacheEnabled, boolean dynamicUpdateEnabled, boolean jsonEnabled,
+		boolean mvccEnabled, boolean trashEnabled, boolean deprecated,
+		List<EntityColumn> pkList, List<EntityColumn> regularColList,
+		List<EntityColumn> blobList, List<EntityColumn> collectionList,
+		List<EntityColumn> columnList, EntityOrder order,
+		List<EntityFinder> finderList, List<Entity> referenceList,
+		List<String> unresolvedReferenceList, List<String> txRequiredList,
+		boolean resourceActionModel) {
 
 		_packagePath = packagePath;
+		_apiPackagePath = apiPackagePath;
 		_portletName = portletName;
 		_portletShortName = portletShortName;
 		_name = name;
@@ -192,6 +194,11 @@ public class Entity {
 	}
 
 	@Override
+	public int compareTo(Entity entity) {
+		return _name.compareToIgnoreCase(entity._name);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -217,6 +224,10 @@ public class Entity {
 		return _alias;
 	}
 
+	public String getApiPackagePath() {
+		return _apiPackagePath;
+	}
+
 	public List<EntityColumn> getBadNamedColumnsList() {
 		List<EntityColumn> badNamedColumnsList = ListUtil.copy(_columnList);
 
@@ -240,15 +251,13 @@ public class Entity {
 	}
 
 	public List<EntityFinder> getCollectionFinderList() {
-		List<EntityFinder> finderList = ListUtil.copy(_finderList);
+		List<EntityFinder> finderList = new ArrayList<>(_finderList.size());
 
-		Iterator<EntityFinder> itr = finderList.iterator();
+		for (EntityFinder entityFinder : _finderList) {
+			if (entityFinder.isCollection() &&
+				!entityFinder.hasCustomComparator()) {
 
-		while (itr.hasNext()) {
-			EntityFinder finder = itr.next();
-
-			if (!finder.isCollection()) {
-				itr.remove();
+				finderList.add(entityFinder);
 			}
 		}
 
@@ -311,6 +320,14 @@ public class Entity {
 
 	public String getHumanNames() {
 		return TextFormatter.formatPlural(_humanName);
+	}
+
+	public List<EntityColumn> getLocalizedColumns() {
+		return _localizedColumns;
+	}
+
+	public Entity getLocalizedEntity() {
+		return _localizedEntity;
 	}
 
 	public String getName() {
@@ -786,6 +803,16 @@ public class Entity {
 		}
 	}
 
+	public boolean isShardedModel() {
+		if (_packagePath.equals("com.liferay.portal") &&
+			_name.equals("Company")) {
+
+			return false;
+		}
+
+		return hasColumn("companyId");
+	}
+
 	public boolean isStagedAuditedModel() {
 		if (isAuditedModel() && isStagedModel()) {
 			return true;
@@ -852,6 +879,16 @@ public class Entity {
 		}
 	}
 
+	public void setLocalizedColumns(List<EntityColumn> localizedColumns) {
+		_localizedColumns = localizedColumns;
+	}
+
+	public void setLocalizedEntity(Entity localizedEntity) {
+		_localizedEntity = localizedEntity;
+
+		_referenceList.add(localizedEntity);
+	}
+
 	public void setParentTransients(List<String> transients) {
 		_parentTransients = transients;
 	}
@@ -886,6 +923,7 @@ public class Entity {
 		"liferayTransactionManager";
 
 	private final String _alias;
+	private final String _apiPackagePath;
 	private List<EntityColumn> _blobList;
 	private final boolean _cacheEnabled;
 	private final List<EntityColumn> _collectionList;
@@ -899,6 +937,8 @@ public class Entity {
 	private final List<EntityFinder> _finderList;
 	private final String _humanName;
 	private final boolean _jsonEnabled;
+	private List<EntityColumn> _localizedColumns;
+	private Entity _localizedEntity;
 	private final boolean _localService;
 	private final boolean _mvccEnabled;
 	private final String _name;

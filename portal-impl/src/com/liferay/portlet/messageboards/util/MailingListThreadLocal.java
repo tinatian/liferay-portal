@@ -14,7 +14,7 @@
 
 package com.liferay.portlet.messageboards.util;
 
-import com.liferay.portal.kernel.util.InitialThreadLocal;
+import com.liferay.petra.lang.CentralizedThreadLocal;
 
 /**
  * @author Thiago Moreira
@@ -30,7 +30,8 @@ public class MailingListThreadLocal {
 	}
 
 	private static final ThreadLocal<Boolean> _sourceMailingList =
-		new InitialThreadLocal<>(
-			MailingListThreadLocal.class + "._sourceMailingList", false);
+		new CentralizedThreadLocal<>(
+			MailingListThreadLocal.class + "._sourceMailingList",
+			() -> Boolean.FALSE, false);
 
 }

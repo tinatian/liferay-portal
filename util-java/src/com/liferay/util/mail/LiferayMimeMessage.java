@@ -22,7 +22,11 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * @author Jorge Ferrer
+ * @see    com.liferay.petra.mail.LiferayMimeMessage
+ * @deprecated As of 7.0.0, replaced by {@link
+ *             com.liferay.petra.mail.LiferayMimeMessage}
  */
+@Deprecated
 public class LiferayMimeMessage extends MimeMessage {
 
 	public LiferayMimeMessage(Session session) {

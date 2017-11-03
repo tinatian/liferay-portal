@@ -15,16 +15,17 @@
 package com.liferay.portlet;
 
 import com.liferay.portal.kernel.portlet.LiferayRenderResponse;
-import com.liferay.portal.theme.PortletDisplay;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.WebKeys;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portlet.configuration.kernel.util.PortletConfigurationUtil;
 
 import java.util.Collection;
 
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Brian Wing Shun Chan
@@ -62,15 +63,28 @@ public class RenderResponseImpl
 
 	@Override
 	public void setTitle(String title) {
-		_title = title;
 
 		// See LEP-2188
 
 		ThemeDisplay themeDisplay =
-			(ThemeDisplay)_portletRequestImpl.getAttribute(
+			(ThemeDisplay)portletRequestImpl.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+
+		PortletPreferences portletSetup = portletDisplay.getPortletSetup();
+
+		String localizedCustomTitle = PortletConfigurationUtil.getPortletTitle(
+			portletSetup, themeDisplay.getLanguageId());
+
+		if (portletDisplay.isActive() &&
+			Validator.isNull(localizedCustomTitle)) {
+
+			_title = title;
+		}
+		else {
+			_title = localizedCustomTitle;
+		}
 
 		portletDisplay.setTitle(_title);
 	}
@@ -79,17 +93,6 @@ public class RenderResponseImpl
 		_useDefaultTemplate = useDefaultTemplate;
 	}
 
-	@Override
-	protected void init(
-		PortletRequestImpl portletRequestImpl, HttpServletResponse response,
-		String portletName, long companyId, long plid) {
-
-		super.init(portletRequestImpl, response, portletName, companyId, plid);
-
-		_portletRequestImpl = portletRequestImpl;
-	}
-
-	private PortletRequestImpl _portletRequestImpl;
 	private String _resourceName;
 	private String _title;
 	private Boolean _useDefaultTemplate;

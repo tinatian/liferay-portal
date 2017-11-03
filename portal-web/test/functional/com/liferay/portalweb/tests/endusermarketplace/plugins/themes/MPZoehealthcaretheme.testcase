@@ -1,4 +1,4 @@
-<definition component-name="marketplace-plugins-zoe-healthcare-theme">
+<definition component-name="portal-plugins-deployment">
 	<property name="testray.main.component.name" value="Plugin Installer" />
 
 	<set-up>
@@ -8,20 +8,23 @@
 	<command name="ZoeHealthcareThemeSmoke" priority="4">
 		<property name="portlet.plugins.includes" value="web-form-portlet" />
 		<property name="theme.plugins.includes" value="zoe-healthcare-theme" />
-		<property name="web.plugins.includes" value="resources-importer-web" />
 
 		<var name="appName" value="Zoe Healthcare" />
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="App Manager" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Apps" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="App Manager" />
 		</execute>
 
 		<execute macro="AppManager#uninstallAppCP">
 			<var name="appName" value="${appName}" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="App Manager" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Apps" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="App Manager" />
 		</execute>
 
 		<execute macro="AppManager#viewUninstallAppCP">

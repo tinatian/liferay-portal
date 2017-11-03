@@ -15,12 +15,12 @@
 package com.liferay.portal.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.model.EmailAddress;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.kernel.model.EmailAddress;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.permission.CommonPermissionUtil;
 import com.liferay.portal.service.base.EmailAddressServiceBaseImpl;
-import com.liferay.portal.service.permission.CommonPermissionUtil;
 
 import java.util.List;
 
@@ -29,24 +29,6 @@ import java.util.List;
  * @author Alexander Chow
  */
 public class EmailAddressServiceImpl extends EmailAddressServiceBaseImpl {
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #addEmailAddress(String,
-	 *             long, String, int, boolean, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public EmailAddress addEmailAddress(
-			String className, long classPK, String address, long typeId,
-			boolean primary)
-		throws PortalException {
-
-		CommonPermissionUtil.check(
-			getPermissionChecker(), className, classPK, ActionKeys.UPDATE);
-
-		return emailAddressLocalService.addEmailAddress(
-			getUserId(), className, classPK, address, typeId, primary);
-	}
 
 	@Override
 	public EmailAddress addEmailAddress(
@@ -81,7 +63,6 @@ public class EmailAddressServiceImpl extends EmailAddressServiceBaseImpl {
 	 * @return the email address with the primary key, or <code>null</code> if
 	 *         an email address with the primary key could not be found or if
 	 *         the user did not have permission to view the email address
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public EmailAddress fetchEmailAddress(long emailAddressId)

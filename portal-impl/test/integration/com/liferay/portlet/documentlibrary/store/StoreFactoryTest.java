@@ -14,15 +14,17 @@
 
 package com.liferay.portlet.documentlibrary.store;
 
+import com.liferay.document.library.kernel.store.Store;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.ClassUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
 import com.liferay.portlet.documentlibrary.store.bundle.storefactory.DelegatorStore;
 import com.liferay.portlet.documentlibrary.store.bundle.storefactory.FirstStoreWrapper;
 
 import java.lang.reflect.Method;
+
+import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -39,7 +41,7 @@ public class StoreFactoryTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule("bundle.storefactory"));
 
 	@Test
@@ -61,7 +63,7 @@ public class StoreFactoryTest {
 
 		String[] fileNames = store.getFileNames(0, 0);
 
-		Assert.assertEquals(1, fileNames.length);
+		Assert.assertEquals(Arrays.toString(fileNames), 1, fileNames.length);
 		Assert.assertEquals("TestStore", fileNames[0]);
 	}
 
@@ -72,7 +74,7 @@ public class StoreFactoryTest {
 		Store store = storeFactory.getStore("test");
 
 		Assert.assertTrue(
-			isAssignableFrom(store, DelegatorStore.class.getName()));
+			_isAssignableFrom(store, DelegatorStore.class.getName()));
 	}
 
 	@Test
@@ -82,7 +84,7 @@ public class StoreFactoryTest {
 		Store store = storeFactory.getStore("test");
 
 		Assert.assertTrue(
-			isAssignableFrom(
+			_isAssignableFrom(
 				store, FirstStoreWrapper.FirstDelegatorStore.class.getName()));
 	}
 
@@ -102,7 +104,7 @@ public class StoreFactoryTest {
 		}
 	}
 
-	private boolean isAssignableFrom(Store store, String className)
+	private boolean _isAssignableFrom(Store store, String className)
 		throws ClassNotFoundException {
 
 		Class<? extends Store> storeClass = store.getClass();

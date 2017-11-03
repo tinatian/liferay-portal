@@ -14,12 +14,13 @@
 
 package com.liferay.portlet.asset.service.impl;
 
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.asset.kernel.model.AssetTagStats;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portlet.asset.model.AssetTag;
-import com.liferay.portlet.asset.model.AssetTagStats;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portlet.asset.service.base.AssetTagStatsLocalServiceBaseImpl;
 
 import java.util.List;
@@ -55,8 +56,9 @@ public class AssetTagStatsLocalServiceImpl
 		catch (SystemException se) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Add failed, fetch {tagId=" + tagId + ", classNameId=" +
-						classNameId + "}");
+					StringBundler.concat(
+						"Add failed, fetch {tagId=", String.valueOf(tagId),
+						", classNameId=", String.valueOf(classNameId), "}"));
 			}
 
 			tagStats = assetTagStatsPersistence.fetchByT_C(
@@ -83,9 +85,7 @@ public class AssetTagStatsLocalServiceImpl
 	/**
 	 * Deletes the asset tag statistics instance matching the tag statistics ID.
 	 *
-	 * @param  tagStatsId the primary key of the asset tag statistics instance
-	 * @throws PortalException if the assetTagStats with the primary key could
-	 *         not be found
+	 * @param tagStatsId the primary key of the asset tag statistics instance
 	 */
 	@Override
 	public void deleteTagStats(long tagStatsId) throws PortalException {
@@ -182,8 +182,6 @@ public class AssetTagStatsLocalServiceImpl
 	 * @param  tagId the primary key of the tag
 	 * @param  classNameId the asset entry's class name ID
 	 * @return the updated asset tag statistics instance
-	 * @throws PortalException if an asset tag with the tag ID could not be
-	 *         found
 	 */
 	@Override
 	public AssetTagStats updateTagStats(long tagId, long classNameId)

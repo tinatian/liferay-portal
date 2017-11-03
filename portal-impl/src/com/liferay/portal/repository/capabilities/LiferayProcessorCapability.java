@@ -14,6 +14,7 @@
 
 package com.liferay.portal.repository.capabilities;
 
+import com.liferay.document.library.kernel.util.DLProcessorRegistryUtil;
 import com.liferay.portal.kernel.repository.LocalRepository;
 import com.liferay.portal.kernel.repository.Repository;
 import com.liferay.portal.kernel.repository.capabilities.ProcessorCapability;
@@ -27,7 +28,6 @@ import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.repository.liferayrepository.LiferayProcessorLocalRepositoryWrapper;
 import com.liferay.portal.repository.liferayrepository.LiferayProcessorRepositoryWrapper;
 import com.liferay.portal.repository.util.RepositoryWrapperAware;
-import com.liferay.portlet.documentlibrary.util.DLProcessorRegistryUtil;
 
 import java.util.concurrent.Callable;
 
@@ -37,6 +37,16 @@ import java.util.concurrent.Callable;
 public class LiferayProcessorCapability
 	implements ProcessorCapability, RepositoryEventAware,
 			   RepositoryWrapperAware {
+
+	public LiferayProcessorCapability() {
+		this(ResourceGenerationStrategy.REUSE);
+	}
+
+	public LiferayProcessorCapability(
+		ResourceGenerationStrategy resourceGenerationStrategy) {
+
+		_resourceGenerationStrategy = resourceGenerationStrategy;
+	}
 
 	@Override
 	public void cleanUp(FileEntry fileEntry) {
@@ -50,7 +60,12 @@ public class LiferayProcessorCapability
 
 	@Override
 	public void copy(FileEntry fileEntry, FileVersion fileVersion) {
-		registerDLProcessorCallback(fileEntry, fileVersion);
+		if (_resourceGenerationStrategy == ResourceGenerationStrategy.REUSE) {
+			registerDLProcessorCallback(fileEntry, fileVersion);
+		}
+		else {
+			generateNew(fileEntry);
+		}
 	}
 
 	@Override
@@ -88,6 +103,12 @@ public class LiferayProcessorCapability
 		return new LiferayProcessorRepositoryWrapper(repository, this);
 	}
 
+	public enum ResourceGenerationStrategy {
+
+		ALWAYS_GENERATE, REUSE
+
+	}
+
 	protected void registerDLProcessorCallback(
 		final FileEntry fileEntry, final FileVersion fileVersion) {
 
@@ -104,5 +125,7 @@ public class LiferayProcessorCapability
 
 			});
 	}
+
+	private final ResourceGenerationStrategy _resourceGenerationStrategy;
 
 }

@@ -14,8 +14,12 @@
 
 package com.liferay.portlet.exportimport.service.impl;
 
+import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationConstants;
+import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.model.SystemEventConstants;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -28,19 +32,17 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.SystemEventConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.exportimport.configuration.ExportImportConfigurationConstants;
-import com.liferay.portlet.exportimport.model.ExportImportConfiguration;
 import com.liferay.portlet.exportimport.service.base.ExportImportConfigurationLocalServiceBaseImpl;
-import com.liferay.portlet.trash.model.TrashEntry;
+import com.liferay.trash.kernel.exception.RestoreEntryException;
+import com.liferay.trash.kernel.exception.TrashEntryException;
+import com.liferay.trash.kernel.model.TrashEntry;
 
 import java.io.Serializable;
 
@@ -146,8 +148,7 @@ public class ExportImportConfigurationLocalServiceImpl
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public ExportImportConfiguration deleteExportImportConfiguration(
-			ExportImportConfiguration exportImportConfiguration)
-		throws PortalException {
+		ExportImportConfiguration exportImportConfiguration) {
 
 		exportImportConfigurationPersistence.remove(exportImportConfiguration);
 
@@ -172,9 +173,7 @@ public class ExportImportConfigurationLocalServiceImpl
 	}
 
 	@Override
-	public void deleteExportImportConfigurations(long groupId)
-		throws PortalException {
-
+	public void deleteExportImportConfigurations(long groupId) {
 		List<ExportImportConfiguration> exportImportConfigurations =
 			exportImportConfigurationPersistence.findByGroupId(groupId);
 
@@ -243,6 +242,29 @@ public class ExportImportConfigurationLocalServiceImpl
 	}
 
 	@Override
+	public List<ExportImportConfiguration> getExportImportConfigurations(
+		long companyId, long groupId, String keywords, int type, int start,
+		int end,
+		OrderByComparator<ExportImportConfiguration> orderByComparator) {
+
+		return exportImportConfigurationFinder.findByKeywords(
+			companyId, groupId, keywords, type,
+			WorkflowConstants.STATUS_APPROVED, start, end, orderByComparator);
+	}
+
+	@Override
+	public List<ExportImportConfiguration> getExportImportConfigurations(
+		long companyId, long groupId, String name, String description, int type,
+		boolean andSearch, int start, int end,
+		OrderByComparator<ExportImportConfiguration> orderByComparator) {
+
+		return exportImportConfigurationFinder.findByC_G_N_D_T(
+			companyId, groupId, name, description, type,
+			WorkflowConstants.STATUS_APPROVED, andSearch, start, end,
+			orderByComparator);
+	}
+
+	@Override
 	public int getExportImportConfigurationsCount(long groupId) {
 		return exportImportConfigurationPersistence.countByG_S(
 			groupId, WorkflowConstants.STATUS_APPROVED);
@@ -254,6 +276,25 @@ public class ExportImportConfigurationLocalServiceImpl
 			groupId, type, WorkflowConstants.STATUS_APPROVED);
 	}
 
+	@Override
+	public int getExportImportConfigurationsCount(
+		long companyId, long groupId, String keywords, int type) {
+
+		return exportImportConfigurationFinder.countByKeywords(
+			companyId, groupId, keywords, type,
+			WorkflowConstants.STATUS_APPROVED);
+	}
+
+	@Override
+	public int getExportImportConfigurationsCount(
+		long companyId, long groupId, String name, String description, int type,
+		boolean andSearch) {
+
+		return exportImportConfigurationFinder.countByC_G_N_D_T(
+			companyId, groupId, name, description, type,
+			WorkflowConstants.STATUS_APPROVED, andSearch);
+	}
+
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public ExportImportConfiguration moveExportImportConfigurationToTrash(
@@ -263,6 +304,10 @@ public class ExportImportConfigurationLocalServiceImpl
 		ExportImportConfiguration exportImportConfiguration =
 			exportImportConfigurationPersistence.findByPrimaryKey(
 				exportImportConfigurationId);
+
+		if (exportImportConfiguration.isInTrash()) {
+			throw new TrashEntryException();
+		}
 
 		int oldStatus = exportImportConfiguration.getStatus();
 
@@ -289,6 +334,11 @@ public class ExportImportConfigurationLocalServiceImpl
 			exportImportConfigurationPersistence.findByPrimaryKey(
 				exportImportConfigurationId);
 
+		if (!exportImportConfiguration.isInTrash()) {
+			throw new RestoreEntryException(
+				RestoreEntryException.INVALID_STATUS);
+		}
+
 		TrashEntry trashEntry = trashEntryLocalService.getEntry(
 			ExportImportConfiguration.class.getName(),
 			exportImportConfigurationId);
@@ -306,9 +356,9 @@ public class ExportImportConfigurationLocalServiceImpl
 
 	@Override
 	public BaseModelSearchResult<ExportImportConfiguration>
-		searchExportImportConfigurations(
-			long companyId, long groupId, int type, String keywords, int start,
-			int end, Sort sort)
+			searchExportImportConfigurations(
+				long companyId, long groupId, int type, String keywords,
+				int start, int end, Sort sort)
 		throws PortalException {
 
 		String description = null;
@@ -330,10 +380,10 @@ public class ExportImportConfigurationLocalServiceImpl
 
 	@Override
 	public BaseModelSearchResult<ExportImportConfiguration>
-		searchExportImportConfigurations(
-			long companyId, long groupId, int type, String name,
-			String description, boolean andSearch, int start, int end,
-			Sort sort)
+			searchExportImportConfigurations(
+				long companyId, long groupId, int type, String name,
+				String description, boolean andSearch, int start, int end,
+				Sort sort)
 		throws PortalException {
 
 		Indexer<ExportImportConfiguration> indexer =

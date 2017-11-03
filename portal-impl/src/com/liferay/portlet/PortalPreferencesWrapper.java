@@ -14,6 +14,10 @@
 
 package com.liferay.portlet;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.model.MVCCModel;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -22,12 +26,14 @@ import java.util.Map;
 
 import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
+import javax.portlet.ValidatorException;
 
 /**
  * @author Alexander Chow
  */
+@ProviderType
 public class PortalPreferencesWrapper
-	implements Cloneable, PortletPreferences, Serializable {
+	implements Cloneable, MVCCModel, PortletPreferences, Serializable {
 
 	public PortalPreferencesWrapper(
 		PortalPreferencesImpl portalPreferencesImpl) {
@@ -43,6 +49,11 @@ public class PortalPreferencesWrapper
 	@Override
 	public Map<String, String[]> getMap() {
 		return _portalPreferencesImpl.getMap();
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return _portalPreferencesImpl.getMvccVersion();
 	}
 
 	@Override
@@ -75,6 +86,11 @@ public class PortalPreferencesWrapper
 	}
 
 	@Override
+	public void setMvccVersion(long mvccVersion) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void setValue(String key, String value) throws ReadOnlyException {
 		_portalPreferencesImpl.setValue(key, value);
 	}
@@ -87,7 +103,7 @@ public class PortalPreferencesWrapper
 	}
 
 	@Override
-	public void store() throws IOException {
+	public void store() throws IOException, ValidatorException {
 		_portalPreferencesImpl.store();
 	}
 

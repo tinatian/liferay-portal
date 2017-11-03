@@ -17,7 +17,7 @@
 <%@ include file="/html/taglib/aui/button/init.jsp" %>
 
 <c:if test="<%= dropdown %>">
-	<div class="btn-group lfr-icon-menu" id="<%= id %>BtnGroup">
+	<div class="btn-group dropdown" id="<%= id %>BtnGroup">
 </c:if>
 
 <c:choose>
@@ -66,15 +66,11 @@
 </c:if>
 
 <c:if test="<%= Validator.isNotNull(value) %>">
-	<span class="lfr-btn-label"><%= LanguageUtil.get(request, value) %></span>
+	<span class="lfr-btn-label"><%= LanguageUtil.get(resourceBundle, value) %></span>
 </c:if>
 
 <c:if test='<%= Validator.isNotNull(icon) && iconAlign.equals("right") %>'>
 	<i class="<%= icon %>"></i>
-</c:if>
-
-<c:if test="<%= dropdown %>">
-	<i class="icon-caret-down"></i>
 </c:if>
 
 <c:choose>
@@ -87,18 +83,34 @@
 </c:choose>
 
 <c:if test="<%= dropdown %>">
-		<ul class="direction-down dropdown-menu lfr-menu-list" role="menu">
+	<button aria-expanded="false" class="btn btn-primary dropdown-toggle <%= cssClass %>" data-toggle="dropdown" <%= disabled ? "disabled" : StringPool.BLANK %> id="<%= id %>Toggle" type="button">
+		<span class="caret"></span>
+
+		<span class="sr-only"><liferay-ui:message key="toggle-dropdown" /></span>
+	</button>
+</c:if>
+
+<c:if test="<%= dropdown %>">
+		<ul class="dropdown-menu" role="menu">
 			<%= bodyContentString %>
 		</ul>
 	</div>
-
-	<aui:script use="liferay-menu">
-		Liferay.Menu.register('<%= id %>');
-	</aui:script>
 </c:if>
 
 <c:if test="<%= useDialog %>">
 	<aui:script>
-		Liferay.delegateClick('<%= namespace + name %>', Liferay.Util.openInDialog);
+		Liferay.delegateClick(
+			'<%= namespace + name %>',
+			function(event) {
+				Liferay.Util.openInDialog(
+					event,
+					{
+						dialogIframe: {
+							bodyCssClass: 'dialog-with-footer'
+						}
+					}
+				);
+			}
+		);
 	</aui:script>
 </c:if>

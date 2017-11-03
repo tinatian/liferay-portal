@@ -14,10 +14,11 @@
 
 package com.liferay.portlet.blogs.model;
 
-import com.liferay.portal.ModelListenerException;
-import com.liferay.portal.model.BaseModelListener;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.service.SubscriptionLocalServiceUtil;
+import com.liferay.blogs.kernel.model.BlogsEntry;
+import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.SubscriptionLocalServiceUtil;
 
 /**
  * @author Eduardo Garcia

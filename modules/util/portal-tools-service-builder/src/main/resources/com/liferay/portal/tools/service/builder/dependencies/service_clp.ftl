@@ -1,8 +1,8 @@
-package ${packagePath}.service;
+package ${apiPackagePath}.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.service.Invokable${sessionTypeName}Service;
+import com.liferay.portal.kernel.service.Invokable${sessionTypeName}Service;
 
 /**
  * @author ${author}
@@ -23,8 +23,8 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 		_invokable${sessionTypeName}Service = invokable${sessionTypeName}Service;
 
 		<#list methods as method>
-			<#if !method.isConstructor() && method.isPublic() && serviceBuilder.isCustomMethod(method) && method.name != "invokeMethod">
-				<#assign parameters = method.parameters>
+			<#if method.isPublic() && serviceBuilder.isCustomMethod(method) && !stringUtil.equals(method.name, "invokeMethod")>
+				<#assign parameters = method.parameters />
 
 				_methodName${method_index} = "${method.name}";
 
@@ -44,9 +44,11 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 	}
 
 	<#list methods as method>
-		<#if !method.isConstructor() && method.isPublic() && serviceBuilder.isCustomMethod(method)>
-			<#assign returnTypeName = serviceBuilder.getTypeGenericsName(method.returns)>
-			<#assign parameters = method.parameters>
+		<#if method.isPublic() && serviceBuilder.isCustomMethod(method)>
+			<#assign
+				returnTypeName = serviceBuilder.getTypeGenericsName(method.returns)
+				parameters = method.parameters
+			/>
 
 			@Override
 			public
@@ -72,7 +74,7 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 					throws
 				</#if>
 
-				${exception.value}
+				${exception.fullyQualifiedName}
 
 				<#if exception_has_next>
 					,
@@ -83,12 +85,12 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 				<#if method.name = "invokeMethod">
 					throw new UnsupportedOperationException();
 				<#else>
-					<#if returnTypeName != "void">
+					<#if !stringUtil.equals(returnTypeName, "void")>
 						Object returnObj = null;
 					</#if>
 
 					try {
-						<#if returnTypeName != "void">
+						<#if !stringUtil.equals(returnTypeName, "void")>
 							returnObj =
 						</#if>
 
@@ -99,9 +101,9 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 							new Object[] {
 
 							<#list parameters as parameter>
-								<#assign parameterTypeName = serviceBuilder.getTypeGenericsName(parameter.type)>
+								<#assign parameterTypeName = serviceBuilder.getTypeGenericsName(parameter.type) />
 
-								<#if (parameterTypeName == "boolean") || (parameterTypeName == "double") || (parameterTypeName == "float") || (parameterTypeName == "int") || (parameterTypeName == "long") || (parameterTypeName == "short")>
+								<#if stringUtil.equals(parameterTypeName, "boolean") || stringUtil.equals(parameterTypeName, "double") || stringUtil.equals(parameterTypeName, "float") || stringUtil.equals(parameterTypeName, "int") || stringUtil.equals(parameterTypeName, "long") || stringUtil.equals(parameterTypeName, "short")>
 									${parameter.name}
 								<#else>
 									ClpSerializer.translateInput(${parameter.name})
@@ -119,8 +121,8 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 						t = ClpSerializer.translateThrowable(t);
 
 						<#list method.exceptions as exception>
-							if (t instanceof ${exception.value}) {
-								throw (${exception.value})t;
+							if (t instanceof ${exception.fullyQualifiedName}) {
+								throw (${exception.fullyQualifiedName})t;
 							}
 						</#list>
 
@@ -132,18 +134,18 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 						}
 					}
 
-					<#if returnTypeName != "void">
-						<#if returnTypeName == "boolean">
+					<#if !stringUtil.equals(returnTypeName, "void")>
+						<#if stringUtil.equals(returnTypeName, "boolean")>
 							return ((Boolean)returnObj).booleanValue();
-						<#elseif returnTypeName == "double">
+						<#elseif stringUtil.equals(returnTypeName, "double")>
 							return ((Double)returnObj).doubleValue();
-						<#elseif returnTypeName == "float">
+						<#elseif stringUtil.equals(returnTypeName, "float")>
 							return ((Float)returnObj).floatValue();
-						<#elseif returnTypeName == "int">
+						<#elseif stringUtil.equals(returnTypeName, "int")>
 							return ((Integer)returnObj).intValue();
-						<#elseif returnTypeName == "long">
+						<#elseif stringUtil.equals(returnTypeName, "long")>
 							return ((Long)returnObj).longValue();
-						<#elseif returnTypeName == "short">
+						<#elseif stringUtil.equals(returnTypeName, "short")>
 							return ((Short)returnObj).shortValue();
 						<#else>
 							return (${returnTypeName})ClpSerializer.translateOutput(returnObj);
@@ -157,8 +159,8 @@ public class ${entity.name}${sessionTypeName}ServiceClp implements ${entity.name
 	private Invokable${sessionTypeName}Service _invokable${sessionTypeName}Service;
 
 	<#list methods as method>
-		<#if !method.isConstructor() && method.isPublic() && serviceBuilder.isCustomMethod(method) && method.name != "invokeMethod">
-			<#assign parameters = method.parameters>
+		<#if method.isPublic() && serviceBuilder.isCustomMethod(method) && !stringUtil.equals(method.name, "invokeMethod")>
+			<#assign parameters = method.parameters />
 
 			private String _methodName${method_index};
 			private String[] _methodParameterTypes${method_index};

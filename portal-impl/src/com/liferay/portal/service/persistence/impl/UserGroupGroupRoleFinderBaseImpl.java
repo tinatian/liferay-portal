@@ -15,14 +15,19 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.model.UserGroupGroupRole;
-import com.liferay.portal.service.persistence.UserGroupGroupRolePersistence;
+import com.liferay.portal.kernel.model.UserGroupGroupRole;
+import com.liferay.portal.kernel.service.persistence.UserGroupGroupRolePersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
 /**
  * @author Brian Wing Shun Chan
  * @generated
  */
 public class UserGroupGroupRoleFinderBaseImpl extends BasePersistenceImpl<UserGroupGroupRole> {
+	public UserGroupGroupRoleFinderBaseImpl() {
+		setModelClass(UserGroupGroupRole.class);
+	}
+
 	/**
 	 * Returns the user group group role persistence.
 	 *

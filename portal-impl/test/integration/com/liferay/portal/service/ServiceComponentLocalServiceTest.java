@@ -14,14 +14,33 @@
 
 package com.liferay.portal.service;
 
-import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.db.DB;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
+import com.liferay.portal.kernel.dao.db.DBProcessContext;
+import com.liferay.portal.kernel.dao.jdbc.DataAccess;
+import com.liferay.portal.kernel.model.Release;
+import com.liferay.portal.kernel.model.ServiceComponent;
+import com.liferay.portal.kernel.service.ReleaseLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceComponentLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
-import com.liferay.portal.model.ServiceComponent;
+import com.liferay.portal.kernel.upgrade.UpgradeException;
+import com.liferay.portal.kernel.upgrade.UpgradeStep;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceRegistration;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,8 +56,7 @@ public class ServiceComponentLocalServiceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() {
@@ -47,6 +65,9 @@ public class ServiceComponentLocalServiceTest {
 
 		_serviceComponent1 = addServiceComponent(_SERVICE_COMPONENT_1, 1);
 		_serviceComponent2 = addServiceComponent(_SERVICE_COMPONENT_2, 1);
+
+		_release = ReleaseLocalServiceUtil.addRelease(
+			"ServiceComponentLocalServiceTest", "0.0.0");
 	}
 
 	@Test
@@ -97,6 +118,155 @@ public class ServiceComponentLocalServiceTest {
 		Assert.assertEquals(1, latestServiceComponent.getBuildNumber());
 	}
 
+	@Test
+	public void testVerifyFromSchemaVersion000WithInitialDatabaseCreation()
+		throws Exception {
+
+		Registry registry = RegistryUtil.getRegistry();
+
+		Map<String, Object> properties = new HashMap<>();
+
+		properties.put(
+			"upgrade.bundle.symbolic.name", "ServiceComponentLocalServiceTest");
+		properties.put("upgrade.from.schema.version", "0.0.0");
+		properties.put("upgrade.initial.database.creation", true);
+
+		final DB db = DBManagerUtil.getDB();
+
+		ServiceRegistration<UpgradeStep> upgradeStepServiceRegistration =
+			registry.registerService(
+				UpgradeStep.class, new TestUpgradeStep(db), properties);
+
+		String tableName = _TEST_TABLE;
+
+		try {
+			ServiceComponentLocalServiceUtil.verifyDB();
+
+			try (Connection conn = DataAccess.getConnection()) {
+				DatabaseMetaData metadata = conn.getMetaData();
+
+				tableName = normalizeTableName(metadata, _TEST_TABLE);
+
+				try (ResultSet rs = metadata.getTables(
+						null, null, tableName, new String[] {"TABLE"})) {
+
+					Assert.assertTrue(rs.next());
+				}
+			}
+		}
+		finally {
+			db.runSQL("drop table " + tableName);
+
+			upgradeStepServiceRegistration.unregister();
+		}
+	}
+
+	@Test
+	public void testVerifyFromSchemaVersion000WitouthInitialDatabaseCreation()
+		throws Exception {
+
+		Registry registry = RegistryUtil.getRegistry();
+
+		Map<String, Object> properties = new HashMap<>();
+
+		properties.put(
+			"upgrade.bundle.symbolic.name", "ServiceComponentLocalServiceTest");
+		properties.put("upgrade.from.schema.version", "0.0.0");
+		properties.put("upgrade.initial.database.creation", false);
+
+		final DB db = DBManagerUtil.getDB();
+
+		ServiceRegistration<UpgradeStep> upgradeStepServiceRegistration =
+			registry.registerService(
+				UpgradeStep.class, new TestUpgradeStep(db), properties);
+
+		try {
+			ServiceComponentLocalServiceUtil.verifyDB();
+
+			try (Connection connection = DataAccess.getConnection()) {
+				DatabaseMetaData metadata = connection.getMetaData();
+
+				String tableName = normalizeTableName(metadata, _TEST_TABLE);
+
+				try (ResultSet verifyTable = metadata.getTables(
+						null, null, tableName, new String[] {"TABLE"})) {
+
+					Assert.assertFalse(verifyTable.next());
+				}
+			}
+		}
+		finally {
+			upgradeStepServiceRegistration.unregister();
+		}
+	}
+
+	@Test
+	public void testVerifyFromSchemaVersion001WithInitialDatabaseCreation()
+		throws Exception {
+
+		Registry registry = RegistryUtil.getRegistry();
+
+		Map<String, Object> properties = new HashMap<>();
+
+		properties.put(
+			"upgrade.bundle.symbolic.name", "ServiceComponentLocalServiceTest");
+		properties.put("upgrade.from.schema.version", "0.0.1");
+		properties.put("upgrade.initial.database.creation", true);
+
+		final DB db = DBManagerUtil.getDB();
+
+		ServiceRegistration<UpgradeStep> upgradeStepServiceRegistration =
+			registry.registerService(
+				UpgradeStep.class, new TestUpgradeStep(db), properties);
+
+		try {
+			ServiceComponentLocalServiceUtil.verifyDB();
+
+			try (Connection connection = DataAccess.getConnection()) {
+				DatabaseMetaData metadata = connection.getMetaData();
+
+				String tableName = normalizeTableName(metadata, _TEST_TABLE);
+
+				try (ResultSet verifyTable = metadata.getTables(
+						null, null, tableName, new String[] {"TABLE"})) {
+
+					Assert.assertFalse(verifyTable.next());
+				}
+			}
+		}
+		finally {
+			upgradeStepServiceRegistration.unregister();
+		}
+	}
+
+	public class TestUpgradeStep implements UpgradeStep {
+
+		public TestUpgradeStep(DB db) {
+			_db = db;
+		}
+
+		@Override
+		public String toString() {
+			return "Test Upgrade Step";
+		}
+
+		@Override
+		public void upgrade(DBProcessContext dbProcessContext)
+			throws UpgradeException {
+
+			try {
+				_db.runSQL(
+					"create table " + _TEST_TABLE + " (name VARCHAR(20))");
+			}
+			catch (Exception e) {
+				throw new UpgradeException(e);
+			}
+		}
+
+		private final DB _db;
+
+	}
+
 	protected ServiceComponent addServiceComponent(
 		String buildNameSpace, long buildNumber) {
 
@@ -125,9 +295,28 @@ public class ServiceComponentLocalServiceTest {
 		return null;
 	}
 
+	protected String normalizeTableName(
+			DatabaseMetaData databaseMetaData, String tableName)
+		throws SQLException {
+
+		if (databaseMetaData.storesLowerCaseIdentifiers()) {
+			return StringUtil.toLowerCase(tableName);
+		}
+		else if (databaseMetaData.storesUpperCaseIdentifiers()) {
+			return StringUtil.toUpperCase(tableName);
+		}
+
+		return tableName;
+	}
+
 	private static final String _SERVICE_COMPONENT_1 = "SERVICE_COMPONENT_1";
 
 	private static final String _SERVICE_COMPONENT_2 = "SERVICE_COMPONENT_2";
+
+	private static final String _TEST_TABLE = "TestVerifyDB";
+
+	@DeleteAfterTestRun
+	private Release _release;
 
 	@DeleteAfterTestRun
 	private ServiceComponent _serviceComponent1;

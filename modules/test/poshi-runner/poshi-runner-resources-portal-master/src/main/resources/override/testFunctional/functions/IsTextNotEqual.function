@@ -1,0 +1,25 @@
+<definition default="isTextNotEqual">
+	<command name="isNotPartialText">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.IsTextNotEqual#isNotPartialText" />
+	</command>
+
+	<command name="isNotText">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.IsTextNotEqual#isNotText" />
+	</command>
+
+	<command name="isNotValue">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.IsTextNotEqual#isNotValue" />
+	</command>
+
+	<command name="isTextNotEqual">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.IsTextNotEqual#isTextNotEqual" />
+	</command>
+</definition>

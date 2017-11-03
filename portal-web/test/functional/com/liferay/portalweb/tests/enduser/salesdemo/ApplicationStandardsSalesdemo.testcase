@@ -1,18 +1,33 @@
-<definition component-name="portal-application-standards">
+<definition component-name="portal-application-standards" ignore="true">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Application Standards" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="Page#tearDownPG" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
+
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="Page#tearDownPG" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="WebProxyDemo" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
+			<var name="columnName" value="1 Column" />
 			<var name="pageName" value="Web Proxy Page" />
-			<var name="pageType" value="1 Column" />
+			<var name="sitePageType" value="Empty Page" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -27,11 +42,11 @@
 			<var name="initialURL" value="http://images.google.com/" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Web Proxy Page" />
 		</execute>
 
-		<execute function="AssertElementPresent" locator1="//div[@title='Google Images']" />
+		<execute function="AssertTextPresent" locator1="Portlet#H2_HEADER" value1="Google Images" />
 
 		<take-screenshot />
 

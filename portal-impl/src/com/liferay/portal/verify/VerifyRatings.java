@@ -14,10 +14,9 @@
 
 package com.liferay.portal.verify;
 
-import com.liferay.portal.kernel.dao.jdbc.DataAccess;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.StringBundler;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 /**
@@ -31,12 +30,7 @@ public class VerifyRatings extends VerifyProcess {
 	}
 
 	protected void normalizeRatingStats() throws Exception {
-		Connection con = null;
-		PreparedStatement ps = null;
-
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
-
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
 			StringBundler sb = new StringBundler(6);
 
 			sb.append("update RatingsStats set ");
@@ -46,27 +40,26 @@ public class VerifyRatings extends VerifyProcess {
 			sb.append(", ");
 			sb.append(_SQL_UPDATE_TOTAL_SCORE);
 
-			ps = con.prepareStatement(sb.toString());
+			try (PreparedStatement ps = connection.prepareStatement(
+					sb.toString())) {
 
-			ps.executeUpdate();
-		}
-		finally {
-			DataAccess.cleanUp(con, ps);
+				ps.executeUpdate();
+			}
 		}
 	}
 
 	private static final String _SQL_FROM_WHERE_CLAUSE =
 		"from RatingsEntry where RatingsStats.classPK = RatingsEntry.classPK " +
-			"and RatingsStats.classNameId = RatingsEntry.classNameId " +
-				"group by classNameId, classPK";
+			"and RatingsStats.classNameId = RatingsEntry.classNameId group " +
+				"by classNameId, classPK";
 
 	private static final String _SQL_UPDATE_AVERAGE_SCORE =
 		"averageScore = coalesce((select sum(RatingsEntry.score) / count(1) " +
 			_SQL_FROM_WHERE_CLAUSE + "), 0)";
 
 	private static final String _SQL_UPDATE_TOTAL_ENTRIES =
-		"totalEntries = coalesce((select count(1) " +
-			_SQL_FROM_WHERE_CLAUSE + "), 0)";
+		"totalEntries = coalesce((select count(1) " + _SQL_FROM_WHERE_CLAUSE +
+			"), 0)";
 
 	private static final String _SQL_UPDATE_TOTAL_SCORE =
 		"totalScore = coalesce((select sum(RatingsEntry.score) " +

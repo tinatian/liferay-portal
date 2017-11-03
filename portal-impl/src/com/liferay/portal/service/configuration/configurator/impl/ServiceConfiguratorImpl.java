@@ -21,23 +21,22 @@ import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.service.ResourceActionLocalService;
+import com.liferay.portal.kernel.service.ServiceComponentLocalService;
+import com.liferay.portal.kernel.service.configuration.ServiceComponentConfiguration;
+import com.liferay.portal.kernel.service.configuration.configurator.ServiceConfigurator;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.permission.ResourceActionsUtil;
-import com.liferay.portal.service.ResourceActionLocalServiceUtil;
-import com.liferay.portal.service.ServiceComponentLocalService;
-import com.liferay.portal.service.configuration.ServiceComponentConfiguration;
-import com.liferay.portal.service.configuration.configurator.ServiceConfigurator;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistrar;
 
 import java.net.URL;
-import java.util.HashMap;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -45,7 +44,7 @@ import java.util.Properties;
  * @author Miguel Pastor
  */
 public class ServiceConfiguratorImpl implements ServiceConfigurator {
-	
+
 	public void destory() {
 		if (_serviceRegistrar != null) {
 			_serviceRegistrar.destroy();
@@ -72,6 +71,16 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 		reconfigureCaches(classLoader);
 
 		readResourceActions(classLoader);
+	}
+
+	public void setResourceActionLocalService(
+		ResourceActionLocalService resourceActionLocalService) {
+
+		_resourceActionLocalService = resourceActionLocalService;
+	}
+
+	public void setResourceActions(ResourceActions resourceActions) {
+		_resourceActions = resourceActions;
 	}
 
 	public void setServiceComponentLocalService(
@@ -132,14 +141,11 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 			properties.getProperty("build.number"));
 		long buildDate = GetterUtil.getLong(
 			properties.getProperty("build.date"));
-		boolean buildAutoUpgrade = GetterUtil.getBoolean(
-			properties.getProperty("build.auto.upgrade"), true);
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Build namespace " + buildNamespace);
 			_log.debug("Build number " + buildNumber);
 			_log.debug("Build date " + buildDate);
-			_log.debug("Build auto upgrade " + buildAutoUpgrade);
 		}
 
 		if (Validator.isNull(buildNamespace)) {
@@ -148,9 +154,8 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 
 		try {
 			_serviceComponentLocalService.initServiceComponent(
-				serviceComponentConfiguration,
-				classLoader, buildNamespace, buildNumber, buildDate,
-				buildAutoUpgrade);
+				serviceComponentConfiguration, classLoader, buildNamespace,
+				buildNumber, buildDate);
 		}
 		catch (PortalException pe) {
 			_log.error("Unable to initialize service component", pe);
@@ -172,36 +177,32 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 			return;
 		}
 
-		String[] resourceActionsConfigs = StringUtil.split(
-			configuration.get(PropsKeys.RESOURCE_ACTIONS_CONFIGS));
+		try {
+			String portlets = configuration.get(
+				"service.configurator.portlet.ids");
 
-		for (String resourceActionsConfig : resourceActionsConfigs) {
-			try {
-				ResourceActionsUtil.read(
-					null, classLoader, resourceActionsConfig);
+			if (Validator.isNull(portlets)) {
+				_resourceActions.readAndCheck(
+					null, classLoader,
+					StringUtil.split(
+						configuration.get(PropsKeys.RESOURCE_ACTIONS_CONFIGS)));
 			}
-			catch (Exception e) {
-				_log.error(
-					"Unable to read resource actions config in " +
-						resourceActionsConfig,
-					e);
+			else {
+				_resourceActions.read(
+					null, classLoader,
+					StringUtil.split(
+						configuration.get(PropsKeys.RESOURCE_ACTIONS_CONFIGS)));
+
+				for (String portletId : StringUtil.split(portlets)) {
+					_resourceActions.check(portletId);
+				}
 			}
 		}
-
-		String[] portletIds = StringUtil.split(
-			configuration.get("service.configurator.portlet.ids"));
-
-		for (String portletId : portletIds) {
-			List<String> modelNames =
-				ResourceActionsUtil.getPortletModelResources(portletId);
-
-			for (String modelName : modelNames) {
-				List<String> modelActions =
-					ResourceActionsUtil.getModelResourceActions(modelName);
-
-				ResourceActionLocalServiceUtil.checkResourceActions(
-					modelName, modelActions);
-			}
+		catch (Exception e) {
+			_log.error(
+				"Unable to read resource actions config in " +
+					PropsKeys.RESOURCE_ACTIONS_CONFIGS,
+				e);
 		}
 	}
 
@@ -219,7 +220,7 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 
 			return;
 		}
-		
+
 		String singleVMConfigurationLocation = configuration.get(
 			PropsKeys.EHCACHE_SINGLE_VM_CONFIG_LOCATION);
 		String multiVMConfigurationLocation = configuration.get(
@@ -227,10 +228,10 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 
 		if (Validator.isNull(singleVMConfigurationLocation) &&
 			Validator.isNull(multiVMConfigurationLocation)) {
-			
+
 			return;
 		}
-		
+
 		if (_serviceRegistrar == null) {
 			Registry registry = RegistryUtil.getRegistry();
 
@@ -265,9 +266,11 @@ public class ServiceConfiguratorImpl implements ServiceConfigurator {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(
+	private static final Log _log = LogFactoryUtil.getLog(
 		ServiceConfiguratorImpl.class);
 
+	private ResourceActionLocalService _resourceActionLocalService;
+	private ResourceActions _resourceActions;
 	private ServiceComponentLocalService _serviceComponentLocalService;
 	private volatile ServiceRegistrar<PortalCacheConfiguratorSettings>
 		_serviceRegistrar;

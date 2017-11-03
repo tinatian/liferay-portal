@@ -14,6 +14,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>MENU_CLOUD</td>
+	<td>//ul[@id='menu']/li[@id='cloud']/p/a</td>
+	<td></td>
+</tr>
+<tr>
 	<td>MENU_CORE</td>
 	<td>//ul[@id='menu']/li[@id='cores']/p/a</td>
 	<td></td>
@@ -32,6 +37,17 @@
 <tr>
 	<td>VERSIONS_SOLR_IMPL</td>
 	<td>//li[contains(@class,'solr_impl_version')]/dl/dd</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--CLOUD-->
+<tr>
+	<td>CLOUD_COLLECTION</td>
+	<td>//div[@id='cloud']/div/div[@id='graph-content']/div[contains(.,'${key_cloudCollectionName}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -75,6 +91,17 @@
 <tr>
 	<td>CORE_ADMIN_INDEX_DATA_CURRENT_ICON</td>
 	<td>//div[@id='index-data']//li[contains(@class,'current')]/dl/dd[contains(@class,'ico-1')]</td>
+	<td></td>
+</tr>
+<!--LOGGING_TABLE-->
+<tr>
+	<td>LOGGING_TABLE_LOGGER_NAME</td>
+	<td>//tr[@class='level-info']//span[contains(.,'${key_loggerName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
 	<td></td>
 </tr>
 </tbody>

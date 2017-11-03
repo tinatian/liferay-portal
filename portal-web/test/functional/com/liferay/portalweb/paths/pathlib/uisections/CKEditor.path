@@ -14,6 +14,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>BODY_FIELD_2</td>
+	<td>//div[contains(@class,'cke_2')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>BODY_FIELD_LOCALIZED</td>
 	<td>//div[contains(@id,'cke__')]</td>
 	<td></td>
@@ -21,6 +26,11 @@
 <tr>
 	<td>BODY_FIELD_SOURCE_ON</td>
 	<td>//div[@id='cke_1_contents']/textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>BODY_FIELD_SOURCE_ON_2</td>
+	<td>//div[@id='cke_2_contents']/textarea</td>
 	<td></td>
 </tr>
 <tr>
@@ -142,6 +152,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>TOOLBAR_SOURCE_BUTTON_2</td>
+	<td>//div[contains(@class,'cke_2')]//a[contains(@class,'cke_button') and contains(@class,'source')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>TOOLBAR_LINK_BUTTON</td>
 	<td>//a[contains(@class,'cke_button') and contains(@title,'Link')]</td>
 	<td></td>
@@ -246,6 +261,11 @@
 	<td>//input[@id='cke_99_textInput']</td>
 	<td></td>
 </tr>
+<tr>
+	<td>CONTENT_AUDIO_LINK_IMAGE</td>
+	<td>//img[contains(@class,'audio')]</td>
+	<td></td>
+</tr>
 <!--CONTENT_IMAGE_LINK-->
 <tr>
 	<td>CONTENT_IMAGE_LINK</td>
@@ -259,12 +279,28 @@
 </tr>
 <tr>
 	<td>CONTENT_IMAGE_LINK_BROWSE_SERVER_BUTTON</td>
-	<td>//td/a[@title='Browse Server']</td>
+	<td>//td//a[@title='Browse Server']</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONTENT_IMAGE_LINK_OK_BUTTON</td>
 	<td>//a/span[contains(.,'OK')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_IMAGE_LINK_IMAGE</td>
+	<td>//img[contains(@src,'jpg')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--CONTENT_VIDEO_LINK-->
+<tr>
+	<td>CONTENT_VIDEO_LINK_IMAGE</td>
+	<td>//img[contains(@class,'video')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -321,7 +357,7 @@
 </tr>
 <tr>
 	<td>LINK_IMAGE_BROWSE_SERVER_FOLDER_NAME</td>
-	<td>//tr/td/a[contains(.,'${key_folderName}')]</td>
+	<td>//tr/td//a[contains(.,'${key_folderName}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -331,7 +367,7 @@
 </tr>
 <tr>
 	<td>LINK_IMAGE_BROWSE_SERVER_DOCUMENT_CHOOSE_BUTTON</td>
-	<td>//tr[contains(.,'${key_documentName}')]/td/button[contains(.,'Choose')]</td>
+	<td>//tr[contains(.,'${key_documentName}')]/td//button[contains(.,'Choose')]</td>
 	<td></td>
 </tr>
 </tbody>

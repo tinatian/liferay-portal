@@ -5,13 +5,15 @@
 
 		<execute macro="BlogsNavigator#gotoAddEntry" />
 
-		<execute macro="BlogsEntry#addTitle" />
+		<execute macro="BlogsEntry#addTitle">
+			<var name="entryTitle" value="${entryTitle}" />
+		</execute>
 
 		<execute function="Type#sendKeys" locator1="AlloyEditor#CONTENT_FIELD" value1="${entryContent} @${mentionsUserScreenName}" />
 
-		<execute function="AssertClick" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" value1="${mentionsUserFullName}@${mentionsUserScreenName}" />
+		<execute function="Click#clickNoMouseOver" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" />
 
-		<execute macro="BlogsEntry#publish" />
+		<execute macro="PortletEntry#publish" />
 	</command>
 
 	<command name="addMentionViaComments">
@@ -20,27 +22,72 @@
 
 		<execute function="Type#sendKeys" locator1="Comments#COMMENT_FIELD"  value1="${entryComment} @${mentionsUserScreenName}" />
 
-		<execute function="AssertClick" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" value1="${mentionsUserFullName}@${mentionsUserScreenName}" />
+		<execute function="Click#clickNoMouseOver" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" />
 
 		<execute function="AssertClick" locator1="Button#REPLY" value1="Reply" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request processed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
-	<command name="addMentionViaMessageBoards">
+	<command name="addMentionViaMessageBoardsReply">
+		<var name="key_mentionsUserScreenName" value="${mentionsUserScreenName}" />
+		<var name="key_threadSubject" value="${threadSubject}" />
+
+		<execute function="AssertClick" locator1="MessageBoards#THREAD_LIST_THREAD" value1="${threadSubject}" />
+
+		<execute function="AssertElementPresent" locator1="MessageBoardsThread#MESSAGE_REPLY_1" />
+
+		<execute function="AssertClick" locator1="MessageBoardsThread#MESSAGE_REPLY_1" value1="Reply to Main Thread" />
+
+		<execute function="SelectFrame" locator1="CKEditor#BODY_FIELD_IFRAME" />
+
+		<execute function="Type#sendKeys" locator1="CKEditor#BODY" value1="${threadBody} @${mentionsUserScreenName}" />
+
+		<execute function="SelectFrame#selectFrameTop" />
+
+		<execute function="Click#clickNoMouseOver" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" />
+
+		<execute function="Click" locator1="Button#PUBLISH" />
+
+		<execute macro="Alert#viewSuccessMessage" />
+	</command>
+
+	<command name="addMentionViaMessageBoardThread">
+		<if>
+			<equals arg1="${editMBThread}" arg2="True" />
+			<then>
+				<execute function="Click" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
+
+				<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Edit">
+					<var name="key_menuItem" value="Edit" />
+				</execute>
+			</then>
+			<else>
+				<execute function="Click" locator1="Button#PLUS" />
+
+				<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Thread">
+					<var name="key_menuItem" value="Thread" />
+				</execute>
+			</else>
+		</if>
+
 		<var name="key_mentionsUserScreenName" value="${mentionsUserScreenName}" />
 
-		<execute function="AssertClick" locator1="MessageBoards#POST_NEW_THREAD_BUTTON" value1="Post New Thread" />
+		<execute function="Click" locator1="TextInput#SUBJECT" />
 
 		<execute function="Type" locator1="TextInput#SUBJECT" value1="${threadSubject}" />
 
-		<execute function="SikuliType" locator1="CKEditor#CKEDITOR_PNG" value1="${entryContent} @${mentionsUserScreenName}" />
+		<execute function="SelectFrame" locator1="CKEditor#BODY_FIELD_IFRAME" />
 
-		<execute function="AssertClick" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" value1="${mentionsUserFullName} (@${mentionsUserScreenName})" />
+		<execute function="Type" locator1="CKEditor#BODY" value1="${threadBody} @${mentionsUserScreenName}" />
+
+		<execute function="SelectFrame#selectFrameTop" />
+
+		<execute function="Click#clickNoMouseOver" locator1="Mentions#MENTIONS_USER_DISPLAY_OPTION" />
 
 		<execute function="Click" locator1="Button#PUBLISH" value1="Publish" />
 
-		<execute function="AssertTextEquals#assertText" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="disableMentionsViaPortalSettings">
@@ -50,9 +97,8 @@
 
 		<execute function="Uncheck" locator1="Checkbox#MENTIONS" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#save" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
 		<execute function="AssertNotChecked" locator1="Checkbox#MENTIONS" />
 	</command>
 
@@ -64,9 +110,8 @@
 
 		<execute function="Uncheck" locator1="Checkbox#MENTIONS" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#save" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
 		<execute function="AssertNotChecked" locator1="Checkbox#MENTIONS" />
 	</command>
 
@@ -77,9 +122,8 @@
 
 		<execute function="Check" locator1="Checkbox#MENTIONS" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#save" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
 		<execute function="AssertChecked" locator1="Checkbox#MENTIONS" />
 	</command>
 
@@ -91,15 +135,16 @@
 		<execute function="AssertElementNotPresent" locator1="Message#ERROR_3" value1="Mentions are disabled in the portal." />
 		<execute function="Check" locator1="Checkbox#MENTIONS" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#save" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
 		<execute function="AssertChecked" locator1="Checkbox#MENTIONS" />
 	</command>
 
 	<command name="gotoMentionsViaPortalSettings">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Portal Settings" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Instance Settings" />
 		</execute>
 
 		<execute function="AssertClick" locator1="NavListItem#MENTIONS" value1="Mentions" />
@@ -108,8 +153,12 @@
 	</command>
 
 	<command name="gotoMentionsViaSiteSettings">
-		<execute macro="Page#gotoConfigurationCP">
-			<var name="portletName" value="Site Settings" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Site Settings" />
 		</execute>
 
 		<execute function="AssertClick" locator1="NavListItem#MENTIONS" value1="Mentions" />
@@ -150,15 +199,15 @@
 	</command>
 
 	<command name="viewMentionTagLink">
-		<var name="key_mentionsUserFullName" value="${mentionsUserFullName}" />
 		<var name="key_mentionsUserScreenName" value="${mentionsUserScreenName}" />
+		<var name="key_siteName" value="${mentionsUserFullName}" />
 
 		<execute function="AssertClick" locator1="Mentions#MENTIONS_TAG_LINK" value1="@${mentionsUserScreenName}" />
 
 		<execute function="AssertTextEquals" locator1="SitePages#SITE_NAME" value1="${mentionsUserFullName}" />
 	</command>
 
-	<command name="viewNoMention">
+	<command name="viewNoMentionTagLink">
 		<var name="key_mentionsUserScreenName" value="${mentionsUserScreenName}" />
 
 		<execute function="AssertElementNotPresent" locator1="Mentions#MENTIONS_TAG_LINK" value1="${mentionsUserScreenName}" />

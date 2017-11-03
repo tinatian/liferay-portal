@@ -24,16 +24,20 @@ if (GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:di
 }
 
 String cssClass = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:cssClass"));
+String dateTogglerCheckboxLabel = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:dateTogglerCheckboxLabel"), "disable");
 boolean disabled = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:disabled"));
 String dayParam = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:dayParam"));
 int dayValue = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:input-date:dayValue"));
 int firstDayOfWeek = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:input-date:firstDayOfWeek"));
 Date firstEnabledDate = GetterUtil.getDate(request.getAttribute("liferay-ui:input-date:firstEnabledDate"), DateFormatFactoryUtil.getDate(locale), null);
+String formName = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:formName"));
 Date lastEnabledDate = GetterUtil.getDate(request.getAttribute("liferay-ui:input-date:lastEnabledDate"), DateFormatFactoryUtil.getDate(locale), null);
 String monthParam = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:monthParam"));
 int monthValue = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:input-date:monthValue"));
 String name = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:name"));
 boolean nullable = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:nullable"));
+boolean required = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:required"));
+boolean showDisableCheckbox = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:showDisableCheckbox"));
 String yearParam = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:yearParam"));
 int yearValue = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:input-date:yearValue"));
 
@@ -67,7 +71,31 @@ else {
 	}
 }
 
+String dayAbbreviation = LanguageUtil.get(resourceBundle, "day-abbreviation");
+String monthAbbreviation = LanguageUtil.get(resourceBundle, "month-abbreviation");
+String yearAbbreviation = LanguageUtil.get(resourceBundle, "year-abbreviation");
+
+String[] dateAbbreviations = {"M", "d", "y"};
+String[] localizedDateAbbreviations = {monthAbbreviation, dayAbbreviation, yearAbbreviation};
+
+String placeholderValue = StringUtil.replace(simpleDateFormatPattern, dateAbbreviations, localizedDateAbbreviations);
+
+boolean nullDate = false;
+
+if (nullable && !required && (dayValue == 0) && (monthValue == -1) && (yearValue == 0)) {
+	nullDate = true;
+}
+
+String dateString = null;
+
 Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(simpleDateFormatPattern, locale);
+
+if (nullable && nullDate) {
+	dateString = StringPool.BLANK;
+}
+else {
+	dateString = format.format(calendar.getTime());
+}
 %>
 
 <span class="lfr-input-date <%= cssClass %>" id="<%= randomNamespace %>displayDate">
@@ -76,7 +104,7 @@ Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(simpleDateFormatPa
 			<input class="form-control" <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= nameId %>" name="<%= namespace + HtmlUtil.escapeAttribute(name) %>" type="date" value="<%= format.format(calendar.getTime()) %>" />
 		</c:when>
 		<c:otherwise>
-			<aui:input disabled="<%= disabled %>" id="<%= HtmlUtil.getAUICompatibleId(name) %>" label="" name="<%= name %>" placeholder="<%= StringUtil.toLowerCase(simpleDateFormatPattern) %>" title="" type="text" value="<%= nullable ? StringPool.BLANK : format.format(calendar.getTime()) %>" wrappedField="<%= true %>">
+			<aui:input disabled="<%= disabled %>" id="<%= HtmlUtil.getAUICompatibleId(name) %>" label="" name="<%= name %>" placeholder="<%= StringUtil.toLowerCase(placeholderValue) %>" required="<%= required %>" title="" type="text" value="<%= dateString %>" wrappedField="<%= true %>">
 				<aui:validator errorMessage="please-enter-a-valid-date" name="custom">
 					function(val) {
 						return AUI().use('aui-datatype-date-parse').Parsers.date('<%= mask %>', val);
@@ -86,10 +114,53 @@ Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(simpleDateFormatPa
 		</c:otherwise>
 	</c:choose>
 
-	<input <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= dayParamId %>" name="<%= namespace + HtmlUtil.escapeAttribute(dayParam) %>" type="hidden" value="<%= (!BrowserSnifferUtil.isMobile(request) && nullable) ? "" : dayValue %>" />
-	<input <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= monthParamId %>" name="<%= namespace + HtmlUtil.escapeAttribute(monthParam) %>" type="hidden" value="<%= (!BrowserSnifferUtil.isMobile(request) && nullable) ? "" : monthValue %>" />
-	<input <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= yearParamId %>" name="<%= namespace + HtmlUtil.escapeAttribute(yearParam) %>" type="hidden" value="<%= (!BrowserSnifferUtil.isMobile(request) && nullable) ? "" : yearValue %>" />
+	<input <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= dayParamId %>" name="<%= namespace + HtmlUtil.escapeAttribute(dayParam) %>" type="hidden" value="<%= dayValue %>" />
+	<input <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= monthParamId %>" name="<%= namespace + HtmlUtil.escapeAttribute(monthParam) %>" type="hidden" value="<%= monthValue %>" />
+	<input <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= yearParamId %>" name="<%= namespace + HtmlUtil.escapeAttribute(yearParam) %>" type="hidden" value="<%= yearValue %>" />
 </span>
+
+<c:if test="<%= nullable && !required && !showDisableCheckbox %>">
+
+	<%
+	String dateTogglerCheckboxName = TextFormatter.format(dateTogglerCheckboxLabel, TextFormatter.M);
+	%>
+
+	<aui:input label="<%= dateTogglerCheckboxLabel %>" name="<%= randomNamespace + dateTogglerCheckboxName %>" type="checkbox" value="<%= disabled %>" />
+
+	<aui:script sandbox="<%= true %>">
+		var checkbox = $('#<%= namespace + randomNamespace + dateTogglerCheckboxName %>');
+
+		checkbox.on(
+			'click mouseover',
+			function(event) {
+				var checked = checkbox.prop('checked');
+
+				var form = $(document.forms.<%= namespace + formName %>);
+
+				if (!form.length) {
+					form = $(checkbox.prop('form'));
+				}
+
+				var dayField = form.fm('<%= HtmlUtil.escapeJS(dayParam) %>');
+				var inputDateField = form.fm('<%= HtmlUtil.getAUICompatibleId(name) %>');
+				var monthField = form.fm('<%= HtmlUtil.escapeJS(monthParam) %>');
+				var yearField = form.fm('<%= HtmlUtil.escapeJS(yearParam) %>');
+
+				inputDateField.prop('disabled', checked);
+				dayField.prop('disabled', checked);
+				monthField.prop('disabled', checked);
+				yearField.prop('disabled', checked);
+
+				if (checked) {
+					inputDateField.val('');
+					dayField.val('');
+					monthField.val('');
+					yearField.val('');
+				}
+			}
+		);
+	</aui:script>
+</c:if>
 
 <aui:script use='<%= "aui-datepicker" + (BrowserSnifferUtil.isMobile(request) ? "-native" : StringPool.BLANK) %>'>
 	Liferay.component(
@@ -150,17 +221,36 @@ Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(simpleDateFormatPa
 							if (date) {
 								datePicker.updateValue(date[0]);
 							}
+							else if (<%= nullable %> && !date) {
+								datePicker.updateValue('');
+							}
 						},
 						selectionChange: function(event) {
-							if (isNaN(event.newSelection[0])) {
+							var newSelection = event.newSelection[0];
+
+							var nullable = <%= nullable %>;
+
+							var date = A.DataType.Date.parse(newSelection);
+							var invalidNumber = isNaN(newSelection);
+
+							if (invalidNumber && !nullable) {
 								event.newSelection[0] = new Date();
+							}
+							else if (invalidNumber && !date && nullable) {
+								var selection = new Date();
+
+								if (!newSelection) {
+									selection = '';
+								}
+
+								event.newSelection[0] = selection;
 							}
 
 							datePicker.updateValue(event.newSelection[0]);
 						}
 					},
 					popover: {
-						zIndex: Liferay.zIndex.TOOLTIP
+						zIndex: Liferay.zIndex.POPOVER
 					},
 					trigger: '#<%= nameId %>'
 				}
@@ -179,11 +269,19 @@ Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(simpleDateFormatPa
 
 				var container = instance.get('container');
 
-				if (date) {
-					container.one('#<%= dayParamId %>').val(date.getDate());
-					container.one('#<%= monthParamId %>').val(date.getMonth());
-					container.one('#<%= yearParamId %>').val(date.getFullYear());
+				var dateVal = '';
+				var monthVal = '';
+				var yearVal = '';
+
+				if (date && !isNaN(date)) {
+					dateVal = date.getDate();
+					monthVal = date.getMonth();
+					yearVal = date.getFullYear();
 				}
+
+				container.one('#<%= dayParamId %>').val(dateVal);
+				container.one('#<%= monthParamId %>').val(monthVal);
+				container.one('#<%= yearParamId %>').val(yearVal);
 			};
 
 			datePicker.after(
@@ -198,8 +296,17 @@ Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(simpleDateFormatPa
 
 						var formInstance = Liferay.Form.get(formId);
 
-						formInstance.formValidator.validateField('<%= namespace + HtmlUtil.escapeAttribute(name) %>');
+						if (formInstance && formInstance.formValidator) {
+							formInstance.formValidator.validateField('<%= namespace + HtmlUtil.escapeAttribute(name) %>');
+						}
 					}
+				}
+			);
+
+			Liferay.once(
+				'screenLoad',
+				function() {
+					datePicker.destroy();
 				}
 			);
 

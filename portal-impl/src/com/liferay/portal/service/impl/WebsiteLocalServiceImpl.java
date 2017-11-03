@@ -14,15 +14,15 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.WebsiteURLException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.WebsiteURLException;
+import com.liferay.portal.kernel.model.ListTypeConstants;
+import com.liferay.portal.kernel.model.SystemEventConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.Website;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ListTypeConstants;
-import com.liferay.portal.model.SystemEventConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.Website;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.base.WebsiteLocalServiceBaseImpl;
 
 import java.util.List;
@@ -31,22 +31,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  */
 public class WebsiteLocalServiceImpl extends WebsiteLocalServiceBaseImpl {
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #addWebsite(long, String,
-	 *             long, String, int, boolean, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public Website addWebsite(
-			long userId, String className, long classPK, String url,
-			long typeId, boolean primary)
-		throws PortalException {
-
-		return addWebsite(
-			userId, className, classPK, url, typeId, primary,
-			new ServiceContext());
-	}
 
 	@Override
 	public Website addWebsite(
@@ -179,7 +163,7 @@ public class WebsiteLocalServiceImpl extends WebsiteLocalServiceBaseImpl {
 			classPK = website.getClassPK();
 		}
 
-		listTypeService.validate(
+		listTypeLocalService.validate(
 			typeId, classNameId, ListTypeConstants.WEBSITE);
 
 		validate(websiteId, companyId, classNameId, classPK, primary);

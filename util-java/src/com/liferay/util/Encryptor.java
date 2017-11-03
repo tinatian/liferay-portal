@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ServerDetector;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
@@ -37,11 +38,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @author Brian Wing Shun Chan
  * @author Shuyang Zhou
+ * @see    com.liferay.petra.encryptor.Encryptor
+ * @deprecated As of 7.0.0, replaced by {@link
+ *             com.liferay.petra.encryptor.Encryptor}
  */
+@Deprecated
 public class Encryptor {
 
 	public static final String ENCODING = Digester.ENCODING;
@@ -114,6 +120,12 @@ public class Encryptor {
 		catch (Exception e) {
 			throw new EncryptorException(e);
 		}
+	}
+
+	public static Key deserializeKey(String base64String) {
+		byte[] bytes = Base64.decode(base64String);
+
+		return new SecretKeySpec(bytes, Encryptor.KEY_ALGORITHM);
 	}
 
 	public static String digest(String text) {
@@ -217,10 +229,11 @@ public class Encryptor {
 			if (ServerDetector.isWebSphere() &&
 				PROVIDER_CLASS.equals(SUN_PROVIDER_CLASS)) {
 
-				if (_log.isWarnEnabled()) {
-					_log.warn(
-						"WebSphere does not have " + SUN_PROVIDER_CLASS +
-							", using " + IBM_PROVIDER_CLASS + " instead");
+				if (_log.isInfoEnabled()) {
+					_log.info(
+						StringBundler.concat(
+							"WebSphere does not have ", SUN_PROVIDER_CLASS,
+							", using ", IBM_PROVIDER_CLASS, " instead"));
 				}
 
 				providerClass = Class.forName(IBM_PROVIDER_CLASS);
@@ -228,10 +241,11 @@ public class Encryptor {
 			else if (System.getProperty("java.vm.vendor").equals(
 						"IBM Corporation")) {
 
-				if (_log.isWarnEnabled()) {
-					_log.warn(
-						"IBM JVM does not have " + SUN_PROVIDER_CLASS +
-							", using " + IBM_PROVIDER_CLASS + " instead");
+				if (_log.isInfoEnabled()) {
+					_log.info(
+						StringBundler.concat(
+							"IBM JVM does not have ", SUN_PROVIDER_CLASS,
+							", using ", IBM_PROVIDER_CLASS, " instead"));
 				}
 
 				providerClass = Class.forName(IBM_PROVIDER_CLASS);
@@ -244,11 +258,15 @@ public class Encryptor {
 		return (Provider)providerClass.newInstance();
 	}
 
+	public static String serializeKey(Key key) {
+		return Base64.encode(key.getEncoded());
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(Encryptor.class);
 
 	private static final Map<String, Cipher> _decryptCipherMap =
-		new ConcurrentHashMap<>(1, 1f, 1);
+		new ConcurrentHashMap<>(1, 1F, 1);
 	private static final Map<String, Cipher> _encryptCipherMap =
-		new ConcurrentHashMap<>(1, 1f, 1);
+		new ConcurrentHashMap<>(1, 1F, 1);
 
 }

@@ -17,28 +17,30 @@ package com.liferay.portlet;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutTypeAccessPolicy;
+import com.liferay.portal.kernel.model.LayoutTypePortlet;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.ActionResult;
 import com.liferay.portal.kernel.portlet.PortletContainer;
 import com.liferay.portal.kernel.portlet.PortletContainerException;
 import com.liferay.portal.kernel.portlet.PortletContainerUtil;
 import com.liferay.portal.kernel.resiliency.spi.SPIUtil;
+import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
+import com.liferay.portal.kernel.security.auth.AuthTokenWhitelistUtil;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.pacl.DoPrivileged;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.TempAttributesServletRequest;
 import com.liferay.portal.kernel.struts.LastPath;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutType;
-import com.liferay.portal.model.LayoutTypeAccessPolicy;
-import com.liferay.portal.model.LayoutTypePortlet;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.security.auth.AuthTokenUtil;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.util.LayoutTypeAccessPolicyTracker;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.WebKeys;
 
 import java.util.List;
 import java.util.Map;
@@ -114,6 +116,13 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 	}
 
 	@Override
+	public void processPublicRenderParameters(
+		HttpServletRequest request, Layout layout) {
+
+		_portletContainer.processPublicRenderParameters(request, layout);
+	}
+
+	@Override
 	public void render(
 			HttpServletRequest request, HttpServletResponse response,
 			Portlet portlet)
@@ -125,6 +134,13 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 			_portletContainer.render(request, response, portlet);
 		}
 		catch (PrincipalException pe) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(pe, pe);
+			}
+
 			processRenderException(request, response, portlet);
 		}
 		catch (PortletContainerException pce) {
@@ -167,25 +183,14 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 			return;
 		}
 
-		if (!isValidPortletId(portlet.getPortletId())) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Invalid portlet ID " + portlet.getPortletId());
-			}
-
-			throw new PrincipalException(
-				"Invalid portlet ID " + portlet.getPortletId());
-		}
-
 		if (portlet.isUndeployedPortlet()) {
 			return;
 		}
 
 		Layout layout = (Layout)request.getAttribute(WebKeys.LAYOUT);
 
-		LayoutType layoutType = layout.getLayoutType();
-
 		LayoutTypeAccessPolicy layoutTypeAccessPolicy =
-			layoutType.getLayoutTypeAccessPolicy();
+			LayoutTypeAccessPolicyTracker.getLayoutTypeAccessPolicy(layout);
 
 		layoutTypeAccessPolicy.checkAccessAllowedToPortlet(
 			request, layout, portlet);
@@ -207,6 +212,10 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 
 		boolean checkAuthToken = GetterUtil.getBoolean(
 			initParams.get("check-auth-token"), true);
+
+		if (AuthTokenWhitelistUtil.isPortletCSRFWhitelisted(request, portlet)) {
+			checkAuthToken = false;
+		}
 
 		if (checkAuthToken) {
 			AuthTokenUtil.checkCSRFToken(
@@ -296,6 +305,10 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 		return tempAttributesServletRequest;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	protected boolean isValidPortletId(String portletId) {
 		for (int i = 0; i < portletId.length(); i++) {
 			char c = portletId.charAt(i);
@@ -385,8 +398,9 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 
 		if (_log.isWarnEnabled()) {
 			_log.warn(
-				"Reject serveResource for " + url + " on " +
-					portlet.getPortletId());
+				StringBundler.concat(
+					"Reject serveResource for ", url, " on ",
+					portlet.getPortletId()));
 		}
 	}
 

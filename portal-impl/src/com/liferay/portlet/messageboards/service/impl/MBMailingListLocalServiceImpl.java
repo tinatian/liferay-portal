@@ -14,26 +14,26 @@
 
 package com.liferay.portlet.messageboards.service.impl;
 
+import com.liferay.message.boards.kernel.exception.MailingListEmailAddressException;
+import com.liferay.message.boards.kernel.exception.MailingListInServerNameException;
+import com.liferay.message.boards.kernel.exception.MailingListInUserNameException;
+import com.liferay.message.boards.kernel.exception.MailingListOutEmailAddressException;
+import com.liferay.message.boards.kernel.exception.MailingListOutServerNameException;
+import com.liferay.message.boards.kernel.exception.MailingListOutUserNameException;
+import com.liferay.message.boards.kernel.model.MBMailingList;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.messaging.DestinationNames;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelperUtil;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.messageboards.MailingListEmailAddressException;
-import com.liferay.portlet.messageboards.MailingListInServerNameException;
-import com.liferay.portlet.messageboards.MailingListInUserNameException;
-import com.liferay.portlet.messageboards.MailingListOutEmailAddressException;
-import com.liferay.portlet.messageboards.MailingListOutServerNameException;
-import com.liferay.portlet.messageboards.MailingListOutUserNameException;
 import com.liferay.portlet.messageboards.messaging.MailingListRequest;
-import com.liferay.portlet.messageboards.model.MBMailingList;
 import com.liferay.portlet.messageboards.service.base.MBMailingListLocalServiceBaseImpl;
 
 import java.util.Calendar;
@@ -189,6 +189,9 @@ public class MBMailingListLocalServiceImpl
 		if (active) {
 			scheduleMailingList(mailingList);
 		}
+		else {
+			unscheduleMailingList(mailingList);
+		}
 
 		return mailingList;
 	}
@@ -249,23 +252,27 @@ public class MBMailingListLocalServiceImpl
 		}
 
 		if (!Validator.isEmailAddress(emailAddress)) {
-			throw new MailingListEmailAddressException();
+			throw new MailingListEmailAddressException(emailAddress);
 		}
 		else if (Validator.isNull(inServerName)) {
-			throw new MailingListInServerNameException();
+			throw new MailingListInServerNameException(
+				"In server name is null");
 		}
 		else if (Validator.isNull(inUserName)) {
-			throw new MailingListInUserNameException();
+			throw new MailingListInUserNameException("In user name is null");
 		}
 		else if (Validator.isNull(outEmailAddress)) {
-			throw new MailingListOutEmailAddressException();
+			throw new MailingListOutEmailAddressException(
+				"Out email address is null");
 		}
 		else if (outCustom) {
 			if (Validator.isNull(outServerName)) {
-				throw new MailingListOutServerNameException();
+				throw new MailingListOutServerNameException(
+					"Out server name is null");
 			}
 			else if (Validator.isNull(outUserName)) {
-				throw new MailingListOutUserNameException();
+				throw new MailingListOutUserNameException(
+					"Out user name is null");
 			}
 		}
 	}

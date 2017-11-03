@@ -14,14 +14,14 @@
 
 package com.liferay.portal.image;
 
+import com.liferay.document.library.kernel.exception.NoSuchFileException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Image;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.Image;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.documentlibrary.NoSuchFileException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -114,8 +114,10 @@ public class FileSystemHook extends BaseHook {
 		String path = buildPath(String.valueOf(imageId));
 
 		return new File(
-			_rootDir + StringPool.SLASH + path + StringPool.SLASH +
-				imageId + StringPool.PERIOD + type);
+			StringBundler.concat(
+				String.valueOf(_rootDir), StringPool.SLASH, path,
+				StringPool.SLASH, String.valueOf(imageId), StringPool.PERIOD,
+				type));
 	}
 
 	private final File _rootDir;

@@ -1,0 +1,13 @@
+Liferay-Releng-App-Description: List Calendar Events in a clean, easy-to-read layout using the Liferay Events List app. Don't worry about the list becoming long--you can set the maximum number of items displayed, and how many days (starting on the current day) of events to display.<br /><br />The Liferay Events List app is an upgraded version of the Social Office Events Display portlet. Its transparent integration makes it simple to use. Just add it to a page and Calendar Events are automatically displayed in a list. If the page also contains the Calendar application, the user can access the Calendar Event's details in the Calendar application just by clicking the event in the Liferay Events List application.<br />Note: This app is required for customers upgrading from Social Office to Liferay 7.0. Future versions of this app will be bundled with the Forms and Workflow application suite.
+Liferay-Releng-App-Title: ${liferay.releng.app.title.prefix} Events List
+Liferay-Releng-Bundle: false
+Liferay-Releng-Category: Productivity
+Liferay-Releng-Demo-Url:
+Liferay-Releng-Deprecated: true
+Liferay-Releng-Labs: false
+Liferay-Releng-Marketplace: true
+Liferay-Releng-Portal-Required: false
+Liferay-Releng-Public: ${liferay.releng.public}
+Liferay-Releng-Restart-Required: true
+Liferay-Releng-Support-Url: http://www.liferay.com
+Liferay-Releng-Supported: ${liferay.releng.supported}

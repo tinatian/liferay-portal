@@ -1,4 +1,6 @@
 <definition component-name="portal-test-plugins">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Test Plugins" />
 	<property name="portlet.plugins.includes" value="test-localized-portlet" />
 
@@ -11,7 +13,7 @@
 	</tear-down>
 
 	<command name="ViewLocalizedChinese" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Localized Page" />
 		</execute>
 
@@ -21,11 +23,12 @@
 
 		<execute function="AssertClick" locator1="TestLocalized#CHINESE_LOCALIZATION" value1="Chinese" />
 
-		<execute function="AssertElementNotPresent" locator1="TestBlob#TEST_PORTLET_BODY_FAILED" />
+		<execute function="AssertVisible" locator1="TestBlob#TEST_PORTLET_BODY_PASSED" />
+		<execute function="AssertTextNotPresent" value1="FAILED" />
 	</command>
 
 	<command name="ViewLocalizedEnglish" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Localized Page" />
 		</execute>
 
@@ -37,11 +40,12 @@
 
 		<execute function="AssertClick" locator1="TestLocalized#ENGLISH_LOCALIZATION" value1="English" />
 
-		<execute function="AssertElementNotPresent" locator1="TestBlob#TEST_PORTLET_BODY_FAILED" />
+		<execute function="AssertVisible" locator1="TestBlob#TEST_PORTLET_BODY_PASSED" />
+		<execute function="AssertTextNotPresent" value1="FAILED" />
 	</command>
 
 	<command name="ViewLocalizedFrench" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Localized Page" />
 		</execute>
 
@@ -51,11 +55,12 @@
 
 		<execute function="AssertClick" locator1="TestLocalized#FRENCH_LOCALIZATION" value1="French" />
 
-		<execute function="AssertElementNotPresent" locator1="TestBlob#TEST_PORTLET_BODY_FAILED" />
+		<execute function="AssertVisible" locator1="TestBlob#TEST_PORTLET_BODY_PASSED" />
+		<execute function="AssertTextNotPresent" value1="FAILED" />
 	</command>
 
 	<command name="ViewLocalizedSpanish" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Localized Page" />
 		</execute>
 
@@ -65,6 +70,7 @@
 
 		<execute function="AssertClick" locator1="TestLocalized#SPANISH_LOCALIZATION" value1="Spanish" />
 
-		<execute function="AssertElementNotPresent" locator1="TestBlob#TEST_PORTLET_BODY_FAILED" />
+		<execute function="AssertVisible" locator1="TestBlob#TEST_PORTLET_BODY_PASSED" />
+		<execute function="AssertTextNotPresent" value1="FAILED" />
 	</command>
 </definition>

@@ -14,7 +14,7 @@
 
 package com.liferay.taglib.ui;
 
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
@@ -82,7 +82,7 @@ public class AppViewEntryTag extends IncludeTag {
 	}
 
 	public void setDescription(String description) {
-		_description = HtmlUtil.unescape(description);
+		_description = description;
 	}
 
 	public void setDisplayDate(Date displayDate) {
@@ -172,7 +172,7 @@ public class AppViewEntryTag extends IncludeTag {
 	}
 
 	public void setTitle(String title) {
-		_title = HtmlUtil.unescape(title);
+		_title = title;
 	}
 
 	public void setUrl(String url) {
@@ -234,8 +234,9 @@ public class AppViewEntryTag extends IncludeTag {
 	@Override
 	protected String getPage() {
 		if (Validator.isNotNull(_markupView)) {
-			return "/html/taglib/ui/app_view_entry/" + _markupView + "/" +
-				_displayStyle + ".jsp";
+			return StringBundler.concat(
+				"/html/taglib/ui/app_view_entry/", _markupView, "/",
+				_displayStyle, ".jsp");
 		}
 
 		return "/html/taglib/ui/app_view_entry/" + _displayStyle + ".jsp";
@@ -309,8 +310,8 @@ public class AppViewEntryTag extends IncludeTag {
 		request.setAttribute(
 			"liferay-ui:app-view-entry:thumbnailStyle", _thumbnailStyle);
 		request.setAttribute("liferay-ui:app-view-entry:title", _title);
-		request.setAttribute("liferay-ui:app-view-entry:version", _version);
 		request.setAttribute("liferay-ui:app-view-entry:url", _url);
+		request.setAttribute("liferay-ui:app-view-entry:version", _version);
 	}
 
 	private static final boolean _CLEAN_UP_SET_ATTRIBUTES = true;
@@ -342,9 +343,9 @@ public class AppViewEntryTag extends IncludeTag {
 	private String _rowCheckerId;
 	private String _rowCheckerName;
 	private boolean _shortcut;
-	private boolean _showCheckbox = false;
+	private boolean _showCheckbox;
 	private boolean _showLinkTitle = true;
-	private int _status = 0;
+	private int _status;
 	private String _thumbnailDivStyle = StringPool.BLANK;
 	private String _thumbnailSrc;
 	private String _thumbnailStyle;

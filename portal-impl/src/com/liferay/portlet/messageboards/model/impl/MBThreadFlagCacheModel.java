@@ -16,12 +16,12 @@ package com.liferay.portlet.messageboards.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.message.boards.kernel.model.MBThreadFlag;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.messageboards.model.MBThreadFlag;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -147,13 +147,18 @@ public class MBThreadFlagCacheModel implements CacheModel<MBThreadFlag>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		threadFlagId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
 		threadId = objectInput.readLong();
 		lastPublishDate = objectInput.readLong();
 	}
@@ -169,8 +174,11 @@ public class MBThreadFlagCacheModel implements CacheModel<MBThreadFlag>,
 		}
 
 		objectOutput.writeLong(threadFlagId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
@@ -182,6 +190,7 @@ public class MBThreadFlagCacheModel implements CacheModel<MBThreadFlag>,
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
 		objectOutput.writeLong(threadId);
 		objectOutput.writeLong(lastPublishDate);
 	}

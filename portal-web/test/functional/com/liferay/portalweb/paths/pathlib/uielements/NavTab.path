@@ -9,23 +9,28 @@
 </thead>
 <tbody>
 <tr>
+	<td>ACTIVE_TAB_LINK</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li[contains(.,'${key_tab}') and contains(@class,'active')]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAB_LINK</td>
+	<td>//ul[contains(@class,'nav-tabs')]//li[contains(.,'${key_tab}')]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
 	<td>ACCOUNT_CREATED_NOTIFICATION</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Account Created Notification')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>ADD_CATEGORY</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Add Category')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>ALL_ORGANIZATIONS</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'All Organizations')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ALL_USERS</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'All Users')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -89,11 +94,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>EXTERNAL_SERVICES</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'External Services')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>FACEBOOK</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Facebook')]</td>
 	<td></td>
@@ -104,8 +104,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>FILE_UPLOADS</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'File Uploads')]</td>
+	<td>FILE_INFO</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'File Info')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -119,18 +119,28 @@
 	<td></td>
 </tr>
 <tr>
+	<td>IDENTIFICATION</td>
+	<td>//li[contains(@class,'tab')]/a[contains(.,'Identification')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>IDENTITY_PROVIDER</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Identity Provider')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>IDENTITY_PROVIDER_CONNECTION</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Identity Provider Connection')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>LDAP</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'LDAP')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>LOG_LEVELS</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Log Levels')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>MAIL</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Mail')]</td>
+	<td>MENTIONS</td>
+	<td>//li[contains(@id,'microblogs')]/a[contains(.,'Mentions')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -139,13 +149,13 @@
 	<td></td>
 </tr>
 <tr>
-	<td>OPEN_ID</td>
+	<td>OPENID</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'OpenID')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>OPEN_SSO</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Open SSO')]</td>
+	<td>OPENSSO</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'OpenSSO')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -174,8 +184,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>PORTLET_CONFIGURATION</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Portlet Configuration')]</td>
+	<td>LOOK_AND_FEEL_GENERAL</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'General')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -194,11 +204,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>RESOURCES</td>
-	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Resources')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>SCRIPT</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Script')]</td>
 	<td></td>
@@ -206,6 +211,11 @@
 <tr>
 	<td>SENDER</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Sender')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SERVICE_PROVIDER_CONNECTIONS</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Service Provider Connections')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -224,6 +234,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>SOURCE</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li[contains(.,'Source')]/a</td>
+	<td></td>
+</tr>
+<tr>
 	<td>SUBSCRIPTIONS</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li[contains(.,'Subscriptions')]/a</td>
 	<td></td>
@@ -239,6 +254,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>TIMELINE</td>
+	<td>//li[contains(@id,'microblogs')]/a[contains(.,'Timeline')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>UPDATE_CATEGORIES</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Update Categories')]</td>
 	<td></td>
@@ -251,6 +271,11 @@
 <tr>
 	<td>USER_GROUPS</td>
 	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'User Groups')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VERSION</td>
+	<td>//ul[contains(@class,'nav-tabs')]/li/a[contains(.,'Version')]</td>
 	<td></td>
 </tr>
 <tr>

@@ -14,24 +14,30 @@
 
 package com.liferay.gradle.plugins.node.tasks;
 
-import com.liferay.gradle.plugins.node.util.NodeExecutor;
-import com.liferay.gradle.util.FileUtil;
-import com.liferay.gradle.util.GradleUtil;
+import com.liferay.gradle.plugins.node.internal.NodeExecutor;
+import com.liferay.gradle.plugins.node.internal.util.FileUtil;
+import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 import com.liferay.gradle.util.OSDetector;
+import com.liferay.gradle.util.Validator;
+import com.liferay.gradle.util.copy.StripPathSegmentsAction;
 
 import java.io.File;
 import java.io.IOException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.gradle.api.Action;
+import org.gradle.api.AntBuilder;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.process.ExecSpec;
 
 /**
  * @author Andrea Di Giorgi
@@ -61,63 +67,49 @@ public class DownloadNodeTask extends DefaultTask {
 	@TaskAction
 	public void downloadNode() throws IOException {
 		final File nodeDir = getNodeDir();
-		final String nodeUrl = getNodeUrl();
 		final Project project = getProject();
 
-		final File nodeFile = FileUtil.get(project, nodeUrl);
+		final File nodeFile = _download(getNodeUrl(), null);
 
-		if (nodeUrl.endsWith(".tar.gz")) {
-			project.delete(nodeDir);
+		project.delete(nodeDir);
 
-			// Avoid using project#tarTree to extract the tarball because of
-			// GRADLE-2844
+		project.copy(
+			new Action<CopySpec>() {
 
-			project.exec(
-				new Action<ExecSpec>() {
+				@Override
+				public void execute(CopySpec copySpec) {
+					copySpec.eachFile(new StripPathSegmentsAction(1));
+					copySpec.from(project.tarTree(nodeFile));
+					copySpec.into(nodeDir);
+					copySpec.setIncludeEmptyDirs(false);
+				}
 
-					@Override
-					public void execute(ExecSpec execSpec) {
-						execSpec.args("xfz", project.relativePath(nodeFile));
-						execSpec.args(
-							"-C",
-							project.relativePath(nodeDir.getParentFile()));
-
-						execSpec.setExecutable("tar");
-					}
-
-				});
-
-			String dirName = nodeFile.getName();
-
-			dirName = dirName.substring(0, dirName.lastIndexOf(".tar.gz"));
-
-			File dir = new File(nodeDir.getParentFile(), dirName);
-
-			dir.renameTo(nodeDir);
-		}
-		else {
-			project.copy(
-				new Action<CopySpec>() {
-
-					@Override
-					public void execute(CopySpec copySpec) {
-						copySpec.from(nodeFile);
-						copySpec.into(nodeDir);
-					}
-
-				});
-		}
+			});
 
 		if (OSDetector.isWindows()) {
-			final File npmFile = FileUtil.get(project, getNpmUrl());
+			File nodeBinDir = new File(getNodeDir(), "bin");
+
+			_download(getNodeExeUrl(), nodeBinDir);
+		}
+
+		String npmUrl = getNpmUrl();
+
+		if (Validator.isNotNull(npmUrl)) {
+			final File npmFile = _download(npmUrl, null);
+
+			final File npmDir = new File(nodeDir, "lib/node_modules/npm");
+
+			project.delete(npmDir);
 
 			project.copy(
 				new Action<CopySpec>() {
 
 					@Override
 					public void execute(CopySpec copySpec) {
-						copySpec.from(project.zipTree(npmFile));
-						copySpec.into(nodeDir);
+						copySpec.eachFile(new StripPathSegmentsAction(1));
+						copySpec.from(project.tarTree(npmFile));
+						copySpec.into(npmDir);
+						copySpec.setIncludeEmptyDirs(false);
 					}
 
 				});
@@ -130,17 +122,27 @@ public class DownloadNodeTask extends DefaultTask {
 	}
 
 	@Input
+	public String getNodeExeUrl() {
+		return GradleUtil.toString(_nodeExeUrl);
+	}
+
+	@Input
 	public String getNodeUrl() {
 		return GradleUtil.toString(_nodeUrl);
 	}
 
 	@Input
+	@Optional
 	public String getNpmUrl() {
 		return GradleUtil.toString(_npmUrl);
 	}
 
 	public void setNodeDir(Object nodeDir) {
 		_nodeExecutor.setNodeDir(nodeDir);
+	}
+
+	public void setNodeExeUrl(Object nodeExeUrl) {
+		_nodeExeUrl = nodeExeUrl;
 	}
 
 	public void setNodeUrl(Object nodeUrl) {
@@ -151,7 +153,42 @@ public class DownloadNodeTask extends DefaultTask {
 		_npmUrl = npmUrl;
 	}
 
+	private File _download(String url, File destinationFile)
+		throws IOException {
+
+		String protocol = url.substring(0, url.indexOf(':'));
+
+		String proxyPassword = System.getProperty(protocol + ".proxyPassword");
+		String proxyUser = System.getProperty(protocol + ".proxyUser");
+
+		if (Validator.isNotNull(proxyPassword) &&
+			Validator.isNotNull(proxyUser)) {
+
+			Project project = getProject();
+
+			String nonProxyHosts = System.getProperty(
+				protocol + ".nonProxyHosts");
+			String proxyHost = System.getProperty(protocol + ".proxyHost");
+			String proxyPort = System.getProperty(protocol + ".proxyPort");
+
+			AntBuilder antBuilder = project.getAnt();
+
+			Map<String, String> args = new HashMap<>();
+
+			args.put("nonproxyhosts", nonProxyHosts);
+			args.put("proxyhost", proxyHost);
+			args.put("proxypassword", proxyPassword);
+			args.put("proxyport", proxyPort);
+			args.put("proxyuser", proxyUser);
+
+			antBuilder.invokeMethod("setproxy", args);
+		}
+
+		return FileUtil.get(getProject(), url, destinationFile);
+	}
+
 	private final NodeExecutor _nodeExecutor;
+	private Object _nodeExeUrl;
 	private Object _nodeUrl;
 	private Object _npmUrl;
 

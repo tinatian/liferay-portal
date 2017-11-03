@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.image.Ghostscript;
 import com.liferay.portal.kernel.image.ImageMagickUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.process.LoggingOutputProcessor;
 import com.liferay.portal.kernel.process.ProcessUtil;
 import com.liferay.portal.kernel.util.OSDetector;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -57,7 +58,7 @@ public class GhostscriptImpl implements Ghostscript {
 		arguments.add("-dSAFER");
 		arguments.add("-dNOPAUSE");
 		arguments.add("-dNOPROMPT");
-		arguments.add("-sFONTPATH" + _globalSearchPath);
+		arguments.add("-sFONTPATH=" + _globalSearchPath);
 		arguments.addAll(commandArguments);
 
 		if (_log.isInfoEnabled()) {
@@ -68,11 +69,20 @@ public class GhostscriptImpl implements Ghostscript {
 				sb.append(StringPool.SPACE);
 			}
 
-			_log.info("Excecuting command '" + sb.toString() + "'");
+			_log.info("Executing command '" + sb.toString() + "'");
 		}
 
 		return ProcessUtil.execute(
-			ProcessUtil.LOGGING_OUTPUT_PROCESSOR, arguments);
+			new LoggingOutputProcessor(
+				(stdErr, line) -> {
+					if (stdErr) {
+						_log.error(line);
+					}
+					else if (_log.isInfoEnabled()) {
+						_log.info(line);
+					}
+				}),
+			arguments);
 	}
 
 	@Override
@@ -160,9 +170,8 @@ public class GhostscriptImpl implements Ghostscript {
 
 	private static final String _GHOSTSCRIPT_COMMAND_UNIX = "gs";
 
-	private static final String[] _GHOSTSCRIPT_COMMAND_WINDOWS = {
-		"gswin32c", "gswin64c"
-	};
+	private static final String[] _GHOSTSCRIPT_COMMAND_WINDOWS =
+		{"gswin32c", "gswin64c"};
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		GhostscriptImpl.class);

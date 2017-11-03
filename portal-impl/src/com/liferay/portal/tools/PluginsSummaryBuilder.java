@@ -14,6 +14,7 @@
 
 package com.liferay.portal.tools;
 
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.NaturalOrderStringComparator;
@@ -41,7 +42,7 @@ import org.apache.tools.ant.DirectoryScanner;
  */
 public class PluginsSummaryBuilder {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ToolDependencies.wireBasic();
 
 		File pluginsDir = new File(System.getProperty("plugins.dir"));
@@ -49,21 +50,16 @@ public class PluginsSummaryBuilder {
 		new PluginsSummaryBuilder(pluginsDir);
 	}
 
-	public PluginsSummaryBuilder(File pluginsDir) {
+	public PluginsSummaryBuilder(File pluginsDir) throws Exception {
 		_pluginsDir = pluginsDir;
 
 		String latestHASH = null;
 
-		try {
-			latestHASH = _getLatestHASH(pluginsDir);
-
-			_createPluginsSummary();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		latestHASH = _getLatestHASH(pluginsDir);
 
 		_latestHASH = latestHASH;
+
+		_createPluginsSummary();
 	}
 
 	private void _createPluginsSummary() throws Exception {
@@ -91,7 +87,7 @@ public class PluginsSummaryBuilder {
 
 		for (String fileName : fileNames) {
 			fileName = StringUtil.replace(
-				fileName, StringPool.BACK_SLASH, StringPool.SLASH);
+				fileName, CharPool.BACK_SLASH, CharPool.SLASH);
 
 			_createPluginSummary(sb, fileName);
 		}
@@ -171,9 +167,8 @@ public class PluginsSummaryBuilder {
 	private Set<String> _extractTicketIds(File pluginDir, String range)
 		throws Exception {
 
-		Set<String> ticketIds = new TreeSet<String>(
-			new NaturalOrderStringComparator()
-		);
+		Set<String> ticketIds = new TreeSet<>(
+			new NaturalOrderStringComparator());
 
 		Runtime runtime = Runtime.getRuntime();
 
@@ -187,7 +182,7 @@ public class PluginsSummaryBuilder {
 
 		String content = StringUtil.read(process.getInputStream());
 
-		content = StringUtil.replace(content, "\n", " ");
+		content = StringUtil.replace(content, '\n', ' ');
 
 		for (String ticketIdPrefix : _TICKET_ID_PREFIXES) {
 			int x = 0;
@@ -223,6 +218,7 @@ public class PluginsSummaryBuilder {
 		}
 
 		File buildXmlFile = new File(pluginDir, "build.xml");
+
 		System.out.println("## read a " + buildXmlFile);
 
 		String buildXmlContent = _fileUtil.read(buildXmlFile);
@@ -438,6 +434,7 @@ public class PluginsSummaryBuilder {
 				!relengChangeLogEntries.isEmpty()) {
 
 				int x = relengChangeLogEntry.indexOf("..");
+
 				int y = relengChangeLogEntry.indexOf("=", x);
 
 				String range =
@@ -631,7 +628,8 @@ public class PluginsSummaryBuilder {
 		sb.append(value);
 	}
 
-	private static final String[] _TICKET_ID_PREFIXES = {"LPS", "SOS", "SYNC"};
+	private static final String[] _TICKET_ID_PREFIXES =
+		{"CLDSVCS", "LPS", "SOS", "SYNC"};
 
 	private static final FileImpl _fileUtil = FileImpl.getInstance();
 

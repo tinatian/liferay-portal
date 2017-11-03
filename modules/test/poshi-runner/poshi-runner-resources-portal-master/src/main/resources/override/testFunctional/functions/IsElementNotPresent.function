@@ -1,0 +1,13 @@
+<definition default="isElementNotPresent">
+	<command name="isElementNotPresent">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.IsElementNotPresent#isElementNotPresent" />
+	</command>
+
+	<command name="isNotVisible">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.IsElementNotPresent#isNotVisible" />
+	</command>
+</definition>

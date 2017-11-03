@@ -14,11 +14,15 @@
 
 package com.liferay.source.formatter;
 
+import com.liferay.portal.kernel.test.rule.TimeoutTestRule;
+
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 
 /**
  * @author Hugo Huijser
@@ -32,7 +36,6 @@ public class SourceFormatterTest {
 		sourceFormatterArgs.setAutoFix(false);
 		sourceFormatterArgs.setPrintErrors(false);
 		sourceFormatterArgs.setThrowException(false);
-		sourceFormatterArgs.setUseProperties(false);
 
 		String fileName =
 			"src/test/resources/com/liferay/source/formatter/dependencies" +
@@ -50,44 +53,7 @@ public class SourceFormatterTest {
 		Assert.assertTrue(modifiedFileNames.isEmpty());
 	}
 
-	@Test
-	public void testSourceFormatter() throws Exception {
-		SourceFormatterArgs sourceFormatterArgs = new SourceFormatterArgs();
-
-		sourceFormatterArgs.setAutoFix(false);
-		sourceFormatterArgs.setBaseDirName("../../../");
-		sourceFormatterArgs.setPrintErrors(false);
-		sourceFormatterArgs.setThrowException(true);
-		sourceFormatterArgs.setUseProperties(false);
-
-		SourceFormatter sourceFormatter = new SourceFormatter(
-			sourceFormatterArgs);
-
-		try {
-			sourceFormatter.format();
-		}
-		catch (SourceMismatchException sme) {
-			try {
-				Assert.assertEquals(
-					sme.getFileName(), sme.getFormattedSource(),
-					sme.getOriginalSource());
-			}
-			catch (AssertionError ae) {
-				String message = ae.getMessage();
-
-				if (message.length() >= _MAX_MESSAGE_SIZE) {
-					message =
-						"Truncated message :\n" +
-						message.substring(0, _MAX_MESSAGE_SIZE);
-
-					throw new AssertionError(message, ae.getCause());
-				}
-
-				throw ae;
-			}
-		}
-	}
-
-	private static final int _MAX_MESSAGE_SIZE = 10000;
+	@Rule
+	public final TestRule testRule = TimeoutTestRule.INSTANCE;
 
 }

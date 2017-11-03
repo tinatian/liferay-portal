@@ -16,11 +16,11 @@ package com.liferay.counter.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.counter.NoSuchCounterException;
-import com.liferay.counter.model.Counter;
+import com.liferay.counter.kernel.exception.NoSuchCounterException;
+import com.liferay.counter.kernel.model.Counter;
+import com.liferay.counter.kernel.service.persistence.CounterPersistence;
 import com.liferay.counter.model.impl.CounterImpl;
 import com.liferay.counter.model.impl.CounterModelImpl;
-import com.liferay.counter.service.persistence.CounterPersistence;
 
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
@@ -28,15 +28,15 @@ import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
 
@@ -57,7 +57,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see CounterPersistence
- * @see com.liferay.counter.service.persistence.CounterUtil
+ * @see com.liferay.counter.kernel.service.persistence.CounterUtil
  * @generated
  */
 @ProviderType
@@ -207,8 +207,8 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 			Counter counter = (Counter)session.get(CounterImpl.class, primaryKey);
 
 			if (counter == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchCounterException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -290,7 +290,9 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
 		if (isNew) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
@@ -318,7 +320,7 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 	}
 
 	/**
-	 * Returns the counter with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the counter with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the counter
 	 * @return the counter
@@ -330,8 +332,8 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 		Counter counter = fetchByPrimaryKey(primaryKey);
 
 		if (counter == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchCounterException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -361,12 +363,14 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 	 */
 	@Override
 	public Counter fetchByPrimaryKey(Serializable primaryKey) {
-		Counter counter = (Counter)entityCache.getResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
 				CounterImpl.class, primaryKey);
 
-		if (counter == _nullCounter) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Counter counter = (Counter)serializable;
 
 		if (counter == null) {
 			Session session = null;
@@ -381,7 +385,7 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 				}
 				else {
 					entityCache.putResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
-						CounterImpl.class, primaryKey, _nullCounter);
+						CounterImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -435,18 +439,20 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Counter counter = (Counter)entityCache.getResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
 					CounterImpl.class, primaryKey);
 
-			if (counter == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, counter);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Counter)serializable);
+				}
 			}
 		}
 
@@ -454,15 +460,13 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 4) +
+		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
 				1);
 
 		query.append(_SQL_SELECT_COUNTER_WHERE_PKS_IN);
 
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(StringPool.APOSTROPHE);
-			query.append((String)primaryKey);
-			query.append(StringPool.APOSTROPHE);
+		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
+			query.append(StringPool.QUESTION);
 
 			query.append(StringPool.COMMA);
 		}
@@ -480,6 +484,12 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 
 			Query q = session.createQuery(sql);
 
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			for (Serializable primaryKey : uncachedPrimaryKeys) {
+				qPos.add((String)primaryKey);
+			}
+
 			for (Counter counter : (List<Counter>)q.list()) {
 				map.put(counter.getPrimaryKeyObj(), counter);
 
@@ -490,7 +500,7 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
-					CounterImpl.class, primaryKey, _nullCounter);
+					CounterImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -591,7 +601,7 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_COUNTER);
 
@@ -719,22 +729,4 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 	private static final String _ORDER_BY_ENTITY_ALIAS = "counter.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Counter exists with the primary key ";
 	private static final Log _log = LogFactoryUtil.getLog(CounterPersistenceImpl.class);
-	private static final Counter _nullCounter = new CounterImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Counter> toCacheModel() {
-				return _nullCounterCacheModel;
-			}
-		};
-
-	private static final CacheModel<Counter> _nullCounterCacheModel = new CacheModel<Counter>() {
-			@Override
-			public Counter toEntityModel() {
-				return _nullCounter;
-			}
-		};
 }

@@ -14,8 +14,8 @@
 
 package com.liferay.portal.tools.service.builder;
 
+import com.liferay.portal.kernel.model.ModelHintsCallback;
 import com.liferay.portal.model.BaseModelHintsImpl;
-import com.liferay.portal.model.ModelHintsCallback;
 import com.liferay.portal.xml.SAXReaderFactory;
 
 import org.dom4j.io.SAXReader;
@@ -48,7 +48,8 @@ public class ModelHintsImpl extends BaseModelHintsImpl {
 		new CompileTimeModelHintsCallback();
 	private String[] _modelHintsConfigs;
 
-	private class CompileTimeModelHintsCallback implements ModelHintsCallback {
+	private static class CompileTimeModelHintsCallback
+		implements ModelHintsCallback {
 
 		@Override
 		public void execute(ClassLoader classLoader, String name) {

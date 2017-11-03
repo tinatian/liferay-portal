@@ -14,13 +14,13 @@
 
 package com.liferay.portal.security.membershippolicy.bundle.organizationmembershippolicyfactory;
 
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.UserGroupRole;
-import com.liferay.portal.security.membershippolicy.OrganizationMembershipPolicy;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.model.AssetTag;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.security.membershippolicy.OrganizationMembershipPolicy;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 
 import java.io.Serializable;
 

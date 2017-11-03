@@ -53,7 +53,33 @@
 			<var name="deleteLiferayHome" value="false" />
 		</execute>
 
-		<execute macro="User#firstLoginPG" />
+		<if>
+			<isset var="virtualHostsURL" />
+			<then>
+				<execute macro="Navigator#openSpecificURL">
+					<var name="url" value="${virtualHostsURL}" />
+				</execute>
+			</then>
+			<else>
+				<execute macro="Navigator#openURL" />
+			</else>
+		</if>
+
+		<execute macro="User#acceptEndUserLicenseAgreement" />
+
+		<execute macro="User#resetPassword">
+			<var name="resetPassword" value="${resetPassword}" />
+			<var name="setupWizardEnabled" value="${setupWizardEnabled}" />
+			<var name="syntaxCheckingEnabled" value="${syntaxCheckingEnabled}" />
+		</execute>
+
+		<execute macro="User#answerPasswordReminder" />
+
+		<execute function="AssertElementPresent" locator1="UserBar#USER_AVATAR_IMAGE" />
+
+		<execute macro="User#viewLoggedInPG">
+			<var name="userFirstName" value="Test" />
+		</execute>
 	</command>
 
 	<command name="configurePG" summary="Configure JDBC to ${databaseType} for Liferay with the Setup Wizard">
@@ -93,7 +119,33 @@
 			<var name="databaseType" value="${databaseType}" />
 		</execute>
 
-		<execute macro="User#firstLoginPG" />
+		<if>
+			<isset var="virtualHostsURL" />
+			<then>
+				<execute macro="Navigator#openSpecificURL">
+					<var name="url" value="${virtualHostsURL}" />
+				</execute>
+			</then>
+			<else>
+				<execute macro="Navigator#openURL" />
+			</else>
+		</if>
+
+		<execute macro="User#acceptEndUserLicenseAgreement" />
+
+		<execute macro="User#resetPassword">
+			<var name="resetPassword" value="${resetPassword}" />
+			<var name="setupWizardEnabled" value="${setupWizardEnabled}" />
+			<var name="syntaxCheckingEnabled" value="${syntaxCheckingEnabled}" />
+		</execute>
+
+		<execute macro="User#answerPasswordReminder" />
+
+		<execute function="AssertElementPresent" locator1="UserBar#USER_AVATAR_IMAGE" />
+
+		<execute macro="User#viewLoggedInPG">
+			<var name="userFirstName" value="Test" />
+		</execute>
 	</command>
 
 	<command name="configureSampleDataPG">
@@ -121,7 +173,7 @@
 	</command>
 
 	<command name="viewConfigurationSavedPG">
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your configuration was saved successfully." />
+		<execute function="AssertElementPresent" locator1="Message#SUCCESS" />
 		<execute function="AssertTextEquals#assertPartialText" locator1="SetupWizard#CONFIGURATION_SAVE_MESSAGE" value1="The configuration was saved in" />
 		<execute function="AssertTextEquals#assertPartialText" locator1="SetupWizard#CONFIGURATION_SAVE_LOCATION" value1="portal-setup-wizard.properties" />
 		<execute function="AssertTextEquals" locator1="Message#INFO" value1="Changes will take effect once the portal is restarted. Please restart the portal now." />
@@ -179,10 +231,10 @@
 
 	<command name="viewDefaultDatabasePG">
 		<if>
-			<condition function="IsElementPresent" locator1="Setupwizard#DATABASE_DEFAULT_LABEL" />
+			<condition function="IsElementPresent" locator1="SetupWizard#DATABASE_DEFAULT_LABEL" />
 			<then>
-				<execute function="AssertTextEquals#assertText" locator1="Setupwizard#DATABASE_DEFAULT_LABEL" value1="Default Database (Hypersonic)" />
-				<execute function="AssertTextEquals#assertPartialText" locator1="Setupwizard#DATABASE_DEFAULT_DESCRIPTION" value1="This database is useful for development and demo'ing purposes, but it is not recommended for production use." />
+				<execute function="AssertTextEquals#assertText" locator1="SetupWizard#DATABASE_DEFAULT_LABEL" value1="Default Database (Hypersonic)" />
+				<execute function="AssertTextEquals#assertPartialText" locator1="SetupWizard#DATABASE_DEFAULT_DESCRIPTION" value1="This database is useful for development and demo'ing purposes, but it is not recommended for production use." />
 				<execute function="AssertTextEquals#assertText" locator1="SetupWizard#DATABASE_CHANGE_LINK" value1="(Change)" />
 			</then>
 			<else>
@@ -198,7 +250,17 @@
 	</command>
 
 	<command name="viewDefaultPortalNamePG">
-		<execute function="AssertTextEquals#assertValue" locator1="TextInput#PORTAL_NAME" value1="Liferay" />
+		<var method="TestPropsUtil#get('test.run.environment')" name="testRunEnvironment" />
+
+		<if>
+			<equals arg1="${testRunEnvironment}" arg2="EE" />
+			<then>
+				<execute function="AssertTextEquals#assertValue" locator1="TextInput#PORTAL_NAME" value1="Liferay DXP" />
+			</then>
+			<else>
+				<execute function="AssertTextEquals#assertValue" locator1="TextInput#PORTAL_NAME" value1="Liferay" />
+			</else>
+		</if>
 	</command>
 
 	<command name="viewSampleDataAddedInConsole">

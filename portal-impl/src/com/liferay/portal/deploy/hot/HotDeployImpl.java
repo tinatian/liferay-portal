@@ -36,7 +36,6 @@ import com.liferay.portal.kernel.util.PortalLifecycleUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
 
@@ -44,8 +43,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.servlet.ServletContext;
 
@@ -59,10 +61,10 @@ public class HotDeployImpl implements HotDeploy {
 
 	public HotDeployImpl() {
 		if (_log.isDebugEnabled()) {
-			_log.debug("Initializing hot deploy manager " + this.hashCode());
+			_log.debug("Initializing hot deploy manager " + hashCode());
 		}
 
-		_dependentHotDeployEvents = new ArrayList<>();
+		_dependentHotDeployEvents = new ConcurrentLinkedQueue<>();
 		_deployedServletContextNames = new HashSet<>();
 		_hotDeployListeners = new ArrayList<>();
 	}
@@ -135,15 +137,17 @@ public class HotDeployImpl implements HotDeploy {
 	}
 
 	@Override
-	public synchronized boolean registerDependentPortalLifecycle(
+	public boolean registerDependentPortalLifecycle(
 		String servletContextName, PortalLifecycle portalLifecycle) {
 
 		for (HotDeployEvent hotDeployEvent : _dependentHotDeployEvents) {
-			if (Validator.equals(
+			if (Objects.equals(
 					servletContextName,
 					hotDeployEvent.getServletContextName())) {
 
-				hotDeployEvent.addPortalLifecycle(portalLifecycle);
+				synchronized (this) {
+					hotDeployEvent.addPortalLifecycle(portalLifecycle);
+				}
 
 				return true;
 			}
@@ -258,7 +262,9 @@ public class HotDeployImpl implements HotDeploy {
 
 					doFireDeployEvent(dependentEvent);
 
-					dependentEvent.flushInits();
+					if (!_dependentHotDeployEvents.contains(dependentEvent)) {
+						dependentEvent.flushInits();
+					}
 				}
 			}
 			finally {
@@ -333,25 +339,11 @@ public class HotDeployImpl implements HotDeploy {
 	private static final PACL _pacl = new NoPACL();
 
 	private boolean _capturePrematureEvents = true;
-	private final List<HotDeployEvent> _dependentHotDeployEvents;
+	private final Queue<HotDeployEvent> _dependentHotDeployEvents;
 	private final Set<String> _deployedServletContextNames;
 	private final List<HotDeployListener> _hotDeployListeners;
 
-	private static class NoPACL implements PACL {
-
-		@Override
-		public void initPolicy(
-			String contextName, URLContainer urlContainer,
-			ClassLoader classLoader, Properties properties) {
-		}
-
-		@Override
-		public void unregister(ClassLoader classLoader) {
-		}
-
-	}
-
-	private class HotDeployPortalLifecycle extends BasePortalLifecycle {
+	private static class HotDeployPortalLifecycle extends BasePortalLifecycle {
 
 		public HotDeployPortalLifecycle(HotDeployEvent hotDeployEvent) {
 			_servletContext = hotDeployEvent.getServletContext();
@@ -395,6 +387,20 @@ public class HotDeployImpl implements HotDeploy {
 
 		private final ClassLoader _classLoader;
 		private final ServletContext _servletContext;
+
+	}
+
+	private static class NoPACL implements PACL {
+
+		@Override
+		public void initPolicy(
+			String contextName, URLContainer urlContainer,
+			ClassLoader classLoader, Properties properties) {
+		}
+
+		@Override
+		public void unregister(ClassLoader classLoader) {
+		}
 
 	}
 

@@ -16,18 +16,18 @@ package com.liferay.portal.servlet.filters.dynamiccss;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.PortletConstants;
+import com.liferay.portal.kernel.model.Theme;
+import com.liferay.portal.kernel.service.ThemeLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.PortletConstants;
-import com.liferay.portal.model.Theme;
-import com.liferay.portal.service.ThemeLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 
 import java.net.URLDecoder;
 
@@ -99,6 +99,7 @@ public class DynamicCSSUtil {
 
 		while (true) {
 			int importX = content.indexOf(_CSS_IMPORT_BEGIN, pos);
+
 			int importY = content.indexOf(
 				_CSS_IMPORT_END, importX + _CSS_IMPORT_BEGIN.length());
 
@@ -161,7 +162,7 @@ public class DynamicCSSUtil {
 		if (Validator.isNotNull(themeId)) {
 			try {
 				Theme theme = ThemeLocalServiceUtil.getTheme(
-					companyId, themeId, false);
+					companyId, themeId);
 
 				return theme;
 			}
@@ -179,7 +180,7 @@ public class DynamicCSSUtil {
 			String themePathId = portalThemeMatcher.group(1);
 
 			themePathId = StringUtil.replace(
-				themePathId, StringPool.UNDERLINE, StringPool.BLANK);
+				themePathId, CharPool.UNDERLINE, StringPool.BLANK);
 
 			themeId = PortalUtil.getJsSafePortletId(themePathId);
 		}
@@ -191,7 +192,7 @@ public class DynamicCSSUtil {
 				String themePathId = pluginThemeMatcher.group(1);
 
 				themePathId = StringUtil.replace(
-					themePathId, StringPool.UNDERLINE, StringPool.BLANK);
+					themePathId, CharPool.UNDERLINE, StringPool.BLANK);
 
 				StringBundler sb = new StringBundler(4);
 
@@ -211,8 +212,7 @@ public class DynamicCSSUtil {
 		}
 
 		try {
-			Theme theme = ThemeLocalServiceUtil.getTheme(
-				companyId, themeId, false);
+			Theme theme = ThemeLocalServiceUtil.getTheme(companyId, themeId);
 
 			return theme;
 		}

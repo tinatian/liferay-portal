@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Tuple;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
@@ -27,11 +28,12 @@ import com.liferay.portal.kernel.xml.DocumentType;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
 import com.liferay.portal.util.JavaFieldsParser;
-import com.liferay.portlet.social.model.SocialAchievement;
-import com.liferay.portlet.social.model.SocialActivityCounterConstants;
-import com.liferay.portlet.social.model.SocialActivityCounterDefinition;
-import com.liferay.portlet.social.model.SocialActivityDefinition;
-import com.liferay.portlet.social.model.SocialActivityProcessor;
+import com.liferay.social.kernel.model.SocialAchievement;
+import com.liferay.social.kernel.model.SocialActivityCounterConstants;
+import com.liferay.social.kernel.model.SocialActivityCounterDefinition;
+import com.liferay.social.kernel.model.SocialActivityDefinition;
+import com.liferay.social.kernel.model.SocialActivityProcessor;
+import com.liferay.social.kernel.util.SocialConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -491,8 +493,9 @@ public class SocialConfigurationImpl implements SocialConfiguration {
 		if (activityCounterDefinition.getOwnerType() == 0) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Invalid owner type " + ownerType + " for model " +
-						activityDefinition.getModelName());
+					StringBundler.concat(
+						"Invalid owner type ", ownerType, " for model ",
+						activityDefinition.getModelName()));
 			}
 
 			return;

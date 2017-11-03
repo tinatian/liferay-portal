@@ -2,16 +2,12 @@
 
 <ignore-errors>
 	<javascript>
-		<ignore-error description="LPS-41634">
-			<contains>NS_ERROR_NOT_INITIALIZED:</contains>
-			<matches></matches>
-		</ignore-error>
-		<ignore-error description="LPS-41634">
-			<contains>TypeError: d.config.doc.defaultView is null</contains>
-			<matches></matches>
-		</ignore-error>
 		<ignore-error description="LPS-42469">
 			<contains>Permission denied to access property 'type'</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LRQA-21789">
+			<contains>mutating the [[Prototype]] of an object will cause your code to run very slowly</contains>
 			<matches></matches>
 		</ignore-error>
 	</javascript>
@@ -60,28 +56,12 @@
 			<contains>INFO:</contains>
 			<matches></matches>
 		</ignore-error>
-		<ignore-error description="LPS-17639">
-			<contains>Table 'lportal.lock_' doesn't exist</contains>
-			<matches></matches>
-		</ignore-error>
-		<ignore-error description="LPS-17639">
-			<contains>Table 'lportal.Lock_' doesn't exist</contains>
-			<matches></matches>
-		</ignore-error>
 		<ignore-error description="LPS-22821">
 			<contains>Exception sending context destroyed event to listener instance of class com.liferay.portal.spring.context.PortalContextLoaderListener</contains>
 			<matches></matches>
 		</ignore-error>
-		<ignore-error description="LPS-23351">
-			<contains>user lacks privilege or object not found: LOCK_</contains>
-			<matches></matches>
-		</ignore-error>
 		<ignore-error description="LPS-23498">
 			<contains>JBREM00200:</contains>
-			<matches></matches>
-		</ignore-error>
-		<ignore-error description="LPS-28734">
-			<contains>java.nio.channels.ClosedChannelException</contains>
 			<matches></matches>
 		</ignore-error>
 		<ignore-error description="LPS-28954">
@@ -96,17 +76,9 @@
 			<contains>java.util.zip.ZipException: ZipFile closed</contains>
 			<matches></matches>
 		</ignore-error>
-		<ignore-error description="LPS-41257">
-			<contains>[de.schlichtherle</contains>
-			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
-		</ignore-error>
 		<ignore-error description="LPS-41776">
 			<contains>SEC5054: Certificate has expired</contains>
 			<matches></matches>
-		</ignore-error>
-		<ignore-error description="LPS-41863">
-			<contains></contains>
-			<matches>.*\[org.hibernate.engine.jdbc.JdbcSupportLoader\] \(MSC service thread .*\) Disabling contextual LOB .*</matches>
 		</ignore-error>
 		<ignore-error description="LPS-46161">
 			<contains>[com.google.javascript.jscomp.Tracer.ThreadTrace]</contains>
@@ -140,15 +112,6 @@
 			<contains>[org.apache.xmlbeans.impl.store.Locale$1]</contains>
 			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
 		</ignore-error>
-		<ignore-error description="LPS-49505">
-			<contains>[org.jruby.RubyEncoding$2]</contains>
-			<description>LPS-49505</description>
-			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
-		</ignore-error>
-		<ignore-error description="LPS-49506">
-			<contains>[org.joni.StackMachine$1]</contains>
-			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
-		</ignore-error>
 		<ignore-error description="LPS-49628">
 			<contains>[org.apache.poi.extractor.ExtractorFactory$1]</contains>
 			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
@@ -156,14 +119,6 @@
 		<ignore-error description="LPS-49629">
 			<contains>[org.apache.xmlbeans.XmlBeans$1]</contains>
 			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
-		</ignore-error>
-		<ignore-error description="LPS-50047">
-			<contains>[com.sun.syndication.feed.impl.ToStringBean$1]</contains>
-			<matches>.*The web application \[\] created a ThreadLocal with key of type.*</matches>
-		</ignore-error>
-		<ignore-error description="LPS-50936">
-			<contains>Liferay does not have the Xuggler native libraries installed.</contains>
-			<matches></matches>
 		</ignore-error>
 		<ignore-error description="LPS-51371">
 			<contains>[net.sf.jasperreports.engine.fonts.FontUtil$1]</contains>
@@ -209,12 +164,52 @@
 			<contains></contains>
 			<matches>.*osgi.compendium:service=.*version=1.[0-9]+.*</matches>
 		</ignore-error>
-		<ignore-error description="LPS-57893, temporary workaround until André Oliveira fixes it">
-			<contains>com.liferay.portal.kernel.search.SearchException: Unable to delete</contains>
+		<ignore-error description="LPS-63595">
+			<contains>Application exception overridden by commit exception</contains>
 			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LPS-65131">
+			<contains></contains>
+			<matches>.*Table.*does not exist.*</matches>
+		</ignore-error>
+		<ignore-error description="LPS-65878, temporary workaround until Tina Tian fixes it">
+			<contains>The addSearchEngineConfigurator method has thrown an exception</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LPS-66736, temporary workaround as the issue does not always occur">
+			<contains></contains>
+			<matches>.*Unable to process message.*product-app-theme.*</matches>
+		</ignore-error>
+		<ignore-error description="LPS-67925">
+			<contains></contains>
+			<matches>.*HotDeployException\: Error registering plugins for opensocial\-portlet.*</matches>
+		</ignore-error>
+		<ignore-error description="LPS-68366">
+			<contains></contains>
+			<matches>.*ServerAdminPortlet\_tabs1\=resources generates exception.*NullPointerException.*</matches>
+		</ignore-error>
+		<ignore-error description="LPS-70839">
+			<contains></contains>
+			<matches>.*\[com.liferay.saml.opensaml.integration.internal.bootstrap.OpenSamlBootstrap\([0-9]+\)\].*The activate method has thrown an exception.*</matches>
 		</ignore-error>
 		<ignore-error description="LRQA-14442, temporary workaround until Kiyoshi Lee fixes it">
 			<contains>[org_eclipse_equinox_http_servlet.*Framework Event Dispatcher: Equinox Container:</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LRQA-24859">
+			<contains>No binary licenses found</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LRQA-26173, temporary workaround until Peter Yoo fixes it">
+			<contains>Unable to add folder menu item</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LRQA-34199, temporarily ignore SAMLBootstrap error">
+			<contains>The activate method has thrown an exception</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="LRQA-34927, temporarily ignore until COMMERCE-210 is fixed">
+			<contains>Invocation to listener threw exception</contains>
 			<matches></matches>
 		</ignore-error>
 		<ignore-error description="WCM-202">

@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchAccountException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -25,22 +25,27 @@ import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchAccountException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Account;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.AccountPersistence;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.Account;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
 import com.liferay.portal.model.impl.AccountImpl;
 import com.liferay.portal.model.impl.AccountModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextThreadLocal;
-import com.liferay.portal.service.persistence.AccountPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -60,7 +65,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see AccountPersistence
- * @see com.liferay.portal.service.persistence.AccountUtil
+ * @see com.liferay.portal.kernel.service.persistence.AccountUtil
  * @generated
  */
 @ProviderType
@@ -88,6 +93,23 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 	public AccountPersistenceImpl() {
 		setModelClass(Account.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("type", "type_");
+			dbColumnNames.put("size", "size_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -177,6 +199,8 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		account.setNew(true);
 		account.setPrimaryKey(accountId);
 
+		account.setCompanyId(companyProvider.getCompanyId());
+
 		return account;
 	}
 
@@ -210,8 +234,8 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 			Account account = (Account)session.get(AccountImpl.class, primaryKey);
 
 			if (account == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchAccountException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -317,7 +341,9 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
 		if (isNew) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
@@ -360,7 +386,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 	}
 
 	/**
-	 * Returns the account with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the account with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the account
 	 * @return the account
@@ -372,8 +398,8 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		Account account = fetchByPrimaryKey(primaryKey);
 
 		if (account == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchAccountException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -404,12 +430,14 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 	 */
 	@Override
 	public Account fetchByPrimaryKey(Serializable primaryKey) {
-		Account account = (Account)entityCache.getResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
 				AccountImpl.class, primaryKey);
 
-		if (account == _nullAccount) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Account account = (Account)serializable;
 
 		if (account == null) {
 			Session session = null;
@@ -424,7 +452,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 				}
 				else {
 					entityCache.putResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
-						AccountImpl.class, primaryKey, _nullAccount);
+						AccountImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -478,18 +506,20 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Account account = (Account)entityCache.getResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
 					AccountImpl.class, primaryKey);
 
-			if (account == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, account);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Account)serializable);
+				}
 			}
 		}
 
@@ -503,7 +533,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		query.append(_SQL_SELECT_ACCOUNT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -531,7 +561,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
-					AccountImpl.class, primaryKey, _nullAccount);
+					AccountImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -632,7 +662,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_ACCOUNT);
 
@@ -757,6 +787,8 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_ACCOUNT = "SELECT account FROM Account account";
@@ -768,34 +800,4 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"type", "size"
 			});
-	private static final Account _nullAccount = new AccountImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Account> toCacheModel() {
-				return _nullAccountCacheModel;
-			}
-		};
-
-	private static final CacheModel<Account> _nullAccountCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<Account>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public Account toEntityModel() {
-			return _nullAccount;
-		}
-	}
 }

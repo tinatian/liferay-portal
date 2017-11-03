@@ -16,12 +16,12 @@ package com.liferay.portlet.documentlibrary.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.document.library.kernel.model.DLFileEntryMetadata;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.documentlibrary.model.DLFileEntryMetadata;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -64,12 +64,14 @@ public class DLFileEntryMetadataCacheModel implements CacheModel<DLFileEntryMeta
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", fileEntryMetadataId=");
 		sb.append(fileEntryMetadataId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append(", DDMStorageId=");
 		sb.append(DDMStorageId);
 		sb.append(", DDMStructureId=");
@@ -95,6 +97,7 @@ public class DLFileEntryMetadataCacheModel implements CacheModel<DLFileEntryMeta
 		}
 
 		dlFileEntryMetadataImpl.setFileEntryMetadataId(fileEntryMetadataId);
+		dlFileEntryMetadataImpl.setCompanyId(companyId);
 		dlFileEntryMetadataImpl.setDDMStorageId(DDMStorageId);
 		dlFileEntryMetadataImpl.setDDMStructureId(DDMStructureId);
 		dlFileEntryMetadataImpl.setFileEntryId(fileEntryId);
@@ -108,10 +111,17 @@ public class DLFileEntryMetadataCacheModel implements CacheModel<DLFileEntryMeta
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		fileEntryMetadataId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
 		DDMStorageId = objectInput.readLong();
+
 		DDMStructureId = objectInput.readLong();
+
 		fileEntryId = objectInput.readLong();
+
 		fileVersionId = objectInput.readLong();
 	}
 
@@ -126,14 +136,21 @@ public class DLFileEntryMetadataCacheModel implements CacheModel<DLFileEntryMeta
 		}
 
 		objectOutput.writeLong(fileEntryMetadataId);
+
+		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(DDMStorageId);
+
 		objectOutput.writeLong(DDMStructureId);
+
 		objectOutput.writeLong(fileEntryId);
+
 		objectOutput.writeLong(fileVersionId);
 	}
 
 	public String uuid;
 	public long fileEntryMetadataId;
+	public long companyId;
 	public long DDMStorageId;
 	public long DDMStructureId;
 	public long fileEntryId;

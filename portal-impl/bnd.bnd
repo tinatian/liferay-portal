@@ -1,17 +1,19 @@
-Bundle-Version: 7.0.0
+Bundle-Name: ${manifest.bundle.name}
+Bundle-SymbolicName: ${manifest.bundle.symbolic.name}
+Bundle-Version: 2.23.0
 Export-Package:\
 	com.liferay.portal.bean,\
-	com.liferay.portal.cache,\
+	com.liferay.portal.cache.thread.local,\
 	com.liferay.portal.cluster,\
-	com.liferay.portal.increment,\
+	com.liferay.portal.convert.database,\
+	com.liferay.portal.convert.util,\
 	com.liferay.portal.dao.jdbc.aop,\
 	com.liferay.portal.dao.orm.hibernate,\
 	com.liferay.portal.deploy.hot,\
 	com.liferay.portal.events,\
 	com.liferay.portal.freemarker,\
-	com.liferay.portal.kernel.util,\
+	com.liferay.portal.increment,\
 	com.liferay.portal.messaging.async,\
-	com.liferay.portal.model.impl,\
 	com.liferay.portal.monitoring.statistics.service,\
 	com.liferay.portal.plugin,\
 	com.liferay.portal.resiliency.service,\
@@ -20,13 +22,14 @@ Export-Package:\
 	com.liferay.portal.security.auth,\
 	com.liferay.portal.security.lang,\
 	com.liferay.portal.service.http,\
+	com.liferay.portal.service.permission,\
 	com.liferay.portal.servlet,\
 	com.liferay.portal.servlet.filters.authverifier,\
-	com.liferay.portal.service.permission,\
 	com.liferay.portal.spring.aop,\
 	com.liferay.portal.spring.bean,\
 	com.liferay.portal.spring.context,\
 	com.liferay.portal.spring.hibernate,\
+	com.liferay.portal.spring.jndi,\
 	com.liferay.portal.spring.transaction,\
 	com.liferay.portal.systemevent,\
 	com.liferay.portal.template,\
@@ -37,7 +40,6 @@ Export-Package:\
 	com.liferay.portal.upgrade.v7_0_0,\
 	com.liferay.portal.upload,\
 	com.liferay.portal.util,\
-	com.liferay.portal.verify,\
 	com.liferay.portal.xml,\
 	com.liferay.portlet,\
 	com.liferay.portlet.asset,\
@@ -54,16 +56,14 @@ Export-Package:\
 	com.liferay.portlet.documentlibrary.lar,\
 	com.liferay.portlet.documentlibrary.model,\
 	com.liferay.portlet.documentlibrary.service,\
-	com.liferay.portlet.documentlibrary.store,\
-	com.liferay.portlet.documentlibrary,\
-	com.liferay.portlet.documentlibrary.action,\
 	com.liferay.portlet.documentlibrary.service.permission,\
+	com.liferay.portlet.documentlibrary.store,\
 	com.liferay.portlet.documentlibrary.util,\
 	com.liferay.portlet.expando.model,\
 	com.liferay.portlet.expando.service,\
 	com.liferay.portlet.expando.service.persistence,\
 	com.liferay.portlet.expando.util,\
-	com.liferay.portlet.layoutsadmin.context,\
+	com.liferay.portlet.layoutsadmin.display.context,\
 	com.liferay.portlet.messageboards.model,\
 	com.liferay.portlet.messageboards.service,\
 	com.liferay.portlet.messageboards.service.persistence,\
@@ -75,16 +75,9 @@ Export-Package:\
 	com.liferay.portlet.trash.service,\
 	com.liferay.portlet.trash.service.persistence,\
 	com.liferay.portlet.trash.util,\
-	com.liferay.portlet.usersadmin.search,\
-	\
-	javax.sql,org.hibernate,\
-	\
-	jodd.util,\
-	\
-	org.hibernate.engine
+	com.liferay.portlet.usersadmin.search
 Import-Package: *
 Include-Resource: classes
 Private-Package: com.liferay.*.dependencies
-
--baseline:
+-baseline: *;file=${project.dir}/.bnd/ant-baseline-cache/com.liferay.portal.impl-2.22.0.jar
 -donotcopy: (log4j\.properties|logging\.properties|portal-.*\.properties|system-.*\.properties|\.touch)

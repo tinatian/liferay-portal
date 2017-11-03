@@ -19,10 +19,46 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Address;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.EmailAddress;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.PasswordPolicy;
+import com.liferay.portal.kernel.model.Phone;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.model.UserConstants;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.model.Website;
+import com.liferay.portal.kernel.security.auth.EmailAddressGenerator;
+import com.liferay.portal.kernel.security.auth.FullNameGenerator;
+import com.liferay.portal.kernel.security.auth.FullNameGeneratorFactory;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.AddressLocalServiceUtil;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.ContactLocalServiceUtil;
+import com.liferay.portal.kernel.service.EmailAddressLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
+import com.liferay.portal.kernel.service.PasswordPolicyLocalServiceUtil;
+import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.TeamLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WebsiteLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Digester;
 import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.RemotePreference;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -32,42 +68,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Address;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.CompanyConstants;
-import com.liferay.portal.model.Contact;
-import com.liferay.portal.model.EmailAddress;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.PasswordPolicy;
-import com.liferay.portal.model.Phone;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.Team;
-import com.liferay.portal.model.UserConstants;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.model.Website;
-import com.liferay.portal.security.auth.EmailAddressGenerator;
 import com.liferay.portal.security.auth.EmailAddressGeneratorFactory;
-import com.liferay.portal.security.auth.FullNameGenerator;
-import com.liferay.portal.security.auth.FullNameGeneratorFactory;
-import com.liferay.portal.service.AddressLocalServiceUtil;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.service.ContactLocalServiceUtil;
-import com.liferay.portal.service.EmailAddressLocalServiceUtil;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.GroupServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.OrganizationLocalServiceUtil;
-import com.liferay.portal.service.PasswordPolicyLocalServiceUtil;
-import com.liferay.portal.service.PhoneLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.TeamLocalServiceUtil;
-import com.liferay.portal.service.UserGroupLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.service.WebsiteLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.Portal;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
@@ -100,7 +101,23 @@ public class UserImpl extends UserBaseImpl {
 
 	@Override
 	public Contact fetchContact() {
-		return ContactLocalServiceUtil.fetchContact(getContactId());
+		if (_contact == _NULL_CONTACT) {
+			return null;
+		}
+
+		if (_contact == null) {
+			Contact contact = ContactLocalServiceUtil.fetchContact(
+				getContactId());
+
+			if (contact == null) {
+				_contact = _NULL_CONTACT;
+			}
+			else {
+				_contact = contact;
+			}
+		}
+
+		return _contact;
 	}
 
 	/**
@@ -118,7 +135,6 @@ public class UserImpl extends UserBaseImpl {
 	 * Returns the user's birth date.
 	 *
 	 * @return the user's birth date
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public Date getBirthday() throws PortalException {
@@ -129,7 +145,6 @@ public class UserImpl extends UserBaseImpl {
 	 * Returns the user's company's mail domain.
 	 *
 	 * @return the user's company's mail domain
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public String getCompanyMx() throws PortalException {
@@ -143,12 +158,15 @@ public class UserImpl extends UserBaseImpl {
 	 * Returns the user's associated contact.
 	 *
 	 * @return the user's associated contact
-	 * @throws PortalException if a portal exception occurred
 	 * @see    Contact
 	 */
 	@Override
 	public Contact getContact() throws PortalException {
-		return ContactLocalServiceUtil.getContact(getContactId());
+		if ((_contact == null) || (_contact == _NULL_CONTACT)) {
+			_contact = ContactLocalServiceUtil.getContact(getContactId());
+		}
+
+		return _contact;
 	}
 
 	/**
@@ -188,12 +206,14 @@ public class UserImpl extends UserBaseImpl {
 			Digester.MD5, getEmailAddress(), Portal.PORTAL_REALM, password);
 
 		sb.append(digest1);
+
 		sb.append(StringPool.COMMA);
 
 		String digest2 = DigesterUtil.digestHex(
 			Digester.MD5, getScreenName(), Portal.PORTAL_REALM, password);
 
 		sb.append(digest2);
+
 		sb.append(StringPool.COMMA);
 
 		String digest3 = DigesterUtil.digestHex(
@@ -250,7 +270,6 @@ public class UserImpl extends UserBaseImpl {
 	 * @param      portalURL the portal's URL
 	 * @param      mainPath the main path
 	 * @return     the user's display URL
-	 * @throws     PortalException if a portal exception occurred
 	 * @deprecated As of 7.0.0, replaced by {@link #getDisplayURL(ThemeDisplay)}
 	 */
 	@Deprecated
@@ -291,7 +310,7 @@ public class UserImpl extends UserBaseImpl {
 	 *             intranet(versus extranet)  site home page, if no friendly URL
 	 *             is available for the user's profile
 	 * @return     the user's display URL
-	 * @throws     PortalException if a portal exception occurred
+	 * @throws     PortalException
 	 * @deprecated As of 7.0.0, replaced by {@link #getDisplayURL(ThemeDisplay)}
 	 */
 	@Deprecated
@@ -306,7 +325,7 @@ public class UserImpl extends UserBaseImpl {
 
 		String profileFriendlyURL = getProfileFriendlyURL();
 
-		if (Validator.isNotNull(profileFriendlyURL)) {
+		if (profileFriendlyURL != null) {
 			return portalURL.concat(PortalUtil.getPathContext()).concat(
 				profileFriendlyURL);
 		}
@@ -337,7 +356,6 @@ public class UserImpl extends UserBaseImpl {
 	 *
 	 * @param  themeDisplay the theme display
 	 * @return the user's display URL
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public String getDisplayURL(ThemeDisplay themeDisplay)
@@ -375,14 +393,14 @@ public class UserImpl extends UserBaseImpl {
 	 *         intranet (versus extranet) site home page, if no friendly URL is
 	 *         available for the user's profile
 	 * @return the user's display URL
-	 * @throws PortalException if a portal exception occurred
+	 * @throws PortalException
 	 */
 	@Override
 	public String getDisplayURL(
 			ThemeDisplay themeDisplay, boolean privateLayout)
 		throws PortalException {
 
-		if (isDefaultUser()) {
+		if (isDefaultUser() || (themeDisplay == null)) {
 			return StringPool.BLANK;
 		}
 
@@ -390,7 +408,7 @@ public class UserImpl extends UserBaseImpl {
 
 		String profileFriendlyURL = getProfileFriendlyURL();
 
-		if (Validator.isNotNull(profileFriendlyURL)) {
+		if (profileFriendlyURL != null) {
 			return PortalUtil.addPreservedParameters(
 				themeDisplay,
 				portalURL.concat(
@@ -418,7 +436,6 @@ public class UserImpl extends UserBaseImpl {
 	 *
 	 * @return <code>true</code> if the user is female; <code>false</code>
 	 *         otherwise
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public boolean getFemale() throws PortalException {
@@ -496,6 +513,14 @@ public class UserImpl extends UserBaseImpl {
 	}
 
 	@Override
+	public String getInitials() {
+		String firstInitial = StringUtil.shorten(getFirstName(), 1);
+		String lastInitial = StringUtil.shorten(getLastName(), 1);
+
+		return StringUtil.toUpperCase(firstInitial.concat(lastInitial));
+	}
+
+	@Override
 	public Locale getLocale() {
 		return _locale;
 	}
@@ -525,7 +550,6 @@ public class UserImpl extends UserBaseImpl {
 	 *
 	 * @return <code>true</code> if the user is male; <code>false</code>
 	 *         otherwise
-	 * @throws PortalException if a portal exception occurred
 	 */
 	@Override
 	public boolean getMale() throws PortalException {
@@ -548,60 +572,6 @@ public class UserImpl extends UserBaseImpl {
 
 		return GroupServiceUtil.getUserSitesGroups(
 			getUserId(), classNames, max);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #getMySiteGroups}
-	 */
-	@Deprecated
-	@Override
-	public List<Group> getMySites() throws PortalException {
-		return getMySiteGroups();
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link User#getMySiteGroups(int)}
-	 */
-	@Deprecated
-	@Override
-	public List<Group> getMySites(boolean includeControlPanel, int max)
-		throws PortalException {
-
-		return getMySiteGroups(max);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #getMySiteGroups(int)}
-	 */
-	@Deprecated
-	@Override
-	public List<Group> getMySites(int max) throws PortalException {
-		return getMySiteGroups(max);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #getMySiteGroups(String[],
-	 *              int)}
-	 */
-	@Deprecated
-	@Override
-	public List<Group> getMySites(
-			String[] classNames, boolean includeControlPanel, int max)
-		throws PortalException {
-
-		return getMySiteGroups(classNames, max);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #getMySiteGroups(String[],
-	 *             int)}
-	 */
-	@Deprecated
-	@Override
-	public List<Group> getMySites(String[] classNames, int max)
-		throws PortalException {
-
-		return getMySiteGroups(classNames, max);
 	}
 
 	@Override
@@ -644,8 +614,7 @@ public class UserImpl extends UserBaseImpl {
 	public PasswordPolicy getPasswordPolicy() throws PortalException {
 		if (_passwordPolicy == null) {
 			_passwordPolicy =
-				PasswordPolicyLocalServiceUtil.getPasswordPolicyByUserId(
-					getUserId());
+				PasswordPolicyLocalServiceUtil.getPasswordPolicyByUser(this);
 		}
 
 		return _passwordPolicy;
@@ -824,6 +793,13 @@ public class UserImpl extends UserBaseImpl {
 			return false;
 		}
 
+		if ((PropsValues.LAYOUT_USER_PRIVATE_LAYOUTS_ENABLED ||
+			 PropsValues.LAYOUT_USER_PUBLIC_LAYOUTS_ENABLED) &&
+			(getUserId() == PrincipalThreadLocal.getUserId())) {
+
+			return true;
+		}
+
 		List<Group> groups = getMySiteGroups(1);
 
 		return !groups.isEmpty();
@@ -868,6 +844,10 @@ public class UserImpl extends UserBaseImpl {
 
 	@Override
 	public boolean isEmailAddressComplete() {
+		if (isDefaultUser()) {
+			return true;
+		}
+
 		if (Validator.isNull(getEmailAddress()) ||
 			(PropsValues.USERS_EMAIL_ADDRESS_REQUIRED &&
 			 Validator.isNull(getDisplayEmailAddress()))) {
@@ -880,6 +860,10 @@ public class UserImpl extends UserBaseImpl {
 
 	@Override
 	public boolean isEmailAddressVerificationComplete() {
+		if (isDefaultUser() || isEmailAddressVerified()) {
+			return true;
+		}
+
 		boolean emailAddressVerificationRequired = false;
 
 		try {
@@ -893,7 +877,7 @@ public class UserImpl extends UserBaseImpl {
 		}
 
 		if (emailAddressVerificationRequired) {
-			return super.isEmailAddressVerified();
+			return false;
 		}
 
 		return true;
@@ -933,6 +917,10 @@ public class UserImpl extends UserBaseImpl {
 
 	@Override
 	public boolean isSetupComplete() {
+		if (isDefaultUser()) {
+			return true;
+		}
+
 		if (isEmailAddressComplete() && isEmailAddressVerificationComplete() &&
 			!isPasswordReset() && isReminderQueryComplete() &&
 			isTermsOfUseComplete()) {
@@ -945,12 +933,16 @@ public class UserImpl extends UserBaseImpl {
 
 	@Override
 	public boolean isTermsOfUseComplete() {
+		if (isDefaultUser() || isAgreedToTermsOfUse()) {
+			return true;
+		}
+
 		boolean termsOfUseRequired = PrefsPropsUtil.getBoolean(
 			getCompanyId(), PropsKeys.TERMS_OF_USE_REQUIRED,
 			PropsValues.TERMS_OF_USE_REQUIRED);
 
 		if (termsOfUseRequired) {
-			return super.isAgreedToTermsOfUse();
+			return false;
 		}
 
 		return true;
@@ -985,7 +977,7 @@ public class UserImpl extends UserBaseImpl {
 	}
 
 	protected String getProfileFriendlyURL() {
-		if (Validator.isNull(PropsValues.USERS_PROFILE_FRIENDLY_URL)) {
+		if (!_hasUsersProfileFriendlyURL) {
 			return null;
 		}
 
@@ -997,8 +989,14 @@ public class UserImpl extends UserBaseImpl {
 			});
 	}
 
+	private static final Contact _NULL_CONTACT = new ContactImpl();
+
 	private static final Log _log = LogFactoryUtil.getLog(UserImpl.class);
 
+	private static final boolean _hasUsersProfileFriendlyURL =
+		Validator.isNotNull(PropsValues.USERS_PROFILE_FRIENDLY_URL);
+
+	private Contact _contact;
 	private Locale _locale;
 	private boolean _passwordModified;
 	private PasswordPolicy _passwordPolicy;

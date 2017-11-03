@@ -14,20 +14,23 @@
 
 package com.liferay.portal.util;
 
+import com.liferay.layouts.admin.kernel.util.SitemapURLProvider;
+import com.liferay.layouts.admin.kernel.util.SitemapUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutTypeController;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.xml.Element;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.layoutsadmin.util.SitemapURLProvider;
-import com.liferay.portlet.layoutsadmin.util.SitemapUtil;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author Eduardo Garcia
@@ -42,14 +45,55 @@ public class LayoutSitemapURLProvider implements SitemapURLProvider {
 
 	@Override
 	public void visitLayout(
+			Element element, String layoutUuid, LayoutSet layoutSet,
+			ThemeDisplay themeDisplay)
+		throws PortalException {
+
+		Layout layout = LayoutLocalServiceUtil.getLayoutByUuidAndGroupId(
+			layoutUuid, layoutSet.getGroupId(), layoutSet.getPrivateLayout());
+
+		visitLayout(element, layout, themeDisplay);
+	}
+
+	@Override
+	public void visitLayoutSet(
+			Element element, LayoutSet layoutSet, ThemeDisplay themeDisplay)
+		throws PortalException {
+
+		if (layoutSet.isPrivateLayout()) {
+			return;
+		}
+
+		Map<String, LayoutTypeController> layoutTypeControllers =
+			LayoutTypeControllerTracker.getLayoutTypeControllers();
+
+		for (Map.Entry<String, LayoutTypeController> entry :
+				layoutTypeControllers.entrySet()) {
+
+			LayoutTypeController layoutTypeController = entry.getValue();
+
+			if (!layoutTypeController.isSitemapable()) {
+				continue;
+			}
+
+			List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
+				layoutSet.getGroupId(), layoutSet.getPrivateLayout(),
+				entry.getKey());
+
+			for (Layout layout : layouts) {
+				visitLayout(element, layout, themeDisplay);
+			}
+		}
+	}
+
+	protected void visitLayout(
 			Element element, Layout layout, ThemeDisplay themeDisplay)
 		throws PortalException {
 
 		UnicodeProperties typeSettingsProperties =
 			layout.getTypeSettingsProperties();
 
-		if (!PortalUtil.isLayoutSitemapable(layout) ||
-			!GetterUtil.getBoolean(
+		if (!GetterUtil.getBoolean(
 				typeSettingsProperties.getProperty("sitemap-include"), true)) {
 
 			return;
@@ -61,31 +105,13 @@ public class LayoutSitemapURLProvider implements SitemapURLProvider {
 		layoutFullURL = PortalUtil.getCanonicalURL(
 			layoutFullURL, themeDisplay, layout);
 
-		SitemapUtil.addURLElement(
-			element, layoutFullURL, typeSettingsProperties,
-			layout.getModifiedDate(), layoutFullURL,
-			SitemapUtil.getAlternateURLs(layoutFullURL, themeDisplay, layout));
+		Map<Locale, String> alternateURLs = SitemapUtil.getAlternateURLs(
+			layoutFullURL, themeDisplay, layout);
 
-		Set<Locale> availableLocales = LanguageUtil.getAvailableLocales(
-			layout.getGroupId());
-
-		if (availableLocales.size() > 1) {
-			Locale defaultLocale = LocaleUtil.getSiteDefault();
-
-			for (Locale availableLocale : availableLocales) {
-				if (availableLocale.equals(defaultLocale)) {
-					continue;
-				}
-
-				String alternateURL = PortalUtil.getAlternateURL(
-					layoutFullURL, themeDisplay, availableLocale, layout);
-
-				SitemapUtil.addURLElement(
-					element, alternateURL, typeSettingsProperties,
-					layout.getModifiedDate(), layoutFullURL,
-					SitemapUtil.getAlternateURLs(
-						layoutFullURL, themeDisplay, layout));
-			}
+		for (String alternateURL : alternateURLs.values()) {
+			SitemapUtil.addURLElement(
+				element, alternateURL, typeSettingsProperties,
+				layout.getModifiedDate(), layoutFullURL, alternateURLs);
 		}
 	}
 

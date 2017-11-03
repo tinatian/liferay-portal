@@ -27,11 +27,15 @@ import javax.mail.Address;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import org.apache.commons.validator.EmailValidator;
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * @author Alexander Chow
+ * @see    com.liferay.petra.mail.InternetAddressUtil
+ * @deprecated As of 7.0.0, replaced by {@link
+ *             com.liferay.petra.mail.InternetAddressUtil}
  */
+@Deprecated
 public class InternetAddressUtil {
 
 	public static boolean contains(

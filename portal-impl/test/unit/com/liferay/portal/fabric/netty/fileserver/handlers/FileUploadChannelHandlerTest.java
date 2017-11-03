@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.test.rule.NewEnv;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.test.rule.AdviseWith;
 import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
@@ -78,7 +79,7 @@ public class FileUploadChannelHandlerTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			CodeCoverageAssertor.INSTANCE, AspectJNewEnvTestRule.INSTANCE);
+			AspectJNewEnvTestRule.INSTANCE, CodeCoverageAssertor.INSTANCE);
 
 	@After
 	public void tearDown() {
@@ -201,15 +202,15 @@ public class FileUploadChannelHandlerTest {
 			new FileChannelWrapper(fileUploadChannelHandler.fileChannel) {
 
 				@Override
+				public long position() {
+					return unsyncByteArrayOutputStream.size();
+				}
+
+				@Override
 				public int write(ByteBuffer byteBuffer) {
 					unsyncByteArrayOutputStream.write(byteBuffer.get());
 
 					return 1;
-				}
-
-				@Override
-				public long position() {
-					return unsyncByteArrayOutputStream.size();
 				}
 
 			});
@@ -228,6 +229,7 @@ public class FileUploadChannelHandlerTest {
 		Assert.assertEquals(1, byteBuf.refCnt());
 		Assert.assertTrue(fileUploadChannelHandler.receive(byteBuf));
 		Assert.assertEquals(1, byteBuf.refCnt());
+
 		Assert.assertArrayEquals(
 			data, unsyncByteArrayOutputStream.toByteArray());
 		Assert.assertEquals(Unpooled.wrappedBuffer(data), byteBuf);
@@ -469,9 +471,11 @@ public class FileUploadChannelHandlerTest {
 				}
 				else {
 					Assert.assertEquals(
-						"Unable to place result " + fileResponse +
-							" because no future exists with ID " +
-								fileResponse.getPath(),
+						StringBundler.concat(
+							"Unable to place result ",
+							String.valueOf(fileResponse),
+							" because no future exists with ID ",
+							String.valueOf(fileResponse.getPath())),
 						logRecord.getMessage());
 				}
 			}

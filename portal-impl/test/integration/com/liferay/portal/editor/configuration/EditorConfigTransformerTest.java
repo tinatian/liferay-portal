@@ -21,21 +21,17 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactory
 import com.liferay.portal.kernel.editor.configuration.EditorOptions;
 import com.liferay.portal.kernel.editor.configuration.EditorOptionsContributor;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.module.framework.test.ModuleFrameworkTestUtil;
-import com.liferay.portal.service.test.ServiceTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.RequestBackedPortletURLFactory;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,22 +51,17 @@ public class EditorConfigTransformerTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		ServiceTestUtil.setUser(TestPropsValues.getUser());
-
-		_bundleIds = ModuleFrameworkTestUtil.getBundleIds(
-			EditorConfigContributor.class, null);
-
-		ModuleFrameworkTestUtil.stopBundles(_bundleIds);
+		_editorConfigProviderSwapper = new EditorConfigProviderSwapper(
+			Arrays.<Class<?>>asList(BasicHTMLEditorConfigContributor.class));
 	}
 
 	@AfterClass
 	public static void tearDownClass() {
-		ModuleFrameworkTestUtil.startBundles(_bundleIds);
+		_editorConfigProviderSwapper.close();
 	}
 
 	@After
@@ -182,8 +173,7 @@ public class EditorConfigTransformerTest {
 	}
 
 	@Test
-	public void
-			testEditorConfigTransformedWhenEditorConfigTransformerIsRegistered()
+	public void testEditorConfigTransformedWhenEditorConfigTransformerIsRegistered()
 		throws Exception {
 
 		Registry registry = RegistryUtil.getRegistry();
@@ -233,8 +223,7 @@ public class EditorConfigTransformerTest {
 	}
 
 	@Test
-	public void
-			testEditorConfigTransformedWithMultipleEditorOptionsContributors()
+	public void testEditorConfigTransformedWithMultipleEditorOptionsContributors()
 		throws Exception {
 
 		Registry registry = RegistryUtil.getRegistry();
@@ -302,7 +291,7 @@ public class EditorConfigTransformerTest {
 
 	private static final String _UNUSED_EDITOR_NAME = "testUnusedEditorName";
 
-	private static Collection<Long> _bundleIds;
+	private static EditorConfigProviderSwapper _editorConfigProviderSwapper;
 
 	private ServiceRegistration<EditorConfigContributor>
 		_editorConfigContributorServiceRegistration;
@@ -313,7 +302,7 @@ public class EditorConfigTransformerTest {
 	private ServiceRegistration<EditorOptionsContributor>
 		_editorOptionsContributorServiceRegistration2;
 
-	private class BasicHTMLEditorConfigContributor
+	private static class BasicHTMLEditorConfigContributor
 		implements EditorConfigContributor {
 
 		@Override
@@ -330,7 +319,7 @@ public class EditorConfigTransformerTest {
 
 	}
 
-	private class TestEditorConfigTransformer
+	private static class TestEditorConfigTransformer
 		implements EditorConfigTransformer {
 
 		@Override
@@ -356,7 +345,7 @@ public class EditorConfigTransformerTest {
 
 	}
 
-	private class TextEditorOptionsContributor
+	private static class TextEditorOptionsContributor
 		implements EditorOptionsContributor {
 
 		@Override
@@ -371,7 +360,7 @@ public class EditorConfigTransformerTest {
 
 	}
 
-	private class UploadImagesEditorOptionsContributor
+	private static class UploadImagesEditorOptionsContributor
 		implements EditorOptionsContributor {
 
 		@Override

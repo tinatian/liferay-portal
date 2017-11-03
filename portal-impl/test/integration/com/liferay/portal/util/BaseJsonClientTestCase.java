@@ -54,7 +54,7 @@ import org.apache.http.util.EntityUtils;
 /**
  * @author Alexander Chow
  */
-public class BaseJsonClientTestCase {
+public abstract class BaseJsonClientTestCase {
 
 	public static final String URL_JSONWS = "/api/jsonws";
 
@@ -200,7 +200,7 @@ public class BaseJsonClientTestCase {
 		return responseContent.substring(beginIndex, endIndex);
 	}
 
-	private class StringHandler implements ResponseHandler<String> {
+	private static class StringHandler implements ResponseHandler<String> {
 
 		@Override
 		public String handleResponse(HttpResponse response)

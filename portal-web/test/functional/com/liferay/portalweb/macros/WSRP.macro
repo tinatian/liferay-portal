@@ -9,26 +9,30 @@
 
 		<execute function="AssertClick" locator1="Button#ADD_CONSUMER" value1="Add Consumer" />
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${consumerName}" />
-		<execute function="Paste" locator1="TextInput#URL" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${consumerName}" />
+		</execute>
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute function="Paste" locator1="TextArea#URL" />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="addConsumerPortletCP">
 		<var name="key_consumerName" value="${consumerName}" />
 
 		<execute function="Click" locator1="WSRPAdmin#CONSUMER_TABLE_ACTIONS_BUTTON" />
-		<execute function="AssertClick" locator1="MenuItem#MANAGE_PORTLETS" value1="Manage Portlets" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Manage Portlets">
+			<var name="key_menuItem" value="Manage Portlets" />
+		</execute>
 
 		<execute function="AssertClick" locator1="Button#ADD_PORTLET" value1="Add Portlet" />
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${consumerPortletName}" />
-		<execute function="Select" locator1="Select#REMOTE_PORTLET" value1="${consumerPortletType}" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${consumerPortletName}" />
+		</execute>
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute function="Select" locator1="Select#REMOTE_PORTLET" value1="${consumerPortletType}" />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="addProducerCP">
@@ -36,13 +40,14 @@
 
 		<execute function="AssertClick" locator1="Button#ADD_PRODUCER" value1="Add Producer" />
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${producerName}" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${producerName}" />
+		</execute>
+
 		<execute function="Select" locator1="Select#VERSION" value1="2.0" />
 		<execute function="Select" locator1="Select#AVAILABLE" value1="${portletsAvailableSelect}" />
 		<execute function="Click" locator1="Button#MOVE_AVAILABLE_TO_CURRENT" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="PortletEntry#save" />
 
 		<var name="key_producerName" value="${producerName}" />
 
@@ -51,8 +56,10 @@
 	</command>
 
 	<command name="tearDownCP">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="WSRP Admin" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Apps" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="WSRP Admin" />
 		</execute>
 
 		<execute function="AssertClick" locator1="NavTab#PRODUCERS" value1="Producers" />
@@ -61,7 +68,11 @@
 			<condition function="IsElementPresent" locator1="WSRPAdmin#PRODUCER_TABLE_ACTIONS_BUTTON_GENERIC" />
 			<then>
 				<execute function="Click" locator1="WSRPAdmin#PRODUCER_TABLE_ACTIONS_BUTTON_GENERIC" />
-				<execute function="AssertClickNoError" locator1="MenuItem#DELETE" value1="Delete" />
+
+				<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+					<var name="key_menuItem" value="Delete" />
+				</execute>
+
 				<execute function="Confirm" value1="Are you sure you want to delete this? It will be deleted immediately." />
 			</then>
 		</while>
@@ -73,7 +84,11 @@
 			<condition function="IsElementPresent" locator1="WSRPAdmin#CONSUMER_TABLE_ACTIONS_BUTTON_GENERIC" />
 			<then>
 				<execute function="Click" locator1="WSRPAdmin#CONSUMER_TABLE_ACTIONS_BUTTON_GENERIC" />
-				<execute function="AssertClickNoError" locator1="MenuItem#DELETE" value1="Delete" />
+
+				<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+					<var name="key_menuItem" value="Delete" />
+				</execute>
+
 				<execute function="Confirm" value1="Are you sure you want to delete this? It will be deleted immediately." />
 			</then>
 		</while>

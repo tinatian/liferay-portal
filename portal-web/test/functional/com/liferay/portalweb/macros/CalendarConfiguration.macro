@@ -3,12 +3,6 @@
 		<execute function="Uncheck" locator1="CalendarConfiguration#USER_SETTINGS_GLOBAL_TIME_ZONE_CHECKBOX" />
 	</command>
 
-	<command name="disableRSS">
-		<execute macro="CalendarConfiguration#gotoRSS" />
-
-		<execute function="Uncheck" locator1="CalendarConfiguration#RSS_ENABLE_RSS_SUBSCRIPTION_CHECKBOX" />
-	</command>
-
 	<command name="editTimeZonePacific">
 		<execute macro="CalendarConfiguration#disableGlobalTimeZone" />
 
@@ -23,6 +17,12 @@
 		</if>
 	</command>
 
+	<command name="editTimeZoneUTC">
+		<execute macro="CalendarConfiguration#disableGlobalTimeZone" />
+
+		<execute function="Select" locator1="CalendarConfiguration#USER_SETTINGS_TIME_ZONE_SELECT" value1="(UTC) Coordinated Universal Time" />
+	</command>
+
 	<command name="enableGlobalTimeZone">
 		<execute function="Check" locator1="CalendarConfiguration#USER_SETTINGS_GLOBAL_TIME_ZONE_CHECKBOX" />
 	</command>
@@ -30,7 +30,7 @@
 	<command name="enableRSS">
 		<execute macro="CalendarConfiguration#gotoRSS" />
 
-		<execute function="Check" locator1="CalendarConfiguration#RSS_ENABLE_RSS_SUBSCRIPTION_CHECKBOX" />
+		<execute function="Click" locator1="CalendarConfiguration#RSS_ENABLE_RSS_SUBSCRIPTION_SWITCHER" />
 	</command>
 
 	<command name="gotoRSS">
@@ -39,7 +39,7 @@
 
 	<command name="save">
 		<execute function="AssertClick" locator1="CalendarConfiguration#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CalendarConfiguration#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="selectDefaultDuration">
@@ -78,5 +78,9 @@
 		<execute macro="CalendarConfiguration#enableRSS" />
 
 		<execute macro="CalendarConfiguration#save" />
+	</command>
+
+	<command name="viewRSSOptionsDisabled">
+		<execute function="AssertElementNotPresent" locator1="CalendarConfiguration#RSS_SETTING_OPTIONS" />
 	</command>
 </definition>

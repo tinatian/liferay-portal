@@ -14,34 +14,34 @@
 
 package com.liferay.portlet.messageboards.util;
 
+import com.liferay.message.boards.kernel.model.MBCategory;
+import com.liferay.message.boards.kernel.model.MBCategoryConstants;
+import com.liferay.message.boards.kernel.model.MBDiscussion;
+import com.liferay.message.boards.kernel.model.MBThread;
+import com.liferay.message.boards.kernel.service.MBCategoryLocalServiceUtil;
+import com.liferay.message.boards.kernel.service.MBDiscussionLocalServiceUtil;
+import com.liferay.message.boards.kernel.service.MBThreadLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.DocumentImpl;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchEngineUtil;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portlet.messageboards.model.MBCategory;
-import com.liferay.portlet.messageboards.model.MBCategoryConstants;
-import com.liferay.portlet.messageboards.model.MBDiscussion;
-import com.liferay.portlet.messageboards.model.MBThread;
-import com.liferay.portlet.messageboards.service.MBCategoryLocalServiceUtil;
-import com.liferay.portlet.messageboards.service.MBDiscussionLocalServiceUtil;
-import com.liferay.portlet.messageboards.service.MBThreadLocalServiceUtil;
 
 import java.util.Locale;
 
@@ -86,7 +86,7 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 		addStatus(contextBooleanFilter, searchContext);
 
 		boolean discussion = GetterUtil.getBoolean(
-			searchContext.getAttribute("discussion"), false);
+			searchContext.getAttribute("discussion"));
 
 		contextBooleanFilter.addRequiredTerm("discussion", discussion);
 
@@ -115,13 +115,7 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 
 		searchContext.setSearchEngineId(getSearchEngineId());
 
-		Document document = new DocumentImpl();
-
-		document.addUID(CLASS_NAME, mbThread.getThreadId());
-
-		SearchEngineUtil.deleteDocument(
-			getSearchEngineId(), mbThread.getCompanyId(),
-			document.get(Field.UID), isCommitImmediately());
+		deleteDocument(mbThread.getCompanyId(), mbThread.getThreadId());
 	}
 
 	@Override
@@ -159,7 +153,7 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 	protected void doReindex(MBThread mbThread) throws Exception {
 		Document document = getDocument(mbThread);
 
-		SearchEngineUtil.updateDocument(
+		IndexWriterHelperUtil.updateDocument(
 			getSearchEngineId(), mbThread.getCompanyId(), document,
 			isCommitImmediately());
 	}
@@ -250,10 +244,10 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 			long companyId, long groupId, final long categoryId)
 		throws PortalException {
 
-		final ActionableDynamicQuery actionableDynamicQuery =
-			MBThreadLocalServiceUtil.getActionableDynamicQuery();
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			MBThreadLocalServiceUtil.getIndexableActionableDynamicQuery();
 
-		actionableDynamicQuery.setAddCriteriaMethod(
+		indexableActionableDynamicQuery.setAddCriteriaMethod(
 			new ActionableDynamicQuery.AddCriteriaMethod() {
 
 				@Override
@@ -271,9 +265,9 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 				}
 
 			});
-		actionableDynamicQuery.setCompanyId(companyId);
-		actionableDynamicQuery.setGroupId(groupId);
-		actionableDynamicQuery.setPerformActionMethod(
+		indexableActionableDynamicQuery.setCompanyId(companyId);
+		indexableActionableDynamicQuery.setGroupId(groupId);
+		indexableActionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<MBThread>() {
 
 				@Override
@@ -281,7 +275,7 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 					try {
 						Document document = getDocument(thread);
 
-						actionableDynamicQuery.addDocument(document);
+						indexableActionableDynamicQuery.addDocuments(document);
 					}
 					catch (PortalException pe) {
 						if (_log.isWarnEnabled()) {
@@ -294,9 +288,9 @@ public class MBThreadIndexer extends BaseIndexer<MBThread> {
 				}
 
 			});
-		actionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 
-		actionableDynamicQuery.performActions();
+		indexableActionableDynamicQuery.performActions();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

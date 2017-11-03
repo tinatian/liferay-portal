@@ -1,15 +1,15 @@
 <#list finderColsList as finderCol>
 	<#if sqlQuery?? && sqlQuery && (finderCol.name != finderCol.DBName)>
-		<#assign finderFieldSuffix = finderFieldSQLSuffix>
+		<#assign finderFieldSuffix = finderFieldSQLSuffix />
 	<#else>
-		<#assign finderFieldSuffix = "">
+		<#assign finderFieldSuffix = "" />
 	</#if>
 
 	<#if finderCol.hasArrayableOperator()>
 		if (${finderCol.names}.length > 0) {
 			query.append(StringPool.OPEN_PARENTHESIS);
 
-			<#if finderCol.type == "String">
+			<#if stringUtil.equals(finderCol.type, "String")>
 				for (int i = 0; i < ${finderCol.names}.length; i++) {
 					${finderCol.type} ${finderCol.name} = ${finderCol.names}[i];
 

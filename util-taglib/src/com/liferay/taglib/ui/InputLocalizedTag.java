@@ -15,12 +15,12 @@
 package com.liferay.taglib.ui;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.ModelHintsConstants;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.ModelHintsConstants;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.taglib.util.IncludeTag;
 
 import java.util.Locale;
@@ -101,6 +101,10 @@ public class InputLocalizedTag extends IncludeTag {
 		_name = name;
 	}
 
+	public void setPlaceholder(String placeholder) {
+		_placeholder = placeholder;
+	}
+
 	public void setToolbarSet(String toolbarSet) {
 		_toolbarSet = toolbarSet;
 	}
@@ -129,6 +133,7 @@ public class InputLocalizedTag extends IncludeTag {
 		_languageId = null;
 		_maxLength = null;
 		_name = null;
+		_placeholder = null;
 		_toolbarSet = "simple";
 		_type = "input";
 		_xml = null;
@@ -173,9 +178,9 @@ public class InputLocalizedTag extends IncludeTag {
 		request.setAttribute(
 			"liferay-ui:input-localized:defaultLanguageId", _defaultLanguageId);
 		request.setAttribute(
-			"liferay-ui:input-localized:displayWidth", _displayWidth);
-		request.setAttribute(
 			"liferay-ui:input-localized:disabled", String.valueOf(_disabled));
+		request.setAttribute(
+			"liferay-ui:input-localized:displayWidth", _displayWidth);
 		request.setAttribute(
 			"liferay-ui:input-localized:dynamicAttributes",
 			getDynamicAttributes());
@@ -196,6 +201,8 @@ public class InputLocalizedTag extends IncludeTag {
 		request.setAttribute(
 			"liferay-ui:input-localized:maxLength", _maxLength);
 		request.setAttribute("liferay-ui:input-localized:name", _name);
+		request.setAttribute(
+			"liferay-ui:input-localized:placeholder", _placeholder);
 		request.setAttribute(
 			"liferay-ui:input-localized:toolbarSet", _toolbarSet);
 		request.setAttribute("liferay-ui:input-localized:type", _type);
@@ -224,6 +231,7 @@ public class InputLocalizedTag extends IncludeTag {
 	private String _languageId;
 	private String _maxLength;
 	private String _name;
+	private String _placeholder;
 	private String _toolbarSet = "simple";
 	private String _type = "input";
 	private String _xml;

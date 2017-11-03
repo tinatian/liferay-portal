@@ -1,5 +1,17 @@
 <definition default="assertVisible">
 	<command name="assertVisible">
+		<execute function="WaitForSPARefresh" />
+
+		<execute selenium="waitForVisible" />
+
+		<execute selenium="assertVisible" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+	</command>
+
+	<command name="assertVisibleNoSPAWait">
 		<execute selenium="waitForVisible" />
 
 		<execute selenium="assertVisible" />
@@ -10,6 +22,8 @@
 	</command>
 
 	<command name="pauseAssertVisible">
+		<execute function="WaitForSPARefresh" />
+
 		<execute argument1="2000" selenium="pause" />
 
 		<execute function="AssertElementPresent#assertVisible" />

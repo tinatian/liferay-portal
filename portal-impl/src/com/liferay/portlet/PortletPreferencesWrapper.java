@@ -14,6 +14,7 @@
 
 package com.liferay.portlet;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.Enumeration;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
+import javax.portlet.ValidatorException;
 
 /**
  * @author Brian Wing Shun Chan
@@ -69,14 +71,6 @@ public class PortletPreferencesWrapper
 		return (PortletPreferencesImpl)_portletPreferences;
 	}
 
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getPortletPreferencesImpl}
-	 */
-	@Deprecated
-	public PortletPreferencesImpl getPreferencesImpl() {
-		return getPortletPreferencesImpl();
-	}
-
 	@Override
 	public String getValue(String key, String def) {
 		return _portletPreferences.getValue(key, def);
@@ -115,7 +109,7 @@ public class PortletPreferencesWrapper
 	}
 
 	@Override
-	public void store() {
+	public void store() throws IOException, ValidatorException {
 
 		// PLT.17.1, clv
 

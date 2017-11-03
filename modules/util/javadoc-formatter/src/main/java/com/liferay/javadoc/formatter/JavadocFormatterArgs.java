@@ -21,8 +21,6 @@ public class JavadocFormatterArgs {
 
 	public static final String AUTHOR = "Brian Wing Shun Chan";
 
-	public static final double LOWEST_SUPPORTED_JAVA_VERSION = 1.7;
-
 	public static final String OUTPUT_FILE_PREFIX = "javadocs";
 
 	public static final String OUTPUT_KEY_MODIFIED_FILES =
@@ -40,12 +38,12 @@ public class JavadocFormatterArgs {
 		return _limits;
 	}
 
-	public double getLowestSupportedJavaVersion() {
-		return _lowestSupportedJavaVersion;
-	}
-
 	public String getOutputFilePrefix() {
 		return _outputFilePrefix;
+	}
+
+	public boolean isGenerateXml() {
+		return _generateXml;
 	}
 
 	public boolean isInitializeMissingJavadocs() {
@@ -58,6 +56,10 @@ public class JavadocFormatterArgs {
 
 	public void setAuthor(String author) {
 		_author = author;
+	}
+
+	public void setGenerateXml(boolean generateXml) {
+		_generateXml = generateXml;
 	}
 
 	public void setInitializeMissingJavadocs(
@@ -78,12 +80,6 @@ public class JavadocFormatterArgs {
 		_limits = limits;
 	}
 
-	public void setLowestSupportedJavaVersion(
-		double lowestSupportedJavaVersion) {
-
-		_lowestSupportedJavaVersion = lowestSupportedJavaVersion;
-	}
-
 	public void setOutputFilePrefix(String outputFilePrefix) {
 		_outputFilePrefix = outputFilePrefix;
 	}
@@ -97,10 +93,10 @@ public class JavadocFormatterArgs {
 	}
 
 	private String _author = AUTHOR;
+	private boolean _generateXml;
 	private boolean _initializeMissingJavadocs;
 	private String _inputDirName = "./";
 	private String[] _limits = new String[0];
-	private double _lowestSupportedJavaVersion = LOWEST_SUPPORTED_JAVA_VERSION;
 	private String _outputFilePrefix = OUTPUT_FILE_PREFIX;
 	private boolean _updateJavadocs;
 

@@ -18,10 +18,13 @@ import org.apache.log4j.Level;
 
 /**
  * @author Brian Wing Shun Chan
+ * @see    com.liferay.petra.log4j.Levels
+ * @deprecated As of 7.0.0
  */
+@Deprecated
 public class Levels {
 
-	public static final Level[] ALL_LEVELS = new Level[] {
+	public static final Level[] ALL_LEVELS = {
 		Level.OFF, Level.FATAL, Level.ERROR, Level.WARN, Level.INFO,
 		Level.DEBUG, Level.TRACE, Level.ALL
 	};

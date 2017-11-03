@@ -18,30 +18,30 @@ import com.liferay.portal.events.EventsProcessorUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.SearchEngineUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.PortletCategory;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.VirtualHost;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.VirtualHostLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.LayoutSet;
-import com.liferay.portal.model.PortletCategory;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.VirtualHost;
-import com.liferay.portal.security.auth.CompanyThreadLocal;
-import com.liferay.portal.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.security.exportimport.UserImporterUtil;
-import com.liferay.portal.security.ldap.LDAPSettingsUtil;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutSetLocalServiceUtil;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.service.VirtualHostLocalServiceUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,76 +64,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PortalInstances {
 
 	public static void addCompanyId(long companyId) {
-		_instance._addCompanyId(companyId);
-	}
-
-	public static long getCompanyId(HttpServletRequest request) {
-		return _instance._getCompanyId(request);
-	}
-
-	public static long[] getCompanyIds() {
-		return _instance._getCompanyIds();
-	}
-
-	public static long[] getCompanyIdsBySQL() throws SQLException {
-		return _instance._getCompanyIdsBySQL();
-	}
-
-	public static long getDefaultCompanyId() {
-		return _instance._getDefaultCompanyId();
-	}
-
-	public static String[] getWebIds() {
-		return _instance._getWebIds();
-	}
-
-	public static long initCompany(
-		ServletContext servletContext, String webId) {
-
-		return _instance._initCompany(servletContext, webId);
-	}
-
-	public static boolean isAutoLoginIgnoreHost(String host) {
-		return _instance._isAutoLoginIgnoreHost(host);
-	}
-
-	public static boolean isAutoLoginIgnorePath(String path) {
-		return _instance._isAutoLoginIgnorePath(path);
-	}
-
-	public static boolean isCompanyActive(long companyId) {
-		return _instance._isCompanyActive(companyId);
-	}
-
-	public static boolean isVirtualHostsIgnoreHost(String host) {
-		return _instance._isVirtualHostsIgnoreHost(host);
-	}
-
-	public static boolean isVirtualHostsIgnorePath(String path) {
-		return _instance._isVirtualHostsIgnorePath(path);
-	}
-
-	public static void reload(ServletContext servletContext) {
-		_instance._reload(servletContext);
-	}
-
-	public static void removeCompany(long companyId) {
-		_instance._removeCompanyId(companyId);
-	}
-
-	private PortalInstances() {
-		_companyIds = new long[0];
-		_autoLoginIgnoreHosts = SetUtil.fromArray(
-			PropsUtil.getArray(PropsKeys.AUTO_LOGIN_IGNORE_HOSTS));
-		_autoLoginIgnorePaths = SetUtil.fromArray(
-			PropsUtil.getArray(PropsKeys.AUTO_LOGIN_IGNORE_PATHS));
-		_virtualHostsIgnoreHosts = SetUtil.fromArray(
-			PropsUtil.getArray(PropsKeys.VIRTUAL_HOSTS_IGNORE_HOSTS));
-		_virtualHostsIgnorePaths = SetUtil.fromArray(
-			PropsUtil.getArray(PropsKeys.VIRTUAL_HOSTS_IGNORE_PATHS));
-	}
-
-	private void _addCompanyId(long companyId) {
 		if (ArrayUtil.contains(_companyIds, companyId)) {
 			return;
 		}
@@ -147,7 +77,7 @@ public class PortalInstances {
 		_companyIds = companyIds;
 	}
 
-	private long _getCompanyId(HttpServletRequest request) {
+	public static long getCompanyId(HttpServletRequest request) {
 		if (_log.isDebugEnabled()) {
 			_log.debug("Get company id");
 		}
@@ -198,7 +128,7 @@ public class PortalInstances {
 		}
 
 		if (companyId <= 0) {
-			companyId = _getDefaultCompanyId();
+			companyId = getDefaultCompanyId();
 
 			if (_log.isDebugEnabled()) {
 				_log.debug("Default company id " + companyId);
@@ -236,54 +166,11 @@ public class PortalInstances {
 		return companyId;
 	}
 
-	private long _getCompanyIdByVirtualHosts(HttpServletRequest request) {
-		String host = PortalUtil.getHost(request);
-
-		if (_log.isDebugEnabled()) {
-			_log.debug("Host " + host);
-		}
-
-		if (Validator.isNull(host) || _isVirtualHostsIgnoreHost(host)) {
-			return 0;
-		}
-
-		try {
-			VirtualHost virtualHost =
-				VirtualHostLocalServiceUtil.fetchVirtualHost(host);
-
-			if (virtualHost == null) {
-				return 0;
-			}
-
-			if (virtualHost.getLayoutSetId() != 0) {
-				LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
-					virtualHost.getLayoutSetId());
-
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Company " + virtualHost.getCompanyId() +
-							" is associated with layout set " +
-								virtualHost.getLayoutSetId());
-				}
-
-				request.setAttribute(
-					WebKeys.VIRTUAL_HOST_LAYOUT_SET, layoutSet);
-			}
-
-			return virtualHost.getCompanyId();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-		}
-
-		return 0;
-	}
-
-	private long[] _getCompanyIds() {
+	public static long[] getCompanyIds() {
 		return _companyIds;
 	}
 
-	private long[] _getCompanyIdsBySQL() throws SQLException {
+	public static long[] getCompanyIdsBySQL() throws SQLException {
 		List<Long> companyIds = new ArrayList<>();
 
 		Connection con = null;
@@ -311,11 +198,11 @@ public class PortalInstances {
 			companyIds.toArray(new Long[companyIds.size()]));
 	}
 
-	private long _getDefaultCompanyId() {
+	public static long getDefaultCompanyId() {
 		return _companyIds[0];
 	}
 
-	private String[] _getWebIds() {
+	public static String[] getWebIds() {
 		if (_webIds != null) {
 			return _webIds;
 		}
@@ -354,7 +241,8 @@ public class PortalInstances {
 		return _webIds;
 	}
 
-	private long _initCompany(ServletContext servletContext, String webId) {
+	public static long initCompany(
+		ServletContext servletContext, String webId) {
 
 		// Begin initializing company
 
@@ -382,15 +270,14 @@ public class PortalInstances {
 
 			String principalName = null;
 
-			try {
-				User user = UserLocalServiceUtil.getUser(
-					PrincipalThreadLocal.getUserId());
+			long userId = PrincipalThreadLocal.getUserId();
 
-				if (user.getCompanyId() == companyId) {
+			if (userId > 0) {
+				User user = UserLocalServiceUtil.fetchUser(userId);
+
+				if ((user != null) && (user.getCompanyId() == companyId)) {
 					principalName = currentThreadPrincipalName;
 				}
-			}
-			catch (Exception e) {
 			}
 
 			PrincipalThreadLocal.setName(principalName);
@@ -405,8 +292,9 @@ public class PortalInstances {
 				String xml = HttpUtil.URLtoString(
 					servletContext.getResource("/WEB-INF/liferay-display.xml"));
 
-				PortletCategory portletCategory = (PortletCategory)
-					WebAppPool.get(companyId, WebKeys.PORTLET_CATEGORY);
+				PortletCategory portletCategory =
+					(PortletCategory)WebAppPool.get(
+						companyId, WebKeys.PORTLET_CATEGORY);
 
 				if (portletCategory == null) {
 					portletCategory = new PortletCategory();
@@ -436,17 +324,6 @@ public class PortalInstances {
 				_log.error(e, e);
 			}
 
-			// LDAP import
-
-			try {
-				if (LDAPSettingsUtil.isImportOnStartup(companyId)) {
-					UserImporterUtil.importUsers(companyId);
-				}
-			}
-			catch (Exception e) {
-				_log.error(e, e);
-			}
-
 			// Process application startup events
 
 			if (_log.isDebugEnabled()) {
@@ -467,8 +344,9 @@ public class PortalInstances {
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"End initializing company with web id " + webId +
-						" and company id " + companyId);
+					StringBundler.concat(
+						"End initializing company with web id ", webId,
+						" and company id ", String.valueOf(companyId)));
 			}
 
 			addCompanyId(companyId);
@@ -482,15 +360,15 @@ public class PortalInstances {
 		return companyId;
 	}
 
-	private boolean _isAutoLoginIgnoreHost(String host) {
+	public static boolean isAutoLoginIgnoreHost(String host) {
 		return _autoLoginIgnoreHosts.contains(host);
 	}
 
-	private boolean _isAutoLoginIgnorePath(String path) {
+	public static boolean isAutoLoginIgnorePath(String path) {
 		return _autoLoginIgnorePaths.contains(path);
 	}
 
-	private boolean _isCompanyActive(long companyId) {
+	public static boolean isCompanyActive(long companyId) {
 		try {
 			Company company = CompanyLocalServiceUtil.fetchCompanyById(
 				companyId);
@@ -506,34 +384,92 @@ public class PortalInstances {
 		return false;
 	}
 
-	private boolean _isVirtualHostsIgnoreHost(String host) {
+	public static boolean isVirtualHostsIgnoreHost(String host) {
 		return _virtualHostsIgnoreHosts.contains(host);
 	}
 
-	private boolean _isVirtualHostsIgnorePath(String path) {
+	public static boolean isVirtualHostsIgnorePath(String path) {
 		return _virtualHostsIgnorePaths.contains(path);
 	}
 
-	private void _reload(ServletContext servletContext) {
+	public static void reload(ServletContext servletContext) {
 		_companyIds = new long[0];
 		_webIds = null;
 
-		String[] webIds = _getWebIds();
+		String[] webIds = getWebIds();
 
 		for (String webId : webIds) {
-			_initCompany(servletContext, webId);
+			initCompany(servletContext, webId);
 		}
 	}
 
-	private void _removeCompanyId(long companyId) {
+	public static void removeCompany(long companyId) {
+		try {
+			EventsProcessorUtil.process(
+				PropsKeys.APPLICATION_SHUTDOWN_EVENTS,
+				PropsValues.APPLICATION_SHUTDOWN_EVENTS,
+				new String[] {String.valueOf(companyId)});
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
 		_companyIds = ArrayUtil.remove(_companyIds, companyId);
 		_webIds = null;
 
-		_getWebIds();
-
-		SearchEngineUtil.removeCompany(companyId);
+		getWebIds();
 
 		WebAppPool.remove(companyId, WebKeys.PORTLET_CATEGORY);
+	}
+
+	private static long _getCompanyIdByVirtualHosts(
+		HttpServletRequest request) {
+
+		String host = PortalUtil.getHost(request);
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Host " + host);
+		}
+
+		if (Validator.isNull(host) || isVirtualHostsIgnoreHost(host)) {
+			return 0;
+		}
+
+		try {
+			VirtualHost virtualHost =
+				VirtualHostLocalServiceUtil.fetchVirtualHost(host);
+
+			if (virtualHost == null) {
+				return 0;
+			}
+
+			if (virtualHost.getLayoutSetId() != 0) {
+				LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+					virtualHost.getLayoutSetId());
+
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						StringBundler.concat(
+							"Company ",
+							String.valueOf(virtualHost.getCompanyId()),
+							" is associated with layout set ",
+							String.valueOf(virtualHost.getLayoutSetId())));
+				}
+
+				request.setAttribute(
+					WebKeys.VIRTUAL_HOST_LAYOUT_SET, layoutSet);
+			}
+
+			return virtualHost.getCompanyId();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return 0;
+	}
+
+	private PortalInstances() {
 	}
 
 	private static final String _GET_COMPANY_IDS =
@@ -542,13 +478,23 @@ public class PortalInstances {
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortalInstances.class);
 
-	private static final PortalInstances _instance = new PortalInstances();
+	private static final Set<String> _autoLoginIgnoreHosts;
+	private static final Set<String> _autoLoginIgnorePaths;
+	private static long[] _companyIds;
+	private static final Set<String> _virtualHostsIgnoreHosts;
+	private static final Set<String> _virtualHostsIgnorePaths;
+	private static String[] _webIds;
 
-	private final Set<String> _autoLoginIgnoreHosts;
-	private final Set<String> _autoLoginIgnorePaths;
-	private long[] _companyIds;
-	private final Set<String> _virtualHostsIgnoreHosts;
-	private final Set<String> _virtualHostsIgnorePaths;
-	private String[] _webIds;
+	static {
+		_companyIds = new long[0];
+		_autoLoginIgnoreHosts = SetUtil.fromArray(
+			PropsUtil.getArray(PropsKeys.AUTO_LOGIN_IGNORE_HOSTS));
+		_autoLoginIgnorePaths = SetUtil.fromArray(
+			PropsUtil.getArray(PropsKeys.AUTO_LOGIN_IGNORE_PATHS));
+		_virtualHostsIgnoreHosts = SetUtil.fromArray(
+			PropsUtil.getArray(PropsKeys.VIRTUAL_HOSTS_IGNORE_HOSTS));
+		_virtualHostsIgnorePaths = SetUtil.fromArray(
+			PropsUtil.getArray(PropsKeys.VIRTUAL_HOSTS_IGNORE_PATHS));
+	}
 
 }

@@ -18,10 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.ClassNameServiceUtil;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-import com.liferay.portal.security.auth.HttpPrincipal;
-import com.liferay.portal.service.ClassNameServiceUtil;
 
 /**
  * Provides the HTTP utility for the
@@ -53,11 +54,38 @@ import com.liferay.portal.service.ClassNameServiceUtil;
  */
 @ProviderType
 public class ClassNameServiceHttp {
-	public static com.liferay.portal.model.ClassName fetchClassName(
+	public static com.liferay.portal.kernel.model.ClassName fetchByClassNameId(
+		HttpPrincipal httpPrincipal, long classNameId) {
+		try {
+			MethodKey methodKey = new MethodKey(ClassNameServiceUtil.class,
+					"fetchByClassNameId", _fetchByClassNameIdParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					classNameId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.model.ClassName)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.model.ClassName fetchClassName(
 		HttpPrincipal httpPrincipal, java.lang.String value) {
 		try {
 			MethodKey methodKey = new MethodKey(ClassNameServiceUtil.class,
-					"fetchClassName", _fetchClassNameParameterTypes0);
+					"fetchClassName", _fetchClassNameParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, value);
 
@@ -70,7 +98,7 @@ public class ClassNameServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.ClassName)returnObj;
+			return (com.liferay.portal.kernel.model.ClassName)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -80,7 +108,10 @@ public class ClassNameServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ClassNameServiceHttp.class);
-	private static final Class<?>[] _fetchClassNameParameterTypes0 = new Class[] {
+	private static final Class<?>[] _fetchByClassNameIdParameterTypes0 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _fetchClassNameParameterTypes1 = new Class[] {
 			java.lang.String.class
 		};
 }

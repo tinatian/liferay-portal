@@ -14,8 +14,8 @@
 
 package com.liferay.portlet.asset.util.comparator;
 
+import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portlet.asset.model.AssetTag;
 
 /**
  * @author Juan Fernández
@@ -30,6 +30,10 @@ public class AssetTagNameComparator extends OrderByComparator<AssetTag> {
 
 	public AssetTagNameComparator() {
 		this(true, false);
+	}
+
+	public AssetTagNameComparator(boolean ascending) {
+		this(ascending, false);
 	}
 
 	public AssetTagNameComparator(boolean ascending, boolean caseSensitive) {

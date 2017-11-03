@@ -48,6 +48,8 @@ import org.gradle.api.AntBuilder;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 
 /**
  * @author Andrea Di Giorgi
@@ -105,12 +107,22 @@ public class FileUtil {
 	public static File get(Project project, String url, File destinationFile)
 		throws IOException {
 
-		return get(project, url, destinationFile, false, true, false);
+		return get(project, url, destinationFile, false, true);
+	}
+
+	public static File get(
+			Project project, String url, File destinationFile,
+			boolean ignoreErrors, boolean tryLocalNetwork)
+		throws IOException {
+
+		return get(
+			project, url, null, null, destinationFile, ignoreErrors,
+			tryLocalNetwork);
 	}
 
 	public static synchronized File get(
-			Project project, String url, File destinationFile,
-			boolean ignoreErrors, boolean tryLocalNetwork, boolean verbose)
+			Project project, String url, String username, String password,
+			File destinationFile, boolean ignoreErrors, boolean tryLocalNetwork)
 		throws IOException {
 
 		String mirrorsCacheArtifactSubdir = url.replaceFirst(
@@ -128,24 +140,24 @@ public class FileUtil {
 			mirrorsCacheArtifactDir.mkdirs();
 
 			String mirrorsUrl = url.replaceFirst(
-				"http:\\/\\/", "http://mirrors/");
+				"https?:\\/\\/", "http://mirrors.lax.liferay.com/");
 
 			if (tryLocalNetwork) {
 				try {
 					_get(
-						project, mirrorsUrl, mirrorsCacheArtifactFile,
-						ignoreErrors, verbose);
+						project, mirrorsUrl, null, null,
+						mirrorsCacheArtifactFile, ignoreErrors);
 				}
 				catch (Exception e) {
 					_get(
-						project, url, mirrorsCacheArtifactFile, ignoreErrors,
-						verbose);
+						project, url, username, password,
+						mirrorsCacheArtifactFile, ignoreErrors);
 				}
 			}
 			else {
 				_get(
-					project, url, mirrorsCacheArtifactFile, ignoreErrors,
-					verbose);
+					project, url, username, password, mirrorsCacheArtifactFile,
+					ignoreErrors);
 			}
 		}
 
@@ -233,7 +245,7 @@ public class FileUtil {
 		Project project, final File destinationFile, final String duplicate,
 		final boolean update, final String[][] filesets) {
 
-		Closure<Void> closure = new Closure<Void>(null) {
+		Closure<Void> closure = new Closure<Void>(project) {
 
 			@SuppressWarnings("unused")
 			public void doCall(AntBuilder antBuilder) {
@@ -452,19 +464,37 @@ public class FileUtil {
 	}
 
 	private static void _get(
-		Project project, final String url, final File destinationFile,
-		final boolean ignoreErrors, final boolean verbose) {
+		Project project, final String url, final String username,
+		final String password, File destinationFile,
+		final boolean ignoreErrors) {
 
-		Closure<Void> closure = new Closure<Void>(null) {
+		final File tmpFile = new File(
+			destinationFile.getParentFile(),
+			destinationFile.getName() + ".tmp");
+
+		project.delete(destinationFile, tmpFile);
+
+		Closure<Void> closure = new Closure<Void>(project) {
 
 			@SuppressWarnings("unused")
 			public void doCall(AntBuilder antBuilder) {
 				Map<String, Object> args = new HashMap<>();
 
-				args.put("dest", destinationFile);
+				args.put("dest", tmpFile);
 				args.put("ignoreerrors", ignoreErrors);
 				args.put("src", url);
-				args.put("verbose", verbose);
+
+				if (Validator.isNotNull(username) &&
+					Validator.isNotNull(password)) {
+
+					args.put("password", password);
+					args.put("username", username);
+				}
+
+				if (_logger.isLifecycleEnabled()) {
+					_logger.lifecycle(
+						"Trying to download " + url + " to " + tmpFile);
+				}
 
 				antBuilder.invokeMethod("get", args);
 			}
@@ -472,6 +502,11 @@ public class FileUtil {
 		};
 
 		project.ant(closure);
+
+		if (!tmpFile.renameTo(destinationFile)) {
+			throw new GradleException(
+				"Unable to rename " + tmpFile + " to " + destinationFile);
+		}
 	}
 
 	private static long _getLastModified(File file) throws IOException {
@@ -522,7 +557,7 @@ public class FileUtil {
 	private static void _invokeAntMethodClasspath(
 		final AntBuilder antBuilder, final String path) {
 
-		Closure<Void> closure = new Closure<Void>(null) {
+		Closure<Void> closure = new Closure<Void>(antBuilder) {
 
 			@SuppressWarnings("unused")
 			public void doCall() {
@@ -563,7 +598,7 @@ public class FileUtil {
 
 		args.put("update", update);
 
-		Closure<Void> closure = new Closure<Void>(null) {
+		Closure<Void> closure = new Closure<Void>(antBuilder) {
 
 			@SuppressWarnings("unused")
 			public void doCall() {
@@ -583,7 +618,7 @@ public class FileUtil {
 
 		Map<String, File> args = Collections.singletonMap("file", file);
 
-		Closure<Void> closure = new Closure<Void>(null) {
+		Closure<Void> closure = new Closure<Void>(antBuilder) {
 
 			@SuppressWarnings("unused")
 			public void doCall() {
@@ -612,7 +647,7 @@ public class FileUtil {
 		args.put("maxParentLevels", 99);
 		args.put("property", property);
 
-		Closure<Void> closure = new Closure<Void>(null) {
+		Closure<Void> closure = new Closure<Void>(antBuilder) {
 
 			@SuppressWarnings("unused")
 			public void doCall() {
@@ -628,5 +663,7 @@ public class FileUtil {
 
 	private static final File _TMP_DIR = new File(
 		System.getProperty("java.io.tmpdir"));
+
+	private static final Logger _logger = Logging.getLogger(FileUtil.class);
 
 }

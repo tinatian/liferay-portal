@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.MVCCModel;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -149,6 +149,8 @@ public class CompanyCacheModel implements CacheModel<Company>, Externalizable,
 
 		companyImpl.resetOriginalValues();
 
+		companyImpl.setCompanySecurityBag(_companySecurityBag);
+
 		companyImpl.setKeyObj(_keyObj);
 
 		companyImpl.setVirtualHostname(_virtualHostname);
@@ -160,17 +162,24 @@ public class CompanyCacheModel implements CacheModel<Company>, Externalizable,
 	public void readExternal(ObjectInput objectInput)
 		throws ClassNotFoundException, IOException {
 		mvccVersion = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		accountId = objectInput.readLong();
 		webId = objectInput.readUTF();
 		key = objectInput.readUTF();
 		mx = objectInput.readUTF();
 		homeURL = objectInput.readUTF();
+
 		logoId = objectInput.readLong();
+
 		system = objectInput.readBoolean();
+
 		maxUsers = objectInput.readInt();
+
 		active = objectInput.readBoolean();
 
+		_companySecurityBag = (CompanyImpl.CompanySecurityBag)objectInput.readObject();
 		_keyObj = (java.security.Key)objectInput.readObject();
 		_virtualHostname = (java.lang.String)objectInput.readObject();
 	}
@@ -179,7 +188,9 @@ public class CompanyCacheModel implements CacheModel<Company>, Externalizable,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(accountId);
 
 		if (webId == null) {
@@ -211,10 +222,14 @@ public class CompanyCacheModel implements CacheModel<Company>, Externalizable,
 		}
 
 		objectOutput.writeLong(logoId);
+
 		objectOutput.writeBoolean(system);
+
 		objectOutput.writeInt(maxUsers);
+
 		objectOutput.writeBoolean(active);
 
+		objectOutput.writeObject(_companySecurityBag);
 		objectOutput.writeObject(_keyObj);
 		objectOutput.writeObject(_virtualHostname);
 	}
@@ -230,6 +245,7 @@ public class CompanyCacheModel implements CacheModel<Company>, Externalizable,
 	public boolean system;
 	public int maxUsers;
 	public boolean active;
+	public CompanyImpl.CompanySecurityBag _companySecurityBag;
 	public java.security.Key _keyObj;
 	public java.lang.String _virtualHostname;
 }

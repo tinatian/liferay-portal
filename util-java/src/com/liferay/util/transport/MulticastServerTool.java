@@ -15,6 +15,7 @@
 package com.liferay.util.transport;
 
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -37,16 +38,16 @@ public class MulticastServerTool {
 			DatagramHandler handler = new DatagramHandler() {
 
 				@Override
+				public void errorReceived(Throwable t) {
+					t.printStackTrace();
+				}
+
+				@Override
 				public void process(DatagramPacket packet) {
 					String s = new String(
 						packet.getData(), 0, packet.getLength());
 
 					System.out.println(s);
-				}
-
-				@Override
-				public void errorReceived(Throwable t) {
-					t.printStackTrace();
 				}
 
 			};
@@ -56,9 +57,9 @@ public class MulticastServerTool {
 
 			transport.connect();
 
-			String msg =
-				InetAddress.getLocalHost().getHostName() + ":" + port +
-					" heartbeat ";
+			String msg = StringBundler.concat(
+				InetAddress.getLocalHost().getHostName(), ":",
+				String.valueOf(port), " heartbeat ");
 
 			int i = 0;
 

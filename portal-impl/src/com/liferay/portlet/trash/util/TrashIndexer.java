@@ -27,13 +27,12 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.search.filter.QueryFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
-import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portlet.trash.model.TrashEntry;
+import com.liferay.trash.kernel.model.TrashEntry;
 
 import java.util.List;
 import java.util.Locale;
@@ -42,10 +41,12 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 /**
- * @author Julio Camarero
- * @author Zsolt Berentey
+ * @author     Julio Camarero
+ * @author     Zsolt Berentey
+ * @deprecated As of 7.0.0, replaced by {@link
+ *             com.liferay.trash.internal.search.TrashIndexer}
  */
-@OSGiBeanProperties
+@Deprecated
 public class TrashIndexer extends BaseIndexer<TrashEntry> {
 
 	public static final String CLASS_NAME = TrashEntry.class.getName();

@@ -49,7 +49,7 @@ String modelName = (String)request.getAttribute("liferay-ui:input-permissions:mo
 
 		Role guestRole = RoleLocalServiceUtil.getRole(themeDisplay.getCompanyId(), RoleConstants.GUEST);
 
-		String[] roleNames = new String[] {RoleConstants.GUEST};
+		String[] roleNames = {RoleConstants.GUEST};
 
 		if (hasViewDefaultGroupRolePermission) {
 			roleNames = ArrayUtil.append(roleNames, defaultGroupRole.getName());
@@ -86,13 +86,13 @@ String modelName = (String)request.getAttribute("liferay-ui:input-permissions:mo
 					<liferay-ui:message key="viewable-by" />
 				</label>
 
-				<select id="<%= uniqueNamespace %>inputPermissionsViewRole" name="<%= namespace %>inputPermissionsViewRole" onChange="<%= uniqueNamespace + "updatePermissionsView();" %>">
+				<select class="form-control" id="<%= uniqueNamespace %>inputPermissionsViewRole" name="<%= namespace %>inputPermissionsViewRole" onChange="<%= uniqueNamespace + "updatePermissionsView();" %>">
 
 					<%
 					String guestRoleLabel = LanguageUtil.format(request, "x-role", guestRole.getTitle(themeDisplay.getLocale()), false);
 
 					if (PropsValues.PERMISSIONS_CHECK_GUEST_ENABLED) {
-						guestRoleLabel = LanguageUtil.get(request, "anyone") + StringPool.SPACE + StringPool.OPEN_PARENTHESIS + guestRoleLabel + StringPool.CLOSE_PARENTHESIS;
+						guestRoleLabel = LanguageUtil.get(resourceBundle, "anyone") + StringPool.SPACE + StringPool.OPEN_PARENTHESIS + guestRoleLabel + StringPool.CLOSE_PARENTHESIS;
 					}
 					%>
 
@@ -121,106 +121,106 @@ String modelName = (String)request.getAttribute("liferay-ui:input-permissions:mo
 				</select>
 
 				<span <%= inputPermissionsShowOptions ? "class=\"hide\"" : "" %> id="<%= uniqueNamespace %>inputPermissionsShowOptionsLink">
-					<a href="javascript:<%= uniqueNamespace %>inputPermissionsShowOptions();" style="margin-left: 10px;"><liferay-ui:message key="more-options" /> &raquo;</a> <liferay-ui:icon-help message="input-permissions-more-options-help" />
+					<a href="javascript:<%= uniqueNamespace %>inputPermissionsShowOptions();"><liferay-ui:message key="more-options" /></a> <liferay-ui:icon-help message="input-permissions-more-options-help" />
 				</span>
 
-				<a <%= inputPermissionsShowOptions ? "" : "class=\"hide\"" %> href="javascript:<%= uniqueNamespace %>inputPermissionsHideOptions();" id="<%= uniqueNamespace %>inputPermissionsHideOptionsLink" style="margin-left: 10px;">&laquo; <liferay-ui:message key="hide-options" /></a>
+				<a <%= inputPermissionsShowOptions ? "" : "class=\"hide\"" %> href="javascript:<%= uniqueNamespace %>inputPermissionsHideOptions();" id="<%= uniqueNamespace %>inputPermissionsHideOptionsLink"><liferay-ui:message key="hide-options" /></a>
 			</p>
 		</c:if>
 
 		<div class="permissions-table-container">
 			<table class="lfr-table responsive-table-horizontal <%= (inputPermissionsShowOptions || !supportedActions.contains(ActionKeys.VIEW)) ? "" : "hide" %>" id="<%= uniqueNamespace %>inputPermissionsTable">
-			<thead>
-				<tr>
-					<th>
-						<liferay-ui:message key="roles" />
-					</th>
-
-					<%
-					for (int i = 0; i < supportedActions.size(); i++) {
-						String action = (String)supportedActions.get(i);
-					%>
-
-						<th <%= (action.equals(ActionKeys.VIEW)) ? "class=\"hide\"" : "" %>>
-							<%= ResourceActionsUtil.getAction(request, action) %>
+				<thead>
+					<tr>
+						<th>
+							<liferay-ui:message key="roles" />
 						</th>
 
-					<%
-					}
-					%>
+						<%
+						for (int i = 0; i < supportedActions.size(); i++) {
+							String action = (String)supportedActions.get(i);
+						%>
 
-				</tr>
-			</thead>
+							<th <%= (action.equals(ActionKeys.VIEW)) ? "class=\"hide\"" : "" %>>
+								<%= ResourceActionsUtil.getAction(request, action) %>
+							</th>
 
-			<%
-			for (String roleName : roleNames) {
-				Role role = RoleLocalServiceUtil.getRole(themeDisplay.getCompanyId(), roleName);
-			%>
-
-				<tr>
-					<td>
-						<%= role.getTitle(themeDisplay.getLocale()) %>
-					</td>
-
-					<%
-					for (int i = 0; i < supportedActions.size(); i++) {
-						String action = (String)supportedActions.get(i);
-
-						boolean checked = false;
-						boolean disabled = false;
-
-						if (roleName.equals(RoleConstants.GUEST)) {
-							disabled = guestUnsupportedActions.contains(action);
-
-							if (disabled) {
-								checked = false;
-							}
-							else if (submitted) {
-								checked = guestPermissions.contains(action);
-							}
-							else {
-								checked = guestDefaultActions.contains(action) && (inputPermissionsViewRole.equals(RoleConstants.GUEST));
-							}
+						<%
 						}
-						else if (roleName.equals(defaultGroupRole.getName())) {
-							if (submitted) {
-								checked = groupPermissions.contains(action);
-							}
-							else {
-								checked = groupDefaultActions.contains(action);
-							}
-						}
+						%>
 
-						String checkboxFieldId = null;
-						String checkboxFieldName = null;
+					</tr>
+				</thead>
 
-						if (roleName.equals(RoleConstants.GUEST)) {
-							checkboxFieldId = uniqueNamespace + "guestPermissions";
-							checkboxFieldName = namespace + guestPermissionsName;
-						}
-						else {
-							checkboxFieldId = uniqueNamespace + "groupPermissions";
-							checkboxFieldName = namespace + groupPermissionsName;
-						}
+				<%
+				for (String roleName : roleNames) {
+					Role role = RoleLocalServiceUtil.getRole(themeDisplay.getCompanyId(), roleName);
+				%>
 
-						checkboxFieldId = checkboxFieldId + StringPool.UNDERLINE + action;
-					%>
-
-						<td <%= (action.equals(ActionKeys.VIEW)) ? "class=\"hide-accessible\"" : "" %>>
-							<label class="hidden-label" for="<%= checkboxFieldId %>"><liferay-ui:message arguments="<%= new Object[] {ResourceActionsUtil.getAction(request, action), role.getTitle(themeDisplay.getLocale())} %>" key="give-x-permission-to-users-with-role-x" translateArguments="<%= false %>" /></label>
-
-							<input <%= checked ? "checked" : "" %> <%= disabled ? "disabled" : "" %> id="<%= checkboxFieldId %>" name="<%= checkboxFieldName %>" title='<%= LanguageUtil.format(request, "give-x-permission-to-users-with-role-x", new Object[] {ResourceActionsUtil.getAction(request, action), role.getTitle(themeDisplay.getLocale())}, false) %>' type="checkbox" value="<%= action %>" />
+					<tr>
+						<td>
+							<%= role.getTitle(themeDisplay.getLocale()) %>
 						</td>
 
-					<%
-					}
-					%>
+						<%
+						for (int i = 0; i < supportedActions.size(); i++) {
+							String action = (String)supportedActions.get(i);
 
-				</tr>
+							boolean checked = false;
+							boolean disabled = false;
 
-			<%
-			}
-			%>
+							if (roleName.equals(RoleConstants.GUEST)) {
+								disabled = guestUnsupportedActions.contains(action);
+
+								if (disabled) {
+									checked = false;
+								}
+								else if (submitted) {
+									checked = guestPermissions.contains(action);
+								}
+								else {
+									checked = guestDefaultActions.contains(action) && (inputPermissionsViewRole.equals(RoleConstants.GUEST));
+								}
+							}
+							else if (roleName.equals(defaultGroupRole.getName())) {
+								if (submitted) {
+									checked = groupPermissions.contains(action);
+								}
+								else {
+									checked = groupDefaultActions.contains(action);
+								}
+							}
+
+							String checkboxFieldId = null;
+							String checkboxFieldName = null;
+
+							if (roleName.equals(RoleConstants.GUEST)) {
+								checkboxFieldId = uniqueNamespace + "guestPermissions";
+								checkboxFieldName = namespace + guestPermissionsName;
+							}
+							else {
+								checkboxFieldId = uniqueNamespace + "groupPermissions";
+								checkboxFieldName = namespace + groupPermissionsName;
+							}
+
+							checkboxFieldId = checkboxFieldId + StringPool.UNDERLINE + action;
+						%>
+
+							<td <%= (action.equals(ActionKeys.VIEW)) ? "class=\"hide\"" : "" %>>
+								<label class="hidden-label" for="<%= checkboxFieldId %>"><liferay-ui:message arguments="<%= new Object[] {ResourceActionsUtil.getAction(request, action), role.getTitle(themeDisplay.getLocale())} %>" key="give-x-permission-to-users-with-role-x" translateArguments="<%= false %>" /></label>
+
+								<input <%= checked ? "checked" : "" %> <%= disabled ? "disabled" : "" %> id="<%= checkboxFieldId %>" name="<%= checkboxFieldName %>" title='<%= LanguageUtil.format(request, "give-x-permission-to-users-with-role-x", new Object[] {ResourceActionsUtil.getAction(request, action), role.getTitle(themeDisplay.getLocale())}, false) %>' type="checkbox" value="<%= action %>" />
+							</td>
+
+						<%
+						}
+						%>
+
+					</tr>
+
+				<%
+				}
+				%>
 
 			</table>
 		</div>
@@ -249,8 +249,8 @@ String modelName = (String)request.getAttribute("liferay-ui:input-permissions:mo
 
 				var viewableBy = $('#<%= uniqueNamespace %>inputPermissionsViewRole').val();
 
-				var checkGuestViewPermissions = false;
 				var checkGroupViewPermissions = false;
+				var checkGuestViewPermissions = false;
 
 				if (viewableBy == '<%= RoleConstants.GUEST %>') {
 					checkGuestViewPermissions = true;

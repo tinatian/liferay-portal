@@ -14,55 +14,219 @@
 
 package com.liferay.portal.security.permission;
 
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.Role;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.security.permission.UserBag;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * @author László Csontos
+ * @author Preston Crary
  */
 public class UserBagImpl implements UserBag {
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	public UserBagImpl(
-		long userId, Set<Group> userGroups, Set<Organization> userOrgs,
-		Set<Group> userOrgGroups, Set<Group> userUserGroupGroups,
-		Set<Role> userRoles) {
+		long userId, Collection<Group> userGroups,
+		Collection<Organization> userOrgs, Collection<Group> userOrgGroups,
+		Collection<Group> userUserGroupGroups, Collection<Role> userRoles) {
 
 		_userId = userId;
-		_userGroups = Collections.unmodifiableSet(userGroups);
-		_userOrgs = Collections.unmodifiableSet(userOrgs);
-		_userOrgGroups = Collections.unmodifiableSet(userOrgGroups);
-		_userUserGroupGroups = Collections.unmodifiableSet(userUserGroupGroups);
-		_userRoles = Collections.unmodifiableSet(userRoles);
+
+		_userGroupIds = _toSortedLongArray(userGroups);
+		_userOrgGroupIds = _toSortedLongArray(userOrgGroups);
+		_userOrgIds = _toSortedLongArray(userOrgs);
+		_userRoleIds = _toSortedLongArray(userRoles);
+		_userUserGroupGroupsIds = _toSortedLongArray(userUserGroupGroups);
+
+		_userUserGroupIds = UserLocalServiceUtil.getUserGroupPrimaryKeys(
+			userId);
+
+		Arrays.sort(_userUserGroupIds);
+	}
+
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public UserBagImpl(
+		long userId, Collection<Group> userGroups,
+		Collection<Organization> userOrgs, Collection<Group> userOrgGroups,
+		Collection<Group> userUserGroupGroups, long[] userRoleIds) {
+
+		_userId = userId;
+
+		_userRoleIds = userRoleIds;
+
+		Arrays.sort(_userRoleIds);
+
+		_userGroupIds = _toSortedLongArray(userGroups);
+		_userOrgGroupIds = _toSortedLongArray(userOrgGroups);
+		_userOrgIds = _toSortedLongArray(userOrgs);
+
+		_userUserGroupGroupsIds = _toSortedLongArray(userUserGroupGroups);
+
+		_userUserGroupIds = UserLocalServiceUtil.getUserGroupPrimaryKeys(
+			userId);
+
+		Arrays.sort(_userUserGroupIds);
+	}
+
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public UserBagImpl(
+		long userId, Collection<Group> userGroups,
+		Collection<Organization> userOrgs, Collection<Long> userOrgGroups,
+		Collection<UserGroup> userUserGroups, long[] userUserGroupGroups,
+		Collection<Role> userRoles) {
+
+		_userId = userId;
+
+		_userGroupIds = _toSortedLongArray(userGroups);
+
+		_userOrgGroupIds = ArrayUtil.toLongArray(userOrgGroups);
+
+		Arrays.sort(_userOrgGroupIds);
+
+		_userOrgIds = _toSortedLongArray(userOrgs);
+		_userRoleIds = _toSortedLongArray(userRoles);
+		_userUserGroupGroupsIds = userUserGroupGroups;
+
+		Arrays.sort(_userUserGroupGroupsIds);
+
+		_userUserGroupIds = _toSortedLongArray(userUserGroups);
+	}
+
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	public UserBagImpl(
+		long userId, Collection<Group> userGroups,
+		Collection<Organization> userOrgs, Collection<Long> userOrgGroups,
+		Collection<UserGroup> userUserGroups, long[] userUserGroupGroups,
+		long[] userRoleIds) {
+
+		_userId = userId;
+
+		_userRoleIds = userRoleIds;
+
+		Arrays.sort(_userRoleIds);
+
+		_userGroupIds = _toSortedLongArray(userGroups);
+
+		_userOrgGroupIds = ArrayUtil.toLongArray(userOrgGroups);
+
+		Arrays.sort(_userOrgGroupIds);
+
+		_userOrgIds = _toSortedLongArray(userOrgs);
+
+		_userUserGroupGroupsIds = userUserGroupGroups;
+
+		Arrays.sort(_userUserGroupGroupsIds);
+
+		_userUserGroupIds = _toSortedLongArray(userUserGroups);
+	}
+
+	public UserBagImpl(
+		long userId, long[] userGroupsId, Collection<Organization> userOrgs,
+		Collection<Long> userOrgGroups, Collection<UserGroup> userUserGroups,
+		long[] userUserGroupGroups, Collection<Role> userRoles) {
+
+		_userId = userId;
+
+		_userGroupIds = userGroupsId;
+
+		Arrays.sort(_userGroupIds);
+
+		_userOrgGroupIds = ArrayUtil.toLongArray(userOrgGroups);
+
+		Arrays.sort(_userOrgGroupIds);
+
+		_userOrgIds = _toSortedLongArray(userOrgs);
+		_userRoleIds = _toSortedLongArray(userRoles);
+		_userUserGroupGroupsIds = userUserGroupGroups;
+
+		Arrays.sort(_userUserGroupGroupsIds);
+
+		_userUserGroupIds = _toSortedLongArray(userUserGroups);
+	}
+
+	public UserBagImpl(
+		long userId, long[] userGroupsIds, Collection<Organization> userOrgs,
+		Collection<Long> userOrgGroups, Collection<UserGroup> userUserGroups,
+		long[] userUserGroupGroups, long[] userRoleIds) {
+
+		_userId = userId;
+
+		_userRoleIds = userRoleIds;
+
+		Arrays.sort(_userRoleIds);
+
+		_userGroupIds = userGroupsIds;
+
+		Arrays.sort(userGroupsIds);
+
+		_userOrgGroupIds = ArrayUtil.toLongArray(userOrgGroups);
+
+		Arrays.sort(_userOrgGroupIds);
+
+		_userOrgIds = _toSortedLongArray(userOrgs);
+
+		_userUserGroupGroupsIds = userUserGroupGroups;
+
+		Arrays.sort(_userUserGroupGroupsIds);
+
+		_userUserGroupIds = _toSortedLongArray(userUserGroups);
 	}
 
 	@Override
-	public Set<Group> getGroups() {
-		if (_groups == null) {
-			_groups = new HashSet<>();
+	public Set<Group> getGroups() throws PortalException {
+		Set<Group> groups = new HashSet<>(getUserGroups());
 
-			_groups.addAll(_userGroups);
-			_groups.addAll(_userOrgGroups);
-			_groups.addAll(_userUserGroupGroups);
+		groups.addAll(getUserOrgGroups());
+		groups.addAll(getUserUserGroupGroups());
 
-			_groups = Collections.unmodifiableSet(_groups);
-		}
-
-		return _groups;
+		return groups;
 	}
 
 	@Override
-	public Set<Role> getRoles() {
-		return _userRoles;
+	public long[] getRoleIds() {
+		return _userRoleIds.clone();
 	}
 
 	@Override
-	public Set<Group> getUserGroups() {
-		return _userGroups;
+	public List<Role> getRoles() throws PortalException {
+		return RoleLocalServiceUtil.getRoles(_userRoleIds);
+	}
+
+	@Override
+	public long[] getUserGroupIds() {
+		return _userGroupIds.clone();
+	}
+
+	@Override
+	public List<Group> getUserGroups() throws PortalException {
+		return GroupLocalServiceUtil.getGroups(_userGroupIds);
 	}
 
 	@Override
@@ -71,31 +235,89 @@ public class UserBagImpl implements UserBag {
 	}
 
 	@Override
-	public Set<Group> getUserOrgGroups() {
-		return _userOrgGroups;
+	public long[] getUserOrgGroupIds() {
+		return _userOrgGroupIds.clone();
 	}
 
 	@Override
-	public Set<Organization> getUserOrgs() {
-		return _userOrgs;
+	public List<Group> getUserOrgGroups() throws PortalException {
+		return GroupLocalServiceUtil.getGroups(_userOrgGroupIds);
 	}
 
 	@Override
-	public Set<Group> getUserUserGroupGroups() {
-		return _userUserGroupGroups;
+	public long[] getUserOrgIds() {
+		return _userOrgIds.clone();
+	}
+
+	@Override
+	public List<Organization> getUserOrgs() throws PortalException {
+		return OrganizationLocalServiceUtil.getOrganizations(_userOrgIds);
+	}
+
+	@Override
+	public List<Group> getUserUserGroupGroups() throws PortalException {
+		return GroupLocalServiceUtil.getGroups(_userUserGroupGroupsIds);
+	}
+
+	@Override
+	public long[] getUserUserGroupsIds() {
+		return _userUserGroupIds;
 	}
 
 	@Override
 	public boolean hasRole(Role role) {
-		return _userRoles.contains(role);
+		return _search(_userRoleIds, role.getRoleId());
 	}
 
-	private Set<Group> _groups;
-	private final Set<Group> _userGroups;
+	@Override
+	public boolean hasUserGroup(Group group) {
+		return _search(_userGroupIds, group.getGroupId());
+	}
+
+	@Override
+	public boolean hasUserOrg(Organization organization) {
+		return _search(_userOrgIds, organization.getOrganizationId());
+	}
+
+	@Override
+	public boolean hasUserOrgGroup(Group group) {
+		return _search(_userOrgGroupIds, group.getGroupId());
+	}
+
+	private static boolean _search(long[] ids, long id) {
+		if (Arrays.binarySearch(ids, id) >= 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private static long[] _toSortedLongArray(
+		Collection<? extends BaseModel<?>> baseModels) {
+
+		if ((baseModels == null) || baseModels.isEmpty()) {
+			return new long[0];
+		}
+
+		long[] array = new long[baseModels.size()];
+
+		int index = 0;
+
+		for (BaseModel<?> baseModel : baseModels) {
+			array[index++] = (long)baseModel.getPrimaryKeyObj();
+		}
+
+		Arrays.sort(array);
+
+		return array;
+	}
+
+	private final long[] _userGroupIds;
 	private final long _userId;
-	private final Set<Group> _userOrgGroups;
-	private final Set<Organization> _userOrgs;
-	private final Set<Role> _userRoles;
-	private final Set<Group> _userUserGroupGroups;
+	private final long[] _userOrgGroupIds;
+	private final long[] _userOrgIds;
+	private final long[] _userRoleIds;
+	private final long[] _userUserGroupGroupsIds;
+	private final long[] _userUserGroupIds;
 
 }

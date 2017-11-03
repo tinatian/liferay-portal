@@ -1,14 +1,14 @@
 package ${packagePath}.model.impl;
 
-import ${packagePath}.model.${entity.name};
+import ${apiPackagePath}.model.${entity.name};
 
 <#if entity.hasLocalService() && entity.hasColumns()>
-	import ${packagePath}.service.${entity.name}LocalServiceUtil;
+	import ${apiPackagePath}.service.${entity.name}LocalServiceUtil;
 
 	import com.liferay.portal.kernel.exception.PortalException;
+	import com.liferay.portal.kernel.model.TreeModel;
 	import com.liferay.portal.kernel.util.StringBundler;
 	import com.liferay.portal.kernel.util.StringPool;
-	import com.liferay.portal.model.TreeModel;
 
 	import java.util.ArrayList;
 	import java.util.List;
@@ -25,7 +25,7 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author ${author}
  * @see ${entity.name}Impl
- * @see ${packagePath}.model.${entity.name}
+ * @see ${apiPackagePath}.model.${entity.name}
 <#if classDeprecated>
  * @deprecated ${classDeprecatedComment}
 </#if>
@@ -57,7 +57,7 @@ public abstract class ${entity.name}BaseImpl extends ${entity.name}ModelImpl imp
 		}
 
 		<#if entity.isTreeModel()>
-			<#assign pkColumn = entity.getPKList()?first>
+			<#assign pkColumn = entity.getPKList()?first />
 
 			<#if entity.hasColumn("parent" + pkColumn.methodName)>
 				@Override

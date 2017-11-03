@@ -16,7 +16,6 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchResourceActionException;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,18 +25,17 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchResourceActionException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceAction;
+import com.liferay.portal.kernel.service.persistence.ResourceActionPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.ResourceAction;
 import com.liferay.portal.model.impl.ResourceActionImpl;
 import com.liferay.portal.model.impl.ResourceActionModelImpl;
-import com.liferay.portal.service.persistence.ResourceActionPersistence;
 
 import java.io.Serializable;
 
@@ -47,6 +45,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -58,7 +57,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see ResourceActionPersistence
- * @see com.liferay.portal.service.persistence.ResourceActionUtil
+ * @see com.liferay.portal.kernel.service.persistence.ResourceActionUtil
  * @generated
  */
 @ProviderType
@@ -195,7 +194,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ResourceAction resourceAction : list) {
-					if (!Validator.equals(name, resourceAction.getName())) {
+					if (!Objects.equals(name, resourceAction.getName())) {
 						list = null;
 
 						break;
@@ -209,7 +208,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -437,8 +436,9 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -668,8 +668,8 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchResourceActionException(msg.toString());
@@ -713,8 +713,8 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		if (result instanceof ResourceAction) {
 			ResourceAction resourceAction = (ResourceAction)result;
 
-			if (!Validator.equals(name, resourceAction.getName()) ||
-					!Validator.equals(actionId, resourceAction.getActionId())) {
+			if (!Objects.equals(name, resourceAction.getName()) ||
+					!Objects.equals(actionId, resourceAction.getActionId())) {
 				result = null;
 			}
 		}
@@ -989,7 +989,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ResourceActionModelImpl)resourceAction);
+		clearUniqueFindersCache((ResourceActionModelImpl)resourceAction, true);
 	}
 
 	@Override
@@ -1001,52 +1001,39 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 			entityCache.removeResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
 				ResourceActionImpl.class, resourceAction.getPrimaryKey());
 
-			clearUniqueFindersCache((ResourceActionModelImpl)resourceAction);
+			clearUniqueFindersCache((ResourceActionModelImpl)resourceAction,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		ResourceActionModelImpl resourceActionModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					resourceActionModelImpl.getName(),
-					resourceActionModelImpl.getActionId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_N_A, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_N_A, args,
-				resourceActionModelImpl);
-		}
-		else {
-			if ((resourceActionModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_N_A.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						resourceActionModelImpl.getName(),
-						resourceActionModelImpl.getActionId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_N_A, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_N_A, args,
-					resourceActionModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		ResourceActionModelImpl resourceActionModelImpl) {
 		Object[] args = new Object[] {
 				resourceActionModelImpl.getName(),
 				resourceActionModelImpl.getActionId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_N_A, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_N_A, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_N_A, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_N_A, args,
+			resourceActionModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ResourceActionModelImpl resourceActionModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					resourceActionModelImpl.getName(),
+					resourceActionModelImpl.getActionId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_N_A, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_N_A, args);
+		}
 
 		if ((resourceActionModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_N_A.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					resourceActionModelImpl.getOriginalName(),
 					resourceActionModelImpl.getOriginalActionId()
 				};
@@ -1104,8 +1091,8 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 					primaryKey);
 
 			if (resourceAction == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchResourceActionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1188,8 +1175,20 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ResourceActionModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ResourceActionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { resourceActionModelImpl.getName() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1215,8 +1214,8 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 			ResourceActionImpl.class, resourceAction.getPrimaryKey(),
 			resourceAction, false);
 
-		clearUniqueFindersCache(resourceActionModelImpl);
-		cacheUniqueFindersCache(resourceActionModelImpl, isNew);
+		clearUniqueFindersCache(resourceActionModelImpl, false);
+		cacheUniqueFindersCache(resourceActionModelImpl);
 
 		resourceAction.resetOriginalValues();
 
@@ -1243,7 +1242,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 	}
 
 	/**
-	 * Returns the resource action with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the resource action with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the resource action
 	 * @return the resource action
@@ -1255,8 +1254,8 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		ResourceAction resourceAction = fetchByPrimaryKey(primaryKey);
 
 		if (resourceAction == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchResourceActionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1287,12 +1286,14 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 	 */
 	@Override
 	public ResourceAction fetchByPrimaryKey(Serializable primaryKey) {
-		ResourceAction resourceAction = (ResourceAction)entityCache.getResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
 				ResourceActionImpl.class, primaryKey);
 
-		if (resourceAction == _nullResourceAction) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		ResourceAction resourceAction = (ResourceAction)serializable;
 
 		if (resourceAction == null) {
 			Session session = null;
@@ -1308,8 +1309,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 				}
 				else {
 					entityCache.putResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
-						ResourceActionImpl.class, primaryKey,
-						_nullResourceAction);
+						ResourceActionImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1363,18 +1363,20 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			ResourceAction resourceAction = (ResourceAction)entityCache.getResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
 					ResourceActionImpl.class, primaryKey);
 
-			if (resourceAction == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, resourceAction);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (ResourceAction)serializable);
+				}
 			}
 		}
 
@@ -1388,7 +1390,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		query.append(_SQL_SELECT_RESOURCEACTION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -1416,7 +1418,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(ResourceActionModelImpl.ENTITY_CACHE_ENABLED,
-					ResourceActionImpl.class, primaryKey, _nullResourceAction);
+					ResourceActionImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1518,7 +1520,7 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_RESOURCEACTION);
 
@@ -1649,35 +1651,4 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ResourceAction exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ResourceAction exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(ResourceActionPersistenceImpl.class);
-	private static final ResourceAction _nullResourceAction = new ResourceActionImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<ResourceAction> toCacheModel() {
-				return _nullResourceActionCacheModel;
-			}
-		};
-
-	private static final CacheModel<ResourceAction> _nullResourceActionCacheModel =
-		new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<ResourceAction>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public ResourceAction toEntityModel() {
-			return _nullResourceAction;
-		}
-	}
 }

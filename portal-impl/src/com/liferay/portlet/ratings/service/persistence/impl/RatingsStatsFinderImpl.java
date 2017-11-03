@@ -21,11 +21,11 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portlet.ratings.model.RatingsStats;
 import com.liferay.portlet.ratings.model.impl.RatingsStatsImpl;
 import com.liferay.portlet.ratings.model.impl.RatingsStatsModelImpl;
-import com.liferay.portlet.ratings.service.persistence.RatingsStatsFinder;
-import com.liferay.portlet.ratings.service.persistence.RatingsStatsUtil;
+import com.liferay.ratings.kernel.model.RatingsStats;
+import com.liferay.ratings.kernel.service.persistence.RatingsStatsFinder;
+import com.liferay.ratings.kernel.service.persistence.RatingsStatsUtil;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.io.Serializable;
@@ -35,9 +35,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author Shuyang Zhou
- * @author Brian Wing Shun Chan
+ * @author     Shuyang Zhou
+ * @author     Brian Wing Shun Chan
+ * @deprecated As of 7.0.0, with no direct replacement
  */
+@Deprecated
 public class RatingsStatsFinderImpl
 	extends RatingsStatsFinderBaseImpl implements RatingsStatsFinder {
 
@@ -47,9 +49,8 @@ public class RatingsStatsFinderImpl
 	public static final FinderPath FINDER_PATH_FIND_BY_C_C = new FinderPath(
 		RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 		RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
-		RatingsStatsPersistenceImpl.FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-		"findByC_C",
-		new String[] {Long.class.getName(), List.class.getName()});
+		RatingsStatsPersistenceImpl.FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+		"findByC_C", new String[] {Long.class.getName(), List.class.getName()});
 
 	@Override
 	public Map<Serializable, RatingsStats> fetchByPrimaryKeys(
@@ -60,7 +61,7 @@ public class RatingsStatsFinderImpl
 
 	@Override
 	public List<RatingsStats> findByC_C(long classNameId, List<Long> classPKs) {
-		Object[] finderArgs = new Object[] {
+		Object[] finderArgs = {
 			classNameId,
 			StringUtil.merge(classPKs.toArray(new Long[classPKs.size()]))
 		};

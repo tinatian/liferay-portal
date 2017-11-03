@@ -16,6 +16,7 @@ package com.liferay.portlet.trash.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -27,17 +28,19 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
-import com.liferay.portlet.trash.NoSuchEntryException;
-import com.liferay.portlet.trash.model.TrashEntry;
 import com.liferay.portlet.trash.model.impl.TrashEntryImpl;
 import com.liferay.portlet.trash.model.impl.TrashEntryModelImpl;
-import com.liferay.portlet.trash.service.persistence.TrashEntryPersistence;
+
+import com.liferay.trash.kernel.exception.NoSuchEntryException;
+import com.liferay.trash.kernel.model.TrashEntry;
+import com.liferay.trash.kernel.service.persistence.TrashEntryPersistence;
 
 import java.io.Serializable;
 
@@ -61,7 +64,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see TrashEntryPersistence
- * @see com.liferay.portlet.trash.service.persistence.TrashEntryUtil
+ * @see com.liferay.trash.kernel.service.persistence.TrashEntryUtil
  * @generated
  */
 @ProviderType
@@ -209,7 +212,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -422,8 +425,9 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -711,7 +715,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -927,8 +931,9 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1212,7 +1217,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1454,11 +1459,12 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_TRASHENTRY_WHERE);
@@ -1787,7 +1793,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2018,11 +2024,12 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_TRASHENTRY_WHERE);
@@ -2208,7 +2215,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	 * Returns the trash entry where classNameId = &#63; and classPK = &#63; or throws a {@link NoSuchEntryException} if it could not be found.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the matching trash entry
 	 * @throws NoSuchEntryException if a matching trash entry could not be found
 	 */
@@ -2230,8 +2237,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchEntryException(msg.toString());
@@ -2244,7 +2251,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	 * Returns the trash entry where classNameId = &#63; and classPK = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the matching trash entry, or <code>null</code> if a matching trash entry could not be found
 	 */
 	@Override
@@ -2256,7 +2263,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	 * Returns the trash entry where classNameId = &#63; and classPK = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching trash entry, or <code>null</code> if a matching trash entry could not be found
 	 */
@@ -2347,7 +2354,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	 * Removes the trash entry where classNameId = &#63; and classPK = &#63; from the database.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the trash entry that was removed
 	 */
 	@Override
@@ -2362,7 +2369,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	 * Returns the number of trash entries where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the number of matching trash entries
 	 */
 	@Override
@@ -2488,7 +2495,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((TrashEntryModelImpl)trashEntry);
+		clearUniqueFindersCache((TrashEntryModelImpl)trashEntry, true);
 	}
 
 	@Override
@@ -2500,52 +2507,38 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 			entityCache.removeResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
 				TrashEntryImpl.class, trashEntry.getPrimaryKey());
 
-			clearUniqueFindersCache((TrashEntryModelImpl)trashEntry);
+			clearUniqueFindersCache((TrashEntryModelImpl)trashEntry, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		TrashEntryModelImpl trashEntryModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					trashEntryModelImpl.getClassNameId(),
-					trashEntryModelImpl.getClassPK()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_C_C, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_C_C, args,
-				trashEntryModelImpl);
-		}
-		else {
-			if ((trashEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_C_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						trashEntryModelImpl.getClassNameId(),
-						trashEntryModelImpl.getClassPK()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_C_C, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_C_C, args,
-					trashEntryModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		TrashEntryModelImpl trashEntryModelImpl) {
 		Object[] args = new Object[] {
 				trashEntryModelImpl.getClassNameId(),
 				trashEntryModelImpl.getClassPK()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_C_C, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_C, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_C, args,
+			trashEntryModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		TrashEntryModelImpl trashEntryModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					trashEntryModelImpl.getClassNameId(),
+					trashEntryModelImpl.getClassPK()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_C, args);
+		}
 
 		if ((trashEntryModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_C_C.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					trashEntryModelImpl.getOriginalClassNameId(),
 					trashEntryModelImpl.getOriginalClassPK()
 				};
@@ -2567,6 +2560,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 		trashEntry.setNew(true);
 		trashEntry.setPrimaryKey(entryId);
+
+		trashEntry.setCompanyId(companyProvider.getCompanyId());
 
 		return trashEntry;
 	}
@@ -2602,8 +2597,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 					primaryKey);
 
 			if (trashEntry == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchEntryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2686,8 +2681,35 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !TrashEntryModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!TrashEntryModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { trashEntryModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] { trashEntryModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				args);
+
+			args = new Object[] {
+					trashEntryModelImpl.getGroupId(),
+					trashEntryModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2750,8 +2772,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		entityCache.putResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TrashEntryImpl.class, trashEntry.getPrimaryKey(), trashEntry, false);
 
-		clearUniqueFindersCache(trashEntryModelImpl);
-		cacheUniqueFindersCache(trashEntryModelImpl, isNew);
+		clearUniqueFindersCache(trashEntryModelImpl, false);
+		cacheUniqueFindersCache(trashEntryModelImpl);
 
 		trashEntry.resetOriginalValues();
 
@@ -2784,7 +2806,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	}
 
 	/**
-	 * Returns the trash entry with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the trash entry with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the trash entry
 	 * @return the trash entry
@@ -2796,8 +2818,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		TrashEntry trashEntry = fetchByPrimaryKey(primaryKey);
 
 		if (trashEntry == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchEntryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2828,12 +2850,14 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	 */
 	@Override
 	public TrashEntry fetchByPrimaryKey(Serializable primaryKey) {
-		TrashEntry trashEntry = (TrashEntry)entityCache.getResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
 				TrashEntryImpl.class, primaryKey);
 
-		if (trashEntry == _nullTrashEntry) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		TrashEntry trashEntry = (TrashEntry)serializable;
 
 		if (trashEntry == null) {
 			Session session = null;
@@ -2849,7 +2873,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 				}
 				else {
 					entityCache.putResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
-						TrashEntryImpl.class, primaryKey, _nullTrashEntry);
+						TrashEntryImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -2903,18 +2927,20 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			TrashEntry trashEntry = (TrashEntry)entityCache.getResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
 					TrashEntryImpl.class, primaryKey);
 
-			if (trashEntry == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, trashEntry);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (TrashEntry)serializable);
+				}
 			}
 		}
 
@@ -2928,7 +2954,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		query.append(_SQL_SELECT_TRASHENTRY_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -2956,7 +2982,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(TrashEntryModelImpl.ENTITY_CACHE_ENABLED,
-					TrashEntryImpl.class, primaryKey, _nullTrashEntry);
+					TrashEntryImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -3058,7 +3084,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_TRASHENTRY);
 
@@ -3178,6 +3204,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_TRASHENTRY = "SELECT trashEntry FROM TrashEntry trashEntry";
@@ -3189,22 +3217,4 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No TrashEntry exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No TrashEntry exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(TrashEntryPersistenceImpl.class);
-	private static final TrashEntry _nullTrashEntry = new TrashEntryImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<TrashEntry> toCacheModel() {
-				return _nullTrashEntryCacheModel;
-			}
-		};
-
-	private static final CacheModel<TrashEntry> _nullTrashEntryCacheModel = new CacheModel<TrashEntry>() {
-			@Override
-			public TrashEntry toEntityModel() {
-				return _nullTrashEntry;
-			}
-		};
 }

@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchPortletItemException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,21 +26,22 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchPortletItemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.PortletItem;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.PortletItemPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.PortletItem;
 import com.liferay.portal.model.impl.PortletItemImpl;
 import com.liferay.portal.model.impl.PortletItemModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextThreadLocal;
-import com.liferay.portal.service.persistence.PortletItemPersistence;
 
 import java.io.Serializable;
 
@@ -51,6 +52,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -62,7 +64,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see PortletItemPersistence
- * @see com.liferay.portal.service.persistence.PortletItemUtil
+ * @see com.liferay.portal.kernel.service.persistence.PortletItemUtil
  * @generated
  */
 @ProviderType
@@ -221,7 +223,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -453,11 +455,12 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_PORTLETITEM_WHERE);
@@ -763,7 +766,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 			if ((list != null) && !list.isEmpty()) {
 				for (PortletItem portletItem : list) {
 					if ((groupId != portletItem.getGroupId()) ||
-							!Validator.equals(portletId,
+							!Objects.equals(portletId,
 								portletItem.getPortletId()) ||
 							(classNameId != portletItem.getClassNameId())) {
 						list = null;
@@ -779,7 +782,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(5 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(5);
@@ -1042,10 +1045,11 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 		if (orderByComparator != null) {
 			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(5);
 		}
 
 		query.append(_SQL_SELECT_PORTLETITEM_WHERE);
@@ -1311,8 +1315,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchPortletItemException(msg.toString());
@@ -1362,8 +1366,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 			PortletItem portletItem = (PortletItem)result;
 
 			if ((groupId != portletItem.getGroupId()) ||
-					!Validator.equals(name, portletItem.getName()) ||
-					!Validator.equals(portletId, portletItem.getPortletId()) ||
+					!Objects.equals(name, portletItem.getName()) ||
+					!Objects.equals(portletId, portletItem.getPortletId()) ||
 					(classNameId != portletItem.getClassNameId())) {
 				result = null;
 			}
@@ -1436,11 +1440,15 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"PortletItemPersistenceImpl.fetchByG_N_P_C(long, String, String, long, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"PortletItemPersistenceImpl.fetchByG_N_P_C(long, String, String, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					PortletItem portletItem = list.get(0);
@@ -1674,7 +1682,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((PortletItemModelImpl)portletItem);
+		clearUniqueFindersCache((PortletItemModelImpl)portletItem, true);
 	}
 
 	@Override
@@ -1686,44 +1694,11 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 			entityCache.removeResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 				PortletItemImpl.class, portletItem.getPrimaryKey());
 
-			clearUniqueFindersCache((PortletItemModelImpl)portletItem);
+			clearUniqueFindersCache((PortletItemModelImpl)portletItem, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		PortletItemModelImpl portletItemModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					portletItemModelImpl.getGroupId(),
-					portletItemModelImpl.getName(),
-					portletItemModelImpl.getPortletId(),
-					portletItemModelImpl.getClassNameId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_G_N_P_C, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_G_N_P_C, args,
-				portletItemModelImpl);
-		}
-		else {
-			if ((portletItemModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_G_N_P_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						portletItemModelImpl.getGroupId(),
-						portletItemModelImpl.getName(),
-						portletItemModelImpl.getPortletId(),
-						portletItemModelImpl.getClassNameId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_G_N_P_C, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_G_N_P_C, args,
-					portletItemModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		PortletItemModelImpl portletItemModelImpl) {
 		Object[] args = new Object[] {
 				portletItemModelImpl.getGroupId(),
@@ -1732,12 +1707,29 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 				portletItemModelImpl.getClassNameId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_G_N_P_C, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_G_N_P_C, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_G_N_P_C, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_G_N_P_C, args,
+			portletItemModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		PortletItemModelImpl portletItemModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					portletItemModelImpl.getGroupId(),
+					portletItemModelImpl.getName(),
+					portletItemModelImpl.getPortletId(),
+					portletItemModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_N_P_C, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_G_N_P_C, args);
+		}
 
 		if ((portletItemModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_G_N_P_C.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					portletItemModelImpl.getOriginalGroupId(),
 					portletItemModelImpl.getOriginalName(),
 					portletItemModelImpl.getOriginalPortletId(),
@@ -1761,6 +1753,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 		portletItem.setNew(true);
 		portletItem.setPrimaryKey(portletItemId);
+
+		portletItem.setCompanyId(companyProvider.getCompanyId());
 
 		return portletItem;
 	}
@@ -1797,8 +1791,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 					primaryKey);
 
 			if (portletItem == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchPortletItemException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1903,8 +1897,33 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !PortletItemModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!PortletItemModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					portletItemModelImpl.getGroupId(),
+					portletItemModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C,
+				args);
+
+			args = new Object[] {
+					portletItemModelImpl.getGroupId(),
+					portletItemModelImpl.getPortletId(),
+					portletItemModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_P_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_P_C,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1957,8 +1976,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 			PortletItemImpl.class, portletItem.getPrimaryKey(), portletItem,
 			false);
 
-		clearUniqueFindersCache(portletItemModelImpl);
-		cacheUniqueFindersCache(portletItemModelImpl, isNew);
+		clearUniqueFindersCache(portletItemModelImpl, false);
+		cacheUniqueFindersCache(portletItemModelImpl);
 
 		portletItem.resetOriginalValues();
 
@@ -1991,7 +2010,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 	}
 
 	/**
-	 * Returns the portlet item with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the portlet item with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the portlet item
 	 * @return the portlet item
@@ -2003,8 +2022,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		PortletItem portletItem = fetchByPrimaryKey(primaryKey);
 
 		if (portletItem == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchPortletItemException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2035,12 +2054,14 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 	 */
 	@Override
 	public PortletItem fetchByPrimaryKey(Serializable primaryKey) {
-		PortletItem portletItem = (PortletItem)entityCache.getResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 				PortletItemImpl.class, primaryKey);
 
-		if (portletItem == _nullPortletItem) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		PortletItem portletItem = (PortletItem)serializable;
 
 		if (portletItem == null) {
 			Session session = null;
@@ -2056,7 +2077,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 				}
 				else {
 					entityCache.putResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
-						PortletItemImpl.class, primaryKey, _nullPortletItem);
+						PortletItemImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -2110,18 +2131,20 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			PortletItem portletItem = (PortletItem)entityCache.getResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 					PortletItemImpl.class, primaryKey);
 
-			if (portletItem == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, portletItem);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (PortletItem)serializable);
+				}
 			}
 		}
 
@@ -2135,7 +2158,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		query.append(_SQL_SELECT_PORTLETITEM_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -2163,7 +2186,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(PortletItemModelImpl.ENTITY_CACHE_ENABLED,
-					PortletItemImpl.class, primaryKey, _nullPortletItem);
+					PortletItemImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2265,7 +2288,7 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PORTLETITEM);
 
@@ -2385,6 +2408,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_PORTLETITEM = "SELECT portletItem FROM PortletItem portletItem";
@@ -2396,34 +2421,4 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No PortletItem exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No PortletItem exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(PortletItemPersistenceImpl.class);
-	private static final PortletItem _nullPortletItem = new PortletItemImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<PortletItem> toCacheModel() {
-				return _nullPortletItemCacheModel;
-			}
-		};
-
-	private static final CacheModel<PortletItem> _nullPortletItemCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<PortletItem>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public PortletItem toEntityModel() {
-			return _nullPortletItem;
-		}
-	}
 }

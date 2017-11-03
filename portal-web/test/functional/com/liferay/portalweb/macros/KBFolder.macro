@@ -1,55 +1,87 @@
 <definition>
+	<command name="_gotoAddFolder">
+		<execute function="Click" locator1="Button#PLUS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Folder">
+			<var name="key_menuItem" value="Folder" />
+		</execute>
+	</command>
+
 	<command name="addCP">
-		<execute function="AssertClick" locator1="KnowledgeBase#MENUBAR_ADD" value1="Add" />
+		<execute macro="KBFolder#_gotoAddFolder" />
 
-		<execute function="AssertClick" locator1="MenuItem#FOLDER" value1="Folder" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${kbFolderName}" />
+		</execute>
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${kbFolderName}" />
+		<execute macro="PortletEntry#inputDescription">
+			<var name="description" value="${kbFolderDescription}" />
+		</execute>
 
-		<execute function="Type" locator1="TextArea#DESCRIPTION" value1="${kbFolderDescription}" />
+		<if>
+			<isset var="customField" />
+			<then>
+				<execute macro="Panel#expandPanel">
+					<var name="panelHeading" value="Custom Fields" />
+				</execute>
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+				<execute function="Type" locator1="TextInput#CUSTOM_FIELD" value1="${customField}" />
+			</then>
+		</if>
+
+		<execute macro="Button#clickSave" />
 
 		<if>
 			<isset var="kbAddDuplicate" />
 			<then>
-				<execute function="AssertTextEquals" locator1="Message#ERROR_1" value1="Your request failed to complete." />
-				<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="Please enter a unique folder name." />
+				<execute macro="Alert#viewRequestFailedToComplete" />
+
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR_2" value1="Please enter a unique folder name." />
 			</then>
 			<else>
-				<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+				<execute macro="Alert#viewSuccessMessage" />
 			</else>
 		</if>
 	</command>
 
 	<command name="deleteCP">
-		<execute function="AssertClick" locator1="KnowledgeBase#FOLDER_TABLE_FOLDER_ACTIONS" value1="Actions" />
+		<var name="key_rowEntry" value="${kbFolderName}" />
 
-		<execute function="AssertClickNoError" locator1="MenuItem#DELETE" value1="Delete" />
+		<execute function="Click" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+			<var name="key_menuItem" value="Delete" />
+		</execute>
 
 		<execute function="Confirm" value1="Are you sure you want to delete this? It will be deleted immediately." />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="editCP">
-		<execute function="AssertClick" locator1="KnowledgeBase#FOLDER_TABLE_FOLDER_ACTIONS" value1="Actions" />
+		<var name="key_rowEntry" value="${kbFolderName}" />
 
-		<execute function="AssertClick" locator1="MenuItem#EDIT" value1="Edit" />
+		<execute function="Click" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${kbFolderEditedName}" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Edit">
+			<var name="key_menuItem" value="Edit" />
+		</execute>
 
-		<execute function="Type" locator1="TextArea#DESCRIPTION" value1="${kbFolderDescription}" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${kbFolderEditedName}" />
+		</execute>
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#inputDescription">
+			<var name="description" value="${kbFolderDescription}" />
+		</execute>
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="gotoCP">
 		<var name="key_kbFolderName" value="${kbFolderName}" />
 
-		<execute function="AssertClick" locator1="KnowledgeBase#FOLDER_TABLE_FOLDER_NAME" value1="${kbFolderName}" />
+		<execute function="AssertClick" locator1="KnowledgeBase#FOLDER_DESCRIPTIVE_FOLDER_NAME" value1="${kbFolderName}" />
 
 		<var method="StringUtil#upperCase('${key_kbFolderName}')" name="folderBreadcrumbUpperCase" />
 
@@ -69,7 +101,17 @@
 
 		<execute function="SelectFrame" locator1="KnowledgeBaseSelectParent#IFRAME" />
 
-		<execute function="Click" locator1="KnowledgeBaseSelectParent#CHOOSE_BUTTON" value1="Choose" />
+		<if>
+			<equals arg1="${kbFolderName}" arg2="Home" />
+			<then>
+				<execute function="Click" locator1="KnowledgeBaseSelectParent#BREADCRUMB_HOME" />
+
+				<execute function="AssertClick" locator1="Button#CHOOSE_THIS_FOLDER" value1="Choose This Folder" />
+			</then>
+			<else>
+				<execute function="Click" locator1="KnowledgeBaseSelectParent#CHOOSE_BUTTON" value1="Choose" />
+			</else>
+		</if>
 
 		<execute function="SelectFrame" value1="relative=top" />
 
@@ -77,32 +119,36 @@
 
 		<execute function="Click" locator1="Button#MOVE" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="tearDownCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Knowledge Base" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Knowledge Base" />
 		</execute>
 
 		<while>
 			<condition function="IsElementPresent" locator1="KnowledgeBase#FOLDER_TABLE_HEADER" />
 
 			<then>
-				<execute function="Click" locator1="KnowledgeBase#FOLDER_TABLE_ACTIONS_BUTTON_GENERIC" />
+				<execute function="Check#checkAll" locator1="KnowledgeBase#ARTICLE_TABLE_SELECT_ALL_CHECKBOX" />
 
-				<execute function="AssertClickNoError" locator1="MenuItem#DELETE" value1="Delete" />
+				<execute function="Click" locator1="Icon#DELETE" />
 
-				<execute function="Confirm" value1="Are you sure you want to delete this? It will be deleted immediately." />
+				<execute function="Confirm" value1="Are you sure you want to delete the selected entries? They will be deleted immediately." />
 
-				<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+				<execute macro="Alert#viewSuccessMessage" />
 			</then>
 		</while>
 	</command>
 
-	<command name="viewFolderTableCP">
+	<command name="viewFolderNameCP">
 		<var name="key_kbFolderName" value="${kbFolderName}" />
 
-		<execute function="AssertTextEquals" locator1="KnowledgeBase#FOLDER_TABLE_FOLDER_NAME" value1="${kbFolderName}" />
+		<execute function="AssertTextEquals" locator1="KnowledgeBase#FOLDER_DESCRIPTIVE_FOLDER_NAME" value1="${kbFolderName}" />
 	</command>
 </definition>

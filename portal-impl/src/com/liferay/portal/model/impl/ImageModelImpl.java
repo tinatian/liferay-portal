@@ -16,20 +16,21 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.Image;
+import com.liferay.portal.kernel.model.ImageModel;
+import com.liferay.portal.kernel.model.ImageSoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Image;
-import com.liferay.portal.model.ImageModel;
-import com.liferay.portal.model.ImageSoap;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -66,6 +67,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "mvccVersion", Types.BIGINT },
 			{ "imageId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "type_", Types.VARCHAR },
 			{ "height", Types.INTEGER },
@@ -77,6 +79,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	static {
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("height", Types.INTEGER);
@@ -84,7 +87,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 		TABLE_COLUMNS_MAP.put("size_", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Image (mvccVersion LONG default 0,imageId LONG not null primary key,modifiedDate DATE null,type_ VARCHAR(75) null,height INTEGER,width INTEGER,size_ INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table Image (mvccVersion LONG default 0 not null,imageId LONG not null primary key,companyId LONG,modifiedDate DATE null,type_ VARCHAR(75) null,height INTEGER,width INTEGER,size_ INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table Image";
 	public static final String ORDER_BY_JPQL = " ORDER BY image.imageId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Image.imageId ASC";
@@ -92,13 +95,13 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.Image"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.Image"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.Image"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.Image"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.Image"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.Image"),
 			true);
 	public static final long SIZE_COLUMN_BITMASK = 1L;
 	public static final long IMAGEID_COLUMN_BITMASK = 2L;
@@ -118,6 +121,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 		model.setMvccVersion(soapModel.getMvccVersion());
 		model.setImageId(soapModel.getImageId());
+		model.setCompanyId(soapModel.getCompanyId());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setType(soapModel.getType());
 		model.setHeight(soapModel.getHeight());
@@ -148,7 +152,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.Image"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.Image"));
 
 	public ImageModelImpl() {
 	}
@@ -189,6 +193,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("imageId", getImageId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("type", getType());
 		attributes.put("height", getHeight());
@@ -213,6 +218,12 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Date modifiedDate = (Date)attributes.get("modifiedDate");
@@ -268,6 +279,17 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 		_columnBitmask = -1L;
 
 		_imageId = imageId;
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
 	}
 
 	@JSON
@@ -348,7 +370,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Image.class.getName(), getPrimaryKey());
 	}
 
@@ -375,6 +397,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 		imageImpl.setMvccVersion(getMvccVersion());
 		imageImpl.setImageId(getImageId());
+		imageImpl.setCompanyId(getCompanyId());
 		imageImpl.setModifiedDate(getModifiedDate());
 		imageImpl.setType(getType());
 		imageImpl.setHeight(getHeight());
@@ -463,6 +486,8 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 		imageCacheModel.imageId = getImageId();
 
+		imageCacheModel.companyId = getCompanyId();
+
 		Date modifiedDate = getModifiedDate();
 
 		if (modifiedDate != null) {
@@ -491,12 +516,14 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
 		sb.append(", imageId=");
 		sb.append(getImageId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
 		sb.append(", type=");
@@ -514,10 +541,10 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.Image");
+		sb.append("com.liferay.portal.kernel.model.Image");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -527,6 +554,10 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
@@ -560,6 +591,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 		};
 	private long _mvccVersion;
 	private long _imageId;
+	private long _companyId;
 	private Date _modifiedDate;
 	private String _type;
 	private int _height;

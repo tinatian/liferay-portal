@@ -18,21 +18,18 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.BaseResourcePermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.BaseResourcePermissionChecker;
-import com.liferay.portal.security.permission.PermissionChecker;
 
 /**
  * @author Jorge Ferrer
  */
-@OSGiBeanProperties(
-	property = {"resource.name=com.liferay.portlet.documentlibrary"}
-)
+@OSGiBeanProperties(property = {"resource.name=" + DLPermission.RESOURCE_NAME})
 public class DLPermission extends BaseResourcePermissionChecker {
 
-	public static final String RESOURCE_NAME =
-		"com.liferay.portlet.documentlibrary";
+	public static final String RESOURCE_NAME = "com.liferay.document.library";
 
 	public static void check(
 			PermissionChecker permissionChecker, long groupId, String actionId)

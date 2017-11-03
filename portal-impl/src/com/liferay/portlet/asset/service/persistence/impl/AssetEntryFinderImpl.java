@@ -14,6 +14,11 @@
 
 package com.liferay.portlet.asset.service.persistence.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.persistence.AssetCategoryUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryFinder;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -21,20 +26,15 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.dao.orm.WildcardMode;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.util.CalendarUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Layout;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.model.AssetEntry;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
-import com.liferay.portlet.asset.service.persistence.AssetCategoryUtil;
-import com.liferay.portlet.asset.service.persistence.AssetEntryFinder;
-import com.liferay.portlet.asset.service.persistence.AssetEntryQuery;
 import com.liferay.portlet.documentlibrary.service.persistence.impl.DLFileEntryFinderImpl;
 import com.liferay.portlet.documentlibrary.service.persistence.impl.DLFolderFinderImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
@@ -105,7 +105,8 @@ public class AssetEntryFinderImpl
 			String sql = CustomSQLUtil.get(FIND_BY_CLASS_NAME_ID);
 
 			sql = StringUtil.replace(
-				sql, "[$JOIN$]", CustomSQLUtil.get(
+				sql, "[$JOIN$]",
+				CustomSQLUtil.get(
 					DLFileEntryFinderImpl.JOIN_AE_BY_DL_FILE_ENTRY));
 			sql = StringUtil.replace(
 				sql, "[$WHERE$]", "DLFileEntry.treePath LIKE ? AND");
@@ -142,8 +143,8 @@ public class AssetEntryFinderImpl
 			String sql = CustomSQLUtil.get(FIND_BY_CLASS_NAME_ID);
 
 			sql = StringUtil.replace(
-				sql, "[$JOIN$]", CustomSQLUtil.get(
-					DLFolderFinderImpl.JOIN_AE_BY_DL_FOLDER));
+				sql, "[$JOIN$]",
+				CustomSQLUtil.get(DLFolderFinderImpl.JOIN_AE_BY_DL_FOLDER));
 			sql = StringUtil.replace(
 				sql, "[$WHERE$]", "DLFolder.treePath LIKE ? AND");
 
@@ -294,7 +295,7 @@ public class AssetEntryFinderImpl
 	protected SQLQuery buildAssetQuerySQL(
 		AssetEntryQuery entryQuery, boolean count, Session session) {
 
-		StringBundler sb = new StringBundler(64);
+		StringBundler sb = new StringBundler(52);
 
 		if (count) {
 			sb.append(
@@ -326,30 +327,24 @@ public class AssetEntryFinderImpl
 		sb.append("FROM AssetEntry ");
 
 		if (entryQuery.getAnyTagIds().length > 0) {
-			sb.append("INNER JOIN ");
-			sb.append("AssetEntries_AssetTags ON ");
+			sb.append("INNER JOIN AssetEntries_AssetTags ON ");
 			sb.append("(AssetEntries_AssetTags.entryId = ");
-			sb.append("AssetEntry.entryId) ");
-			sb.append("INNER JOIN ");
-			sb.append("AssetTag ON ");
+			sb.append("AssetEntry.entryId) INNER JOIN AssetTag ON ");
 			sb.append("(AssetTag.tagId = AssetEntries_AssetTags.tagId) ");
 		}
 
 		if (entryQuery.getLinkedAssetEntryId() > 0) {
-			sb.append("INNER JOIN ");
-			sb.append("AssetLink ON ");
-			sb.append("(AssetEntry.entryId = AssetLink.entryId1) ");
-			sb.append("OR (AssetEntry.entryId = AssetLink.entryId2)");
+			sb.append("INNER JOIN AssetLink ON (AssetEntry.entryId = ");
+			sb.append("AssetLink.entryId1) OR (AssetEntry.entryId = ");
+			sb.append("AssetLink.entryId2)");
 		}
 
 		if (entryQuery.getOrderByCol1().equals("ratings") ||
 			entryQuery.getOrderByCol2().equals("ratings")) {
 
-			sb.append(" LEFT JOIN ");
-			sb.append("RatingsStats ON ");
-			sb.append("(RatingsStats.classNameId = ");
-			sb.append("AssetEntry.classNameId) AND ");
-			sb.append("(RatingsStats.classPK = AssetEntry.classPK)");
+			sb.append(" LEFT JOIN RatingsStats ON (RatingsStats.classNameId ");
+			sb.append("= AssetEntry.classNameId) AND (RatingsStats.classPK ");
+			sb.append("= AssetEntry.classPK)");
 		}
 
 		sb.append("WHERE ");
@@ -357,9 +352,8 @@ public class AssetEntryFinderImpl
 		int whereIndex = sb.index();
 
 		if (entryQuery.getLinkedAssetEntryId() > 0) {
-			sb.append(" AND ((AssetLink.entryId1 = ?) OR ");
-			sb.append("(AssetLink.entryId2 = ?))");
-			sb.append(" AND (AssetEntry.entryId != ?)");
+			sb.append(" AND ((AssetLink.entryId1 = ?) OR (AssetLink.entryId2 ");
+			sb.append("= ?)) AND (AssetEntry.entryId != ?)");
 		}
 
 		if (entryQuery.isListable() != null) {
@@ -377,9 +371,9 @@ public class AssetEntryFinderImpl
 		// Keywords
 
 		if (Validator.isNotNull(entryQuery.getKeywords())) {
-			sb.append(" AND ((AssetEntry.userName LIKE ?) OR");
-			sb.append(" (AssetEntry.title LIKE ?) OR");
-			sb.append(" (AssetEntry.description LIKE ?))");
+			sb.append(" AND ((AssetEntry.userName LIKE ?) OR ");
+			sb.append("(AssetEntry.title LIKE ?) OR (AssetEntry.description ");
+			sb.append("LIKE ?))");
 		}
 		else if (Validator.isNotNull(entryQuery.getUserName()) ||
 				 Validator.isNotNull(entryQuery.getTitle()) ||
@@ -475,12 +469,8 @@ public class AssetEntryFinderImpl
 		sb.append(getClassNameIds(entryQuery.getClassNameIds()));
 
 		if (!count) {
-			sb.append(") TEMP_TABLE ");
-			sb.append("INNER JOIN ");
-			sb.append("AssetEntry AssetEntry ON ");
-			sb.append("TEMP_TABLE.entryId = AssetEntry.entryId");
-
-			sb.append(" ORDER BY ");
+			sb.append(") TEMP_TABLE INNER JOIN AssetEntry AssetEntry ON ");
+			sb.append("TEMP_TABLE.entryId = AssetEntry.entryId ORDER BY ");
 
 			if (entryQuery.getOrderByCol1().equals("ratings")) {
 				sb.append("TEMP_TABLE.averageScore");
@@ -652,6 +642,7 @@ public class AssetEntryFinderImpl
 			sql = StringUtil.replace(sql, "[$TAG_ID$]", getTagIds(tagIds[i]));
 
 			sb.append(sql);
+
 			sb.append(StringPool.CLOSE_PARENTHESIS);
 
 			if (((i + 1) < tagIds.length) && (tagIds[i + 1].length > 0)) {
@@ -700,6 +691,7 @@ public class AssetEntryFinderImpl
 			sql = StringUtil.replace(sql, "[$TAG_ID$]", getTagIds(notTagIds));
 
 			sb.append(sql);
+
 			sb.append(StringPool.CLOSE_PARENTHESIS);
 
 			if ((i + 1) < notTagIds.length) {

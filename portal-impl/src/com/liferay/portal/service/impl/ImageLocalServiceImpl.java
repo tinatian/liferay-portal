@@ -14,19 +14,20 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.ImageTypeException;
-import com.liferay.portal.NoSuchImageException;
 import com.liferay.portal.image.HookFactory;
+import com.liferay.portal.kernel.exception.ImageTypeException;
+import com.liferay.portal.kernel.exception.NoSuchImageException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.image.Hook;
 import com.liferay.portal.kernel.image.ImageToolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Image;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.Image;
+import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
 import com.liferay.portal.service.base.ImageLocalServiceBaseImpl;
-import com.liferay.portal.webserver.WebServerServletTokenUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,28 +58,29 @@ public class ImageLocalServiceImpl extends ImageLocalServiceBaseImpl {
 			imagePersistence.clearCache();
 		}
 		else {*/
-			Image image = getImage(imageId);
 
-			if (image != null) {
-				imagePersistence.remove(image);
+		Image image = getImage(imageId);
 
-				Hook hook = HookFactory.getInstance();
+		if (image != null) {
+			imagePersistence.remove(image);
 
-				try {
-					hook.deleteImage(image);
-				}
-				catch (NoSuchImageException nsie) {
+			Hook hook = HookFactory.getInstance();
 
-					// DLHook throws NoSuchImageException if the file no longer
-					// exists. See LPS-30430. This exception can be ignored.
+			try {
+				hook.deleteImage(image);
+			}
+			catch (NoSuchImageException nsie) {
 
-					if (_log.isWarnEnabled()) {
-						_log.warn(nsie, nsie);
-					}
+				// DLHook throws NoSuchImageException if the file no longer
+				// exists. See LPS-30430. This exception can be ignored.
+
+				if (_log.isWarnEnabled()) {
+					_log.warn(nsie, nsie);
 				}
 			}
+		}
 
-			return image;
+		return image;
 		//}
 	}
 
@@ -102,8 +104,9 @@ public class ImageLocalServiceImpl extends ImageLocalServiceBaseImpl {
 			catch (Exception e) {
 				if (_log.isWarnEnabled()) {
 					_log.warn(
-						"Unable to get image " + imageId + ": " +
-							e.getMessage());
+						StringBundler.concat(
+							"Unable to get image ", String.valueOf(imageId),
+							": ", e.getMessage()));
 				}
 			}
 		}

@@ -19,29 +19,37 @@ import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeAddress;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeAsset;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeAssetTagsResourcePermission;
-import com.liferay.portal.upgrade.v7_0_0.UpgradeBackgroundTask;
-import com.liferay.portal.upgrade.v7_0_0.UpgradeCalEvent;
-import com.liferay.portal.upgrade.v7_0_0.UpgradeContact;
-import com.liferay.portal.upgrade.v7_0_0.UpgradeDLPreferences;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeCompanyId;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeDocumentLibrary;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeDocumentLibraryPortletId;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeDocumentLibraryPreferences;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeEmailAddress;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeEmailNotificationPreferences;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeExpando;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeGroup;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeKernelPackage;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeLastPublishDate;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeListType;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeLookAndFeel;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeMembershipRequest;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeMessageBoards;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeMobileDeviceRules;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeModules;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeOrgLabor;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeOrganization;
 import com.liferay.portal.upgrade.v7_0_0.UpgradePhone;
 import com.liferay.portal.upgrade.v7_0_0.UpgradePortalPreferences;
 import com.liferay.portal.upgrade.v7_0_0.UpgradePortletDisplayTemplatePreferences;
+import com.liferay.portal.upgrade.v7_0_0.UpgradePortletId;
+import com.liferay.portal.upgrade.v7_0_0.UpgradePostgreSQL;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeRatings;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeRelease;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeRepository;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeRepositoryEntry;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeResourcePermission;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeSchema;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeSharding;
+import com.liferay.portal.upgrade.v7_0_0.UpgradeSocial;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeSubscription;
 import com.liferay.portal.upgrade.v7_0_0.UpgradeWebsite;
 
@@ -59,20 +67,22 @@ public class UpgradeProcess_7_0_0 extends UpgradeProcess {
 	protected void doUpgrade() throws Exception {
 		upgrade(UpgradeSchema.class);
 
+		upgrade(UpgradeKernelPackage.class);
+
 		upgrade(UpgradeAddress.class);
 		upgrade(UpgradeAsset.class);
 		upgrade(UpgradeAssetTagsResourcePermission.class);
-		upgrade(UpgradeBackgroundTask.class);
-		upgrade(UpgradeCalEvent.class);
-		upgrade(UpgradeContact.class);
-		upgrade(UpgradeDLPreferences.class);
+		upgrade(UpgradeCompanyId.class);
 		upgrade(UpgradeDocumentLibrary.class);
+		upgrade(UpgradeDocumentLibraryPortletId.class);
+		upgrade(UpgradeDocumentLibraryPreferences.class);
 		upgrade(UpgradeEmailAddress.class);
 		upgrade(UpgradeEmailNotificationPreferences.class);
 		upgrade(UpgradeExpando.class);
 		upgrade(UpgradeGroup.class);
 		upgrade(UpgradeLastPublishDate.class);
 		upgrade(UpgradeListType.class);
+		upgrade(UpgradeLookAndFeel.class);
 		upgrade(UpgradeMembershipRequest.class);
 		upgrade(UpgradeMessageBoards.class);
 		upgrade(UpgradeModules.class);
@@ -81,11 +91,22 @@ public class UpgradeProcess_7_0_0 extends UpgradeProcess {
 		upgrade(UpgradePhone.class);
 		upgrade(UpgradePortalPreferences.class);
 		upgrade(UpgradePortletDisplayTemplatePreferences.class);
+		upgrade(UpgradePortletId.class);
+		upgrade(UpgradePostgreSQL.class);
 		upgrade(UpgradeRatings.class);
+		upgrade(UpgradeRelease.class);
+		upgrade(UpgradeRepository.class);
 		upgrade(UpgradeRepositoryEntry.class);
 		upgrade(UpgradeResourcePermission.class);
+		upgrade(UpgradeSocial.class);
 		upgrade(UpgradeSubscription.class);
 		upgrade(UpgradeWebsite.class);
+
+		upgrade(UpgradeMobileDeviceRules.class);
+
+		upgrade(UpgradeSharding.class);
+
+		clearIndexesCache();
 	}
 
 }

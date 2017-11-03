@@ -21,6 +21,7 @@ import com.liferay.portal.fabric.netty.fileserver.handlers.FileResponseChannelHa
 import com.liferay.portal.fabric.netty.fileserver.handlers.FileServerTestUtil;
 import com.liferay.portal.kernel.concurrent.AsyncBroker;
 import com.liferay.portal.kernel.util.NamedThreadFactory;
+import com.liferay.portal.kernel.util.StringBundler;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
@@ -143,6 +144,7 @@ public class FileServerTest {
 		FileTime destFileTime = Files.getLastModifiedTime(_destFile);
 
 		Assert.assertEquals(sourceFileTime.toMillis(), destFileTime.toMillis());
+
 		Assert.assertArrayEquals(data, Files.readAllBytes(_destFile));
 	}
 
@@ -258,7 +260,9 @@ public class FileServerTest {
 				}
 
 				System.err.println(
-					"Unable to bind to " + (port++) + ", trying " + port);
+					StringBundler.concat(
+						"Unable to bind to ", String.valueOf(port++),
+						", trying ", String.valueOf(port)));
 			}
 		}
 

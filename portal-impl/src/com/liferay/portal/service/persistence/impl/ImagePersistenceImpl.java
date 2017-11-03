@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchImageException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,20 +26,25 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchImageException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Image;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.ImagePersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Image;
-import com.liferay.portal.model.MVCCModel;
 import com.liferay.portal.model.impl.ImageImpl;
 import com.liferay.portal.model.impl.ImageModelImpl;
-import com.liferay.portal.service.persistence.ImagePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,7 +63,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see ImagePersistence
- * @see com.liferay.portal.service.persistence.ImageUtil
+ * @see com.liferay.portal.kernel.service.persistence.ImageUtil
  * @generated
  */
 @ProviderType
@@ -190,7 +195,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -399,8 +404,9 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -566,6 +572,23 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 
 	public ImagePersistenceImpl() {
 		setModelClass(Image.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("type", "type_");
+			dbColumnNames.put("size", "size_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -655,6 +678,8 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 		image.setNew(true);
 		image.setPrimaryKey(imageId);
 
+		image.setCompanyId(companyProvider.getCompanyId());
+
 		return image;
 	}
 
@@ -687,8 +712,8 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 			Image image = (Image)session.get(ImageImpl.class, primaryKey);
 
 			if (image == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchImageException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -769,8 +794,14 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ImageModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ImageModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
@@ -793,6 +824,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 
 		imageImpl.setMvccVersion(image.getMvccVersion());
 		imageImpl.setImageId(image.getImageId());
+		imageImpl.setCompanyId(image.getCompanyId());
 		imageImpl.setModifiedDate(image.getModifiedDate());
 		imageImpl.setType(image.getType());
 		imageImpl.setHeight(image.getHeight());
@@ -803,7 +835,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 	}
 
 	/**
-	 * Returns the image with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the image with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the image
 	 * @return the image
@@ -815,8 +847,8 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 		Image image = fetchByPrimaryKey(primaryKey);
 
 		if (image == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchImageException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -846,12 +878,14 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 	 */
 	@Override
 	public Image fetchByPrimaryKey(Serializable primaryKey) {
-		Image image = (Image)entityCache.getResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
 				ImageImpl.class, primaryKey);
 
-		if (image == _nullImage) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Image image = (Image)serializable;
 
 		if (image == null) {
 			Session session = null;
@@ -866,7 +900,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 				}
 				else {
 					entityCache.putResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
-						ImageImpl.class, primaryKey, _nullImage);
+						ImageImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -920,18 +954,20 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Image image = (Image)entityCache.getResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
 					ImageImpl.class, primaryKey);
 
-			if (image == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, image);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Image)serializable);
+				}
 			}
 		}
 
@@ -945,7 +981,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 		query.append(_SQL_SELECT_IMAGE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -973,7 +1009,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(ImageModelImpl.ENTITY_CACHE_ENABLED,
-					ImageImpl.class, primaryKey, _nullImage);
+					ImageImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1074,7 +1110,7 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_IMAGE);
 
@@ -1199,6 +1235,8 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_IMAGE = "SELECT image FROM Image image";
@@ -1213,33 +1251,4 @@ public class ImagePersistenceImpl extends BasePersistenceImpl<Image>
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"type", "size"
 			});
-	private static final Image _nullImage = new ImageImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Image> toCacheModel() {
-				return _nullImageCacheModel;
-			}
-		};
-
-	private static final CacheModel<Image> _nullImageCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<Image>, MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public Image toEntityModel() {
-			return _nullImage;
-		}
-	}
 }

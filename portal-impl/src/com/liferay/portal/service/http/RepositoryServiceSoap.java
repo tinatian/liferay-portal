@@ -18,7 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.service.RepositoryServiceUtil;
+import com.liferay.portal.kernel.service.RepositoryServiceUtil;
 
 import java.rmi.RemoteException;
 
@@ -32,10 +32,10 @@ import java.rmi.RemoteException;
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
  * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link com.liferay.portal.model.RepositorySoap}.
+ * is translated to an array of {@link com.liferay.portal.kernel.model.RepositorySoap}.
  * If the method in the service utility returns a
- * {@link com.liferay.portal.model.Repository}, that is translated to a
- * {@link com.liferay.portal.model.RepositorySoap}. Methods that SOAP cannot
+ * {@link com.liferay.portal.kernel.model.Repository}, that is translated to a
+ * {@link com.liferay.portal.kernel.model.RepositorySoap}. Methods that SOAP cannot
  * safely wire are skipped.
  * </p>
  *
@@ -58,7 +58,7 @@ import java.rmi.RemoteException;
  *
  * @author Brian Wing Shun Chan
  * @see RepositoryServiceHttp
- * @see com.liferay.portal.model.RepositorySoap
+ * @see com.liferay.portal.kernel.model.RepositorySoap
  * @see RepositoryServiceUtil
  * @generated
  */
@@ -88,12 +88,12 @@ public class RepositoryServiceSoap {
 		}
 	}
 
-	public static com.liferay.portal.model.RepositorySoap getRepository(
+	public static com.liferay.portal.kernel.model.RepositorySoap getRepository(
 		long repositoryId) throws RemoteException {
 		try {
-			com.liferay.portal.model.Repository returnValue = RepositoryServiceUtil.getRepository(repositoryId);
+			com.liferay.portal.kernel.model.Repository returnValue = RepositoryServiceUtil.getRepository(repositoryId);
 
-			return com.liferay.portal.model.RepositorySoap.toSoapModel(returnValue);
+			return com.liferay.portal.kernel.model.RepositorySoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -102,6 +102,10 @@ public class RepositoryServiceSoap {
 		}
 	}
 
+	/**
+	* @deprecated As of 7.0.0, with no direct replacement
+	*/
+	@Deprecated
 	public static java.lang.String[] getSupportedConfigurations(
 		long classNameId) throws RemoteException {
 		try {
@@ -117,8 +121,7 @@ public class RepositoryServiceSoap {
 	}
 
 	/**
-	* @deprecated As of 7.0.0, replaced by {@link
-	#getSupportedParameters(String, String)}
+	* @deprecated As of 7.0.0, with no direct replacement
 	*/
 	@Deprecated
 	public static java.lang.String[] getSupportedParameters(long classNameId,
@@ -136,6 +139,10 @@ public class RepositoryServiceSoap {
 		}
 	}
 
+	/**
+	* @deprecated As of 7.0.0, with no direct replacement
+	*/
+	@Deprecated
 	public static java.lang.String[] getSupportedParameters(
 		java.lang.String className, java.lang.String configuration)
 		throws RemoteException {

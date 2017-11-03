@@ -22,8 +22,8 @@ import com.liferay.portal.kernel.repository.model.FileShortcut;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.repository.model.RepositoryEntry;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.service.ServiceContext;
 
 import java.io.File;
 import java.io.InputStream;
@@ -85,12 +85,12 @@ public class LocalRepositoryWrapper implements LocalRepository {
 
 	@Override
 	public void checkInFileEntry(
-			long userId, long fileEntryId, boolean major, String changeLog,
-			ServiceContext serviceContext)
+			long userId, long fileEntryId, boolean majorVersion,
+			String changeLog, ServiceContext serviceContext)
 		throws PortalException {
 
 		_localRepository.checkInFileEntry(
-			userId, fileEntryId, major, changeLog, serviceContext);
+			userId, fileEntryId, majorVersion, changeLog, serviceContext);
 	}
 
 	@Override
@@ -251,6 +251,25 @@ public class LocalRepositoryWrapper implements LocalRepository {
 
 		return _localRepository.getFolders(
 			parentFolderId, status, includeMountFolders, start, end, obc);
+	}
+
+	@Override
+	public List<RepositoryEntry> getFoldersAndFileEntriesAndFileShortcuts(
+			long folderId, int status, boolean includeMountFolders, int start,
+			int end, OrderByComparator<?> obc)
+		throws PortalException {
+
+		return _localRepository.getFoldersAndFileEntriesAndFileShortcuts(
+			folderId, status, includeMountFolders, start, end, obc);
+	}
+
+	@Override
+	public int getFoldersAndFileEntriesAndFileShortcutsCount(
+			long folderId, int status, boolean includeMountFolders)
+		throws PortalException {
+
+		return _localRepository.getFoldersAndFileEntriesAndFileShortcutsCount(
+			folderId, status, includeMountFolders);
 	}
 
 	@Override

@@ -1,18 +1,32 @@
 <definition component-name="portal-knowledge-base">
-	<property name="portlet.plugins.includes" value="knowledge-base-portlet" />
+	<property name="custom.properties" value="default.layout.template.id=1_column" />
+	<property name="osgi.app.includes" value="knowledge-base" />
+	<property name="plugins.deployment.type" value="osgi" />
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Knowledge Base" />
 
 	<var name="pageName" value="Knowledge Base Article Page" />
 	<var name="portletName" value="Knowledge Base Article" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="SitePageNavigator#gotoEditPage">
+			<var name="page" value="${pageName}" />
+		</execute>
+
+		<execute macro="Page#editPageLayoutColumn">
+			<var name="columnName" value="1 Column" />
+		</execute>
+
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
@@ -22,14 +36,28 @@
 	</set-up>
 
 	<tear-down>
-		<execute macro="Page#tearDownPG" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="KBArticle#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="Page#tearDownPG" />
+
+				<execute macro="KBArticle#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="DeleteKBArticleViaKBArticle" priority="3">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Knowledge Base" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Knowledge Base" />
 		</execute>
 
 		<execute macro="KBArticle#addCP">
@@ -37,7 +65,7 @@
 			<var name="kbArticleTitle" value="Knowledge Base Article Title" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Knowledge Base Article Page" />
 		</execute>
 
@@ -46,21 +74,26 @@
 			<var name="pageName" value="Knowledge Base Article Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Knowledge Base Article Page" />
 		</execute>
 
-		<execute macro="KBArticle#viewPGViaKBArticle">
+		<execute macro="KBArticle#viewPG">
 			<var name="kbArticleContent" value="Knowledge Base Article Content" />
 			<var name="kbArticleTitle" value="Knowledge Base Article Title" />
 		</execute>
 
-		<execute macro="KBArticle#deletePGViaKBArticle">
+		<execute macro="KBArticle#deletePG">
+			<var name="deleteViaKBArticle" value="true" />
 			<var name="kbArticleTitle" value="Knowledge Base Article Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Knowledge Base" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Knowledge Base" />
 		</execute>
 
 		<execute macro="KBArticle#viewDefaultCP" />

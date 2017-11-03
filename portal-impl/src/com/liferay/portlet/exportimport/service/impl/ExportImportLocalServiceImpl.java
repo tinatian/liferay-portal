@@ -14,25 +14,25 @@
 
 package com.liferay.portlet.exportimport.service.impl;
 
-import com.liferay.portal.LocaleException;
+import com.liferay.document.library.kernel.util.DLValidatorUtil;
+import com.liferay.exportimport.kernel.background.task.BackgroundTaskExecutorNames;
+import com.liferay.exportimport.kernel.controller.ExportController;
+import com.liferay.exportimport.kernel.controller.ExportImportControllerRegistryUtil;
+import com.liferay.exportimport.kernel.controller.ImportController;
+import com.liferay.exportimport.kernel.exception.LARFileNameException;
+import com.liferay.exportimport.kernel.lar.MissingReferences;
+import com.liferay.exportimport.kernel.lar.PortletDataException;
+import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.documentlibrary.util.DLValidatorUtil;
-import com.liferay.portlet.exportimport.LARFileNameException;
-import com.liferay.portlet.exportimport.background.task.BackgroundTaskExecutorNames;
-import com.liferay.portlet.exportimport.controller.ExportController;
-import com.liferay.portlet.exportimport.controller.ExportImportControllerRegistryUtil;
-import com.liferay.portlet.exportimport.controller.ImportController;
-import com.liferay.portlet.exportimport.lar.MissingReferences;
-import com.liferay.portlet.exportimport.lar.PortletDataException;
-import com.liferay.portlet.exportimport.model.ExportImportConfiguration;
 import com.liferay.portlet.exportimport.service.base.ExportImportLocalServiceBaseImpl;
 
 import java.io.File;
@@ -217,7 +217,10 @@ public class ExportImportLocalServiceImpl
 			importLayouts(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(ioe);
+			throw new SystemException(
+				"Unable to process LAR file for layout import due to a file " +
+					"system error",
+				ioe);
 		}
 		finally {
 			FileUtil.delete(file);
@@ -296,7 +299,10 @@ public class ExportImportLocalServiceImpl
 				userId, exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(ioe);
+			throw new SystemException(
+				"Unable to process LAR file for layout import due to a file " +
+					"system error",
+				ioe);
 		}
 		finally {
 			FileUtil.delete(file);
@@ -418,7 +424,10 @@ public class ExportImportLocalServiceImpl
 			importPortletInfo(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(ioe);
+			throw new SystemException(
+				"Unable to process LAR file for layout import due to a file " +
+					"system error",
+				ioe);
 		}
 		finally {
 			FileUtil.delete(file);
@@ -467,7 +476,10 @@ public class ExportImportLocalServiceImpl
 				userId, exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(ioe);
+			throw new SystemException(
+				"Unable to process LAR file for portlet import due to a file " +
+					"system error",
+				ioe);
 		}
 		finally {
 			FileUtil.delete(file);
@@ -547,7 +559,10 @@ public class ExportImportLocalServiceImpl
 			return validateImportLayoutsFile(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(ioe);
+			throw new SystemException(
+				"Unable to process LAR file for layout import validation due " +
+					"to a file system error",
+				ioe);
 		}
 		finally {
 			FileUtil.delete(file);
@@ -600,7 +615,10 @@ public class ExportImportLocalServiceImpl
 			return validateImportPortletInfo(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(ioe);
+			throw new SystemException(
+				"Unable to process LAR file for portlet import validation " +
+					"due to a file system error",
+				ioe);
 		}
 		finally {
 			FileUtil.delete(file);

@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>SystemSettings</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SystemSettings</td></tr>
+</thead>
+<tbody>
+<tr>
+	<td>ENABLED_CHECKBOX</td>
+	<td>//input[contains(@id,'SystemSettingsPortlet') and contains(@name,'enabled')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>IMPORT_ENABLED_CHECKBOX</td>
+	<td>//input[contains(@id,'SystemSettingsPortlet') and contains(@name,'importEnabled')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MENUBAR_CATEGORY</td>
+	<td>//ul[@role='menubar']//a[@role='menuitem' and contains(.,'${key_category}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SECURITY_CREDENTIAL_FIELD</td>
+	<td>//div[contains(@data-fieldname,'securityCredential')]//input[@type='password' and @value='secret']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SECURITY_CREDENTIAL_HIDDEN_IMAGE</td>
+	<td>portal/screenshots/foundation/ldap_server_security_credential.png</td>
+	<td></td>
+</tr>
+<!--WEB_CONTENT-->
+<tr>
+	<td>ARTICLE_VIEW_PERMISSIONS_CHECK_ENABLED_CHECKBOX</td>
+	<td>//input[contains(@id,'articleViewPermissionsCheckEnabled') and @type='checkbox']</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

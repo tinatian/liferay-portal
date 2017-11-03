@@ -14,27 +14,26 @@
 
 package com.liferay.portal.verify;
 
+import com.liferay.portal.dao.orm.common.SQLTransformer;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
-import com.liferay.portal.kernel.concurrent.ThrowableAwareRunnable;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.ResourcePermission;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ContactLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourceLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.Contact;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.ResourcePermission;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ContactLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.ResourceLocalServiceUtil;
-import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.verify.model.VerifiableResourcedModel;
 import com.liferay.portal.util.PortalInstances;
-import com.liferay.portal.verify.model.VerifiableResourcedModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * @author Raymond Augé
@@ -51,7 +51,7 @@ import java.util.Map;
  */
 public class VerifyResourcePermissions extends VerifyProcess {
 
-	public void verify(VerifiableResourcedModel ... verifiableResourcedModels)
+	public void verify(VerifiableResourcedModel... verifiableResourcedModels)
 		throws Exception {
 
 		long[] companyIds = PortalInstances.getCompanyIdsBySQL();
@@ -60,22 +60,20 @@ public class VerifyResourcePermissions extends VerifyProcess {
 			Role role = RoleLocalServiceUtil.getRole(
 				companyId, RoleConstants.OWNER);
 
-			List<VerifyResourcedModelRunnable> verifyResourcedModelRunnables =
+			List<VerifyResourcedModelCallable> verifyResourcedModelCallables =
 				new ArrayList<>(verifiableResourcedModels.length);
 
 			for (VerifiableResourcedModel verifiableResourcedModel :
 					verifiableResourcedModels) {
 
-				VerifyResourcedModelRunnable verifyResourcedModelRunnable =
-					new VerifyResourcedModelRunnable(
+				VerifyResourcedModelCallable verifyResourcedModelCallable =
+					new VerifyResourcedModelCallable(
 						role, verifiableResourcedModel);
 
-				verifyResourcedModelRunnables.add(verifyResourcedModelRunnable);
+				verifyResourcedModelCallables.add(verifyResourcedModelCallable);
 			}
 
-			doVerify(verifyResourcedModelRunnables);
-
-			verifyLayout(role);
+			doVerify(verifyResourcedModelCallables);
 		}
 	}
 
@@ -93,43 +91,104 @@ public class VerifyResourcePermissions extends VerifyProcess {
 					verifiableResourcedModels.size()]));
 	}
 
-	protected void verifyLayout(Role role) throws Exception {
-		List<Layout> layouts = LayoutLocalServiceUtil.getNoPermissionLayouts(
-			role.getRoleId());
+	private String _getVerifyResourcedModelSQL(
+		boolean count, VerifiableResourcedModel verifiableResourcedModel,
+		Role role) {
 
-		int total = layouts.size();
+		StringBundler sb = new StringBundler(28);
 
-		for (int i = 0; i < total; i++) {
-			Layout layout = layouts.get(i);
+		String modelName = verifiableResourcedModel.getModelName();
 
-			verifyResourcedModel(
-				role.getCompanyId(), Layout.class.getName(), layout.getPlid(),
-				role, 0, i, total);
+		if (modelName.equals(User.class.getName())) {
+			sb.append("select ");
+
+			if (count) {
+				sb.append("count(*)");
+			}
+			else {
+				sb.append(verifiableResourcedModel.getPrimaryKeyColumnName());
+				sb.append(", ");
+				sb.append(verifiableResourcedModel.getUserIdColumnName());
+			}
+
+			sb.append(" from ");
+			sb.append(verifiableResourcedModel.getTableName());
+			sb.append(" where companyId = ");
+			sb.append(role.getCompanyId());
 		}
+		else {
+			sb.append("select ");
+
+			if (count) {
+				sb.append("count(*)");
+			}
+			else {
+				sb.append(verifiableResourcedModel.getTableName());
+				sb.append(".");
+				sb.append(verifiableResourcedModel.getPrimaryKeyColumnName());
+				sb.append(", ");
+				sb.append(verifiableResourcedModel.getTableName());
+				sb.append(".");
+				sb.append(verifiableResourcedModel.getUserIdColumnName());
+				sb.append(", ResourcePermission.resourcePermissionId");
+			}
+
+			sb.append(" from ");
+			sb.append(verifiableResourcedModel.getTableName());
+			sb.append(" left join ResourcePermission on (ResourcePermission.");
+			sb.append("companyId = ");
+			sb.append(role.getCompanyId());
+			sb.append(" and ResourcePermission.name = '");
+			sb.append(verifiableResourcedModel.getModelName());
+			sb.append("' and ResourcePermission.scope = ");
+			sb.append(ResourceConstants.SCOPE_INDIVIDUAL);
+			sb.append(" and ResourcePermission.primKey = CAST_TEXT(");
+			sb.append(verifiableResourcedModel.getTableName());
+			sb.append(".");
+			sb.append(verifiableResourcedModel.getPrimaryKeyColumnName());
+			sb.append(") and ResourcePermission.roleId = ");
+			sb.append(role.getRoleId());
+			sb.append(") where ");
+			sb.append(verifiableResourcedModel.getTableName());
+			sb.append(".companyId = ");
+			sb.append(role.getCompanyId());
+			sb.append(" and ResourcePermission.resourcePermissionId is NULL");
+		}
+
+		return SQLTransformer.transform(sb.toString());
 	}
 
-	protected void verifyResourcedModel(
+	private void _verifyResourcedModel(
 			long companyId, String modelName, long primKey, Role role,
 			long ownerId, int cur, int total)
 		throws Exception {
 
 		if (_log.isInfoEnabled() && ((cur % 100) == 0)) {
 			_log.info(
-				"Processed " + cur + " of " + total + " resource permissions " +
-					"for company = " + companyId + " and model " + modelName);
+				StringBundler.concat(
+					"Processed ", String.valueOf(cur), " of ",
+					String.valueOf(total), " resource permissions for company ",
+					"= ", String.valueOf(companyId), " and model ", modelName));
 		}
 
-		ResourcePermission resourcePermission =
-			ResourcePermissionLocalServiceUtil.fetchResourcePermission(
-				companyId, modelName, ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(primKey), role.getRoleId());
+		ResourcePermission resourcePermission = null;
+
+		if (modelName.equals(User.class.getName())) {
+			resourcePermission =
+				ResourcePermissionLocalServiceUtil.fetchResourcePermission(
+					companyId, modelName, ResourceConstants.SCOPE_INDIVIDUAL,
+					String.valueOf(primKey), role.getRoleId());
+		}
 
 		if (resourcePermission == null) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"No resource found for {" + companyId + ", " + modelName +
-						", " + ResourceConstants.SCOPE_INDIVIDUAL + ", " +
-							primKey + ", " + role.getRoleId() + "}");
+					StringBundler.concat(
+						"No resource found for {", String.valueOf(companyId),
+						", ", modelName, ", ",
+						String.valueOf(ResourceConstants.SCOPE_INDIVIDUAL),
+						", ", String.valueOf(primKey), ", ",
+						String.valueOf(role.getRoleId()), "}"));
 			}
 
 			ResourceLocalServiceUtil.addResources(
@@ -137,116 +196,91 @@ public class VerifyResourcePermissions extends VerifyProcess {
 				false, false, false);
 		}
 
-		if (resourcePermission == null) {
-			resourcePermission =
-				ResourcePermissionLocalServiceUtil.fetchResourcePermission(
-					companyId, modelName, ResourceConstants.SCOPE_INDIVIDUAL,
-					String.valueOf(primKey), role.getRoleId());
-
-			if (resourcePermission == null) {
-				return;
-			}
+		if (!modelName.equals(User.class.getName())) {
+			return;
 		}
 
-		if (modelName.equals(User.class.getName())) {
-			User user = UserLocalServiceUtil.fetchUserById(ownerId);
+		User user = UserLocalServiceUtil.getUserById(ownerId);
 
-			if (user != null) {
-				Contact contact = ContactLocalServiceUtil.fetchContact(
-					user.getContactId());
+		Contact contact = ContactLocalServiceUtil.fetchContact(
+			user.getContactId());
 
-				if (contact != null) {
-					ownerId = contact.getUserId();
+		if ((contact != null) && (ownerId != contact.getUserId())) {
+			if (resourcePermission == null) {
+				resourcePermission =
+					ResourcePermissionLocalServiceUtil.fetchResourcePermission(
+						companyId, modelName,
+						ResourceConstants.SCOPE_INDIVIDUAL,
+						String.valueOf(primKey), role.getRoleId());
+
+				if (resourcePermission != null) {
+					resourcePermission.setOwnerId(contact.getUserId());
+
+					ResourcePermissionLocalServiceUtil.updateResourcePermission(
+						resourcePermission);
 				}
 			}
 		}
-
-		if (ownerId != resourcePermission.getOwnerId()) {
-			resourcePermission.setOwnerId(ownerId);
-
-			ResourcePermissionLocalServiceUtil.updateResourcePermission(
-				resourcePermission);
-		}
 	}
 
-	protected void verifyResourcedModel(
+	private void _verifyResourcedModel(
 			Role role, VerifiableResourcedModel verifiableResourcedModel)
 		throws Exception {
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
 		int total = 0;
 
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
-
-			ps = con.prepareStatement(
-				"select count(*) from " +
-					verifiableResourcedModel.getTableName() +
-						" where companyId = " + role.getCompanyId());
-
-			rs = ps.executeQuery();
+		try (LoggingTimer loggingTimer = new LoggingTimer(
+				verifiableResourcedModel.getTableName());
+			Connection con = DataAccess.getUpgradeOptimizedConnection();
+			PreparedStatement ps = con.prepareStatement(
+				_getVerifyResourcedModelSQL(
+					true, verifiableResourcedModel, role));
+			ResultSet rs = ps.executeQuery()) {
 
 			if (rs.next()) {
 				total = rs.getInt(1);
 			}
 		}
-		finally {
-			DataAccess.cleanUp(con, ps, rs);
-		}
 
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
+		try (LoggingTimer loggingTimer = new LoggingTimer(
+				verifiableResourcedModel.getTableName());
+			Connection con = DataAccess.getUpgradeOptimizedConnection();
+			PreparedStatement ps = con.prepareStatement(
+				_getVerifyResourcedModelSQL(
+					false, verifiableResourcedModel, role));
+			ResultSet rs = ps.executeQuery()) {
 
-			StringBundler sb = new StringBundler(8);
-
-			sb.append("select ");
-			sb.append(verifiableResourcedModel.getPrimaryKeyColumnName());
-			sb.append(", ");
-			sb.append(verifiableResourcedModel.getUserIdColumnName());
-			sb.append(" from ");
-			sb.append(verifiableResourcedModel.getTableName());
-			sb.append(" where companyId = ");
-			sb.append(role.getCompanyId());
-
-			ps = con.prepareStatement(sb.toString());
-
-			rs = ps.executeQuery();
-
-			for (int i = 0; rs.next(); i++) {
+			for (int i = 1; rs.next(); i++) {
 				long primKey = rs.getLong(
 					verifiableResourcedModel.getPrimaryKeyColumnName());
 				long userId = rs.getLong(
 					verifiableResourcedModel.getUserIdColumnName());
 
-				verifyResourcedModel(
+				_verifyResourcedModel(
 					role.getCompanyId(),
 					verifiableResourcedModel.getModelName(), primKey, role,
 					userId, i, total);
 			}
-		}
-		finally {
-			DataAccess.cleanUp(con, ps, rs);
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		VerifyResourcePermissions.class);
 
-	private class VerifyResourcedModelRunnable extends ThrowableAwareRunnable {
+	private class VerifyResourcedModelCallable implements Callable<Void> {
 
-		public VerifyResourcedModelRunnable(
+		@Override
+		public Void call() throws Exception {
+			_verifyResourcedModel(_role, _verifiableResourcedModel);
+
+			return null;
+		}
+
+		private VerifyResourcedModelCallable(
 			Role role, VerifiableResourcedModel verifiableResourcedModel) {
 
 			_role = role;
 			_verifiableResourcedModel = verifiableResourcedModel;
-		}
-
-		@Override
-		protected void doRun() throws Exception {
-			verifyResourcedModel(_role, _verifiableResourcedModel);
 		}
 
 		private final Role _role;

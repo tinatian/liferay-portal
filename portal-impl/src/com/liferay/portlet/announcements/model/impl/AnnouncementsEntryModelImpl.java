@@ -16,28 +16,30 @@ package com.liferay.portlet.announcements.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.announcements.kernel.model.AnnouncementsEntry;
+import com.liferay.announcements.kernel.model.AnnouncementsEntryModel;
+import com.liferay.announcements.kernel.model.AnnouncementsEntrySoap;
+
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.announcements.model.AnnouncementsEntry;
-import com.liferay.portlet.announcements.model.AnnouncementsEntryModel;
-import com.liferay.portlet.announcements.model.AnnouncementsEntrySoap;
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
 
 import java.io.Serializable;
 
@@ -121,13 +123,13 @@ public class AnnouncementsEntryModelImpl extends BaseModelImpl<AnnouncementsEntr
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portlet.announcements.model.AnnouncementsEntry"),
+				"value.object.entity.cache.enabled.com.liferay.announcements.kernel.model.AnnouncementsEntry"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portlet.announcements.model.AnnouncementsEntry"),
+				"value.object.finder.cache.enabled.com.liferay.announcements.kernel.model.AnnouncementsEntry"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portlet.announcements.model.AnnouncementsEntry"),
+				"value.object.column.bitmask.enabled.com.liferay.announcements.kernel.model.AnnouncementsEntry"),
 			true);
 	public static final long ALERT_COLUMN_BITMASK = 1L;
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
@@ -194,7 +196,7 @@ public class AnnouncementsEntryModelImpl extends BaseModelImpl<AnnouncementsEntr
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portlet.announcements.model.AnnouncementsEntry"));
+				"lock.expiration.time.com.liferay.announcements.kernel.model.AnnouncementsEntry"));
 
 	public AnnouncementsEntryModelImpl() {
 	}
@@ -676,6 +678,7 @@ public class AnnouncementsEntryModelImpl extends BaseModelImpl<AnnouncementsEntr
 		return _alert;
 	}
 
+	@JSON
 	@Override
 	public boolean isAlert() {
 		return _alert;
@@ -1007,7 +1010,7 @@ public class AnnouncementsEntryModelImpl extends BaseModelImpl<AnnouncementsEntr
 		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portlet.announcements.model.AnnouncementsEntry");
+		sb.append("com.liferay.announcements.kernel.model.AnnouncementsEntry");
 		sb.append("</model-name>");
 
 		sb.append(

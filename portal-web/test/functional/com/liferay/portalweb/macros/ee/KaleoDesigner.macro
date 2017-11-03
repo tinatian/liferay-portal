@@ -58,16 +58,19 @@
 	</command>
 
 	<command name="addNewDefinitionViaKDCP">
-		<execute function="AssertClick" locator1="KaleoDesigner#ADD_NEW_DEFINITION_BUTTON" value1="Add New Definition" />
+		<execute function="Click" locator1="Button#PLUS" />
 
-		<execute function="Type" locator1="TextInput#TITLE" value1="${workflowDefinitionTitle}" />
+		<execute macro="PortletEntry#inputTitle">
+			<var name="title" value="${workflowDefinitionTitle}" />
+		</execute>
 	</command>
 
 	<command name="addNewDefinitionViaWorkflowCP">
-		<execute function="AssertClick" locator1="WorkflowDefinition#TOOLBAR_ADD_NEW_DEFINITION" value1="Add New Definition" />
+		<execute function="Click" locator1="Button#PLUS" />
 
-		<execute function="SelectFrame" locator1="KaleoDesignerEditWorkflow#IFRAME" />
-		<execute function="Type" locator1="TextInput#TITLE" value1="${workflowDefinitionTitle}" />
+		<execute macro="PortletEntry#inputTitle">
+			<var name="title" value="${workflowDefinitionTitle}" />
+		</execute>
 	</command>
 
 	<command name="addNodeSettingsSection">
@@ -78,7 +81,7 @@
 		<if>
 			<equals arg1="${nodeType}" arg2="task" />
 			<then>
-				<var name="sourceXML" >
+				<var name="sourceXML">
 <![CDATA[
 <?xml version="1.0"?>
 <workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.2.0"${line.separator} xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"${line.separator} xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">${line.separator}
@@ -109,6 +112,8 @@
 	</command>
 
 	<command name="addNodeViaViewTab">
+		<execute function="AssertClick#pauseAssertTextClickAt" locator1="KaleoDesignerEditWorkflow#NODES_TAB" value1="Nodes" />
+
 		<var method="StringUtil#replace('${nodeType}', '-', '_')" name="key_nodeType" />
 
 		<execute function="SikuliDragAndDrop" locator1="KaleoDesignerEditWorkflow#NODE_PNG" value1="250,0" />
@@ -127,7 +132,7 @@
 	</command>
 
 	<command name="addSourceXMLBasicDefinition">
-		<var name="sourceXML" >
+		<var name="sourceXML">
 <![CDATA[
 <?xml version="1.0"?>
 <workflow-definition${line.separator} xmlns="urn:liferay.com:liferay-workflow_6.2.0"${line.separator} xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"${line.separator} xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">${line.separator}
@@ -199,8 +204,8 @@
 
 		<execute macro="KaleoDesigner#viewConnectorNotPresent">
 			<var name="connectorLabel" value="${connectorLabel}" />
-		<var name="nodeNodeLabel" value="${nodeNodeLabel}" />
-</execute>
+			<var name="nodeNodeLabel" value="${nodeNodeLabel}" />
+		</execute>
 	</command>
 
 	<command name="deleteNode">
@@ -216,16 +221,23 @@
 	</command>
 
 	<command name="deleteTableDefinitionDraftViaKDCP">
-		<execute function="AssertClick" locator1="KaleoDesigner#DEFINITION_TABLE_DEFINITION_DRAFT_ACTIONS" value1="Actions" />
-		<execute function="AssertClickNoError" locator1="MenuItem#DELETE" value1="Delete" />
+		<var name="key_rowEntry" value="${workflowDefinitionTitle}" />
+
+		<execute function="Click" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+			<var name="key_menuItem" value="Delete" />
+		</execute>
+
 		<execute function="Confirm" value1="Are you sure you want to delete this? It will be deleted immediately." />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="editConnectorName">
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME" />
 		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME_FIELD" value1="${connectorName}" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME" value1="${connectorName}" />
 	</command>
 
@@ -268,7 +280,7 @@
 			</then>
 		</if>
 
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="editNodeAssignments">
@@ -286,27 +298,45 @@
 			</then>
 		</if>
 
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
-
 		<if>
-			<equals arg1="${nodeAssignmentType}" arg2="Role" />
+			<equals arg1="${nodeAssignmentType}" arg2="Role Type" />
 			<then>
-				<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_ASSIGNMENTS" value1="Role ID" />
+				<execute function="Select" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_ROLE_TYPE_SELECT" value1="${roleType}" />
+
+				<var name="key_roleName" value="${roleName}" />
+
+				<if>
+					<isset var="autoCreate" />
+					<then>
+						<execute function="Click" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_ROLE_NAME_SEARCH" />
+
+						<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_ROLE_NAME_SEARCH" value1="${roleName}" />
+
+						<execute function="Check" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_AUTO_CREATE" />
+					</then>
+					<else>
+						<execute function="Click" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_ROLE_NAME_SEARCH" />
+
+						<execute function="Click" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_SEARCH_LIST_RESULT" />
+					</else>
+				</if>
 			</then>
 		</if>
+
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="editNodeDescription">
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_DESCRIPTION" />
 		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_DESCRIPTION_FIELD" value1="${nodeDescription}" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_DESCRIPTION" value1="${nodeDescription}" />
 	</command>
 
 	<command name="editNodeName">
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME" />
 		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME_FIELD" value1="${nodeName}" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME" value1="${nodeName}" />
 	</command>
 
@@ -348,7 +378,6 @@
 		<if>
 			<isset var="nodeNotificationsRecipientType" />
 			<then>
-				<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_EDIT_RECIPIENTS" value1="Edit Recipients" />
 				<execute function="Select" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_TYPE_SELECT" value1="${nodeNotificationsRecipientType}" />
 
 				<if>
@@ -373,33 +402,74 @@
 						<execute function="Click" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_SEARCH_LIST_RESULT" />
 					</then>
 				</if>
-
-				<execute function="Pause" locator1="1000" />
-				<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_SAVE_BUTTON" value1="Save" />
 			</then>
 		</if>
 
 		<execute function="Pause" locator1="1000" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="editNodeScript">
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_SCRIPT" />
 		<execute function="Type#typeAceEditorNoMouseOver" locator1="KaleoDesignerEditWorkflow#SETTINGS_SCRIPT_CONTENT" value1="${nodeScript}" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="editNodeScriptLanguage">
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_SCRIPT_LANGUAGE" />
 		<execute function="Select" locator1="KaleoDesignerEditWorkflow#SETTINGS_SCRIPT_LANGUAGE" value1="${nodeScriptLanguage}" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 	</command>
 
 	<command name="editNodeSettings">
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME" />
 		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME_FIELD" value1="${nodeName}" />
-		<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
 		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_NAME" value1="${nodeName}" />
+	</command>
+
+	<command name="editNodeTimer">
+		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_TIMERS" />
+
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NAME" value1="${timerName}" />
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_DESCRIPTION" value1="${timerDescription}" />
+
+		<execute macro="KaleoDesigner#editNodeTimerDuration">
+			<var name="durationScale" value="${durationScale1}" />
+			<var name="durationTime" value="${durationTime1}" />
+		</execute>
+
+		<execute macro="KaleoDesigner#addNodeSettingsSection" />
+
+		<execute macro="KaleoDesigner#editNodeTimerDurationAdditional">
+			<var name="durationScale" value="${durationScale2}" />
+			<var name="durationTime" value="${durationTime2}" />
+		</execute>
+
+		<execute macro="KaleoDesigner#editNodeTimerBlocker">
+			<var name="blockerDescription" value="${blockerDescription}" />
+			<var name="blockerName" value="${blockerName}" />
+			<var name="blockerScript" value="${blockerScript}" />
+		</execute>
+
+		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+	</command>
+
+	<command name="editNodeTimerBlocker">
+		<execute function="Check" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_BLOCKING" />
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_ACTION_NAME" value1="${blockerName}" />
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_ACTION_DESCRIPTION" value1="${blockerDescription}" />
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SCRIPT" value1="${blockerScript}" />
+	</command>
+
+	<command name="editNodeTimerDuration">
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_DURATION" value1="${durationTime}" />
+		<execute function="Select" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SCALE_SELECT" value1="${durationScale}" />
+	</command>
+
+	<command name="editNodeTimerDurationAdditional">
+		<execute function="Type" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_DURATION_2" value1="${durationTime}" />
+		<execute function="Select" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_SCALE_SELECT_2" value1="${durationScale}" />
 	</command>
 
 	<command name="editSourceXML">
@@ -408,26 +478,32 @@
 		<var name="key_line" value="${line}" />
 
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SOURCE_KALEO_XML_CONTENT_SPECIFIC_LINE" />
+		<execute function="Click" locator1="KaleoDesignerEditWorkflow#SOURCE_KALEO_XML_CONTENT_SPECIFIC_LINE" />
 		<execute function="TypeScreen" locator1="${kdSourceXML}" />
 	</command>
 
 	<command name="editWorkflowDefinitionTitleViaWorkflowCP">
-		<execute function="Type" locator1="TextInput#TITLE" value1="${workflowDefinitionTitle}" />
+		<execute macro="PortletEntry#inputTitle">
+			<var name="title" value="${workflowDefinitionTitle}" />
+		</execute>
 	</command>
 
 	<command name="editWorkflowDefinitionViaKDCP">
-		<var name="key_workflowDefinitionTitle" value="${workflowDefinitionTitle}" />
+		<var name="key_rowEntry" value="${workflowDefinitionTitle}" />
 
-		<execute function="AssertClick" locator1="KaleoDesigner#DEFINITION_TABLE_ACTIONS" value1="Actions" />
-		<execute function="AssertClick" locator1="MenuItem#EDIT" value1="Edit" />
+		<execute function="Click" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Edit">
+			<var name="key_menuItem" value="Edit" />
+		</execute>
 	</command>
 
 	<command name="editWorkflowDefinitionViaWorkflowCP">
 		<var name="key_workflowDefinitionTitle" value="${workflowDefinitionTitle}" />
 
 		<execute function="Click" locator1="WorkflowDefinition#DEFINITION_TABLE_SPECIFIC_DEFINITION_ELLIPSIS" />
-		<execute function="AssertClick" locator1="WorkflowDefinition#DEFINITION_MENULIST_EDIT" value1="Edit" />
-		<execute function="SelectFrame" locator1="KaleoDesignerEditWorkflow#IFRAME" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Edit">
+			<var name="key_menuItem" value="Edit" />
+		</execute>
 	</command>
 
 	<command name="eraseDefinitionViaSourceXML">
@@ -445,19 +521,31 @@
 
 	<command name="publishInvalidWorkflowDefinitionViaWorkflowCP">
 		<execute function="AssertClickNoError" locator1="Button#PUBLISH" value1="Publish" />
-		<execute function="AssertTextEquals" locator1="Message#ERROR_1" value1="Your request failed to complete." />
-		<execute function="AssertTextEquals" locator1="Message#ERROR_2" value1="Please enter valid content." />
+
+		<if>
+			<condition function="IsTextEqual" locator1="Message#ERROR" value1="Please enter valid content." />
+			<then>
+				<execute macro="Alert#viewRequestFailedToComplete" />
+
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#ERROR" value1="Please enter valid content." />
+			</then>
+			<else>
+				<execute macro="Alert#viewErrorMessage">
+					<var name="errorMessage" value="${errorMessage}" />
+				</execute>
+			</else>
+		</if>
 	</command>
 
 	<command name="publishWorkflowDefinitionViaKDCP">
 		<execute function="AssertClick" locator1="Button#PUBLISH" value1="Publish" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="publishWorkflowDefinitionViaWorkflowCP">
 		<execute function="AssertClick" locator1="Button#PUBLISH" value1="Publish" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
-		<execute function="SelectFrameTop" locator1="KaleoDesignerEditWorkflow#IFRAME" value1="relative=top" />
+		<execute macro="Alert#viewSuccessMessage" />
+		<execute function="SelectFrameTop" locator1="IFrame#DIALOG" value1="relative=top" />
 	</command>
 
 	<command name="redoDraft">
@@ -470,7 +558,7 @@
 
 	<command name="saveAsDraftWorkflowDefinitionViaKDCP">
 		<execute function="AssertClick" locator1="Button#SAVE_AS_DRAFT" value1="Save as Draft" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="selectNode">
@@ -478,6 +566,17 @@
 
 		<execute function="Click" locator1="KaleoDesignerEditWorkflow#VIEW_FORM_NODE" />
 		<execute function="ScrollWebElementIntoView" locator1="KaleoDesignerEditWorkflow#VIEW_FORM_NODE" />
+	</command>
+
+	<command name="showDetails">
+		<if>
+			<condition function="IsElementNotPresent#isNotVisible" locator1="KaleoDesignerEditWorkflow#DRAFT_VERSION_HEADER" />
+			<then>
+				<execute function="Click" locator1="KaleoDesignerEditWorkflow#DETAILS_TOGGLE" />
+			</then>
+		</if>
+
+		<execute function="AssertVisible" locator1="KaleoDesignerEditWorkflow#DRAFT_VERSION_HEADER" />
 	</command>
 
 	<command name="undoDraft">
@@ -559,7 +658,16 @@
 	</command>
 
 	<command name="viewNodeAssignments">
-		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_ASSIGNMENTS" value1="${nodeAssignmentType}" />
+		<if>
+			<equals arg1="${nodeAssignmentType}" arg2="Role" />
+			<then>
+				<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_ASSIGNMENTS" value1="Role ID" />
+			</then>
+			<else>
+				<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_ASSIGNMENTS" value1="${nodeAssignmentType}" />
+			</else>
+		</if>
+
 		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_ASSIGNMENTS" />
 		<execute function="AssertElementPresent" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_ASSIGNMENT_TYPE_SELECT" />
 	</command>
@@ -578,7 +686,7 @@
 		<if>
 			<isset var="nodeNotificationsTemplateLanguage" />
 			<then>
-				<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_TEMPLATE_LANGUAGE_SELECT" value1="${nodeNotificationsTemplateLanguage}" />
+				<execute function="AssertSelectedLabel" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_TEMPLATE_LANGUAGE_SELECT" value1="${nodeNotificationsTemplateLanguage}" />
 			</then>
 		</if>
 
@@ -595,7 +703,7 @@
 				<if>
 					<equals arg1="${nodeNotificationsType}" arg2="User Notification" />
 					<then>
-						<execute function="SikuliAssertElementPresent" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATION_TYPE_USER_NOTIFICATION_PNG" />
+						<execute function="AssertSelectedLabel" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATION_TYPE_SELECT" value1="User Notification" />
 					</then>
 				</if>
 			</then>
@@ -613,8 +721,6 @@
 		<if>
 			<isset var="nodeNotificationsRecipientType" />
 			<then>
-				<execute function="AssertClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_EDIT_RECIPIENTS" value1="Edit Recipients" />
-
 				<if>
 					<equals arg1="${nodeNotificationsRecipientType}" arg2="Role" />
 					<then>
@@ -626,19 +732,19 @@
 				<if>
 					<equals arg1="${nodeNotificationsRecipientType}" arg2="Role Type" />
 					<then>
-						<execute function="SikuliAssertElementPresent" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_RECIPIENT_TYPE_PNG" />
+						<execute function="AssertSelectedLabel" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_TYPE_SELECT" value1="Role Type" />
 
 						<if>
 							<equals arg1="${nodeNotificationsRecipientType}" arg2="Role" />
 							<then>
-								<execute function="SikuliAssertElementPresent" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_ROLE_TYPE_PNG" />
+								<execute function="AssertSelectedLabel" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_ROLE_SEARCH" value1="Regular" />
 							</then>
 						</if>
 
 						<if>
 							<equals arg1="${roleName}" arg2="Administrator" />
 							<then>
-								<execute function="SikuliAssertElementPresent" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_ROLE_NAME_PNG" />
+								<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NOTIFICATIONS_RECIPIENT_EDITOR_ROLE_NAME_SEARCH" value1="Administrator" />
 							</then>
 						</if>
 					</then>
@@ -659,6 +765,29 @@
 		<execute function="AssertElementPresent" locator1="KaleoDesignerEditWorkflow#VIEW_FORM_NODE" />
 	</command>
 
+	<command name="viewNodeTimer">
+		<execute function="DoubleClick" locator1="KaleoDesignerEditWorkflow#SETTINGS_TIMERS" />
+
+		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_NAME" value1="${timerName}" />
+
+		<if>
+			<equals arg1="${blocking}" arg2="false" />
+			<then>
+				<execute function="AssertNotChecked" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_BLOCKING" />
+			</then>
+			<elseif>
+				<equals arg1="${blocking}" arg2="true" />
+				<then>
+					<execute function="AssertChecked" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_BLOCKING" />
+				</then>
+			</elseif>
+		</if>
+
+		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_ACTION_NAME" value1="${blockerName}" />
+		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_DURATION" value1="${durationTime1}" />
+		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_CELL_EDITOR_DURATION_2" value1="${durationTime2}" />
+	</command>
+
 	<command name="viewNodeType">
 		<execute function="AssertTextEquals" locator1="KaleoDesignerEditWorkflow#SETTINGS_TYPE" value1="${nodeType}" />
 	</command>
@@ -674,12 +803,14 @@
 				</execute>
 			</then>
 			<else>
-				<execute function="AssertTextEquals" locator1="Message#INFO" value1="No workflow definitions are defined." />
+				<execute function="AssertTextEquals" locator1="KaleoDesigner#INFO_MESSAGE" value1="No workflow definitions are defined." />
 			</else>
 		</if>
 	</command>
 
 	<command name="viewSourceXMLLine">
+		<execute macro="KaleoDesigner#viewSourceXMLTab" />
+
 		<execute function="ScrollWebElementIntoView" locator1="KaleoDesignerEditWorkflow#SOURCE_KALEO_XML_TAB" />
 
 		<var name="key_line" value="${line}" />
@@ -703,18 +834,35 @@
 		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_VERSION" value1="0" />
 		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_DRAFT_VERSION" value1="1" />
 		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_PUBLISHED" value1="No" />
-		<execute function="AssertElementPresent" locator1="KaleoDesigner#DEFINITION_TABLE_ACTIONS" />
+		<execute function="AssertElementPresent" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
 	</command>
 
 	<command name="viewTableDefinitionPublishedViaKDCP">
-		<var name="key_workflowDefinitionTitle" value="${workflowDefinitionTitle}" />
+		<if>
+			<isset var="workflowDefinitionName" />
+			<then>
+				<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_NAME" value1="${workflowDefinitionName}" />
+			</then>
+			<else>
+				<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_TITLE" value1="${workflowDefinitionTitle}" />
+			</else>
+		</if>
 
-		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_NAME" value1="${workflowDefinitionTitle}" />
 		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_TITLE" value1="${workflowDefinitionTitle}" />
-		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_VERSION" value1="1" />
+
+		<if>
+			<isset var="workflowDefinitionVersionNumber" />
+			<then>
+				<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_VERSION" value1="${workflowDefinitionVersionNumber}" />
+			</then>
+			<else>
+				<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_VERSION" value1="1" />
+			</else>
+		</if>
+
 		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_DRAFT_VERSION" value1="1" />
 		<execute function="AssertTextEquals" locator1="KaleoDesigner#DEFINITION_TABLE_PUBLISHED" value1="Yes" />
-		<execute function="AssertElementPresent" locator1="KaleoDesigner#DEFINITION_TABLE_ACTIONS" />
+		<execute function="AssertElementPresent" locator1="Icon#BODY_VERTICAL_ELLIPSIS" />
 	</command>
 
 	<command name="viewViewTab">

@@ -14,25 +14,19 @@
 
 package com.liferay.taglib.util;
 
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletProvider;
-import com.liferay.portal.kernel.servlet.taglib.ui.Menu;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.Portlet;
-import com.liferay.taglib.aui.ColumnTag;
-import com.liferay.taglib.aui.LayoutTag;
 import com.liferay.taglib.ui.AssetCategoriesSummaryTag;
 import com.liferay.taglib.ui.AssetLinksTag;
 import com.liferay.taglib.ui.AssetTagsSummaryTag;
 import com.liferay.taglib.ui.BreadcrumbTag;
 import com.liferay.taglib.ui.DiscussionTag;
-import com.liferay.taglib.ui.FlagsTag;
 import com.liferay.taglib.ui.IconTag;
 import com.liferay.taglib.ui.JournalArticleTag;
-import com.liferay.taglib.ui.MenuTag;
 import com.liferay.taglib.ui.MySitesTag;
 import com.liferay.taglib.ui.PngImageTag;
-import com.liferay.taglib.ui.QuickAccessTag;
 import com.liferay.taglib.ui.RatingsTag;
 
 import javax.portlet.PortletURL;
@@ -53,23 +47,6 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 
 	@Override
 	public String actionURL(String portletName, String queryString) {
-		return null;
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #actionURL(String, String,
-	 *             Boolean, Boolean, Boolean, String, long, long, String,
-	 *             Boolean, Boolean, long, long, Boolean, String)}
-	 */
-	@Deprecated
-	@Override
-	public String actionURL(
-		String windowState, String portletMode, Boolean secure,
-		Boolean copyCurrentRenderParameters, Boolean escapeXml, String name,
-		long plid, long refererPlid, String portletName, Boolean anchor,
-		Boolean encrypt, long doAsUserId, Boolean portletConfiguration,
-		String queryString) {
-
 		return null;
 	}
 
@@ -126,6 +103,17 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 		boolean showPortletBreadcrumb) {
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #breadcrumb(long, String,
+	 *             boolean, boolean, boolean, boolean)}}
+	 */
+	@Deprecated
+	@Override
+	public void breadcrumb(
+		String ddmTemplateKey, boolean showGuestGroup, boolean showParentGroups,
+		boolean showLayout, boolean showPortletBreadcrumb) {
+	}
+
 	@Override
 	public void discussion(
 		String className, long classPK, String formAction, String formName,
@@ -133,26 +121,8 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 		long userId) {
 	}
 
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #discussion(String, long,
-	 *             String, String, boolean, boolean, String, long)})}
-	 */
-	@Deprecated
-	@Override
-	public void discussion(
-		String className, long classPK, String formAction, String formName,
-		boolean hideControls, boolean ratingsEnabled, String redirect,
-		String subject, long userId) {
-	}
-
 	@Override
 	public void doAsURL(long doAsUserId) {
-	}
-
-	@Override
-	public void flags(
-		String className, long classPK, String contentTitle, boolean label,
-		String message, long reportedUserId) {
 	}
 
 	@Override
@@ -176,17 +146,7 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 	}
 
 	@Override
-	public ColumnTag getColumnTag() {
-		return null;
-	}
-
-	@Override
 	public DiscussionTag getDiscussionTag() {
-		return null;
-	}
-
-	@Override
-	public FlagsTag getFlagsTag() {
 		return null;
 	}
 
@@ -197,16 +157,6 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 
 	@Override
 	public JournalArticleTag getJournalArticleTag() {
-		return null;
-	}
-
-	@Override
-	public LayoutTag getLayoutTag() {
-		return null;
-	}
-
-	@Override
-	public MenuTag getMenuTag() {
 		return null;
 	}
 
@@ -222,11 +172,6 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 
 	@Override
 	public PngImageTag getPngImageTag() {
-		return null;
-	}
-
-	@Override
-	public QuickAccessTag getQuickAccessTag() {
 		return null;
 	}
 
@@ -249,44 +194,8 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 	public void icon(String image, boolean label, String message, String url) {
 	}
 
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #iconBack}
-	 */
-	@Deprecated
-	@Override
-	public void iconBack() {
-		portletIconBack();
-	}
-
 	@Override
 	public void iconHelp(String message) {
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #portletIconOptions}
-	 */
-	@Deprecated
-	@Override
-	public void iconOptions() {
-		portletIconOptions();
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #portletIconPortlet}
-	 */
-	@Deprecated
-	@Override
-	public void iconPortlet() {
-		portletIconPortlet();
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #portletIconPortlet(Portlet)}
-	 */
-	@Deprecated
-	@Override
-	public void iconPortlet(Portlet portlet) {
-		portletIconPortlet();
 	}
 
 	@Override
@@ -331,27 +240,7 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 	}
 
 	@Override
-	public void menu(Menu menu) {
-	}
-
-	@Override
 	public void metaTags() {
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #mySites}
-	 */
-	@Deprecated
-	@Override
-	public void myPlaces() {
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #mySites(int)}
-	 */
-	@Deprecated
-	@Override
-	public void myPlaces(int max) {
 	}
 
 	@Override
@@ -367,19 +256,6 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 		String redirect, String modelResource, String modelResourceDescription,
 		Object resourceGroupId, String resourcePrimKey, String windowState,
 		int[] roleTypes) {
-
-		return null;
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #permissionsURL(String,
-	 *             String, String, Object, String, String, int[])}
-	 */
-	@Deprecated
-	@Override
-	public String permissionsURL(
-		String redirect, String modelResource, String modelResourceDescription,
-		String resourcePrimKey, String windowState, int[] roleTypes) {
 
 		return null;
 	}
@@ -405,14 +281,6 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 	}
 
 	@Override
-	public void quickAccess() {
-	}
-
-	@Override
-	public void quickAccess(String contentId) {
-	}
-
-	@Override
 	public void ratings(
 		String className, long classPK, int numberOfStars, String type,
 		String url) {
@@ -435,22 +303,6 @@ public class DummyVelocityTaglib implements VelocityTaglib {
 		long refererPlid, String portletName, Boolean anchor, Boolean encrypt,
 		long doAsGroupId, long doAsUserId, Boolean portletConfiguration,
 		String queryString) {
-
-		return null;
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #renderURL(String, String,
-	 *             Boolean, Boolean, Boolean, long, long, String, Boolean,
-	 *             Boolean, long, long, Boolean, String)}
-	 */
-	@Deprecated
-	@Override
-	public String renderURL(
-		String windowState, String portletMode, Boolean secure,
-		Boolean copyCurrentRenderParameters, Boolean escapeXml, long plid,
-		String portletName, Boolean anchor, Boolean encrypt, long doAsUserId,
-		Boolean portletConfiguration, String queryString) {
 
 		return null;
 	}

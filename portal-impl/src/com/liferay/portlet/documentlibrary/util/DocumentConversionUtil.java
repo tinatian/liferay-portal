@@ -116,9 +116,7 @@ public class DocumentConversionUtil {
 			}
 		}
 		catch (Exception e) {
-			if (_log.isErrorEnabled()) {
-				_log.error(e, e);
-			}
+			_log.error(e, e);
 		}
 
 		return false;
@@ -200,14 +198,16 @@ public class DocumentConversionUtil {
 		}
 		else if (outputDocumentFormat == null) {
 			throw new SystemException(
-				"Conversion is not supported from " +
-					inputDocumentFormat.getName() + " to ." + targetExtension);
+				StringBundler.concat(
+					"Conversion is not supported from ",
+					inputDocumentFormat.getName(), " to .", targetExtension));
 		}
 		else if (!inputDocumentFormat.isExportableTo(outputDocumentFormat)) {
 			throw new SystemException(
-				"Conversion is not supported from " +
-					inputDocumentFormat.getName() + " to " +
-						outputDocumentFormat.getName());
+				StringBundler.concat(
+					"Conversion is not supported from ",
+					inputDocumentFormat.getName(), " to ",
+					outputDocumentFormat.getName()));
 		}
 
 		UnsyncByteArrayOutputStream unsyncByteArrayOutputStream =
@@ -281,11 +281,13 @@ public class DocumentConversionUtil {
 
 		if (_isRemoteOpenOfficeHost(host)) {
 			_openOfficeConnection = new SocketOpenOfficeConnection(host, port);
+
 			_documentConverter = new StreamOpenOfficeDocumentConverter(
 				_openOfficeConnection);
 		}
 		else {
 			_openOfficeConnection = new SocketOpenOfficeConnection(port);
+
 			_documentConverter = new OpenOfficeDocumentConverter(
 				_openOfficeConnection);
 		}
@@ -359,8 +361,9 @@ public class DocumentConversionUtil {
 			else {
 				if (_log.isInfoEnabled()) {
 					_log.info(
-						"Conversions supported from " + sourceExtension +
-							" to " + conversions);
+						StringBundler.concat(
+							"Conversions supported from ", sourceExtension,
+							" to ", String.valueOf(conversions)));
 				}
 
 				_conversionsMap.put(

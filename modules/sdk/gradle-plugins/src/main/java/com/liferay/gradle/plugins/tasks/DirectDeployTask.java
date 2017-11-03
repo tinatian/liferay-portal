@@ -14,7 +14,9 @@
 
 package com.liferay.gradle.plugins.tasks;
 
-import com.liferay.gradle.util.FileUtil;
+import com.liferay.gradle.plugins.LiferayBasePlugin;
+import com.liferay.gradle.plugins.internal.util.FileUtil;
+import com.liferay.gradle.plugins.internal.util.GradleUtil;
 import com.liferay.gradle.util.StringUtil;
 
 import java.io.File;
@@ -22,24 +24,38 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gradle.api.artifacts.Configuration;
+
 /**
  * @author Andrea Di Giorgi
  */
-public class DirectDeployTask extends BasePortalImplToolsTask {
+public class DirectDeployTask extends BasePortalToolsTask {
 
 	public File getAppServerDeployDir() {
-		return _appServerDeployDir;
+		return GradleUtil.toFile(project, _appServerDeployDir);
+	}
+
+	public File getAppServerDir() {
+		return GradleUtil.toFile(project, _appServerDir);
+	}
+
+	public File getAppServerLibGlobalDir() {
+		return GradleUtil.toFile(project, _appServerLibGlobalDir);
+	}
+
+	public File getAppServerPortalDir() {
+		return GradleUtil.toFile(project, _appServerPortalDir);
 	}
 
 	public String getAppServerType() {
-		return _appServerType;
+		return GradleUtil.toString(_appServerType);
 	}
 
 	@Override
 	public List<String> getArgs() {
 		List<String> args = new ArrayList<>(3);
 
-		File appServerLibPortalDir = getAppServerLibPortalDir();
+		File appServerLibPortalDir = _getAppServerLibPortalDir();
 
 		String path = appServerLibPortalDir.getAbsolutePath();
 
@@ -66,11 +82,11 @@ public class DirectDeployTask extends BasePortalImplToolsTask {
 		jvmArgs.add("-Ddeployer.file.pattern=" + webAppFile.getName());
 		jvmArgs.add("-Ddeployer.unpack.war=" + isUnpackWar());
 		jvmArgs.add(
-			"-Dexternal-properties=com/liferay/portal/tools/dependencies/" +
-				"portal-tools.properties");
+			"-Dexternal-properties=com/liferay/portal/tools/dependencies" +
+				"/portal-tools.properties");
 		jvmArgs.add(
 			"-Dliferay.lib.portal.dir=" +
-				FileUtil.getAbsolutePath(getAppServerLibPortalDir()));
+				FileUtil.getAbsolutePath(_getAppServerLibPortalDir()));
 
 		String webAppType = getWebAppType();
 
@@ -106,8 +122,8 @@ public class DirectDeployTask extends BasePortalImplToolsTask {
 				"-Ddeployer.security.taglib.dtd=" + tldPath +
 					"/liferay-security.tld");
 			jvmArgs.add(
-				"-Ddeployer.staging.taglib.dtd=util-taglib/classes/META-INF/" +
-					"liferay-staging.tld");
+				"-Ddeployer.staging.taglib.dtd=util-taglib/classes/META-INF" +
+					"/liferay-staging.tld");
 			jvmArgs.add(
 				"-Ddeployer.util.taglib.dtd=" + tldPath + "/liferay-util.tld");
 		}
@@ -128,11 +144,11 @@ public class DirectDeployTask extends BasePortalImplToolsTask {
 	}
 
 	public File getWebAppFile() {
-		return _webAppFile;
+		return GradleUtil.toFile(project, _webAppFile);
 	}
 
 	public String getWebAppType() {
-		return _webAppType;
+		return GradleUtil.toString(_webAppType);
 	}
 
 	public boolean isCustomPortletXml() {
@@ -143,11 +159,23 @@ public class DirectDeployTask extends BasePortalImplToolsTask {
 		return _unpackWar;
 	}
 
-	public void setAppServerDeployDir(File appServerDeployDir) {
+	public void setAppServerDeployDir(Object appServerDeployDir) {
 		_appServerDeployDir = appServerDeployDir;
 	}
 
-	public void setAppServerType(String appServerType) {
+	public void setAppServerDir(Object appServerDir) {
+		_appServerDir = appServerDir;
+	}
+
+	public void setAppServerLibGlobalDir(Object appServerLibGlobalDir) {
+		_appServerLibGlobalDir = appServerLibGlobalDir;
+	}
+
+	public void setAppServerPortalDir(Object appServerPortalDir) {
+		_appServerPortalDir = appServerPortalDir;
+	}
+
+	public void setAppServerType(Object appServerType) {
 		_appServerType = appServerType;
 	}
 
@@ -159,12 +187,23 @@ public class DirectDeployTask extends BasePortalImplToolsTask {
 		_unpackWar = unpackWar;
 	}
 
-	public void setWebAppFile(File webAppFile) {
+	public void setWebAppFile(Object webAppFile) {
 		_webAppFile = webAppFile;
 	}
 
-	public void setWebAppType(String webAppType) {
+	public void setWebAppType(Object webAppType) {
 		_webAppType = webAppType;
+	}
+
+	@Override
+	protected void addDependencies() {
+		Configuration configuration = GradleUtil.getConfiguration(
+			project, getConfigurationName());
+
+		Configuration portalConfiguration = GradleUtil.getConfiguration(
+			project, LiferayBasePlugin.PORTAL_CONFIGURATION_NAME);
+
+		configuration.extendsFrom(portalConfiguration);
 	}
 
 	@Override
@@ -172,11 +211,18 @@ public class DirectDeployTask extends BasePortalImplToolsTask {
 		return "Deployer";
 	}
 
-	private File _appServerDeployDir;
-	private String _appServerType;
+	private File _getAppServerLibPortalDir() {
+		return new File(getAppServerPortalDir(), "WEB-INF/lib");
+	}
+
+	private Object _appServerDeployDir;
+	private Object _appServerDir;
+	private Object _appServerLibGlobalDir;
+	private Object _appServerPortalDir;
+	private Object _appServerType;
 	private boolean _customPortletXml;
 	private boolean _unpackWar = true;
-	private File _webAppFile;
-	private String _webAppType;
+	private Object _webAppFile;
+	private Object _webAppType;
 
 }

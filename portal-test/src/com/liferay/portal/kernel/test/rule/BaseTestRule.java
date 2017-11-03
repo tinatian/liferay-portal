@@ -14,8 +14,14 @@
 
 package com.liferay.portal.kernel.test.rule;
 
+import com.liferay.petra.concurrent.ConcurrentReferenceKeyHashMap;
+import com.liferay.petra.memory.FinalizeManager;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
-import com.liferay.portal.kernel.test.rule.callback.BaseTestCallback;
+import com.liferay.portal.kernel.test.rule.callback.TestCallback;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Map;
 
 import org.junit.internal.runners.statements.ExpectException;
 import org.junit.internal.runners.statements.FailOnTimeout;
@@ -29,44 +35,90 @@ import org.junit.runners.model.Statement;
 /**
  * @author Shuyang Zhou
  */
-public class BaseTestRule<C, M> implements TestRule {
+public class BaseTestRule<C, M>
+	implements ArquillianClassRuleHandler, TestRule {
 
-	public BaseTestRule(BaseTestCallback<C, M> baseTestCallback) {
-		_baseTestCallback = baseTestCallback;
+	public BaseTestRule(TestCallback<C, M> testCallback) {
+		_testCallback = testCallback;
 	}
 
 	@Override
 	public final Statement apply(
 		Statement statement, final Description description) {
 
+		String methodName = description.getMethodName();
+
+		if (methodName != null) {
+			return new StatementWrapper(statement) {
+
+				@Override
+				public void evaluate() throws Throwable {
+					Object target = inspectTarget(statement);
+
+					M m = _testCallback.beforeMethod(description, target);
+
+					try {
+						statement.evaluate();
+					}
+					finally {
+						_testCallback.afterMethod(description, m, target);
+					}
+				}
+
+			};
+		}
+
+		boolean arquillianTest = ArquillianUtil.isArquillianTest(description);
+
+		if (!arquillianTest) {
+			return new StatementWrapper(statement) {
+
+				@Override
+				public void evaluate() throws Throwable {
+					C c = _testCallback.beforeClass(description);
+
+					try {
+						statement.evaluate();
+					}
+					finally {
+						_testCallback.afterClass(description, c);
+					}
+				}
+
+			};
+		}
+
 		return new StatementWrapper(statement) {
 
 			@Override
 			public void evaluate() throws Throwable {
-				String methodName = description.getMethodName();
+				Class<?> clazz = description.getTestClass();
 
-				C c = null;
-				M m = null;
-				Object target = null;
+				if (_handleBeforeClassThreadLocal.get()) {
+					Deque<Object> deque = _classCarryOnMap.get(clazz);
 
-				if (methodName == null) {
-					c = _baseTestCallback.doBeforeClass(description);
-				}
-				else {
-					target = inspectTarget(statement);
+					if (deque == null) {
+						deque = new LinkedList<>();
 
-					m = _baseTestCallback.doBeforeMethod(description, target);
+						_classCarryOnMap.put(clazz, deque);
+					}
+
+					deque.addLast(_testCallback.beforeClass(description));
 				}
 
 				try {
 					statement.evaluate();
 				}
 				finally {
-					if (methodName == null) {
-						_baseTestCallback.doAfterClass(description, c);
-					}
-					else {
-						_baseTestCallback.doAfterMethod(description, m, target);
+					if (_handleAfterClassThreadLocal.get()) {
+						Deque<Object> deque = _classCarryOnMap.get(clazz);
+
+						_testCallback.afterClass(
+							description, (C)deque.removeLast());
+
+						if (deque.isEmpty()) {
+							_classCarryOnMap.remove(clazz);
+						}
 					}
 				}
 			}
@@ -74,7 +126,17 @@ public class BaseTestRule<C, M> implements TestRule {
 		};
 	}
 
-	public static abstract class StatementWrapper extends Statement {
+	@Override
+	public void handleAfterClass(boolean enable) {
+		_handleAfterClassThreadLocal.set(enable);
+	}
+
+	@Override
+	public void handleBeforeClass(boolean enable) {
+		_handleBeforeClassThreadLocal.set(enable);
+	}
+
+	public abstract static class StatementWrapper extends Statement {
 
 		public StatementWrapper(Statement statement) {
 			this.statement = statement;
@@ -95,9 +157,8 @@ public class BaseTestRule<C, M> implements TestRule {
 			statement = statementWrapper.getStatement();
 		}
 
-		if ((statement instanceof InvokeMethod) ||
-			(statement instanceof RunAfters) ||
-			(statement instanceof RunBefores)) {
+		if (statement instanceof InvokeMethod ||
+			statement instanceof RunAfters || statement instanceof RunBefores) {
 
 			return ReflectionTestUtil.getFieldValue(statement, "target");
 		}
@@ -114,6 +175,30 @@ public class BaseTestRule<C, M> implements TestRule {
 		throw new IllegalStateException("Unknow statement " + statement);
 	}
 
-	private final BaseTestCallback<C, M> _baseTestCallback;
+	private static final Map<Class<?>, Deque<Object>> _classCarryOnMap =
+		new ConcurrentReferenceKeyHashMap<>(
+			FinalizeManager.WEAK_REFERENCE_FACTORY);
+
+	private final ThreadLocal<Boolean> _handleAfterClassThreadLocal =
+		new ThreadLocal<Boolean>() {
+
+			@Override
+			protected Boolean initialValue() {
+				return Boolean.FALSE;
+			}
+
+		};
+
+	private final ThreadLocal<Boolean> _handleBeforeClassThreadLocal =
+		new ThreadLocal<Boolean>() {
+
+			@Override
+			protected Boolean initialValue() {
+				return Boolean.FALSE;
+			}
+
+		};
+
+	private final TestCallback<C, M> _testCallback;
 
 }

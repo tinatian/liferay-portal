@@ -17,24 +17,28 @@ package com.liferay.taglib.util;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Theme;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
+import com.liferay.portal.kernel.servlet.PluginContextListener;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.servlet.taglib.DynamicIncludeUtil;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateContextContributor;
 import com.liferay.portal.kernel.template.TemplateManager;
 import com.liferay.portal.kernel.template.TemplateManagerUtil;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.TemplateResourceLoaderUtil;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.ThemeHelper;
-import com.liferay.portal.kernel.util.UnsyncPrintWriterPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.PortletConstants;
-import com.liferay.portal.model.Theme;
-import com.liferay.portal.theme.PortletDisplay;
-import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.registry.collections.ServiceTrackerCollections;
+import com.liferay.registry.collections.ServiceTrackerList;
 import com.liferay.taglib.servlet.PipingServletResponse;
 
 import java.io.Writer;
@@ -135,7 +139,8 @@ public class ThemeUtil {
 		ClassLoader pluginClassLoader = null;
 
 		if (pluginServletContext != null) {
-			pluginClassLoader = pluginServletContext.getClassLoader();
+			pluginClassLoader = (ClassLoader)pluginServletContext.getAttribute(
+				PluginContextListener.PLUGIN_CLASS_LOADER);
 		}
 
 		Thread currentThread = Thread.currentThread();
@@ -203,11 +208,11 @@ public class ThemeUtil {
 			servletContext, portletId, path);
 
 		if (Validator.isNotNull(portletId) &&
-			PortletConstants.hasInstanceId(portletId) &&
+			PortletIdCodec.hasInstanceId(portletId) &&
 			!TemplateResourceLoaderUtil.hasTemplateResource(
 				TemplateConstants.LANG_TYPE_FTL, resourcePath)) {
 
-			String rootPortletId = PortletConstants.getRootPortletId(portletId);
+			String rootPortletId = PortletIdCodec.decodePortletName(portletId);
 
 			resourcePath = theme.getResourcePath(
 				servletContext, rootPortletId, path);
@@ -239,6 +244,14 @@ public class ThemeUtil {
 
 		template.prepare(request);
 
+		// Custom theme variables
+
+		for (TemplateContextContributor templateContextContributor :
+				_templateContextContributors) {
+
+			templateContextContributor.prepare(template, request);
+		}
+
 		// Theme servlet context
 
 		ServletContext themeServletContext = ServletContextPool.get(
@@ -249,30 +262,21 @@ public class ThemeUtil {
 		Writer writer = null;
 
 		if (write) {
-
-			// Wrapping is needed because of a bug in FreeMarker
-
-			writer = UnsyncPrintWriterPool.borrow(response.getWriter());
+			writer = response.getWriter();
 		}
 		else {
 			writer = new UnsyncStringWriter();
+
+			response = new PipingServletResponse(response, writer);
 		}
 
 		TemplateManager templateManager =
 			TemplateManagerUtil.getTemplateManager(
 				TemplateConstants.LANG_TYPE_FTL);
 
-		templateManager.addTaglibApplication(
-			template, "Application", request.getServletContext());
-		templateManager.addTaglibFactory(
-			template, "PortalJspTagLibs", servletContext);
-		templateManager.addTaglibFactory(
-			template, "ThemeJspTaglibs", themeServletContext);
-		templateManager.addTaglibRequest(
-			template, "Request", request, response);
+		templateManager.addTaglibSupport(template, request, response);
 		templateManager.addTaglibTheme(
-			template, "taglibLiferay", request,
-			new PipingServletResponse(response, writer));
+			template, "taglibLiferay", request, response);
 
 		template.put(TemplateConstants.WRITER, writer);
 
@@ -303,8 +307,9 @@ public class ThemeUtil {
 
 			if (themeServletContext == null) {
 				_log.error(
-					"Theme " + theme.getThemeId() + " cannot find its " +
-						"servlet context at " + theme.getServletContextName());
+					StringBundler.concat(
+						"Theme ", theme.getThemeId(), " cannot find its ",
+						"servlet context at ", theme.getServletContextName()));
 			}
 			else {
 				RequestDispatcher requestDispatcher =
@@ -312,8 +317,9 @@ public class ThemeUtil {
 
 				if (requestDispatcher == null) {
 					_log.error(
-						"Theme " + theme.getThemeId() + " does not have " +
-							path);
+						StringBundler.concat(
+							"Theme ", theme.getThemeId(), " does not have ",
+							path));
 				}
 				else {
 					requestDispatcher.include(request, response);
@@ -326,7 +332,8 @@ public class ThemeUtil {
 
 			if (requestDispatcher == null) {
 				_log.error(
-					"Theme " + theme.getThemeId() + " does not have " + path);
+					StringBundler.concat(
+						"Theme ", theme.getThemeId(), " does not have ", path));
 			}
 			else {
 				requestDispatcher.include(request, response);
@@ -365,12 +372,12 @@ public class ThemeUtil {
 		boolean checkResourceExists = true;
 
 		if (Validator.isNotNull(portletId)) {
-			if (PortletConstants.hasInstanceId(portletId) &&
+			if (PortletIdCodec.hasInstanceId(portletId) &&
 				(checkResourceExists !=
 					TemplateResourceLoaderUtil.hasTemplateResource(
 						TemplateConstants.LANG_TYPE_VM, resourcePath))) {
 
-				String rootPortletId = PortletConstants.getRootPortletId(
+				String rootPortletId = PortletIdCodec.decodePortletName(
 					portletId);
 
 				resourcePath = theme.getResourcePath(
@@ -416,6 +423,14 @@ public class ThemeUtil {
 
 		template.prepare(request);
 
+		// Custom theme variables
+
+		for (TemplateContextContributor templateContextContributor :
+				_templateContextContributors) {
+
+			templateContextContributor.prepare(template, request);
+		}
+
 		// Theme servlet context
 
 		ServletContext themeServletContext = ServletContextPool.get(
@@ -432,11 +447,12 @@ public class ThemeUtil {
 		}
 		else {
 			writer = new UnsyncStringWriter();
+
+			response = new PipingServletResponse(response, writer);
 		}
 
 		templateManager.addTaglibTheme(
-			template, "taglibLiferay", request,
-			new PipingServletResponse(response, writer));
+			template, "taglibLiferay", request, response);
 
 		template.put(TemplateConstants.WRITER, writer);
 
@@ -448,10 +464,15 @@ public class ThemeUtil {
 			return null;
 		}
 		else {
-			return ((UnsyncStringWriter)writer).toString();
+			return writer.toString();
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(ThemeUtil.class);
+
+	private static final ServiceTrackerList<TemplateContextContributor>
+		_templateContextContributors = ServiceTrackerCollections.openList(
+			TemplateContextContributor.class,
+			"(type=" + TemplateContextContributor.TYPE_THEME + ")");
 
 }

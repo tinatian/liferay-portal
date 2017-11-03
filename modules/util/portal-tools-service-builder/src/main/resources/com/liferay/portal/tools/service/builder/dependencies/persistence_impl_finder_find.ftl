@@ -1,4 +1,4 @@
-<#assign finderColsList = finder.getColumns()>
+<#assign finderColsList = finder.getColumns() />
 
 <#--
 Basic Cases Table:
@@ -254,11 +254,11 @@ that may or may not be enforced with a unique index at the database level. Case
 		}
 
 		if (list == null) {
-			<#assign checkPagination = true>
+			<#assign checkPagination = true />
 
 			<#include "persistence_impl_find_by_query.ftl">
 
-			<#assign checkPagination = false>
+			<#assign checkPagination = false />
 
 			String sql = query.toString();
 
@@ -309,7 +309,7 @@ that may or may not be enforced with a unique index at the database level. Case
 	</#list>
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching ${entity.humanName}
-	 * @throws ${packagePath}.${noSuchEntity}Exception if a matching ${entity.humanName} could not be found
+	 * @throws ${noSuchEntity}Exception if a matching ${entity.humanName} could not be found
 	 */
 	@Override
 	public ${entity.name} findBy${finder.name}_First(
@@ -387,7 +387,7 @@ that may or may not be enforced with a unique index at the database level. Case
 	</#list>
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching ${entity.humanName}
-	 * @throws ${packagePath}.${noSuchEntity}Exception if a matching ${entity.humanName} could not be found
+	 * @throws ${noSuchEntity}Exception if a matching ${entity.humanName} could not be found
 	 */
 	@Override
 	public ${entity.name} findBy${finder.name}_Last(
@@ -483,7 +483,7 @@ that may or may not be enforced with a unique index at the database level. Case
 		</#list>
 		 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 		 * @return the previous, current, and next ${entity.humanName}
-		 * @throws ${packagePath}.${noSuchEntity}Exception if a ${entity.humanName} with the primary key could not be found
+		 * @throws ${noSuchEntity}Exception if a ${entity.humanName} with the primary key could not be found
 		 */
 		@Override
 		public ${entity.name}[] findBy${finder.name}_PrevAndNext(${entity.PKClassName} ${entity.PKVarName},
@@ -659,7 +659,14 @@ that may or may not be enforced with a unique index at the database level. Case
 		</#list>
 
 		int start, int end, OrderByComparator<${entity.name}> orderByComparator) {
-			if (!InlineSQLHelperUtil.isEnabled(<#if finder.hasColumn("groupId")>groupId</#if>)) {
+			<#if finder.hasColumn("groupId")>
+				if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			<#elseif finder.hasColumn("companyId")>
+				if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			<#else>
+				if (!InlineSQLHelperUtil.isEnabled()) {
+			</#if>
+
 				return findBy${finder.name}(
 
 				<#list finderColsList as finderCol>
@@ -697,10 +704,10 @@ that may or may not be enforced with a unique index at the database level. Case
 				StringBundler query = null;
 
 				if (orderByComparator != null) {
-					query = new StringBundler(${finderColsList?size + 2} + (orderByComparator.getOrderByFields().length * 3));
+					query = new StringBundler(${finderColsList?size + 2} + (orderByComparator.getOrderByFields().length * 2));
 				}
 				else {
-					query = new StringBundler(${finderColsList?size + 2});
+					query = new StringBundler(${finderColsList?size + 3});
 				}
 
 				if (getDB().isSupportsInlineDistinct()) {
@@ -710,11 +717,11 @@ that may or may not be enforced with a unique index at the database level. Case
 					query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_1);
 				}
 
-				<#assign sqlQuery = true>
+				<#assign sqlQuery = true />
 
 				<#include "persistence_impl_finder_cols.ftl">
 
-				<#assign sqlQuery = false>
+				<#assign sqlQuery = false />
 
 				if (!getDB().isSupportsInlineDistinct()) {
 					query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_2);
@@ -778,7 +785,7 @@ that may or may not be enforced with a unique index at the database level. Case
 			</#list>
 			 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 			 * @return the previous, current, and next ${entity.humanName}
-			 * @throws ${packagePath}.${noSuchEntity}Exception if a ${entity.humanName} with the primary key could not be found
+			 * @throws ${noSuchEntity}Exception if a ${entity.humanName} with the primary key could not be found
 			 */
 			@Override
 			public ${entity.name}[] filterFindBy${finder.name}_PrevAndNext(${entity.PKClassName} ${entity.PKVarName},
@@ -788,7 +795,14 @@ that may or may not be enforced with a unique index at the database level. Case
 			</#list>
 
 			OrderByComparator<${entity.name}> orderByComparator) throws ${noSuchEntity}Exception {
-				if (!InlineSQLHelperUtil.isEnabled(<#if finder.hasColumn("groupId")>groupId</#if>)) {
+				<#if finder.hasColumn("groupId")>
+					if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+				<#elseif finder.hasColumn("companyId")>
+					if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+				<#else>
+					if (!InlineSQLHelperUtil.isEnabled()) {
+				</#if>
+
 					return findBy${finder.name}_PrevAndNext(${entity.PKVarName},
 
 					<#list finderColsList as finderCol>
@@ -882,10 +896,10 @@ that may or may not be enforced with a unique index at the database level. Case
 					StringBundler query = null;
 
 					if (orderByComparator != null) {
-						query = new StringBundler(6 + (orderByComparator.getOrderByFields().length * 6));
+						query = new StringBundler(${finderColsList?size + 4} + (orderByComparator.getOrderByConditionFields().length * 3) + (orderByComparator.getOrderByFields().length * 3));
 					}
 					else {
-						query = new StringBundler(3);
+						query = new StringBundler(${finderColsList?size + 3});
 					}
 
 					if (getDB().isSupportsInlineDistinct()) {
@@ -895,11 +909,11 @@ that may or may not be enforced with a unique index at the database level. Case
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_1);
 					}
 
-					<#assign sqlQuery = true>
+					<#assign sqlQuery = true />
 
 					<#include "persistence_impl_finder_cols.ftl">
 
-					<#assign sqlQuery = false>
+					<#assign sqlQuery = false />
 
 					if (!getDB().isSupportsInlineDistinct()) {
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_2);
@@ -1135,14 +1149,19 @@ that may or may not be enforced with a unique index at the database level. Case
 			</#list>
 
 			int start, int end, OrderByComparator<${entity.name}> orderByComparator) {
-				if (!InlineSQLHelperUtil.isEnabled(
-					<#if finder.hasColumn("groupId")>
+				<#if finder.hasColumn("groupId")>
+					if (!InlineSQLHelperUtil.isEnabled(
 						<#if finder.getColumn("groupId").hasArrayableOperator()>
 							groupIds
 						<#else>
 							groupId
 						</#if>
-					</#if>)) {
+					)) {
+				<#elseif finder.hasColumn("companyId")>
+					if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+				<#else>
+					if (!InlineSQLHelperUtil.isEnabled()) {
+				</#if>
 
 					return findBy${finder.name}(
 
@@ -1164,13 +1183,13 @@ that may or may not be enforced with a unique index at the database level. Case
 						}
 						else if (${finderCol.names}.length > 1) {
 							${finderCol.names} =
-								<#if finderCol.type == "String">
+								<#if stringUtil.equals(finderCol.type, "String")>
 									ArrayUtil.distinct(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 								<#else>
 									ArrayUtil.unique(${finderCol.names});
 								</#if>
 
-							<#if finderCol.type == "String">
+							<#if stringUtil.equals(finderCol.type, "String")>
 								Arrays.sort(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 							<#else>
 								Arrays.sort(${finderCol.names});
@@ -1203,9 +1222,7 @@ that may or may not be enforced with a unique index at the database level. Case
 							QueryPos qPos = QueryPos.getInstance(q);
 						</#if>
 
-						<@finderQPos
-							_arrayable=true
-						/>
+						<@finderQPos _arrayable=true />
 
 						return (List<${entity.name}>)QueryUtil.list(q, getDialect(), start, end);
 					}
@@ -1225,11 +1242,11 @@ that may or may not be enforced with a unique index at the database level. Case
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_1);
 					}
 
-					<#assign sqlQuery = true>
+					<#assign sqlQuery = true />
 
 					<#include "persistence_impl_finder_arrayable_cols.ftl">
 
-					<#assign sqlQuery = false>
+					<#assign sqlQuery = false />
 
 					if (!getDB().isSupportsInlineDistinct()) {
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_2);
@@ -1280,9 +1297,7 @@ that may or may not be enforced with a unique index at the database level. Case
 							QueryPos qPos = QueryPos.getInstance(q);
 						</#if>
 
-						<@finderQPos
-							_arrayable=true
-						/>
+						<@finderQPos _arrayable=true />
 
 						return (List<${entity.name}>)QueryUtil.list(q, getDialect(), start, end);
 					}
@@ -1484,13 +1499,13 @@ that may or may not be enforced with a unique index at the database level. Case
 					}
 					else if (${finderCol.names}.length > 1) {
 						${finderCol.names} =
-							<#if finderCol.type == "String">
+							<#if stringUtil.equals(finderCol.type, "String")>
 								ArrayUtil.distinct(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 							<#else>
 								ArrayUtil.unique(${finderCol.names});
 							</#if>
 
-						<#if finderCol.type == "String">
+						<#if stringUtil.equals(finderCol.type, "String")>
 							Arrays.sort(${finderCol.names}, NULL_SAFE_STRING_COMPARATOR);
 						<#else>
 							Arrays.sort(${finderCol.names});
@@ -1500,11 +1515,11 @@ that may or may not be enforced with a unique index at the database level. Case
 			</#list>
 
 			if (
-			<#assign firstCol = true>
+			<#assign firstCol = true />
 			<#list finderColsList as finderCol>
 				<#if finderCol.hasArrayableOperator()>
 					<#if firstCol>
-						<#assign firstCol = false>
+						<#assign firstCol = false />
 					<#else>
 						&&
 					</#if>
@@ -1613,11 +1628,11 @@ that may or may not be enforced with a unique index at the database level. Case
 			}
 
 			if (list == null) {
-				<#assign checkPagination = true>
+				<#assign checkPagination = true />
 
 				<#include "persistence_impl_find_by_arrayable_query.ftl">
 
-				<#assign checkPagination = false>
+				<#assign checkPagination = false />
 
 				String sql = query.toString();
 
@@ -1632,9 +1647,7 @@ that may or may not be enforced with a unique index at the database level. Case
 						QueryPos qPos = QueryPos.getInstance(q);
 					</#if>
 
-					<@finderQPos
-						_arrayable=true
-					/>
+					<@finderQPos _arrayable=true />
 
 					if (!pagination) {
 						list = (List<${entity.name}>)QueryUtil.list(q, getDialect(), start, end, false);
@@ -1675,13 +1688,13 @@ that may or may not be enforced with a unique index at the database level. Case
 
 <#if !finder.isCollection() || finder.isUnique()>
 	/**
-	 * Returns the ${entity.humanName} where ${finder.getHumanConditions(false)} or throws a {@link ${packagePath}.${noSuchEntity}Exception} if it could not be found.
+	 * Returns the ${entity.humanName} where ${finder.getHumanConditions(false)} or throws a {@link ${noSuchEntity}Exception} if it could not be found.
 	 *
 	<#list finderColsList as finderCol>
 	 * @param ${finderCol.name} the ${finderCol.humanName}
 	</#list>
 	 * @return the matching ${entity.humanName}
-	 * @throws ${packagePath}.${noSuchEntity}Exception if a matching ${entity.humanName} could not be found
+	 * @throws ${noSuchEntity}Exception if a matching ${entity.humanName} could not be found
 	 */
 	@Override
 	public ${entity.name} findBy${finder.name}(
@@ -1721,8 +1734,8 @@ that may or may not be enforced with a unique index at the database level. Case
 				</#if>
 			</#list>
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new ${noSuchEntity}Exception(msg.toString());
@@ -1803,7 +1816,7 @@ that may or may not be enforced with a unique index at the database level. Case
 					<#if finderCol.isPrimitiveType(false)>
 						(${finderCol.name} != ${entity.varName}.get${finderCol.methodName}())
 					<#else>
-						!Validator.equals(${finderCol.name}, ${entity.varName}.get${finderCol.methodName}())
+						!Objects.equals(${finderCol.name}, ${entity.varName}.get${finderCol.methodName}())
 					</#if>
 
 					<#if finderCol_has_next>
@@ -1842,8 +1855,12 @@ that may or may not be enforced with a unique index at the database level. Case
 				}
 				else {
 					<#if !finder.isUnique()>
-						if ((list.size() > 1) && _log.isWarnEnabled()) {
-							_log.warn("${entity.name}PersistenceImpl.fetchBy${finder.name}(<#list finderColsList as finderCol>${finderCol.type}, </#list>boolean) with parameters (" + StringUtil.merge(finderArgs) + ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						if (list.size() > 1) {
+							Collections.sort(list, Collections.reverseOrder());
+
+							if (_log.isWarnEnabled()) {
+								_log.warn("${entity.name}PersistenceImpl.fetchBy${finder.name}(<#list finderColsList as finderCol>${finderCol.type}, </#list>boolean) with parameters (" + StringUtil.merge(finderArgs) + ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+							}
 						}
 					</#if>
 

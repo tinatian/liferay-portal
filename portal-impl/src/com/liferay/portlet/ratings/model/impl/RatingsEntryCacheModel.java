@@ -16,12 +16,12 @@ package com.liferay.portlet.ratings.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
 
-import com.liferay.portlet.ratings.model.RatingsEntry;
+import com.liferay.ratings.kernel.model.RatingsEntry;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -141,14 +141,20 @@ public class RatingsEntryCacheModel implements CacheModel<RatingsEntry>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		entryId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
 		classNameId = objectInput.readLong();
+
 		classPK = objectInput.readLong();
+
 		score = objectInput.readDouble();
 	}
 
@@ -163,7 +169,9 @@ public class RatingsEntryCacheModel implements CacheModel<RatingsEntry>,
 		}
 
 		objectOutput.writeLong(entryId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
@@ -175,8 +183,11 @@ public class RatingsEntryCacheModel implements CacheModel<RatingsEntry>,
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
 		objectOutput.writeLong(classNameId);
+
 		objectOutput.writeLong(classPK);
+
 		objectOutput.writeDouble(score);
 	}
 

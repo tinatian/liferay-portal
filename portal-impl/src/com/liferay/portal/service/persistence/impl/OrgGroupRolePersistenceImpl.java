@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchOrgGroupRoleException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,18 +26,21 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchOrgGroupRoleException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.OrgGroupRole;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.OrgGroupRolePK;
+import com.liferay.portal.kernel.service.persistence.OrgGroupRolePersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.OrgGroupRole;
 import com.liferay.portal.model.impl.OrgGroupRoleImpl;
 import com.liferay.portal.model.impl.OrgGroupRoleModelImpl;
-import com.liferay.portal.service.persistence.OrgGroupRolePK;
-import com.liferay.portal.service.persistence.OrgGroupRolePersistence;
 
 import java.io.Serializable;
 
@@ -56,7 +59,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see OrgGroupRolePersistence
- * @see com.liferay.portal.service.persistence.OrgGroupRoleUtil
+ * @see com.liferay.portal.kernel.service.persistence.OrgGroupRoleUtil
  * @generated
  */
 @ProviderType
@@ -203,7 +206,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -419,8 +422,9 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -705,7 +709,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -920,8 +924,9 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1177,6 +1182,8 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		orgGroupRole.setNew(true);
 		orgGroupRole.setPrimaryKey(orgGroupRolePK);
 
+		orgGroupRole.setCompanyId(companyProvider.getCompanyId());
+
 		return orgGroupRole;
 	}
 
@@ -1212,8 +1219,8 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 					primaryKey);
 
 			if (orgGroupRole == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchOrgGroupRoleException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1296,8 +1303,26 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !OrgGroupRoleModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!OrgGroupRoleModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { orgGroupRoleModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] { orgGroupRoleModelImpl.getRoleId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROLEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLEID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1359,12 +1384,13 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		orgGroupRoleImpl.setOrganizationId(orgGroupRole.getOrganizationId());
 		orgGroupRoleImpl.setGroupId(orgGroupRole.getGroupId());
 		orgGroupRoleImpl.setRoleId(orgGroupRole.getRoleId());
+		orgGroupRoleImpl.setCompanyId(orgGroupRole.getCompanyId());
 
 		return orgGroupRoleImpl;
 	}
 
 	/**
-	 * Returns the org group role with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the org group role with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the org group role
 	 * @return the org group role
@@ -1376,8 +1402,8 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		OrgGroupRole orgGroupRole = fetchByPrimaryKey(primaryKey);
 
 		if (orgGroupRole == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchOrgGroupRoleException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1408,12 +1434,14 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 	 */
 	@Override
 	public OrgGroupRole fetchByPrimaryKey(Serializable primaryKey) {
-		OrgGroupRole orgGroupRole = (OrgGroupRole)entityCache.getResult(OrgGroupRoleModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(OrgGroupRoleModelImpl.ENTITY_CACHE_ENABLED,
 				OrgGroupRoleImpl.class, primaryKey);
 
-		if (orgGroupRole == _nullOrgGroupRole) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		OrgGroupRole orgGroupRole = (OrgGroupRole)serializable;
 
 		if (orgGroupRole == null) {
 			Session session = null;
@@ -1429,7 +1457,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 				}
 				else {
 					entityCache.putResult(OrgGroupRoleModelImpl.ENTITY_CACHE_ENABLED,
-						OrgGroupRoleImpl.class, primaryKey, _nullOrgGroupRole);
+						OrgGroupRoleImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1566,7 +1594,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_ORGGROUPROLE);
 
@@ -1669,6 +1697,11 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 	}
 
 	@Override
+	public Set<String> getCompoundPKColumnNames() {
+		return _compoundPKColumnNames;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return OrgGroupRoleModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1686,6 +1719,8 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_ORGGROUPROLE = "SELECT orgGroupRole FROM OrgGroupRole orgGroupRole";
@@ -1696,34 +1731,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No OrgGroupRole exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No OrgGroupRole exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(OrgGroupRolePersistenceImpl.class);
-	private static final OrgGroupRole _nullOrgGroupRole = new OrgGroupRoleImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<OrgGroupRole> toCacheModel() {
-				return _nullOrgGroupRoleCacheModel;
-			}
-		};
-
-	private static final CacheModel<OrgGroupRole> _nullOrgGroupRoleCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<OrgGroupRole>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public OrgGroupRole toEntityModel() {
-			return _nullOrgGroupRole;
-		}
-	}
+	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(new String[] {
+				"organizationId", "groupId", "roleId"
+			});
 }

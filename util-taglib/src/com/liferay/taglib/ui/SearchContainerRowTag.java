@@ -17,20 +17,19 @@ package com.liferay.taglib.ui;
 import com.liferay.portal.kernel.bean.BeanPropertiesUtil;
 import com.liferay.portal.kernel.dao.search.ResultRow;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.repository.model.RepositoryModel;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.BaseModel;
 import com.liferay.taglib.util.ParamAndPropertyAncestorTagImpl;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTag;
@@ -56,7 +55,7 @@ public class SearchContainerRowTag<R>
 			_resultRow.setClassHoverName(value);
 		}
 		else if (name.equals("restricted")) {
-			_resultRow.setRestricted(GetterUtil.getBoolean(value, false));
+			_resultRow.setRestricted(GetterUtil.getBoolean(value));
 		}
 		else {
 			Object obj = pageContext.getAttribute(value);
@@ -295,10 +294,11 @@ public class SearchContainerRowTag<R>
 			primaryKey = String.valueOf(model);
 		}
 		else if (isStringKey()) {
-			primaryKey = BeanPropertiesUtil.getString(model, _keyProperty);
+			primaryKey = BeanPropertiesUtil.getStringSilent(
+				model, _keyProperty);
 		}
 		else {
-			Object primaryKeyObj = BeanPropertiesUtil.getObject(
+			Object primaryKeyObj = BeanPropertiesUtil.getObjectSilent(
 				model, _keyProperty);
 
 			primaryKey = String.valueOf(primaryKeyObj);
@@ -310,15 +310,16 @@ public class SearchContainerRowTag<R>
 			rowId = String.valueOf(_rowIndex + 1);
 		}
 		else {
-			Object rowIdObj = BeanPropertiesUtil.getObject(
+			Object rowIdObj = BeanPropertiesUtil.getObjectSilent(
 				model, _rowIdProperty);
 
 			if (Validator.isNull(rowIdObj)) {
 				rowId = String.valueOf(_rowIndex + 1);
 			}
 			else {
-				rowId = FriendlyURLNormalizerUtil.normalize(
-					String.valueOf(rowIdObj), _friendlyURLPattern);
+				rowId =
+					FriendlyURLNormalizerUtil.normalizeWithPeriodsAndSlashes(
+						String.valueOf(rowIdObj));
 			}
 		}
 
@@ -329,9 +330,6 @@ public class SearchContainerRowTag<R>
 		pageContext.setAttribute(_modelVar, model);
 		pageContext.setAttribute(_rowVar, _resultRow);
 	}
-
-	private static final Pattern _friendlyURLPattern = Pattern.compile(
-		"[^a-z0-9_-]");
 
 	private boolean _bold;
 	private String _className;

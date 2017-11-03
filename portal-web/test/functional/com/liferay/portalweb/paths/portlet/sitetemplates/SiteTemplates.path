@@ -57,27 +57,27 @@
 <!--SITE_TEMPLATE_TABLE-->
 <tr>
 	<td>SITE_TEMPLATE_TABLE_NAME</td>
-	<td>//tr[contains(.,'${key_siteTemplateName}')]/td/a</td>
+	<td>//tr[contains(.,'${key_siteTemplateName}')]/td//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>SITE_TEMPLATE_TABLE_NAME_1</td>
-	<td>xpath=(//tr/td[1]/a)[1]</td>
+	<td>xpath=(//tr/td[1]//a)[1]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>SITE_TEMPLATE_TABLE_NAME_2</td>
-	<td>xpath=(//tr/td[1]/a)[2]</td>
+	<td>xpath=(//tr/td[1]//a)[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>SITE_TEMPLATE_TABLE_NAME_3</td>
-	<td>xpath=(//tr/td[1]/a)[3]</td>
+	<td>xpath=(//tr/td[1]//a)[3]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>SITE_TEMPLATE_TABLE_DESCRITPION</td>
-	<td>//tr[contains(.,'${key_siteTemplateDescription}')]/td[2]</td>
+	<td>SITE_TEMPLATE_TABLE_DESCRIPTION</td>
+	<td>//tr[contains(.,'${key_siteTemplateDescription}')]/td[3]</td>
 	<td></td>
 </tr>
 <tr>
@@ -92,12 +92,12 @@
 </tr>
 <tr>
 	<td>SITE_TEMPLATE_TABLE_ACTIVE</td>
-	<td>//tr[contains(.,'${key_siteTemplateName}')]/td[3]</td>
+	<td>//tr[contains(.,'${key_siteTemplateName}')]/td[5]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>SITE_TEMPLATE_TABLE_ACTIONS</td>
-	<td>//tr[contains(.,'${key_siteTemplateName}')]/td[4]/div/a</td>
+	<td>//tr[contains(.,'${key_siteTemplateName}')]/td[6]//div/a</td>
 	<td></td>
 </tr>
 </tbody>

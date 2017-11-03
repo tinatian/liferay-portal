@@ -17,11 +17,9 @@ package com.liferay.portal.jmx;
 import com.liferay.portal.jmx.bundle.jmxwhiteboard.JMXWhiteboardByDynamicMBean;
 import com.liferay.portal.jmx.bundle.jmxwhiteboard.JMXWhiteboardByInterfaceMBean;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
-import com.liferay.registry.Registry;
-import com.liferay.registry.RegistryUtil;
 
 import javax.management.MBeanInfo;
 import javax.management.MBeanOperationInfo;
@@ -43,19 +41,15 @@ public class JMXWhiteboardTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule("bundle.jmxwhiteboard"));
 
 	@Test
 	public void testMBeanByDynamicMBean() throws Exception {
-		Registry registry = RegistryUtil.getRegistry();
-
-		MBeanServer mBeanServer = registry.getService(MBeanServer.class);
-
 		ObjectName objectName = new ObjectName(
 			JMXWhiteboardByDynamicMBean.OBJECT_NAME);
 
-		MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(objectName);
+		MBeanInfo mBeanInfo = _mBeanServer.getMBeanInfo(objectName);
 
 		Assert.assertNotNull(mBeanInfo);
 
@@ -74,7 +68,7 @@ public class JMXWhiteboardTest {
 			sinature[i] = mBeanParameterInfo.getType();
 		}
 
-		Object result = mBeanServer.invoke(
+		Object result = _mBeanServer.invoke(
 			objectName, mBeanOperationInfo.getName(), new Object[] {"Hello!"},
 			sinature);
 
@@ -83,14 +77,10 @@ public class JMXWhiteboardTest {
 
 	@Test
 	public void testMBeanBySuffix() throws Exception {
-		Registry registry = RegistryUtil.getRegistry();
-
-		MBeanServer mBeanServer = registry.getService(MBeanServer.class);
-
 		ObjectName objectName = new ObjectName(
 			JMXWhiteboardByInterfaceMBean.OBJECT_NAME);
 
-		MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(objectName);
+		MBeanInfo mBeanInfo = _mBeanServer.getMBeanInfo(objectName);
 
 		Assert.assertNotNull(mBeanInfo);
 
@@ -109,11 +99,14 @@ public class JMXWhiteboardTest {
 			sinature[i] = mBeanParameterInfo.getType();
 		}
 
-		Object result = mBeanServer.invoke(
+		Object result = _mBeanServer.invoke(
 			objectName, mBeanOperationInfo.getName(), new Object[] {"Hello!"},
 			sinature);
 
 		Assert.assertEquals("{Hello!}", result);
 	}
+
+	@Inject
+	private static MBeanServer _mBeanServer;
 
 }

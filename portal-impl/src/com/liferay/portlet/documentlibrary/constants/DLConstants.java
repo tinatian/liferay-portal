@@ -19,7 +19,6 @@ package com.liferay.portlet.documentlibrary.constants;
  */
 public class DLConstants {
 
-	public static final String SERVICE_NAME =
-		"com.liferay.portlet.documentlibrary";
+	public static final String SERVICE_NAME = "com.liferay.document.library";
 
 }

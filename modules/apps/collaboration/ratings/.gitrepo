@@ -1,0 +1,11 @@
+;
+; Do not manually edit this file.
+;
+[subrepo]
+	autopull = false
+	cmdver = liferay
+	commit = 5b787a0211fffff68ff00c60c07182738e5c54bf
+	mergebuttonmergecommits = false
+	mode = push
+	parent = b1a893f14dcc56459e14f02960e1fe6b677e5af0
+	remote = git@github.com:liferay/com-liferay-ratings.git

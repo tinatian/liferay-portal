@@ -1,85 +1,201 @@
 <definition>
 	<command name="acceptRequest">
-		<var name="key_requestsContent" value="${requestsContent}" />
+		<var name="key_requestsTitle" value="${requestsTitle}" />
 
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#REQUESTS_CONTENT" value1="${requestsContent}" />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="${requestsTitle}" />
+
 		<execute function="AssertClick" locator1="Button#CONFIRM" value1="Confirm" />
 	</command>
 
-	<command name="gotoDockbar">
-		<execute function="Click" locator1="NotificationsDockbar#DOCKBAR" />
+	<command name="deleteNotification">
+		<var name="key_contentBody" value="${contentBody}" />
+
+		<execute function="Click" locator1="Notifications#NOTIFICATIONS_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+			<var name="key_menuItem" value="Delete" />
+		</execute>
+
+		<execute function="AssertElementNotPresent" locator1="Notifications#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
+	</command>
+
+	<command name="gotoNotifications">
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#USER_BAR_BADGE_COUNT" />
+			<then>
+				<execute function="Click" locator1="Notifications#USER_BAR_BADGE_COUNT" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#PROFILE_BADGE_COUNT" />
+			<then>
+				<execute function="Click" locator1="Notifications#PROFILE_BADGE_COUNT" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#MY_ACCOUNT_BADGE_COUNT" />
+			<then>
+				<execute function="Click" locator1="Notifications#MY_ACCOUNT_BADGE_COUNT" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#NOTIFICATIONS_BADGE_COUNT" />
+			<then>
+				<execute function="Click" locator1="Notifications#NOTIFICATIONS_BADGE_COUNT" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#USER_NAVIGATION_BAR_BADGE_COUNT" />
+			<then>
+				<execute function="Click" locator1="Notifications#USER_NAVIGATION_BAR_BADGE_COUNT" />
+			</then>
+		</if>
+	</command>
+
+	<command name="goToReadFilter">
+		<execute function="Click" locator1="Dropdown#FILTER" />
+
+		<var name="key_filterValue" value="Read" />
+
+		<execute function="AssertClick" locator1="Dropdown#FILTER_VALUES" value1="Read" />
+	</command>
+
+	<command name="goToUnreadFilter">
+		<execute function="Click" locator1="Dropdown#FILTER" />
+
+		<var name="key_filterValue" value="Unread" />
+
+		<execute function="AssertClick" locator1="Dropdown#FILTER_VALUES" value1="Unread" />
 	</command>
 
 	<command name="markAllAsRead">
-		<execute function="AssertClick" locator1="NotificationsDockbar#NOTIFICATIONS_MARK_ALL_AS_READ" value1="Mark as Read" />
+		<execute function="Click" locator1="Icon#HEADER_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Mark All Notifications as Read">
+			<var name="key_menuItem" value="Mark All Notifications as Read" />
+		</execute>
 	</command>
 
 	<command name="navigateToContent">
 		<var name="key_contentBody" value="${contentBody}" />
 
-		<execute function="Click#partialTextClickAtAndWait" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
-	</command>
-
-	<command name="navigateToViewAllNotifications">
-		<if>
-			<isset var="notificationCount" />
-			<then>
-				<execute function="AssertClick" locator1="NotificationsDockbar#NOTIFICATIONS_VIEW_ALL_NOTIFICATIONS" value1="Notifications (${notificationCount})" />
-			</then>
-			<else>
-				<execute function="Click" locator1="NotificationsDockbar#NOTIFICATIONS_VIEW_ALL_NOTIFICATIONS" />
-			</else>
-		</if>
+		<execute function="Click#partialTextClickAt" locator1="Notifications#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
 	</command>
 
 	<command name="tearDownUnreadNotifications">
-		<execute macro="Page#openURL">
-			<var name="friendlyURL" value="${friendlyURL}" />
-			<var name="pageAccess" value="${pageAccess}" />
-			<var name="pageStaging" value="${pageStaging}" />
-			<var name="siteName" value="${siteName}" />
-			<var name="siteNameURL" value="${siteNameURL}" />
-			<var name="siteURL" value="${siteURL}" />
-			<var name="specificURL" value="${specificURL}" />
-			<var name="virtualHostsURL" value="${virtualHostsURL}" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="My Account" />
+			<var name="panel" value="User" />
+			<var name="portlet" value="Notifications" />
 		</execute>
 
-		<execute function="Click" locator1="NotificationsDockbar#DOCKBAR" />
+		<var name="key_contentBody" value="${contentBody}" />
 
 		<if>
-			<condition function="IsElementPresent" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_GENERIC" />
+			<condition function="IsElementPresent" locator1="Notifications#NOTIFICATIONS_CONTENT" />
 			<then>
-				<execute function="AssertClick" locator1="NotificationsDockbar#NOTIFICATIONS_MARK_ALL_AS_READ" value1="Mark as Read" />
+				<execute function="AssertClick" locator1="Notifications#MARK_AS_READ" value1="Mark as Read" />
 			</then>
 		</if>
 	</command>
 
-	<command name="viewCount">
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#COUNT" value1="${notificationCount}" />
-	</command>
+	<command name="viewBadgeCount">
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#USER_BAR_BADGE_COUNT" />
+			<then>
+				<execute function="AssertTextEquals" locator1="Notifications#USER_BAR_BADGE_COUNT" value1="${notificationCount}" />
+			</then>
+		</if>
 
-	<command name="viewCountAlert">
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#COUNT_ALERT" value1="${notificationCount}" />
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#PROFILE_BADGE_COUNT" />
+			<then>
+				<execute function="AssertTextEquals" locator1="Notifications#PROFILE_BADGE_COUNT" value1="${notificationCount}" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#MY_ACCOUNT_BADGE_COUNT" />
+			<then>
+				<execute function="AssertTextEquals" locator1="Notifications#MY_ACCOUNT_BADGE_COUNT" value1="${notificationCount}" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#NOTIFICATIONS_BADGE_COUNT" />
+			<then>
+				<if>
+					<condition function="IsElementPresent#isVisible" locator1="Notifications#NOTIFICATIONS_BADGE_COUNT" />
+					<then>
+						<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_BADGE_COUNT" value1="${notificationCount}" />
+					</then>
+				</if>
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Notifications#USER_NAVIGATION_BAR_BADGE_COUNT" />
+			<then>
+				<execute function="AssertTextEquals" locator1="Notifications#USER_NAVIGATION_BAR_BADGE_COUNT" value1="${notificationCount}" />
+			</then>
+		</if>
 	</command>
 
 	<command name="viewDefaultContent">
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_MESSAGE" value1="You do not have any notifications." />
+		<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="You do not have any notifications." />
 	</command>
 
 	<command name="viewNewComment">
 		<var method="StringUtil#lowerCase('${assetType}')" name="assetType" />
 		<var name="key_contentBody" value="${contentBody}" />
 
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_TITLE" value1="${user} added a new ${assetType} to ${content}." />
-		<execute function="AssertTextEquals#assertPartialText" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_BODY" value1="${contentBody}" />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="${user} added a new ${assetType} to ${content}." />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Notifications#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
 	</command>
 
 	<command name="viewNewContent">
 		<var method="StringUtil#lowerCase('${assetType}')" name="assetType" />
 		<var name="key_contentBody" value="${contentBody}" />
 
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_TITLE" value1="${user} added a new ${assetType}." />
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_BODY" value1="${contentBody}" />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="${user} added a new ${assetType}." />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
+	</command>
+
+	<command name="viewNoLongerAppliedNotification">
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="Notification no longer applies." />
+	</command>
+
+	<command name="viewNoNotificationEntry">
+		<execute function="AssertElementNotPresent" locator1="Notifications#USER_BAR_BADGE_COUNT" />
+		<execute function="AssertElementNotPresent" locator1="Notifications#NOTIFICATIONS_CONTENT_GENERIC" />
+		<execute function="AssertElementNotPresent" locator1="Notifications#NOTIFICATIONS_TITLE" />
+	</command>
+
+	<command name="viewNoNotifications">
+		<if>
+			<equals arg1="${activePanel}" arg2="Profile" />
+			<then>
+				<execute function="AssertElementNotPresent" locator1="Notifications#PROFILE_BADGE_COUNT" />
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${activePanel}" arg2="My Account" />
+			<then>
+				<execute function="AssertElementNotPresent" locator1="Notifications#MY_ACCOUNT_BADGE_COUNT" />
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${activePanel}" arg2="Notifications" />
+			<then>
+				<execute function="AssertElementNotPresent" locator1="Notifications#NOTIFICATIONS_BADGE_COUNT" />
+			</then>
+		</if>
 	</command>
 
 	<command name="viewNoRequest">
@@ -87,36 +203,25 @@
 		<execute function="AssertElementNotPresent" locator1="Button#IGNORE" />
 	</command>
 
-	<command name="viewNotification">
-		<execute function="AssertClick" locator1="NotificationsDockbar#COUNT_ALERT" value1="${notificationCount}" />
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_GENERIC" value1="${notificationContent}" />
-	</command>
-
 	<command name="viewRequest">
-		<var name="key_requestsContent" value="${requestsContent}" />
+		<execute function="Click" locator1="Notifications#REQUESTS_LIST_TAB" />
 
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#REQUESTS_CONTENT" value1="${requestsContent}" />
-	</command>
-
-	<command name="viewRequestCount">
-		<var name="key_requestsLink" value="${requestsLink}" />
-
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#REQUESTS_LINK" value1="${requestsLink}" />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="${requestsTitle}" />
 	</command>
 
 	<command name="viewUpdatedComment">
 		<var method="StringUtil#lowerCase('${assetType}')" name="assetType" />
 		<var name="key_contentBody" value="${contentBody}" />
 
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_TITLE" value1="${user} updated a ${assetType} to ${content}." />
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_BODY" value1="${contentBody}" />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="${user} updated a ${assetType} to ${content}." />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
 	</command>
 
 	<command name="viewUpdatedContent">
 		<var method="StringUtil#lowerCase('${assetType}')" name="assetType" />
 		<var name="key_contentBody" value="${contentBody}" />
 
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_TITLE" value1="${user} updated a ${assetType}." />
-		<execute function="AssertTextEquals" locator1="NotificationsDockbar#NOTIFICATIONS_CONTENT_BODY" value1="${contentBody}" />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_TITLE" value1="${user} updated a ${assetType}." />
+		<execute function="AssertTextEquals" locator1="Notifications#NOTIFICATIONS_CONTENT" value1="${contentBody}" />
 	</command>
 </definition>

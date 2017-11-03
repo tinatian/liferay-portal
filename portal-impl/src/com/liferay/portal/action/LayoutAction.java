@@ -18,31 +18,33 @@ import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletContainerUtil;
-import com.liferay.portal.kernel.servlet.MetaInfoCacheServletResponse;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.security.sso.SSOUtil;
-import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.struts.ActionConstants;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.PortletRequestImpl;
 import com.liferay.portlet.RenderParametersPool;
-import com.liferay.portlet.login.util.LoginUtil;
 
+import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import javax.portlet.WindowState;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,24 +67,6 @@ public class LayoutAction extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		MetaInfoCacheServletResponse metaInfoCacheServletResponse =
-			new MetaInfoCacheServletResponse(response);
-
-		try {
-			return doExecute(
-				actionMapping, actionForm, request,
-				metaInfoCacheServletResponse);
-		}
-		finally {
-			metaInfoCacheServletResponse.finishResponse(false);
-		}
-	}
-
-	protected ActionForward doExecute(
-			ActionMapping actionMapping, ActionForm actionForm,
-			HttpServletRequest request, HttpServletResponse response)
-		throws Exception {
-
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
@@ -97,10 +81,10 @@ public class LayoutAction extends Action {
 				String redirectParam = "redirect";
 
 				if (Validator.isNotNull(PropsValues.AUTH_LOGIN_PORTLET_NAME)) {
-					redirectParam =
-						PortalUtil.getPortletNamespace(
-							PropsValues.AUTH_LOGIN_PORTLET_NAME) +
-						redirectParam;
+					String portletNamespace = PortalUtil.getPortletNamespace(
+						PropsValues.AUTH_LOGIN_PORTLET_NAME);
+
+					redirectParam = portletNamespace + redirectParam;
 				}
 
 				String authLoginURL = SSOUtil.getSignInURL(
@@ -115,8 +99,16 @@ public class LayoutAction extends Action {
 				}
 
 				if (Validator.isNull(authLoginURL)) {
-					PortletURL loginURL = LoginUtil.getLoginURL(
-						request, themeDisplay.getPlid());
+					PortletURL loginURL = PortletURLFactoryUtil.create(
+						request, PortletKeys.LOGIN,
+						PortletRequest.RENDER_PHASE);
+
+					loginURL.setParameter(
+						"saveLastPath", Boolean.FALSE.toString());
+					loginURL.setParameter(
+						"mvcRenderCommandName", "/login/login");
+					loginURL.setPortletMode(PortletMode.VIEW);
+					loginURL.setWindowState(WindowState.MAXIMIZED);
 
 					authLoginURL = loginURL.toString();
 				}
@@ -324,6 +316,9 @@ public class LayoutAction extends Action {
 
 				// Include layout content before the page loads because portlets
 				// on the page can set the page title and page subtitle
+
+				PortletContainerUtil.processPublicRenderParameters(
+					request, layout);
 
 				if (layout.includeLayoutContent(request, response)) {
 					return null;

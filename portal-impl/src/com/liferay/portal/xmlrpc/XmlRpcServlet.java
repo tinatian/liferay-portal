@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Tuple;
@@ -28,7 +29,6 @@ import com.liferay.portal.kernel.xmlrpc.XmlRpcConstants;
 import com.liferay.portal.kernel.xmlrpc.XmlRpcException;
 import com.liferay.portal.kernel.xmlrpc.XmlRpcUtil;
 import com.liferay.portal.util.PortalInstances;
-import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,8 +85,8 @@ public class XmlRpcServlet extends HttpServlet {
 				_log.debug(ioe, ioe);
 			}
 		}
-		catch (XmlRpcException xmlrpce) {
-			_log.error(xmlrpce, xmlrpce);
+		catch (XmlRpcException xre) {
+			_log.error(xre, xre);
 		}
 
 		if (xmlRpcResponse == null) {

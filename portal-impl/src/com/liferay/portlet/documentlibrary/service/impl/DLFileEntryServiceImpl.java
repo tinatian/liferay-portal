@@ -14,27 +14,29 @@
 
 package com.liferay.portlet.documentlibrary.service.impl;
 
+import com.liferay.document.library.kernel.exception.FileEntryLockException;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryConstants;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.lock.LockManagerUtil;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.model.impl.DLFileEntryImpl;
 import com.liferay.portlet.documentlibrary.service.base.DLFileEntryServiceBaseImpl;
 import com.liferay.portlet.documentlibrary.service.permission.DLFileEntryPermission;
 import com.liferay.portlet.documentlibrary.service.permission.DLFolderPermission;
-import com.liferay.portlet.dynamicdatamapping.DDMFormValues;
 
 import java.io.File;
 import java.io.InputStream;
@@ -97,31 +99,15 @@ public class DLFileEntryServiceImpl extends DLFileEntryServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		boolean isLocked = LockManagerUtil.isLocked(
+		boolean locked = LockManagerUtil.isLocked(
 			DLFileEntry.class.getName(), fileEntryId);
 
-		if (isLocked && !hasFileEntryLock(fileEntryId) &&
-			!_hasOverrideCheckoutPermission(fileEntryId)) {
-
-			throw new PrincipalException.MustHavePermission(
-				getUserId(), DLFileEntry.class.getName(), fileEntryId,
-				ActionKeys.OVERRIDE_CHECKOUT);
+		if (locked && !hasFileEntryLock(fileEntryId)) {
+			throw new FileEntryLockException.MustOwnLock();
 		}
 
 		dlFileEntryLocalService.checkInFileEntry(
 			getUserId(), fileEntryId, major, changeLog, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #checkInFileEntry(long,
-	 *             String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public void checkInFileEntry(long fileEntryId, String lockUuid)
-		throws PortalException {
-
-		checkInFileEntry(fileEntryId, lockUuid, new ServiceContext());
 	}
 
 	@Override
@@ -129,28 +115,15 @@ public class DLFileEntryServiceImpl extends DLFileEntryServiceBaseImpl {
 			long fileEntryId, String lockUuid, ServiceContext serviceContext)
 		throws PortalException {
 
-		if (!hasFileEntryLock(fileEntryId) &&
-			!_hasOverrideCheckoutPermission(fileEntryId)) {
+		boolean locked = LockManagerUtil.isLocked(
+			DLFileEntryConstants.getClassName(), fileEntryId);
 
-			throw new PrincipalException.MustHavePermission(
-				getUserId(), DLFileEntry.class.getName(), fileEntryId,
-				ActionKeys.OVERRIDE_CHECKOUT);
+		if (locked && !hasFileEntryLock(fileEntryId)) {
+			throw new FileEntryLockException.MustOwnLock();
 		}
 
 		dlFileEntryLocalService.checkInFileEntry(
 			getUserId(), fileEntryId, lockUuid, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #checkOutFileEntry(long,
-	 *             ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public DLFileEntry checkOutFileEntry(long fileEntryId)
-		throws PortalException {
-
-		return checkOutFileEntry(fileEntryId, new ServiceContext());
 	}
 
 	@Override
@@ -161,20 +134,6 @@ public class DLFileEntryServiceImpl extends DLFileEntryServiceBaseImpl {
 		return checkOutFileEntry(
 			fileEntryId, null, DLFileEntryImpl.LOCK_EXPIRATION_TIME,
 			serviceContext);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #checkOutFileEntry(long,
-	 *             String, long, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public DLFileEntry checkOutFileEntry(
-			long fileEntryId, String owner, long expirationTime)
-		throws PortalException {
-
-		return checkOutFileEntry(
-			fileEntryId, owner, expirationTime, new ServiceContext());
 	}
 
 	@Override
@@ -579,18 +538,7 @@ public class DLFileEntryServiceImpl extends DLFileEntryServiceBaseImpl {
 		DLFileEntry dlFileEntry = dlFileEntryLocalService.getFileEntry(
 			fileEntryId);
 
-		long folderId = dlFileEntry.getFolderId();
-
-		boolean hasLock = LockManagerUtil.hasLock(
-			getUserId(), DLFileEntry.class.getName(), fileEntryId);
-
-		if (!hasLock &&
-			(folderId != DLFolderConstants.DEFAULT_PARENT_FOLDER_ID)) {
-
-			hasLock = dlFolderService.hasInheritableLock(folderId);
-		}
-
-		return hasLock;
+		return dlFileEntry.hasLock();
 	}
 
 	@Override
@@ -600,6 +548,26 @@ public class DLFileEntryServiceImpl extends DLFileEntryServiceBaseImpl {
 		return dlFileEntryLocalService.isFileEntryCheckedOut(fileEntryId);
 	}
 
+	@Override
+	public boolean isKeepFileVersionLabel(
+			long fileEntryId, boolean majorVersion,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		PermissionChecker permissionChecker = getPermissionChecker();
+
+		DLFileEntryPermission.check(
+			permissionChecker, fileEntryId, ActionKeys.VIEW);
+
+		return dlFileEntryLocalService.isKeepFileVersionLabel(
+			fileEntryId, majorVersion, serviceContext);
+	}
+
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #isKeepFileVersionLabel(long,
+	 *             boolean, ServiceContext)}
+	 */
+	@Deprecated
 	@Override
 	public boolean isKeepFileVersionLabel(
 			long fileEntryId, ServiceContext serviceContext)
@@ -683,6 +651,17 @@ public class DLFileEntryServiceImpl extends DLFileEntryServiceBaseImpl {
 
 		DLFileEntryPermission.check(
 			getPermissionChecker(), fileEntryId, ActionKeys.UPDATE);
+
+		if (LockManagerUtil.isLocked(
+				DLFileEntryConstants.getClassName(), fileEntryId)) {
+
+			boolean hasLock = LockManagerUtil.hasLock(
+				getUserId(), DLFileEntry.class.getName(), fileEntryId);
+
+			if (!hasLock) {
+				throw new FileEntryLockException.MustOwnLock();
+			}
+		}
 
 		return dlFileEntryLocalService.updateFileEntry(
 			getUserId(), fileEntryId, sourceFileName, mimeType, title,

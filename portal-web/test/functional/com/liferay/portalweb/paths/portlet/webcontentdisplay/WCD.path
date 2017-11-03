@@ -9,33 +9,13 @@
 </thead>
 <tbody>
 <tr>
-	<td>EDIT_WEB_CONTENT</td>
-	<td>//i[@class='icon-pencil']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EDIT_TEMPLATE</td>
-	<td>//i[@class='icon-edit']</td>
-	<td></td>
-</tr>
-<tr>
 	<td>SELECT_WEB_CONTENT</td>
 	<td>//span[contains(@class,'lfr-icon-action')]/a[contains(.,'Select Web Content')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>ADD_WEB_CONTENT</td>
-	<td>//span[contains(@class,'lfr-icon-action-add')]/a | //div[contains(@class,'lfr-icon-action-add')]/a</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ADD_BASIC_WEB_CONTENT</td>
-	<td>//span[contains(@class,'taglib-text-icon') and contains(.,'Basic Web Content')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ADD_BASIC_WEB_CONTENT_LOCALIZED</td>
-	<td>//span[contains(@class,'taglib-text-icon') and contains(.,'${key_localizedBasicWebContent}')]</td>
+	<td>//*[@data-qa-id='addButton']//a[contains(@id,'JournalContent')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -76,8 +56,23 @@
 	<td></td>
 </tr>
 <tr>
+	<td>WEB_CONTENT_CONTENT_2</td>
+	<td>xPath=(//div[@class='journal-content-article'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>WEB_CONTENT_CONTENT_3</td>
+	<td>xPath=(//div[@class='journal-content-article'])[3]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>WEB_CONTENT_CONTENT_IMAGE</td>
 	<td>//div[@class='journal-content-article']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>WEB_CONTENT_CONTENT_IMAGE_ON_LIVE</td>
+	<td>//div[@class='journal-content-article']/p/img</td>
 	<td></td>
 </tr>
 <tr>
@@ -91,19 +86,23 @@
 	<td></td>
 </tr>
 <tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<!--ADD_MENU-->
-<tr>
-	<td>ADD_MENU_BASIC_WEB_CONTENT</td>
-	<td>//li[contains(@class,'lfr-icon-action')]/a[contains(.,'Basic Web Content')]</td>
+	<td>WEB_CONTENT_IMAGE_PNG</td>
+	<td>portal/screenshots/ddm/liferay_logo_image.png</td>
 	<td></td>
 </tr>
 <tr>
-	<td>ADD_MENU_WEB_CONTENT_STRUCTURE</td>
-	<td>//li[contains(@class,'lfr-icon-action')]/a[contains(.,'${key_selectStructureName}')]</td>
+	<td>WEB_CONTENT_INLINE_IMAGE</td>
+	<td>//img[contains(@src,'Document')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>WEB_CONTENT_VIDEO</td>
+	<td>//div[contains(@class,'video-content')]/video[@class='video-node']</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
 	<td></td>
 </tr>
 </tbody>

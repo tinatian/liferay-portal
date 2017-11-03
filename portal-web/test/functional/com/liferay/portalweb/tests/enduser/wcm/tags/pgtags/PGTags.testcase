@@ -1,40 +1,61 @@
 <definition component-name="portal-tags">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Tags" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="Tag#tearDownCP" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="Site#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="Tag#tearDownCP" />
+
+				<execute macro="Site#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="AddAutoAssertionTagViaBlogs" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
 		<for list="tag name 1,tag name 2,tag name 3" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
+			<execute macro="Navigator#openSiteURL">
 				<var name="siteName" value="Site Name" />
-				<var name="siteURL" value="true" />
+			</execute>
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Tags" />
 			</execute>
 
 			<execute macro="Tag#addCP">
@@ -42,20 +63,18 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
 			<var name="portletName" value="Blogs" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Tag#addAutoAssertionTagViaBlogsPG">
@@ -77,68 +96,68 @@
 	</command>
 
 	<command name="AddFrontPageTag" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
 			<var name="portletName" value="Wiki" />
 		</execute>
 
-		<execute macro="Tag#addFrontPageTagPG">
+		<execute macro="WikiPage#addFrontPagePG">
+			<var name="pageAddTag" value="true" />
+			<var name="tagName" value="wiki tag name" />
 			<var name="wikiPageContent" value="Wiki FrontPage Content" />
-			<var name="wikiTagName" value="wiki tag name" />
-		</execute>
-
-		<execute macro="Tag#viewFrontPageTagPG">
-			<var name="wikiPageContent" value="Wiki FrontPage Content" />
-			<var name="wikiTagName" value="wiki tag name" />
 		</execute>
 	</command>
 
 	<command name="AddMultipleTagsViaBlogs" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -152,10 +171,9 @@
 		</execute>
 
 		<for list="tag name 1,tag name 2,tag name 3" param="tagName">
-			<execute macro="Page#gotoPG">
+			<execute macro="Navigator#gotoSitePage">
 				<var name="pageName" value="Page Name" />
 				<var name="siteName" value="Site Name" />
-				<var name="siteURL" value="true" />
 			</execute>
 
 			<execute macro="BlogsNavigator#gotoEntryPG">
@@ -172,29 +190,38 @@
 	</command>
 
 	<command name="AddSelectTagViaBlogs" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
 		<for list="tag1,tag2,tag3" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
+			<execute macro="Navigator#openSiteURL">
 				<var name="siteName" value="Site Name" />
-				<var name="siteURL" value="true" />
+			</execute>
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Tags" />
 			</execute>
 
 			<execute macro="Tag#addCP">
@@ -202,52 +229,81 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
 			<var name="portletName" value="Blogs" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
-		<execute macro="Tag#addSelectTagMultipleViaBlogsPG">
+		<execute macro="BlogsNavigator#gotoAddEntry" />
+
+		<execute macro="BlogsEntry#addEntryContent">
 			<var name="entryContent" value="Entry Content" />
 			<var name="entryTitle" value="Entry Title" />
+		</execute>
+
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Categorization" />
+		</execute>
+
+		<execute macro="BlogsEntry#addTagList">
 			<var name="tagNameList" value="tag1,tag3" />
 		</execute>
+
+		<execute macro="PortletEntry#publish" />
+
+		<for list="tag1,tag3" param="tagName">
+			<execute macro="Navigator#gotoSitePage">
+				<var name="pageName" value="Page Name" />
+				<var name="siteName" value="Site Name" />
+			</execute>
+
+			<var name="key_entryTitle" value="Entry Title" />
+
+			<execute function="AssertClick" locator1="BlogsEntry#TITLE_LINK" value1="Entry Title" />
+
+			<execute macro="BlogsEntry#viewTagPG">
+				<var name="entryTitle" value="Entry Title" />
+				<var name="tagName" value="${tagName}" />
+			</execute>
+		</for>
 	</command>
 
 	<command name="AddTagViaBlogs" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -262,10 +318,9 @@
 			<var name="tagName" value="tag name" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="BlogsNavigator#gotoEntryPG">
@@ -279,109 +334,14 @@
 		</execute>
 	</command>
 
-	<command name="AddUTFTagViaBlogs" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
-		</execute>
-
-		<execute macro="Site#addBlankCP">
-			<var name="siteName" value="Site Name" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
-		</execute>
-
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Page Name" />
-			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Blogs" />
-		</execute>
-
-		<execute macro="Blogs#addEntryWithTag">
-			<var name="entryContent" value="Entry Content" />
-			<var name="entryTitle" value="Entry Title" />
-			<var name="tagName" value="硒1 liferay1" />
-		</execute>
-	</command>
-
-	<command name="DisplayDocumentTagViaAP" priority="4">
-		<execute macro="Page#addPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Tags Navigation" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Asset Publisher" />
-		</execute>
-
-		<execute macro="AssetPublisherPortlet#configureShowMetadataFieldsPG">
-			<var name="addMetadata" value="true" />
-			<var name="metadataField" value="Tags" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Tags" />
-		</execute>
-
-		<execute macro="Tag#addCP">
-			<var name="tagName" value="tag name" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-		</execute>
-
-		<execute macro="DMDocument#addCP">
-			<var name="dmDocumentDescription" value="DM Document Description" />
-			<var name="dmDocumentFile" value="Document_1.txt" />
-			<var name="dmDocumentSize" value="0KB" />
-			<var name="dmDocumentTitle" value="DM Document Title" />
-			<var name="tagNameList" value="tag name" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="TagsNavigationPortlet#viewDefaultPG">
-			<var name="tagNameList" value="tag name" />
-		</execute>
-
-		<execute macro="AssetPublisherPortlet#viewPG">
-			<var name="assetContent" value="DM Document Description" />
-			<var name="assetTitle" value="DM Document Title" />
-			<var name="tagName" value="tag name" />
-		</execute>
-	</command>
-
 	<command name="DisplayTagCloud" priority="5">
-		<execute macro="Page#addPG">
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="Page#add">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -394,7 +354,7 @@
 			<var name="showUnusedTags" value="true" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -402,7 +362,7 @@
 			<var name="displayTemplate" value="Cloud" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -411,8 +371,12 @@
 		</execute>
 
 		<for list="first tag,second tag,third tag" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
+			<execute macro="Navigator#openURL" />
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Tags" />
 			</execute>
 
 			<execute macro="Tag#addCP">
@@ -420,8 +384,12 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -432,17 +400,12 @@
 			<var name="webContentTitle" value="Web Content Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-		</execute>
+		<execute macro="Navigator#openURL" />
 
-		<execute macro="WebContent#viewWithTagCP">
-			<var name="tagNameList" value="first tag,second tag" />
-			<var name="webContentTitle" value="Web Content Title" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -472,12 +435,12 @@
 		</execute>
 	</command>
 
-	<command name="DisplayTagUsageStatistics" priority="4">
-		<execute macro="Page#addPG">
+	<command name="DisplayTagUsageStatistics" priority="3">
+		<execute macro="Page#add">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -489,7 +452,7 @@
 			<var name="displayTemplate" value="Number" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -497,7 +460,7 @@
 			<var name="showAssetCount" value="true" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -506,8 +469,12 @@
 		</execute>
 
 		<for list="first tag,second tag,third tag" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
+			<execute macro="Navigator#openURL" />
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Tags" />
 			</execute>
 
 			<execute macro="Tag#addCP">
@@ -515,8 +482,12 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -527,8 +498,12 @@
 			<var name="webContentTitle" value="Web Content Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -538,7 +513,7 @@
 			<var name="tagNameList" value="first tag" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -547,7 +522,7 @@
 			<var name="tagName" value="first tag" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -557,12 +532,12 @@
 		</execute>
 	</command>
 
-	<command name="DisplayUnusedTags" priority="4">
-		<execute macro="Page#addPG">
+	<command name="DisplayUnusedTags" priority="3">
+		<execute macro="Page#add">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -571,8 +546,12 @@
 		</execute>
 
 		<for list="tag name 1,tag name 2,tag name 3" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
+			<execute macro="Navigator#openURL" />
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Tags" />
 			</execute>
 
 			<execute macro="Tag#addCP">
@@ -580,7 +559,7 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -588,7 +567,7 @@
 			<var name="showUnusedTags" value="true" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -597,184 +576,31 @@
 		</execute>
 	</command>
 
-	<command name="DisplayWebContentTagViaAP" priority="4">
-		<execute macro="Page#addPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Tags Navigation" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Asset Publisher" />
-		</execute>
-
-		<execute macro="AssetPublisherPortlet#configureShowMetadataFieldsPG">
-			<var name="addMetadata" value="true" />
-			<var name="metadataField" value="Tags" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Tags" />
-		</execute>
-
-		<execute macro="Tag#addCP">
-			<var name="tagName" value="tag name" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-		</execute>
-
-		<execute macro="WebContentNavigator#gotoAddCP" />
-
-		<execute macro="WebContent#addWithTagCP">
-			<var name="tagNameList" value="tag name" />
-			<var name="webContentContent" value="Web Content Content" />
-			<var name="webContentTitle" value="Web Content Title" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="TagsNavigationPortlet#viewDefaultPG">
-			<var name="tagNameList" value="tag name" />
-		</execute>
-
-		<execute macro="AssetPublisherPortlet#viewPG">
-			<var name="assetContent" value="Web Content Content" />
-			<var name="assetTitle" value="Web Content Title" />
-			<var name="tagName" value="tag name" />
-		</execute>
-	</command>
-
-	<command name="FilterTagsByNameAP" priority="4">
-		<execute macro="Page#addPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Tags Navigation" />
-		</execute>
-
-		<execute macro="TagsNavigationPortlet#configureDisplayStylePG">
-			<var name="displayTemplate" value="Number" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="TagsNavigationPortlet#configureFlaggableSettingsPG">
-			<var name="showAssetCount" value="true" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Asset Publisher" />
-		</execute>
-
-		<for list="first tag,second tag,third tag" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
-			</execute>
-
-			<execute macro="Tag#addCP">
-				<var name="tagName" value="${tagName}" />
-			</execute>
-		</for>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-		</execute>
-
-		<execute macro="WebContentNavigator#gotoAddCP" />
-
-		<execute macro="WebContent#addWithTagCP">
-			<var name="tagNameList" value="first tag,second tag" />
-			<var name="webContentContent" value="Web Content Content" />
-			<var name="webContentTitle" value="Web Content Title" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-		</execute>
-
-		<execute macro="DMDocument#addCP">
-			<var name="dmDocumentFile" value="Document_1.txt" />
-			<var name="dmDocumentSize" value="0KB" />
-			<var name="dmDocumentTitle" value="DM Document Title" />
-			<var name="tagNameList" value="first tag" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="TagsNavigationPortlet#clickTagView">
-			<var name="tagAssetCount" value="first tag (2)" />
-			<var name="tagName" value="first tag" />
-		</execute>
-
-		<execute macro="AssetPublisherPortlet#viewTagFocusPG">
-			<var name="assetTitleList" value="DM Document Title,Web Content Title" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="Tags Navigation Page" />
-		</execute>
-
-		<execute macro="TagsNavigationPortlet#clickTagView">
-			<var name="tagAssetCount" value="second tag (1)" />
-			<var name="tagName" value="second tag" />
-		</execute>
-
-		<execute macro="AssetPublisherPortlet#viewTagFocusPG">
-			<var name="assetTitleList" value="Web Content Title" />
-			<var name="nonTaggedAsset" value="DM Document Title" />
-		</execute>
-	</command>
-
-	<command name="RemoveSelectTagViaBlogs" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+	<command name="RemoveSelectTagViaBlogs" priority="3">
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -787,17 +613,15 @@
 			<var name="tagNameList" value="tag name 1,tag name 2,tag name 3" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<for list="tag name 1,tag name 2,tag name 3" param="tagName">
-			<execute macro="Page#gotoPG">
+			<execute macro="Navigator#gotoSitePage">
 				<var name="pageName" value="Page Name" />
 				<var name="siteName" value="Site Name" />
-				<var name="siteURL" value="true" />
 			</execute>
 
 			<execute macro="BlogsNavigator#gotoEntryPG">
@@ -812,17 +636,18 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="BlogsNavigator#gotoEditPG">
 			<var name="entryTitle" value="Entry Title" />
 		</execute>
 
-		<execute macro="BlogsNavigator#gotoSettings" />
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Categorization" />
+		</execute>
 
 		<for list="tag name 1,tag name 3" param="tagName">
 			<execute macro="AssetCategorization#removeTag">
@@ -830,12 +655,11 @@
 			</execute>
 		</for>
 
-		<execute macro="BlogsEntry#publish" />
+		<execute macro="PortletEntry#publish" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="BlogsNavigator#gotoEntryPG">
@@ -848,28 +672,32 @@
 	</command>
 
 	<command name="RemoveTagViaBlogs" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -883,10 +711,9 @@
 		</execute>
 
 		<for list="tag name 1,tag name 2,tag name 3" param="tagName">
-			<execute macro="Page#gotoPG">
+			<execute macro="Navigator#gotoSitePage">
 				<var name="pageName" value="Page Name" />
 				<var name="siteName" value="Site Name" />
-				<var name="siteURL" value="true" />
 			</execute>
 
 			<execute macro="BlogsNavigator#gotoEntryPG">
@@ -901,28 +728,28 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="BlogsNavigator#gotoEditPG">
 			<var name="entryTitle" value="Entry Title" />
 		</execute>
 
-		<execute macro="BlogsNavigator#gotoSettings" />
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Categorization" />
+		</execute>
 
 		<execute macro="AssetCategorization#removeTag">
 			<var name="tagName" value="tag name 1" />
 		</execute>
 
-		<execute macro="BlogsEntry#publish" />
+		<execute macro="PortletEntry#publish" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="BlogsNavigator#gotoEntryPG">
@@ -933,51 +760,35 @@
 		<execute function="AssertTextNotPresent" value1="tag name 1" />
 	</command>
 
-	<command name="SearchMultipleTagsViaBlogs" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+	<command name="SearchMultipleTagsViaBlogs" priority="3">
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<for list="blue,blue green,yellow" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
-				<var name="siteName" value="Site Name" />
-				<var name="siteURL" value="true" />
-			</execute>
-
-			<execute macro="Tag#addCP">
-				<var name="tagName" value="${tagName}" />
-			</execute>
-		</for>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
 			<var name="portletName" value="Blogs" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Blogs#addEntryWithTag">
@@ -986,10 +797,9 @@
 			<var name="tagName" value="blue" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Blogs#addEntryWithTag">
@@ -998,10 +808,9 @@
 			<var name="tagName" value="blue green" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Blogs#addEntryWithTag">
@@ -1010,10 +819,9 @@
 			<var name="tagName" value="yellow" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Search#searchPG">
@@ -1036,11 +844,13 @@
 	</command>
 
 	<command name="ViewTagCloudDisplayConfiguration" priority="5">
-		<execute macro="Page#addPG">
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="Page#add">
 			<var name="pageName" value="Tag Cloud Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tag Cloud Page" />
 		</execute>
 
@@ -1048,7 +858,7 @@
 			<var name="portletName" value="Tag Cloud" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tag Cloud Page" />
 		</execute>
 
@@ -1058,11 +868,13 @@
 	</command>
 
 	<command name="ViewTagCloudIncrease" priority="5">
-		<execute macro="Page#addPG">
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="Page#add">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -1075,7 +887,7 @@
 			<var name="showUnusedTags" value="true" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -1083,7 +895,7 @@
 			<var name="displayTemplate" value="Cloud" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -1092,8 +904,12 @@
 		</execute>
 
 		<for list="first tag,second tag,third tag" param="tagName">
-			<execute macro="Page#gotoContentCP">
-				<var name="portletName" value="Tags" />
+			<execute macro="Navigator#openURL" />
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Tags" />
 			</execute>
 
 			<execute macro="Tag#addCP">
@@ -1101,8 +917,12 @@
 			</execute>
 		</for>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -1113,8 +933,12 @@
 			<var name="webContentTitle" value="Web Content Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -1124,7 +948,7 @@
 			<var name="tagNameList" value="first tag" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 
@@ -1138,8 +962,12 @@
 			<var name="tagPopularityLevel" value="3" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -1150,7 +978,7 @@
 			<var name="webContentTitle" value="Web Content2 Title" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Tags Navigation Page" />
 		</execute>
 

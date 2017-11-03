@@ -14,15 +14,16 @@
 
 package com.liferay.portlet.asset.bundle.assetrendererfactoryregistryutil;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetRenderer;
+import com.liferay.asset.kernel.model.AssetRendererFactory;
+import com.liferay.asset.kernel.model.ClassTypeReader;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Tuple;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portlet.asset.model.AssetEntry;
-import com.liferay.portlet.asset.model.AssetRenderer;
-import com.liferay.portlet.asset.model.AssetRendererFactory;
-import com.liferay.portlet.asset.model.ClassTypeReader;
 
 import java.util.List;
 import java.util.Locale;
@@ -76,6 +77,14 @@ public class TestAssetRendererFactory
 	}
 
 	@Override
+	public AssetRenderer<TestAssetRendererModel> getAssetRenderer(
+			TestAssetRendererModel entry, int type)
+		throws PortalException {
+
+		return null;
+	}
+
+	@Override
 	public String getClassName() {
 		return TestAssetRendererFactory.class.getName();
 	}
@@ -85,6 +94,9 @@ public class TestAssetRendererFactory
 		return 1234567890;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public Tuple getClassTypeFieldName(
@@ -93,6 +105,9 @@ public class TestAssetRendererFactory
 		return null;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public List<Tuple> getClassTypeFieldNames(
@@ -101,6 +116,9 @@ public class TestAssetRendererFactory
 		return null;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public int getClassTypeFieldNamesCount(long classTypeId, Locale locale) {
@@ -112,6 +130,9 @@ public class TestAssetRendererFactory
 		return null;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public Map<Long, String> getClassTypes(long[] groupIds, Locale locale) {
@@ -123,6 +144,10 @@ public class TestAssetRendererFactory
 		return null;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
+	@Deprecated
 	@Override
 	public String getIconPath(PortletRequest portletRequest) {
 		return null;
@@ -148,6 +173,9 @@ public class TestAssetRendererFactory
 		return null;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public String getTypeName(Locale locale, boolean hasSubtypes) {
@@ -159,6 +187,9 @@ public class TestAssetRendererFactory
 		return null;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public PortletURL getURLAdd(
@@ -191,6 +222,9 @@ public class TestAssetRendererFactory
 		return false;
 	}
 
+	/**
+	 * @deprecated As of 7.0.0
+	 */
 	@Deprecated
 	@Override
 	public boolean hasClassTypeFieldNames(long classTypeId, Locale locale) {
@@ -221,11 +255,6 @@ public class TestAssetRendererFactory
 
 	@Override
 	public boolean isLinkable() {
-		return false;
-	}
-
-	@Override
-	public boolean isListable(long classPK) {
 		return false;
 	}
 

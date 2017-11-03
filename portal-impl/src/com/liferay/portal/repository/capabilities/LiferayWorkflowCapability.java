@@ -14,12 +14,19 @@
 
 package com.liferay.portal.repository.capabilities;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryConstants;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLSyncConstants;
+import com.liferay.document.library.kernel.util.DLAppHelperThreadLocal;
+import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.LocalRepository;
 import com.liferay.portal.kernel.repository.Repository;
 import com.liferay.portal.kernel.repository.capabilities.WorkflowCapability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
 import com.liferay.portal.repository.capabilities.util.DLFileEntryServiceAdapter;
@@ -27,13 +34,6 @@ import com.liferay.portal.repository.capabilities.util.DLFileVersionServiceAdapt
 import com.liferay.portal.repository.liferayrepository.LiferayWorkflowLocalRepositoryWrapper;
 import com.liferay.portal.repository.liferayrepository.LiferayWorkflowRepositoryWrapper;
 import com.liferay.portal.repository.util.RepositoryWrapperAware;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryConstants;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLSyncConstants;
-import com.liferay.portlet.documentlibrary.util.DLAppHelperThreadLocal;
-import com.liferay.portlet.documentlibrary.util.DLUtil;
 
 /**
  * @author Adolfo Pérez
@@ -76,12 +76,13 @@ public class LiferayWorkflowCapability
 
 	@Override
 	public void checkInFileEntry(
-			long userId, FileEntry fileEntry, ServiceContext serviceContext)
+			long userId, FileEntry fileEntry, boolean majorVersion,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		boolean keepFileVersionLabel =
 			_dlFileEntryServiceAdapter.isKeepFileVersionLabel(
-				fileEntry.getFileEntryId(), serviceContext);
+				fileEntry.getFileEntryId(), majorVersion, serviceContext);
 
 		if ((serviceContext.getWorkflowAction() ==
 				WorkflowConstants.ACTION_PUBLISH) &&
@@ -114,7 +115,8 @@ public class LiferayWorkflowCapability
 
 	@Override
 	public void updateFileEntry(
-			long userId, FileEntry fileEntry, ServiceContext serviceContext)
+			long userId, FileEntry fileEntry, boolean majorVersion,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		_startWorkflowInstance(userId, fileEntry, serviceContext);

@@ -60,7 +60,8 @@
 					%>
 
 				</aui:col>
-				<aui:col cssClass="<%= panelBodyCssClass %>"  width="<%= 80 %>">
+
+				<aui:col cssClass="<%= panelBodyCssClass %>" width="<%= 80 %>">
 					<%@ include file="/html/portal/layout/view/panel_description.jspf" %>
 				</aui:col>
 			</aui:row>

@@ -14,6 +14,8 @@
 
 package com.liferay.portal.model.adapter.builder;
 
+import com.liferay.portal.kernel.model.adapter.builder.ModelAdapterBuilder;
+import com.liferay.portal.kernel.model.adapter.builder.ModelAdapterBuilderLocator;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.registry.Registry;
@@ -34,10 +36,6 @@ import java.lang.reflect.Type;
 public class ServiceTrackerMapModelAdapterBuilderLocator
 	implements ModelAdapterBuilderLocator, Closeable {
 
-	public ServiceTrackerMapModelAdapterBuilderLocator() {
-		_modelAdapterBuilders.open();
-	}
-
 	@Override
 	public void close() {
 		_modelAdapterBuilders.close();
@@ -48,10 +46,10 @@ public class ServiceTrackerMapModelAdapterBuilderLocator
 		Class<T> adapteeModelClass, Class<V> adaptedModelClass) {
 
 		return _modelAdapterBuilders.getService(
-			getKey(adapteeModelClass, adaptedModelClass));
+			_getKey(adapteeModelClass, adaptedModelClass));
 	}
 
-	private <T, V> String getKey(
+	private <T, V> String _getKey(
 		Class<T> adapteeModelClass, Class<V> adaptedModelClass) {
 
 		return adapteeModelClass.getName() + "->" + adaptedModelClass.getName();
@@ -59,7 +57,7 @@ public class ServiceTrackerMapModelAdapterBuilderLocator
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	private final ServiceTrackerMap<String, ModelAdapterBuilder>
-		_modelAdapterBuilders = ServiceTrackerCollections.singleValueMap(
+		_modelAdapterBuilders = ServiceTrackerCollections.openSingleValueMap(
 			ModelAdapterBuilder.class, null,
 			new ServiceReferenceMapper<String, ModelAdapterBuilder>() {
 
@@ -95,11 +93,11 @@ public class ServiceTrackerMapModelAdapterBuilderLocator
 					}
 
 					try {
-						Class adapteeModelClass = (Class)typeArguments[0];
-						Class adaptedModelClass = (Class)typeArguments[1];
+						Class<?> adapteeModelClass = (Class)typeArguments[0];
+						Class<?> adaptedModelClass = (Class)typeArguments[1];
 
 						emitter.emit(
-							getKey(adapteeModelClass, adaptedModelClass));
+							_getKey(adapteeModelClass, adaptedModelClass));
 					}
 					catch (ClassCastException cce) {
 						return;

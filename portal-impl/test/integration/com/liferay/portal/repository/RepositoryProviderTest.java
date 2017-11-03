@@ -14,23 +14,24 @@
 
 package com.liferay.portal.repository;
 
-import com.liferay.portal.kernel.repository.InvalidRepositoryIdException;
+import com.liferay.document.library.kernel.exception.NoSuchFileEntryException;
+import com.liferay.document.library.kernel.exception.NoSuchFileVersionException;
+import com.liferay.document.library.kernel.exception.NoSuchFolderException;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.repository.RepositoryException;
 import com.liferay.portal.kernel.repository.RepositoryProviderUtil;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.security.permission.PermissionThreadLocal;
 import com.liferay.portal.security.permission.SimplePermissionChecker;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.util.test.DLTestUtil;
 
 import org.junit.Before;
@@ -46,8 +47,7 @@ public class RepositoryProviderTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -100,7 +100,7 @@ public class RepositoryProviderTest {
 		RepositoryProviderUtil.getLocalRepository(dlFolder.getRepositoryId());
 	}
 
-	@Test(expected = InvalidRepositoryIdException.class)
+	@Test(expected = NoSuchFileEntryException.class)
 	public void testCreateLocalRepositoryFromNonexistentFileEntryId()
 		throws Exception {
 
@@ -109,7 +109,7 @@ public class RepositoryProviderTest {
 		RepositoryProviderUtil.getFileEntryLocalRepository(fileEntryId);
 	}
 
-	@Test(expected = InvalidRepositoryIdException.class)
+	@Test(expected = NoSuchFileVersionException.class)
 	public void testCreateLocalRepositoryFromNonexistentFileVersionId()
 		throws Exception {
 
@@ -118,7 +118,7 @@ public class RepositoryProviderTest {
 		RepositoryProviderUtil.getFileVersionLocalRepository(fileVersionId);
 	}
 
-	@Test(expected = InvalidRepositoryIdException.class)
+	@Test(expected = NoSuchFolderException.class)
 	public void testCreateLocalRepositoryFromNonexistentFolderId()
 		throws Exception {
 
@@ -191,18 +191,7 @@ public class RepositoryProviderTest {
 					}
 
 					@Override
-					public boolean hasPermission(
-						long groupId, String name, String primKey,
-						String actionId) {
-
-						return false;
-					}
-
-					@Override
-					public boolean hasUserPermission(
-						long groupId, String name, String primKey,
-						String actionId, boolean checkAdmin) {
-
+					protected boolean hasPermission(String actionId) {
 						return false;
 					}
 
@@ -229,7 +218,7 @@ public class RepositoryProviderTest {
 		RepositoryProviderUtil.getRepository(dlFolder.getRepositoryId());
 	}
 
-	@Test(expected = InvalidRepositoryIdException.class)
+	@Test(expected = NoSuchFileEntryException.class)
 	public void testCreateRepositoryFromNonexistentFileEntryId()
 		throws Exception {
 
@@ -238,7 +227,7 @@ public class RepositoryProviderTest {
 		RepositoryProviderUtil.getFileEntryRepository(fileEntryId);
 	}
 
-	@Test(expected = InvalidRepositoryIdException.class)
+	@Test(expected = NoSuchFileVersionException.class)
 	public void testCreateRepositoryFromNonexistentFileVersionId()
 		throws Exception {
 
@@ -247,7 +236,7 @@ public class RepositoryProviderTest {
 		RepositoryProviderUtil.getFileVersionRepository(fileVersionId);
 	}
 
-	@Test(expected = InvalidRepositoryIdException.class)
+	@Test(expected = NoSuchFolderException.class)
 	public void testCreateRepositoryFromNonexistentFolderId() throws Exception {
 		long folderId = RandomTestUtil.randomLong();
 

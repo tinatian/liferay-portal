@@ -66,6 +66,7 @@ public class ServiceBeanAopProxy
 		ServiceBeanAopCacheManager serviceBeanAopCacheManager) {
 
 		_advisedSupport = advisedSupport;
+
 		_advisorChainFactory = _advisedSupport.getAdvisorChainFactory();
 
 		Class<?>[] proxyInterfaces = _advisedSupport.getProxiedInterfaces();
@@ -159,24 +160,13 @@ public class ServiceBeanAopProxy
 
 		TargetSource targetSource = _advisedSupport.getTargetSource();
 
-		Object target = null;
+		ServiceBeanMethodInvocation serviceBeanMethodInvocation =
+			new ServiceBeanMethodInvocation(
+				targetSource.getTarget(), method, arguments);
 
-		try {
-			target = targetSource.getTarget();
+		_setMethodInterceptors(serviceBeanMethodInvocation);
 
-			ServiceBeanMethodInvocation serviceBeanMethodInvocation =
-				new ServiceBeanMethodInvocation(
-					target, targetSource.getTargetClass(), method, arguments);
-
-			_setMethodInterceptors(serviceBeanMethodInvocation);
-
-			return serviceBeanMethodInvocation.proceed();
-		}
-		finally {
-			if ((target != null) && !targetSource.isStatic()) {
-				targetSource.releaseTarget(target);
-			}
-		}
+		return serviceBeanMethodInvocation.proceed();
 	}
 
 	public interface PACL {
@@ -244,8 +234,7 @@ public class ServiceBeanAopProxy
 				_classLevelMethodInterceptors, methodInterceptors);
 
 			_serviceBeanAopCacheManager.putMethodInterceptorsBag(
-				serviceBeanMethodInvocation.toCacheKeyModel(),
-				methodInterceptorsBag);
+				serviceBeanMethodInvocation, methodInterceptorsBag);
 		}
 
 		serviceBeanMethodInvocation.setMethodInterceptors(

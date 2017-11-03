@@ -17,19 +17,11 @@ package com.liferay.portlet.social.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextFactory;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.social.model.SocialActivity;
-import com.liferay.portlet.social.model.SocialActivityFeedEntry;
-import com.liferay.portlet.social.model.SocialActivityInterpreter;
-import com.liferay.portlet.social.model.SocialActivitySet;
-import com.liferay.portlet.social.model.impl.SocialActivityInterpreterImpl;
-import com.liferay.portlet.social.model.impl.SocialRequestInterpreterImpl;
 import com.liferay.portlet.social.service.base.SocialActivityInterpreterLocalServiceBaseImpl;
 import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
@@ -40,6 +32,12 @@ import com.liferay.registry.ServiceTracker;
 import com.liferay.registry.ServiceTrackerCustomizer;
 import com.liferay.registry.collections.ServiceRegistrationMap;
 import com.liferay.registry.collections.ServiceRegistrationMapImpl;
+import com.liferay.social.kernel.model.SocialActivity;
+import com.liferay.social.kernel.model.SocialActivityFeedEntry;
+import com.liferay.social.kernel.model.SocialActivityInterpreter;
+import com.liferay.social.kernel.model.SocialActivitySet;
+import com.liferay.social.kernel.model.impl.SocialActivityInterpreterImpl;
+import com.liferay.social.kernel.model.impl.SocialRequestInterpreterImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,6 +95,8 @@ public class SocialActivityInterpreterLocalServiceImpl
 
 	@Override
 	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
+
 		Registry registry = RegistryUtil.getRegistry();
 
 		Filter filter = registry.getFilter(
@@ -138,28 +138,6 @@ public class SocialActivityInterpreterLocalServiceImpl
 		String selector) {
 
 		return _activityInterpreters.get(selector);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #interpret(String,
-	 *             SocialActivity, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public SocialActivityFeedEntry interpret(
-		SocialActivity activity, ThemeDisplay themeDisplay) {
-
-		ServiceContext serviceContext = null;
-
-		try {
-			serviceContext = ServiceContextFactory.getInstance(
-				themeDisplay.getRequest());
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-		return interpret(StringPool.BLANK, activity, serviceContext);
 	}
 
 	/**

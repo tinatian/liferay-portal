@@ -17,9 +17,11 @@ package com.liferay.portal.upgrade.util;
 import com.liferay.portal.kernel.upgrade.StagnantRowException;
 import com.liferay.portal.kernel.upgrade.util.UpgradeColumn;
 import com.liferay.portal.kernel.upgrade.util.UpgradeTable;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.tools.comparator.ColumnsComparator;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -33,6 +35,14 @@ import java.util.List;
  */
 public class DefaultUpgradeTableImpl
 	extends BaseUpgradeTableImpl implements UpgradeTable {
+
+	@Override
+	public void copyTable(
+			Connection sourceConnection, Connection targetConnection)
+		throws Exception {
+
+		updateTable(sourceConnection, targetConnection, false);
+	}
 
 	@Override
 	public String getExportedData(ResultSet rs) throws Exception {
@@ -72,8 +82,9 @@ public class DefaultUpgradeTableImpl
 					_upgradeColumns[i].setNewValue(null);
 
 					throw new StagnantRowException(
-						"Column " + columns[i][0] + " with value " +
-							sre.getMessage(),
+						StringBundler.concat(
+							"Column ", String.valueOf(columns[i][0]),
+							" with value ", sre.getMessage()),
 						sre);
 				}
 			}

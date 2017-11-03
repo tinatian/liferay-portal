@@ -14,19 +14,24 @@
 	<td></td>
 </tr>
 <tr>
+	<td>CLOSE_ADD_PANEL</td>
+	<td>//div[contains(@class,'lfr-add-panel')]//a[contains(@class,'sidenav-close')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td></td>
 	<td></td>
 	<td></td>
 </tr>
 <!--CONTENT-->
 <tr>
-	<td>CONTENT_TITLE</td>
-	<td>//div[contains(@class,'add-content-details')]/div[contains(.,'${key_assetTitle}')]</td>
+	<td>CONTENT_ACCORDION_PANEL_TITLE</td>
+	<td>//div[contains(@id,'Accordion')]//div[@class='panel-title' and contains(.,'Content')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>ADD_NEW_MENULIST</td>
-	<td>//ul[@class='dropdown-menu']/li/a[contains(.,'${key_assetType}')]/span</td>
+	<td>CONTENT_TITLE</td>
+	<td>//div[contains(@class,'list-group-item-content')]/h4[contains(.,'${key_assetTitle}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -41,6 +46,11 @@
 </tr>
 <!--APPLICATIONS-->
 <tr>
+	<td>APPLICATIONS_ACCORDION_PANEL_TITLE</td>
+	<td>//div[contains(@id,'Accordion')]//div[@class='panel-title' and contains(.,'Applications')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>COLLAPSED_CATEGORY</td>
 	<td>//div[contains(@class,'toggler-header-collapsed')]/div</td>
 	<td></td>
@@ -48,6 +58,26 @@
 <tr>
 	<td>ADD_PORTLET_LINK</td>
 	<td>//span[contains(@data-search,'-${portletName}') and contains(@class,'add-content-item')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SIDEBAR_APPLICATIONS_PANEL_COLLAPSED</td>
+	<td>//*[@data-qa-id='addMenuAddApplicationCategory'][@aria-expanded='false' and contains(.,'Applications')]</td>]
+	<td></td>
+</tr>
+<tr>
+	<td>SIDEBAR_APPLICATIONS_PANEL_EXPANDED</td>
+	<td>//*[@data-qa-id='addMenuAddApplicationCategory'][@aria-expanded='true' and contains(.,'Applications')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SIDEBAR_CONTENT_PANEL_COLLAPSED</td>
+	<td>//*[@data-qa-id='addMenuAddContentCategory'][@aria-expanded='false' and contains(.,'Content')]</td>]
+	<td></td>
+</tr>
+<tr>
+	<td>SIDEBAR_CONTENT_PANEL_EXPANDED</td>
+	<td>//*[@data-qa-id='addMenuAddContentCategory'][@aria-expanded='true' and contains(.,'Content')]</td>
 	<td></td>
 </tr>
 </tbody>

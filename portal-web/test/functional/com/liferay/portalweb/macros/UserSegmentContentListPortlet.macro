@@ -1,28 +1,33 @@
 <definition>
 	<command name="configureDisplayFilter">
 		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
+			<var name="portletName" value="${portletName}" />
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="UserSegmentContentList#USER_SEGMENT_CONTENT_LIST_CONFIGURATION_IFRAME" />
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Source" />
+		</execute>
 
 		<if>
 			<isset var="assetTypeFilter" />
 			<then>
-				<execute function="Select" locator1="UserSegmentContentList#ASSET_TYPE_MENULIST" value1="${assetTypeFilter}" />
+				<execute function="Select" locator1="UserSegmentContentList#SELECT_ASSET_TYPE" value1="${assetTypeFilter}" />
 			</then>
 		</if>
 
 		<if>
 			<isset var="selectMultipleAssetTypes" />
 			<then>
-				<execute function="Select" locator1="UserSegmentContentList#ASSET_TYPE_MENULIST" value1="Select More Than One..." />
+				<execute function="Select" locator1="UserSegmentContentList#SELECT_ASSET_TYPE" value1="Select More Than One..." />
 
 				<while>
 					<condition function="IsElementPresent" locator1="UserSegmentContentList#SELECTED_ASSETS" />
 					<then>
 						<execute function="Click" locator1="UserSegmentContentList#SELECTED_ASSETS" />
+
 						<execute function="Click" locator1="UserSegmentContentList#MOVE_SELECTED_TO_AVAILABLE_BUTTON" />
 					</then>
 				</while>
@@ -31,13 +36,17 @@
 					<var name="key_assetType" value="${assetType}" />
 
 					<execute function="Click" locator1="UserSegmentContentList#AVAILABLE_ASSET_TYPE" value1="${assetType}" />
+
 					<execute function="Click" locator1="UserSegmentContentList#MOVE_AVAILABLE_TO_SELECTED_BUTTON" />
+
 					<execute function="AssertTextEquals" locator1="UserSegmentContentList#SELECTED_ASSETS" value1="${assetType}" />
 				</for>
 
-				<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-				<execute function="AssertClick" locator1="Message#SUCCESS" value1="Your request completed successfully." />
-				<execute function="Select" locator1="UserSegmentContentList#ASSET_TYPE_MENULIST" value1="Select More Than One..." />
+				<execute macro="Button#clickSave" />
+
+				<execute macro="Alert#viewSuccessMessage" />
+
+				<execute function="Select" locator1="UserSegmentContentList#SELECT_ASSET_TYPE" value1="Select More Than One..." />
 
 				<for list="${selectMultipleAssetTypes}" param="assetType">
 					<var name="key_assetType" value="${assetType}" />
@@ -47,17 +56,10 @@
 			</then>
 		</if>
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-		<execute function="AssertClick" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="viewContent">
-		<for list="${viewEntryTitleList}" param="entryTitle">
-			<var name="key_entryTitle" value="${entryTitle}" />
-
-			<execute function="AssertTextEquals" locator1="UserSegmentContentList#VIEW_ENTRY_TITLE" value1="${entryTitle}" />
-		</for>
-
 		<for list="${viewEntryContentList}" param="entryContent">
 			<var name="key_entryContent" value="${entryContent}" />
 
@@ -66,6 +68,6 @@
 	</command>
 
 	<command name="viewContentNotPresent">
-		<execute function="AssertElementNotPresent" locator1="UserSegmentContentList#VIEW_ENTRY_TITLE_BASIC" />
+		<execute function="AssertElementNotPresent" locator1="UserSegmentContentList#VIEW_ENTRY_CONTENT_BASIC" />
 	</command>
 </definition>

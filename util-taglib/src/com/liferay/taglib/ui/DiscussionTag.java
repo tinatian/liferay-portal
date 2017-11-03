@@ -14,9 +14,10 @@
 
 package com.liferay.taglib.ui;
 
+import com.liferay.portal.kernel.comment.Discussion;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.PortletDisplay;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.taglib.util.IncludeTag;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,10 @@ public class DiscussionTag extends IncludeTag {
 
 	public void setClassPK(long classPK) {
 		_classPK = classPK;
+	}
+
+	public void setDiscussion(Discussion discussion) {
+		_discussion = discussion;
 	}
 
 	public void setFormAction(String formAction) {
@@ -58,13 +63,6 @@ public class DiscussionTag extends IncludeTag {
 		_redirect = redirect;
 	}
 
-	/**
-	 * @deprecated As of 6.2.0, with no direct replacement
-	 */
-	@Deprecated
-	public void setSubject(String subject) {
-	}
-
 	public void setUserId(long userId) {
 		_userId = userId;
 	}
@@ -74,6 +72,7 @@ public class DiscussionTag extends IncludeTag {
 		_assetEntryVisible = true;
 		_className = null;
 		_classPK = 0;
+		_discussion = null;
 		_formAction = null;
 		_formName = "fm";
 		_hideControls = false;
@@ -119,6 +118,12 @@ public class DiscussionTag extends IncludeTag {
 		request.setAttribute("liferay-ui:discussion:className", _className);
 		request.setAttribute(
 			"liferay-ui:discussion:classPK", String.valueOf(_classPK));
+
+		if (_discussion != null) {
+			request.setAttribute(
+				"liferay-comment:discussion:discussion", _discussion);
+		}
+
 		request.setAttribute(
 			"liferay-ui:discussion:formAction", getFormAction(request));
 		request.setAttribute("liferay-ui:discussion:formName", _formName);
@@ -140,6 +145,7 @@ public class DiscussionTag extends IncludeTag {
 	private boolean _assetEntryVisible = true;
 	private String _className;
 	private long _classPK;
+	private Discussion _discussion;
 	private String _formAction;
 	private String _formName = "fm";
 	private boolean _hideControls;

@@ -16,19 +16,20 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.OrgLabor;
+import com.liferay.portal.kernel.model.OrgLaborModel;
+import com.liferay.portal.kernel.model.OrgLaborSoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.OrgLabor;
-import com.liferay.portal.model.OrgLaborModel;
-import com.liferay.portal.model.OrgLaborSoap;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -65,6 +66,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "mvccVersion", Types.BIGINT },
 			{ "orgLaborId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
 			{ "organizationId", Types.BIGINT },
 			{ "typeId", Types.BIGINT },
 			{ "sunOpen", Types.INTEGER },
@@ -87,6 +89,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 	static {
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("orgLaborId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("organizationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("sunOpen", Types.INTEGER);
@@ -105,7 +108,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 		TABLE_COLUMNS_MAP.put("satClose", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table OrgLabor (mvccVersion LONG default 0,orgLaborId LONG not null primary key,organizationId LONG,typeId LONG,sunOpen INTEGER,sunClose INTEGER,monOpen INTEGER,monClose INTEGER,tueOpen INTEGER,tueClose INTEGER,wedOpen INTEGER,wedClose INTEGER,thuOpen INTEGER,thuClose INTEGER,friOpen INTEGER,friClose INTEGER,satOpen INTEGER,satClose INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table OrgLabor (mvccVersion LONG default 0 not null,orgLaborId LONG not null primary key,companyId LONG,organizationId LONG,typeId LONG,sunOpen INTEGER,sunClose INTEGER,monOpen INTEGER,monClose INTEGER,tueOpen INTEGER,tueClose INTEGER,wedOpen INTEGER,wedClose INTEGER,thuOpen INTEGER,thuClose INTEGER,friOpen INTEGER,friClose INTEGER,satOpen INTEGER,satClose INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table OrgLabor";
 	public static final String ORDER_BY_JPQL = " ORDER BY orgLabor.organizationId ASC, orgLabor.typeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY OrgLabor.organizationId ASC, OrgLabor.typeId ASC";
@@ -113,13 +116,13 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.OrgLabor"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.OrgLabor"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.OrgLabor"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.OrgLabor"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.OrgLabor"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.OrgLabor"),
 			true);
 	public static final long ORGANIZATIONID_COLUMN_BITMASK = 1L;
 	public static final long TYPEID_COLUMN_BITMASK = 2L;
@@ -139,6 +142,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 		model.setMvccVersion(soapModel.getMvccVersion());
 		model.setOrgLaborId(soapModel.getOrgLaborId());
+		model.setCompanyId(soapModel.getCompanyId());
 		model.setOrganizationId(soapModel.getOrganizationId());
 		model.setTypeId(soapModel.getTypeId());
 		model.setSunOpen(soapModel.getSunOpen());
@@ -180,7 +184,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.OrgLabor"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.OrgLabor"));
 
 	public OrgLaborModelImpl() {
 	}
@@ -221,6 +225,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("orgLaborId", getOrgLaborId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("organizationId", getOrganizationId());
 		attributes.put("typeId", getTypeId());
 		attributes.put("sunOpen", getSunOpen());
@@ -256,6 +261,12 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 		if (orgLaborId != null) {
 			setOrgLaborId(orgLaborId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Long organizationId = (Long)attributes.get("organizationId");
@@ -375,6 +386,17 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 	@Override
 	public void setOrgLaborId(long orgLaborId) {
 		_orgLaborId = orgLaborId;
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
 	}
 
 	@JSON
@@ -573,7 +595,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			OrgLabor.class.getName(), getPrimaryKey());
 	}
 
@@ -600,6 +622,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 		orgLaborImpl.setMvccVersion(getMvccVersion());
 		orgLaborImpl.setOrgLaborId(getOrgLaborId());
+		orgLaborImpl.setCompanyId(getCompanyId());
 		orgLaborImpl.setOrganizationId(getOrganizationId());
 		orgLaborImpl.setTypeId(getTypeId());
 		orgLaborImpl.setSunOpen(getSunOpen());
@@ -713,6 +736,8 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 		orgLaborCacheModel.orgLaborId = getOrgLaborId();
 
+		orgLaborCacheModel.companyId = getCompanyId();
+
 		orgLaborCacheModel.organizationId = getOrganizationId();
 
 		orgLaborCacheModel.typeId = getTypeId();
@@ -750,12 +775,14 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
 		sb.append(", orgLaborId=");
 		sb.append(getOrgLaborId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
 		sb.append(", organizationId=");
 		sb.append(getOrganizationId());
 		sb.append(", typeId=");
@@ -795,10 +822,10 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.OrgLabor");
+		sb.append("com.liferay.portal.kernel.model.OrgLabor");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -808,6 +835,10 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 		sb.append(
 			"<column><column-name>orgLaborId</column-name><column-value><![CDATA[");
 		sb.append(getOrgLaborId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>organizationId</column-name><column-value><![CDATA[");
@@ -885,6 +916,7 @@ public class OrgLaborModelImpl extends BaseModelImpl<OrgLabor>
 		};
 	private long _mvccVersion;
 	private long _orgLaborId;
+	private long _companyId;
 	private long _organizationId;
 	private long _originalOrganizationId;
 	private boolean _setOriginalOrganizationId;

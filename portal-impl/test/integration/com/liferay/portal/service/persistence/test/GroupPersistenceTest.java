@@ -14,29 +14,28 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchGroupException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchGroupException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.GroupPersistence;
+import com.liferay.portal.kernel.service.persistence.GroupUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.persistence.GroupPersistence;
-import com.liferay.portal.service.persistence.GroupUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -52,6 +51,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -284,6 +284,22 @@ public class GroupPersistenceTest {
 	}
 
 	@Test
+	public void testCountByC_A() throws Exception {
+		_persistence.countByC_A(RandomTestUtil.nextLong(),
+			RandomTestUtil.randomBoolean());
+
+		_persistence.countByC_A(0L, RandomTestUtil.randomBoolean());
+	}
+
+	@Test
+	public void testCountByC_CPK() throws Exception {
+		_persistence.countByC_CPK(RandomTestUtil.nextLong(),
+			RandomTestUtil.nextLong());
+
+		_persistence.countByC_CPK(0L, 0L);
+	}
+
+	@Test
 	public void testCountByT_A() throws Exception {
 		_persistence.countByT_A(RandomTestUtil.nextInt(),
 			RandomTestUtil.randomBoolean());
@@ -331,6 +347,27 @@ public class GroupPersistenceTest {
 		_persistence.countByC_L_GK(0L, 0L, StringPool.NULL);
 
 		_persistence.countByC_L_GK(0L, 0L, (String)null);
+	}
+
+	@Test
+	public void testCountByC_T_S() throws Exception {
+		_persistence.countByC_T_S(RandomTestUtil.nextLong(), StringPool.BLANK,
+			RandomTestUtil.randomBoolean());
+
+		_persistence.countByC_T_S(0L, StringPool.NULL,
+			RandomTestUtil.randomBoolean());
+
+		_persistence.countByC_T_S(0L, (String)null,
+			RandomTestUtil.randomBoolean());
+	}
+
+	@Test
+	public void testCountByG_C_C_P() throws Exception {
+		_persistence.countByG_C_C_P(RandomTestUtil.nextLong(),
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong(),
+			RandomTestUtil.nextLong());
+
+		_persistence.countByG_C_C_P(0L, 0L, 0L, 0L);
 	}
 
 	@Test
@@ -583,7 +620,7 @@ public class GroupPersistenceTest {
 
 		Group existingGroup = _persistence.findByPrimaryKey(newGroup.getPrimaryKey());
 
-		Assert.assertTrue(Validator.equals(existingGroup.getUuid(),
+		Assert.assertTrue(Objects.equals(existingGroup.getUuid(),
 				ReflectionTestUtil.invoke(existingGroup, "getOriginalUuid",
 					new Class<?>[0])));
 		Assert.assertEquals(Long.valueOf(existingGroup.getGroupId()),
@@ -597,14 +634,14 @@ public class GroupPersistenceTest {
 		Assert.assertEquals(Long.valueOf(existingGroup.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(existingGroup,
 				"getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(existingGroup.getGroupKey(),
+		Assert.assertTrue(Objects.equals(existingGroup.getGroupKey(),
 				ReflectionTestUtil.invoke(existingGroup, "getOriginalGroupKey",
 					new Class<?>[0])));
 
 		Assert.assertEquals(Long.valueOf(existingGroup.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(existingGroup,
 				"getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(existingGroup.getFriendlyURL(),
+		Assert.assertTrue(Objects.equals(existingGroup.getFriendlyURL(),
 				ReflectionTestUtil.invoke(existingGroup,
 					"getOriginalFriendlyURL", new Class<?>[0])));
 
@@ -624,7 +661,7 @@ public class GroupPersistenceTest {
 		Assert.assertEquals(Long.valueOf(existingGroup.getLiveGroupId()),
 			ReflectionTestUtil.<Long>invoke(existingGroup,
 				"getOriginalLiveGroupId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(existingGroup.getGroupKey(),
+		Assert.assertTrue(Objects.equals(existingGroup.getGroupKey(),
 				ReflectionTestUtil.invoke(existingGroup, "getOriginalGroupKey",
 					new Class<?>[0])));
 
@@ -637,7 +674,7 @@ public class GroupPersistenceTest {
 		Assert.assertEquals(Long.valueOf(existingGroup.getLiveGroupId()),
 			ReflectionTestUtil.<Long>invoke(existingGroup,
 				"getOriginalLiveGroupId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(existingGroup.getGroupKey(),
+		Assert.assertTrue(Objects.equals(existingGroup.getGroupKey(),
 				ReflectionTestUtil.invoke(existingGroup, "getOriginalGroupKey",
 					new Class<?>[0])));
 	}

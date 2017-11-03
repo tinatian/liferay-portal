@@ -1,6 +1,6 @@
 package ${packagePath}.service.http;
 
-import ${packagePath}.service.${entity.name}ServiceUtil;
+import ${apiPackagePath}.service.${entity.name}ServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * Provides the SOAP utility for the
- * {@link ${packagePath}.service.${entity.name}ServiceUtil} service utility. The
+ * {@link ${apiPackagePath}.service.${entity.name}ServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -26,10 +26,10 @@ import java.util.Map;
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
  * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link ${packagePath}.model.${entity.name}Soap}.
+ * is translated to an array of {@link ${apiPackagePath}.model.${entity.name}Soap}.
  * If the method in the service utility returns a
- * {@link ${packagePath}.model.${entity.name}}, that is translated to a
- * {@link ${packagePath}.model.${entity.name}Soap}. Methods that SOAP cannot
+ * {@link ${apiPackagePath}.model.${entity.name}}, that is translated to a
+ * {@link ${apiPackagePath}.model.${entity.name}Soap}. Methods that SOAP cannot
  * safely wire are skipped.
  * </p>
 </#if>
@@ -54,9 +54,9 @@ import java.util.Map;
  * @author ${author}
  * @see ${entity.name}ServiceHttp
 <#if entity.hasColumns()>
- * @see ${packagePath}.model.${entity.name}Soap
+ * @see ${apiPackagePath}.model.${entity.name}Soap
 </#if>
- * @see ${packagePath}.service.${entity.name}ServiceUtil
+ * @see ${apiPackagePath}.service.${entity.name}ServiceUtil
 <#if classDeprecated>
  * @deprecated ${classDeprecatedComment}
 </#if>
@@ -70,17 +70,19 @@ import java.util.Map;
 @ProviderType
 public class ${entity.name}ServiceSoap {
 
-	<#assign hasMethods = false>
+	<#assign hasMethods = false />
 
 	<#list methods as method>
-		<#if !method.isConstructor() && method.isPublic() && serviceBuilder.isCustomMethod(method) && serviceBuilder.isSoapMethod(method)>
-			<#assign hasMethods = true>
+		<#if method.isPublic() && serviceBuilder.isCustomMethod(method) && serviceBuilder.isSoapMethod(method)>
+			<#assign
+				hasMethods = true
 
-			<#assign returnValueName = method.returns.value>
-			<#assign returnValueDimension = serviceBuilder.getDimensions(method.returns.dimensions)>
-			<#assign returnTypeGenericsName = serviceBuilder.getTypeGenericsName(method.returns)>
-			<#assign extendedModelName = packagePath + ".model." + entity.name>
-			<#assign soapModelName = packagePath + ".model." + entity.name + "Soap">
+				returnValueName = stringUtil.replace(method.returns.fullyQualifiedName, "[]", "")
+				returnValueDimension = serviceBuilder.getDimensions(method.returns.dimensions)
+				returnTypeGenericsName = serviceBuilder.getTypeGenericsName(method.returns)
+				extendedModelName = apiPackagePath + ".model." + entity.name
+				soapModelName = apiPackagePath + ".model." + entity.name + "Soap"
+			/>
 
 			${serviceBuilder.getJavadocComment(method)}
 
@@ -92,7 +94,7 @@ public class ${entity.name}ServiceSoap {
 
 			<#if returnValueName == extendedModelName>
 				${soapModelName}${returnValueDimension}
-			<#elseif stringUtil.startsWith(returnValueName, packagePath + ".model.") && serviceBuilder.hasEntityByGenericsName(returnValueName)>
+			<#elseif stringUtil.startsWith(returnValueName, apiPackagePath + ".model.") && serviceBuilder.hasEntityByGenericsName(returnValueName)>
 				${returnValueName}Soap${returnValueDimension}
 			<#elseif stringUtil.startsWith(returnValueName, "com.liferay.portal.kernel.json.JSON")>
 				java.lang.String
@@ -113,7 +115,7 @@ public class ${entity.name}ServiceSoap {
 					java.lang.Short[]
 				<#elseif returnTypeGenericsName == "java.util.List<java.lang.String>">
 					java.lang.String[]
-				<#elseif returnTypeGenericsName == "java.util.List<" + extendedModelName + ">">
+				<#elseif returnTypeGenericsName == ("java.util.List<" + extendedModelName + ">")>
 					${soapModelName}[]
 				<#elseif stringUtil.startsWith(returnTypeGenericsName, "java.util.List<com.liferay.portal.kernel.repository.model.")>
 					${serviceBuilder.getListActualTypeArguments(method.getReturns())}Soap[]
@@ -130,30 +132,37 @@ public class ${entity.name}ServiceSoap {
 
 			${method.name}(
 
-			<#assign localizationMapVariables = "">
+			<#assign localizationMapVariables = "" />
 
 			<#list method.parameters as parameter>
-				<#assign parameterTypeName = serviceBuilder.getTypeGenericsName(parameter.type)>
-				<#assign parameterListActualType = serviceBuilder.getListActualTypeArguments(parameter.type)>
+				<#assign
+					parameterTypeName = serviceBuilder.getTypeGenericsName(parameter.type)
+					parameterListActualType = serviceBuilder.getListActualTypeArguments(parameter.type)
+				/>
 
 				<#if parameterTypeName == "java.util.Locale">
-					<#assign parameterTypeName = "String">
+					<#assign parameterTypeName = "String" />
 				<#elseif parameterTypeName == "java.util.List<java.lang.Long>">
-					<#assign parameterTypeName = "Long[]">
-				<#elseif (parameter.type.value == "java.util.List") && serviceBuilder.hasEntityByGenericsName(parameterListActualType)>
-					<#assign parameterEntity = serviceBuilder.getEntityByGenericsName(parameterListActualType)>
+					<#assign parameterTypeName = "Long[]" />
+				<#elseif (parameter.type.fullyQualifiedName == "java.util.List") && serviceBuilder.hasEntityByGenericsName(parameterListActualType)>
+					<#assign
+						parameterEntity = serviceBuilder.getEntityByGenericsName(parameterListActualType)
 
-					<#assign parameterTypeName = parameterEntity.packagePath + ".model." + parameterEntity.name + "Soap[]">
-				<#elseif serviceBuilder.hasEntityByParameterTypeValue(parameter.type.value)>
-					<#assign parameterEntity = serviceBuilder.getEntityByParameterTypeValue(parameter.type.value)>
+						parameterTypeName = parameterEntity.apiPackagePath + ".model." + parameterEntity.name + "Soap[]"
+					/>
 
-					<#assign parameterTypeName = parameterEntity.packagePath + ".model." + parameterEntity.name + "Soap">
+				<#elseif serviceBuilder.hasEntityByParameterTypeValue(parameter.type.fullyQualifiedName)>
+					<#assign
+						parameterEntity = serviceBuilder.getEntityByParameterTypeValue(parameter.type.fullyQualifiedName)
+
+						parameterTypeName = parameterEntity.apiPackagePath + ".model." + parameterEntity.name + "Soap"
+					/>
 				</#if>
 
 				<#if parameterTypeName == "java.util.Map<java.util.Locale, java.lang.String>">
 					java.lang.String[] ${parameter.name}LanguageIds, java.lang.String[] ${parameter.name}Values
 
-					<#assign localizationMapVariables = localizationMapVariables + "Map<Locale, String>" + parameter.name + " = LocalizationUtil.getLocalizationMap(" + parameter.name + "LanguageIds, " + parameter.name + "Values);">
+					<#assign localizationMapVariables = localizationMapVariables + "Map<Locale, String>" + parameter.name + " = LocalizationUtil.getLocalizationMap(" + parameter.name + "LanguageIds, " + parameter.name + "Values);" />
 				<#else>
 					${parameterTypeName} ${parameter.name}
 				</#if>
@@ -167,26 +176,28 @@ public class ${entity.name}ServiceSoap {
 				try {
 					${localizationMapVariables}
 
-					<#if returnValueName != "void">
+					<#if !stringUtil.equals(returnValueName, "void")>
 						${returnTypeGenericsName} returnValue =
 					</#if>
 
 					${entity.name}ServiceUtil.${method.name}(
 
 					<#list method.parameters as parameter>
-						<#assign parameterTypeName = serviceBuilder.getTypeGenericsName(parameter.type)>
-						<#assign parameterListActualType = serviceBuilder.getListActualTypeArguments(parameter.type)>
+						<#assign
+							parameterTypeName = serviceBuilder.getTypeGenericsName(parameter.type)
+							parameterListActualType = serviceBuilder.getListActualTypeArguments(parameter.type)
+						/>
 
 						<#if parameterTypeName == "java.util.Locale">
 							LocaleUtil.fromLanguageId(
 						<#elseif parameterTypeName == "java.util.List<java.lang.Long>">
 							ListUtil.toList(
-						<#elseif (parameter.type.value == "java.util.List") && serviceBuilder.hasEntityByGenericsName(parameterListActualType)>
-							<#assign parameterEntity = serviceBuilder.getEntityByGenericsName(parameterListActualType)>
+						<#elseif (parameter.type.fullyQualifiedName == "java.util.List") && serviceBuilder.hasEntityByGenericsName(parameterListActualType)>
+							<#assign parameterEntity = serviceBuilder.getEntityByGenericsName(parameterListActualType) />
 
 							${parameterEntity.packagePath}.model.impl.${parameterEntity.name}ModelImpl.toModels(
-						<#elseif serviceBuilder.hasEntityByParameterTypeValue(parameter.type.value)>
-							<#assign parameterEntity = serviceBuilder.getEntityByGenericsName(parameter.type.value)>
+						<#elseif serviceBuilder.hasEntityByParameterTypeValue(parameter.type.fullyQualifiedName)>
+							<#assign parameterEntity = serviceBuilder.getEntityByGenericsName(parameter.type.fullyQualifiedName) />
 
 							${parameterEntity.packagePath}.model.impl.${parameterEntity.name}ModelImpl.toModel(
 						</#if>
@@ -197,9 +208,9 @@ public class ${entity.name}ServiceSoap {
 							)
 						<#elseif parameterTypeName == "java.util.List<java.lang.Long>">
 							)
-						<#elseif (parameter.type.value == "java.util.List") && serviceBuilder.hasEntityByGenericsName(parameterListActualType)>
+						<#elseif (parameter.type.fullyQualifiedName == "java.util.List") && serviceBuilder.hasEntityByGenericsName(parameterListActualType)>
 							)
-						<#elseif serviceBuilder.hasEntityByParameterTypeValue(parameter.type.value)>
+						<#elseif serviceBuilder.hasEntityByParameterTypeValue(parameter.type.fullyQualifiedName)>
 							)
 						</#if>
 
@@ -210,15 +221,15 @@ public class ${entity.name}ServiceSoap {
 
 					);
 
-					<#if returnValueName != "void">
+					<#if !stringUtil.equals(returnValueName, "void")>
 						<#if returnValueName == extendedModelName>
-							<#if returnValueDimension == "">
+							<#if validator.isNull(returnValueDimension)>
 								return ${soapModelName}.toSoapModel(returnValue);
 							<#else>
 								return ${soapModelName}.toSoapModels(returnValue);
 							</#if>
-						<#elseif stringUtil.startsWith(returnValueName, packagePath + ".model.") && serviceBuilder.hasEntityByGenericsName(returnValueName)>
-							<#if returnValueDimension == "">
+						<#elseif stringUtil.startsWith(returnValueName, apiPackagePath + ".model.") && serviceBuilder.hasEntityByGenericsName(returnValueName)>
+							<#if validator.isNull(returnValueDimension)>
 								return ${returnValueName}Soap.toSoapModel(returnValue);
 							<#else>
 								return ${returnValueName}Soap.toSoapModels(returnValue);
@@ -242,7 +253,7 @@ public class ${entity.name}ServiceSoap {
 								return returnValue.toArray(new java.lang.Short[returnValue.size()]);
 							<#elseif returnTypeGenericsName == "java.util.List<java.lang.String>">
 								return returnValue.toArray(new java.lang.String[returnValue.size()]);
-							<#elseif returnTypeGenericsName == "java.util.List<" + extendedModelName + ">">
+							<#elseif returnTypeGenericsName == ("java.util.List<" + extendedModelName + ">")>
 								return ${extendedModelName}Soap.toSoapModels(returnValue);
 							<#elseif stringUtil.startsWith(returnTypeGenericsName, "java.util.List<com.liferay.portal.kernel.repository.model.")>
 								return ${serviceBuilder.getListActualTypeArguments(method.getReturns())}Soap.toSoapModels(returnValue);

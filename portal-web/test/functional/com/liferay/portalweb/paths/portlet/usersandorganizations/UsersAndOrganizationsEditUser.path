@@ -8,6 +8,7 @@
 <tr><td rowspan="1" colspan="3">UsersAndOrganizationsEditUser</td></tr>
 </thead>
 <tbody>
+<!--ALERTS-->
 <tr>
 	<td>EMAIL_ADDRESS_FIELD_ALERT</td>
 	<td>//div[@role='alert']</td>
@@ -16,81 +17,6 @@
 <tr>
 	<td>SCREEN_NAME_FIELD_ALERT</td>
 	<td>//div[@role='alert']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>USER_NAME</td>
-	<td>//span[@class='user-name']</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<tr>
-	<td>DETAILS_TAB</td>
-	<td>//a[contains(@id,'detailsLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>PASSWORD_TAB</td>
-	<td>//a[contains(@id,'passwordLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ORGANIZATIONS_TAB</td>
-	<td>//a[contains(@id,'organizationsLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>SITES_TAB</td>
-	<td>//a[contains(@id,'sitesLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>USER_GROUPS_TAB</td>
-	<td>//a[contains(@id,'userGroupsLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ROLES_TAB</td>
-	<td>//a[contains(@id,'rolesLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>PERSONAL_SITE_TAB</td>
-	<td>//a[contains(@id,'personalSiteLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>CATEGORIZATION_TAB</td>
-	<td>//a[contains(@id,'categorizationLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ANNOUNCEMENTS_TAB</td>
-	<td>//a[contains(@id,'announcementsLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DISPLAY_SETTINGS_TAB</td>
-	<td>//a[contains(@id,'displaySettingsLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>COMMENTS_TAB</td>
-	<td>//a[contains(@id,'commentLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>CUSTOM_FIELDS_TAB</td>
-	<td>//a[contains(@id,'customFieldsLink')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DISPLAY_SETTINGS_TAB</td>
-	<td>//a[contains(@id,'displaySettingsLink')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -155,6 +81,11 @@
 	<td>//input[contains(@id,'password2')]</td>
 	<td></td>
 </tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
 <!--ORGANIZATIONS-->
 <tr>
 	<td>ORGANIZATIONS_TABLE_NAME</td>
@@ -173,7 +104,7 @@
 </tr>
 <tr>
 	<td>ORGANIZATIONS_TABLE_REMOVE_LINK</td>
-	<td>//tr[contains(.,'${key_orgName}')]/td[3]/a/span[contains(.,'Remove')]/span</td>
+	<td>//tr[contains(.,'${key_orgName}')]/td[3]//a/span[contains(.,'Remove')]/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -199,7 +130,7 @@
 </tr>
 <tr>
 	<td>SITES_TABLE_REMOVE_LINK</td>
-	<td>//tr[contains(.,'${key_siteName}')]/td[3]/a/span[contains(.,'Remove')]/span</td>
+	<td>//tr[contains(.,'${key_siteName}')]/td[3]//a/span[contains(.,'Remove')]/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -245,6 +176,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>ROLES_ORGANIZATION_SELECT_CHOOSE_BUTTON</td>
+	<td>//tr[contains(.,'${key_roleName}')]/td[2]//button[contains(.,'Choose')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>ROLES_ORGANIZATION_ROLES_SELECT_LINK</td>
 	<td>//a[contains(@id,'selectOrganizationRoleLink')]/span</td>
 	<td></td>
@@ -267,7 +203,7 @@
 </tr>
 <tr>
 	<td>ROLES_REGULAR_ROLES_TABLE_REMOVE_LINK</td>
-	<td>//tr[contains(.,'${key_roleName}')]/td[2]/a</td>
+	<td>//tr[contains(.,'${key_roleName}')]/td[2]//a</td>
 	<td></td>
 </tr>
 <tr>

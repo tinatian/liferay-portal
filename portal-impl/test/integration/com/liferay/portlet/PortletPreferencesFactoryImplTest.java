@@ -14,21 +14,21 @@
 
 package com.liferay.portlet;
 
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.model.PortletConstants;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.service.util.test.PortletPreferencesTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.util.PortletKeys;
 import com.liferay.portal.util.test.LayoutTestUtil;
 
 import javax.portlet.PortletPreferences;
@@ -47,8 +47,7 @@ public class PortletPreferencesFactoryImplTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -63,7 +62,7 @@ public class PortletPreferencesFactoryImplTest {
 	@Test
 	public void testGetLayoutPortletSetup() throws Exception {
 		String name = RandomTestUtil.randomString(20);
-		String[] values = new String[] {RandomTestUtil.randomString(20)};
+		String[] values = {RandomTestUtil.randomString(20)};
 
 		String portletPreferencesXML =
 			PortletPreferencesTestUtil.getPortletPreferencesXML(name, values);
@@ -84,12 +83,13 @@ public class PortletPreferencesFactoryImplTest {
 		long userId = RandomTestUtil.randomLong();
 
 		long ownerId = userId;
+
 		int ownerType = PortletKeys.PREFS_OWNER_TYPE_USER;
-		String customizableColumnPortletId = PortletConstants.assemblePortletId(
+		String customizableColumnPortletId = PortletIdCodec.encode(
 			_PORTLET_ID, userId, null);
 
 		String name = RandomTestUtil.randomString(20);
-		String[] values = new String[] {RandomTestUtil.randomString(20)};
+		String[] values = {RandomTestUtil.randomString(20)};
 
 		String portletPreferencesXML =
 			PortletPreferencesTestUtil.getPortletPreferencesXML(name, values);

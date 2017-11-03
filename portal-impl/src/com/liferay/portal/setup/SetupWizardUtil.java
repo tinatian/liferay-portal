@@ -14,11 +14,17 @@
 
 package com.liferay.portal.setup;
 
+import com.liferay.portal.events.EventsProcessorUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.dao.jdbc.DataSourceFactoryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -28,9 +34,9 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.util.PortalInstances;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.WebKeys;
 
 import java.io.IOException;
 
@@ -70,7 +76,11 @@ public class SetupWizardUtil {
 
 		boolean jndi = Validator.isNotNull(PropsValues.JDBC_DEFAULT_JNDI_NAME);
 
-		return hsqldb && !jndi;
+		if (hsqldb && !jndi) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public static void testDatabase(HttpServletRequest request)
@@ -136,10 +146,16 @@ public class SetupWizardUtil {
 		_processDatabaseProperties(
 			request, unicodeProperties, databaseConfigured);
 
+		_processOtherProperties(request, unicodeProperties);
+
 		updateLanguage(request, response);
 
 		unicodeProperties.put(
 			PropsKeys.SETUP_WIZARD_ENABLED, String.valueOf(false));
+
+		_updateCompany(request, unicodeProperties);
+
+		_updateAdminUser(request, response, unicodeProperties);
 
 		HttpSession session = request.getSession();
 
@@ -173,7 +189,7 @@ public class SetupWizardUtil {
 				defaultDriverClassName) &&
 			PropsValues.JDBC_DEFAULT_PASSWORD.equals(defaultPassword) &&
 			PropsValues.JDBC_DEFAULT_URL.equals(defaultURL) &&
-			PropsValues.JDBC_DEFAULT_USERNAME.equals(defaultUsername) ) {
+			PropsValues.JDBC_DEFAULT_USERNAME.equals(defaultUsername)) {
 
 			return true;
 		}
@@ -194,6 +210,36 @@ public class SetupWizardUtil {
 			unicodeProperties.remove(PropsKeys.JDBC_DEFAULT_DRIVER_CLASS_NAME);
 			unicodeProperties.remove(PropsKeys.JDBC_DEFAULT_USERNAME);
 			unicodeProperties.remove(PropsKeys.JDBC_DEFAULT_PASSWORD);
+		}
+	}
+
+	private static void _processOtherProperties(
+			HttpServletRequest request, UnicodeProperties unicodeProperties)
+		throws Exception {
+
+		_processProperty(
+			request, unicodeProperties, "adminFirstName",
+			PropsKeys.DEFAULT_ADMIN_FIRST_NAME,
+			PropsValues.DEFAULT_ADMIN_FIRST_NAME);
+		_processProperty(
+			request, unicodeProperties, "adminLastName",
+			PropsKeys.DEFAULT_ADMIN_LAST_NAME,
+			PropsValues.DEFAULT_ADMIN_LAST_NAME);
+		_processProperty(
+			request, unicodeProperties, "companyName",
+			PropsKeys.COMPANY_DEFAULT_NAME, PropsValues.COMPANY_DEFAULT_NAME);
+	}
+
+	private static void _processProperty(
+			HttpServletRequest request, UnicodeProperties unicodeProperties,
+			String parameterName, String propertyKey, String defaultValue)
+		throws Exception {
+
+		String value = ParamUtil.getString(
+			request, parameterName, defaultValue);
+
+		if (!value.equals(defaultValue)) {
+			unicodeProperties.put(propertyKey, value);
 		}
 	}
 
@@ -219,6 +265,86 @@ public class SetupWizardUtil {
 			DataAccess.cleanUp(connection);
 			DataSourceFactoryUtil.destroyDataSource(dataSource);
 		}
+	}
+
+	private static void _updateAdminUser(
+			HttpServletRequest request, HttpServletResponse response,
+			UnicodeProperties unicodeProperties)
+		throws Exception {
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		Company company = CompanyLocalServiceUtil.getCompanyById(
+			themeDisplay.getCompanyId());
+
+		String emailAddress = ParamUtil.getString(
+			request, "adminEmailAddress",
+			PropsValues.DEFAULT_ADMIN_EMAIL_ADDRESS_PREFIX + StringPool.AT +
+				company.getMx());
+
+		PropsValues.ADMIN_EMAIL_FROM_ADDRESS = emailAddress;
+
+		unicodeProperties.put(PropsKeys.ADMIN_EMAIL_FROM_ADDRESS, emailAddress);
+
+		String firstName = ParamUtil.getString(
+			request, "adminFirstName", PropsValues.DEFAULT_ADMIN_FIRST_NAME);
+		String lastName = ParamUtil.getString(
+			request, "adminLastName", PropsValues.DEFAULT_ADMIN_LAST_NAME);
+
+		User user = SetupWizardSampleDataUtil.updateAdminUser(
+			company, themeDisplay.getLocale(), themeDisplay.getLanguageId(),
+			emailAddress, firstName, lastName, true);
+
+		PropsValues.ADMIN_EMAIL_FROM_NAME = user.getFullName();
+
+		unicodeProperties.put(
+			PropsKeys.ADMIN_EMAIL_FROM_NAME, user.getFullName());
+
+		int index = emailAddress.indexOf(CharPool.AT);
+
+		unicodeProperties.put(
+			PropsKeys.COMPANY_DEFAULT_WEB_ID,
+			emailAddress.substring(index + 1));
+		unicodeProperties.put(
+			PropsKeys.DEFAULT_ADMIN_EMAIL_ADDRESS_PREFIX,
+			emailAddress.substring(0, index));
+
+		HttpSession session = request.getSession();
+
+		session.setAttribute(WebKeys.EMAIL_ADDRESS, emailAddress);
+		session.setAttribute(
+			WebKeys.SETUP_WIZARD_PASSWORD_UPDATED, Boolean.TRUE);
+		session.setAttribute(WebKeys.USER, user);
+		session.setAttribute(WebKeys.USER_ID, user.getUserId());
+
+		EventsProcessorUtil.process(
+			PropsKeys.LOGIN_EVENTS_POST, PropsValues.LOGIN_EVENTS_POST, request,
+			response);
+	}
+
+	private static void _updateCompany(
+			HttpServletRequest request, UnicodeProperties unicodeProperties)
+		throws Exception {
+
+		Company company = CompanyLocalServiceUtil.getCompanyById(
+			PortalInstances.getDefaultCompanyId());
+
+		String languageId = ParamUtil.getString(
+			request, "companyLocale", getDefaultLanguageId());
+
+		unicodeProperties.put(PropsKeys.COMPANY_DEFAULT_LOCALE, languageId);
+
+		String companyName = ParamUtil.getString(
+			request, "companyName", PropsValues.COMPANY_DEFAULT_NAME);
+
+		SetupWizardSampleDataUtil.updateCompany(
+			company, companyName, languageId);
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		themeDisplay.setCompany(company);
 	}
 
 	private static boolean _writePropertiesFile(

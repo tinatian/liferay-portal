@@ -1,12 +1,12 @@
-package ${packagePath}.service;
+package ${apiPackagePath}.service;
 
-<#assign entitiesHaveColumns = false>
+<#assign entitiesHaveColumns = false />
 
 <#list entities as entity>
 	<#if entity.hasColumns()>
-		<#assign entitiesHaveColumns = true>
+		<#assign entitiesHaveColumns = true />
 
-		import ${packagePath}.model.${entity.name}Clp;
+		import ${apiPackagePath}.model.${entity.name}Clp;
 	</#if>
 </#list>
 
@@ -18,12 +18,13 @@ import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.util.ClassLoaderObjectInputStream;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.BaseModel;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -216,14 +217,16 @@ public class ClpSerializer {
 
 	public static Throwable translateThrowable(Throwable throwable) {
 		if (_useReflectionToTranslateThrowable) {
+			ObjectInputStream objectInputStream = null;
+			ObjectOutputStream objectOutputStream = null;
+
 			try {
 				UnsyncByteArrayOutputStream unsyncByteArrayOutputStream = new UnsyncByteArrayOutputStream();
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(unsyncByteArrayOutputStream);
+				objectOutputStream = new ObjectOutputStream(unsyncByteArrayOutputStream);
 
 				objectOutputStream.writeObject(throwable);
 
 				objectOutputStream.flush();
-				objectOutputStream.close();
 
 				UnsyncByteArrayInputStream unsyncByteArrayInputStream = new UnsyncByteArrayInputStream(unsyncByteArrayOutputStream.unsafeGetByteArray(), 0, unsyncByteArrayOutputStream.size());
 
@@ -231,11 +234,9 @@ public class ClpSerializer {
 
 				ClassLoader contextClassLoader = currentThread.getContextClassLoader();
 
-				ObjectInputStream objectInputStream = new ClassLoaderObjectInputStream(unsyncByteArrayInputStream, contextClassLoader);
+				objectInputStream = new ClassLoaderObjectInputStream(unsyncByteArrayInputStream, contextClassLoader);
 
 				throwable = (Throwable)objectInputStream.readObject();
-
-				objectInputStream.close();
 
 				return throwable;
 			}
@@ -258,6 +259,29 @@ public class ClpSerializer {
 
 				return throwable2;
 			}
+			finally {
+				if (objectOutputStream != null) {
+					try {
+						objectOutputStream.close();
+					}
+					catch (Throwable throwable2) {
+						_log.error(throwable2, throwable2);
+
+						return throwable2;
+					}
+				}
+
+				if (objectInputStream != null) {
+					try {
+						objectInputStream.close();
+					}
+					catch (Throwable throwable2) {
+						_log.error(throwable2, throwable2);
+
+						return throwable2;
+					}
+				}
+			}
 		}
 
 		Class<?> clazz = throwable.getClass();
@@ -265,8 +289,8 @@ public class ClpSerializer {
 		String className = clazz.getName();
 
 		<#list exceptions as exception>
-			if (className.equals("${packagePath}.${exception}Exception")) {
-				return new ${packagePath}.${exception}Exception(throwable.getMessage(), throwable.getCause());
+			if (className.equals("${apiPackagePath}.exception.${exception}Exception")) {
+				return new ${apiPackagePath}.exception.${exception}Exception(throwable.getMessage(), throwable.getCause());
 			}
 		</#list>
 

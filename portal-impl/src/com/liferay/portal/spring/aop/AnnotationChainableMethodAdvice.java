@@ -14,7 +14,7 @@
 
 package com.liferay.portal.spring.aop;
 
-import com.liferay.portal.kernel.annotation.AnnotationLocator;
+import com.liferay.petra.reflect.AnnotationLocator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -100,9 +100,10 @@ public abstract class AnnotationChainableMethodAdvice<T extends Annotation>
 				serviceBeanAopCacheManager.
 					getRegisteredAnnotationChainableMethodAdvices();
 
-		for (Map.Entry<Class<? extends Annotation>,
-				AnnotationChainableMethodAdvice<?>[]> entry :
-					annotationChainableMethodAdvices.entrySet()) {
+		for (Map.Entry
+				<Class<? extends Annotation>,
+					AnnotationChainableMethodAdvice<?>[]> entry :
+						annotationChainableMethodAdvices.entrySet()) {
 
 			Class<? extends Annotation> annotationClass = entry.getKey();
 			AnnotationChainableMethodAdvice<?>[]

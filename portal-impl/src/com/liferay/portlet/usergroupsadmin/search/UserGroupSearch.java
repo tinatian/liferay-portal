@@ -17,16 +17,16 @@ package com.liferay.portlet.usergroupsadmin.search;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portlet.PortalPreferences;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
+import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,8 +51,8 @@ public class UserGroupSearch extends SearchContainer<UserGroup> {
 		headerNames.add("name");
 		headerNames.add("description");
 
-		orderableHeaders.put("name", "name");
 		orderableHeaders.put("description", "description");
+		orderableHeaders.put("name", "name");
 	}
 
 	public UserGroupSearch(
@@ -108,7 +108,7 @@ public class UserGroupSearch extends SearchContainer<UserGroup> {
 			setOrderByComparator(orderByComparator);
 		}
 		catch (Exception e) {
-			_log.error(e);
+			_log.error("Unable to initialize user group search", e);
 		}
 	}
 
