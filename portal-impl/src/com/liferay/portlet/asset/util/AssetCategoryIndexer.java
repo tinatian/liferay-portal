@@ -14,7 +14,10 @@
 
 package com.liferay.portlet.asset.util;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,22 +25,20 @@ import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.DocumentImpl;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchEngineUtil;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portlet.asset.service.permission.AssetCategoryPermission;
 
 import java.util.ArrayList;
@@ -56,7 +57,6 @@ public class AssetCategoryIndexer extends BaseIndexer<AssetCategory> {
 	public static final String CLASS_NAME = AssetCategory.class.getName();
 
 	public AssetCategoryIndexer() {
-		setCommitImmediately(true);
 		setDefaultSelectedFieldNames(
 			Field.ASSET_CATEGORY_ID, Field.COMPANY_ID, Field.GROUP_ID,
 			Field.UID);
@@ -141,13 +141,8 @@ public class AssetCategoryIndexer extends BaseIndexer<AssetCategory> {
 
 	@Override
 	protected void doDelete(AssetCategory assetCategory) throws Exception {
-		Document document = new DocumentImpl();
-
-		document.addUID(CLASS_NAME, assetCategory.getCategoryId());
-
-		SearchEngineUtil.deleteDocument(
-			getSearchEngineId(), assetCategory.getCompanyId(),
-			document.get(Field.UID), isCommitImmediately());
+		deleteDocument(
+			assetCategory.getCompanyId(), assetCategory.getCategoryId());
 	}
 
 	@Override
@@ -175,10 +170,18 @@ public class AssetCategoryIndexer extends BaseIndexer<AssetCategory> {
 			assetCategory.getParentCategoryId());
 		document.addKeyword(
 			Field.ASSET_VOCABULARY_ID, assetCategory.getVocabularyId());
-		document.addLocalizedText(
-			Field.DESCRIPTION, assetCategory.getDescriptionMap());
+
+		Locale siteDefaultLocale = PortalUtil.getSiteDefaultLocale(
+			assetCategory.getGroupId());
+
+		addLocalizedField(
+			document, Field.DESCRIPTION, siteDefaultLocale,
+			assetCategory.getDescriptionMap());
+
 		document.addText(Field.NAME, assetCategory.getName());
-		document.addLocalizedText(Field.TITLE, assetCategory.getTitleMap());
+		addLocalizedField(
+			document, Field.TITLE, siteDefaultLocale,
+			assetCategory.getTitleMap());
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Document " + assetCategory + " indexed successfully");
@@ -199,11 +202,9 @@ public class AssetCategoryIndexer extends BaseIndexer<AssetCategory> {
 	protected void doReindex(AssetCategory assetCategory) throws Exception {
 		Document document = getDocument(assetCategory);
 
-		if (document != null) {
-			SearchEngineUtil.updateDocument(
-				getSearchEngineId(), assetCategory.getCompanyId(), document,
-				isCommitImmediately());
-		}
+		IndexWriterHelperUtil.updateDocument(
+			getSearchEngineId(), assetCategory.getCompanyId(), document,
+			isCommitImmediately());
 	}
 
 	@Override
@@ -224,21 +225,21 @@ public class AssetCategoryIndexer extends BaseIndexer<AssetCategory> {
 	protected void reindexCategories(final long companyId)
 		throws PortalException {
 
-		final ActionableDynamicQuery actionableDynamicQuery =
-			AssetCategoryLocalServiceUtil.getActionableDynamicQuery();
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			AssetCategoryLocalServiceUtil.getIndexableActionableDynamicQuery();
 
-		actionableDynamicQuery.setCompanyId(companyId);
-		actionableDynamicQuery.setPerformActionMethod(
+		indexableActionableDynamicQuery.setCompanyId(companyId);
+		indexableActionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<AssetCategory>() {
 
 				@Override
 				public void performAction(AssetCategory category) {
-
 					try {
 						Document document = getDocument(category);
 
 						if (document != null) {
-							actionableDynamicQuery.addDocument(document);
+							indexableActionableDynamicQuery.addDocuments(
+								document);
 						}
 					}
 					catch (PortalException pe) {
@@ -252,9 +253,9 @@ public class AssetCategoryIndexer extends BaseIndexer<AssetCategory> {
 				}
 
 			});
-		actionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 
-		actionableDynamicQuery.performActions();
+		indexableActionableDynamicQuery.performActions();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

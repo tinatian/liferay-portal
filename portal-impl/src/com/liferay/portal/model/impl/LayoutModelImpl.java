@@ -16,29 +16,31 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.LocaleException;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutModel;
+import com.liferay.portal.kernel.model.LayoutSoap;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutModel;
-import com.liferay.portal.model.LayoutSoap;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
 
 import java.io.Serializable;
 
@@ -101,8 +103,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 			{ "iconImageId", Types.BIGINT },
 			{ "themeId", Types.VARCHAR },
 			{ "colorSchemeId", Types.VARCHAR },
-			{ "wapThemeId", Types.VARCHAR },
-			{ "wapColorSchemeId", Types.VARCHAR },
 			{ "css", Types.CLOB },
 			{ "priority", Types.INTEGER },
 			{ "layoutPrototypeUuid", Types.VARCHAR },
@@ -137,8 +137,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		TABLE_COLUMNS_MAP.put("iconImageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("themeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("colorSchemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("wapThemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("wapColorSchemeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("css", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("priority", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("layoutPrototypeUuid", Types.VARCHAR);
@@ -147,7 +145,7 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Layout (mvccVersion LONG default 0,uuid_ VARCHAR(75) null,plid LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,privateLayout BOOLEAN,layoutId LONG,parentLayoutId LONG,name STRING null,title STRING null,description STRING null,keywords STRING null,robots STRING null,type_ VARCHAR(75) null,typeSettings TEXT null,hidden_ BOOLEAN,friendlyURL VARCHAR(255) null,iconImageId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,wapThemeId VARCHAR(75) null,wapColorSchemeId VARCHAR(75) null,css TEXT null,priority INTEGER,layoutPrototypeUuid VARCHAR(75) null,layoutPrototypeLinkEnabled BOOLEAN,sourcePrototypeLayoutUuid VARCHAR(75) null,lastPublishDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Layout (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,plid LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,privateLayout BOOLEAN,layoutId LONG,parentLayoutId LONG,name STRING null,title STRING null,description STRING null,keywords STRING null,robots STRING null,type_ VARCHAR(75) null,typeSettings TEXT null,hidden_ BOOLEAN,friendlyURL VARCHAR(255) null,iconImageId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css TEXT null,priority INTEGER,layoutPrototypeUuid VARCHAR(75) null,layoutPrototypeLinkEnabled BOOLEAN,sourcePrototypeLayoutUuid VARCHAR(75) null,lastPublishDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Layout";
 	public static final String ORDER_BY_JPQL = " ORDER BY layout.parentLayoutId ASC, layout.priority ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Layout.parentLayoutId ASC, Layout.priority ASC";
@@ -155,13 +153,13 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.Layout"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.Layout"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.Layout"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.Layout"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.Layout"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.Layout"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long FRIENDLYURL_COLUMN_BITMASK = 2L;
@@ -170,11 +168,11 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 	public static final long LAYOUTID_COLUMN_BITMASK = 16L;
 	public static final long LAYOUTPROTOTYPEUUID_COLUMN_BITMASK = 32L;
 	public static final long PARENTLAYOUTID_COLUMN_BITMASK = 64L;
-	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 128L;
-	public static final long SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK = 256L;
-	public static final long TYPE_COLUMN_BITMASK = 512L;
-	public static final long UUID_COLUMN_BITMASK = 1024L;
-	public static final long PRIORITY_COLUMN_BITMASK = 2048L;
+	public static final long PRIORITY_COLUMN_BITMASK = 128L;
+	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 256L;
+	public static final long SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK = 512L;
+	public static final long TYPE_COLUMN_BITMASK = 1024L;
+	public static final long UUID_COLUMN_BITMASK = 2048L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -213,8 +211,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		model.setIconImageId(soapModel.getIconImageId());
 		model.setThemeId(soapModel.getThemeId());
 		model.setColorSchemeId(soapModel.getColorSchemeId());
-		model.setWapThemeId(soapModel.getWapThemeId());
-		model.setWapColorSchemeId(soapModel.getWapColorSchemeId());
 		model.setCss(soapModel.getCss());
 		model.setPriority(soapModel.getPriority());
 		model.setLayoutPrototypeUuid(soapModel.getLayoutPrototypeUuid());
@@ -246,7 +242,7 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.Layout"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.Layout"));
 
 	public LayoutModelImpl() {
 	}
@@ -309,8 +305,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		attributes.put("iconImageId", getIconImageId());
 		attributes.put("themeId", getThemeId());
 		attributes.put("colorSchemeId", getColorSchemeId());
-		attributes.put("wapThemeId", getWapThemeId());
-		attributes.put("wapColorSchemeId", getWapColorSchemeId());
 		attributes.put("css", getCss());
 		attributes.put("priority", getPriority());
 		attributes.put("layoutPrototypeUuid", getLayoutPrototypeUuid());
@@ -470,18 +464,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 
 		if (colorSchemeId != null) {
 			setColorSchemeId(colorSchemeId);
-		}
-
-		String wapThemeId = (String)attributes.get("wapThemeId");
-
-		if (wapThemeId != null) {
-			setWapThemeId(wapThemeId);
-		}
-
-		String wapColorSchemeId = (String)attributes.get("wapColorSchemeId");
-
-		if (wapColorSchemeId != null) {
-			setWapColorSchemeId(wapColorSchemeId);
 		}
 
 		String css = (String)attributes.get("css");
@@ -693,6 +675,7 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		return _privateLayout;
 	}
 
+	@JSON
 	@Override
 	public boolean isPrivateLayout() {
 		return _privateLayout;
@@ -1310,6 +1293,7 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		return _hidden;
 	}
 
+	@JSON
 	@Override
 	public boolean isHidden() {
 		return _hidden;
@@ -1403,38 +1387,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 
 	@JSON
 	@Override
-	public String getWapThemeId() {
-		if (_wapThemeId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _wapThemeId;
-		}
-	}
-
-	@Override
-	public void setWapThemeId(String wapThemeId) {
-		_wapThemeId = wapThemeId;
-	}
-
-	@JSON
-	@Override
-	public String getWapColorSchemeId() {
-		if (_wapColorSchemeId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _wapColorSchemeId;
-		}
-	}
-
-	@Override
-	public void setWapColorSchemeId(String wapColorSchemeId) {
-		_wapColorSchemeId = wapColorSchemeId;
-	}
-
-	@JSON
-	@Override
 	public String getCss() {
 		if (_css == null) {
 			return StringPool.BLANK;
@@ -1459,7 +1411,17 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 	public void setPriority(int priority) {
 		_columnBitmask = -1L;
 
+		if (!_setOriginalPriority) {
+			_setOriginalPriority = true;
+
+			_originalPriority = _priority;
+		}
+
 		_priority = priority;
+	}
+
+	public int getOriginalPriority() {
+		return _originalPriority;
 	}
 
 	@JSON
@@ -1494,6 +1456,7 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		return _layoutPrototypeLinkEnabled;
 	}
 
+	@JSON
 	@Override
 	public boolean isLayoutPrototypeLinkEnabled() {
 		return _layoutPrototypeLinkEnabled;
@@ -1745,8 +1708,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		layoutImpl.setIconImageId(getIconImageId());
 		layoutImpl.setThemeId(getThemeId());
 		layoutImpl.setColorSchemeId(getColorSchemeId());
-		layoutImpl.setWapThemeId(getWapThemeId());
-		layoutImpl.setWapColorSchemeId(getWapColorSchemeId());
 		layoutImpl.setCss(getCss());
 		layoutImpl.setPriority(getPriority());
 		layoutImpl.setLayoutPrototypeUuid(getLayoutPrototypeUuid());
@@ -1866,6 +1827,10 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		layoutModelImpl._originalIconImageId = layoutModelImpl._iconImageId;
 
 		layoutModelImpl._setOriginalIconImageId = false;
+
+		layoutModelImpl._originalPriority = layoutModelImpl._priority;
+
+		layoutModelImpl._setOriginalPriority = false;
 
 		layoutModelImpl._originalLayoutPrototypeUuid = layoutModelImpl._layoutPrototypeUuid;
 
@@ -2012,22 +1977,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 			layoutCacheModel.colorSchemeId = null;
 		}
 
-		layoutCacheModel.wapThemeId = getWapThemeId();
-
-		String wapThemeId = layoutCacheModel.wapThemeId;
-
-		if ((wapThemeId != null) && (wapThemeId.length() == 0)) {
-			layoutCacheModel.wapThemeId = null;
-		}
-
-		layoutCacheModel.wapColorSchemeId = getWapColorSchemeId();
-
-		String wapColorSchemeId = layoutCacheModel.wapColorSchemeId;
-
-		if ((wapColorSchemeId != null) && (wapColorSchemeId.length() == 0)) {
-			layoutCacheModel.wapColorSchemeId = null;
-		}
-
 		layoutCacheModel.css = getCss();
 
 		String css = layoutCacheModel.css;
@@ -2072,7 +2021,7 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(65);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
@@ -2122,10 +2071,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		sb.append(getThemeId());
 		sb.append(", colorSchemeId=");
 		sb.append(getColorSchemeId());
-		sb.append(", wapThemeId=");
-		sb.append(getWapThemeId());
-		sb.append(", wapColorSchemeId=");
-		sb.append(getWapColorSchemeId());
 		sb.append(", css=");
 		sb.append(getCss());
 		sb.append(", priority=");
@@ -2145,10 +2090,10 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(100);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.Layout");
+		sb.append("com.liferay.portal.kernel.model.Layout");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -2248,14 +2193,6 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 		sb.append(getColorSchemeId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>wapThemeId</column-name><column-value><![CDATA[");
-		sb.append(getWapThemeId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>wapColorSchemeId</column-name><column-value><![CDATA[");
-		sb.append(getWapColorSchemeId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>css</column-name><column-value><![CDATA[");
 		sb.append(getCss());
 		sb.append("]]></column-value></column>");
@@ -2334,10 +2271,10 @@ public class LayoutModelImpl extends BaseModelImpl<Layout>
 	private boolean _setOriginalIconImageId;
 	private String _themeId;
 	private String _colorSchemeId;
-	private String _wapThemeId;
-	private String _wapColorSchemeId;
 	private String _css;
 	private int _priority;
+	private int _originalPriority;
+	private boolean _setOriginalPriority;
 	private String _layoutPrototypeUuid;
 	private String _originalLayoutPrototypeUuid;
 	private boolean _layoutPrototypeLinkEnabled;

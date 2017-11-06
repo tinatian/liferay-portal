@@ -14,40 +14,44 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.MembershipRequestCommentsException;
+import com.liferay.portal.kernel.exception.MembershipRequestCommentsException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.MembershipRequest;
+import com.liferay.portal.kernel.model.MembershipRequestConstants;
+import com.liferay.portal.kernel.model.Resource;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.Function;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.SubscriptionSender;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.MembershipRequest;
-import com.liferay.portal.model.MembershipRequestConstants;
-import com.liferay.portal.model.Resource;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserGroupRole;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.ResourceActionsUtil;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.base.MembershipRequestLocalServiceBaseImpl;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.ResourcePermissionUtil;
-import com.liferay.portal.util.SubscriptionSender;
+
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
  * @author Jorge Ferrer
  */
-public class
-	MembershipRequestLocalServiceImpl
+public class MembershipRequestLocalServiceImpl
 	extends MembershipRequestLocalServiceBaseImpl {
 
 	@Override
@@ -142,6 +146,15 @@ public class
 	}
 
 	@Override
+	public List<MembershipRequest> search(
+		long groupId, int status, int start, int end,
+		OrderByComparator<MembershipRequest> obc) {
+
+		return membershipRequestPersistence.findByG_S(
+			groupId, status, start, end, obc);
+	}
+
+	@Override
 	public int searchCount(long groupId, int status) {
 		return membershipRequestPersistence.countByG_S(groupId, status);
 	}
@@ -178,7 +191,7 @@ public class
 		if ((statusId == MembershipRequestConstants.STATUS_APPROVED) &&
 			addUserToGroup) {
 
-			long[] addUserIds = new long[] {membershipRequest.getUserId()};
+			long[] addUserIds = {membershipRequest.getUserId()};
 
 			userLocalService.addGroupUsers(
 				membershipRequest.getGroupId(), addUserIds);
@@ -303,7 +316,7 @@ public class
 		String body = PrefsPropsUtil.getContent(
 			membershipRequest.getCompanyId(), bodyProperty);
 
-		String statusKey = null;
+		final String statusKey;
 
 		if (membershipRequest.getStatusId() ==
 				MembershipRequestConstants.STATUS_APPROVED) {
@@ -327,11 +340,18 @@ public class
 			"[$COMMENTS$]", membershipRequest.getComments(),
 			"[$REPLY_COMMENTS$]", membershipRequest.getReplyComments(),
 			"[$REQUEST_USER_ADDRESS$]", requestUser.getEmailAddress(),
-			"[$REQUEST_USER_NAME$]", requestUser.getFullName(), "[$STATUS$]",
-			LanguageUtil.get(user.getLocale(), statusKey), "[$USER_ADDRESS$]",
-			user.getEmailAddress(), "[$USER_NAME$]", user.getFullName());
+			"[$REQUEST_USER_NAME$]", requestUser.getFullName(),
+			"[$USER_ADDRESS$]", user.getEmailAddress(), "[$USER_NAME$]",
+			user.getFullName());
 		subscriptionSender.setFrom(fromAddress, fromName);
 		subscriptionSender.setHtmlFormat(true);
+
+		StatusKeySerializableFunction statusKeySerializableFunction =
+			new StatusKeySerializableFunction(statusKey);
+
+		subscriptionSender.setLocalizedContextAttribute(
+			"[$STATUS$]", statusKeySerializableFunction);
+
 		subscriptionSender.setMailId(
 			"membership_request", membershipRequest.getMembershipRequestId());
 		subscriptionSender.setScopeGroupId(membershipRequest.getGroupId());
@@ -362,6 +382,22 @@ public class
 		if (Validator.isNull(comments) || Validator.isNumber(comments)) {
 			throw new MembershipRequestCommentsException();
 		}
+	}
+
+	private static class StatusKeySerializableFunction
+		implements Function<Locale, String>, Serializable {
+
+		public StatusKeySerializableFunction(String statusKey) {
+			_statusKey = statusKey;
+		}
+
+		@Override
+		public String apply(Locale locale) {
+			return LanguageUtil.get(locale, _statusKey);
+		}
+
+		private final String _statusKey;
+
 	}
 
 }

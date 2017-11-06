@@ -14,9 +14,9 @@
 
 package com.liferay.portal.kernel.test.util;
 
-import com.liferay.counter.service.CounterLocalServiceUtil;
-import com.liferay.portal.model.ResourceBlock;
-import com.liferay.portal.service.ResourceBlockLocalServiceUtil;
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.model.ResourceBlock;
+import com.liferay.portal.kernel.service.ResourceBlockLocalServiceUtil;
 
 /**
  * @author Alberto Chaparro

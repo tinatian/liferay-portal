@@ -15,6 +15,7 @@
 package com.liferay.taglib.ui;
 
 import com.liferay.portal.kernel.dao.search.ResultRowSplitter;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SearchIteratorTag<R> extends SearchPaginatorTag<R> {
 
-	public static final String DEFAULT_DISPLAY_STYPE = "list";
+	public static final String DEFAULT_DISPLAY_STYLE = "list";
 
 	public String getDisplayStyle() {
 		return _displayStyle;
@@ -55,7 +56,7 @@ public class SearchIteratorTag<R> extends SearchPaginatorTag<R> {
 	protected void cleanUp() {
 		super.cleanUp();
 
-		_displayStyle = DEFAULT_DISPLAY_STYPE;
+		_displayStyle = DEFAULT_DISPLAY_STYLE;
 		_markupView = null;
 		_paginate = true;
 		_resultRowSplitter = null;
@@ -66,12 +67,13 @@ public class SearchIteratorTag<R> extends SearchPaginatorTag<R> {
 		String displayStyle = _displayStyle;
 
 		if (Validator.isNull(displayStyle)) {
-			displayStyle = DEFAULT_DISPLAY_STYPE;
+			displayStyle = DEFAULT_DISPLAY_STYLE;
 		}
 
 		if (Validator.isNotNull(_markupView)) {
-			return "/html/taglib/ui/search_iterator/" + _markupView + "/" +
-				displayStyle + ".jsp";
+			return StringBundler.concat(
+				"/html/taglib/ui/search_iterator/", _markupView, "/",
+				displayStyle, ".jsp");
 		}
 
 		return "/html/taglib/ui/search_iterator/" + displayStyle + ".jsp";
@@ -82,6 +84,8 @@ public class SearchIteratorTag<R> extends SearchPaginatorTag<R> {
 		super.setAttributes(request);
 
 		request.setAttribute(
+			"liferay-ui:search-iterator:displayStyle", getDisplayStyle());
+		request.setAttribute(
 			"liferay-ui:search-iterator:markupView", _markupView);
 		request.setAttribute(
 			"liferay-ui:search-iterator:paginate", String.valueOf(_paginate));
@@ -89,7 +93,7 @@ public class SearchIteratorTag<R> extends SearchPaginatorTag<R> {
 			"liferay-ui:search-iterator:resultRowSplitter", _resultRowSplitter);
 	}
 
-	private String _displayStyle = DEFAULT_DISPLAY_STYPE;
+	private String _displayStyle = DEFAULT_DISPLAY_STYLE;
 	private String _markupView;
 	private boolean _paginate = true;
 	private ResultRowSplitter _resultRowSplitter;

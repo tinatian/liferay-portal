@@ -14,40 +14,43 @@
 
 package com.liferay.portlet.announcements.service.impl;
 
+import com.liferay.announcements.kernel.exception.EntryContentException;
+import com.liferay.announcements.kernel.exception.EntryDisplayDateException;
+import com.liferay.announcements.kernel.exception.EntryExpirationDateException;
+import com.liferay.announcements.kernel.exception.EntryTitleException;
+import com.liferay.announcements.kernel.exception.EntryURLException;
+import com.liferay.announcements.kernel.model.AnnouncementsDelivery;
+import com.liferay.announcements.kernel.model.AnnouncementsEntry;
+import com.liferay.petra.content.ContentUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.interval.IntervalActionProcessor;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
+import com.liferay.portal.kernel.util.Function;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.SubscriptionSender;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.SubscriptionSender;
-import com.liferay.portlet.announcements.EntryContentException;
-import com.liferay.portlet.announcements.EntryDisplayDateException;
-import com.liferay.portlet.announcements.EntryExpirationDateException;
-import com.liferay.portlet.announcements.EntryTitleException;
-import com.liferay.portlet.announcements.EntryURLException;
-import com.liferay.portlet.announcements.model.AnnouncementsDelivery;
-import com.liferay.portlet.announcements.model.AnnouncementsEntry;
 import com.liferay.portlet.announcements.service.base.AnnouncementsEntryLocalServiceBaseImpl;
-import com.liferay.util.ContentUtil;
+
+import java.io.Serializable;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -57,6 +60,7 @@ import java.util.Locale;
 /**
  * @author Brian Wing Shun Chan
  * @author Raymond Augé
+ * @author Roberto Díaz
  */
 public class AnnouncementsEntryLocalServiceImpl
 	extends AnnouncementsEntryLocalServiceBaseImpl {
@@ -64,33 +68,15 @@ public class AnnouncementsEntryLocalServiceImpl
 	@Override
 	public AnnouncementsEntry addEntry(
 			long userId, long classNameId, long classPK, String title,
-			String content, String url, String type, int displayDateMonth,
-			int displayDateDay, int displayDateYear, int displayDateHour,
-			int displayDateMinute, boolean displayImmediately,
-			int expirationDateMonth, int expirationDateDay,
-			int expirationDateYear, int expirationDateHour,
-			int expirationDateMinute, int priority, boolean alert)
+			String content, String url, String type, Date displayDate,
+			Date expirationDate, int priority, boolean alert)
 		throws PortalException {
 
 		// Entry
 
 		User user = userPersistence.findByPrimaryKey(userId);
 
-		Date displayDate = new Date();
-
-		if (!displayImmediately) {
-			displayDate = PortalUtil.getDate(
-				displayDateMonth, displayDateDay, displayDateYear,
-				displayDateHour, displayDateMinute, user.getTimeZone(),
-				EntryDisplayDateException.class);
-		}
-
-		Date expirationDate = PortalUtil.getDate(
-			expirationDateMonth, expirationDateDay, expirationDateYear,
-			expirationDateHour, expirationDateMinute, user.getTimeZone(),
-			EntryExpirationDateException.class);
-
-		validate(title, content, url);
+		validate(title, content, url, displayDate, expirationDate);
 
 		long entryId = counterLocalService.increment();
 
@@ -124,9 +110,8 @@ public class AnnouncementsEntryLocalServiceImpl
 	}
 
 	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #addEntry(long, long, long,
-	 *             String, String, String, String, int, int, int, int, int,
-	 *             boolean, int, int, int, int, int, int, boolean)}
+	 * @deprecated As of 7.0.0, replaced by {@link #addEntry(long, long, long,
+	 *             String, String, String, String, Date, Date, int, boolean)}
 	 */
 	@Deprecated
 	@Override
@@ -134,18 +119,31 @@ public class AnnouncementsEntryLocalServiceImpl
 			long userId, long classNameId, long classPK, String title,
 			String content, String url, String type, int displayDateMonth,
 			int displayDateDay, int displayDateYear, int displayDateHour,
-			int displayDateMinute, int expirationDateMonth,
-			int expirationDateDay, int expirationDateYear,
-			int expirationDateHour, int expirationDateMinute, int priority,
-			boolean alert)
+			int displayDateMinute, boolean displayImmediately,
+			int expirationDateMonth, int expirationDateDay,
+			int expirationDateYear, int expirationDateHour,
+			int expirationDateMinute, int priority, boolean alert)
 		throws PortalException {
+
+		User user = userPersistence.findByPrimaryKey(userId);
+
+		Date displayDate = new Date();
+
+		if (!displayImmediately) {
+			displayDate = PortalUtil.getDate(
+				displayDateMonth, displayDateDay, displayDateYear,
+				displayDateHour, displayDateMinute, user.getTimeZone(),
+				EntryDisplayDateException.class);
+		}
+
+		Date expirationDate = PortalUtil.getDate(
+			expirationDateMonth, expirationDateDay, expirationDateYear,
+			expirationDateHour, expirationDateMinute, user.getTimeZone(),
+			EntryExpirationDateException.class);
 
 		return addEntry(
 			userId, classNameId, classPK, title, content, url, type,
-			displayDateMonth, displayDateDay, displayDateYear, displayDateHour,
-			displayDateMinute, false, expirationDateMonth, expirationDateDay,
-			expirationDateYear, expirationDateHour, expirationDateMinute,
-			priority, alert);
+			displayDate, expirationDate, priority, alert);
 	}
 
 	@Override
@@ -169,6 +167,18 @@ public class AnnouncementsEntryLocalServiceImpl
 		}
 
 		_previousCheckDate = now;
+	}
+
+	@Override
+	public void deleteEntries(long classNameId, long classPK)
+		throws PortalException {
+
+		List<AnnouncementsEntry> entries =
+			announcementsEntryPersistence.findByC_C(classNameId, classPK);
+
+		for (AnnouncementsEntry entry : entries) {
+			deleteEntry(entry);
+		}
 	}
 
 	@Override
@@ -320,6 +330,11 @@ public class AnnouncementsEntryLocalServiceImpl
 		return announcementsEntryPersistence.countByUserId(userId);
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #updateEntry(long, String,
+	 *             String, String, String, Date, Date, int)}
+	 */
+	@Deprecated
 	@Override
 	public AnnouncementsEntry updateEntry(
 			long userId, long entryId, String title, String content, String url,
@@ -348,7 +363,18 @@ public class AnnouncementsEntryLocalServiceImpl
 			expirationDateHour, expirationDateMinute, user.getTimeZone(),
 			EntryExpirationDateException.class);
 
-		validate(title, content, url);
+		return updateEntry(
+			entryId, title, content, url, type, displayDate, expirationDate,
+			priority);
+	}
+
+	@Override
+	public AnnouncementsEntry updateEntry(
+			long entryId, String title, String content, String url, String type,
+			Date displayDate, Date expirationDate, int priority)
+		throws PortalException {
+
+		validate(title, content, url, displayDate, expirationDate);
 
 		AnnouncementsEntry entry =
 			announcementsEntryPersistence.findByPrimaryKey(entryId);
@@ -543,7 +569,11 @@ public class AnnouncementsEntryLocalServiceImpl
 			return;
 		}
 
-		String body = ContentUtil.get(PropsValues.ANNOUNCEMENTS_EMAIL_BODY);
+		Class<?> clazz = getClass();
+
+		String body = ContentUtil.get(
+			clazz.getClassLoader(), PropsValues.ANNOUNCEMENTS_EMAIL_BODY);
+
 		String fromAddress = PrefsPropsUtil.getStringFromNames(
 			entry.getCompanyId(), PropsKeys.ANNOUNCEMENTS_EMAIL_FROM_ADDRESS,
 			PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
@@ -551,7 +581,7 @@ public class AnnouncementsEntryLocalServiceImpl
 			entry.getCompanyId(), PropsKeys.ANNOUNCEMENTS_EMAIL_FROM_NAME,
 			PropsKeys.ADMIN_EMAIL_FROM_NAME);
 		String subject = ContentUtil.get(
-			PropsValues.ANNOUNCEMENTS_EMAIL_SUBJECT);
+			clazz.getClassLoader(), PropsValues.ANNOUNCEMENTS_EMAIL_SUBJECT);
 
 		subscriptionSender.setBody(body);
 		subscriptionSender.setCompanyId(entry.getCompanyId());
@@ -559,13 +589,22 @@ public class AnnouncementsEntryLocalServiceImpl
 			"[$ENTRY_CONTENT$]", entry.getContent(), false);
 		subscriptionSender.setContextAttributes(
 			"[$ENTRY_ID$]", entry.getEntryId(), "[$ENTRY_TITLE$]",
-			entry.getTitle(), "[$ENTRY_TYPE$]",
-			LanguageUtil.get(locale, entry.getType()), "[$ENTRY_URL$]",
-			entry.getUrl(), "[$PORTLET_NAME$]",
-			LanguageUtil.get(
-				locale, (entry.isAlert() ? "alert" : "announcement")));
+			entry.getTitle(), "[$ENTRY_URL$]", entry.getUrl());
 		subscriptionSender.setFrom(fromAddress, fromName);
 		subscriptionSender.setHtmlFormat(true);
+
+		EntryTypeSerializableFunction entryTypeSerializableFunction =
+			new EntryTypeSerializableFunction(entry);
+
+		subscriptionSender.setLocalizedContextAttribute(
+			"[$ENTRY_TYPE$]", entryTypeSerializableFunction);
+
+		PortletNameSerializableFunction portletNameSerializableFunction =
+			new PortletNameSerializableFunction(entry);
+
+		subscriptionSender.setLocalizedContextAttribute(
+			"[$PORTLET_NAME$]", portletNameSerializableFunction);
+
 		subscriptionSender.setMailId("announcements_entry", entry.getEntryId());
 
 		String portletId = PortletProviderUtil.getPortletId(
@@ -581,7 +620,9 @@ public class AnnouncementsEntryLocalServiceImpl
 		subscriptionSender.flushNotificationsAsync();
 	}
 
-	protected void validate(String title, String content, String url)
+	protected void validate(
+			String title, String content, String url, Date displayDate,
+			Date expirationDate)
 		throws PortalException {
 
 		if (Validator.isNull(title)) {
@@ -595,6 +636,14 @@ public class AnnouncementsEntryLocalServiceImpl
 		if (Validator.isNotNull(url) && !Validator.isUrl(url)) {
 			throw new EntryURLException();
 		}
+
+		if ((expirationDate != null) &&
+			(expirationDate.before(new Date()) ||
+			 ((displayDate != null) && expirationDate.before(displayDate)))) {
+
+			throw new EntryExpirationDateException(
+				"Expiration date " + expirationDate + " is in the past");
+		}
 	}
 
 	private static final long _ANNOUNCEMENTS_ENTRY_CHECK_INTERVAL =
@@ -604,5 +653,38 @@ public class AnnouncementsEntryLocalServiceImpl
 		AnnouncementsEntryLocalServiceImpl.class);
 
 	private Date _previousCheckDate;
+
+	private static class EntryTypeSerializableFunction
+		implements Function<Locale, String>, Serializable {
+
+		public EntryTypeSerializableFunction(AnnouncementsEntry entry) {
+			_entry = entry;
+		}
+
+		@Override
+		public String apply(Locale locale) {
+			return LanguageUtil.get(locale, _entry.getType());
+		}
+
+		private final AnnouncementsEntry _entry;
+
+	}
+
+	private static class PortletNameSerializableFunction
+		implements Function<Locale, String>, Serializable {
+
+		public PortletNameSerializableFunction(AnnouncementsEntry entry) {
+			_entry = entry;
+		}
+
+		@Override
+		public String apply(Locale locale) {
+			return LanguageUtil.get(
+				locale, _entry.isAlert() ? "alert" : "announcement");
+		}
+
+		private final AnnouncementsEntry _entry;
+
+	}
 
 }

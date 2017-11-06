@@ -1,0 +1,11 @@
+;
+; Do not manually edit this file.
+;
+[subrepo]
+	autopull = false
+	cmdver = liferay
+	commit = 03614b0651c7dbc7fa1cb9eb9b2b7f430c700b66
+	mergebuttonmergecommits = false
+	mode = push
+	parent = 5512149b938fce870d1c3f5f8354014a12758b77
+	remote = git@github.com:liferay/com-liferay-application-list.git

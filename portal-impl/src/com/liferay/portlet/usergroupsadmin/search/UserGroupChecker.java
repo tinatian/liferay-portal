@@ -14,19 +14,19 @@
 
 package com.liferay.portlet.usergroupsadmin.search;
 
-import com.liferay.portal.kernel.dao.search.RowChecker;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.security.permission.PermissionThreadLocal;
-import com.liferay.portal.service.permission.UserGroupPermissionUtil;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.permission.UserGroupPermissionUtil;
 
 import javax.portlet.RenderResponse;
 
 /**
  * @author Drew Brokke
  */
-public class UserGroupChecker extends RowChecker {
+public class UserGroupChecker extends EmptyOnClickRowChecker {
 
 	public UserGroupChecker(RenderResponse renderResponse) {
 		super(renderResponse);

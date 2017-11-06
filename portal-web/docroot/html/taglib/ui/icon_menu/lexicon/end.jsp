@@ -13,9 +13,17 @@
  * details.
  */
 --%>
-<%@ include file="/html/taglib/init.jsp" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
 
 <%
+String id = GetterUtil.getString((String)request.getAttribute("liferay-ui:icon-menu:id"));
 boolean scroll = GetterUtil.getBoolean(request.getAttribute("liferay-ui:icon-menu:scroll"));
 %>
 
@@ -24,3 +32,7 @@ boolean scroll = GetterUtil.getBoolean(request.getAttribute("liferay-ui:icon-men
 		</div>
 	</c:if>
 </div>
+
+<aui:script use="liferay-menu">
+	Liferay.Menu.handleFocus('#<%= id %>menu');
+</aui:script>

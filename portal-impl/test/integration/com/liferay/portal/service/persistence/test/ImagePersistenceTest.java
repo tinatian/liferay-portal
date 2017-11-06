@@ -14,27 +14,27 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchImageException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchImageException;
+import com.liferay.portal.kernel.model.Image;
+import com.liferay.portal.kernel.service.ImageLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.ImagePersistence;
+import com.liferay.portal.kernel.service.persistence.ImageUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.model.Image;
-import com.liferay.portal.service.ImageLocalServiceUtil;
-import com.liferay.portal.service.persistence.ImagePersistence;
-import com.liferay.portal.service.persistence.ImageUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -117,6 +117,8 @@ public class ImagePersistenceTest {
 
 		newImage.setMvccVersion(RandomTestUtil.nextLong());
 
+		newImage.setCompanyId(RandomTestUtil.nextLong());
+
 		newImage.setModifiedDate(RandomTestUtil.nextDate());
 
 		newImage.setType(RandomTestUtil.randomString());
@@ -134,6 +136,8 @@ public class ImagePersistenceTest {
 		Assert.assertEquals(existingImage.getMvccVersion(),
 			newImage.getMvccVersion());
 		Assert.assertEquals(existingImage.getImageId(), newImage.getImageId());
+		Assert.assertEquals(existingImage.getCompanyId(),
+			newImage.getCompanyId());
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingImage.getModifiedDate()),
 			Time.getShortTimestamp(newImage.getModifiedDate()));
@@ -174,8 +178,8 @@ public class ImagePersistenceTest {
 
 	protected OrderByComparator<Image> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("Image", "mvccVersion",
-			true, "imageId", true, "modifiedDate", true, "type", true,
-			"height", true, "width", true, "size", true);
+			true, "imageId", true, "companyId", true, "modifiedDate", true,
+			"type", true, "height", true, "width", true, "size", true);
 	}
 
 	@Test
@@ -372,6 +376,8 @@ public class ImagePersistenceTest {
 		Image image = _persistence.create(pk);
 
 		image.setMvccVersion(RandomTestUtil.nextLong());
+
+		image.setCompanyId(RandomTestUtil.nextLong());
 
 		image.setModifiedDate(RandomTestUtil.nextDate());
 

@@ -14,21 +14,23 @@
 
 package com.liferay.portlet.messageboards.service.persistence.impl;
 
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.service.persistence.MBMessageFinder;
+import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CalendarUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.security.permission.InlineSQLHelperUtil;
-import com.liferay.portlet.messageboards.model.MBMessage;
 import com.liferay.portlet.messageboards.model.impl.MBMessageImpl;
-import com.liferay.portlet.messageboards.service.persistence.MBMessageFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.sql.Timestamp;
@@ -57,6 +59,9 @@ public class MBMessageFinderImpl
 
 	public static final String FIND_BY_NO_ASSETS =
 		MBMessageFinder.class.getName() + ".findByNoAssets";
+
+	public static final String FIND_BY_THREAD_ID =
+		MBMessageFinder.class.getName() + ".findByThreadId";
 
 	public static final String FIND_BY_G_U_C_S =
 		MBMessageFinder.class.getName() + ".findByG_U_C_S";
@@ -189,10 +194,52 @@ public class MBMessageFinderImpl
 
 			q.addEntity("MBMessage", MBMessageImpl.class);
 
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(PortalUtil.getClassNameId(MBMessage.class));
+
 			return q.list(true);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	@Override
+	public List<MBMessage> findByThreadId(
+		long threadId, QueryDefinition<MBMessage> queryDefinition) {
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(
+				FIND_BY_THREAD_ID, queryDefinition, MBMessageImpl.TABLE_NAME);
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addEntity(MBMessageImpl.TABLE_NAME, MBMessageImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(threadId);
+			qPos.add(queryDefinition.getStatus());
+
+			if (queryDefinition.getOwnerUserId() > 0) {
+				qPos.add(queryDefinition.getOwnerUserId());
+
+				if (queryDefinition.isIncludeOwner()) {
+					qPos.add(WorkflowConstants.STATUS_IN_TRASH);
+				}
+			}
+
+			return (List<MBMessage>)QueryUtil.list(
+				q, getDialect(), queryDefinition.getStart(),
+				queryDefinition.getEnd());
 		}
 		finally {
 			closeSession(session);

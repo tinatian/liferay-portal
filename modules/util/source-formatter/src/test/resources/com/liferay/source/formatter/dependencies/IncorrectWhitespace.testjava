@@ -14,6 +14,9 @@
 
 package com.liferay.source.formatter.dependencies;
 
+import com.liferay.portal.kernel.portlet.LiferayPortlet;
+import com.liferay.portal.kernel.util.StringUtil;
+
 import java.util.List;
 
 import javax.portlet.Portlet;
@@ -29,10 +32,9 @@ import org.osgi.service.component.annotations.Component;
         "com.liferay.portlet.display-category=category.social",
 		"javax.portlet.display-name=Friends' Activities"
 	},
-	service = Portlet.class
+	service = { LiferayPortlet.class, Portlet.class }
 )
 public class IncorrectWhitespace {
-
 	public boolean isGif () {
 		return true;
 	}
@@ -60,14 +62,18 @@ public class IncorrectWhitespace {
 	 */
 	public void method2() {
 		String s1= "test";
+		// Comment
+		String s2 = "hello ,world";
+		String s3 = "hello\" ,world";
+		String s4 = "hello\\\" ,world";
 
 		if(true) {
-			String s2 =s1;
+			s2 =s1;
 		}
 		else{
 			try {
 				while(true) {
-					String s3=s1;
+					s3=s1;
 				}
 			}
 			catch(Exception e){
@@ -75,19 +81,69 @@ public class IncorrectWhitespace {
 		}
 
 		for(int i = 1;i < 10 ; i++) {
-			String [] stringArray1 = new String[]{"test1"};
-			String [] stringArray2 = new String[]{
-				"test1", "test2", "test3", "test4"
-			};
+			String [] stringArray1 = {"test1"};
 		}
 
 		List <String> list = null;
 
 		for (String s: list) {
-			String s2 = (String) s1;
+			s2 = (String) s1;
 		}
     }
 
 	public void method3() throws Exception ;
+
+	public String method4( String s ) {
+		if ( s.equals("Hello World") ) {
+			return StringUtil.toLowerCase( s );
+		}
+
+		return s;
+	}
+
+	public void method5(String ... strings) {
+	}
+
+	public void method6(String testString) {
+		testString =_trim(testString);
+	}
+
+	public List<String> method7(List<String> list1, List<String> list2) {
+		List<String> newList = new ArrayList<>();
+
+		for (String s: list1) {
+			newList.add(s);
+		}
+
+		String test = "Hello World";
+		for (String s :list2) {
+			newList.add(s);
+		}
+
+		for (String s : StringUtil.split(test, ':')) {
+			newList.add(s);
+		}
+
+		return newList;
+	}
+
+	protected class SubClass1 {
+
+	}
+
+	protected class Subclass2 {
+		protected void method1() {
+		}
+
+	}
+
+	private String _trim(String s) {
+		return StringUtil.trim(s);
+	}
+
+	private class SubClass3
+		extends SomeClassWithALongNameThatDoesNotFitOnPreviousLine {
+
+	}
 
 }

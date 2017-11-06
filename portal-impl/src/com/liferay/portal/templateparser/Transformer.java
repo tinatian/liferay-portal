@@ -16,10 +16,11 @@ package com.liferay.portal.templateparser;
 
 import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.mobile.device.Device;
 import com.liferay.portal.kernel.mobile.device.UnknownDevice;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.template.StringTemplateResource;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
@@ -27,27 +28,18 @@ import com.liferay.portal.kernel.template.TemplateManagerUtil;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.templateparser.TransformException;
-import com.liferay.portal.kernel.templateparser.TransformerListener;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.InstanceFactory;
-import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.security.permission.PermissionThreadLocal;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PropsUtil;
 
 import java.net.URL;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Brian Wing Shun Chan
@@ -63,7 +55,24 @@ public class Transformer {
 	public Transformer(String errorTemplatePropertyKey, boolean restricted) {
 		_restricted = restricted;
 
-		setErrorTemplateIds(errorTemplatePropertyKey);
+		Class<?> clazz = getClass();
+
+		ClassLoader classLoader = clazz.getClassLoader();
+
+		for (String langType : TemplateManagerUtil.getTemplateManagerNames()) {
+			String errorTemplateId = getErrorTemplateId(
+				errorTemplatePropertyKey, langType);
+
+			if (Validator.isNotNull(errorTemplateId)) {
+				URL url = classLoader.getResource(errorTemplateId);
+
+				if (url != null) {
+					_errorTemplateResources.put(
+						langType,
+						new URLTemplateResource(errorTemplateId, url));
+				}
+			}
+		}
 	}
 
 	public Transformer(
@@ -71,10 +80,6 @@ public class Transformer {
 		boolean restricted) {
 
 		this(errorTemplatePropertyKey, restricted);
-
-		ClassLoader classLoader = PortalClassLoaderUtil.getClassLoader();
-
-		setTransformerListeners(transformerListenerPropertyKey, classLoader);
 	}
 
 	public String transform(
@@ -109,16 +114,10 @@ public class Transformer {
 		try {
 			prepareTemplate(themeDisplay, template);
 
-			long classNameId = 0;
+			template.putAll(contextObjects);
 
-			if (contextObjects != null) {
-				for (String key : contextObjects.keySet()) {
-					template.put(key, contextObjects.get(key));
-				}
-
-				classNameId = GetterUtil.getLong(
-					contextObjects.get(TemplateConstants.CLASS_NAME_ID));
-			}
+			long classNameId = GetterUtil.getLong(
+				contextObjects.get(TemplateConstants.CLASS_NAME_ID));
 
 			template.put("company", getCompany(themeDisplay, companyId));
 			template.put("companyId", companyId);
@@ -176,21 +175,7 @@ public class Transformer {
 	}
 
 	protected TemplateResource getErrorTemplateResource(String langType) {
-		try {
-			Class<?> clazz = getClass();
-
-			ClassLoader classLoader = clazz.getClassLoader();
-
-			String errorTemplateId = errorTemplateIds.get(langType);
-
-			URL url = classLoader.getResource(errorTemplateId);
-
-			return new URLTemplateResource(errorTemplateId, url);
-		}
-		catch (Exception e) {
-		}
-
-		return null;
+		return _errorTemplateResources.get(langType);
 	}
 
 	protected Template getTemplate(
@@ -267,53 +252,8 @@ public class Transformer {
 		template.prepare(themeDisplay.getRequest());
 	}
 
-	protected void setErrorTemplateIds(String errorTemplatePropertyKey) {
-		Set<String> langTypes = TemplateManagerUtil.getTemplateManagerNames();
-
-		for (String langType : langTypes) {
-			String errorTemplateId = getErrorTemplateId(
-				errorTemplatePropertyKey, langType);
-
-			if (Validator.isNotNull(errorTemplateId)) {
-				errorTemplateIds.put(langType, errorTemplateId);
-			}
-		}
-	}
-
-	protected void setTransformerListeners(
-		String transformerListenerPropertyKey, ClassLoader classLoader) {
-
-		Set<String> transformerListenerClassNames = SetUtil.fromArray(
-			PropsUtil.getArray(transformerListenerPropertyKey));
-
-		for (String transformerListenerClassName :
-				transformerListenerClassNames) {
-
-			try {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Instantiating transformer listener " +
-							transformerListenerClassName);
-				}
-
-				TransformerListener transformerListener =
-					(TransformerListener)InstanceFactory.newInstance(
-						classLoader, transformerListenerClassName);
-
-				transformerListeners.add(transformerListener);
-			}
-			catch (Exception e) {
-				_log.error(e, e);
-			}
-		}
-	}
-
-	protected final Map<String, String> errorTemplateIds = new HashMap<>();
-	protected final Set<TransformerListener> transformerListeners =
-		new HashSet<>();
-
-	private static final Log _log = LogFactoryUtil.getLog(Transformer.class);
-
+	private final Map<String, TemplateResource> _errorTemplateResources =
+		new HashMap<>();
 	private final boolean _restricted;
 
 }

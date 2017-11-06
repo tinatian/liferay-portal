@@ -1,4 +1,4 @@
-<definition component-name="marketplace-plugins-mb-subscription-manager-portlet">
+<definition component-name="portal-plugins-deployment">
 	<property name="testray.main.component.name" value="Plugin Installer" />
 
 	<set-up>
@@ -10,20 +10,28 @@
 
 		<var name="appName" value="Message Boards Subscription Manager" />
 
-		<execute macro="Page#gotoConfigurationCP">
-			<var name="portletName" value="Message Boards Subscription Manager" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards Subscription Manager" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="App Manager" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Apps" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="App Manager" />
 		</execute>
 
 		<execute macro="AppManager#uninstallAppCP">
 			<var name="appName" value="${appName}" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="App Manager" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Apps" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="App Manager" />
 		</execute>
 
 		<execute macro="AppManager#viewUninstallAppCP">

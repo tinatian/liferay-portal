@@ -14,72 +14,142 @@
 
 package com.liferay.portal.upgrade.v7_0_0;
 
-import com.liferay.portal.kernel.dao.jdbc.DataAccess;
+import com.liferay.portal.dao.orm.common.SQLTransformer;
+import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.StringBundler;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sampsa Sohlman
  */
 public class UpgradeResourcePermission extends UpgradeProcess {
 
+	protected void createIndex() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			runSQLTemplateString(
+				"create index IX_D5F1E2A2 on ResourcePermission " +
+					"(name[$COLUMN_LENGTH:255$])",
+				false, false);
+		}
+	}
+
 	@Override
 	protected void doUpgrade() throws Exception {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+		createIndex();
 
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
+		upgradeResourcePermissions();
+	}
 
-			ps = con.prepareStatement(
-				"select resourcePermissionId, primKey, primKeyId, actionIds, " +
-					"viewActionId from ResourcePermission");
+	protected void upgradeResourcePermissions() throws Exception {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			runSQL(
+				"update ResourcePermission set viewActionId = [$FALSE$] " +
+					"where MOD(actionIds, 2) = 0");
+			runSQL(
+				"update ResourcePermission set viewActionId = [$TRUE$] where " +
+					"MOD(actionIds, 2) = 1");
 
-			rs = ps.executeQuery();
+			try (PreparedStatement ps1 = connection.prepareStatement(
+					"select distinct name from ResourcePermission");
+				ResultSet rs1 = ps1.executeQuery();
+				PreparedStatement ps2 = connection.prepareStatement(
+					"select distinct primKey from ResourcePermission where " +
+						"name = ?")) {
 
-			while (rs.next()) {
-				long resourcePermissionId = rs.getLong("resourcePermissionId");
-				long primKeyId = rs.getLong("primKeyId");
-				long actionIds = rs.getLong("actionIds");
-				boolean viewActionId = rs.getBoolean("viewActionId");
+				while (rs1.next()) {
+					List<String> stringPrimKeys = new ArrayList<>();
 
-				long newPrimKeyId = GetterUtil.getLong(rs.getString("primKey"));
-				boolean newViewActionId = (actionIds % 2 == 1);
+					String name = rs1.getString("name");
 
-				if ((primKeyId == newPrimKeyId) &&
-					(newViewActionId == viewActionId)) {
+					ps2.setString(1, name);
 
-					continue;
+					try (ResultSet rs2 = ps2.executeQuery()) {
+						while (rs2.next()) {
+							String primKey = rs2.getString("primKey");
+
+							if ((GetterUtil.getLong(primKey) <= 0) &&
+								!primKey.contains(
+									PortletConstants.LAYOUT_SEPARATOR)) {
+
+								stringPrimKeys.add(primKey);
+							}
+						}
+					}
+
+					_updatePrimKeyIdsByName(name, stringPrimKeys);
 				}
-
-				StringBundler sb = new StringBundler(6);
-
-				sb.append("update ResourcePermission set primKeyId = ");
-				sb.append(newPrimKeyId);
-				sb.append(", viewActionId = ");
-
-				if (newViewActionId) {
-					sb.append("[$TRUE$]");
-				}
-				else {
-					sb.append("[$FALSE$]");
-				}
-
-				sb.append(" where resourcePermissionId = ");
-				sb.append(resourcePermissionId);
-
-				runSQL(sb.toString());
 			}
 		}
-		finally {
-			DataAccess.cleanUp(con, ps, rs);
+	}
+
+	private void _updatePrimKeyIds(
+			String sql, String name, List<String> primKeys)
+		throws Exception {
+
+		try (PreparedStatement ps = connection.prepareStatement(
+				SQLTransformer.transform(sql))) {
+
+			ps.setString(1, name);
+
+			for (int i = 0; i < primKeys.size(); i++) {
+				String primKey = primKeys.get(i);
+
+				ps.setString(i + 2, primKey);
+			}
+
+			ps.executeUpdate();
 		}
+	}
+
+	private void _updatePrimKeyIdsByName(String name, List<String> primKeys)
+		throws Exception {
+
+		if (primKeys.isEmpty()) {
+			_updatePrimKeyIds(
+				"update ResourcePermission set primKeyId = CAST_LONG(" +
+					"primKey) where name = ? and primKey not like '%_LAYOUT_%'",
+				name, primKeys);
+
+			_updatePrimKeyIds(
+				"update ResourcePermission set primKeyId = 0 where name = ? " +
+					"and primKey like '%_LAYOUT_%'",
+				name, primKeys);
+
+			return;
+		}
+
+		StringBundler sb = new StringBundler(primKeys.size() + 1);
+
+		sb.append("in (?");
+
+		for (int i = 1; i < primKeys.size(); i++) {
+			sb.append(", ?");
+		}
+
+		sb.append(")");
+
+		String inClause = sb.toString();
+
+		_updatePrimKeyIds(
+			StringBundler.concat(
+				"update ResourcePermission set primKeyId = 0 where name = ? ",
+				"and (primKey like '%_LAYOUT_%' or primKey ", inClause, ")"),
+			name, primKeys);
+
+		_updatePrimKeyIds(
+			StringBundler.concat(
+				"update ResourcePermission set primKeyId = CAST_LONG(primKey",
+				") where name = ? and (primKey not like '%_LAYOUT_%' and ",
+				"primKey not ", inClause, ")"),
+			name, primKeys);
 	}
 
 }

@@ -2,23 +2,32 @@
 	<var name="assetType" value="Wiki Node" />
 
 	<command name="addCP">
-		<execute function="AssertClick" locator1="Button#ADD_WIKI" value1="Add Wiki" />
+		<execute function="Click" locator1="Button#PLUS" />
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${wikiNodeName}" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${wikiNodeName}" />
+		</execute>
+
+		<execute macro="Button#clickSave" />
 
 		<var name="key_wikiNodeName" value="${wikiNodeName}" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="addDescription">
-		<execute function="Type" locator1="TextArea#DESCRIPTION" value1="${wikiNodeDescription}" />
+		<execute macro="PortletEntry#inputDescription">
+			<var name="description" value="${wikiNodeDescription}" />
+		</execute>
 	</command>
 
 	<command name="addMainCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Wiki" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Wiki" />
 		</execute>
 
 		<if>
@@ -32,20 +41,23 @@
 	</command>
 
 	<command name="addName">
-		<execute function="Type" locator1="TextInput#NAME" value1="${wikiNodeName}" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${wikiNodeName}" />
+		</execute>
 	</command>
 
 	<command name="deleteCP">
-		<var name="key_assetType" value="${assetType}" />
+		<execute function="Click" locator1="Icon#DISPLAY_STYLE_LIST" />
+
 		<var name="key_wikiNodeName" value="${wikiNodeName}" />
 
 		<execute function="AssertTextEquals" locator1="Wiki#NODE_TABLE_WIKI_NAME" value1="${wikiNodeName}" />
 
 		<execute function="Click" locator1="Wiki#NODE_TABLE_ACTIONS_DROPDOWN" />
 
-		<execute function="AssertClick" locator1="MenuItem#MOVE_TO_THE_RECYCLE_BIN" value1="Move to the Recycle Bin" />
+		<execute macro="PortletEntry#clickMoveToRecycleBin" />
 
-		<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_SUCCESS" value1="The ${assetType} ${wikiNodeName} was moved to the Recycle Bin. Undo" />
+		<execute function="AssertElementPresent" locator1="Message#SUCCESS" />
 
 		<execute macro="RecycleBin#emptyCP" />
 	</command>
@@ -53,44 +65,49 @@
 	<command name="editCP">
 		<var name="key_wikiNodeName" value="${wikiNodeName}" />
 
+		<execute function="Click" locator1="Icon#DISPLAY_STYLE_LIST" />
+
 		<execute function="AssertTextEquals" locator1="Wiki#NODE_TABLE_WIKI_NAME" value1="${wikiNodeName}" />
+
 		<execute function="Click" locator1="Wiki#NODE_TABLE_ACTIONS_DROPDOWN" />
-		<execute function="AssertClick" locator1="MenuItem#EDIT" value1="Edit" />
 
-		<execute function="Type" locator1="TextInput#NAME" value1="${wikiNodeNameEdit}" />
-		<execute function="Type" locator1="TextArea#DESCRIPTION" value1="${wikiNodeDescriptionEdit}" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Edit">
+			<var name="key_menuItem" value="Edit" />
+		</execute>
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#inputName">
+			<var name="name" value="${wikiNodeNameEdit}" />
+		</execute>
+
+		<execute macro="PortletEntry#inputDescription">
+			<var name="description" value="${wikiNodeDescriptionEdit}" />
+		</execute>
+
+		<execute macro="Button#clickSave" />
 
 		<var name="key_wikiNodeName" value="${wikiNodeNameEdit}" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
-	</command>
-
-	<command name="gotoCP">
-		<var name="key_wikiNodeName" value="${wikiNodeName}" />
-
-		<execute function="AssertClick" locator1="Wiki#NODE_TABLE_WIKI_NAME" value1="${wikiNodeName}" />
-	</command>
-
-	<command name="publish">
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="tearDownCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Wiki" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Wiki" />
 		</execute>
 
 		<while>
 			<condition function="IsElementPresent" locator1="Wiki#NODE_TABLE_ACTIONS_GENERIC_DROPDOWN_2" />
 			<then>
 				<execute function="Click" locator1="Wiki#NODE_TABLE_ACTIONS_GENERIC_DROPDOWN_2" />
-				<execute function="AssertClick" locator1="MenuItem#MOVE_TO_THE_RECYCLE_BIN" value1="Move to the Recycle Bin" />
-				<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_SUCCESS" value1="The ${assetType}" />
-				<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_SUCCESS" value1="moved to the Recycle Bin. Undo" />
+
+				<execute macro="PortletEntry#clickMoveToRecycleBin" />
+
+				<execute function="AssertElementPresent" locator1="Message#SUCCESS" />
+				<execute function="AssertElementPresent" locator1="Message#SUCCESS" />
 			</then>
 		</while>
 
@@ -100,10 +117,16 @@
 	<command name="viewCP">
 		<var name="key_wikiNodeName" value="${wikiNodeName}" />
 
+		<execute function="Click" locator1="Icon#DISPLAY_STYLE_LIST" />
+
 		<execute function="AssertTextEquals" locator1="Wiki#NODE_TABLE_WIKI_NAME" value1="${wikiNodeName}" />
 		<execute function="AssertTextEquals" locator1="Wiki#NODE_TABLE_NUMBER_OF_PAGES" value1="${numberOfWikiPages}" />
+
 		<execute function="AssertClick" locator1="Wiki#NODE_TABLE_WIKI_NAME" value1="${wikiNodeName}" />
-		<execute function="AssertTextEquals" locator1="Portlet#H3_HEADER" value1="${wikiNodeName}" />
+
+		<execute macro="SiteAdmin#viewPortletTitle">
+			<var name="portletTitle" value="${wikiNodeName}" />
+		</execute>
 	</command>
 
 	<command name="viewMainNode">

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="portal-test-tcserver" basedir="." default="test" xmlns:antelope="antlib:ise.antelope.tasks">
+<project basedir="." default="test" name="portal-test-tcserver" xmlns:antelope="antlib:ise.antelope.tasks">
 	<import file="build-test.xml" />
 
 	<target name="run-selenium-tcserver">
@@ -61,9 +61,7 @@
 			</fileset>
 		</chmod>
 
-		<antcall target="revert-test-properties" />
-
-		<ant dir="portal-impl" target="build-selenium-test-case" />
+		<antcall target="record-test-generated-properties" />
 
 		<if>
 			<isset property="vm.host" />
@@ -78,13 +76,9 @@
 
 		<antcall target="prepare-virtual-host-name-properties" />
 
-		<antcall target="start-selenium" />
-
-		<antcall target="run-tcserver" inheritAll="false">
+		<antcall inheritAll="false" target="run-tcserver">
 			<param name="test.class" value="${test.class}" />
 		</antcall>
-
-		<antcall target="stop-selenium" />
 	</target>
 
 	<target name="run-tcserver">

@@ -14,26 +14,180 @@
 
 package com.liferay.gradle.plugins.node.tasks;
 
+import com.liferay.gradle.plugins.node.internal.util.FileUtil;
+import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
+import com.liferay.gradle.util.Validator;
+
+import java.io.File;
+
+import java.util.List;
+import java.util.concurrent.Callable;
+
+import org.gradle.api.Project;
+import org.gradle.api.logging.Logger;
+
 /**
  * @author Andrea Di Giorgi
  */
-public class ExecuteNpmTask extends ExecuteNodeTask {
+public class ExecuteNpmTask extends ExecuteNodeScriptTask {
 
-	@Override
-	public void executeNode() {
-		super.setCommand(getCommand());
+	public ExecuteNpmTask() {
+		setCommand(
+			new Callable<String>() {
 
-		super.executeNode();
+				@Override
+				public String call() throws Exception {
+					if (getNodeDir() == null) {
+						return "npm";
+					}
+
+					return "node";
+				}
+
+			});
+
+		setLogLevel(
+			new Callable<String>() {
+
+				@Override
+				public String call() throws Exception {
+					String logLevel = null;
+
+					Logger logger = getLogger();
+
+					if (logger.isTraceEnabled()) {
+						logLevel = "silly";
+					}
+					else if (logger.isDebugEnabled()) {
+						logLevel = "verbose";
+					}
+					else if (logger.isInfoEnabled()) {
+						logLevel = "info";
+					}
+					else if (logger.isWarnEnabled()) {
+						logLevel = "warn";
+					}
+					else if (logger.isErrorEnabled()) {
+						logLevel = "error";
+					}
+
+					return logLevel;
+				}
+
+			});
+
+		setScriptFile(
+			new Callable<File>() {
+
+				@Override
+				public File call() throws Exception {
+					File nodeDir = getNodeDir();
+
+					if (nodeDir == null) {
+						return null;
+					}
+
+					return new File(
+						getNodeDir(), "lib/node_modules/npm/bin/npm-cli.js");
+				}
+
+			});
 	}
 
 	@Override
-	public String getCommand() {
-		return "npm";
+	public void executeNode() throws Exception {
+		Project project = getProject();
+
+		File cacheDir = getCacheDir();
+
+		if (isCacheConcurrent() ||
+			((cacheDir != null) &&
+			 FileUtil.isChild(cacheDir, project.getProjectDir()))) {
+
+			super.executeNode();
+		}
+		else {
+			synchronized (ExecuteNpmTask.class) {
+				super.executeNode();
+			}
+		}
+	}
+
+	public File getCacheDir() {
+		return GradleUtil.toFile(getProject(), _cacheDir);
+	}
+
+	public String getLogLevel() {
+		return GradleUtil.toString(_logLevel);
+	}
+
+	public String getRegistry() {
+		return GradleUtil.toString(_registry);
+	}
+
+	public boolean isCacheConcurrent() {
+		return GradleUtil.toBoolean(_cacheConcurrent);
+	}
+
+	public boolean isProgress() {
+		return _progress;
+	}
+
+	public void setCacheConcurrent(Object cacheConcurrent) {
+		_cacheConcurrent = cacheConcurrent;
+	}
+
+	public void setCacheDir(Object cacheDir) {
+		_cacheDir = cacheDir;
+	}
+
+	public void setLogLevel(Object logLevel) {
+		_logLevel = logLevel;
+	}
+
+	public void setProgress(boolean progress) {
+		_progress = progress;
+	}
+
+	public void setRegistry(Object registry) {
+		_registry = registry;
 	}
 
 	@Override
-	public void setCommand(Object command) {
-		throw new UnsupportedOperationException();
+	protected List<String> getCompleteArgs() {
+		List<String> completeArgs = super.getCompleteArgs();
+
+		File cacheDir = getCacheDir();
+
+		if (cacheDir != null) {
+			completeArgs.add("--cache");
+			completeArgs.add(FileUtil.getAbsolutePath(cacheDir));
+		}
+
+		String logLevel = getLogLevel();
+
+		if (Validator.isNotNull(logLevel)) {
+			completeArgs.add("--loglevel");
+			completeArgs.add(logLevel);
+		}
+
+		completeArgs.add("--progress");
+		completeArgs.add(Boolean.toString(isProgress()));
+
+		String registry = getRegistry();
+
+		if (Validator.isNotNull(registry)) {
+			completeArgs.add("--registry");
+			completeArgs.add(registry);
+		}
+
+		return completeArgs;
 	}
+
+	private Object _cacheConcurrent;
+	private Object _cacheDir;
+	private Object _logLevel;
+	private boolean _progress = true;
+	private Object _registry;
 
 }

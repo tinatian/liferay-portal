@@ -18,15 +18,21 @@
 
 <%
 UserGroupDisplayTerms searchTerms = (UserGroupDisplayTerms)request.getAttribute("liferay-ui:user-group-search-container-results:searchTerms");
+boolean useIndexer = GetterUtil.getBoolean(request.getAttribute("liferay-ui:user-group-search-container-results:useIndexer"));
 LinkedHashMap<String, Object> userGroupParams = (LinkedHashMap<String, Object>)request.getAttribute("liferay-ui:user-group-search-container-results:userGroupParams");
+SearchContainer userGroupSearchContainer = (SearchContainer)request.getAttribute("liferay-ui:user-group-search-container-results:searchContainer");
+
+if (Validator.isNotNull(searchTerms.getKeywords())) {
+	useIndexer = true;
+}
 
 Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(UserGroup.class);
 %>
 
-<liferay-ui:search-container searchContainer='<%= (SearchContainer)request.getAttribute("liferay-ui:user-group-search-container-results:searchContainer") %>'>
+<liferay-ui:search-container id="<%= userGroupSearchContainer.getId(request, namespace) %>" searchContainer="<%= userGroupSearchContainer %>">
 	<liferay-ui:search-container-results>
 		<c:choose>
-			<c:when test="<%= Validator.equals(themeDisplay.getPpid(), PortletKeys.DIRECTORY) && indexer.isIndexerEnabled() && PropsValues.USER_GROUPS_SEARCH_WITH_INDEX %>">
+			<c:when test="<%= useIndexer && indexer.isIndexerEnabled() && PropsValues.USER_GROUPS_SEARCH_WITH_INDEX %>">
 
 				<%
 				BaseModelSearchResult<UserGroup> baseModelSearchResult = null;
@@ -35,12 +41,7 @@ Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(UserGroup.class);
 
 				Sort sort = SortFactoryUtil.getSort(UserGroup.class, searchContainer.getOrderByCol(), searchContainer.getOrderByType());
 
-				if (searchTerms.isAdvancedSearch()) {
-					baseModelSearchResult = UserGroupLocalServiceUtil.searchUserGroups(company.getCompanyId(), searchTerms.getName(), searchTerms.getDescription(), userGroupParams, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), sort);
-				}
-				else {
-					baseModelSearchResult = UserGroupLocalServiceUtil.searchUserGroups(company.getCompanyId(), searchTerms.getKeywords(), userGroupParams, searchContainer.getStart(), searchContainer.getEnd(), sort);
-				}
+				baseModelSearchResult = UserGroupLocalServiceUtil.searchUserGroups(company.getCompanyId(), searchTerms.getKeywords(), userGroupParams, searchContainer.getStart(), searchContainer.getEnd(), sort);
 
 				results = baseModelSearchResult.getBaseModels();
 
@@ -52,20 +53,11 @@ Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(UserGroup.class);
 			<c:otherwise>
 
 				<%
-				if (searchTerms.isAdvancedSearch()) {
-					total = UserGroupLocalServiceUtil.searchCount(company.getCompanyId(), searchTerms.getName(), searchTerms.getDescription(), userGroupParams, searchTerms.isAndOperator());
+				total = UserGroupLocalServiceUtil.searchCount(company.getCompanyId(), searchTerms.getKeywords(), userGroupParams);
 
-					searchContainer.setTotal(total);
+				searchContainer.setTotal(total);
 
-					results = UserGroupLocalServiceUtil.search(company.getCompanyId(), searchTerms.getName(), searchTerms.getDescription(), userGroupParams, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-				}
-				else {
-					total = UserGroupLocalServiceUtil.searchCount(company.getCompanyId(), searchTerms.getKeywords(), userGroupParams);
-
-					searchContainer.setTotal(total);
-
-					results = UserGroupLocalServiceUtil.search(company.getCompanyId(), searchTerms.getKeywords(), userGroupParams, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
-				}
+				results = UserGroupLocalServiceUtil.search(company.getCompanyId(), searchTerms.getKeywords(), userGroupParams, searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
 
 				searchContainer.setResults(results);
 				%>

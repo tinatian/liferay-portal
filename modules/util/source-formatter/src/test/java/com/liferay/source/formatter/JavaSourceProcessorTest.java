@@ -30,7 +30,7 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	public void testAssertUsage() throws Exception {
 		test(
 			"AssertUsage.testjava",
-			"Use org.junit.Assert instead of org.testng.Assert:");
+			"Use org.junit.Assert instead of org.testng.Assert, see LPS-55690");
 	}
 
 	@Test
@@ -42,7 +42,8 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	public void testConstructorParameterOrder() throws Exception {
 		test(
 			"ConstructorParameterOrder.testjava",
-			"Constructor parameter order attribute:");
+			"'_value = value;' should come before '_attribute = attribute;' " +
+				"to match order of constructor parameters");
 	}
 
 	@Test
@@ -51,8 +52,30 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testDuplicateConstructors() throws Exception {
+		test(
+			"DuplicateConstructors.testjava",
+			"Duplicate DuplicateConstructors");
+	}
+
+	@Test
+	public void testDuplicateMethods() throws Exception {
+		test("DuplicateMethods.testjava", "Duplicate method");
+	}
+
+	@Test
+	public void testDuplicateVariables() throws Exception {
+		test("DuplicateVariables.testjava", "Duplicate _s2");
+	}
+
+	@Test
 	public void testExceedMaxLineLength() throws Exception {
-		test("ExceedMaxLineLength.testjava", "> 80:", 37);
+		test("ExceedMaxLineLength.testjava", "> 80", 37);
+	}
+
+	@Test
+	public void testExceptionVariableName() throws Exception {
+		test("ExceptionVariableName.testjava");
 	}
 
 	@Test
@@ -61,8 +84,23 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testFormatBooleanStatements() throws Exception {
+		test("FormatBooleanStatements.testjava");
+	}
+
+	@Test
 	public void testFormatImports() throws Exception {
 		test("FormatImports.testjava");
+	}
+
+	@Test
+	public void testFormatJSONObject() throws Exception {
+		test("FormatJSONObject.testjava");
+	}
+
+	@Test
+	public void testFormatReturnStatements() throws Exception {
+		test("FormatReturnStatements.testjava");
 	}
 
 	@Test
@@ -75,10 +113,14 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test(
 			"IfClauseParentheses.testjava",
 			new String[] {
-				"missing parentheses:", "missing parentheses:",
-				"missing parentheses:", "missing parentheses:",
-				"missing parentheses:", "redundant parentheses:",
-				"redundant parentheses:", "redundant parentheses:"
+				"Missing parentheses in if-statement",
+				"Missing parentheses in if-statement",
+				"Missing parentheses in if-statement",
+				"Missing parentheses in if-statement",
+				"Missing parentheses in if-statement",
+				"Unnecessary parentheses around expression.",
+				"Redundant parentheses in if-statement",
+				"Unnecessary parentheses around expression."
 			},
 			new Integer[] {25, 29, 33, 39, 43, 43, 47, 51});
 	}
@@ -94,13 +136,24 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testIncorrectCopyright() throws Exception {
+		test("IncorrectCopyright.testjava", "File must start with copyright");
+	}
+
+	@Test
+	public void testIncorrectIfStatement() throws Exception {
+		test("IncorrectIfStatement.testjava", "Incorrect if statement", 23);
+	}
+
+	@Test
 	public void testIncorrectImports() throws Exception {
 		test("IncorrectImports1.testjava");
 		test(
 			"IncorrectImports2.testjava",
 			new String[] {
-				"edu.emory.mathcs.backport.java:", "jodd.util.StringPool:",
-				"Proxy:"
+				"Illegal import: edu.emory.mathcs.backport.java",
+				"Illegal import: jodd.util.StringPool",
+				"Use ProxyUtil instead of java.lang.reflect.Proxy"
 			});
 	}
 
@@ -109,17 +162,67 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test(
 			"IncorrectLineBreaks1.testjava",
 			new String[] {
-				"line break:", "line break:", "line break:", "line break:",
-				"line break:", "line break:", "line break:", "line break:",
-				"line break:", "line break:", "line break:", "line break:",
-				"line break:", "line break:", "line break:", "line break:",
-				"line break:", "line break:", "line break:", "line break:"
+				"'=' should be on the previous line.",
+				"There should be a line break after '||'",
+				"There should be a line break after '\"Hello World\", " +
+					"\"Hello\", \"World\"),'",
+				"Add the string 'Hello World Hello World ' to the previous " +
+					"literal string",
+				"There should be a line break after '\"Hello World Hello " +
+					"World Hello World\",'",
+				"There should be a line break after " +
+					"'anotherStringWithAVeryLongName,'",
+				"There should be a line break after '='",
+				"There should be a line break after '+'",
+				"There should be a line break after '='",
+				"Line should not start with '.'",
+				"There should be a line break before 'throws'",
+				"There should be a line break after '}'",
+				"There should be a line break after '}'",
+				"There should be a line break after '('",
+				"There should be a line break after '('",
+				"'null) {' should be added to previous line",
+				"There should be a line break before 'new " +
+					"Comparator<String>() {'",
+				"There should be a line break after '},'",
+				"There should be a line break before 'throws'",
+				"There should be a line break after " +
+					"'themeDisplay.getCompanyId(),'",
+				"There should be a line break before 'throws'",
+				"There should be a line break after '}'"
 			},
 			new Integer[] {
-				23, 27, 31, 38, 42, 46, 51, 55, 57, 60, 63, 67, 70, 75, 81, 85,
-				91, 99, 102, 109
+				33, 37, 45, 49, 49, 54, 57, 60, 63, 67, 70, 75, 79, 84, 88, 95,
+				106, 119, 124, 131, 141, 159
 			});
 		test("IncorrectLineBreaks2.testjava");
+	}
+
+	@Test
+	public void testIncorrectParameterNames() throws Exception {
+		test(
+			"IncorrectParameterNames.testjava",
+			new String[] {
+				"Parameter 'StringMap' must match pattern " +
+					"'^[a-z][a-zA-Z0-9]*$'",
+				"Parameter 'TestString' must match pattern " +
+					"'^[a-z][a-zA-Z0-9]*$'"
+			},
+			new Integer[] {24, 28});
+	}
+
+	@Test
+	public void testIncorrectTabs() throws Exception {
+		test(
+			"IncorrectTabs.testjava",
+			new String[] {
+				"There should be a line break after '('",
+				"There should be a line break after '{'",
+				"Line starts with '3' tabs, but '4' tabs are expected",
+				"Line starts with '2' tabs, but '3' tabs are expected",
+				"Line starts with '3' tabs, but '4' tabs are expected"
+			},
+			new Integer[] {26, 30, 31, 32, 37});
 	}
 
 	@Test
@@ -127,11 +230,25 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test(
 			"IncorrectVariableNames1.testjava",
 			new String[] {
-				"Only private var should start with underscore:",
-				"Only private var should start with underscore:"
+				"Protected or public constant '_TEST_1' must match " +
+					"pattern '^[a-zA-Z0-9][_a-zA-Z0-9]*$'",
+				"Protected or public non-static field '_test2' must match " +
+					"pattern '^[a-z0-9][_a-zA-Z0-9]*$'"
 			},
-			new Integer[] {19, 25});
-		test("IncorrectVariableNames2.testjava");
+			new Integer[] {22, 28});
+		test(
+			"IncorrectVariableNames2.testjava",
+			"Private constant 'STRING_1' must match pattern '^_[_a-zA-Z0-9]*$'",
+			26);
+		test(
+			"IncorrectVariableNames3.testjava",
+			new String[] {
+				"Local non-final variable 'TestMapWithARatherLongName' must " +
+					"match pattern '^[a-z0-9][_a-zA-Z0-9]*$'",
+				"Local non-final variable 'TestString' must match pattern " +
+					"'^[a-z0-9][_a-zA-Z0-9]*$'"
+			},
+			new Integer[] {26, 29});
 	}
 
 	@Test
@@ -144,10 +261,15 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test(
 			"InefficientStringMethods.testjava",
 			new String[] {
-				"Use StringUtil.equalsIgnoreCase:",
-				"Use StringUtil.toLowerCase:", "Use StringUtil.toUpperCase:"
+				"Use StringUtil.equalsIgnoreCase", "Use StringUtil.toLowerCase",
+				"Use StringUtil.toUpperCase"
 			},
 			new Integer[] {26, 30, 31});
+	}
+
+	@Test
+	public void testJavaParameterAnnotations() throws Exception {
+		test("JavaParameterAnnotations.testjava");
 	}
 
 	@Test
@@ -156,32 +278,72 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testJavaTermMetadataIncorrectLineBreaks() throws Exception {
+		test("JavaTermMetadataIncorrectLineBreaks.testjava");
+	}
+
+	@Test
+	public void testJavaVariableFinalableFields1() throws Exception {
+		test("JavaVariableFinalableFields1.testjava");
+	}
+
+	@Test
+	public void testJavaVariableFinalableFields2() throws Exception {
+		test("JavaVariableFinalableFields2.testjava");
+	}
+
+	@Test
 	public void testLogLevels() throws Exception {
 		test(
 			"Levels.testjava",
 			new String[] {
-				"Use _log.isDebugEnabled():", "Use _log.isDebugEnabled():",
-				"Use _log.isInfoEnabled():", "Use _log.isTraceEnabled():",
-				"Use _log.isWarnEnabled():"
+				"Do not use _log.isErrorEnabled()", "Use _log.isDebugEnabled()",
+				"Use _log.isDebugEnabled()", "Use _log.isInfoEnabled()",
+				"Use _log.isTraceEnabled()", "Use _log.isWarnEnabled()"
 			},
-			new Integer[] {26, 31, 43, 48, 58});
+			new Integer[] {27, 36, 41, 53, 58, 68});
 	}
 
 	@Test
 	public void testLPS28266() throws Exception {
-		test("LPS28266.testjava", "Use getInt(1) for count:");
+		test("LPS28266.testjava", "Use rs.getInt(1) for count, see LPS-28266");
+	}
+
+	@Test
+	public void testMissingAuthor() throws Exception {
+		test("MissingAuthor.testjava", "Missing author", 20);
+	}
+
+	@Test
+	public void testMissingEmptyLines() throws Exception {
+		test("MissingEmptyLines.testjava");
 	}
 
 	@Test
 	public void testMissingSerialVersionUID() throws Exception {
 		test(
 			"MissingSerialVersionUID.testjava",
-			"Assign ProcessCallable implementation a serialVersionUID:");
+			"Assign ProcessCallable implementation a serialVersionUID");
+	}
+
+	@Test
+	public void testNullVariable() throws Exception {
+		test("NullVariable.testjava");
+	}
+
+	@Test
+	public void testPackageName() throws Exception {
+		test(
+			"PackageName.testjava",
+			"The declared package 'com.liferay.source.formatter.hello.world' " +
+				"does not match the expected package");
 	}
 
 	@Test
 	public void testProxyUsage() throws Exception {
-		test("ProxyUsage.testjava", "Proxy:");
+		test(
+			"ProxyUsage.testjava",
+			"Use ProxyUtil instead of java.lang.reflect.Proxy");
 	}
 
 	@Test
@@ -194,7 +356,8 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test(
 			"SecureRandomNumberGeneration.testjava",
 			"Use SecureRandomUtil or com.liferay.portal.kernel.security." +
-				"SecureRandom instead of java.security.SecureRandom:");
+				"SecureRandom instead of java.security.SecureRandom, see " +
+					"LPS-39058");
 	}
 
 	@Test
@@ -202,9 +365,11 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test(
 			"SortAnnotationParameters.testjava",
 			new String[] {
-				"sort: @Component#immediate",
-				"sort: method#@Transactional#propagation"
-			});
+				"Annotation parameter 'immediate' is not sorted alphabetically",
+				"Annotation parameter 'propagation' is not sorted " +
+					"alphabetically"
+			},
+			new Integer[] {24, 27});
 	}
 
 	@Test
@@ -217,6 +382,7 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 		test("SortJavaTerms1.testjava");
 		test("SortJavaTerms2.testjava");
 		test("SortJavaTerms3.testjava");
+		test("SortJavaTerms4.testjava");
 	}
 
 	@Test
@@ -246,7 +412,7 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 
 	@Test
 	public void testUnusedParameter() throws Exception {
-		test("UnusedParameter.testjava", "Unused parameter color:", 26);
+		test("UnusedParameter.testjava", "Parameter 'color' is unused", 26);
 	}
 
 }

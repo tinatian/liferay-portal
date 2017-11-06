@@ -14,16 +14,19 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchRepositoryEntryException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchRepositoryEntryException;
+import com.liferay.portal.kernel.model.RepositoryEntry;
+import com.liferay.portal.kernel.service.RepositoryEntryLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.RepositoryEntryPersistence;
+import com.liferay.portal.kernel.service.persistence.RepositoryEntryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,13 +34,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.RepositoryEntry;
-import com.liferay.portal.service.RepositoryEntryLocalServiceUtil;
-import com.liferay.portal.service.persistence.RepositoryEntryPersistence;
-import com.liferay.portal.service.persistence.RepositoryEntryUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -53,6 +52,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -453,7 +453,7 @@ public class RepositoryEntryPersistenceTest {
 
 		RepositoryEntry existingRepositoryEntry = _persistence.findByPrimaryKey(newRepositoryEntry.getPrimaryKey());
 
-		Assert.assertTrue(Validator.equals(existingRepositoryEntry.getUuid(),
+		Assert.assertTrue(Objects.equals(existingRepositoryEntry.getUuid(),
 				ReflectionTestUtil.invoke(existingRepositoryEntry,
 					"getOriginalUuid", new Class<?>[0])));
 		Assert.assertEquals(Long.valueOf(existingRepositoryEntry.getGroupId()),
@@ -464,7 +464,7 @@ public class RepositoryEntryPersistenceTest {
 				existingRepositoryEntry.getRepositoryId()),
 			ReflectionTestUtil.<Long>invoke(existingRepositoryEntry,
 				"getOriginalRepositoryId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(
+		Assert.assertTrue(Objects.equals(
 				existingRepositoryEntry.getMappedId(),
 				ReflectionTestUtil.invoke(existingRepositoryEntry,
 					"getOriginalMappedId", new Class<?>[0])));

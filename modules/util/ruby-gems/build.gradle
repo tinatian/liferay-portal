@@ -1,29 +1,29 @@
 import com.liferay.gradle.util.FileUtil
 import com.liferay.gradle.util.OSDetector
 
-configurations {
-	jruby
-}
-
-ext {
-	compassVersion = "1.0.1"
-
-	compassUrl = "http://rubygems.org/gems/compass-${compassVersion}.gem"
-}
-
-dependencies {
-	jruby group: "org.jruby", name: "jruby-complete", version: "1.6.5"
-}
-
 task downloadGems
+
+String compassVersion = "1.0.1"
+
+String compassUrl = "https://rubygems.org/gems/compass-${compassVersion}.gem"
 
 classes {
 	dependsOn downloadGems
 }
 
+configurations {
+	jruby
+}
+
+dependencies {
+	jruby group: "org.jruby", name: "jruby-complete", version: "9.1.12.0"
+}
+
 downloadGems {
 	doLast {
 		File compassFile = FileUtil.get(project, compassUrl, temporaryDir)
+		String httpProxyHost = System.getProperty("http.proxyHost")
+		String httpProxyPort = System.getProperty("http.proxyPort")
 
 		javaexec {
 			args configurations.jruby.singleFile
@@ -33,6 +33,11 @@ downloadGems {
 			args relativePath(compassFile)
 			args "--no-rdoc"
 			args "--no-ri"
+
+			if (httpProxyHost && httpProxyPort) {
+				args "--http-proxy"
+				args "http://${httpProxyHost}:${httpProxyPort}"
+			}
 
 			main = "-jar"
 		}
@@ -44,12 +49,17 @@ downloadGems {
 			}
 		}
 
-		File readmeFile = file("readme.txt")
+		File readmeFile = file("README.markdown")
 
 		readmeFile.withWriter {
 			BufferedWriter bufferedWriter ->
 
-			bufferedWriter.writeLine("Included gems:")
+			bufferedWriter.writeLine("# Ruby Gems")
+			bufferedWriter.writeLine("")
+			bufferedWriter.writeLine("The Ruby Gems module provides a set of " +
+				"Ruby gems that Liferay can access when")
+			bufferedWriter.writeLine("using JRuby. The gems included with " +
+				"this module are listed below:")
 			bufferedWriter.writeLine("")
 
 			List<String> gemNames = []
@@ -62,10 +72,10 @@ downloadGems {
 
 			gemNames.each {
 				if (it != gemNames.last()) {
-					bufferedWriter.writeLine(it)
+					bufferedWriter.writeLine("- `" + it + "`")
 				}
 				else {
-					bufferedWriter.write(it)
+					bufferedWriter.write("- `" + it + "`")
 				}
 			}
 		}

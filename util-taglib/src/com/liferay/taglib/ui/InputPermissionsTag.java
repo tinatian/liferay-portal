@@ -14,8 +14,8 @@
 
 package com.liferay.taglib.ui;
 
+import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.security.permission.ResourceActionsUtil;
 import com.liferay.taglib.util.IncludeTag;
 import com.liferay.taglib.util.PortalIncludeUtil;
 
@@ -62,11 +62,6 @@ public class InputPermissionsTag extends IncludeTag {
 					modelName);
 
 			request.setAttribute(
-				"liferay-ui:input-permissions:modelName", modelName);
-			request.setAttribute(
-				"liferay-ui:input-permissions:supportedActions",
-				supportedActions);
-			request.setAttribute(
 				"liferay-ui:input-permissions:groupDefaultActions",
 				groupDefaultActions);
 			request.setAttribute(
@@ -75,6 +70,11 @@ public class InputPermissionsTag extends IncludeTag {
 			request.setAttribute(
 				"liferay-ui:input-permissions:guestUnsupportedActions",
 				guestUnsupportedActions);
+			request.setAttribute(
+				"liferay-ui:input-permissions:modelName", modelName);
+			request.setAttribute(
+				"liferay-ui:input-permissions:supportedActions",
+				supportedActions);
 		}
 
 		PortalIncludeUtil.include(pageContext, page);

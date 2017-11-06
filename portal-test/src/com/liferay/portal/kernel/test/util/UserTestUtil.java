@@ -15,25 +15,26 @@
 package com.liferay.portal.kernel.test.util;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserServiceUtil;
 import com.liferay.portal.kernel.test.randomizerbumpers.NumericStringRandomizerBumper;
+import com.liferay.portal.kernel.test.randomizerbumpers.UniqueStringRandomizerBumper;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserGroupRole;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserGroupRoleLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.service.UserServiceUtil;
 
 import java.util.Calendar;
 import java.util.List;
@@ -47,11 +48,7 @@ import java.util.Locale;
 public class UserTestUtil {
 
 	public static User addCompanyAdminUser(Company company) throws Exception {
-		User user = addUser();
-
-		user.setCompanyId(company.getCompanyId());
-
-		UserLocalServiceUtil.updateUser(user);
+		User user = addUser(company);
 
 		Role role = RoleLocalServiceUtil.getRole(
 			company.getCompanyId(), RoleConstants.ADMINISTRATOR);
@@ -62,12 +59,11 @@ public class UserTestUtil {
 	}
 
 	public static User addGroupAdminUser(Group group) throws Exception {
-		return UserTestUtil.addGroupUser(
-			group, RoleConstants.SITE_ADMINISTRATOR);
+		return addGroupUser(group, RoleConstants.SITE_ADMINISTRATOR);
 	}
 
 	public static User addGroupOwnerUser(Group group) throws Exception {
-		return UserTestUtil.addGroupUser(group, RoleConstants.SITE_OWNER);
+		return addGroupUser(group, RoleConstants.SITE_OWNER);
 	}
 
 	public static User addGroupUser(Group group, String roleName)
@@ -96,14 +92,14 @@ public class UserTestUtil {
 	public static User addOrganizationAdminUser(Organization organization)
 		throws Exception {
 
-		return UserTestUtil.addOrganizationUser(
+		return addOrganizationUser(
 			organization, RoleConstants.ORGANIZATION_ADMINISTRATOR);
 	}
 
 	public static User addOrganizationOwnerUser(Organization organization)
 		throws Exception {
 
-		return UserTestUtil.addOrganizationUser(
+		return addOrganizationUser(
 			organization, RoleConstants.ORGANIZATION_OWNER);
 	}
 
@@ -125,7 +121,9 @@ public class UserTestUtil {
 	public static User addUser() throws Exception {
 		return addUser(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
-			RandomTestUtil.randomString(NumericStringRandomizerBumper.INSTANCE),
+			RandomTestUtil.randomString(
+				NumericStringRandomizerBumper.INSTANCE,
+				UniqueStringRandomizerBumper.INSTANCE),
 			LocaleUtil.getDefault(), RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(),
 			new long[] {TestPropsValues.getGroupId()},
@@ -185,10 +183,24 @@ public class UserTestUtil {
 		}
 	}
 
+	public static User addUser(Company company) throws Exception {
+		return addUser(
+			company.getCompanyId(), TestPropsValues.getUserId(),
+			RandomTestUtil.randomString(
+				NumericStringRandomizerBumper.INSTANCE,
+				UniqueStringRandomizerBumper.INSTANCE),
+			LocaleUtil.getDefault(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomString(),
+			new long[] {TestPropsValues.getGroupId()},
+			ServiceContextTestUtil.getServiceContext());
+	}
+
 	public static User addUser(long... groupIds) throws Exception {
 		return addUser(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
-			RandomTestUtil.randomString(NumericStringRandomizerBumper.INSTANCE),
+			RandomTestUtil.randomString(
+				NumericStringRandomizerBumper.INSTANCE,
+				UniqueStringRandomizerBumper.INSTANCE),
 			LocaleUtil.getDefault(), RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), groupIds,
 			ServiceContextTestUtil.getServiceContext());
@@ -197,7 +209,9 @@ public class UserTestUtil {
 	public static User addUser(long groupId, Locale locale) throws Exception {
 		return addUser(
 			TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
-			RandomTestUtil.randomString(NumericStringRandomizerBumper.INSTANCE),
+			RandomTestUtil.randomString(
+				NumericStringRandomizerBumper.INSTANCE,
+				UniqueStringRandomizerBumper.INSTANCE),
 			locale, RandomTestUtil.randomString(),
 			RandomTestUtil.randomString(), new long[] {groupId},
 			ServiceContextTestUtil.getServiceContext());
@@ -325,14 +339,10 @@ public class UserTestUtil {
 		int birthdayDay = 1;
 		int birthdayYear = 1970;
 		String smsSn = StringPool.BLANK;
-		String aimSn = StringPool.BLANK;
 		String facebookSn = StringPool.BLANK;
-		String icqSn = StringPool.BLANK;
 		String jabberSn = StringPool.BLANK;
-		String mySpaceSn = StringPool.BLANK;
 		String skypeSn = StringPool.BLANK;
 		String twitterSn = StringPool.BLANK;
-		String ymSn = StringPool.BLANK;
 		String jobTitle = StringPool.BLANK;
 		long[] groupIds = null;
 		long[] organizationIds = null;
@@ -346,9 +356,9 @@ public class UserTestUtil {
 			screenName, emailAddress, facebookId, openId, languageId,
 			timeZoneId, greeting, comments, firstName, middleName, lastName,
 			prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
-			smsSn, aimSn, facebookSn, icqSn, jabberSn, mySpaceSn, skypeSn,
-			twitterSn, ymSn, jobTitle, groupIds, organizationIds, roleIds,
-			userGroupRoles, userGroupIds, serviceContext);
+			smsSn, facebookSn, jabberSn, skypeSn, twitterSn, jobTitle, groupIds,
+			organizationIds, roleIds, userGroupRoles, userGroupIds,
+			serviceContext);
 	}
 
 }

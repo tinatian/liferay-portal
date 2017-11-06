@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.taglib.ui.AssetAddonEntry;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.taglib.servlet.JspWriterHttpServletResponse;
+import com.liferay.taglib.servlet.PipingServletResponse;
 import com.liferay.taglib.util.IncludeTag;
 
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class AssetAddonEntryDisplayTag extends IncludeTag {
 	}
 
 	protected HttpServletResponse getResponse() {
-		return new JspWriterHttpServletResponse(pageContext);
+		return PipingServletResponse.createPipingServletResponse(pageContext);
 	}
 
 	@Override

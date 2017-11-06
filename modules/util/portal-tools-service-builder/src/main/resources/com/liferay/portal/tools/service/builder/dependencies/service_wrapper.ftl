@@ -1,8 +1,8 @@
-package ${packagePath}.service;
+package ${apiPackagePath}.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
  * Provides a wrapper for {@link ${entity.name}${sessionTypeName}Service}.
@@ -27,7 +27,7 @@ public class ${entity.name}${sessionTypeName}ServiceWrapper implements ${entity.
 	}
 
 	<#list methods as method>
-		<#if !method.isConstructor() && method.isPublic() && serviceBuilder.isCustomMethod(method)>
+		<#if method.isPublic() && serviceBuilder.isCustomMethod(method)>
 			${serviceBuilder.getJavadocComment(method)}
 
 			<#if serviceBuilder.hasAnnotation(method, "Deprecated")>
@@ -58,7 +58,7 @@ public class ${entity.name}${sessionTypeName}ServiceWrapper implements ${entity.
 					throws
 				</#if>
 
-				${exception.value}
+				${exception.fullyQualifiedName}
 
 				<#if exception_has_next>
 					,
@@ -66,7 +66,7 @@ public class ${entity.name}${sessionTypeName}ServiceWrapper implements ${entity.
 			</#list>
 
 			{
-				<#if method.returns.value != "void">
+				<#if !stringUtil.equals(method.returns.value, "void")>
 					return
 				</#if>
 
@@ -84,22 +84,6 @@ public class ${entity.name}${sessionTypeName}ServiceWrapper implements ${entity.
 			}
 		</#if>
 	</#list>
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
-	 */
-	@Deprecated
-	public ${entity.name}${sessionTypeName}Service getWrapped${entity.name}${sessionTypeName}Service() {
-		return _${entity.varName}${sessionTypeName}Service;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
-	 */
-	@Deprecated
-	public void setWrapped${entity.name}${sessionTypeName}Service(${entity.name}${sessionTypeName}Service ${entity.varName}${sessionTypeName}Service) {
-		_${entity.varName}${sessionTypeName}Service = ${entity.varName}${sessionTypeName}Service;
-	}
 
 	@Override
 	public ${entity.name}${sessionTypeName}Service getWrappedService() {

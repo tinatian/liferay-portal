@@ -17,6 +17,7 @@ package com.liferay.portal.servlet.filters.authverifier;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
+import com.liferay.portal.kernel.security.auth.AccessControlContext;
 import com.liferay.portal.kernel.security.auth.verifier.AuthVerifierResult;
 import com.liferay.portal.kernel.servlet.ProtectedServletRequest;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -27,7 +28,6 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.auth.AccessControlContext;
 import com.liferay.portal.security.auth.AuthVerifierPipeline;
 import com.liferay.portal.servlet.filters.BasePortalFilter;
 import com.liferay.portal.util.PropsUtil;
@@ -77,10 +77,9 @@ public class AuthVerifierFilter extends BasePortalFilter {
 			Properties properties = PropsUtil.getProperties(
 				portalPropertyPrefix, true);
 
-			for (Object name : properties.keySet()) {
-				Object value = properties.get(name);
-
-				_initParametersMap.put((String)name, value);
+			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+				_initParametersMap.put(
+					(String)entry.getKey(), entry.getValue());
 			}
 		}
 
@@ -165,8 +164,11 @@ public class AuthVerifierFilter extends BasePortalFilter {
 
 			accessControlContext.setRequest(protectedServletRequest);
 
+			Class<?> clazz = getClass();
+
 			processFilter(
-				getClass(), protectedServletRequest, response, filterChain);
+				clazz.getName(), protectedServletRequest, response,
+				filterChain);
 		}
 		else {
 			_log.error("Unimplemented state " + state);

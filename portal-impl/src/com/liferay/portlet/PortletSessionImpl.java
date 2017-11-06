@@ -14,9 +14,24 @@
 
 package com.liferay.portlet;
 
+import com.liferay.portal.kernel.io.Deserializer;
+import com.liferay.portal.kernel.io.Serializer;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletSession;
+import com.liferay.portal.kernel.servlet.HttpSessionWrapper;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.util.PropsValues;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
+
+import java.nio.ByteBuffer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +54,7 @@ public class PortletSessionImpl implements LiferayPortletSession {
 		HttpSession session, PortletContext portletContext, String portletName,
 		long plid) {
 
-		this.session = session;
+		this.session = _wrapHttpSession(session);
 		this.portletContext = portletContext;
 
 		StringBundler sb = new StringBundler(5);
@@ -190,7 +205,7 @@ public class PortletSessionImpl implements LiferayPortletSession {
 
 	@Override
 	public void setHttpSession(HttpSession session) {
-		this.session = session;
+		this.session = _wrapHttpSession(session);
 	}
 
 	@Override
@@ -201,5 +216,160 @@ public class PortletSessionImpl implements LiferayPortletSession {
 	protected final PortletContext portletContext;
 	protected final String scopePrefix;
 	protected HttpSession session;
+
+	private HttpSession _wrapHttpSession(HttpSession session) {
+		if (PropsValues.PORTLET_SESSION_REPLICATE_ENABLED &&
+			!(session instanceof SerializableHttpSessionWrapper)) {
+
+			return new SerializableHttpSessionWrapper(session);
+		}
+
+		return session;
+	}
+
+	private static class LazySerializable implements Serializable {
+
+		public byte[] getData() {
+			return _data;
+		}
+
+		public Serializable getSerializable() {
+			Deserializer deserializer = new Deserializer(
+				ByteBuffer.wrap(_data));
+
+			try {
+				return deserializer.readObject();
+			}
+			catch (ClassNotFoundException cnfe) {
+				_log.error("Unable to deserialize object", cnfe);
+
+				return null;
+			}
+		}
+
+		private LazySerializable(byte[] data) {
+			_data = data;
+		}
+
+		private static final Log _log = LogFactoryUtil.getLog(
+			LazySerializable.class);
+
+		private final byte[] _data;
+
+	}
+
+	private static class LazySerializableObjectWrapper
+		implements Externalizable {
+
+		/**
+		 * The empty constructor is required by {@link Externalizable}. Do not use
+		 * this for any other purpose.
+		 */
+		public LazySerializableObjectWrapper() {
+		}
+
+		public Serializable getSerializable() {
+			if (_serializable instanceof LazySerializable) {
+				LazySerializable lazySerializable =
+					(LazySerializable)_serializable;
+
+				Serializable serializable = lazySerializable.getSerializable();
+
+				if (serializable == null) {
+					return null;
+				}
+
+				_serializable = serializable;
+			}
+
+			return _serializable;
+		}
+
+		@Override
+		public void readExternal(ObjectInput objectInput) throws IOException {
+			byte[] data = new byte[objectInput.readInt()];
+
+			objectInput.readFully(data);
+
+			_serializable = new LazySerializable(data);
+		}
+
+		@Override
+		public void writeExternal(ObjectOutput objectOutput)
+			throws IOException {
+
+			byte[] data = _getData();
+
+			objectOutput.writeInt(data.length);
+
+			objectOutput.write(data, 0, data.length);
+		}
+
+		private LazySerializableObjectWrapper(Serializable serializable) {
+			_serializable = serializable;
+		}
+
+		private byte[] _getData() {
+			if (_serializable instanceof LazySerializable) {
+				LazySerializable lazySerializable =
+					(LazySerializable)_serializable;
+
+				return lazySerializable.getData();
+			}
+
+			Serializer serializer = new Serializer();
+
+			serializer.writeObject(_serializable);
+
+			ByteBuffer byteBuffer = serializer.toByteBuffer();
+
+			return byteBuffer.array();
+		}
+
+		private volatile Serializable _serializable;
+
+	}
+
+	private static class SerializableHttpSessionWrapper
+		extends HttpSessionWrapper {
+
+		@Override
+		public Object getAttribute(String name) {
+			Object value = super.getAttribute(name);
+
+			if (value instanceof LazySerializableObjectWrapper) {
+				LazySerializableObjectWrapper lazySerializableObjectWrapper =
+					(LazySerializableObjectWrapper)value;
+
+				return lazySerializableObjectWrapper.getSerializable();
+			}
+
+			return value;
+		}
+
+		@Override
+		public void setAttribute(String name, Object value) {
+			if (!(value instanceof Serializable)) {
+				super.setAttribute(name, value);
+
+				return;
+			}
+
+			Class<?> clazz = value.getClass();
+
+			if (!PortalClassLoaderUtil.isPortalClassLoader(
+					clazz.getClassLoader())) {
+
+				value = new LazySerializableObjectWrapper((Serializable)value);
+			}
+
+			super.setAttribute(name, value);
+		}
+
+		private SerializableHttpSessionWrapper(HttpSession session) {
+			super(session);
+		}
+
+	}
 
 }

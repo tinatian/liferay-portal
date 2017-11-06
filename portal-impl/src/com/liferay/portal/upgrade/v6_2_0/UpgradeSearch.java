@@ -17,11 +17,9 @@ package com.liferay.portal.upgrade.v6_2_0;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.upgrade.BaseUpgradePortletPreferences;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryConstants;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 
 import javax.portlet.PortletPreferences;
 
@@ -53,7 +51,9 @@ public class UpgradeSearch extends BaseUpgradePortletPreferences {
 				hasBookmarksEntry = true;
 			}
 
-			if (value.equals(DLFileEntryConstants.getClassName())) {
+			if (value.equals(
+					"com.liferay.portlet.documentlibrary.model.DLFileEntry")) {
+
 				hasDLFileEntry = true;
 			}
 
@@ -74,7 +74,8 @@ public class UpgradeSearch extends BaseUpgradePortletPreferences {
 		}
 
 		if (hasDLFileEntry) {
-			valuesJSONArray.put(DLFolderConstants.getClassName());
+			valuesJSONArray.put(
+				"com.liferay.portlet.documentlibrary.model.DLFolder");
 		}
 
 		if (hasJournalArticle) {

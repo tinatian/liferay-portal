@@ -21,6 +21,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedReader;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
+import com.liferay.portal.kernel.model.ModelHintsUtil;
+import com.liferay.portal.kernel.model.cache.CacheField;
+import com.liferay.portal.kernel.plugin.Version;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ArrayUtil_IW;
 import com.liferay.portal.kernel.util.CharPool;
@@ -35,30 +40,28 @@ import com.liferay.portal.kernel.util.StringUtil_IW;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.Validator_IW;
-import com.liferay.portal.model.CacheField;
-import com.liferay.portal.model.ModelHintsUtil;
-import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.tools.ArgumentsUtil;
 import com.liferay.portal.tools.ToolsUtil;
 import com.liferay.portal.xml.SAXReaderFactory;
 import com.liferay.util.xml.Dom4jUtil;
 import com.liferay.util.xml.XMLSafeReader;
 
-import com.thoughtworks.qdox.JavaDocBuilder;
-import com.thoughtworks.qdox.model.AbstractBaseJavaEntity;
-import com.thoughtworks.qdox.model.Annotation;
-import com.thoughtworks.qdox.model.ClassLibrary;
+import com.thoughtworks.qdox.JavaProjectBuilder;
+import com.thoughtworks.qdox.library.ClassLibraryBuilder;
+import com.thoughtworks.qdox.library.SortedClassLibraryBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.JavaSource;
-import com.thoughtworks.qdox.model.Type;
+import com.thoughtworks.qdox.model.JavaType;
+import com.thoughtworks.qdox.model.impl.AbstractBaseJavaEntity;
+import com.thoughtworks.qdox.model.impl.DefaultJavaMethod;
+import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
 import freemarker.ext.beans.BeansWrapper;
-
-import freemarker.log.Logger;
 
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
@@ -75,8 +78,16 @@ import java.io.InputStream;
 import java.net.URL;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,17 +97,21 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -127,16 +142,15 @@ public class ServiceBuilder {
 	public static boolean hasAnnotation(
 		AbstractBaseJavaEntity abstractBaseJavaEntity, String annotationName) {
 
-		Annotation[] annotations = abstractBaseJavaEntity.getAnnotations();
+		List<JavaAnnotation> javaAnnotations =
+			abstractBaseJavaEntity.getAnnotations();
 
-		if (annotations == null) {
+		if (javaAnnotations == null) {
 			return false;
 		}
 
-		for (int i = 0; i < annotations.length; i++) {
-			Type type = annotations[i].getType();
-
-			JavaClass javaClass = type.getJavaClass();
+		for (int i = 0; i < javaAnnotations.size(); i++) {
+			JavaClass javaClass = javaAnnotations.get(i).getType();
 
 			if (annotationName.equals(javaClass.getName())) {
 				return true;
@@ -192,7 +206,7 @@ public class ServiceBuilder {
 		String testDirName = arguments.get("service.test.dir");
 
 		Set<String> resourceActionModels = readResourceActionModels(
-			implDirName, resourceActionsConfigs);
+			implDirName, resourcesDirName, resourceActionsConfigs);
 
 		ModelHintsUtil modelHintsUtil = new ModelHintsUtil();
 
@@ -221,96 +235,178 @@ public class ServiceBuilder {
 				ServiceBuilderArgs.OUTPUT_KEY_MODIFIED_FILES,
 				modifiedFileNames);
 		}
-		catch (Throwable t) {
-			String message =
-				"Please set these arguments. Sample values are:\n" +
-				"\n" +
-				"\tservice.api.dir=${basedir}/../portal-service/src\n" +
-				"\tservice.auto.import.default.references=true\n" +
-				"\tservice.auto.namespace.tables=false\n" +
-				"\tservice.bean.locator.util=com.liferay.portal.kernel.bean.PortalBeanLocatorUtil\n" +
-				"\tservice.build.number=1\n" +
-				"\tservice.build.number.increment=true\n" +
-				"\tservice.hbm.file=${basedir}/src/META-INF/portal-hbm.xml\n" +
-				"\tservice.impl.dir=${basedir}/src\n" +
-				"\tservice.input.file=${service.file}\n" +
-				"\tservice.model.hints.configs=" + StringUtil.merge(ServiceBuilderArgs.MODEL_HINTS_CONFIGS) + "\n" +
-				"\tservice.model.hints.file=${basedir}/src/META-INF/portal-model-hints.xml\n" +
-				"\tservice.osgi.module=false\n" +
-				"\tservice.plugin.name=\n" +
-				"\tservice.props.util=com.liferay.portal.util.PropsUtil\n" +
-				"\tservice.read.only.prefixes=" + StringUtil.merge(ServiceBuilderArgs.READ_ONLY_PREFIXES) + "\n" +
-				"\tservice.resource.actions.configs=" + StringUtil.merge(ServiceBuilderArgs.RESOURCE_ACTION_CONFIGS) + "\n" +
-				"\tservice.resources.dir=${basedir}/src\n" +
-				"\tservice.spring.file=${basedir}/src/META-INF/portal-spring.xml\n" +
-				"\tservice.spring.namespaces=beans\n" +
-				"\tservice.sql.dir=${basedir}/../sql\n" +
-				"\tservice.sql.file=portal-tables.sql\n" +
-				"\tservice.sql.indexes.file=indexes.sql\n" +
-				"\tservice.sql.sequences.file=sequences.sql\n" +
-				"\tservice.target.entity.name=${service.target.entity.name}\n" +
-				"\tservice.test.dir=${basedir}/test/integration\n" +
-				"\n" +
-				"You can also customize the generated code by overriding the default templates with these optional system properties:\n" +
-				"\n" +
-				"\t-Dservice.tpl.bad_alias_names=" + _TPL_ROOT + "bad_alias_names.txt\n"+
-				"\t-Dservice.tpl.bad_column_names=" + _TPL_ROOT + "bad_column_names.txt\n"+
-				"\t-Dservice.tpl.bad_json_types=" + _TPL_ROOT + "bad_json_types.txt\n"+
-				"\t-Dservice.tpl.bad_table_names=" + _TPL_ROOT + "bad_table_names.txt\n"+
-				"\t-Dservice.tpl.base_mode_impl=" + _TPL_ROOT + "base_mode_impl.ftl\n"+
-				"\t-Dservice.tpl.blob_model=" + _TPL_ROOT + "blob_model.ftl\n"+
-				"\t-Dservice.tpl.copyright.txt=copyright.txt\n"+
-				"\t-Dservice.tpl.ejb_pk=" + _TPL_ROOT + "ejb_pk.ftl\n"+
-				"\t-Dservice.tpl.exception=" + _TPL_ROOT + "exception.ftl\n"+
-				"\t-Dservice.tpl.export_actionable_dynamic_query=" + _TPL_ROOT + "export_actionable_dynamic_query.ftl\n"+
-				"\t-Dservice.tpl.extended_model=" + _TPL_ROOT + "extended_model.ftl\n"+
-				"\t-Dservice.tpl.extended_model_base_impl=" + _TPL_ROOT + "extended_model_base_impl.ftl\n"+
-				"\t-Dservice.tpl.extended_model_impl=" + _TPL_ROOT + "extended_model_impl.ftl\n"+
-				"\t-Dservice.tpl.finder=" + _TPL_ROOT + "finder.ftl\n"+
-				"\t-Dservice.tpl.finder_base_impl=" + _TPL_ROOT + "finder_base_impl.ftl\n"+
-				"\t-Dservice.tpl.finder_util=" + _TPL_ROOT + "finder_util.ftl\n"+
-				"\t-Dservice.tpl.hbm_xml=" + _TPL_ROOT + "hbm_xml.ftl\n"+
-				"\t-Dservice.tpl.json_js=" + _TPL_ROOT + "json_js.ftl\n"+
-				"\t-Dservice.tpl.json_js_method=" + _TPL_ROOT + "json_js_method.ftl\n"+
-				"\t-Dservice.tpl.model=" + _TPL_ROOT + "model.ftl\n"+
-				"\t-Dservice.tpl.model_cache=" + _TPL_ROOT + "model_cache.ftl\n"+
-				"\t-Dservice.tpl.model_hints_xml=" + _TPL_ROOT + "model_hints_xml.ftl\n"+
-				"\t-Dservice.tpl.model_impl=" + _TPL_ROOT + "model_impl.ftl\n"+
-				"\t-Dservice.tpl.model_soap=" + _TPL_ROOT + "model_soap.ftl\n"+
-				"\t-Dservice.tpl.model_wrapper=" + _TPL_ROOT + "model_wrapper.ftl\n"+
-				"\t-Dservice.tpl.persistence=" + _TPL_ROOT + "persistence.ftl\n"+
-				"\t-Dservice.tpl.persistence_impl=" + _TPL_ROOT + "persistence_impl.ftl\n"+
-				"\t-Dservice.tpl.persistence_util=" + _TPL_ROOT + "persistence_util.ftl\n"+
-				"\t-Dservice.tpl.props=" + _TPL_ROOT + "props.ftl\n"+
-				"\t-Dservice.tpl.service=" + _TPL_ROOT + "service.ftl\n"+
-				"\t-Dservice.tpl.service_base_impl=" + _TPL_ROOT + "service_base_impl.ftl\n"+
-				"\t-Dservice.tpl.service_clp=" + _TPL_ROOT + "service_clp.ftl\n"+
-				"\t-Dservice.tpl.service_clp_invoker=" + _TPL_ROOT + "service_clp_invoker.ftl\n"+
-				"\t-Dservice.tpl.service_clp_message_listener=" + _TPL_ROOT + "service_clp_message_listener.ftl\n"+
-				"\t-Dservice.tpl.service_clp_serializer=" + _TPL_ROOT + "service_clp_serializer.ftl\n"+
-				"\t-Dservice.tpl.service_http=" + _TPL_ROOT + "service_http.ftl\n"+
-				"\t-Dservice.tpl.service_impl=" + _TPL_ROOT + "service_impl.ftl\n"+
-				"\t-Dservice.tpl.service_props_util=" + _TPL_ROOT + "service_props_util.ftl\n"+
-				"\t-Dservice.tpl.service_soap=" + _TPL_ROOT + "service_soap.ftl\n"+
-				"\t-Dservice.tpl.service_util=" + _TPL_ROOT + "service_util.ftl\n"+
-				"\t-Dservice.tpl.service_wrapper=" + _TPL_ROOT + "service_wrapper.ftl\n"+
-				"\t-Dservice.tpl.spring_xml=" + _TPL_ROOT + "spring_xml.ftl\n"+
-				"\t-Dservice.tpl.spring_xml_session=" + _TPL_ROOT + "spring_xml_session.ftl";
-
-			if (t instanceof ServiceBuilderException) {
-				ServiceBuilderException serviceBuilderException =
-					(ServiceBuilderException)t;
-
-				System.err.println(serviceBuilderException.getMessage());
-			}
-			else if (t instanceof Exception) {
-				System.out.println(message);
-
-				ArgumentsUtil.processMainException(arguments, (Exception)t);
+		catch (Exception e) {
+			if (e instanceof ServiceBuilderException) {
+				System.err.println(e.getMessage());
 			}
 			else {
-				t.printStackTrace();
+				StringBundler sb = new StringBundler(160);
+
+				sb.append("Please set these arguments. Sample values are:\n");
+				sb.append("\n");
+				sb.append("\tservice.api.dir=${basedir}/../portal-kernel/src\n");
+				sb.append("\tservice.auto.import.default.references=true\n");
+				sb.append("\tservice.auto.namespace.tables=false\n");
+				sb.append("\tservice.bean.locator.util=com.liferay.portal.kernel.bean.PortalBeanLocatorUtil\n");
+				sb.append("\tservice.build.number=1\n");
+				sb.append("\tservice.build.number.increment=true\n");
+				sb.append("\tservice.hbm.file=${basedir}/src/META-INF/portal-hbm.xml\n");
+				sb.append("\tservice.impl.dir=${basedir}/src\n");
+				sb.append("\tservice.input.file=${service.file}\n");
+				sb.append("\tservice.model.hints.configs=");
+				sb.append(StringUtil.merge(ServiceBuilderArgs.MODEL_HINTS_CONFIGS));
+				sb.append("\n");
+				sb.append("\tservice.model.hints.file=${basedir}/src/META-INF/portal-model-hints.xml\n");
+				sb.append("\tservice.osgi.module=false\n");
+				sb.append("\tservice.plugin.name=\n");
+				sb.append("\tservice.props.util=com.liferay.portal.util.PropsUtil\n");
+				sb.append("\tservice.read.only.prefixes=");
+				sb.append(StringUtil.merge(ServiceBuilderArgs.READ_ONLY_PREFIXES));
+				sb.append("\n");
+				sb.append("\tservice.resource.actions.configs=");
+				sb.append(StringUtil.merge(ServiceBuilderArgs.RESOURCE_ACTION_CONFIGS));
+				sb.append("\n");
+				sb.append("\tservice.resources.dir=${basedir}/src\n");
+				sb.append("\tservice.spring.file=${basedir}/src/META-INF/portal-spring.xml\n");
+				sb.append("\tservice.spring.namespaces=beans\n");
+				sb.append("\tservice.sql.dir=${basedir}/../sql\n");
+				sb.append("\tservice.sql.file=portal-tables.sql\n");
+				sb.append("\tservice.sql.indexes.file=indexes.sql\n");
+				sb.append("\tservice.sql.sequences.file=sequences.sql\n");
+				sb.append("\tservice.target.entity.name=${service.target.entity.name}\n");
+				sb.append("\tservice.test.dir=${basedir}/test/integration\n");
+				sb.append("\n");
+				sb.append("You can also customize the generated code by overriding the default templates with these optional system properties:\n");
+				sb.append("\n");
+				sb.append("\t-Dservice.tpl.bad_alias_names=");
+				sb.append(_TPL_ROOT);
+				sb.append("bad_alias_names.txt\n");
+				sb.append("\t-Dservice.tpl.bad_column_names=");
+				sb.append(_TPL_ROOT);
+				sb.append("bad_column_names.txt\n");
+				sb.append("\t-Dservice.tpl.bad_json_types=");
+				sb.append(_TPL_ROOT);
+				sb.append("bad_json_types.txt\n");
+				sb.append("\t-Dservice.tpl.bad_table_names=");
+				sb.append(_TPL_ROOT);
+				sb.append("bad_table_names.txt\n");
+				sb.append("\t-Dservice.tpl.base_mode_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("base_mode_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.blob_model=");
+				sb.append(_TPL_ROOT);
+				sb.append("blob_model.ftl\n");
+				sb.append("\t-Dservice.tpl.copyright.txt=copyright.txt\n");
+				sb.append("\t-Dservice.tpl.ejb_pk=");
+				sb.append(_TPL_ROOT);
+				sb.append("ejb_pk.ftl\n");
+				sb.append("\t-Dservice.tpl.exception=");
+				sb.append(_TPL_ROOT);
+				sb.append("exception.ftl\n");
+				sb.append("\t-Dservice.tpl.extended_model=");
+				sb.append(_TPL_ROOT);
+				sb.append("extended_model.ftl\n");
+				sb.append("\t-Dservice.tpl.extended_model_base_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("extended_model_base_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.extended_model_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("extended_model_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.finder=");
+				sb.append(_TPL_ROOT);
+				sb.append("finder.ftl\n");
+				sb.append("\t-Dservice.tpl.finder_base_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("finder_base_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.finder_util=");
+				sb.append(_TPL_ROOT);
+				sb.append("finder_util.ftl\n");
+				sb.append("\t-Dservice.tpl.hbm_xml=");
+				sb.append(_TPL_ROOT);
+				sb.append("hbm_xml.ftl\n");
+				sb.append("\t-Dservice.tpl.json_js=");
+				sb.append(_TPL_ROOT);
+				sb.append("json_js.ftl\n");
+				sb.append("\t-Dservice.tpl.json_js_method=");
+				sb.append(_TPL_ROOT);
+				sb.append("json_js_method.ftl\n");
+				sb.append("\t-Dservice.tpl.model=");
+				sb.append(_TPL_ROOT);
+				sb.append("model.ftl\n");
+				sb.append("\t-Dservice.tpl.model_cache=");
+				sb.append(_TPL_ROOT);
+				sb.append("model_cache.ftl\n");
+				sb.append("\t-Dservice.tpl.model_hints_xml=");
+				sb.append(_TPL_ROOT);
+				sb.append("model_hints_xml.ftl\n");
+				sb.append("\t-Dservice.tpl.model_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("model_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.model_soap=");
+				sb.append(_TPL_ROOT);
+				sb.append("model_soap.ftl\n");
+				sb.append("\t-Dservice.tpl.model_wrapper=");
+				sb.append(_TPL_ROOT);
+				sb.append("model_wrapper.ftl\n");
+				sb.append("\t-Dservice.tpl.persistence=");
+				sb.append(_TPL_ROOT);
+				sb.append("persistence.ftl\n");
+				sb.append("\t-Dservice.tpl.persistence_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("persistence_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.persistence_util=");
+				sb.append(_TPL_ROOT);
+				sb.append("persistence_util.ftl\n");
+				sb.append("\t-Dservice.tpl.props=");
+				sb.append(_TPL_ROOT);
+				sb.append("props.ftl\n");
+				sb.append("\t-Dservice.tpl.service=");
+				sb.append(_TPL_ROOT);
+				sb.append("service.ftl\n");
+				sb.append("\t-Dservice.tpl.service_base_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_base_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.service_clp=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_clp.ftl\n");
+				sb.append("\t-Dservice.tpl.service_clp_invoker=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_clp_invoker.ftl\n");
+				sb.append("\t-Dservice.tpl.service_clp_message_listener=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_clp_message_listener.ftl\n");
+				sb.append("\t-Dservice.tpl.service_clp_serializer=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_clp_serializer.ftl\n");
+				sb.append("\t-Dservice.tpl.service_http=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_http.ftl\n");
+				sb.append("\t-Dservice.tpl.service_impl=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_impl.ftl\n");
+				sb.append("\t-Dservice.tpl.service_props_util=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_props_util.ftl\n");
+				sb.append("\t-Dservice.tpl.service_soap=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_soap.ftl\n");
+				sb.append("\t-Dservice.tpl.service_util=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_util.ftl\n");
+				sb.append("\t-Dservice.tpl.service_wrapper=");
+				sb.append(_TPL_ROOT);
+				sb.append("service_wrapper.ftl\n");
+				sb.append("\t-Dservice.tpl.spring_xml=");
+				sb.append(_TPL_ROOT);
+				sb.append("spring_xml.ftl\n");
+				sb.append("\t-Dservice.tpl.spring_xml_session=");
+				sb.append(_TPL_ROOT);
+				sb.append("spring_xml_session.ftl");
+
+				System.out.println(sb.toString());
 			}
+
+			ArgumentsUtil.processMainException(arguments, e);
 		}
 
 		try {
@@ -324,7 +420,8 @@ public class ServiceBuilder {
 	}
 
 	public static Set<String> readResourceActionModels(
-			String implDir, String[] resourceActionsConfigs)
+			String implDir, String resourcesDir,
+			String[] resourceActionsConfigs)
 		throws Exception {
 
 		Set<String> resourceActionModels = new HashSet<>();
@@ -343,7 +440,8 @@ public class ServiceBuilder {
 					InputStream inputStream = url.openStream();
 
 					_readResourceActionModels(
-						implDir, inputStream, resourceActionModels);
+						implDir, resourcesDir, inputStream,
+						resourceActionModels);
 				}
 			}
 			else {
@@ -355,7 +453,8 @@ public class ServiceBuilder {
 
 						try (InputStream inputStream = url.openStream()) {
 							_readResourceActionModels(
-								implDir, inputStream, resourceActionModels);
+								implDir, resourcesDir, inputStream,
+								resourceActionModels);
 						}
 					}
 				}
@@ -366,13 +465,18 @@ public class ServiceBuilder {
 						file = new File(implDir, config);
 					}
 
+					if (!file.exists() && Validator.isNotNull(resourcesDir)) {
+						file = new File(resourcesDir, config);
+					}
+
 					if (!file.exists()) {
 						continue;
 					}
 
 					try (InputStream inputStream = new FileInputStream(file)) {
 						_readResourceActionModels(
-							implDir, inputStream, resourceActionModels);
+							implDir, resourcesDir, inputStream,
+							resourceActionModels);
 					}
 				}
 			}
@@ -432,7 +536,7 @@ public class ServiceBuilder {
 		_tplBadTableNames = _getTplProperty(
 			"bad_table_names", _tplBadTableNames);
 		_tplBlobModel = _getTplProperty("blob_model", _tplBlobModel);
-		_tplEjbPk = _getTplProperty("ejb_pk", _tplEjbPk);
+		_tplEjbPK = _getTplProperty("ejb_pk", _tplEjbPK);
 		_tplException = _getTplProperty("exception", _tplException);
 		_tplExtendedModel = _getTplProperty(
 			"extended_model", _tplExtendedModel);
@@ -482,22 +586,22 @@ public class ServiceBuilder {
 		_tplSpringXml = _getTplProperty("spring_xml", _tplSpringXml);
 
 		try {
-			_apiDirName = apiDirName;
+			_apiDirName = _normalize(apiDirName);
 			_autoImportDefaultReferences = autoImportDefaultReferences;
 			_autoNamespaceTables = autoNamespaceTables;
 			_beanLocatorUtil = beanLocatorUtil;
 			_buildNumber = buildNumber;
 			_buildNumberIncrement = buildNumberIncrement;
-			_hbmFileName = hbmFileName;
-			_implDirName = implDirName;
-			_modelHintsFileName = modelHintsFileName;
+			_hbmFileName = _normalize(hbmFileName);
+			_implDirName = _normalize(implDirName);
+			_modelHintsFileName = _normalize(modelHintsFileName);
 			_osgiModule = osgiModule;
 			_pluginName = GetterUtil.getString(pluginName);
 			_propsUtil = propsUtil;
 			_readOnlyPrefixes = readOnlyPrefixes;
 			_resourceActionModels = resourceActionModels;
-			_resourcesDirName = resourcesDirName;
-			_springFileName = springFileName;
+			_resourcesDirName = _normalize(resourcesDirName);
+			_springFileName = _normalize(springFileName);
 
 			_springNamespaces = springNamespaces;
 
@@ -508,12 +612,12 @@ public class ServiceBuilder {
 					_springNamespaces, _SPRING_NAMESPACE_BEANS);
 			}
 
-			_sqlDirName = sqlDirName;
+			_sqlDirName = _normalize(sqlDirName);
 			_sqlFileName = sqlFileName;
 			_sqlIndexesFileName = sqlIndexesFileName;
 			_sqlSequencesFileName = sqlSequencesFileName;
 			_targetEntityName = targetEntityName;
-			_testDirName = testDirName;
+			_testDirName = _normalize(testDirName);
 			_build = build;
 
 			_badTableNames = _readLines(_tplBadTableNames);
@@ -526,7 +630,8 @@ public class ServiceBuilder {
 			SAXReader saxReader = _getSAXReader();
 
 			Document document = saxReader.read(
-				new XMLSafeReader(ToolsUtil.getContent(inputFileName)));
+				new XMLSafeReader(
+					ToolsUtil.getContent(_normalize(inputFileName))));
 
 			Element rootElement = document.getRootElement();
 
@@ -537,17 +642,22 @@ public class ServiceBuilder {
 					"The package-path attribute is required");
 			}
 
+			_apiPackagePath = GetterUtil.getString(
+				rootElement.attributeValue("api-package-path"), packagePath);
+			_oldServiceOutputPath =
+				_apiDirName + "/" + StringUtil.replace(packagePath, '.', '/');
 			_outputPath =
-				_implDirName + "/" + StringUtil.replace(packagePath, ".", "/");
-
-			_serviceOutputPath =
-				_apiDirName + "/" + StringUtil.replace(packagePath, ".", "/");
+				_implDirName + "/" + StringUtil.replace(packagePath, '.', '/');
 
 			if (Validator.isNotNull(_testDirName)) {
 				_testOutputPath =
 					_testDirName + "/" +
-						StringUtil.replace(packagePath, ".", "/");
+						StringUtil.replace(packagePath, '.', '/');
 			}
+
+			_serviceOutputPath =
+				_apiDirName + "/" +
+					StringUtil.replace(_apiPackagePath, '.', '/');
 
 			_packagePath = packagePath;
 
@@ -580,13 +690,11 @@ public class ServiceBuilder {
 				_portletPackageName = TextFormatter.format(
 					_portletName, TextFormatter.B);
 
+				_apiPackagePath += "." + _portletPackageName;
 				_outputPath += "/" + _portletPackageName;
-
-				_serviceOutputPath += "/" + _portletPackageName;
-
-				_testOutputPath += "/" + _portletPackageName;
-
 				_packagePath += "." + _portletPackageName;
+				_serviceOutputPath += "/" + _portletPackageName;
+				_testOutputPath += "/" + _portletPackageName;
 			}
 			else {
 				_portletShortName = namespaceElement.getText();
@@ -624,6 +732,8 @@ public class ServiceBuilder {
 			}
 
 			if (build) {
+				Collections.sort(_ejbList);
+
 				for (int x = 0; x < _ejbList.size(); x++) {
 					Entity entity = _ejbList.get(x);
 
@@ -632,20 +742,10 @@ public class ServiceBuilder {
 
 						_resolveEntity(entity);
 
-						if (entity.hasActionableDynamicQuery()) {
-							_createActionableDynamicQuery(entity);
+						_removeOldServices(entity);
 
-							if (entity.isStagedModel()) {
-								_createExportActionableDynamicQuery(entity);
-							}
-							else {
-								_removeExportActionableDynamicQuery(entity);
-							}
-						}
-						else {
-							_removeActionableDynamicQuery(entity);
-							_removeExportActionableDynamicQuery(entity);
-						}
+						_removeActionableDynamicQuery(entity);
+						_removeExportActionableDynamicQuery(entity);
 
 						if (entity.hasColumns()) {
 							_createHbm(entity);
@@ -680,9 +780,7 @@ public class ServiceBuilder {
 
 							_createPool(entity);
 
-							if (entity.getPKList().size() > 1) {
-								_createEJBPK(entity);
-							}
+							_createEJBPK(entity);
 						}
 
 						_createFinder(entity);
@@ -704,13 +802,20 @@ public class ServiceBuilder {
 						else {
 							_removeServiceImpl(entity, _SESSION_TYPE_LOCAL);
 							_removeServiceBaseImpl(entity, _SESSION_TYPE_LOCAL);
-							_removeService(entity, _SESSION_TYPE_LOCAL);
-							_removeServiceUtil(entity, _SESSION_TYPE_LOCAL);
-
-							_removeServiceClp(entity, _SESSION_TYPE_LOCAL);
+							_removeService(
+								entity, _SESSION_TYPE_LOCAL,
+								_serviceOutputPath);
+							_removeServiceUtil(
+								entity, _SESSION_TYPE_LOCAL,
+								_serviceOutputPath);
+							_removeServiceClp(
+								entity, _SESSION_TYPE_LOCAL,
+								_serviceOutputPath);
 							_removeServiceClpInvoker(
 								entity, _SESSION_TYPE_LOCAL);
-							_removeServiceWrapper(entity, _SESSION_TYPE_LOCAL);
+							_removeServiceWrapper(
+								entity, _SESSION_TYPE_LOCAL,
+								_serviceOutputPath);
 						}
 
 						if (entity.hasRemoteService()) {
@@ -728,10 +833,10 @@ public class ServiceBuilder {
 
 							_createServiceHttp(entity);
 
-							_createServiceJson(entity);
+							_removeServiceJson(entity);
 
 							if (entity.hasColumns()) {
-								_createServiceJsonSerializer(entity);
+								_removeServiceJsonSerializer(entity);
 							}
 
 							_createServiceSoap(entity);
@@ -740,13 +845,20 @@ public class ServiceBuilder {
 							_removeServiceImpl(entity, _SESSION_TYPE_REMOTE);
 							_removeServiceBaseImpl(
 								entity, _SESSION_TYPE_REMOTE);
-							_removeService(entity, _SESSION_TYPE_REMOTE);
-							_removeServiceUtil(entity, _SESSION_TYPE_REMOTE);
-
-							_removeServiceClp(entity, _SESSION_TYPE_REMOTE);
+							_removeService(
+								entity, _SESSION_TYPE_REMOTE,
+								_serviceOutputPath);
+							_removeServiceUtil(
+								entity, _SESSION_TYPE_REMOTE,
+								_serviceOutputPath);
+							_removeServiceClp(
+								entity, _SESSION_TYPE_REMOTE,
+								_serviceOutputPath);
 							_removeServiceClpInvoker(
 								entity, _SESSION_TYPE_REMOTE);
-							_removeServiceWrapper(entity, _SESSION_TYPE_REMOTE);
+							_removeServiceWrapper(
+								entity, _SESSION_TYPE_REMOTE,
+								_serviceOutputPath);
 
 							_removeServiceHttp(entity);
 
@@ -810,78 +922,18 @@ public class ServiceBuilder {
 			true);
 	}
 
-	public String annotationToString(Annotation annotation) {
-		StringBundler sb = new StringBundler();
-
-		sb.append(StringPool.AT);
-
-		Type type = annotation.getType();
-
-		sb.append(type.getValue());
-
-		Map<String, Object> namedParameters = annotation.getNamedParameterMap();
-
-		if (namedParameters.isEmpty()) {
-			return sb.toString();
-		}
-
-		sb.append(StringPool.OPEN_PARENTHESIS);
-
-		for (Map.Entry<String, Object> entry : namedParameters.entrySet()) {
-			sb.append(entry.getKey());
-
-			sb.append(StringPool.EQUAL);
-
-			Object value = entry.getValue();
-
-			if (value instanceof List) {
-				List<?> values = (List<?>)value;
-
-				sb.append(StringPool.OPEN_CURLY_BRACE);
-
-				for (Object object : values) {
-					if (object instanceof Annotation) {
-						sb.append(annotationToString((Annotation)object));
-					}
-					else {
-						sb.append(object);
-					}
-
-					sb.append(StringPool.COMMA_AND_SPACE);
-				}
-
-				if (!values.isEmpty()) {
-					sb.setIndex(sb.index() - 1);
-				}
-
-				sb.append(StringPool.CLOSE_CURLY_BRACE);
-			}
-			else {
-				sb.append(value);
-			}
-
-			sb.append(StringPool.COMMA_AND_SPACE);
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(StringPool.CLOSE_PARENTHESIS);
-
-		return sb.toString();
-	}
-
 	public String getCacheFieldMethodName(JavaField javaField) {
-		Annotation[] annotations = javaField.getAnnotations();
+		List<JavaAnnotation> javaAnnotations = javaField.getAnnotations();
 
-		for (Annotation annotation : annotations) {
-			Type type = annotation.getType();
+		for (JavaAnnotation javaAnnotation : javaAnnotations) {
+			JavaClass type = javaAnnotation.getType();
 
 			String className = type.getFullyQualifiedName();
 
 			if (className.equals(CacheField.class.getName())) {
 				String methodName = null;
 
-				Object namedParameter = annotation.getNamedParameter(
+				Object namedParameter = javaAnnotation.getNamedParameter(
 					"methodName");
 
 				if (namedParameter != null) {
@@ -901,9 +953,11 @@ public class ServiceBuilder {
 		throw new IllegalArgumentException(javaField + " is not a cache field");
 	}
 
-	public String getClassName(Type type) {
-		int dimensions = type.getDimensions();
-		String name = type.getValue();
+	public String getClassName(
+		DefaultJavaParameterizedType defaultJavaParameterizedType) {
+
+		int dimensions = defaultJavaParameterizedType.getDimensions();
+		String name = defaultJavaParameterizedType.getFullyQualifiedName();
 
 		if (dimensions == 0) {
 			return name;
@@ -916,32 +970,36 @@ public class ServiceBuilder {
 		}
 
 		if (name.equals("boolean")) {
-			return sb.append("Z").toString();
+			sb.append("Z");
 		}
 		else if (name.equals("byte")) {
-			return sb.append("B").toString();
+			sb.append("B");
 		}
 		else if (name.equals("char")) {
-			return sb.append("C").toString();
+			sb.append("C");
 		}
 		else if (name.equals("double")) {
-			return sb.append("D").toString();
+			sb.append("D");
 		}
 		else if (name.equals("float")) {
-			return sb.append("F").toString();
+			sb.append("F");
 		}
 		else if (name.equals("int")) {
-			return sb.append("I").toString();
+			sb.append("I");
 		}
 		else if (name.equals("long")) {
-			return sb.append("J").toString();
+			sb.append("J");
 		}
 		else if (name.equals("short")) {
-			return sb.append("S").toString();
+			sb.append("S");
 		}
 		else {
-			return sb.append("L").append(name).append(";").toString();
+			sb.append("L");
+			sb.append(name);
+			sb.append(";");
 		}
+
+		return sb.toString();
 	}
 
 	public String getCreateMappingTableSQL(EntityMapping entityMapping)
@@ -950,9 +1008,9 @@ public class ServiceBuilder {
 		String createMappingTableSQL = _getCreateMappingTableSQL(entityMapping);
 
 		createMappingTableSQL = StringUtil.replace(
-			createMappingTableSQL, "\n", "");
+			createMappingTableSQL, '\n', "");
 		createMappingTableSQL = StringUtil.replace(
-			createMappingTableSQL, "\t", "");
+			createMappingTableSQL, '\t', "");
 		createMappingTableSQL = createMappingTableSQL.substring(
 			0, createMappingTableSQL.length() - 1);
 
@@ -962,8 +1020,8 @@ public class ServiceBuilder {
 	public String getCreateTableSQL(Entity entity) {
 		String createTableSQL = _getCreateTableSQL(entity);
 
-		createTableSQL = StringUtil.replace(createTableSQL, "\n", "");
-		createTableSQL = StringUtil.replace(createTableSQL, "\t", "");
+		createTableSQL = StringUtil.replace(createTableSQL, '\n', "");
+		createTableSQL = StringUtil.replace(createTableSQL, '\t', "");
 		createTableSQL = createTableSQL.substring(
 			0, createTableSQL.length() - 1);
 
@@ -1028,7 +1086,19 @@ public class ServiceBuilder {
 			return entity;
 		}
 
-		String refPackageDirName = StringUtil.replace(refPackage, ".", "/");
+		Set<Entity> entities = new HashSet<>(_ejbList);
+
+		entities.addAll(_entityPool.values());
+
+		for (Entity curEntity : entities) {
+			if (refPackage.equals(curEntity.getApiPackagePath())) {
+				refPackage = curEntity.getPackagePath();
+
+				break;
+			}
+		}
+
+		String refPackageDirName = StringUtil.replace(refPackage, '.', '/');
 
 		String refFileName =
 			_implDirName + "/" + refPackageDirName + "/service.xml";
@@ -1039,9 +1109,12 @@ public class ServiceBuilder {
 
 		if (!refFile.exists()) {
 			refFileName = String.valueOf(System.currentTimeMillis());
+
 			refFile = new File(_TMP_DIR, refFileName);
 
-			ClassLoader classLoader = getClass().getClassLoader();
+			Class<?> clazz = getClass();
+
+			ClassLoader classLoader = clazz.getClassLoader();
 
 			String refContent = null;
 
@@ -1052,7 +1125,8 @@ public class ServiceBuilder {
 			catch (IOException ioe) {
 				throw new ServiceBuilderException(
 					"Unable to find " + refEntity + " in " +
-						ListUtil.toString(_ejbList, Entity.NAME_ACCESSOR));
+						ListUtil.toString(_ejbList, Entity.NAME_ACCESSOR),
+					ioe);
 			}
 
 			_write(refFile, refContent);
@@ -1126,6 +1200,10 @@ public class ServiceBuilder {
 		return idType;
 	}
 
+	public String getGenericValue(JavaClass javaClass) {
+		return StringUtil.replace(javaClass.getFullyQualifiedName(), '$', '.');
+	}
+
 	public String getJavadocComment(JavaClass javaClass) {
 		return _formatComment(
 			javaClass.getComment(), javaClass.getTags(), StringPool.BLANK);
@@ -1136,36 +1214,41 @@ public class ServiceBuilder {
 			javaMethod.getComment(), javaMethod.getTags(), StringPool.TAB);
 	}
 
-	public String getListActualTypeArguments(Type type) {
-		if (type.getValue().equals("java.util.List")) {
-			Type[] types = type.getActualTypeArguments();
+	public String getListActualTypeArguments(
+		DefaultJavaParameterizedType defaultJavaParameterizedType) {
+
+		String typeName = defaultJavaParameterizedType.getFullyQualifiedName();
+
+		if (typeName.equals("java.util.List")) {
+			List<JavaType> types =
+				defaultJavaParameterizedType.getActualTypeArguments();
 
 			if (types != null) {
-				return getTypeGenericsName(types[0]);
+				return getTypeGenericsName(types.get(0));
 			}
 		}
 
-		return getTypeGenericsName(type);
+		return getTypeGenericsName(defaultJavaParameterizedType);
 	}
 
-	public String getLiteralClass(Type type) {
-		StringBundler sb = new StringBundler(type.getDimensions() + 2);
+	public String getLiteralClass(
+		DefaultJavaParameterizedType defaultJavaParameterizedType) {
 
-		sb.append(type.getValue());
+		StringBundler sb = new StringBundler(
+			defaultJavaParameterizedType.getDimensions() + 2);
 
-		for (int i = 0; i < type.getDimensions(); i++) {
-			sb.append("[]");
-		}
+		sb.append(defaultJavaParameterizedType.getFullyQualifiedName());
 
 		sb.append(".class");
 
 		return sb.toString();
 	}
 
-	public List<EntityColumn> getMappingEntities(String mappingTable)
+	public Map<String, List<EntityColumn>> getMappingEntities(
+			String mappingTable)
 		throws Exception {
 
-		List<EntityColumn> mappingEntitiesPKList = new ArrayList<>();
+		Map<String, List<EntityColumn>> mappingEntities = new LinkedHashMap<>();
 
 		EntityMapping entityMapping = _entityMappings.get(mappingTable);
 
@@ -1176,14 +1259,15 @@ public class ServiceBuilder {
 				return null;
 			}
 
-			mappingEntitiesPKList.addAll(entity.getPKList());
+			mappingEntities.put(entity.getName(), entity.getPKList());
 		}
 
-		return mappingEntitiesPKList;
+		return mappingEntities;
 	}
 
 	public int getMaxLength(String model, String field) {
-		Map<String, String> hints = ModelHintsUtil.getHints(model, field);
+		Map<String, String> hints = ModelHintsUtil.getHints(
+			_apiPackagePath + ".model." + model, field);
 
 		if (hints == null) {
 			return _DEFAULT_COLUMN_MAX_LENGTH;
@@ -1214,7 +1298,7 @@ public class ServiceBuilder {
 	}
 
 	public String getParameterType(JavaParameter parameter) {
-		Type returnType = parameter.getType();
+		JavaType returnType = parameter.getType();
 
 		return getTypeGenericsName(returnType);
 	}
@@ -1266,8 +1350,32 @@ public class ServiceBuilder {
 		return StringPool.BLANK;
 	}
 
+	public String getPrimitiveType(String type) {
+		if (type.equals("Boolean")) {
+			return "boolean";
+		}
+		else if (type.equals("Double")) {
+			return "double";
+		}
+		else if (type.equals("Float")) {
+			return "float";
+		}
+		else if (type.equals("Integer")) {
+			return "int";
+		}
+		else if (type.equals("Long")) {
+			return "long";
+		}
+		else if (type.equals("Short")) {
+			return "short";
+		}
+		else {
+			return type;
+		}
+	}
+
 	public String getReturnType(JavaMethod method) {
-		Type returnType = method.getReturnType();
+		JavaType returnType = method.getReturnType();
 
 		return getTypeGenericsName(returnType);
 	}
@@ -1279,22 +1387,23 @@ public class ServiceBuilder {
 		boolean foundMethod = false;
 
 		for (JavaMethod method : methods) {
-			JavaParameter[] parameters = method.getParameters();
+			List<JavaParameter> parameters = method.getParameters();
 
 			if (method.getName().equals(methodName) &&
-				(parameters.length == args.size())) {
+				(parameters.size() == args.size())) {
 
-				for (int i = 0; i < parameters.length; i++) {
-					JavaParameter parameter = parameters[i];
+				for (int i = 0; i < parameters.size(); i++) {
+					JavaParameter parameter = parameters.get(i);
 
 					String arg = args.get(i);
 
 					if (getParameterType(parameter).equals(arg)) {
 						exceptions = ListUtil.copy(exceptions);
 
-						Type[] methodExceptions = method.getExceptions();
+						List<JavaClass> methodExceptions =
+							method.getExceptions();
 
-						for (Type methodException : methodExceptions) {
+						for (JavaClass methodException : methodExceptions) {
 							String exception = methodException.getValue();
 
 							if (exception.equals(
@@ -1358,6 +1467,9 @@ public class ServiceBuilder {
 		else if (type.equals("Date")) {
 			return "TIMESTAMP";
 		}
+		else if (type.equals("String")) {
+			return "VARCHAR";
+		}
 		else {
 			return null;
 		}
@@ -1405,28 +1517,38 @@ public class ServiceBuilder {
 		}
 	}
 
-	public String getTypeGenericsName(Type type) {
+	public String getTypeGenericsName(JavaType javaType) {
 		StringBundler sb = new StringBundler();
 
-		sb.append(type.getValue());
-
-		Type[] actualTypeArguments = type.getActualTypeArguments();
-
-		if (actualTypeArguments != null) {
-			sb.append(StringPool.LESS_THAN);
-
-			for (Type actualTypeArgument : actualTypeArguments) {
-				sb.append(getTypeGenericsName(actualTypeArgument));
-
-				sb.append(StringPool.COMMA_AND_SPACE);
-			}
-
-			sb.setIndex(sb.index() - 1);
-
-			sb.append(StringPool.GREATER_THAN);
+		if (!(javaType instanceof DefaultJavaParameterizedType)) {
+			return javaType.getFullyQualifiedName();
 		}
 
-		sb.append(getDimensions(type.getDimensions()));
+		DefaultJavaParameterizedType defaultJavaParameterizedType =
+			(DefaultJavaParameterizedType)javaType;
+
+		List<JavaType> actualTypeArguments =
+			defaultJavaParameterizedType.getActualTypeArguments();
+
+		if (ListUtil.isEmpty(actualTypeArguments)) {
+			return javaType.getFullyQualifiedName();
+		}
+
+		sb.append(javaType.getFullyQualifiedName());
+
+		sb.append(StringPool.LESS_THAN);
+
+		for (JavaType actualTypeArgument : actualTypeArguments) {
+			sb.append(getTypeGenericsName(actualTypeArgument));
+
+			sb.append(StringPool.COMMA_AND_SPACE);
+		}
+
+		sb.setIndex(sb.index() - 1);
+
+		sb.append(StringPool.GREATER_THAN);
+
+		sb.append(getDimensions(defaultJavaParameterizedType.getDimensions()));
 
 		return sb.toString();
 	}
@@ -1487,18 +1609,20 @@ public class ServiceBuilder {
 				 methodName.equals("fetchByPrimaryKey") ||
 				 methodName.equals("remove")) {
 
-			JavaParameter[] parameters = method.getParameters();
+			List<JavaParameter> parameters = method.getParameters();
 
-			if ((parameters.length == 1) &&
-				parameters[0].getName().equals("primaryKey")) {
+			if (parameters.size() == 1) {
+				JavaParameter parameter = parameters.get(0);
 
-				return true;
+				if (parameter.getName().equals("primaryKey")) {
+					return true;
+				}
 			}
 
 			if (methodName.equals("remove")) {
-				Type[] methodExceptions = method.getExceptions();
+				List<JavaClass> methodExceptions = method.getExceptions();
 
-				for (Type methodException : methodExceptions) {
+				for (JavaClass methodException : methodExceptions) {
 					String exception = methodException.getValue();
 
 					if (exception.contains("NoSuch")) {
@@ -1517,9 +1641,13 @@ public class ServiceBuilder {
 		String methodName = method.getName();
 
 		if (methodName.equals("afterPropertiesSet") ||
+			methodName.equals("clearService") ||
 			methodName.equals("destroy") || methodName.equals("equals") ||
-			methodName.equals("getClass") || methodName.equals("hashCode") ||
-			methodName.equals("notify") || methodName.equals("notifyAll") ||
+			methodName.equals("getClass") || methodName.equals("getService") ||
+			methodName.equals("getWrappedService") ||
+			methodName.equals("hashCode") || methodName.equals("notify") ||
+			methodName.equals("notifyAll") ||
+			methodName.equals("setWrappedService") ||
 			methodName.equals("toString") || methodName.equals("wait")) {
 
 			return false;
@@ -1527,37 +1655,68 @@ public class ServiceBuilder {
 		else if (methodName.equals("getPermissionChecker")) {
 			return false;
 		}
-		else if (methodName.equals("getUser") &&
-				 (method.getParameters().length == 0)) {
+		else if (methodName.equals("getUser") ||
+				 methodName.equals("getUserId")) {
 
-			return false;
-		}
-		else if (methodName.equals("getUserId") &&
-				 (method.getParameters().length == 0)) {
+			List<JavaParameter> parameters = method.getParameters();
 
-			return false;
+			if (parameters.isEmpty()) {
+				return false;
+			}
 		}
-		else if (methodName.endsWith("Finder") &&
-				 (methodName.startsWith("get") ||
-				  methodName.startsWith("set"))) {
 
-			return false;
-		}
-		else if (methodName.endsWith("Persistence") &&
-				 (methodName.startsWith("get") ||
-				  methodName.startsWith("set"))) {
+		JavaClass javaClass = method.getDeclaringClass();
 
-			return false;
-		}
-		else if (methodName.endsWith("Service") &&
-				 (methodName.startsWith("get") ||
-				  methodName.startsWith("set"))) {
+		String packageName = javaClass.getPackageName();
 
-			return false;
-		}
-		else {
+		if (!packageName.endsWith(".service.base")) {
 			return true;
 		}
+
+		if (!methodName.endsWith("Finder") &&
+			!methodName.endsWith("Persistence") &&
+			!methodName.endsWith("Service")) {
+
+			return true;
+		}
+
+		JavaType javaType = null;
+
+		List<JavaType> parameterTypes = method.getParameterTypes(true);
+		JavaType returnType = method.getReturnType(true);
+
+		if (methodName.startsWith("get")) {
+			if (ListUtil.isEmpty(parameterTypes)) {
+				javaType = returnType;
+			}
+		}
+		else if (methodName.startsWith("set")) {
+			if ((parameterTypes != null) && (parameterTypes.size() == 1)) {
+				javaType = parameterTypes.get(0);
+			}
+		}
+
+		if (javaType == null) {
+			return true;
+		}
+
+		String typeClassName = javaType.getFullyQualifiedName();
+
+		int index = typeClassName.lastIndexOf(CharPool.PERIOD);
+
+		if (index == -1) {
+			return true;
+		}
+
+		String typePackageName = typeClassName.substring(0, index);
+
+		if (typePackageName.endsWith(".persistence") ||
+			typePackageName.endsWith(".service")) {
+
+			return false;
+		}
+
+		return true;
 	}
 
 	public boolean isHBMCamelCasePropertyAccessor(String propertyName) {
@@ -1583,6 +1742,20 @@ public class ServiceBuilder {
 	public boolean isReadOnlyMethod(
 		JavaMethod method, List<String> txRequiredList, String[] prefixes) {
 
+		List<JavaAnnotation> javaAnnotations = method.getAnnotations();
+
+		if (javaAnnotations != null) {
+			for (JavaAnnotation javaAnnotation : javaAnnotations) {
+				JavaClass type = javaAnnotation.getType();
+
+				String className = type.getFullyQualifiedName();
+
+				if (className.equals(Transactional.class.getName())) {
+					return false;
+				}
+			}
+		}
+
 		String methodName = method.getName();
 
 		if (isTxRequiredMethod(method, txRequiredList)) {
@@ -1605,20 +1778,22 @@ public class ServiceBuilder {
 	}
 
 	public boolean isSoapMethod(JavaMethod method) {
-		Type returnType = method.getReturnType();
+		JavaType returnType = method.getReturnType();
 
 		String returnTypeGenericsName = getTypeGenericsName(returnType);
-		String returnValueName = returnType.getValue();
+		String returnValueName = returnType.getFullyQualifiedName();
 
 		if (returnTypeGenericsName.contains(
 				"com.liferay.portal.kernel.search.") ||
-			returnTypeGenericsName.contains("com.liferay.portal.model.Theme") ||
 			returnTypeGenericsName.contains(
-				"com.liferay.portlet.social.model.SocialActivityDefinition") ||
+				"com.liferay.portal.kernel.model.Theme") ||
+			returnTypeGenericsName.contains(
+				"com.liferay.social.kernel.model.SocialActivityDefinition") ||
 			returnTypeGenericsName.equals("java.util.List<java.lang.Object>") ||
-			returnValueName.equals("com.liferay.portal.model.Lock") ||
 			returnValueName.equals(
-				"com.liferay.portlet.messageboards.model.MBMessageDisplay") ||
+				"com.liferay.portal.kernel.lock.model.Lock") ||
+			returnValueName.equals(
+				"com.liferay.message.boards.kernel.model.MBMessageDisplay") ||
 			returnValueName.startsWith("java.io") ||
 			returnValueName.equals("java.util.Map") ||
 			returnValueName.equals("java.util.Properties") ||
@@ -1638,17 +1813,17 @@ public class ServiceBuilder {
 			return false;
 		}
 
-		JavaParameter[] parameters = method.getParameters();
+		List<JavaParameter> parameters = method.getParameters();
 
 		for (JavaParameter javaParameter : parameters) {
-			Type type = javaParameter.getType();
+			JavaType type = javaParameter.getType();
 
-			String parameterTypeName = type.getValue() + _getDimensions(type);
+			String parameterTypeName = type.getFullyQualifiedName();
 
 			if (parameterTypeName.equals(
 					"com.liferay.portal.kernel.util.UnicodeProperties") ||
 				parameterTypeName.equals(
-					"com.liferay.portal.theme.ThemeDisplay") ||
+					"com.liferay.portal.kernel.theme.ThemeDisplay") ||
 				parameterTypeName.equals(
 					"com.liferay.portlet.PortletPreferencesImpl") ||
 				parameterTypeName.equals(
@@ -1683,20 +1858,93 @@ public class ServiceBuilder {
 		return false;
 	}
 
+	public String javaAnnotationToString(JavaAnnotation javaAnnotation) {
+		StringBundler sb = new StringBundler();
+
+		sb.append(StringPool.AT);
+
+		JavaClass type = javaAnnotation.getType();
+
+		sb.append(type.getFullyQualifiedName());
+
+		Map<String, Object> namedParameters =
+			javaAnnotation.getNamedParameterMap();
+
+		if (namedParameters.isEmpty()) {
+			return sb.toString();
+		}
+
+		sb.append(StringPool.OPEN_PARENTHESIS);
+
+		for (Map.Entry<String, Object> entry : namedParameters.entrySet()) {
+			sb.append(entry.getKey());
+
+			sb.append(StringPool.EQUAL);
+
+			Object value = entry.getValue();
+
+			if (value instanceof List) {
+				List<?> values = (List<?>)value;
+
+				sb.append(StringPool.OPEN_CURLY_BRACE);
+
+				for (Object object : values) {
+					if (object instanceof JavaAnnotation) {
+						sb.append(
+							javaAnnotationToString((JavaAnnotation)object));
+					}
+					else {
+						sb.append(object);
+					}
+
+					sb.append(StringPool.COMMA_AND_SPACE);
+				}
+
+				if (!values.isEmpty()) {
+					sb.setIndex(sb.index() - 1);
+				}
+
+				sb.append(StringPool.CLOSE_CURLY_BRACE);
+			}
+			else {
+				sb.append(value);
+			}
+
+			sb.append(StringPool.COMMA_AND_SPACE);
+		}
+
+		sb.setIndex(sb.index() - 1);
+
+		sb.append(StringPool.CLOSE_PARENTHESIS);
+
+		return sb.toString();
+	}
+
 	private static SAXReader _getSAXReader() {
 		return SAXReaderFactory.getSAXReader(null, false, false);
+	}
+
+	private static void _mkdir(File dir) throws IOException {
+		Files.createDirectories(dir.toPath());
 	}
 
 	private static void _move(File sourceFile, File destinationFile)
 		throws IOException {
 
-		Path destinationPath = destinationFile.toPath();
+		File parentFile = destinationFile.getParentFile();
 
-		if (!Files.exists(destinationPath)) {
-			Files.createDirectories(destinationPath);
+		Path parentPath = parentFile.toPath();
+
+		if (!Files.exists(parentPath)) {
+			Files.createDirectories(parentPath);
 		}
 
-		Files.move(sourceFile.toPath(), destinationPath);
+		Files.move(sourceFile.toPath(), destinationFile.toPath());
+	}
+
+	private static String _normalize(String fileName) {
+		return StringUtil.replace(
+			fileName, CharPool.BACK_SLASH, CharPool.SLASH);
 	}
 
 	private static String _read(File file) throws IOException {
@@ -1708,7 +1956,7 @@ public class ServiceBuilder {
 	}
 
 	private static void _readResourceActionModels(
-			String implDir, InputStream inputStream,
+			String implDir, String resourcesDir, InputStream inputStream,
 			Set<String> resourceActionModels)
 		throws Exception {
 
@@ -1723,7 +1971,7 @@ public class ServiceBuilder {
 		for (Element resourceElement : resourceElements) {
 			resourceActionModels.addAll(
 				readResourceActionModels(
-					implDir,
+					implDir, resourcesDir,
 					new String[] {resourceElement.attributeValue("file")}));
 		}
 
@@ -1737,6 +1985,8 @@ public class ServiceBuilder {
 	}
 
 	private static void _touch(File file) throws IOException {
+		_mkdir(file.getParentFile());
+
 		Files.createFile(file.toPath());
 	}
 
@@ -1786,40 +2036,8 @@ public class ServiceBuilder {
 		}
 	}
 
-	private void _createActionableDynamicQuery(Entity entity) throws Exception {
-		if (_osgiModule) {
-			return;
-		}
-
-		Map<String, Object> context = _getContext();
-
-		context.put("entity", entity);
-
-		// Content
-
-		String content = _processTemplate(_tplActionableDynamicQuery, context);
-
-		// Write file
-
-		File ejbFile = new File(
-			_serviceOutputPath + "/service/persistence/" +
-				entity.getName() + "ActionableDynamicQuery.java");
-
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
-	}
-
 	private void _createBlobModels(Entity entity) throws Exception {
-		List<EntityColumn> blobList = new ArrayList<>(entity.getBlobList());
-
-		Iterator<EntityColumn> itr = blobList.iterator();
-
-		while (itr.hasNext()) {
-			EntityColumn col = itr.next();
-
-			if (!col.isLazy()) {
-				itr.remove();
-			}
-		}
+		List<EntityColumn> blobList = _getBlobList(entity);
 
 		if (blobList.isEmpty()) {
 			return;
@@ -1843,18 +2061,25 @@ public class ServiceBuilder {
 					col.getMethodName() + "BlobModel.java");
 
 			ToolsUtil.writeFile(
-				blobModelFile, content, _author, _modifiedFileNames);
+				blobModelFile, content, _author, _jalopySettings,
+				_modifiedFileNames);
 		}
 	}
 
 	private void _createEJBPK(Entity entity) throws Exception {
+		List<EntityColumn> pkList = entity.getPKList();
+
+		if (pkList.size() <= 1) {
+			return;
+		}
+
 		Map<String, Object> context = _getContext();
 
 		context.put("entity", entity);
 
 		// Content
 
-		String content = _processTemplate(_tplEjbPk, context);
+		String content = _processTemplate(_tplEjbPK, context);
 
 		// Write file
 
@@ -1862,13 +2087,12 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/persistence/" +
 				entity.getPKClassName() + ".java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createExceptions(List<String> exceptions) throws Exception {
-		for (int i = 0; i < _ejbList.size(); i++) {
-			Entity entity = _ejbList.get(i);
-
+		for (Entity entity : _ejbList) {
 			if (!_isTargetEntity(entity)) {
 				continue;
 			}
@@ -1879,15 +2103,54 @@ public class ServiceBuilder {
 		}
 
 		for (String exception : exceptions) {
-			String dirName = StringPool.BLANK;
+			File oldExceptionFile = new File(
+				_oldServiceOutputPath + "/" + exception + "Exception.java");
 
-			if (_osgiModule) {
-				dirName = "exception/";
+			if (!oldExceptionFile.exists()) {
+				oldExceptionFile = new File(
+					_oldServiceOutputPath + "/exception/" + exception +
+						"Exception.java");
+			}
+
+			if (!oldExceptionFile.exists()) {
+				oldExceptionFile = new File(
+					_serviceOutputPath + "/" + exception + "Exception.java");
 			}
 
 			File exceptionFile = new File(
-				_serviceOutputPath + "/" + dirName + exception +
+				_serviceOutputPath + "/exception/" + exception +
 					"Exception.java");
+
+			if (oldExceptionFile.exists() &&
+				!oldExceptionFile.equals(exceptionFile)) {
+
+				exceptionFile.delete();
+
+				Files.createDirectories(
+					Paths.get(_serviceOutputPath, "exception"));
+
+				Files.move(oldExceptionFile.toPath(), exceptionFile.toPath());
+
+				String content = _read(exceptionFile);
+
+				content = StringUtil.replace(
+					content,
+					new String[] {
+						"package " + _packagePath + ";",
+						"package " + _packagePath + ".exception;",
+						"package " + _apiPackagePath + ";",
+						"com.liferay.portal.NoSuchModelException"
+					},
+					new String[] {
+						"package " + _apiPackagePath + ".exception;",
+						"package " + _apiPackagePath + ".exception;",
+						"package " + _apiPackagePath + ".exception;",
+						"com.liferay.portal.kernel.exception." +
+							"NoSuchModelException"
+					});
+
+				_write(exceptionFile, content);
+			}
 
 			if (!exceptionFile.exists()) {
 				Map<String, Object> context = _getContext();
@@ -1899,9 +2162,6 @@ public class ServiceBuilder {
 				if (exception.startsWith("NoSuch")) {
 					content = StringUtil.replace(
 						content, "PortalException", "NoSuchModelException");
-					content = StringUtil.replace(
-						content, "kernel.exception.NoSuchModelException",
-						"NoSuchModelException");
 				}
 
 				content = StringUtil.replace(content, "\r\n", "\n");
@@ -1917,8 +2177,18 @@ public class ServiceBuilder {
 					content = StringUtil.replace(
 						content, "PortalException", "NoSuchModelException");
 					content = StringUtil.replace(
-						content, "kernel.exception.NoSuchModelException",
-						"NoSuchModelException");
+						content, "portal.exception.NoSuchModelException",
+						"portal.kernel.exception.NoSuchModelException");
+
+					ToolsUtil.writeFileRaw(
+						exceptionFile, content, _modifiedFileNames);
+				}
+				else if (content.contains(
+							"portal.exception.NoSuchModelException")) {
+
+					content = StringUtil.replace(
+						content, "portal.exception.NoSuchModelException",
+						"portal.kernel.exception.NoSuchModelException");
 
 					ToolsUtil.writeFileRaw(
 						exceptionFile, content, _modifiedFileNames);
@@ -1927,42 +2197,26 @@ public class ServiceBuilder {
 		}
 	}
 
-	private void _createExportActionableDynamicQuery(Entity entity)
-		throws Exception {
-
-		if (_osgiModule) {
-			return;
-		}
-
-		Map<String, Object> context = _getContext();
-
-		context.put("entity", entity);
-
-		// Content
-
-		String content = _processTemplate(
-			_tplExportActionableDynamicQuery, context);
-
-		// Write file
-
-		File ejbFile = new File(
-			_serviceOutputPath + "/service/persistence/" +
-				entity.getName() + "ExportActionableDynamicQuery.java");
-
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
-	}
-
 	private void _createExtendedModel(Entity entity) throws Exception {
 		JavaClass modelImplJavaClass = _getJavaClass(
 			_outputPath + "/model/impl/" + entity.getName() + "Impl.java");
 
-		List<JavaMethod> methods = ListUtil.fromArray(
-			_getMethods(modelImplJavaClass));
+		Map<String, JavaMethod> methods = new LinkedHashMap<>();
 
-		Iterator<JavaMethod> itr = methods.iterator();
+		for (JavaMethod method : _getMethods(modelImplJavaClass)) {
+			String methodSignature = _getMethodSignature(method, false);
+
+			methods.put(methodSignature, method);
+		}
+
+		Set<Map.Entry<String, JavaMethod>> entrySet = methods.entrySet();
+
+		Iterator<Map.Entry<String, JavaMethod>> itr = entrySet.iterator();
 
 		while (itr.hasNext()) {
-			JavaMethod method = itr.next();
+			Map.Entry<String, JavaMethod> entry = itr.next();
+
+			JavaMethod method = entry.getValue();
 
 			String methodName = method.getName();
 
@@ -1975,13 +2229,15 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/model/" + entity.getName() + "Model.java");
 
 		for (JavaMethod method : _getMethods(modelJavaClass)) {
-			methods.remove(method);
+			String methodSignature = _getMethodSignature(method, false);
+
+			methods.remove(methodSignature);
 		}
 
 		Map<String, Object> context = _getContext();
 
 		context.put("entity", entity);
-		context.put("methods", methods.toArray(new Object[methods.size()]));
+		context.put("methods", methods.values());
 
 		context = _putDeprecatedKeys(context, modelJavaClass);
 
@@ -1994,7 +2250,8 @@ public class ServiceBuilder {
 		File modelFile = new File(
 			_serviceOutputPath + "/model/" + entity.getName() + ".java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createExtendedModelBaseImpl(Entity entity) throws Exception {
@@ -2016,7 +2273,8 @@ public class ServiceBuilder {
 		File modelFile = new File(
 			_outputPath + "/model/impl/" + entity.getName() + "BaseImpl.java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createExtendedModelImpl(Entity entity) throws Exception {
@@ -2045,13 +2303,14 @@ public class ServiceBuilder {
 		}
 		else {
 			ToolsUtil.writeFile(
-				modelFile, content, _author, _modifiedFileNames);
+				modelFile, content, _author, _jalopySettings,
+				_modifiedFileNames);
 		}
 	}
 
 	private void _createFinder(Entity entity) throws Exception {
 		if (!entity.hasFinderClass()) {
-			_removeFinder(entity);
+			_removeFinder(entity, _serviceOutputPath);
 
 			return;
 		}
@@ -2077,7 +2336,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/persistence/" + entity.getName() +
 				"Finder.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createFinderBaseImpl(Entity entity) throws Exception {
@@ -2127,12 +2387,13 @@ public class ServiceBuilder {
 			_outputPath + "/service/persistence/impl/" + entity.getName() +
 				"FinderBaseImpl.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createFinderUtil(Entity entity) throws Exception {
 		if (!entity.hasFinderClass() || _osgiModule) {
-			_removeFinderUtil(entity);
+			_removeFinderUtil(entity, _serviceOutputPath);
 
 			return;
 		}
@@ -2158,7 +2419,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/persistence/" + entity.getName() +
 				"FinderUtil.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createHbm(Entity entity) {
@@ -2186,41 +2448,76 @@ public class ServiceBuilder {
 	}
 
 	private void _createHbmXml() throws Exception {
+		File xmlFile = new File(_hbmFileName);
+
+		List<Entity> entities = new ArrayList<>();
+
+		boolean hasDeprecated = false;
+
+		for (Entity entity : _ejbList) {
+			if (entity.hasColumns()) {
+				if (entity.isDeprecated()) {
+					hasDeprecated = true;
+				}
+				else {
+					entities.add(entity);
+				}
+			}
+		}
+
+		if (entities.isEmpty()) {
+			if (!hasDeprecated) {
+				xmlFile.delete();
+			}
+
+			return;
+		}
+
 		Map<String, Object> context = _getContext();
 
-		context.put("entities", _ejbList);
+		context.put("entities", entities);
 
 		// Content
 
 		String content = _processTemplate(_tplHbmXml, context);
 
 		int lastImportStart = content.lastIndexOf("<import class=");
+
 		int lastImportEnd = content.indexOf("/>", lastImportStart) + 3;
 
 		String imports = content.substring(0, lastImportEnd);
 
 		content = content.substring(lastImportEnd + 1);
 
-		File xmlFile = new File(_hbmFileName);
-
 		if (!xmlFile.exists()) {
-			String xml =
-				"<?xml version=\"1.0\"?>\n" +
-				"<!DOCTYPE hibernate-mapping PUBLIC \"-//Hibernate/Hibernate Mapping DTD 3.0//EN\" \"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd\">\n" +
-				"\n" +
-				"<hibernate-mapping default-lazy=\"false\" auto-import=\"false\">\n" +
-				"</hibernate-mapping>";
+			StringBundler sb = new StringBundler(5);
+
+			sb.append("<?xml version=\"1.0\"?>\n");
+			sb.append("<!DOCTYPE hibernate-mapping PUBLIC \"-//Hibernate/Hibernate Mapping DTD 3.0//EN\" \"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd\">\n");
+			sb.append("\n");
+			sb.append("<hibernate-mapping auto-import=\"false\" default-lazy=\"false\">\n");
+			sb.append("</hibernate-mapping>");
+
+			String xml = sb.toString();
 
 			_write(xmlFile, xml);
 		}
 
 		String oldContent = _read(xmlFile);
+
 		String newContent = _fixHbmXml(oldContent);
 
 		int firstImport = newContent.indexOf(
 			"<import class=\"" + _packagePath + ".model.");
 		int lastImport = newContent.lastIndexOf(
 			"<import class=\"" + _packagePath + ".model.");
+
+		if (firstImport == -1) {
+			firstImport = newContent.indexOf(
+				"<import class=\"" + _apiPackagePath + ".model.");
+			lastImport = newContent.lastIndexOf(
+				"<import class=\"" + _apiPackagePath + ".model.");
+		}
 
 		if (firstImport == -1) {
 			int x = newContent.indexOf("<class");
@@ -2243,10 +2540,13 @@ public class ServiceBuilder {
 					newContent.substring(lastImport);
 		}
 
-		int firstClass = newContent.indexOf(
-			"<class name=\"" + _packagePath + ".model.");
+		int firstClass = newContent.lastIndexOf(
+			"<class ",
+			newContent.indexOf(" name=\"" + _packagePath + ".model.") - 6);
+
 		int lastClass = newContent.lastIndexOf(
-			"<class name=\"" + _packagePath + ".model.");
+			"<class ",
+			newContent.lastIndexOf(" name=\"" + _packagePath + ".model.") - 6);
 
 		if (firstClass == -1) {
 			int x = newContent.indexOf("</hibernate-mapping>");
@@ -2289,7 +2589,9 @@ public class ServiceBuilder {
 		File modelFile = new File(
 			_serviceOutputPath + "/model/" + entity.getName() + "Model.java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames,
+			_apiPackagePath + ".model");
 	}
 
 	private void _createModelCache(Entity entity) throws Exception {
@@ -2298,8 +2600,8 @@ public class ServiceBuilder {
 
 		Map<String, Object> context = _getContext();
 
-		context.put("entity", entity);
 		context.put("cacheFields", _getCacheFields(modelImplJavaClass));
+		context.put("entity", entity);
 
 		context = _putDeprecatedKeys(context, modelImplJavaClass);
 
@@ -2313,7 +2615,8 @@ public class ServiceBuilder {
 			_outputPath + "/model/impl/" + entity.getName() +
 				"CacheModel.java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createModelClp(Entity entity) throws Exception {
@@ -2324,13 +2627,13 @@ public class ServiceBuilder {
 		JavaClass modelImplJavaClass = _getJavaClass(
 			_outputPath + "/model/impl/" + entity.getName() + "Impl.java");
 
-		Map<String, JavaMethod> methods = new HashMap<>();
+		Map<String, JavaMethod> methods = new LinkedHashMap<>();
 
 		for (JavaMethod method : modelImplJavaClass.getMethods()) {
 			methods.put(method.getDeclarationSignature(false), method);
 		}
 
-		Type superClass = modelImplJavaClass.getSuperClass();
+		JavaType superClass = modelImplJavaClass.getSuperClass();
 
 		String superClassValue = superClass.getValue();
 
@@ -2345,10 +2648,17 @@ public class ServiceBuilder {
 				_outputPath + "/model/impl/" + superClassValue + ".java");
 
 			for (JavaMethod method : _getMethods(javaClass)) {
+				String methodName = method.getName();
+
+				if (methodName.equals("hasSetModifiedDate")) {
+					continue;
+				}
+
 				methods.remove(method.getDeclarationSignature(false));
 			}
 
 			superClass = javaClass.getSuperClass();
+
 			superClassValue = superClass.getValue();
 		}
 
@@ -2366,7 +2676,8 @@ public class ServiceBuilder {
 		File modelFile = new File(
 			_serviceOutputPath + "/model/" + entity.getName() + "Clp.java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createModelHintsXml() throws Exception {
@@ -2381,22 +2692,26 @@ public class ServiceBuilder {
 		File xmlFile = new File(_modelHintsFileName);
 
 		if (!xmlFile.exists()) {
-			String xml =
-				"<?xml version=\"1.0\"?>\n" +
-				"\n" +
-				"<model-hints>\n" +
-				"</model-hints>";
-
-			_write(xmlFile, xml);
+			_write(
+				xmlFile,
+				"<?xml version=\"1.0\"?>\n\n<model-hints>\n</model-hints>");
 		}
 
 		String oldContent = _read(xmlFile);
+
 		String newContent = oldContent;
 
 		int firstModel = newContent.indexOf(
 			"<model name=\"" + _packagePath + ".model.");
 		int lastModel = newContent.lastIndexOf(
 			"<model name=\"" + _packagePath + ".model.");
+
+		if (firstModel == -1) {
+			firstModel = newContent.indexOf(
+				"<model name=\"" + _apiPackagePath + ".model.");
+			lastModel = newContent.lastIndexOf(
+				"<model name=\"" + _apiPackagePath + ".model.");
+		}
 
 		if (firstModel == -1) {
 			int x = newContent.indexOf("</model-hints>");
@@ -2423,8 +2738,21 @@ public class ServiceBuilder {
 
 		Map<String, Object> context = _getContext();
 
-		context.put("entity", entity);
+		boolean hasClassNameCacheField = false;
+
+		JavaField[] cacheFields = _getCacheFields(modelImplJavaClass);
+
+		for (JavaField javaField : cacheFields) {
+			if ("_className".equals(javaField.getName())) {
+				hasClassNameCacheField = true;
+
+				break;
+			}
+		}
+
 		context.put("cacheFields", _getCacheFields(modelImplJavaClass));
+		context.put("entity", entity);
+		context.put("hasClassNameCacheField", hasClassNameCacheField);
 
 		context = _putDeprecatedKeys(context, modelImplJavaClass);
 
@@ -2437,7 +2765,8 @@ public class ServiceBuilder {
 		File modelFile = new File(
 			_outputPath + "/model/impl/" + entity.getName() + "ModelImpl.java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createModelSoap(Entity entity) throws Exception {
@@ -2459,14 +2788,15 @@ public class ServiceBuilder {
 
 		// Write file
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createModelWrapper(Entity entity) throws Exception {
 		JavaClass modelJavaClass = _getJavaClass(
 			_serviceOutputPath + "/model/" + entity.getName() + "Model.java");
 
-		JavaMethod[] methods = _getMethods(modelJavaClass);
+		List<JavaMethod> methods = _getMethods(modelJavaClass);
 
 		JavaClass extendedModelBaseImplJavaClass = _getJavaClass(
 			_outputPath + "/model/impl/" + entity.getName() + "BaseImpl.java");
@@ -2496,7 +2826,8 @@ public class ServiceBuilder {
 		File modelFile = new File(
 			_serviceOutputPath + "/model/" + entity.getName() + "Wrapper.java");
 
-		ToolsUtil.writeFile(modelFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			modelFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createPersistence(Entity entity) throws Exception {
@@ -2521,7 +2852,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/persistence/" + entity.getName() +
 				"Persistence.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createPersistenceImpl(Entity entity) throws Exception {
@@ -2537,11 +2869,7 @@ public class ServiceBuilder {
 
 		// Content
 
-		Logger.selectLoggerLibrary(Logger.LIBRARY_NONE);
-
 		String content = _processTemplate(_tplPersistenceImpl, context);
-
-		Logger.selectLoggerLibrary(Logger.LIBRARY_AUTO);
 
 		// Write file
 
@@ -2549,7 +2877,8 @@ public class ServiceBuilder {
 			_outputPath + "/service/persistence/impl/" + entity.getName() +
 				"PersistenceImpl.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 
 		ejbFile = new File(
 			_outputPath + "/service/persistence/" + entity.getName() +
@@ -2563,26 +2892,28 @@ public class ServiceBuilder {
 	}
 
 	private void _createPersistenceTest(Entity entity) throws Exception {
-		Map<String, Object> context = _getContext();
-
-		context.put("entity", entity);
-
-		JavaClass modelImplJavaClass = _getJavaClass(
-			_outputPath + "/model/impl/" + entity.getName() + "Impl.java");
-
-		context = _putDeprecatedKeys(context, modelImplJavaClass);
-
-		// Content
-
-		String content = _processTemplate(_tplPersistenceTest, context);
-
-		// Write file
-
 		File ejbFile = new File(
 			_testOutputPath + "/service/persistence/test/" + entity.getName() +
 				"PersistenceTest.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		if (entity.isDeprecated()) {
+			ejbFile.delete();
+		}
+		else {
+			Map<String, Object> context = _getContext();
+
+			context.put("entity", entity);
+
+			JavaClass modelImplJavaClass = _getJavaClass(
+				_outputPath + "/model/impl/" + entity.getName() + "Impl.java");
+
+			context = _putDeprecatedKeys(context, modelImplJavaClass);
+
+			String content = _processTemplate(_tplPersistenceTest, context);
+
+			ToolsUtil.writeFile(
+				ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
+		}
 
 		ejbFile = new File(
 			_testOutputPath + "/service/persistence/" + entity.getName() +
@@ -2617,7 +2948,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/persistence/" + entity.getName() +
 				"Util.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createPool(Entity entity) {
@@ -2697,11 +3029,11 @@ public class ServiceBuilder {
 
 		JavaSource javaSource = javaClass.getSource();
 
-		imports.addAll(Arrays.asList(javaSource.getImports()));
+		imports.addAll(javaSource.getImports());
 
-		JavaMethod[] methods = _getMethods(javaClass);
+		List<JavaMethod> methods = _getMethods(javaClass);
 
-		Type superClass = javaClass.getSuperClass();
+		JavaType superClass = javaClass.getSuperClass();
 
 		String superClassValue = superClass.getValue();
 
@@ -2715,7 +3047,7 @@ public class ServiceBuilder {
 
 			JavaSource parentJavaSource = parentJavaClass.getSource();
 
-			imports.addAll(Arrays.asList(parentJavaSource.getImports()));
+			imports.addAll(parentJavaSource.getImports());
 
 			methods = _mergeMethods(
 				methods, parentJavaClass.getMethods(), true);
@@ -2740,7 +3072,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "Service.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceBaseImpl(Entity entity, int sessionType)
@@ -2751,14 +3084,14 @@ public class ServiceBuilder {
 				(sessionType != _SESSION_TYPE_REMOTE ? "Local" : "") +
 					"ServiceImpl.java");
 
-		JavaMethod[] methods = _getMethods(javaClass);
+		List<JavaMethod> methods = _getMethods(javaClass);
 
 		Map<String, Object> context = _getContext();
 
 		context.put("entity", entity);
 		context.put("methods", methods);
-		context.put("sessionTypeName", _getSessionTypeName(sessionType));
 		context.put("referenceList", _mergeReferenceList(entity));
+		context.put("sessionTypeName", _getSessionTypeName(sessionType));
 
 		context = _putDeprecatedKeys(context, javaClass);
 
@@ -2772,7 +3105,8 @@ public class ServiceBuilder {
 			_outputPath + "/service/base/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceBaseImpl.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceClp(Entity entity, int sessionType)
@@ -2804,7 +3138,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceClp.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceClpInvoker(Entity entity, int sessionType)
@@ -2818,9 +3153,9 @@ public class ServiceBuilder {
 			_outputPath + "/service/impl/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceImpl.java");
 
-		JavaMethod[] methods = _getMethods(javaClass);
+		List<JavaMethod> methods = _getMethods(javaClass);
 
-		Type superClass = javaClass.getSuperClass();
+		JavaType superClass = javaClass.getSuperClass();
 
 		String superClassValue = superClass.getValue();
 
@@ -2832,7 +3167,7 @@ public class ServiceBuilder {
 				_outputPath + "/service/base/" + entity.getName() +
 					_getSessionTypeName(sessionType) + "ServiceBaseImpl.java");
 
-			methods = ArrayUtil.append(parentJavaClass.getMethods(), methods);
+			methods.addAll(0, parentJavaClass.getMethods());
 		}
 
 		Map<String, Object> context = _getContext();
@@ -2853,7 +3188,8 @@ public class ServiceBuilder {
 			_outputPath + "/service/base/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceClpInvoker.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceClpMessageListener() throws Exception {
@@ -2875,7 +3211,8 @@ public class ServiceBuilder {
 		File ejbFile = new File(
 			_serviceOutputPath + "/service/messaging/ClpMessageListener.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceClpSerializer(List<String> exceptions)
@@ -2899,12 +3236,13 @@ public class ServiceBuilder {
 		File ejbFile = new File(
 			_serviceOutputPath + "/service/ClpSerializer.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceFactory(Entity entity, int sessionType) {
 		File ejbFile = new File(
-			_serviceOutputPath + "/service/" + entity.getName() +
+			_oldServiceOutputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceFactory.java");
 
 		if (ejbFile.exists()) {
@@ -2932,8 +3270,8 @@ public class ServiceBuilder {
 		Map<String, Object> context = _getContext();
 
 		context.put("entity", entity);
-		context.put("methods", _getMethods(javaClass));
 		context.put("hasHttpMethods", _hasHttpMethods(javaClass));
+		context.put("methods", _getMethods(javaClass));
 
 		context = _putDeprecatedKeys(context, javaClass);
 
@@ -2947,7 +3285,8 @@ public class ServiceBuilder {
 			_outputPath + "/service/http/" + entity.getName() +
 				"ServiceHttp.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceImpl(Entity entity, int sessionType)
@@ -2969,31 +3308,8 @@ public class ServiceBuilder {
 				_getSessionTypeName(sessionType) + "ServiceImpl.java");
 
 		if (!ejbFile.exists()) {
-			ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
-		}
-	}
-
-	private void _createServiceJson(Entity entity) {
-		File ejbFile = new File(
-			_outputPath + "/service/http/" + entity.getName() +
-				"ServiceJSON.java");
-
-		if (ejbFile.exists()) {
-			System.out.println("Removing deprecated " + ejbFile);
-
-			ejbFile.delete();
-		}
-	}
-
-	private void _createServiceJsonSerializer(Entity entity) {
-		File ejbFile = new File(
-			_serviceOutputPath + "/service/http/" + entity.getName() +
-				"JSONSerializer.java");
-
-		if (ejbFile.exists()) {
-			System.out.println("Removing deprecated " + ejbFile);
-
-			ejbFile.delete();
+			ToolsUtil.writeFile(
+				ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 		}
 	}
 
@@ -3003,7 +3319,7 @@ public class ServiceBuilder {
 		}
 
 		File file = new File(
-			_implDirName + "/" + StringUtil.replace(_propsUtil, ".", "/") +
+			_implDirName + "/" + StringUtil.replace(_propsUtil, '.', '/') +
 				".java");
 
 		Map<String, Object> context = _getContext();
@@ -3017,7 +3333,8 @@ public class ServiceBuilder {
 
 		String content = _processTemplate(_tplServicePropsUtil, context);
 
-		ToolsUtil.writeFile(file, content, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			file, content, AUTHOR, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceSoap(Entity entity) throws Exception {
@@ -3042,7 +3359,8 @@ public class ServiceBuilder {
 			_outputPath + "/service/http/" + entity.getName() +
 				"ServiceSoap.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceUtil(Entity entity, int sessionType)
@@ -3070,7 +3388,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceUtil.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createServiceWrapper(Entity entity, int sessionType)
@@ -3098,7 +3417,8 @@ public class ServiceBuilder {
 			_serviceOutputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceWrapper.java");
 
-		ToolsUtil.writeFile(ejbFile, content, _author, _modifiedFileNames);
+		ToolsUtil.writeFile(
+			ejbFile, content, _author, _jalopySettings, _modifiedFileNames);
 	}
 
 	private void _createSpringXml() throws Exception {
@@ -3116,16 +3436,21 @@ public class ServiceBuilder {
 
 		File xmlFile = new File(_springFileName);
 
-		String xml =
-			"<?xml version=\"1.0\"?>\n" +
-			"\n" +
-			"<beans\n" +
-			"\tdefault-destroy-method=\"destroy\"\n" +
-			"\tdefault-init-method=\"afterPropertiesSet\"\n" +
-			_getSpringNamespacesDeclarations() +
-			"\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
-			"\txsi:schemaLocation=\"" + _getSpringSchemaLocations() + "\">\n" +
-			"</beans>";
+		StringBundler sb = new StringBundler(11);
+
+		sb.append("<?xml version=\"1.0\"?>\n\n");
+		sb.append("<beans\n");
+		sb.append("\tdefault-destroy-method=\"destroy\"\n");
+		sb.append("\tdefault-init-method=\"afterPropertiesSet\"\n");
+		sb.append(_getSpringNamespacesDeclarations());
+		sb.append("\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+		sb.append("\n");
+		sb.append("\txsi:schemaLocation=\"");
+		sb.append(_getSpringSchemaLocations());
+		sb.append("\">\n");
+		sb.append("</beans>");
+
+		String xml = sb.toString();
 
 		if (!xmlFile.exists()) {
 			_write(xmlFile, xml);
@@ -3145,10 +3470,18 @@ public class ServiceBuilder {
 		int y = oldContent.lastIndexOf("</beans>");
 
 		int firstSession = newContent.indexOf(
-			"<bean id=\"" + _packagePath + ".service.", x);
+			"<bean class=\"" + _packagePath + ".service.", x);
 
 		int lastSession = newContent.lastIndexOf(
-			"<bean id=\"" + _packagePath + ".service.", y);
+			"<bean class=\"" + _packagePath + ".service.", y);
+
+		if (firstSession == -1) {
+			firstSession = newContent.indexOf(
+				"<bean class=\"" + _apiPackagePath + ".service.", x);
+
+			lastSession = newContent.lastIndexOf(
+				"<bean class=\"" + _apiPackagePath + ".service.", y);
+		}
 
 		if ((firstSession == -1) || (firstSession > y)) {
 			x = newContent.indexOf("</beans>");
@@ -3160,7 +3493,7 @@ public class ServiceBuilder {
 			firstSession = newContent.lastIndexOf("<bean", firstSession) - 1;
 
 			int tempLastSession = newContent.indexOf(
-				"<bean id=\"", lastSession + 1);
+				"<bean class=\"", lastSession + 1);
 
 			if (tempLastSession == -1) {
 				tempLastSession = newContent.indexOf("</beans>", lastSession);
@@ -3181,7 +3514,7 @@ public class ServiceBuilder {
 		File sqlDir = new File(_sqlDirName);
 
 		if (!sqlDir.exists()) {
-			return;
+			_mkdir(sqlDir);
 		}
 
 		// indexes.sql loading
@@ -3239,6 +3572,10 @@ public class ServiceBuilder {
 			}
 
 			if (!entity.isDefaultDataSource()) {
+				continue;
+			}
+
+			if (entity.isDeprecated()) {
 				continue;
 			}
 
@@ -3327,6 +3664,7 @@ public class ServiceBuilder {
 
 		int x = content.indexOf(
 			_SQL_CREATE_TABLE + entityMapping.getTable() + " (");
+
 		int y = content.indexOf(");", x);
 
 		if (x != -1) {
@@ -3352,6 +3690,7 @@ public class ServiceBuilder {
 				while ((line = unsyncBufferedReader.readLine()) != null) {
 					if (appendNewTable && line.startsWith(_SQL_CREATE_TABLE)) {
 						x = _SQL_CREATE_TABLE.length();
+
 						y = line.indexOf(" ", x);
 
 						String tableName = line.substring(x, y);
@@ -3383,7 +3722,7 @@ public class ServiceBuilder {
 		File sqlDir = new File(_sqlDirName);
 
 		if (!sqlDir.exists()) {
-			return;
+			_mkdir(sqlDir);
 		}
 
 		File sqlFile = new File(_sqlDirName + "/" + _sqlSequencesFileName);
@@ -3466,7 +3805,7 @@ public class ServiceBuilder {
 		File sqlDir = new File(_sqlDirName);
 
 		if (!sqlDir.exists()) {
-			return;
+			_mkdir(sqlDir);
 		}
 
 		File sqlFile = new File(_sqlDirName + "/" + _sqlFileName);
@@ -3486,13 +3825,26 @@ public class ServiceBuilder {
 				continue;
 			}
 
+			if (entity.isDeprecated()) {
+				continue;
+			}
+
 			String createTableSQL = _getCreateTableSQL(entity);
 
 			if (Validator.isNotNull(createTableSQL)) {
 				_createSQLTables(sqlFile, createTableSQL, entity, true);
 
-				_updateSQLFile(
-					"update-6.2.0-7.0.0.sql", createTableSQL, entity);
+				List<Path> updateSQLFilePaths = _getUpdateSQLFilePaths();
+
+				for (Path updateSQLFilePath : updateSQLFilePaths) {
+					if ((updateSQLFilePath != null) &&
+						Files.exists(updateSQLFilePath)) {
+
+						_createSQLTables(
+							updateSQLFilePath.toFile(), createTableSQL, entity,
+							false);
+					}
+				}
 			}
 		}
 
@@ -3527,6 +3879,7 @@ public class ServiceBuilder {
 		String content = _read(sqlFile);
 
 		int x = content.indexOf(_SQL_CREATE_TABLE + entity.getTable() + " (");
+
 		int y = content.indexOf(");", x);
 
 		if (x != -1) {
@@ -3552,6 +3905,7 @@ public class ServiceBuilder {
 				while ((line = unsyncBufferedReader.readLine()) != null) {
 					if (appendNewTable && line.startsWith(_SQL_CREATE_TABLE)) {
 						x = _SQL_CREATE_TABLE.length();
+
 						y = line.indexOf(" ", x);
 
 						String tableName = line.substring(x, y);
@@ -3647,11 +4001,11 @@ public class ServiceBuilder {
 	}
 
 	private String _formatComment(
-		String comment, DocletTag[] tags, String indentation) {
+		String comment, List<DocletTag> tags, String indentation) {
 
 		StringBundler sb = new StringBundler();
 
-		if (Validator.isNull(comment) && (tags.length <= 0)) {
+		if (Validator.isNull(comment) && tags.isEmpty()) {
 			return sb.toString();
 		}
 
@@ -3662,9 +4016,10 @@ public class ServiceBuilder {
 			comment = comment.replaceAll("(?m)^", indentation + " * ");
 
 			sb.append(comment);
+
 			sb.append("\n");
 
-			if (tags.length > 0) {
+			if (!tags.isEmpty()) {
 				sb.append(indentation);
 				sb.append(" *\n");
 			}
@@ -3730,6 +4085,22 @@ public class ServiceBuilder {
 		return xml;
 	}
 
+	private List<EntityColumn> _getBlobList(Entity entity) {
+		List<EntityColumn> blobList = new ArrayList<>(entity.getBlobList());
+
+		Iterator<EntityColumn> itr = blobList.iterator();
+
+		while (itr.hasNext()) {
+			EntityColumn col = itr.next();
+
+			if (!col.isLazy()) {
+				itr.remove();
+			}
+		}
+
+		return blobList;
+	}
+
 	private JavaField[] _getCacheFields(JavaClass javaClass) {
 		if (javaClass == null) {
 			return new JavaField[0];
@@ -3738,12 +4109,12 @@ public class ServiceBuilder {
 		List<JavaField> javaFields = new ArrayList<>();
 
 		for (JavaField javaField : javaClass.getFields()) {
-			Annotation[] annotations = javaField.getAnnotations();
+			List<JavaAnnotation> javaAnnotations = javaField.getAnnotations();
 
-			for (Annotation annotation : annotations) {
-				Type type = annotation.getType();
+			for (JavaAnnotation javaAnnotation : javaAnnotations) {
+				JavaClass javaAnnotationClass = javaAnnotation.getType();
 
-				String className = type.getFullyQualifiedName();
+				String className = javaAnnotationClass.getFullyQualifiedName();
 
 				if (className.equals(CacheField.class.getName())) {
 					javaFields.add(javaField);
@@ -3775,8 +4146,7 @@ public class ServiceBuilder {
 
 			if (colType.equals("String")) {
 				columnLengths[i] = getMaxLength(
-					_packagePath + ".model." + entity.getName(),
-					entityColumn.getName());
+					entity.getName(), entityColumn.getName());
 			}
 		}
 
@@ -3791,6 +4161,7 @@ public class ServiceBuilder {
 		Map<String, Object> context = new HashMap<>();
 
 		context.put("apiDir", _apiDirName);
+		context.put("apiPackagePath", _apiPackagePath);
 		context.put("arrayUtil", ArrayUtil_IW.getInstance());
 		context.put("author", _author);
 		context.put("beanLocatorUtil", _beanLocatorUtil);
@@ -3878,14 +4249,14 @@ public class ServiceBuilder {
 					String name1 = entity1.getName();
 					String name2 = entity2.getName();
 
-					if (Validator.equals(
+					if (Objects.equals(
 							entity1.getPackagePath(), "com.liferay.portal") &&
 						name1.equals("Company")) {
 
 						return -1;
 					}
 
-					if (Validator.equals(
+					if (Objects.equals(
 							entity2.getPackagePath(), "com.liferay.portal") &&
 						name2.equals("Company")) {
 
@@ -3936,8 +4307,7 @@ public class ServiceBuilder {
 					sb.append("TEXT");
 				}
 				else if (colType.equals("String")) {
-					int maxLength = getMaxLength(
-						_packagePath + ".model." + entity.getName(), colName);
+					int maxLength = getMaxLength(entity.getName(), colName);
 
 					if (col.isLocalized()) {
 						maxLength = 4000;
@@ -3977,7 +4347,7 @@ public class ServiceBuilder {
 
 		sb.append("\tprimary key (");
 
-		for (int i = 0; i < entities.length; i++) {
+		for (int i = 1; i < entities.length; i++) {
 			Entity entity = entities[i];
 
 			List<EntityColumn> pkList = entity.getPKList();
@@ -3987,7 +4357,7 @@ public class ServiceBuilder {
 
 				String colDBName = col.getDBName();
 
-				if ((i != 0) || (j != 0)) {
+				if ((i != 1) || (j != 0)) {
 					sb.append(", ");
 				}
 
@@ -4052,8 +4422,7 @@ public class ServiceBuilder {
 				sb.append("TEXT");
 			}
 			else if (colType.equals("String")) {
-				int maxLength = getMaxLength(
-					_packagePath + ".model." + entity.getName(), colName);
+				int maxLength = getMaxLength(entity.getName(), colName);
 
 				if (col.isLocalized() && (maxLength < 4000)) {
 					maxLength = 4000;
@@ -4095,7 +4464,7 @@ public class ServiceBuilder {
 			}
 
 			if (colName.equals("mvccVersion")) {
-				sb.append(" default 0");
+				sb.append(" default 0 not null");
 			}
 
 			if (((i + 1) != regularColList.size()) || entity.hasCompoundPK()) {
@@ -4126,10 +4495,12 @@ public class ServiceBuilder {
 		return sb.toString();
 	}
 
-	private String _getDimensions(Type type) {
+	private String _getDimensions(
+		DefaultJavaParameterizedType defaultJavaParameterizedType) {
+
 		String dimensions = "";
 
-		for (int i = 0; i < type.getDimensions(); i++) {
+		for (int i = 0; i < defaultJavaParameterizedType.getDimensions(); i++) {
 			dimensions += "[]";
 		}
 
@@ -4161,6 +4532,8 @@ public class ServiceBuilder {
 	}
 
 	private JavaClass _getJavaClass(String fileName) throws IOException {
+		fileName = _normalize(fileName);
+
 		int pos = 0;
 
 		if (fileName.startsWith(_implDirName)) {
@@ -4174,18 +4547,21 @@ public class ServiceBuilder {
 		}
 
 		String fullyQualifiedClassName = StringUtil.replace(
-			fileName.substring(pos, fileName.length() - 5),
-			new String[] {StringPool.BACK_SLASH, StringPool.SLASH},
-			new String[] {StringPool.PERIOD, StringPool.PERIOD});
+			fileName.substring(pos, fileName.length() - 5), CharPool.SLASH,
+			CharPool.PERIOD);
 
 		JavaClass javaClass = _javaClasses.get(fullyQualifiedClassName);
 
 		if (javaClass == null) {
-			ClassLibrary classLibrary = new ClassLibrary();
+			ClassLibraryBuilder classLibraryBuilder =
+				new SortedClassLibraryBuilder();
 
-			classLibrary.addClassLoader(getClass().getClassLoader());
+			Class<?> clazz = getClass();
 
-			JavaDocBuilder builder = new JavaDocBuilder(classLibrary);
+			classLibraryBuilder.appendClassLoader(clazz.getClassLoader());
+
+			JavaProjectBuilder builder = new JavaProjectBuilder(
+				classLibraryBuilder);
 
 			File file = new File(fileName);
 
@@ -4206,23 +4582,20 @@ public class ServiceBuilder {
 	private String _getMethodKey(JavaMethod javaMethod) {
 		StringBundler sb = new StringBundler();
 
-		if (!javaMethod.isConstructor()) {
-			sb.append(getTypeGenericsName(javaMethod.getReturnType()));
-			sb.append(StringPool.SPACE);
-		}
-
+		sb.append(getTypeGenericsName(javaMethod.getReturnType()));
+		sb.append(StringPool.SPACE);
 		sb.append(javaMethod.getName());
 		sb.append(StringPool.OPEN_PARENTHESIS);
 
-		JavaParameter[] javaParameters = javaMethod.getParameters();
+		List<JavaParameter> javaParameters = javaMethod.getParameters();
 
 		for (JavaParameter javaParameter : javaParameters) {
-			sb.append(getTypeGenericsName(javaParameter.getType()));
+			sb.append(javaParameter.getType().getGenericValue());
 
 			sb.append(StringPool.COMMA);
 		}
 
-		if (javaParameters.length > 0) {
+		if (!javaParameters.isEmpty()) {
 			sb.setIndex(sb.index() - 1);
 		}
 
@@ -4231,20 +4604,97 @@ public class ServiceBuilder {
 		return sb.toString();
 	}
 
-	private JavaMethod[] _getMethods(JavaClass javaClass) {
+	private List<JavaMethod> _getMethods(JavaClass javaClass) {
 		return _getMethods(javaClass, false);
 	}
 
-	private JavaMethod[] _getMethods(
+	private List<JavaMethod> _getMethods(
 		JavaClass javaClass, boolean superclasses) {
 
-		JavaMethod[] methods = javaClass.getMethods(superclasses);
+		List<String> cacheFieldMethods = new ArrayList<>();
 
-		for (JavaMethod method : methods) {
-			Arrays.sort(method.getExceptions());
+		for (JavaField javaField : javaClass.getFields()) {
+			List<JavaAnnotation> javaAnnotations = javaField.getAnnotations();
+
+			for (JavaAnnotation javaAnnotation : javaAnnotations) {
+				JavaClass javaAnnotationClass = javaAnnotation.getType();
+
+				String className = javaAnnotationClass.getFullyQualifiedName();
+
+				if (!className.equals(CacheField.class.getName())) {
+					continue;
+				}
+
+				if (!GetterUtil.getBoolean(
+						javaAnnotation.getNamedParameter(
+							"propagateToInterface"))) {
+
+					String methodName = null;
+
+					Object namedParameter = javaAnnotation.getNamedParameter(
+						"methodName");
+
+					if (namedParameter != null) {
+						methodName = StringUtil.unquote(
+							StringUtil.trim(namedParameter.toString()));
+					}
+
+					if (Validator.isNull(methodName)) {
+						methodName = TextFormatter.format(
+							getVariableName(javaField), TextFormatter.G);
+					}
+
+					cacheFieldMethods.add("get".concat(methodName));
+					cacheFieldMethods.add("set".concat(methodName));
+				}
+
+				break;
+			}
+		}
+
+		List<JavaMethod> methods = new ArrayList<>();
+
+		for (JavaMethod javaMethod : javaClass.getMethods(superclasses)) {
+			if (!cacheFieldMethods.contains(javaMethod.getName())) {
+				methods.add(javaMethod);
+			}
 		}
 
 		return methods;
+	}
+
+	private String _getMethodSignature(
+		JavaMethod method, boolean useFullyQualifiedNames) {
+
+		StringBundler sb = new StringBundler();
+
+		sb.append(method.getName());
+		sb.append(StringPool.OPEN_PARENTHESIS);
+
+		for (JavaParameter parameter : method.getParameters()) {
+			JavaType type = parameter.getType();
+
+			String parameterValue = type.getFullyQualifiedName();
+
+			if (!useFullyQualifiedNames) {
+				int pos = parameterValue.lastIndexOf(CharPool.PERIOD);
+
+				if (pos != -1) {
+					parameterValue = parameterValue.substring(pos + 1);
+				}
+			}
+
+			sb.append(parameterValue);
+			sb.append(StringPool.COMMA);
+		}
+
+		if (sb.index() > 2) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		sb.append(StringPool.CLOSE_PARENTHESIS);
+
+		return sb.toString();
 	}
 
 	private String _getSessionTypeName(int sessionType) {
@@ -4257,7 +4707,7 @@ public class ServiceBuilder {
 	}
 
 	private String _getSpringNamespacesDeclarations() {
-		StringBundler sb = new StringBundler(_springNamespaces.length * 4);
+		StringBundler sb = new StringBundler(_springNamespaces.length * 6);
 
 		for (String namespace : _springNamespaces) {
 			sb.append("\txmlns");
@@ -4276,7 +4726,7 @@ public class ServiceBuilder {
 	}
 
 	private String _getSpringSchemaLocations() {
-		StringBundler sb = new StringBundler(_springNamespaces.length * 6);
+		StringBundler sb = new StringBundler(_springNamespaces.length * 7);
 
 		for (String namespace : _springNamespaces) {
 			sb.append("\thttp://www.springframework.org/schema/");
@@ -4373,13 +4823,78 @@ public class ServiceBuilder {
 		return transients;
 	}
 
+	private List<Path> _getUpdateSQLFilePaths() throws IOException {
+		if (!_osgiModule) {
+			final List<Path> updateSQLFilePaths = new ArrayList<>();
+
+			try (DirectoryStream<Path> paths = Files.newDirectoryStream(
+					Paths.get(_sqlDirName), "update-7.0.0-7.0.1*.sql")) {
+
+				for (Path path : paths) {
+					updateSQLFilePaths.add(path);
+				}
+			}
+
+			return updateSQLFilePaths;
+		}
+
+		final AtomicReference<Path> atomicReference = new AtomicReference<>();
+
+		FileSystem fileSystem = FileSystems.getDefault();
+
+		final PathMatcher pathMatcher = fileSystem.getPathMatcher(
+			"glob:**/dependencies/update.sql");
+
+		Files.walkFileTree(
+			Paths.get(_resourcesDirName),
+			new SimpleFileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult visitFile(
+						Path path, BasicFileAttributes basicFileAttributes)
+					throws IOException {
+
+					if (!pathMatcher.matches(path)) {
+						return FileVisitResult.CONTINUE;
+					}
+
+					Path updateSQLFilePath = atomicReference.get();
+
+					if (updateSQLFilePath == null) {
+						atomicReference.set(path);
+					}
+					else {
+						Version updateSQLFileVersion = _getUpdateSQLFileVersion(
+							updateSQLFilePath);
+						Version version = _getUpdateSQLFileVersion(path);
+
+						if (updateSQLFileVersion.compareTo(version) < 0) {
+							atomicReference.set(path);
+						}
+					}
+
+					return FileVisitResult.CONTINUE;
+				}
+
+			});
+
+		return Arrays.asList(atomicReference.get());
+	}
+
+	private Version _getUpdateSQLFileVersion(Path path) {
+		path = path.getName(path.getNameCount() - 3);
+
+		String version = path.toString();
+
+		version = version.replace('_', '.');
+		version = version.substring(1);
+
+		return Version.getInstance(version);
+	}
+
 	private boolean _hasHttpMethods(JavaClass javaClass) {
-		JavaMethod[] methods = _getMethods(javaClass);
-
-		for (JavaMethod javaMethod : methods) {
-			if (!javaMethod.isConstructor() && javaMethod.isPublic() &&
-				isCustomMethod(javaMethod)) {
-
+		for (JavaMethod javaMethod : _getMethods(javaClass)) {
+			if (javaMethod.isPublic() && isCustomMethod(javaMethod)) {
 				return true;
 			}
 		}
@@ -4388,16 +4903,24 @@ public class ServiceBuilder {
 	}
 
 	private boolean _isStringLocaleMap(JavaParameter javaParameter) {
-		Type type = javaParameter.getType();
+		JavaType type = javaParameter.getType();
 
-		Type[] actualArgumentTypes = type.getActualTypeArguments();
-
-		if (actualArgumentTypes.length != 2) {
+		if (!(type instanceof DefaultJavaParameterizedType)) {
 			return false;
 		}
 
-		if (!_isTypeValue(actualArgumentTypes[0], Locale.class.getName()) ||
-			!_isTypeValue(actualArgumentTypes[1], String.class.getName())) {
+		DefaultJavaParameterizedType defaultJavaParameterizedType =
+			(DefaultJavaParameterizedType)type;
+
+		List<JavaType> actualArgumentTypes =
+			defaultJavaParameterizedType.getActualTypeArguments();
+
+		if (actualArgumentTypes.size() != 2) {
+			return false;
+		}
+
+		if (!_isTypeValue(actualArgumentTypes.get(0), Locale.class.getName()) ||
+			!_isTypeValue(actualArgumentTypes.get(1), String.class.getName())) {
 
 			return false;
 		}
@@ -4413,44 +4936,51 @@ public class ServiceBuilder {
 		return _targetEntityName.equals(entity.getName());
 	}
 
-	private boolean _isTypeValue(Type type, String value) {
-		return value.equals(type.getValue());
+	private boolean _isTypeValue(JavaType type, String value) {
+		return value.equals(type.getFullyQualifiedName());
 	}
 
-	private Annotation[] _mergeAnnotations(
-		Annotation[] annotations1, Annotation[] annotations2) {
+	private List<JavaAnnotation> _mergeAnnotations(
+		List<JavaAnnotation> javaAnnotations1,
+		List<JavaAnnotation> javaAnnotations2) {
 
-		Map<Type, Annotation> annotationsMap = new HashMap<>();
+		Map<JavaType, JavaAnnotation> javaAnnotationsMap = new HashMap<>();
 
-		for (Annotation annotation : annotations2) {
-			annotationsMap.put(annotation.getType(), annotation);
+		for (JavaAnnotation javaAnnotation : javaAnnotations2) {
+			javaAnnotationsMap.put(javaAnnotation.getType(), javaAnnotation);
 		}
 
-		for (Annotation annotation : annotations1) {
-			annotationsMap.put(annotation.getType(), annotation);
+		for (JavaAnnotation javaAnnotation : javaAnnotations1) {
+			javaAnnotationsMap.put(javaAnnotation.getType(), javaAnnotation);
 		}
 
-		List<Annotation> annotations = new ArrayList<>(annotationsMap.values());
+		List<JavaAnnotation> javaAnnotations = new ArrayList<>(
+			javaAnnotationsMap.values());
 
-		Comparator<Annotation> comparator = new Comparator<Annotation>() {
+		Comparator<JavaAnnotation> comparator =
+			new Comparator<JavaAnnotation>() {
 
-			@Override
-			public int compare(Annotation annotation1, Annotation annotation2) {
-				String annotationString1 = annotation1.toString();
-				String annotationString2 = annotation2.toString();
+				@Override
+				public int compare(
+					JavaAnnotation javaAnnotation1,
+					JavaAnnotation javaAnnotation2) {
 
-				return annotationString1.compareTo(annotationString2);
-			}
+					String javaAnnotationString1 = javaAnnotation1.toString();
+					String javaAnnotationString2 = javaAnnotation2.toString();
 
-		};
+					return javaAnnotationString1.compareTo(
+						javaAnnotationString2);
+				}
 
-		Collections.sort(annotations, comparator);
+			};
 
-		return annotations.toArray(new Annotation[annotations.size()]);
+		Collections.sort(javaAnnotations, comparator);
+
+		return javaAnnotations;
 	}
 
-	private JavaMethod[] _mergeMethods(
-		JavaMethod[] javaMethods1, JavaMethod[] javaMethods2,
+	private List<JavaMethod> _mergeMethods(
+		List<JavaMethod> javaMethods1, List<JavaMethod> javaMethods2,
 		boolean mergeAnnotations) {
 
 		Map<String, JavaMethod> javaMethodMap = new HashMap<>();
@@ -4467,12 +4997,19 @@ public class ServiceBuilder {
 			if (existingJavaMethod == null) {
 				javaMethodMap.put(javaMethodKey, javaMethod);
 			}
-			else if (mergeAnnotations) {
-				Annotation[] annotations = _mergeAnnotations(
+			else if (mergeAnnotations &&
+					 (existingJavaMethod instanceof DefaultJavaMethod)) {
+
+				DefaultJavaMethod newJavaMethod =
+					(DefaultJavaMethod)existingJavaMethod;
+
+				List<JavaAnnotation> javaAnnotations = _mergeAnnotations(
 					javaMethod.getAnnotations(),
 					existingJavaMethod.getAnnotations());
 
-				existingJavaMethod.setAnnotations(annotations);
+				newJavaMethod.setAnnotations(javaAnnotations);
+
+				javaMethodMap.put(javaMethodKey, newJavaMethod);
 			}
 		}
 
@@ -4482,17 +5019,24 @@ public class ServiceBuilder {
 
 			@Override
 			public int compare(JavaMethod javaMethod1, JavaMethod javaMethod2) {
-				String callSignature1 = javaMethod1.getCallSignature();
-				String callSignature2 = javaMethod2.getCallSignature();
+				String methodSignature1 = _getMethodSignature(
+					javaMethod1, false);
+				String methodSignature2 = _getMethodSignature(
+					javaMethod2, false);
 
-				return callSignature1.compareTo(callSignature2);
+				if (methodSignature1.equals(methodSignature2)) {
+					methodSignature1 = _getMethodSignature(javaMethod1, true);
+					methodSignature2 = _getMethodSignature(javaMethod2, true);
+				}
+
+				return methodSignature1.compareToIgnoreCase(methodSignature2);
 			}
 
 		};
 
 		Collections.sort(javaMethods, comparator);
 
-		return javaMethods.toArray(new JavaMethod[javaMethods.size()]);
+		return javaMethods;
 	}
 
 	private List<Entity> _mergeReferenceList(Entity entity) {
@@ -4512,7 +5056,7 @@ public class ServiceBuilder {
 		return new ArrayList<>(set);
 	}
 
-	private void _parseEntity(Element entityElement) throws Exception {
+	private Entity _parseEntity(Element entityElement) throws Exception {
 		String ejbName = entityElement.attributeValue("name");
 		String humanName = entityElement.attributeValue("human-name");
 
@@ -4559,14 +5103,21 @@ public class ServiceBuilder {
 
 			StringBundler sb = new StringBundler();
 
-			sb.append(
-				"package " + _packagePath + ".service.persistence.impl;\n\n");
-			sb.append(
-				"import " + _packagePath + ".service.persistence." + ejbName +
-					"Finder;\n");
-			sb.append(
-				"import " + _packagePath + ".service.persistence." + ejbName +
-					"Util;");
+			sb.append("package ");
+			sb.append(_packagePath);
+			sb.append(".service.persistence.impl;\n\n");
+
+			sb.append("import ");
+			sb.append(_apiPackagePath);
+			sb.append(".service.persistence.");
+			sb.append(ejbName);
+			sb.append("Finder;\n");
+
+			sb.append("import ");
+			sb.append(_apiPackagePath);
+			sb.append(".service.persistence.");
+			sb.append(ejbName);
+			sb.append("Util;");
 
 			content = StringUtil.replace(
 				content, "package " + _packagePath + ".service.persistence;",
@@ -4578,8 +5129,8 @@ public class ServiceBuilder {
 
 		if (newFinderImplFile.exists()) {
 			finderClass =
-				_packagePath +
-					".service.persistence.impl." + ejbName + "FinderImpl";
+				_packagePath + ".service.persistence.impl." + ejbName +
+					"FinderImpl";
 		}
 
 		String dataSource = entityElement.attributeValue("data-source");
@@ -4607,6 +5158,7 @@ public class ServiceBuilder {
 		List<EntityColumn> columnList = new ArrayList<>();
 
 		boolean permissionedModel = false;
+		boolean resourcedModel = false;
 
 		List<Element> columnElements = entityElement.elements("column");
 
@@ -4628,14 +5180,20 @@ public class ServiceBuilder {
 			columnElements.add(0, columnElement);
 		}
 
+		Element localizedEntityElement = entityElement.element(
+			"localized-entity");
+
+		if (localizedEntityElement != null) {
+			Element columnElement = DocumentHelper.createElement("column");
+
+			columnElement.addAttribute("name", "defaultLanguageId");
+			columnElement.addAttribute("type", "String");
+
+			columnElements.add(columnElement);
+		}
+
 		for (Element columnElement : columnElements) {
 			String columnName = columnElement.attributeValue("name");
-
-			if (columnName.equals("resourceBlockId") &&
-				!ejbName.equals("ResourceBlock")) {
-
-				permissionedModel = true;
-			}
 
 			String columnDBName = columnElement.attributeValue("db-name");
 
@@ -4684,6 +5242,16 @@ public class ServiceBuilder {
 			boolean parentContainerModel = GetterUtil.getBoolean(
 				columnElement.attributeValue("parent-container-model"));
 
+			if (columnName.equals("resourceBlockId") &&
+				!ejbName.equals("ResourceBlock")) {
+
+				permissionedModel = true;
+			}
+
+			if (columnName.equals("resourcePrimKey") && !primary) {
+				resourcedModel = true;
+			}
+
 			EntityColumn col = new EntityColumn(
 				columnName, columnDBName, columnType, primary, accessor,
 				filterPrimary, collectionEntity, mappingTable, idType, idParam,
@@ -4717,6 +5285,12 @@ public class ServiceBuilder {
 					_entityMappings.put(mappingTable, entityMapping);
 				}
 			}
+		}
+
+		if (uuid && pkList.isEmpty()) {
+			throw new ServiceBuilderException(
+				"Unable to create entity \"" + ejbName +
+					"\" with a UUID without a primary key");
 		}
 
 		EntityOrder order = null;
@@ -4756,7 +5330,14 @@ public class ServiceBuilder {
 					orderColByAscending = false;
 				}
 
-				EntityColumn col = Entity.getColumn(orderColName, columnList);
+				int index = columnList.indexOf(new EntityColumn(orderColName));
+
+				if (index < 0) {
+					throw new IllegalArgumentException(
+						"Invalid order by column " + orderColName);
+				}
+
+				EntityColumn col = columnList.get(index);
 
 				col.setOrderColumn(true);
 
@@ -4847,6 +5428,20 @@ public class ServiceBuilder {
 				"finder-column");
 
 			finderColumnElement.addAttribute("name", "resourceBlockId");
+
+			finderElements.add(0, finderElement);
+		}
+
+		if (resourcedModel) {
+			Element finderElement = DocumentHelper.createElement("finder");
+
+			finderElement.addAttribute("name", "ResourcePrimKey");
+			finderElement.addAttribute("return-type", "Collection");
+
+			Element finderColumnElement = finderElement.addElement(
+				"finder-column");
+
+			finderColumnElement.addAttribute("name", "resourcePrimKey");
 
 			finderElements.add(0, finderElement);
 		}
@@ -4958,25 +5553,292 @@ public class ServiceBuilder {
 		List<Element> txRequiredElements = entityElement.elements(
 			"tx-required");
 
-		for (Element txRequiredEl : txRequiredElements) {
-			String txRequired = txRequiredEl.getText();
+		if (!txRequiredElements.isEmpty()) {
+			System.err.println(
+				"The tx-required attribute is deprecated in favor annotating " +
+					"the service impl method with " +
+						"com.liferay.portal.kernel.transaction.Transactional");
 
-			txRequiredList.add(txRequired);
+			for (Element txRequiredEl : txRequiredElements) {
+				String txRequired = txRequiredEl.getText();
+
+				txRequiredList.add(txRequired);
+			}
 		}
 
 		boolean resourceActionModel = _resourceActionModels.contains(
-			_packagePath + ".model." + ejbName);
+			_apiPackagePath + ".model." + ejbName);
 
-		_ejbList.add(
-			new Entity(
-				_packagePath, _portletName, _portletShortName, ejbName,
-				humanName, table, alias, uuid, uuidAccessor, localService,
-				remoteService, persistenceClass, finderClass, dataSource,
-				sessionFactory, txManager, cacheEnabled, dynamicUpdateEnabled,
-				jsonEnabled, mvccEnabled, trashEnabled, deprecated, pkList,
-				regularColList, blobList, collectionList, columnList, order,
-				finderList, referenceList, unresolvedReferenceList,
-				txRequiredList, resourceActionModel));
+		Entity entity = new Entity(
+			_packagePath, _apiPackagePath, _portletName, _portletShortName,
+			ejbName, humanName, table, alias, uuid, uuidAccessor, localService,
+			remoteService, persistenceClass, finderClass, dataSource,
+			sessionFactory, txManager, cacheEnabled, dynamicUpdateEnabled,
+			jsonEnabled, mvccEnabled, trashEnabled, deprecated, pkList,
+			regularColList, blobList, collectionList, columnList, order,
+			finderList, referenceList, unresolvedReferenceList, txRequiredList,
+			resourceActionModel);
+
+		_ejbList.add(entity);
+
+		if (localizedEntityElement != null) {
+			_parseLocalizedEntity(entity, localizedEntityElement);
+		}
+
+		return entity;
+	}
+
+	private void _parseLocalizedEntity(
+			Entity entity, Element localizedEntityElement)
+		throws Exception {
+
+		if (!entity.hasLocalService()) {
+			throw new IllegalArgumentException(
+				entity.getName() +
+					" must have a local service to use localized entity");
+		}
+
+		for (EntityColumn entityColumn : entity.getColumnList()) {
+			if (entityColumn.isLocalized()) {
+				throw new IllegalArgumentException(
+					"Unable to use localized entity with localized column " +
+						entityColumn.getName() + " in " + entity.getName());
+			}
+		}
+
+		// Localized entity
+
+		Element newLocalizedEntityElement = DocumentHelper.createElement(
+			"entity");
+
+		if (Validator.isNotNull(entity.getDataSource())) {
+			newLocalizedEntityElement.addAttribute(
+				"data-source", entity.getDataSource());
+		}
+
+		if (entity.isDeprecated()) {
+			newLocalizedEntityElement.addAttribute("deprecated", "true");
+		}
+
+		newLocalizedEntityElement.addAttribute("local-service", "false");
+		newLocalizedEntityElement.addAttribute("mvcc-enabled", "true");
+
+		newLocalizedEntityElement.addAttribute(
+			"name", entity.getName() + "Localization");
+
+		newLocalizedEntityElement.addAttribute("remote-service", "false");
+
+		if (Validator.isNotNull(entity.getSessionFactory())) {
+			newLocalizedEntityElement.addAttribute(
+				"session-factory", entity.getSessionFactory());
+		}
+
+		if (Validator.isNotNull(entity.getTXManager())) {
+			newLocalizedEntityElement.addAttribute(
+				"tx-manager", entity.getTXManager());
+		}
+
+		newLocalizedEntityElement.addAttribute("uuid", "false");
+
+		// Auto generated columns
+
+		Element newLocalizedColumnElement =
+			newLocalizedEntityElement.addElement("column");
+
+		newLocalizedColumnElement.addAttribute(
+			"name", entity.getVarName() + "LocalizationId");
+		newLocalizedColumnElement.addAttribute("primary", "true");
+		newLocalizedColumnElement.addAttribute("type", "long");
+
+		if (entity.hasColumn("companyId")) {
+			newLocalizedColumnElement = newLocalizedEntityElement.addElement(
+				"column");
+
+			newLocalizedColumnElement.addAttribute("name", "companyId");
+			newLocalizedColumnElement.addAttribute("type", "long");
+		}
+
+		List<EntityColumn> pkList = entity.getPKList();
+
+		if (pkList.size() > 1) {
+			throw new IllegalArgumentException(
+				"Unable to use localized entity with compound primary key");
+		}
+
+		EntityColumn pkColumn = pkList.get(0);
+
+		newLocalizedColumnElement = newLocalizedEntityElement.addElement(
+			"column");
+
+		newLocalizedColumnElement.addAttribute("name", pkColumn.getName());
+		newLocalizedColumnElement.addAttribute("type", pkColumn.getType());
+
+		newLocalizedColumnElement = newLocalizedEntityElement.addElement(
+			"column");
+
+		newLocalizedColumnElement.addAttribute("name", "languageId");
+		newLocalizedColumnElement.addAttribute("type", "String");
+
+		// Localized columns
+
+		List<Element> localizedColumnElements = localizedEntityElement.elements(
+			"localized-column");
+
+		if (localizedColumnElements.isEmpty()) {
+			throw new IllegalArgumentException(
+				"Unable to use localized entity table without localized " +
+					"columns");
+		}
+
+		List<EntityColumn> localizedColumns = new ArrayList<>(
+			localizedColumnElements.size());
+
+		for (Element localizedColumnElement : localizedColumnElements) {
+			String columnName = localizedColumnElement.attributeValue("name");
+
+			String columnDBName = localizedColumnElement.attributeValue(
+				"db-name");
+
+			if (Validator.isNull(columnDBName)) {
+				columnDBName = columnName;
+
+				if (_badColumnNames.contains(columnName)) {
+					columnDBName += StringPool.UNDERLINE;
+				}
+			}
+
+			localizedColumns.add(new EntityColumn(columnName, columnDBName));
+
+			newLocalizedColumnElement = newLocalizedEntityElement.addElement(
+				"column");
+
+			newLocalizedColumnElement.addAttribute("name", columnName);
+			newLocalizedColumnElement.addAttribute("db-name", columnDBName);
+			newLocalizedColumnElement.addAttribute("type", "String");
+		}
+
+		// Auto generated finders
+
+		Element newLocalizedFinderElement =
+			newLocalizedEntityElement.addElement("finder");
+
+		String finderName = TextFormatter.format(
+			pkColumn.getName(), TextFormatter.G);
+
+		newLocalizedFinderElement.addAttribute("name", finderName);
+
+		newLocalizedFinderElement.addAttribute("return-type", "Collection");
+
+		Element newLocalizedFinderColumnElement =
+			newLocalizedFinderElement.addElement("finder-column");
+
+		newLocalizedFinderColumnElement.addAttribute(
+			"name", pkColumn.getName());
+
+		newLocalizedFinderElement = newLocalizedEntityElement.addElement(
+			"finder");
+
+		newLocalizedFinderElement.addAttribute(
+			"name", finderName + "_LanguageId");
+
+		newLocalizedFinderElement.addAttribute(
+			"return-type", entity.getName() + "Localization");
+
+		newLocalizedFinderElement.addAttribute("unique", "true");
+
+		newLocalizedFinderColumnElement = newLocalizedFinderElement.addElement(
+			"finder-column");
+
+		newLocalizedFinderColumnElement.addAttribute(
+			"name", pkColumn.getName());
+
+		newLocalizedFinderColumnElement = newLocalizedFinderElement.addElement(
+			"finder-column");
+
+		newLocalizedFinderColumnElement.addAttribute("name", "languageId");
+
+		// Manual columns
+
+		List<Element> columnElements = localizedEntityElement.elements(
+			"column");
+
+		for (Element columnElement : columnElements) {
+			String localized = columnElement.attributeValue("localized");
+
+			if (localized != null) {
+				throw new IllegalArgumentException(
+					"Unable to have localized columns in localized table for " +
+						"entity " + entity.getName());
+			}
+
+			Element newColumnElement = newLocalizedEntityElement.addElement(
+				"column", columnElement.getStringValue());
+
+			List<Attribute> columnAttributes = columnElement.attributes();
+
+			for (Attribute columnAttribute : columnAttributes) {
+				newColumnElement.addAttribute(
+					columnAttribute.getName(),
+					columnAttribute.getStringValue());
+			}
+		}
+
+		// Manual Order
+
+		Element orderElement = localizedEntityElement.element("order");
+
+		if (orderElement != null) {
+			Element newOrderElement = newLocalizedEntityElement.addElement(
+				"order", orderElement.getStringValue());
+
+			List<Attribute> orderAttributes = orderElement.attributes();
+
+			for (Attribute orderAttribute : orderAttributes) {
+				newOrderElement.addAttribute(
+					orderAttribute.getName(), orderAttribute.getStringValue());
+			}
+		}
+
+		// Manual finders
+
+		List<Element> finderElements = localizedEntityElement.elements(
+			"finder");
+
+		for (Element finderElement : finderElements) {
+			Element newFinderElement = newLocalizedEntityElement.addElement(
+				"finder", finderElement.getStringValue());
+
+			List<Attribute> finderElementAttributes =
+				finderElement.attributes();
+
+			for (Attribute finderElementAttribute : finderElementAttributes) {
+				newFinderElement.addAttribute(
+					finderElementAttribute.getName(),
+					finderElementAttribute.getStringValue());
+			}
+
+			List<Element> finderColumnElements = finderElement.elements(
+				"finder-column");
+
+			for (Element finderColumnElement : finderColumnElements) {
+				List<Attribute> finderColumnAttributes =
+					finderColumnElement.attributes();
+
+				Element newFinderColumnElement = newFinderElement.addElement(
+					"finder-column", finderColumnElement.getStringValue());
+
+				for (Attribute finderColumnAttribute : finderColumnAttributes) {
+					newFinderColumnElement.addAttribute(
+						finderColumnAttribute.getName(),
+						finderColumnAttribute.getStringValue());
+				}
+			}
+		}
+
+		Entity localizedEntity = _parseEntity(newLocalizedEntityElement);
+
+		entity.setLocalizedColumns(localizedColumns);
+		entity.setLocalizedEntity(localizedEntity);
 	}
 
 	private String _processTemplate(String name, Map<String, Object> context)
@@ -4984,13 +5846,18 @@ public class ServiceBuilder {
 
 		_currentTplName = name;
 
-		return StringUtil.strip(FreeMarkerUtil.process(name, context), '\r');
+		return StringUtil.removeChar(
+			FreeMarkerUtil.process(name, context), '\r');
 	}
 
 	private Map<String, Object> _putDeprecatedKeys(
 		Map<String, Object> context, JavaClass javaClass) {
 
-		context.put("classDeprecated", false);
+		Entity entity = (Entity)context.get("entity");
+
+		context.put("classDeprecated", entity.isDeprecated());
+
+		context.put("classDeprecatedComment", "");
 
 		if (javaClass != null) {
 			DocletTag tag = javaClass.getTagByName("deprecated");
@@ -5005,7 +5872,9 @@ public class ServiceBuilder {
 	}
 
 	private Set<String> _readLines(String fileName) throws Exception {
-		ClassLoader classLoader = getClass().getClassLoader();
+		Class<?> clazz = getClass();
+
+		ClassLoader classLoader = clazz.getClassLoader();
 
 		Set<String> lines = new HashSet<>();
 
@@ -5015,20 +5884,60 @@ public class ServiceBuilder {
 	}
 
 	private void _removeActionableDynamicQuery(Entity entity) {
+		File ejbFile = new File(
+			_oldServiceOutputPath + "/service/persistence/" + entity.getName() +
+				"ActionableDynamicQuery.java");
+
+		ejbFile.delete();
+
+		ejbFile = new File(
+			_serviceOutputPath + "/service/persistence/" + entity.getName() +
+				"ActionableDynamicQuery.java");
+
+		ejbFile.delete();
+	}
+
+	private void _removeBlobModels(Entity entity, String outputPath) {
+		for (EntityColumn col : _getBlobList(entity)) {
+			_deleteFile(
+				outputPath + "/model/" + entity.getName() +
+					col.getMethodName() + "BlobModel.java");
+		}
+	}
+
+	private void _removeEJBPK(Entity entity, String outputPath) {
+		List<EntityColumn> pkList = entity.getPKList();
+
+		if (pkList.size() <= 1) {
+			return;
+		}
+
 		_deleteFile(
-			_serviceOutputPath + "/service/persistence/" +
-				entity.getName() + "ActionableDynamicQuery.java");
+			outputPath + "/service/persistence/" + entity.getPKClassName() +
+				".java");
 	}
 
 	private void _removeExportActionableDynamicQuery(Entity entity) {
-		_deleteFile(
-			_serviceOutputPath + "/service/persistence/" +
-				entity.getName() + "ExportActionableDynamicQuery.java");
+		File ejbFile = new File(
+			_oldServiceOutputPath + "/service/persistence/" + entity.getName() +
+				"ExportActionableDynamicQuery.java");
+
+		ejbFile.delete();
+
+		ejbFile = new File(
+			_serviceOutputPath + "/service/persistence/" + entity.getName() +
+				"ExportActionableDynamicQuery.java");
+
+		ejbFile.delete();
 	}
 
-	private void _removeFinder(Entity entity) {
+	private void _removeExtendedModel(Entity entity, String outputPath) {
+		_deleteFile(outputPath + "/model/" + entity.getName() + ".java");
+	}
+
+	private void _removeFinder(Entity entity, String outputPath) {
 		_deleteFile(
-			_serviceOutputPath + "/service/persistence/" + entity.getName() +
+			outputPath + "/service/persistence/" + entity.getName() +
 				"Finder.java");
 	}
 
@@ -5038,15 +5947,75 @@ public class ServiceBuilder {
 				"FinderBaseImpl.java");
 	}
 
-	private void _removeFinderUtil(Entity entity) {
+	private void _removeFinderUtil(Entity entity, String outputPath) {
 		_deleteFile(
-			_serviceOutputPath + "/service/persistence/" + entity.getName() +
+			outputPath + "/service/persistence/" + entity.getName() +
 				"FinderUtil.java");
 	}
 
-	private void _removeService(Entity entity, int sessionType) {
+	private void _removeModel(Entity entity, String outputPath) {
+		_deleteFile(outputPath + "/model/" + entity.getName() + "Model.java");
+	}
+
+	private void _removeModelClp(Entity entity, String outputPath) {
+		_deleteFile(outputPath + "/model/" + entity.getName() + "Clp.java");
+	}
+
+	private void _removeModelSoap(Entity entity, String outputPath) {
+		_deleteFile(outputPath + "/model/" + entity.getName() + "Soap.java");
+	}
+
+	private void _removeModelWrapper(Entity entity, String outputPath) {
+		_deleteFile(outputPath + "/model/" + entity.getName() + "Wrapper.java");
+	}
+
+	private void _removeOldServices(Entity entity) {
+		if (_oldServiceOutputPath.equals(_serviceOutputPath)) {
+			return;
+		}
+
+		_removeBlobModels(entity, _oldServiceOutputPath);
+		_removeEJBPK(entity, _oldServiceOutputPath);
+		_removeExtendedModel(entity, _oldServiceOutputPath);
+		_removeFinder(entity, _oldServiceOutputPath);
+		_removeFinderUtil(entity, _oldServiceOutputPath);
+		_removeModel(entity, _oldServiceOutputPath);
+		_removeModelClp(entity, _oldServiceOutputPath);
+		_removeModelSoap(entity, _oldServiceOutputPath);
+		_removeModelWrapper(entity, _oldServiceOutputPath);
+		_removePersistence(entity, _oldServiceOutputPath);
+		_removePersistenceUtil(entity, _oldServiceOutputPath);
+		_removeServiceClpMessageListener(_oldServiceOutputPath);
+		_removeServiceClpSerializer(_oldServiceOutputPath);
+		_removeService(entity, _SESSION_TYPE_LOCAL, _oldServiceOutputPath);
+		_removeService(entity, _SESSION_TYPE_REMOTE, _oldServiceOutputPath);
+		_removeServiceClp(entity, _SESSION_TYPE_LOCAL, _oldServiceOutputPath);
+		_removeServiceClp(entity, _SESSION_TYPE_REMOTE, _oldServiceOutputPath);
+		_removeServiceUtil(entity, _SESSION_TYPE_LOCAL, _oldServiceOutputPath);
+		_removeServiceUtil(entity, _SESSION_TYPE_REMOTE, _oldServiceOutputPath);
+		_removeServiceWrapper(
+			entity, _SESSION_TYPE_LOCAL, _oldServiceOutputPath);
+		_removeServiceWrapper(
+			entity, _SESSION_TYPE_REMOTE, _oldServiceOutputPath);
+	}
+
+	private void _removePersistence(Entity entity, String outputPath) {
 		_deleteFile(
-			_serviceOutputPath + "/service/" + entity.getName() +
+			outputPath + "/service/persistence/" + entity.getName() +
+				"Persistence.java");
+	}
+
+	private void _removePersistenceUtil(Entity entity, String outputPath) {
+		_deleteFile(
+			outputPath + "/service/persistence/" + entity.getName() +
+				"Util.java");
+	}
+
+	private void _removeService(
+		Entity entity, int sessionType, String outputPath) {
+
+		_deleteFile(
+			outputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "Service.java");
 	}
 
@@ -5056,9 +6025,11 @@ public class ServiceBuilder {
 				_getSessionTypeName(sessionType) + "ServiceBaseImpl.java");
 	}
 
-	private void _removeServiceClp(Entity entity, int sessionType) {
+	private void _removeServiceClp(
+		Entity entity, int sessionType, String outputPath) {
+
 		_deleteFile(
-			_serviceOutputPath + "/service/" + entity.getName() +
+			outputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceClp.java");
 	}
 
@@ -5066,6 +6037,14 @@ public class ServiceBuilder {
 		_deleteFile(
 			_outputPath + "/service/base/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceClpInvoker.java");
+	}
+
+	private void _removeServiceClpMessageListener(String outputPath) {
+		_deleteFile(outputPath + "/service/messaging/ClpMessageListener.java");
+	}
+
+	private void _removeServiceClpSerializer(String outputPath) {
+		_deleteFile(outputPath + "/service/ClpSerializer.java");
 	}
 
 	private void _removeServiceHttp(Entity entity) {
@@ -5080,21 +6059,49 @@ public class ServiceBuilder {
 				_getSessionTypeName(sessionType) + "ServiceImpl.java");
 	}
 
+	private void _removeServiceJson(Entity entity) {
+		File ejbFile = new File(
+			_outputPath + "/service/http/" + entity.getName() +
+				"ServiceJSON.java");
+
+		if (ejbFile.exists()) {
+			System.out.println("Removing deprecated " + ejbFile);
+
+			ejbFile.delete();
+		}
+	}
+
+	private void _removeServiceJsonSerializer(Entity entity) {
+		File ejbFile = new File(
+			_serviceOutputPath + "/service/http/" + entity.getName() +
+				"JSONSerializer.java");
+
+		if (ejbFile.exists()) {
+			System.out.println("Removing deprecated " + ejbFile);
+
+			ejbFile.delete();
+		}
+	}
+
 	private void _removeServiceSoap(Entity entity) {
 		_deleteFile(
 			_outputPath + "/service/http/" + entity.getName() +
 				"ServiceSoap.java");
 	}
 
-	private void _removeServiceUtil(Entity entity, int sessionType) {
+	private void _removeServiceUtil(
+		Entity entity, int sessionType, String outputPath) {
+
 		_deleteFile(
-			_serviceOutputPath + "/service/" + entity.getName() +
+			outputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceUtil.java");
 	}
 
-	private void _removeServiceWrapper(Entity entity, int sessionType) {
+	private void _removeServiceWrapper(
+		Entity entity, int sessionType, String outputPath) {
+
 		_deleteFile(
-			_serviceOutputPath + "/service/" + entity.getName() +
+			outputPath + "/service/" + entity.getName() +
 				_getSessionTypeName(sessionType) + "ServiceWrapper.java");
 	}
 
@@ -5118,17 +6125,6 @@ public class ServiceBuilder {
 		entity.setResolved();
 	}
 
-	private void _updateSQLFile(
-			String sqlFileName, String createTableSQL, Entity entity)
-		throws IOException {
-
-		File updateSQLFile = new File(_sqlDirName + "/" + sqlFileName);
-
-		if (updateSQLFile.exists()) {
-			_createSQLTables(updateSQLFile, createTableSQL, entity, false);
-		}
-	}
-
 	private static final int _DEFAULT_COLUMN_MAX_LENGTH = 75;
 
 	private static final int _SESSION_TYPE_LOCAL = 1;
@@ -5147,10 +6143,13 @@ public class ServiceBuilder {
 	private static Pattern _getterPattern = Pattern.compile(
 		"public .* get.*" + Pattern.quote("(") + "|public boolean is.*" +
 			Pattern.quote("("));
+	private static final Map<String, Object> _jalopySettings =
+		Collections.singletonMap("failOnFormatError", (Object)Boolean.TRUE);
 	private static Pattern _setterPattern = Pattern.compile(
 		"public void set.*" + Pattern.quote("("));
 
 	private String _apiDirName;
+	private String _apiPackagePath;
 	private String _author;
 	private boolean _autoImportDefaultReferences;
 	private boolean _autoNamespaceTables;
@@ -5172,6 +6171,7 @@ public class ServiceBuilder {
 	private String _modelHintsFileName;
 	private Set<String> _modifiedFileNames = new HashSet<>();
 	private boolean _mvccEnabled;
+	private String _oldServiceOutputPath;
 	private boolean _osgiModule;
 	private String _outputPath;
 	private String _packagePath;
@@ -5193,16 +6193,12 @@ public class ServiceBuilder {
 	private String _targetEntityName;
 	private String _testDirName;
 	private String _testOutputPath;
-	private String _tplActionableDynamicQuery =
-		_TPL_ROOT + "actionable_dynamic_query.ftl";
 	private String _tplBadAliasNames = _TPL_ROOT + "bad_alias_names.txt";
 	private String _tplBadColumnNames = _TPL_ROOT + "bad_column_names.txt";
 	private String _tplBadTableNames = _TPL_ROOT + "bad_table_names.txt";
 	private String _tplBlobModel = _TPL_ROOT + "blob_model.ftl";
-	private String _tplEjbPk = _TPL_ROOT + "ejb_pk.ftl";
+	private String _tplEjbPK = _TPL_ROOT + "ejb_pk.ftl";
 	private String _tplException = _TPL_ROOT + "exception.ftl";
-	private String _tplExportActionableDynamicQuery =
-		_TPL_ROOT + "export_actionable_dynamic_query.ftl";
 	private String _tplExtendedModel = _TPL_ROOT + "extended_model.ftl";
 	private String _tplExtendedModelBaseImpl =
 		_TPL_ROOT + "extended_model_base_impl.ftl";

@@ -14,48 +14,50 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.LayoutFriendlyURLException;
-import com.liferay.portal.LayoutFriendlyURLsException;
-import com.liferay.portal.LayoutNameException;
-import com.liferay.portal.LayoutParentLayoutIdException;
-import com.liferay.portal.LayoutTypeException;
-import com.liferay.portal.NoSuchLayoutException;
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.bean.IdentifiableBean;
+import com.liferay.portal.kernel.exception.LayoutFriendlyURLException;
+import com.liferay.portal.kernel.exception.LayoutFriendlyURLsException;
+import com.liferay.portal.kernel.exception.LayoutNameException;
+import com.liferay.portal.kernel.exception.LayoutParentLayoutIdException;
+import com.liferay.portal.kernel.exception.LayoutTypeException;
+import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutFriendlyURL;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutSetPrototype;
+import com.liferay.portal.kernel.model.LayoutType;
+import com.liferay.portal.kernel.model.LayoutTypeController;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.portlet.FriendlyURLMapper;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.persistence.LayoutFriendlyURLPersistence;
+import com.liferay.portal.kernel.service.persistence.LayoutPersistence;
+import com.liferay.portal.kernel.service.persistence.LayoutSetPersistence;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.model.LayoutFriendlyURL;
-import com.liferay.portal.model.LayoutSet;
-import com.liferay.portal.model.LayoutSetPrototype;
-import com.liferay.portal.model.LayoutType;
-import com.liferay.portal.model.LayoutTypeController;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
+import com.liferay.portal.kernel.util.comparator.LayoutPriorityComparator;
 import com.liferay.portal.model.impl.LayoutImpl;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.service.ResourcePermissionLocalService;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.persistence.LayoutFriendlyURLPersistence;
-import com.liferay.portal.service.persistence.LayoutPersistence;
-import com.liferay.portal.service.persistence.LayoutSetPersistence;
 import com.liferay.portal.util.LayoutTypeControllerTracker;
-import com.liferay.portal.util.Portal;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.comparator.LayoutPriorityComparator;
-import com.liferay.portlet.sites.util.SitesUtil;
+import com.liferay.sites.kernel.util.SitesUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +67,7 @@ import java.util.Map;
 /**
  * @author Raymond Augé
  */
-public class LayoutLocalServiceHelper implements IdentifiableBean {
-
-	@Override
-	public String getBeanIdentifier() {
-		return _beanIdentifier;
-	}
+public class LayoutLocalServiceHelper implements IdentifiableOSGiService {
 
 	public String getFriendlyURL(
 			long groupId, boolean privateLayout, long layoutId, String name,
@@ -112,7 +109,7 @@ public class LayoutLocalServiceHelper implements IdentifiableBean {
 	}
 
 	public String getFriendlyURL(String friendlyURL) {
-		return FriendlyURLNormalizerUtil.normalize(friendlyURL);
+		return FriendlyURLNormalizerUtil.normalizeWithEncoding(friendlyURL);
 	}
 
 	public Map<Locale, String> getFriendlyURLMap(
@@ -179,8 +176,20 @@ public class LayoutLocalServiceHelper implements IdentifiableBean {
 			return priority;
 		}
 		catch (NoSuchLayoutException nsle) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(nsle, nsle);
+			}
+
 			return 0;
 		}
+	}
+
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return LayoutLocalServiceHelper.class.getName();
 	}
 
 	public long getParentLayoutId(
@@ -213,11 +222,6 @@ public class LayoutLocalServiceHelper implements IdentifiableBean {
 		}
 
 		return false;
-	}
-
-	@Override
-	public void setBeanIdentifier(String beanIdentifier) {
-		_beanIdentifier = beanIdentifier;
 	}
 
 	public void validate(
@@ -359,7 +363,9 @@ public class LayoutLocalServiceHelper implements IdentifiableBean {
 
 		LayoutImpl.validateFriendlyURLKeyword(friendlyURL);
 
-		if (friendlyURL.contains(Portal.FRIENDLY_URL_SEPARATOR)) {
+		if (friendlyURL.contains(Portal.FRIENDLY_URL_SEPARATOR) ||
+			friendlyURL.endsWith(_FRIENDLY_URL_SEPARATOR_HEAD)) {
+
 			LayoutFriendlyURLException lfurle = new LayoutFriendlyURLException(
 				LayoutFriendlyURLException.KEYWORD_CONFLICT);
 
@@ -402,8 +408,8 @@ public class LayoutLocalServiceHelper implements IdentifiableBean {
 			if (friendlyURL.startsWith(i18nPathLanguageId + StringPool.SLASH) ||
 				friendlyURL.startsWith(
 					StringPool.SLASH + languageId + StringPool.SLASH) ||
-				friendlyURL.endsWith(i18nPathLanguageId) ||
-				friendlyURL.endsWith(StringPool.SLASH + languageId)) {
+				friendlyURL.equals(i18nPathLanguageId) ||
+				friendlyURL.equals(StringPool.SLASH + languageId)) {
 
 				LayoutFriendlyURLException lfurle =
 					new LayoutFriendlyURLException(
@@ -582,8 +588,13 @@ public class LayoutLocalServiceHelper implements IdentifiableBean {
 	@BeanReference(type = ResourcePermissionLocalService.class)
 	protected ResourcePermissionLocalService resourcePermissionLocalService;
 
+	private static final String _FRIENDLY_URL_SEPARATOR_HEAD =
+		Portal.FRIENDLY_URL_SEPARATOR.substring(
+			0, Portal.FRIENDLY_URL_SEPARATOR.length() - 1);
+
 	private static final int _PRIORITY_BUFFER = 1000000;
 
-	private String _beanIdentifier;
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutLocalServiceHelper.class);
 
 }

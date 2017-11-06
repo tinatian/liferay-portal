@@ -16,10 +16,10 @@ package com.liferay.portlet.exportimport.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.exportimport.kernel.service.StagingServiceUtil;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import com.liferay.portlet.exportimport.service.StagingServiceUtil;
 
 import java.rmi.RemoteException;
 
@@ -81,12 +81,27 @@ public class StagingServiceSoap {
 		}
 	}
 
-	public static com.liferay.portlet.exportimport.lar.MissingReferences publishStagingRequest(
-		long stagingRequestId,
-		com.liferay.portlet.exportimport.model.ExportImportConfigurationSoap exportImportConfiguration)
+	public static void propagateExportImportLifecycleEvent(int code,
+		int processFlag, java.lang.String processId,
+		java.util.List<java.io.Serializable> arguments)
 		throws RemoteException {
 		try {
-			com.liferay.portlet.exportimport.lar.MissingReferences returnValue = StagingServiceUtil.publishStagingRequest(stagingRequestId,
+			StagingServiceUtil.propagateExportImportLifecycleEvent(code,
+				processFlag, processId, arguments);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static com.liferay.exportimport.kernel.lar.MissingReferences publishStagingRequest(
+		long stagingRequestId,
+		com.liferay.exportimport.kernel.model.ExportImportConfigurationSoap exportImportConfiguration)
+		throws RemoteException {
+		try {
+			com.liferay.exportimport.kernel.lar.MissingReferences returnValue = StagingServiceUtil.publishStagingRequest(stagingRequestId,
 					com.liferay.portlet.exportimport.model.impl.ExportImportConfigurationModelImpl.toModel(
 						exportImportConfiguration));
 

@@ -21,10 +21,11 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.social.model.SocialRequest;
-import com.liferay.portlet.social.service.SocialRequestLocalServiceUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.util.LoggingTimer;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.social.kernel.model.SocialRequest;
+import com.liferay.social.kernel.service.SocialRequestLocalServiceUtil;
 
 /**
  * @author Bryan Engler
@@ -69,7 +70,10 @@ public class VerifySocial extends VerifyProcess {
 
 				@Override
 				public void performAction(SocialRequest socialRequest) {
-					SocialRequestLocalServiceUtil.deleteRequest(socialRequest);
+					try (LoggingTimer loggingTimer = new LoggingTimer()) {
+						SocialRequestLocalServiceUtil.deleteRequest(
+							socialRequest);
+					}
 				}
 
 			});

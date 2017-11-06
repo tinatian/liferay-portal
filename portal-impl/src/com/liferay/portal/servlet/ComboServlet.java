@@ -16,9 +16,13 @@ package com.liferay.portal.servlet;
 
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.SingleVMPoolUtil;
+import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.model.PortletApp;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.RequestDispatcherUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
@@ -26,28 +30,22 @@ import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.language.AggregateResourceBundle;
-import com.liferay.portal.language.LanguageResources;
 import com.liferay.portal.minifier.MinifierUtil;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.model.PortletApp;
-import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.servlet.filters.dynamiccss.DynamicCSSUtil;
 import com.liferay.portal.util.AggregateUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.PortletKeys;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.PortletConfigFactoryUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -56,12 +54,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
-
-import javax.portlet.PortletConfig;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -114,10 +108,11 @@ public class ComboServlet extends HttpServlet {
 		int index = modulePath.indexOf(CharPool.COLON);
 
 		if (index > 0) {
-			return modulePath.substring(index + 1);
+			return HttpUtil.removePathParameters(
+				modulePath.substring(index + 1));
 		}
 
-		return modulePath;
+		return HttpUtil.removePathParameters(modulePath);
 	}
 
 	protected void doService(
@@ -141,20 +136,58 @@ public class ComboServlet extends HttpServlet {
 
 			name = HttpUtil.decodePath(name);
 
+			ServletContext servletContext = getServletContext();
+
+			String contextPath = servletContext.getContextPath();
+
+			if (name.startsWith(contextPath)) {
+				name = name.replaceFirst(contextPath, StringPool.BLANK);
+			}
+
+			String pathProxy = PortalUtil.getPathProxy();
+
+			if (name.startsWith(pathProxy)) {
+				name = name.replaceFirst(pathProxy, StringPool.BLANK);
+			}
+
 			modulePathsSet.add(name);
 		}
 
 		if (modulePathsSet.isEmpty()) {
-			throw new IllegalArgumentException(
-				"Query string translates to an empty module paths set");
+			PortalUtil.sendError(
+				HttpServletResponse.SC_NOT_FOUND,
+				new NoSuchLayoutException(
+					"Query string translates to an empty module paths set"),
+				request, response);
+
+			return;
 		}
 
 		String[] modulePaths = modulePathsSet.toArray(
 			new String[modulePathsSet.size()]);
 
-		String firstModulePath = modulePaths[0];
+		String extension = StringPool.BLANK;
 
-		String extension = FileUtil.getExtension(firstModulePath);
+		for (String modulePath : modulePaths) {
+			String pathExtension = _getModulePathExtension(modulePath);
+
+			if (Validator.isNull(pathExtension)) {
+				continue;
+			}
+
+			if (Validator.isNull(extension)) {
+				extension = pathExtension;
+			}
+
+			if (!extension.equals(pathExtension)) {
+				response.setHeader(
+					HttpHeaders.CACHE_CONTROL,
+					HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+				return;
+			}
+		}
 
 		String minifierType = ParamUtil.getString(request, "minifierType");
 
@@ -177,15 +210,8 @@ public class ComboServlet extends HttpServlet {
 		if (!PropsValues.COMBO_CHECK_TIMESTAMP) {
 			modulePathsString = Arrays.toString(modulePaths);
 
-			if (minifierType.equals("css") &&
-				PortalUtil.isRightToLeft(request)) {
-
-				modulePathsString += ".rtl";
-			}
-			else if (minifierType.equals("js")) {
-				modulePathsString +=
-					StringPool.POUND + LanguageUtil.getLanguageId(request);
-			}
+			modulePathsString +=
+				StringPool.POUND + LanguageUtil.getLanguageId(request);
 
 			bytesArray = _bytesArrayPortalCache.get(modulePathsString);
 		}
@@ -200,7 +226,7 @@ public class ComboServlet extends HttpServlet {
 					response.setHeader(
 						HttpHeaders.CACHE_CONTROL,
 						HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE);
-					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
 					return;
 				}
@@ -263,8 +289,15 @@ public class ComboServlet extends HttpServlet {
 			resourcePath = portlet.getContextPath() + resourcePath;
 		}
 
-		String fileContentKey = resourcePath.concat(StringPool.QUESTION).concat(
-			minifierType);
+		StringBundler sb = new StringBundler(5);
+
+		sb.append(resourcePath);
+		sb.append(StringPool.QUESTION);
+		sb.append(minifierType);
+		sb.append("&languageId=");
+		sb.append(ParamUtil.getString(request, "languageId"));
+
+		String fileContentKey = sb.toString();
 
 		FileContentBag fileContentBag = _fileContentBagPortalCache.get(
 			fileContentKey);
@@ -337,11 +370,11 @@ public class ComboServlet extends HttpServlet {
 						stringFileContent);
 				}
 				else if (minifierType.equals("js")) {
-					stringFileContent = translate(
-						request, portletId, stringFileContent);
-
 					stringFileContent = MinifierUtil.minifyJavaScript(
 						resourcePath, stringFileContent);
+
+					stringFileContent = stringFileContent.concat(
+						StringPool.NEW_LINE);
 				}
 			}
 
@@ -370,7 +403,7 @@ public class ComboServlet extends HttpServlet {
 
 		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletId);
 
-		if (portlet.isUndeployedPortlet()) {
+		if ((portlet == null) || portlet.isUndeployedPortlet()) {
 			return null;
 		}
 
@@ -383,8 +416,10 @@ public class ComboServlet extends HttpServlet {
 		if (!PortalUtil.isValidResourceId(resourcePath)) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Invalid resource " + request.getRequestURL() + "?" +
-						request.getQueryString());
+					StringBundler.concat(
+						"Invalid resource ",
+						String.valueOf(request.getRequestURL()), "?",
+						request.getQueryString()));
 			}
 
 			return null;
@@ -393,34 +428,10 @@ public class ComboServlet extends HttpServlet {
 		return servletContext.getRequestDispatcher(resourcePath);
 	}
 
-	protected String translate(
-		HttpServletRequest request, String portletId,
-		String stringFileContent) {
-
-		String languageId = LanguageUtil.getLanguageId(request);
-
-		Locale locale = LocaleUtil.fromLanguageId(languageId);
-
-		ResourceBundle resourceBundle = LanguageResources.getResourceBundle(
-			locale);
-
-		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletId);
-
-		if (portlet != null) {
-			PortletConfig portletConfig = PortletConfigFactoryUtil.create(
-				portlet, getServletContext());
-
-			if (portletConfig != null) {
-				resourceBundle = new AggregateResourceBundle(
-					portletConfig.getResourceBundle(locale), resourceBundle);
-			}
-		}
-
-		return LanguageUtil.process(resourceBundle, locale, stringFileContent);
-	}
-
 	protected boolean validateModuleExtension(String moduleName)
 		throws Exception {
+
+		moduleName = getResourcePath(moduleName);
 
 		int index = moduleName.indexOf(CharPool.QUESTION);
 
@@ -446,6 +457,18 @@ public class ComboServlet extends HttpServlet {
 		return validModuleExtension;
 	}
 
+	private String _getModulePathExtension(String modulePath) {
+		String resourcePath = getResourcePath(modulePath);
+
+		int index = resourcePath.indexOf(CharPool.QUESTION);
+
+		if (index != -1) {
+			resourcePath = resourcePath.substring(0, index);
+		}
+
+		return FileUtil.getExtension(resourcePath);
+	}
+
 	private static final String _CSS_EXTENSION = "css";
 
 	private static final String _CSS_MINIFIED_SUFFIX = "-min.css";
@@ -465,7 +488,7 @@ public class ComboServlet extends HttpServlet {
 
 	private final Set<String> _protectedParameters = SetUtil.fromArray(
 		new String[] {
-			"b", "browserId", "minifierType", "languageId", "t", "themeId"
+			"b", "browserId", "minifierType", "languageId", "t", "themeId", "zx"
 		});
 
 	private static class FileContentBag implements Serializable {

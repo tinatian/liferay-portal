@@ -14,11 +14,16 @@
 
 package com.liferay.css.builder;
 
+import com.liferay.portal.kernel.model.ModelHintsConstants;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.model.ModelHintsConstants;
 
 import java.io.File;
+
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Brian Wing Shun Chan
@@ -28,34 +33,56 @@ import java.io.File;
  */
 public class CSSBuilderUtil {
 
-	public static File getCacheFile(String fileName) {
-		return getCacheFile(fileName, StringPool.BLANK);
+	public static File getOutputFile(String fileName, String outputDirName) {
+		return getOutputFile(fileName, outputDirName, StringPool.BLANK);
 	}
 
-	public static File getCacheFile(String fileName, String suffix) {
-		return new File(getCacheFileName(fileName, suffix));
+	public static File getOutputFile(
+		String fileName, String outputDirName, String suffix) {
+
+		return new File(getOutputFileName(fileName, outputDirName, suffix));
 	}
 
-	public static String getCacheFileName(String fileName, String suffix) {
+	public static String getOutputFileName(
+		String fileName, String outputDirName, String suffix) {
+
 		String cacheFileName = StringUtil.replace(
-			fileName, StringPool.BACK_SLASH, StringPool.SLASH);
+			fileName, CharPool.BACK_SLASH, CharPool.SLASH);
 
-		int x = cacheFileName.lastIndexOf(StringPool.SLASH);
-		int y = cacheFileName.lastIndexOf(StringPool.PERIOD);
+		int x = cacheFileName.lastIndexOf(CharPool.SLASH);
+		int y = cacheFileName.lastIndexOf(CharPool.PERIOD);
 
 		if (cacheFileName.endsWith(".scss")) {
 			cacheFileName = cacheFileName.substring(0, y + 1) + "css";
 		}
 
-		return cacheFileName.substring(0, x + 1) + ".sass-cache/" +
+		return cacheFileName.substring(0, x + 1) + outputDirName +
 			cacheFileName.substring(x + 1, y) + suffix +
-			cacheFileName.substring(y);
+				cacheFileName.substring(y);
 	}
 
 	public static String getRtlCustomFileName(String fileName) {
-		int pos = fileName.lastIndexOf(StringPool.PERIOD);
+		int pos = fileName.lastIndexOf(CharPool.PERIOD);
 
 		return fileName.substring(0, pos) + "_rtl" + fileName.substring(pos);
+	}
+
+	public static String parseCSSImports(String content) {
+		StringBuffer sb = new StringBuffer();
+
+		Matcher matcher = _cssImportPattern.matcher(content);
+
+		Date date = new Date();
+
+		while (matcher.find()) {
+			String cssImport = matcher.group();
+
+			matcher.appendReplacement(sb, cssImport + "?t=" + date.getTime());
+		}
+
+		matcher.appendTail(sb);
+
+		return sb.toString();
 	}
 
 	public static String parseStaticTokens(String content) {
@@ -74,5 +101,8 @@ public class CSSBuilderUtil {
 				ModelHintsConstants.TEXTAREA_DISPLAY_WIDTH
 			});
 	}
+
+	private static final Pattern _cssImportPattern = Pattern.compile(
+		"@import\\s+url\\s*\\(\\s*['\"]?(.+\\.css)");
 
 }

@@ -14,27 +14,27 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchUserNotificationEventException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserNotificationEventException;
+import com.liferay.portal.kernel.model.UserNotificationEvent;
+import com.liferay.portal.kernel.service.UserNotificationEventLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.UserNotificationEventPersistence;
+import com.liferay.portal.kernel.service.persistence.UserNotificationEventUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.UserNotificationEvent;
-import com.liferay.portal.service.UserNotificationEventLocalServiceUtil;
-import com.liferay.portal.service.persistence.UserNotificationEventPersistence;
-import com.liferay.portal.service.persistence.UserNotificationEventUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -198,6 +198,15 @@ public class UserNotificationEventPersistenceTest {
 	}
 
 	@Test
+	public void testCountByType() throws Exception {
+		_persistence.countByType(StringPool.BLANK);
+
+		_persistence.countByType(StringPool.NULL);
+
+		_persistence.countByType((String)null);
+	}
+
+	@Test
 	public void testCountByU_DT() throws Exception {
 		_persistence.countByU_DT(RandomTestUtil.nextLong(),
 			RandomTestUtil.nextInt());
@@ -252,6 +261,19 @@ public class UserNotificationEventPersistenceTest {
 			RandomTestUtil.randomBoolean(), RandomTestUtil.randomBoolean());
 
 		_persistence.countByU_A_A(0L, RandomTestUtil.randomBoolean(),
+			RandomTestUtil.randomBoolean());
+	}
+
+	@Test
+	public void testCountByU_T_DT_D() throws Exception {
+		_persistence.countByU_T_DT_D(RandomTestUtil.nextLong(),
+			StringPool.BLANK, RandomTestUtil.nextInt(),
+			RandomTestUtil.randomBoolean());
+
+		_persistence.countByU_T_DT_D(0L, StringPool.NULL, 0,
+			RandomTestUtil.randomBoolean());
+
+		_persistence.countByU_T_DT_D(0L, (String)null, 0,
 			RandomTestUtil.randomBoolean());
 	}
 

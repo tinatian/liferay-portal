@@ -14,21 +14,21 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.AddressCityException;
-import com.liferay.portal.AddressStreetException;
-import com.liferay.portal.AddressZipException;
+import com.liferay.portal.kernel.exception.AddressCityException;
+import com.liferay.portal.kernel.exception.AddressStreetException;
+import com.liferay.portal.kernel.exception.AddressZipException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Account;
+import com.liferay.portal.kernel.model.Address;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.Country;
+import com.liferay.portal.kernel.model.ListTypeConstants;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.SystemEventConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Account;
-import com.liferay.portal.model.Address;
-import com.liferay.portal.model.Contact;
-import com.liferay.portal.model.Country;
-import com.liferay.portal.model.ListTypeConstants;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.SystemEventConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.base.AddressLocalServiceBaseImpl;
 
 import java.util.List;
@@ -38,26 +38,6 @@ import java.util.List;
  * @author Alexander Chow
  */
 public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #addAddress(long, String,
-	 *             long, String, String, String, String, String, long, long,
-	 *             int, boolean, boolean, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public Address addAddress(
-			long userId, String className, long classPK, String street1,
-			String street2, String street3, String city, String zip,
-			long regionId, long countryId, long typeId, boolean mailing,
-			boolean primary)
-		throws PortalException {
-
-		return addAddress(
-			userId, className, classPK, street1, street2, street3, city, zip,
-			regionId, countryId, typeId, mailing, primary,
-			new ServiceContext());
-	}
 
 	@Override
 	public Address addAddress(
@@ -225,7 +205,7 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 			throw new AddressCityException();
 		}
 		else if (Validator.isNull(zip)) {
-			Country country = countryService.fetchCountry(countryId);
+			Country country = countryPersistence.fetchByPrimaryKey(countryId);
 
 			if ((country != null) && country.isZipRequired()) {
 				throw new AddressZipException();
@@ -247,7 +227,7 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 			(classNameId ==
 				classNameLocalService.getClassNameId(Organization.class))) {
 
-			listTypeService.validate(
+			listTypeLocalService.validate(
 				typeId, classNameId, ListTypeConstants.ADDRESS);
 		}
 

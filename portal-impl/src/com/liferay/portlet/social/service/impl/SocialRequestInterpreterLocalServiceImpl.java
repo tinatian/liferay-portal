@@ -19,14 +19,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.social.model.SocialRequest;
-import com.liferay.portlet.social.model.SocialRequestFeedEntry;
-import com.liferay.portlet.social.model.SocialRequestInterpreter;
-import com.liferay.portlet.social.model.impl.SocialRequestInterpreterImpl;
 import com.liferay.portlet.social.service.base.SocialRequestInterpreterLocalServiceBaseImpl;
 import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
@@ -37,6 +33,10 @@ import com.liferay.registry.ServiceTracker;
 import com.liferay.registry.ServiceTrackerCustomizer;
 import com.liferay.registry.collections.ServiceRegistrationMap;
 import com.liferay.registry.collections.ServiceRegistrationMapImpl;
+import com.liferay.social.kernel.model.SocialRequest;
+import com.liferay.social.kernel.model.SocialRequestFeedEntry;
+import com.liferay.social.kernel.model.SocialRequestInterpreter;
+import com.liferay.social.kernel.model.impl.SocialRequestInterpreterImpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +93,8 @@ public class SocialRequestInterpreterLocalServiceImpl
 
 	@Override
 	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
+
 		Registry registry = RegistryUtil.getRegistry();
 
 		Filter filter = registry.getFilter(
@@ -245,7 +247,8 @@ public class SocialRequestInterpreterLocalServiceImpl
 		}
 		catch (JSONException jsone) {
 			_log.error(
-				"Unable to create JSON object from " + request.getExtraData());
+				"Unable to create JSON object from " + request.getExtraData(),
+				jsone);
 
 			return StringPool.BLANK;
 		}

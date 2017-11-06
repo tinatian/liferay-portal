@@ -14,28 +14,31 @@
 
 package com.liferay.portal.service.persistence.impl;
 
-import com.liferay.portal.NoSuchRoleException;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
+import com.liferay.portal.kernel.exception.NoSuchRoleException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.ResourceAction;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourceActionLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.RoleFinder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.ResourceAction;
-import com.liferay.portal.model.Role;
 import com.liferay.portal.model.impl.RoleImpl;
-import com.liferay.portal.security.permission.InlineSQLHelperUtil;
-import com.liferay.portal.service.ResourceActionLocalServiceUtil;
-import com.liferay.portal.service.persistence.RoleFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -48,6 +51,9 @@ import java.util.Map;
  * @author Connor McKay
  */
 public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
+
+	public static final String COUNT_BY_GROUP_ROLE_AND_TEAM_ROLE =
+		RoleFinder.class.getName() + ".countByGroupRoleAndTeamRole";
 
 	public static final String COUNT_BY_ORGANIZATION =
 		RoleFinder.class.getName() + ".countByOrganization";
@@ -76,8 +82,14 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	public static final String COUNT_BY_C_N_D_T =
 		RoleFinder.class.getName() + ".countByC_N_D_T";
 
+	public static final String FIND_BY_GROUP_ROLE_AND_TEAM_ROLE =
+		RoleFinder.class.getName() + ".findByGroupRoleAndTeamRole";
+
 	public static final String FIND_BY_SYSTEM =
 		RoleFinder.class.getName() + ".findBySystem";
+
+	public static final String FIND_BY_TEAMS_USER =
+		RoleFinder.class.getName() + ".findByTeamsUser";
 
 	public static final String FIND_BY_USER_GROUP_GROUP_ROLE =
 		RoleFinder.class.getName() + ".findByUserGroupGroupRole";
@@ -105,6 +117,16 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 
 	public static final String JOIN_BY_USERS_ROLES =
 		RoleFinder.class.getName() + ".joinByUsersRoles";
+
+	@Override
+	public int countByGroupRoleAndTeamRole(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId) {
+
+		return doCountByGroupRoleAndTeamRole(
+			companyId, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, false);
+	}
 
 	@Override
 	public int countByKeywords(
@@ -261,6 +283,16 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	}
 
 	@Override
+	public int filterCountByGroupRoleAndTeamRole(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId) {
+
+		return doCountByGroupRoleAndTeamRole(
+			companyId, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, true);
+	}
+
+	@Override
 	public int filterCountByKeywords(
 		long companyId, String keywords, Integer[] types,
 		LinkedHashMap<String, Object> params) {
@@ -300,6 +332,17 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 
 		return doCountByC_N_D_T(
 			companyId, names, descriptions, types, params, andOperator, true);
+	}
+
+	@Override
+	public List<Role> filterFindByGroupRoleAndTeamRole(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId, int start,
+		int end) {
+
+		return doFindByGroupRoleAndTeamRole(
+			companyId, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, start, end, true);
 	}
 
 	@Override
@@ -351,6 +394,17 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	}
 
 	@Override
+	public List<Role> findByGroupRoleAndTeamRole(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId, int start,
+		int end) {
+
+		return doFindByGroupRoleAndTeamRole(
+			companyId, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, start, end, false);
+	}
+
+	@Override
 	public List<Role> findByKeywords(
 		long companyId, String keywords, Integer[] types, int start, int end,
 		OrderByComparator<Role> obc) {
@@ -399,6 +453,36 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 			QueryPos qPos = QueryPos.getInstance(q);
 
 			qPos.add(companyId);
+
+			return q.list(true);
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	@Override
+	public List<Role> findByTeamsUser(long userId, long groupId) {
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_TEAMS_USER);
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addEntity("Role_", RoleImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(groupId);
+			qPos.add(userId);
+			qPos.add(groupId);
+			qPos.add(userId);
 
 			return q.list(true);
 		}
@@ -723,6 +807,93 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 		}
 	}
 
+	protected int doCountByGroupRoleAndTeamRole(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId,
+		boolean inlineSQLHelper) {
+
+		if ((types == null) || (types.length == 0)) {
+			return 0;
+		}
+
+		boolean andOperator = false;
+
+		if (Validator.isNull(keywords)) {
+			andOperator = true;
+		}
+
+		String[] keywordsArray = CustomSQLUtil.keywords(keywords, true);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(COUNT_BY_GROUP_ROLE_AND_TEAM_ROLE);
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Role_.name)", StringPool.LIKE, false,
+				keywordsArray);
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Role_.description)", StringPool.LIKE, true,
+				keywordsArray);
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Team.name)", StringPool.LIKE, false, keywordsArray);
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Team.description)", StringPool.LIKE, true,
+				keywordsArray);
+			sql = StringUtil.replace(
+				sql, "[$EXCLUDED_NAMES$]", getExcludedNames(excludedNames));
+			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+
+			if (inlineSQLHelper && InlineSQLHelperUtil.isEnabled()) {
+				sql = InlineSQLHelperUtil.replacePermissionCheck(
+					sql, Role.class.getName(), "Role_.roleId", null, null,
+					new long[] {0}, null);
+			}
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME, Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(companyId);
+			qPos.add(keywordsArray, 2);
+			qPos.add(keywordsArray, 2);
+
+			for (String excludedName : excludedNames) {
+				qPos.add(excludedName);
+			}
+
+			qPos.add(types);
+			qPos.add(ClassNameLocalServiceUtil.getClassNameId(Team.class));
+			qPos.add(excludedTeamRoleId);
+			qPos.add(teamGroupId);
+			qPos.add(keywordsArray, 2);
+			qPos.add(keywordsArray, 2);
+
+			Iterator<Long> itr = q.iterate();
+
+			if (itr.hasNext()) {
+				Long count = itr.next();
+
+				if (count != null) {
+					return count.intValue();
+				}
+			}
+
+			return 0;
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
 	protected int doCountByC_N_D_T(
 		long companyId, String[] names, String[] descriptions, Integer[] types,
 		LinkedHashMap<String, Object> params, boolean andOperator,
@@ -747,12 +918,14 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(Role_.description)", StringPool.LIKE, true,
 				descriptions);
-			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types));
+			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
 			sql = StringUtil.replace(sql, "[$JOIN$]", getJoin(params));
 			sql = StringUtil.replace(sql, "[$WHERE$]", getWhere(params));
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 
-			if (inlineSQLHelper) {
+			if (inlineSQLHelper &&
+				InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+
 				sql = InlineSQLHelperUtil.replacePermissionCheck(
 					sql, Role.class.getName(), "Role_.roleId", null, null,
 					new long[] {0}, null);
@@ -791,6 +964,83 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 		}
 	}
 
+	protected List<Role> doFindByGroupRoleAndTeamRole(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId, int start,
+		int end, boolean inlineSQLHelper) {
+
+		if ((types == null) || (types.length == 0)) {
+			return Collections.emptyList();
+		}
+
+		boolean andOperator = false;
+
+		if (Validator.isNull(keywords)) {
+			andOperator = true;
+		}
+
+		String[] keywordsArray = CustomSQLUtil.keywords(keywords, true);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			String sql = CustomSQLUtil.get(FIND_BY_GROUP_ROLE_AND_TEAM_ROLE);
+
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Role_.name)", StringPool.LIKE, false,
+				keywordsArray);
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Role_.description)", StringPool.LIKE, true,
+				keywordsArray);
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Team.name)", StringPool.LIKE, false, keywordsArray);
+			sql = CustomSQLUtil.replaceKeywords(
+				sql, "lower(Team.description)", StringPool.LIKE, true,
+				keywordsArray);
+			sql = StringUtil.replace(
+				sql, "[$EXCLUDED_NAMES$]", getExcludedNames(excludedNames));
+			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
+			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+
+			if (inlineSQLHelper && InlineSQLHelperUtil.isEnabled()) {
+				sql = InlineSQLHelperUtil.replacePermissionCheck(
+					sql, Role.class.getName(), "Role_.roleId", null, null,
+					new long[] {0}, null);
+			}
+
+			SQLQuery q = session.createSynchronizedSQLQuery(sql);
+
+			q.addEntity("Role_", RoleImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(companyId);
+			qPos.add(keywordsArray, 2);
+			qPos.add(keywordsArray, 2);
+
+			for (String excludedName : excludedNames) {
+				qPos.add(excludedName);
+			}
+
+			qPos.add(types);
+			qPos.add(ClassNameLocalServiceUtil.getClassNameId(Team.class));
+			qPos.add(excludedTeamRoleId);
+			qPos.add(teamGroupId);
+			qPos.add(keywordsArray, 2);
+			qPos.add(keywordsArray, 2);
+
+			return (List<Role>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw new SystemException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
 	protected List<Role> doFindByC_N_D_T(
 		long companyId, String[] names, String[] descriptions, Integer[] types,
 		LinkedHashMap<String, Object> params, boolean andOperator, int start,
@@ -815,13 +1065,15 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(Role_.description)", StringPool.LIKE, true,
 				descriptions);
-			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types));
+			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
 			sql = StringUtil.replace(sql, "[$JOIN$]", getJoin(params));
 			sql = StringUtil.replace(sql, "[$WHERE$]", getWhere(params));
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
 			sql = CustomSQLUtil.replaceOrderBy(sql, obc);
 
-			if (inlineSQLHelper) {
+			if (inlineSQLHelper &&
+				InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+
 				sql = InlineSQLHelperUtil.replacePermissionCheck(
 					sql, Role.class.getName(), "Role_.roleId", null, null,
 					new long[] {0}, null);
@@ -872,6 +1124,24 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 		}
 
 		return _countByR_U;
+	}
+
+	protected String getExcludedNames(List<String> excludedNames) {
+		if ((excludedNames == null) || excludedNames.isEmpty()) {
+			return StringPool.BLANK;
+		}
+
+		StringBundler sb = new StringBundler(excludedNames.size() + 1);
+
+		sb.append(" AND (");
+
+		for (int i = 0; i < excludedNames.size() - 1; i++) {
+			sb.append("Role_.name != ? AND ");
+		}
+
+		sb.append("Role_.name != ?)");
+
+		return sb.toString();
 	}
 
 	protected String getGroupIds(long[] groupIds, String table) {
@@ -930,24 +1200,20 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 		return join;
 	}
 
-	protected String getTypes(Integer[] types) {
-		if (types.length == 0) {
+	protected String getTypes(int size) {
+		if (size == 0) {
 			return StringPool.BLANK;
 		}
 
-		StringBundler sb = new StringBundler(types.length * 2);
+		StringBundler sb = new StringBundler(size + 1);
 
 		sb.append(" AND (");
 
-		for (int i = 0; i < types.length; i++) {
-			sb.append("Role_.type_ = ?");
-
-			if ((i + 1) < types.length) {
-				sb.append(" OR ");
-			}
+		for (int i = 0; i < size - 1; i++) {
+			sb.append("Role_.type_ = ? OR ");
 		}
 
-		sb.append(StringPool.CLOSE_PARENTHESIS);
+		sb.append("Role_.type_ = ?)");
 
 		return sb.toString();
 	}

@@ -2,12 +2,18 @@
 	<command name="gotoPortletConfiguration">
 		<execute function="Click" locator1="Icon#HEADER_VERTICAL_ELLIPSIS" />
 
-		<execute function="AssertClick" locator1="MenuItem#CONFIGURATION" value1="Configuration" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 	</command>
 
 	<command name="viewPortletTitle" summary="Assert that the Site Admin portlet title displays the text '${portletTitle}'">
+		<var name="key_portletTitle" value="${portletTitle}" />
+
+		<execute function="AssertElementPresent" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" />
+
 		<execute function="AssertTextEquals" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" value1="${portletTitle}" />
 	</command>
 </definition>

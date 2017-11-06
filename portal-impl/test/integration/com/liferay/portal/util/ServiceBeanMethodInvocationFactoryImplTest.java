@@ -14,6 +14,9 @@
 
 package com.liferay.portal.util;
 
+import com.liferay.portal.kernel.model.EmailAddress;
+import com.liferay.portal.kernel.service.EmailAddressLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.EmailAddressUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -22,11 +25,7 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.ServiceBeanMethodInvocationFactoryUtil;
-import com.liferay.portal.model.EmailAddress;
-import com.liferay.portal.service.EmailAddressLocalServiceUtil;
-import com.liferay.portal.service.persistence.EmailAddressUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.lang.reflect.Method;
 
@@ -48,8 +47,7 @@ public class ServiceBeanMethodInvocationFactoryImplTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Test
 	public void testRollback() throws Exception {

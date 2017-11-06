@@ -36,6 +36,9 @@ public class JavadocFormatterInvoker {
 
 		arguments.put("javadoc.author", javadocFormatterArgs.getAuthor());
 		arguments.put(
+			"javadoc.generate.xml",
+			String.valueOf(javadocFormatterArgs.isGenerateXml()));
+		arguments.put(
 			"javadoc.init",
 			String.valueOf(javadocFormatterArgs.isInitializeMissingJavadocs()));
 		arguments.put(
@@ -44,10 +47,6 @@ public class JavadocFormatterInvoker {
 		arguments.put(
 			"javadoc.limit",
 			StringUtil.merge(javadocFormatterArgs.getLimits()));
-		arguments.put(
-			"javadoc.lowest.supported.java.version",
-			String.valueOf(
-				javadocFormatterArgs.getLowestSupportedJavaVersion()));
 		arguments.put(
 			"javadoc.output.file.prefix",
 			javadocFormatterArgs.getOutputFilePrefix());

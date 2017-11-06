@@ -16,27 +16,27 @@ package com.liferay.portal.sharepoint;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.GroupServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.sharepoint.dws.MemberResponseElement;
 import com.liferay.portal.sharepoint.dws.ResponseElement;
 import com.liferay.portal.sharepoint.dws.RoleResponseElement;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.WebKeys;
 
 import java.util.List;
 
@@ -55,8 +55,9 @@ public class SharepointDocumentWorkspaceServlet extends HttpServlet {
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
-				request.getHeader(HttpHeaders.USER_AGENT) + " " +
-					request.getMethod() + " " + request.getRequestURI());
+				StringBundler.concat(
+					request.getHeader(HttpHeaders.USER_AGENT), " ",
+					request.getMethod(), " ", request.getRequestURI()));
 		}
 
 		try {
@@ -89,8 +90,8 @@ public class SharepointDocumentWorkspaceServlet extends HttpServlet {
 			results = results.substring(pos + 1);
 		}
 
-		results = StringUtil.replace(results, "<", "&lt;");
-		results = StringUtil.replace(results, ">", "&gt;");
+		results = StringUtil.replace(results, '<', "&lt;");
+		results = StringUtil.replace(results, '>', "&gt;");
 
 		sb.append(results);
 
@@ -147,11 +148,12 @@ public class SharepointDocumentWorkspaceServlet extends HttpServlet {
 
 		Element root = doc.addElement("Results");
 
-		String url =
-			"http://" + request.getLocalAddr() + ":" + request.getServerPort() +
-				"/sharepoint";
+		String url = StringBundler.concat(
+			"http://", request.getLocalAddr(), ":",
+			String.valueOf(request.getServerPort()), "/sharepoint");
 
 		root.addElement("SubscribeUrl").setText(url);
+
 		root.addElement("MtgInstance");
 		root.addElement("SettingUrl").setText(url);
 		root.addElement("PermsUrl").setText(url);

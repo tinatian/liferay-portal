@@ -19,19 +19,15 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfiguration;
 import com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactoryUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.util.TestPropsValues;
-import com.liferay.portal.module.framework.test.ModuleFrameworkTestUtil;
-import com.liferay.portal.service.test.ServiceTestUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.RequestBackedPortletURLFactory;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,22 +47,22 @@ public class EditorConfigContributorTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@BeforeClass
-	public static void setUpClass() throws Exception {
-		ServiceTestUtil.setUser(TestPropsValues.getUser());
-
-		_bundleIds = ModuleFrameworkTestUtil.getBundleIds(
-			EditorConfigContributor.class, null);
-
-		ModuleFrameworkTestUtil.stopBundles(_bundleIds);
+	public static void setUpClass() {
+		_editorConfigProviderSwapper = new EditorConfigProviderSwapper(
+			Arrays.<Class<?>>asList(
+				EmoticonsEditorConfigContributor.class,
+				ImageEditorConfigContributor.class,
+				TablesEditorConfigContributor.class,
+				TextFormatEditorConfigContributor.class,
+				VideoEditorConfigContributor.class));
 	}
 
 	@AfterClass
 	public static void tearDownClass() {
-		ModuleFrameworkTestUtil.startBundles(_bundleIds);
+		_editorConfigProviderSwapper.close();
 	}
 
 	@After
@@ -248,11 +244,11 @@ public class EditorConfigContributorTest {
 		properties.put("editor.name", _EDITOR_NAME_2);
 		properties.put("service.ranking", 1000);
 
-		EditorConfigContributor ImageEditorConfigContributor =
+		EditorConfigContributor imageEditorConfigContributor =
 			new ImageEditorConfigContributor();
 
 		_editorConfigContributorServiceRegistration2 = registry.registerService(
-			EditorConfigContributor.class, ImageEditorConfigContributor,
+			EditorConfigContributor.class, imageEditorConfigContributor,
 			properties);
 
 		EditorConfiguration editorConfiguration =
@@ -433,8 +429,7 @@ public class EditorConfigContributorTest {
 	}
 
 	@Test
-	public void
-			testPortletNameAndEditorNameOverridesEditorConfigKeyEditorConfig()
+	public void testPortletNameAndEditorNameOverridesEditorConfigKeyEditorConfig()
 		throws Exception {
 
 		Registry registry = RegistryUtil.getRegistry();
@@ -542,14 +537,14 @@ public class EditorConfigContributorTest {
 
 	private static final String _PORTLET_NAME = "testPortletName";
 
-	private static Collection<Long> _bundleIds;
+	private static EditorConfigProviderSwapper _editorConfigProviderSwapper;
 
 	private ServiceRegistration<EditorConfigContributor>
 		_editorConfigContributorServiceRegistration1;
 	private ServiceRegistration<EditorConfigContributor>
 		_editorConfigContributorServiceRegistration2;
 
-	private class EmoticonsEditorConfigContributor
+	private static class EmoticonsEditorConfigContributor
 		implements EditorConfigContributor {
 
 		@Override
@@ -576,7 +571,7 @@ public class EditorConfigContributorTest {
 
 	}
 
-	private class ImageEditorConfigContributor
+	private static class ImageEditorConfigContributor
 		implements EditorConfigContributor {
 
 		@Override
@@ -599,7 +594,7 @@ public class EditorConfigContributorTest {
 
 	}
 
-	private class TablesEditorConfigContributor
+	private static class TablesEditorConfigContributor
 		implements EditorConfigContributor {
 
 		@Override
@@ -626,7 +621,7 @@ public class EditorConfigContributorTest {
 
 	}
 
-	private class TextFormatEditorConfigContributor
+	private static class TextFormatEditorConfigContributor
 		implements EditorConfigContributor {
 
 		@Override
@@ -656,7 +651,7 @@ public class EditorConfigContributorTest {
 
 	}
 
-	private class VideoEditorConfigContributor
+	private static class VideoEditorConfigContributor
 		implements EditorConfigContributor {
 
 		@Override

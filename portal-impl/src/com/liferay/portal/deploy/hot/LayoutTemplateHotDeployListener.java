@@ -19,10 +19,11 @@ import com.liferay.portal.kernel.deploy.hot.HotDeployEvent;
 import com.liferay.portal.kernel.deploy.hot.HotDeployException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.LayoutTemplate;
+import com.liferay.portal.kernel.service.LayoutTemplateLocalServiceUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
-import com.liferay.portal.model.LayoutTemplate;
-import com.liferay.portal.service.LayoutTemplateLocalServiceUtil;
-import com.liferay.portal.util.WebKeys;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +75,7 @@ public class LayoutTemplateHotDeployListener extends BaseHotDeployListener {
 			_log.debug("Invoking deploy for " + servletContextName);
 		}
 
-		String[] xmls = new String[] {
+		String[] xmls = {
 			HttpUtil.URLtoString(
 				servletContext.getResource(
 					"/WEB-INF/liferay-layout-templates.xml"))
@@ -106,8 +107,10 @@ public class LayoutTemplateHotDeployListener extends BaseHotDeployListener {
 			}
 			else {
 				_log.info(
-					layoutTemplates.size() + " layout templates for " +
-						servletContextName + " are available for use");
+					StringBundler.concat(
+						String.valueOf(layoutTemplates.size()),
+						" layout templates for ", servletContextName,
+						" are available for use"));
 			}
 		}
 	}
@@ -154,8 +157,10 @@ public class LayoutTemplateHotDeployListener extends BaseHotDeployListener {
 			}
 			else {
 				_log.info(
-					layoutTemplates.size() + " layout templates for " +
-						servletContextName + " were unregistered");
+					StringBundler.concat(
+						String.valueOf(layoutTemplates.size()),
+						" layout templates for ", servletContextName,
+						" were unregistered"));
 			}
 		}
 	}

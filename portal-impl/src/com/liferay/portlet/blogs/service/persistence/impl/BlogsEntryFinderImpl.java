@@ -14,6 +14,8 @@
 
 package com.liferay.portlet.blogs.service.persistence.impl;
 
+import com.liferay.blogs.kernel.model.BlogsEntry;
+import com.liferay.blogs.kernel.service.persistence.BlogsEntryFinder;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -22,13 +24,12 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.CalendarUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portlet.blogs.model.BlogsEntry;
 import com.liferay.portlet.blogs.model.impl.BlogsEntryImpl;
-import com.liferay.portlet.blogs.service.persistence.BlogsEntryFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.sql.Timestamp;
@@ -273,6 +274,10 @@ public class BlogsEntryFinderImpl
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
 			q.addEntity("BlogsEntry", BlogsEntryImpl.class);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(PortalUtil.getClassNameId(BlogsEntry.class));
 
 			return q.list(true);
 		}

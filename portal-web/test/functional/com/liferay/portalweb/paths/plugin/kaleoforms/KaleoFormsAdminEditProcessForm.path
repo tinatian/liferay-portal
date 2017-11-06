@@ -14,6 +14,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>SAVE_BUTTON</td>
+	<td>//button[contains(.,'Save') and contains(@onclick,'saveTemplate')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td></td>
 	<td></td>
 	<td></td>
@@ -21,7 +26,7 @@
 <!--FORM_TABLE-->
 <tr>
 	<td>FORM_TABLE_NAME</td>
-	<td>xpath=(//div[contains(@id,'kaleoformsportlet_ddmTemplates')]//tr[contains(.,'${key_kfFormName}')]/td[1])[1]</td>
+	<td>//tr[contains(.,'${key_kfFormName}')]/td[contains(.,'${key_kfFormName}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -30,8 +35,13 @@
 	<td></td>
 </tr>
 <tr>
+	<td>FORM_TABLE_NAME_LINK</td>
+	<td>//table[contains(@data-searchcontainerid,'ddmTemplatesSearchContainer')]//a[@data-name='${key_kfFormName}']</td>
+	<td></td>
+</tr>
+<tr>
 	<td>FORM_TABLE_ACTIONS</td>
-	<td>xpath=(//div[contains(@id,'kaleoformsportlet_ddmTemplates')]//tr[contains(.,'${key_kfFormName}')]/td[3]/div/a[@title='Actions'])[1]</td>
+	<td>//tr[contains(.,'${key_kfFormName}')]//a[contains(@class,'dropdown-toggle')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -42,7 +52,7 @@
 <!--FORM_MENULIST-->
 <tr>
 	<td>FORM_MENULIST_EDIT</td>
-	<td>//a[@role='menuitem' and contains(.,'Edit')]</td>
+	<td>//a[@role='menuitem' and contains(.,'Edit Form')]</td>
 	<td></td>
 </tr>
 <tr>

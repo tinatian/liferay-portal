@@ -1,11 +1,11 @@
 <definition>
 	<command name="configureDisplaySettingsPG">
 		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
+			<var name="portletName" value="${portletName}" />
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
 		<if>
 			<condition function="IsElementPresent" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_DROPDOWN_COLLAPSED" />
@@ -54,6 +54,7 @@
 					<condition function="IsElementPresent" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_DISPLAY_STYLE_VIEW_CURRENT_PRESENT" />
 					<then>
 						<execute function="Click" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_DISPLAY_STYLE_VIEW_CURRENT_PRESENT" />
+
 						<execute function="Click" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_MOVE_CURRENT_TO_AVAILABLE_BUTTON" />
 					</then>
 				</while>
@@ -65,7 +66,9 @@
 					<then>
 						<for list="${currentDisplayStyleViews}" param="currentDisplayStyleView">
 							<execute function="Select" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_DISPLAY_STYLE_VIEWS_AVAILABLE_SELECT" value1="${currentDisplayStyleView}" />
+
 							<execute function="Click" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_MOVE_AVAILABLE_TO_CURRENT_BUTTON" />
+
 							<execute function="AssertTextEquals#assertPartialText" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_DISPLAY_STYLE_VIEWS_CURRENT_SELECT" value1="${currentDisplayStyleView}" />
 						</for>
 					</then>
@@ -73,16 +76,17 @@
 			</then>
 		</if>
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="Button#clickSave" />
 
 		<if>
 			<equals arg1="${currentDisplayStyleViews}" arg2="" />
 			<then>
-				<execute function="AssertClick" locator1="Message#ERROR_1" value1="Your request failed to complete." />
-				<execute function="AssertClick" locator1="Message#ERROR_2" value1="Display style views cannot be empty." />
+				<execute macro="Alert#viewRequestFailedToComplete" />
+
+				<execute function="AssertClick#assertPartialTextClickAt" locator1="Message#ERROR_2" value1="Display style views cannot be empty." />
 			</then>
 			<else>
-				<execute function="AssertClick" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+				<execute macro="Alert#viewSuccessMessage" />
 			</else>
 		</if>
 	</command>
@@ -93,21 +97,30 @@
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
 		<execute function="AssertClick" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_ROOT_FOLDER_SELECT_BUTTON" value1="Select" />
+
 		<execute function="SelectFrame" value1="relative=top" />
+
 		<execute function="SelectFrame" locator1="IFrame#SELECT_FOLDER" />
 
 		<var name="key_dmFolderName" value="${dmFolderName}" />
 
 		<execute function="AssertTextEquals" locator1="DocumentsAndMediaSelectDocument#FOLDER_TABLE_FOLDER" value1="${dmFolderName}" />
+
 		<execute function="AssertClick" locator1="DocumentsAndMediaSelectDocument#FOLDER_TABLE_FOLDER_CHOOSE" value1="Choose" />
+
 		<execute function="SelectFrame" value1="relative=top" />
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
 		<execute function="AssertTextEquals" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_ROOT_FOLDER_FIELD" value1="${dmFolderName}" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
@@ -117,22 +130,46 @@
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
-		<execute function="AssertClick" locator1="NavPill#SCOPE" value1="Scope" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Scope" />
+		</execute>
 
-		<execute function="AssertClick" locator1="MenuItem#SCOPE" value1="${currentScope}" />
+		<execute function="Select" locator1="Select#SCOPE" value1="Global" />
 
-		<execute function="AssertClick" locator1="MenuItem#GLOBAL" value1="Global" />
+		<execute function="AssertSelectedLabel" locator1="Select#SCOPE" value1="Global" />
+
+		<execute function="Click" locator1="Button#SAVE" />
+
+		<execute macro="Alert#viewSuccessMessage" />
+	</command>
+
+	<command name="setDescriptiveView">
+		<execute function="Click" locator1="Icon#DISPLAY_STYLE_DESCRIPTIVE" />
+
+		<execute function="AssertElementPresent" locator1="Icon#DISPLAY_STYLE_DESCRIPTIVE_ACTIVE" />
+	</command>
+
+	<command name="setIconView">
+		<execute function="Click" locator1="Icon#DISPLAY_STYLE_ICON" />
+
+		<execute function="AssertElementPresent" locator1="Icon#DISPLAY_STYLE_ICON_ACTIVE" />
+	</command>
+
+	<command name="setListView">
+		<execute function="Click" locator1="Icon#DISPLAY_STYLE_LIST" />
+
+		<execute function="AssertElementPresent" locator1="Icon#DISPLAY_STYLE_LIST_ACTIVE" />
 	</command>
 
 	<command name="viewDefaultConfigurationDisplaySettingsPG">
 		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
+			<var name="portletName" value="${portletName}" />
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
 		<if>
 			<condition function="IsElementPresent" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_DROPDOWN_COLLAPSED" />
@@ -144,29 +181,34 @@
 		<execute function="AssertChecked" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_SHOW_SEARCH_CHECKBOX" />
 		<execute function="AssertTextEquals#assertValue" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_MAXIMUM_ENTRIES_TO_DISPLAY_SELECT" value1="20" />
 		<execute function="AssertChecked" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_SHOW_SEARCH_CHECKBOX" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="viewDefaultPG">
 		<var name="key_portletName" value="Documents and Media" />
 
-		<execute function="AssertTextEquals" locator1="BasePortlet#TITLE" value1="Documents and Media" />
-		<execute function="AssertTextEquals" locator1="Message#INFO" value1="There are no documents or media files in this folder." />
+		<execute function="AssertTextEquals" locator1="Portlet#TITLE" value1="Documents and Media" />
+		<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="There are no documents or media files in this folder." />
 	</command>
 
 	<command name="viewNoPermissionCP">
-		<execute function="AssertTextEquals" locator1="DocumentsAndMedia#PORTLET_TITLE" value1="Documents and Media" />
-		<execute function="AssertTextEquals" locator1="Message#INFO" value1="There are no documents or media files in this folder." />
+		<var name="key_portletTitle" value="Documents and Media" />
+
+		<execute function="AssertTextEquals" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" value1="Documents and Media" />
+		<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="There are no documents or media files in this folder." />
 	</command>
 
 	<command name="viewRootFolderPG">
 		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
+			<var name="portletName" value="${portletName}" />
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+		<execute macro="IFrame#selectConfigurationFrame" />
+
 		<execute function="AssertTextEquals" locator1="DocumentsAndMediaConfiguration#DISPLAY_SETTINGS_ROOT_FOLDER_FIELD" value1="${dmFolderName}" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 </definition>

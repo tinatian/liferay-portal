@@ -14,24 +14,25 @@
 
 package com.liferay.portal.resiliency.spi.agent;
 
+import com.liferay.petra.lang.ClassLoaderPool;
 import com.liferay.portal.kernel.io.BigEndianCodec;
 import com.liferay.portal.kernel.io.Deserializer;
 import com.liferay.portal.kernel.io.Serializer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.nio.intraband.RegistrationReference;
 import com.liferay.portal.kernel.nio.intraband.mailbox.MailboxException;
 import com.liferay.portal.kernel.nio.intraband.mailbox.MailboxUtil;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.Direction;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.DistributedRegistry;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.ClassLoaderPool;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.ThreadLocalDistributor;
 import com.liferay.portal.kernel.util.ThreadLocalDistributorRegistry;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.util.WebKeys;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -75,15 +76,19 @@ public class SPIAgentSerializable implements Serializable {
 				}
 				else if (_log.isWarnEnabled()) {
 					_log.warn(
-						"Nonserializable distributed request attribute name " +
-							name + " with value " + value);
+						StringBundler.concat(
+							"Nonserializable distributed request attribute ",
+							"name ", name, " with value ",
+							String.valueOf(value)));
 				}
 			}
 			else if (_log.isDebugEnabled()) {
 				_log.debug(
-					"Nondistributed request attribute name " + name +
-						" with direction " + direction + " and value " +
-							request.getAttribute(name));
+					StringBundler.concat(
+						"Nondistributed request attribute name ", name,
+						" with direction ", String.valueOf(direction),
+						" and value ",
+						String.valueOf(request.getAttribute(name))));
 			}
 		}
 
@@ -170,8 +175,9 @@ public class SPIAgentSerializable implements Serializable {
 			}
 			else if (_log.isWarnEnabled()) {
 				_log.warn(
-					"Nonserializable session attribute name " + name +
-						" with value " + value);
+					StringBundler.concat(
+						"Nonserializable session attribute name ", name,
+						" with value ", String.valueOf(value)));
 			}
 		}
 
@@ -188,6 +194,7 @@ public class SPIAgentSerializable implements Serializable {
 
 			while (enumeration.hasMoreElements()) {
 				String name = enumeration.nextElement();
+
 				Object value = portletSession.getAttribute(name);
 
 				if (value instanceof Serializable) {
@@ -195,8 +202,9 @@ public class SPIAgentSerializable implements Serializable {
 				}
 				else if (_log.isWarnEnabled()) {
 					_log.warn(
-						"Nonserializable session attribute name " + name +
-							" with value " + value);
+						StringBundler.concat(
+							"Nonserializable session attribute name ", name,
+							" with value ", String.valueOf(value)));
 				}
 			}
 

@@ -75,62 +75,42 @@ public abstract class BaseComponentTag extends com.liferay.taglib.util.IncludeTa
 
 	public void setDefineVar(boolean defineVar) {
 		_defineVar = defineVar;
-
-		setScopedAttribute("defineVar", defineVar);
 	}
 
 	public void setExcludeAttributes(java.lang.String excludeAttributes) {
 		_excludeAttributes = excludeAttributes;
-
-		setScopedAttribute("excludeAttributes", excludeAttributes);
 	}
 
 	public void setJavaScriptAttributes(java.lang.String javaScriptAttributes) {
 		_javaScriptAttributes = javaScriptAttributes;
-
-		setScopedAttribute("javaScriptAttributes", javaScriptAttributes);
 	}
 
 	public void setModule(java.lang.String module) {
 		_module = module;
-
-		setScopedAttribute("module", module);
 	}
 
 	public void setName(java.lang.String name) {
 		_name = name;
-
-		setScopedAttribute("name", name);
 	}
 
 	public void setOptions(java.util.Map<java.lang.String, java.lang.Object> options) {
 		_options = options;
-
-		setScopedAttribute("options", options);
 	}
 
 	public void setScriptPosition(java.lang.String scriptPosition) {
 		_scriptPosition = scriptPosition;
-
-		setScopedAttribute("scriptPosition", scriptPosition);
 	}
 
 	public void setTagPageContext(javax.servlet.jsp.JspContext tagPageContext) {
 		_tagPageContext = tagPageContext;
-
-		setScopedAttribute("tagPageContext", tagPageContext);
 	}
 
 	public void setUseJavaScript(java.io.Serializable useJavaScript) {
 		_useJavaScript = useJavaScript;
-
-		setScopedAttribute("useJavaScript", useJavaScript);
 	}
 
 	public void setVar(java.lang.String var) {
 		_var = var;
-
-		setScopedAttribute("var", var);
 	}
 
 	@Override
@@ -156,16 +136,16 @@ public abstract class BaseComponentTag extends com.liferay.taglib.util.IncludeTa
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
-		setNamespacedAttribute(request, "defineVar", _defineVar);
-		setNamespacedAttribute(request, "excludeAttributes", _excludeAttributes);
-		setNamespacedAttribute(request, "javaScriptAttributes", _javaScriptAttributes);
-		setNamespacedAttribute(request, "module", _module);
-		setNamespacedAttribute(request, "name", _name);
-		setNamespacedAttribute(request, "options", _options);
-		setNamespacedAttribute(request, "scriptPosition", _scriptPosition);
-		setNamespacedAttribute(request, "tagPageContext", _tagPageContext);
-		setNamespacedAttribute(request, "useJavaScript", _useJavaScript);
-		setNamespacedAttribute(request, "var", _var);
+		request.setAttribute("aui:component:defineVar", String.valueOf(_defineVar));
+		request.setAttribute("aui:component:excludeAttributes", _excludeAttributes);
+		request.setAttribute("aui:component:javaScriptAttributes", _javaScriptAttributes);
+		request.setAttribute("aui:component:module", _module);
+		request.setAttribute("aui:component:name", _name);
+		request.setAttribute("aui:component:options", _options);
+		request.setAttribute("aui:component:scriptPosition", _scriptPosition);
+		request.setAttribute("aui:component:tagPageContext", _tagPageContext);
+		request.setAttribute("aui:component:useJavaScript", String.valueOf(_useJavaScript));
+		request.setAttribute("aui:component:var", _var);
 	}
 
 	protected static final String _ATTRIBUTE_NAMESPACE = "aui:component:";

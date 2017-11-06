@@ -14,7 +14,14 @@
 
 package com.liferay.portal.portletfilerepository;
 
+import com.liferay.document.library.kernel.exception.DuplicateFileEntryException;
+import com.liferay.document.library.kernel.exception.NoSuchFolderException;
+import com.liferay.document.library.kernel.model.DLFileEntryConstants;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portletfilerepository.PortletFileRepositoryUtil;
 import com.liferay.portal.kernel.repository.capabilities.WorkflowCapability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
@@ -26,15 +33,8 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.User;
 import com.liferay.portal.test.randomizerbumpers.TikaSafeRandomizerBumper;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portlet.documentlibrary.DuplicateFileEntryException;
-import com.liferay.portlet.documentlibrary.NoSuchFolderException;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryConstants;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,8 +50,7 @@ public class PortletFileRepositoryTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {

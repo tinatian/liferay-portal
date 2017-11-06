@@ -26,7 +26,7 @@
 			Locale defaultLocale = LocaleUtil.fromLanguageId(defaultLanguageId);
 			%>
 
-			<img alt="<%= HtmlUtil.escapeAttribute(defaultLocale.getDisplayName(locale)) %>" src='<%= HtmlUtil.escapeAttribute(themeDisplay.getPathThemeImages() + "/language/" + defaultLanguageId + ".png") %>' />
+			<img alt="<%= HtmlUtil.escapeAttribute(defaultLocale.getDisplayName(locale)) %>" src="<%= HtmlUtil.escapeAttribute(themeDisplay.getPathThemeImages() + "/language/" + defaultLanguageId + ".png") %>" />
 
 			<%= defaultLocale.getDisplayName(locale) %>
 		</span>
@@ -47,14 +47,16 @@
 
 		</select>
 
-		<a class="lfr-translation-manager-change-default-locale" href="javascript:;"><liferay-ui:message key="change" /></a>
+		<c:if test="<%= changeableDefaultLanguage %>">
+			<a class="lfr-translation-manager-change-default-locale" href="javascript:;"><liferay-ui:message key="change" /></a>
+		</c:if>
 
 		<c:if test="<%= !readOnly %>">
 			<liferay-ui:icon-menu
 				cssClass="lfr-translation-manager-icon-menu"
 				direction="down"
 				icon="../aui/plus"
-				message='<%= LanguageUtil.get(request, "add-translation") %>'
+				message='<%= LanguageUtil.get(resourceBundle, "add-translation") %>'
 				showArrow="<%= true %>"
 				showWhenSingleIcon="<%= true %>"
 			>
@@ -140,6 +142,7 @@
 					translationManager = new Liferay.TranslationManager(
 						{
 							availableLocales: <%= availableLocalesJSONArray.toString() %>,
+							changeableDefaultLanguage: <%= changeableDefaultLanguage %>,
 							boundingBox: '#<%= namespace + id %>',
 							defaultLocale: '<%= HtmlUtil.escapeJS(defaultLanguageId) %>',
 							editingLocale: '<%= HtmlUtil.escapeJS(editingLanguageId) %>',

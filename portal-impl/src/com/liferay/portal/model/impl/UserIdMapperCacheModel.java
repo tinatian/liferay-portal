@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.UserIdMapper;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.UserIdMapper;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -77,12 +77,14 @@ public class UserIdMapperCacheModel implements CacheModel<UserIdMapper>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
 		sb.append(", userIdMapperId=");
 		sb.append(userIdMapperId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append(", userId=");
 		sb.append(userId);
 		sb.append(", type=");
@@ -102,6 +104,7 @@ public class UserIdMapperCacheModel implements CacheModel<UserIdMapper>,
 
 		userIdMapperImpl.setMvccVersion(mvccVersion);
 		userIdMapperImpl.setUserIdMapperId(userIdMapperId);
+		userIdMapperImpl.setCompanyId(companyId);
 		userIdMapperImpl.setUserId(userId);
 
 		if (type == null) {
@@ -133,7 +136,11 @@ public class UserIdMapperCacheModel implements CacheModel<UserIdMapper>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		userIdMapperId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		type = objectInput.readUTF();
 		description = objectInput.readUTF();
@@ -144,7 +151,11 @@ public class UserIdMapperCacheModel implements CacheModel<UserIdMapper>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(userIdMapperId);
+
+		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (type == null) {
@@ -171,6 +182,7 @@ public class UserIdMapperCacheModel implements CacheModel<UserIdMapper>,
 
 	public long mvccVersion;
 	public long userIdMapperId;
+	public long companyId;
 	public long userId;
 	public String type;
 	public String description;

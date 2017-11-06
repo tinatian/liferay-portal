@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.ServiceComponent;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.ServiceComponent;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -128,9 +128,12 @@ public class ServiceComponentCacheModel implements CacheModel<ServiceComponent>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		serviceComponentId = objectInput.readLong();
 		buildNamespace = objectInput.readUTF();
+
 		buildNumber = objectInput.readLong();
+
 		buildDate = objectInput.readLong();
 		data = objectInput.readUTF();
 	}
@@ -139,6 +142,7 @@ public class ServiceComponentCacheModel implements CacheModel<ServiceComponent>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(serviceComponentId);
 
 		if (buildNamespace == null) {
@@ -149,6 +153,7 @@ public class ServiceComponentCacheModel implements CacheModel<ServiceComponent>,
 		}
 
 		objectOutput.writeLong(buildNumber);
+
 		objectOutput.writeLong(buildDate);
 
 		if (data == null) {

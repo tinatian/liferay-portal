@@ -14,67 +14,71 @@
 
 package com.liferay.portal.servlet;
 
-import com.liferay.portal.NoSuchLayoutException;
 import com.liferay.portal.events.EventsProcessorUtil;
 import com.liferay.portal.events.StartupAction;
 import com.liferay.portal.events.StartupHelperUtil;
-import com.liferay.portal.kernel.cache.Lifecycle;
-import com.liferay.portal.kernel.cache.ThreadLocalCacheManager;
+import com.liferay.portal.kernel.cache.thread.local.Lifecycle;
+import com.liferay.portal.kernel.cache.thread.local.ThreadLocalCacheManager;
 import com.liferay.portal.kernel.deploy.hot.HotDeployUtil;
+import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupConstants;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutTemplate;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.model.PortletApp;
+import com.liferay.portal.kernel.model.PortletFilter;
+import com.liferay.portal.kernel.model.PortletURLListener;
+import com.liferay.portal.kernel.model.Theme;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.patcher.PatchInconsistencyException;
 import com.liferay.portal.kernel.patcher.PatcherUtil;
 import com.liferay.portal.kernel.plugin.PluginPackage;
+import com.liferay.portal.kernel.portlet.PortletConfigFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletInstanceFactoryUtil;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutTemplateLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourceActionLocalServiceUtil;
+import com.liferay.portal.kernel.service.ThemeLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.DynamicServletRequest;
 import com.liferay.portal.kernel.servlet.PortalSessionThreadLocal;
-import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateManager;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalLifecycleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.ReleaseInfo;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.GroupConstants;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.model.LayoutTemplate;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.model.PortletApp;
-import com.liferay.portal.model.PortletFilter;
-import com.liferay.portal.model.PortletURLListener;
-import com.liferay.portal.model.Theme;
-import com.liferay.portal.model.User;
 import com.liferay.portal.plugin.PluginPackageUtil;
-import com.liferay.portal.security.auth.CompanyThreadLocal;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.ResourceActionsUtil;
-import com.liferay.portal.server.capabilities.ServerCapabilitiesUtil;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.LayoutTemplateLocalServiceUtil;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.service.ResourceActionLocalServiceUtil;
-import com.liferay.portal.service.ThemeLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.service.impl.LayoutTemplateLocalServiceImpl;
 import com.liferay.portal.servlet.filters.absoluteredirects.AbsoluteRedirectsResponse;
 import com.liferay.portal.servlet.filters.i18n.I18nFilter;
 import com.liferay.portal.setup.SetupWizardSampleDataUtil;
@@ -83,23 +87,19 @@ import com.liferay.portal.struts.StrutsUtil;
 import com.liferay.portal.util.ExtRegistry;
 import com.liferay.portal.util.MaintenanceUtil;
 import com.liferay.portal.util.PortalInstances;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.ShutdownUtil;
-import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.PortletBagFactory;
-import com.liferay.portlet.PortletConfigFactoryUtil;
 import com.liferay.portlet.PortletFilterFactory;
-import com.liferay.portlet.PortletInstanceFactoryUtil;
 import com.liferay.portlet.PortletURLListenerFactory;
-import com.liferay.portlet.social.util.SocialConfigurationUtil;
 import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceRegistration;
 import com.liferay.registry.dependency.ServiceDependencyListener;
 import com.liferay.registry.dependency.ServiceDependencyManager;
+import com.liferay.social.kernel.util.SocialConfigurationUtil;
 import com.liferay.util.ContentUtil;
 import com.liferay.util.servlet.EncryptedServletRequest;
 
@@ -107,11 +107,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
@@ -220,10 +223,45 @@ public class MainServlet extends ActionServlet {
 					_log.warn(
 						"Set the property \"verify.patch.levels.disabled\" " +
 							"to override stopping the server due to the " +
-								"inconsistent patch levels");
+								"inconsistent patch levels",
+						pie);
 				}
 
 				System.exit(0);
+			}
+		}
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Verify JVM configuration");
+		}
+
+		if (_log.isWarnEnabled()) {
+			if (!StringPool.DEFAULT_CHARSET_NAME.startsWith("UTF-")) {
+				StringBundler sb = new StringBundler(4);
+
+				sb.append("The default JVM character set \"");
+				sb.append(StringPool.DEFAULT_CHARSET_NAME);
+				sb.append("\" is not UTF. Please review the JVM property ");
+				sb.append("\"file.encoding\".");
+
+				_log.warn(sb.toString());
+			}
+
+			TimeZone timeZone = TimeZone.getDefault();
+
+			String timeZoneID = timeZone.getID();
+
+			if (!Objects.equals("UTC", timeZoneID) &&
+				!Objects.equals("GMT", timeZoneID)) {
+
+				StringBundler sb = new StringBundler(4);
+
+				sb.append("The default JVM time zone \"");
+				sb.append(timeZoneID);
+				sb.append("\" is not UTC or GMT. Please review the JVM ");
+				sb.append("property \"user.timezone\".");
+
+				_log.warn(sb.toString());
 			}
 		}
 
@@ -383,7 +421,7 @@ public class MainServlet extends ActionServlet {
 			_log.error(e, e);
 		}
 
-		servletContext.setAttribute(WebKeys.STARTUP_FINISHED, true);
+		servletContext.setAttribute(WebKeys.STARTUP_FINISHED, Boolean.TRUE);
 
 		StartupHelperUtil.setStartupFinished(true);
 
@@ -482,8 +520,9 @@ public class MainServlet extends ActionServlet {
 		try {
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"Authenticate user id " + userId + " and remote user " +
-						remoteUser);
+					StringBundler.concat(
+						"Authenticate user id ", String.valueOf(userId),
+						" and remote user ", remoteUser));
 			}
 
 			userId = loginUser(
@@ -593,17 +632,13 @@ public class MainServlet extends ActionServlet {
 		ServletContext servletContext = getServletContext();
 
 		request.setAttribute(WebKeys.CTX, servletContext);
-
-		String contextPath = request.getContextPath();
-
-		servletContext.setAttribute(WebKeys.CTX_PATH, contextPath);
 	}
 
 	protected void checkTilesDefinitionsFactory() {
 		ServletContext servletContext = getServletContext();
 
-		if (servletContext.getAttribute(
-				TilesUtilImpl.DEFINITIONS_FACTORY) != null) {
+		if (servletContext.getAttribute(TilesUtilImpl.DEFINITIONS_FACTORY) !=
+				null) {
 
 			return;
 		}
@@ -708,8 +743,6 @@ public class MainServlet extends ActionServlet {
 
 			if (jRemoteUser != null) {
 				remoteUser = jRemoteUser;
-
-				session.removeAttribute("j_remoteuser");
 			}
 		}
 
@@ -759,8 +792,8 @@ public class MainServlet extends ActionServlet {
 	}
 
 	protected boolean hasAbsoluteRedirect(HttpServletRequest request) {
-		if (request.getAttribute(
-				AbsoluteRedirectsResponse.class.getName()) == null) {
+		if (request.getAttribute(AbsoluteRedirectsResponse.class.getName()) ==
+				null) {
 
 			return false;
 		}
@@ -779,50 +812,23 @@ public class MainServlet extends ActionServlet {
 	}
 
 	protected void initCompanies() throws Exception {
-		ServiceDependencyManager serviceDependencyManager =
-			new ServiceDependencyManager();
+		if (_log.isDebugEnabled()) {
+			_log.debug("Initialize companies");
+		}
 
-		serviceDependencyManager.addServiceDependencyListener(
-			new ServiceDependencyListener() {
+		ServletContext servletContext = getServletContext();
 
-				@Override
-				public void dependenciesFulfilled() {
-					try {
-						if (_log.isDebugEnabled()) {
-							_log.debug("Initialize companies");
-						}
+		try {
+			String[] webIds = PortalInstances.getWebIds();
 
-						ServletContext servletContext = getServletContext();
-
-						try {
-							String[] webIds = PortalInstances.getWebIds();
-
-							for (String webId : webIds) {
-								PortalInstances.initCompany(
-									servletContext, webId);
-							}
-						}
-						finally {
-							CompanyThreadLocal.setCompanyId(
-								PortalInstances.getDefaultCompanyId());
-						}
-					}
-					catch (Exception e) {
-						_log.error(e, e);
-					}
-				}
-
-				@Override
-				public void destroy() {
-				}
-
-			});
-
-		Registry registry = RegistryUtil.getRegistry();
-
-		Filter filter = registry.getFilter("(search.engine.id=SYSTEM_ENGINE)");
-
-		serviceDependencyManager.registerDependencies(filter);
+			for (String webId : webIds) {
+				PortalInstances.initCompany(servletContext, webId);
+			}
+		}
+		finally {
+			CompanyThreadLocal.setCompanyId(
+				PortalInstances.getDefaultCompanyId());
+		}
 	}
 
 	protected void initExt() throws Exception {
@@ -847,14 +853,14 @@ public class MainServlet extends ActionServlet {
 
 						ServletContext servletContext = getServletContext();
 
-						String[] xmls = new String[] {
+						String[] xmls = {
 							HttpUtil.URLtoString(
 								servletContext.getResource(
 									"/WEB-INF/liferay-layout-templates.xml")),
 							HttpUtil.URLtoString(
 								servletContext.getResource(
-									"/WEB-INF/" +
-										"liferay-layout-templates-ext.xml"))
+									"/WEB-INF" +
+										"/liferay-layout-templates-ext.xml"))
 						};
 
 						List<LayoutTemplate> layoutTemplates =
@@ -877,15 +883,26 @@ public class MainServlet extends ActionServlet {
 
 		Registry registry = RegistryUtil.getRegistry();
 
-		Filter freeMarkerFilter = registry.getFilter(
-			"(&(language.type=" + TemplateConstants.LANG_TYPE_FTL +
-				")(objectClass=" + TemplateManager.class.getName() + "))");
-		Filter velocityFilter = registry.getFilter(
-			"(&(language.type=" + TemplateConstants.LANG_TYPE_VM +
-				")(objectClass=" + TemplateManager.class.getName() + "))");
+		Collection<Filter> filters = new ArrayList<>();
+
+		for (String langType :
+				LayoutTemplateLocalServiceImpl.supportedLangTypes) {
+
+			StringBundler sb = new StringBundler(5);
+
+			sb.append("(&(language.type=");
+			sb.append(langType);
+			sb.append(")(objectClass=");
+			sb.append(TemplateManager.class.getName());
+			sb.append("))");
+
+			Filter filter = registry.getFilter(sb.toString());
+
+			filters.add(filter);
+		}
 
 		serviceDependencyManager.registerDependencies(
-			freeMarkerFilter, velocityFilter);
+			filters.toArray(new Filter[0]));
 	}
 
 	protected PluginPackage initPluginPackage() throws Exception {
@@ -895,19 +912,10 @@ public class MainServlet extends ActionServlet {
 			servletContext);
 	}
 
-	/**
-	 * @see SetupWizardUtil#_initPlugins
-	 */
 	protected void initPlugins() throws Exception {
+		HotDeployUtil.setCapturePrematureEvents(false);
 
-		// See LEP-2885. Don't flush hot deploy events until after the portal
-		// has initialized.
-
-		if (!PropsValues.SETUP_WIZARD_ENABLED) {
-			HotDeployUtil.setCapturePrematureEvents(false);
-
-			PortalLifecycleUtil.flushInits();
-		}
+		PortalLifecycleUtil.flushInits();
 	}
 
 	protected void initPortletApp(
@@ -997,8 +1005,11 @@ public class MainServlet extends ActionServlet {
 		}
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	protected void initServerDetector() throws Exception {
-		ServerCapabilitiesUtil.determineServerCapabilities(getServletContext());
 	}
 
 	protected void initSocial(PluginPackage pluginPackage) throws Exception {
@@ -1006,7 +1017,7 @@ public class MainServlet extends ActionServlet {
 
 		ServletContext servletContext = getServletContext();
 
-		String[] xmls = new String[] {
+		String[] xmls = {
 			HttpUtil.URLtoString(
 				servletContext.getResource("/WEB-INF/liferay-social.xml")),
 			HttpUtil.URLtoString(
@@ -1022,7 +1033,7 @@ public class MainServlet extends ActionServlet {
 
 		ServletContext servletContext = getServletContext();
 
-		String[] xmls = new String[] {
+		String[] xmls = {
 			HttpUtil.URLtoString(
 				servletContext.getResource(
 					"/WEB-INF/liferay-look-and-feel.xml")),
@@ -1072,11 +1083,18 @@ public class MainServlet extends ActionServlet {
 			}
 		}
 
+		if (request.getAttribute(WebKeys.USER) != null) {
+			request.setAttribute(WebKeys.USER, user);
+			request.setAttribute(WebKeys.USER_ID, Long.valueOf(userId));
+		}
+
 		HttpSession session = request.getSession();
 
+		session.setAttribute(Globals.LOCALE_KEY, user.getLocale());
 		session.setAttribute(WebKeys.USER, user);
 		session.setAttribute(WebKeys.USER_ID, Long.valueOf(userId));
-		session.setAttribute(Globals.LOCALE_KEY, user.getLocale());
+
+		session.removeAttribute("j_remoteuser");
 
 		if (!user.isDefaultUser()) {
 			EventsProcessorUtil.process(
@@ -1130,7 +1148,7 @@ public class MainServlet extends ActionServlet {
 
 		Group group = layout.getGroup();
 
-		if (group.isActive()) {
+		if (GroupLocalServiceUtil.isLiveGroupActive(group)) {
 			return false;
 		}
 
@@ -1148,9 +1166,16 @@ public class MainServlet extends ActionServlet {
 
 		response.setContentType(ContentTypes.TEXT_HTML_UTF8);
 
-		Locale locale = LocaleUtil.getDefault();
+		Locale locale = PortalUtil.getLocale(request);
 
-		String message = LanguageUtil.get(locale, messageKey);
+		String message = null;
+
+		if (LanguageUtil.isValidLanguageKey(locale, messageKey)) {
+			message = LanguageUtil.get(locale, messageKey);
+		}
+		else {
+			message = HtmlUtil.escape(messageKey);
+		}
 
 		String html = ContentUtil.get(
 			"com/liferay/portal/dependencies/inactive.html");
@@ -1227,6 +1252,16 @@ public class MainServlet extends ActionServlet {
 				PropsValues.SERVLET_SERVICE_EVENTS_PRE_ERROR_PAGE,
 				servletContext, request, response);
 
+			if (e == request.getAttribute(PageContext.EXCEPTION)) {
+				request.removeAttribute(PageContext.EXCEPTION);
+				request.removeAttribute(RequestDispatcher.ERROR_EXCEPTION);
+				request.removeAttribute(RequestDispatcher.ERROR_EXCEPTION_TYPE);
+				request.removeAttribute(RequestDispatcher.ERROR_MESSAGE);
+				request.removeAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+				request.removeAttribute(RequestDispatcher.ERROR_SERVLET_NAME);
+				request.removeAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+			}
+
 			return true;
 		}
 
@@ -1249,7 +1284,9 @@ public class MainServlet extends ActionServlet {
 			HttpServletResponse response)
 		throws IOException, ServletException {
 
-		if (userId > 0) {
+		if ((userId > 0) ||
+			(ParamUtil.getInteger(request, "p_p_lifecycle") == 2)) {
+
 			sendError(
 				HttpServletResponse.SC_UNAUTHORIZED, t, request, response);
 
@@ -1330,14 +1367,28 @@ public class MainServlet extends ActionServlet {
 			ModuleServiceLifecycle.class, new ModuleServiceLifecycle() {},
 			properties);
 
+		ServletContext servletContext = getServletContext();
+
 		properties = new HashMap<>();
+
+		Object serverContainer = servletContext.getAttribute(
+			"javax.websocket.server.ServerContainer");
+
+		if (serverContainer != null) {
+			properties.put("websocket.active", Boolean.TRUE);
+		}
+		else {
+			if (_log.isInfoEnabled()) {
+				_log.info("A WebSocket server container is not registered");
+			}
+		}
 
 		properties.put("bean.id", ServletContext.class.getName());
 		properties.put("original.bean", Boolean.TRUE);
 		properties.put("service.vendor", ReleaseInfo.getVendor());
 
 		_servletContextServiceRegistration = registry.registerService(
-			ServletContext.class, getServletContext(), properties);
+			ServletContext.class, servletContext, properties);
 	}
 
 	protected void sendError(

@@ -25,6 +25,7 @@ import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceTracker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +105,7 @@ public class AbstractMessagingConfiguratorTest {
 
 			Object[] services = serviceTracker.getServices();
 
-			Assert.assertEquals(2, services.length);
+			Assert.assertEquals(Arrays.toString(services), 2, services.length);
 
 			for (Object service : services) {
 				Destination destination = (Destination)service;
@@ -188,7 +189,7 @@ public class AbstractMessagingConfiguratorTest {
 
 			Object[] services = serviceTracker.getServices();
 
-			Assert.assertEquals(2, services.length);
+			Assert.assertEquals(Arrays.toString(services), 2, services.length);
 
 			for (Object service : services) {
 				Destination destination = (Destination)service;
@@ -216,10 +217,11 @@ public class AbstractMessagingConfiguratorTest {
 		}
 	}
 
-	private class TestClassLoader extends ClassLoader {
+	private static class TestClassLoader extends ClassLoader {
 	}
 
-	private class TestClassLoaderMessageListener implements MessageListener {
+	private static class TestClassLoaderMessageListener
+		implements MessageListener {
 
 		public TestClassLoaderMessageListener(TestClassLoader testClassLoader) {
 			_testClassLoader = testClassLoader;
@@ -239,7 +241,7 @@ public class AbstractMessagingConfiguratorTest {
 
 	}
 
-	private class TestMessageListener implements MessageListener {
+	private static class TestMessageListener implements MessageListener {
 
 		public TestMessageListener(String destinationName) {
 			_destinationName = destinationName;

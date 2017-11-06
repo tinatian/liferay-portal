@@ -1,0 +1,7 @@
+<definition default="assertValue">
+	<command name="assertValue">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.AssertValue#assertValue" />
+	</command>
+</definition>

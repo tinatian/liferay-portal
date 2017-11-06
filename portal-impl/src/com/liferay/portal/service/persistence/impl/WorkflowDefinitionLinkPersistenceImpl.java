@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchWorkflowDefinitionLinkException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,21 +26,22 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchWorkflowDefinitionLinkException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.WorkflowDefinitionLinkPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.WorkflowDefinitionLink;
 import com.liferay.portal.model.impl.WorkflowDefinitionLinkImpl;
 import com.liferay.portal.model.impl.WorkflowDefinitionLinkModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextThreadLocal;
-import com.liferay.portal.service.persistence.WorkflowDefinitionLinkPersistence;
 
 import java.io.Serializable;
 
@@ -51,6 +52,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -62,7 +64,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see WorkflowDefinitionLinkPersistence
- * @see com.liferay.portal.service.persistence.WorkflowDefinitionLinkUtil
+ * @see com.liferay.portal.kernel.service.persistence.WorkflowDefinitionLinkUtil
  * @generated
  */
 @ProviderType
@@ -219,7 +221,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -438,8 +440,9 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -752,7 +755,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			if (orderByComparator != null) {
 				query = new StringBundler(5 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(5);
@@ -1007,10 +1010,11 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		if (orderByComparator != null) {
 			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(5);
 		}
 
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
@@ -1337,7 +1341,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 			if ((list != null) && !list.isEmpty()) {
 				for (WorkflowDefinitionLink workflowDefinitionLink : list) {
 					if ((companyId != workflowDefinitionLink.getCompanyId()) ||
-							!Validator.equals(workflowDefinitionName,
+							!Objects.equals(workflowDefinitionName,
 								workflowDefinitionLink.getWorkflowDefinitionName()) ||
 							(workflowDefinitionVersion != workflowDefinitionLink.getWorkflowDefinitionVersion())) {
 						list = null;
@@ -1353,7 +1357,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			if (orderByComparator != null) {
 				query = new StringBundler(5 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(5);
@@ -1629,10 +1633,11 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		if (orderByComparator != null) {
 			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(5);
 		}
 
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
@@ -1877,8 +1882,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	 * @param groupId the group ID
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
-	 * @param typePK the type p k
+	 * @param classPK the class pk
+	 * @param typePK the type pk
 	 * @return the matching workflow definition link
 	 * @throws NoSuchWorkflowDefinitionLinkException if a matching workflow definition link could not be found
 	 */
@@ -1911,8 +1916,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchWorkflowDefinitionLinkException(msg.toString());
@@ -1927,8 +1932,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	 * @param groupId the group ID
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
-	 * @param typePK the type p k
+	 * @param classPK the class pk
+	 * @param typePK the type pk
 	 * @return the matching workflow definition link, or <code>null</code> if a matching workflow definition link could not be found
 	 */
 	@Override
@@ -1944,8 +1949,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	 * @param groupId the group ID
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
-	 * @param typePK the type p k
+	 * @param classPK the class pk
+	 * @param typePK the type pk
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching workflow definition link, or <code>null</code> if a matching workflow definition link could not be found
 	 */
@@ -2019,11 +2024,15 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"WorkflowDefinitionLinkPersistenceImpl.fetchByG_C_C_C_T(long, long, long, long, long, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"WorkflowDefinitionLinkPersistenceImpl.fetchByG_C_C_C_T(long, long, long, long, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					WorkflowDefinitionLink workflowDefinitionLink = list.get(0);
@@ -2067,8 +2076,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	 * @param groupId the group ID
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
-	 * @param typePK the type p k
+	 * @param classPK the class pk
+	 * @param typePK the type pk
 	 * @return the workflow definition link that was removed
 	 */
 	@Override
@@ -2087,8 +2096,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	 * @param groupId the group ID
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
-	 * @param typePK the type p k
+	 * @param classPK the class pk
+	 * @param typePK the type pk
 	 * @return the number of matching workflow definition links
 	 */
 	@Override
@@ -2241,7 +2250,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((WorkflowDefinitionLinkModelImpl)workflowDefinitionLink);
+		clearUniqueFindersCache((WorkflowDefinitionLinkModelImpl)workflowDefinitionLink,
+			true);
 	}
 
 	@Override
@@ -2254,47 +2264,12 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 				WorkflowDefinitionLinkImpl.class,
 				workflowDefinitionLink.getPrimaryKey());
 
-			clearUniqueFindersCache((WorkflowDefinitionLinkModelImpl)workflowDefinitionLink);
+			clearUniqueFindersCache((WorkflowDefinitionLinkModelImpl)workflowDefinitionLink,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		WorkflowDefinitionLinkModelImpl workflowDefinitionLinkModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					workflowDefinitionLinkModelImpl.getGroupId(),
-					workflowDefinitionLinkModelImpl.getCompanyId(),
-					workflowDefinitionLinkModelImpl.getClassNameId(),
-					workflowDefinitionLinkModelImpl.getClassPK(),
-					workflowDefinitionLinkModelImpl.getTypePK()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_G_C_C_C_T, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_G_C_C_C_T, args,
-				workflowDefinitionLinkModelImpl);
-		}
-		else {
-			if ((workflowDefinitionLinkModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_G_C_C_C_T.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						workflowDefinitionLinkModelImpl.getGroupId(),
-						workflowDefinitionLinkModelImpl.getCompanyId(),
-						workflowDefinitionLinkModelImpl.getClassNameId(),
-						workflowDefinitionLinkModelImpl.getClassPK(),
-						workflowDefinitionLinkModelImpl.getTypePK()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_G_C_C_C_T, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_G_C_C_C_T, args,
-					workflowDefinitionLinkModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		WorkflowDefinitionLinkModelImpl workflowDefinitionLinkModelImpl) {
 		Object[] args = new Object[] {
 				workflowDefinitionLinkModelImpl.getGroupId(),
@@ -2304,12 +2279,31 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 				workflowDefinitionLinkModelImpl.getTypePK()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C_C_C_T, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_G_C_C_C_T, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_G_C_C_C_T, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_G_C_C_C_T, args,
+			workflowDefinitionLinkModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		WorkflowDefinitionLinkModelImpl workflowDefinitionLinkModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					workflowDefinitionLinkModelImpl.getGroupId(),
+					workflowDefinitionLinkModelImpl.getCompanyId(),
+					workflowDefinitionLinkModelImpl.getClassNameId(),
+					workflowDefinitionLinkModelImpl.getClassPK(),
+					workflowDefinitionLinkModelImpl.getTypePK()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C_C_C_T, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_G_C_C_C_T, args);
+		}
 
 		if ((workflowDefinitionLinkModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_G_C_C_C_T.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					workflowDefinitionLinkModelImpl.getOriginalGroupId(),
 					workflowDefinitionLinkModelImpl.getOriginalCompanyId(),
 					workflowDefinitionLinkModelImpl.getOriginalClassNameId(),
@@ -2334,6 +2328,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		workflowDefinitionLink.setNew(true);
 		workflowDefinitionLink.setPrimaryKey(workflowDefinitionLinkId);
+
+		workflowDefinitionLink.setCompanyId(companyProvider.getCompanyId());
 
 		return workflowDefinitionLink;
 	}
@@ -2370,8 +2366,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 					primaryKey);
 
 			if (workflowDefinitionLink == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchWorkflowDefinitionLinkException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2480,8 +2476,42 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !WorkflowDefinitionLinkModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!WorkflowDefinitionLinkModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					workflowDefinitionLinkModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				args);
+
+			args = new Object[] {
+					workflowDefinitionLinkModelImpl.getGroupId(),
+					workflowDefinitionLinkModelImpl.getCompanyId(),
+					workflowDefinitionLinkModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_C_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_C_C,
+				args);
+
+			args = new Object[] {
+					workflowDefinitionLinkModelImpl.getCompanyId(),
+					workflowDefinitionLinkModelImpl.getWorkflowDefinitionName(),
+					workflowDefinitionLinkModelImpl.getWorkflowDefinitionVersion()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_W_W, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_W_W,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2556,8 +2586,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 			workflowDefinitionLink.getPrimaryKey(), workflowDefinitionLink,
 			false);
 
-		clearUniqueFindersCache(workflowDefinitionLinkModelImpl);
-		cacheUniqueFindersCache(workflowDefinitionLinkModelImpl, isNew);
+		clearUniqueFindersCache(workflowDefinitionLinkModelImpl, false);
+		cacheUniqueFindersCache(workflowDefinitionLinkModelImpl);
 
 		workflowDefinitionLink.resetOriginalValues();
 
@@ -2593,7 +2623,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	}
 
 	/**
-	 * Returns the workflow definition link with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the workflow definition link with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the workflow definition link
 	 * @return the workflow definition link
@@ -2605,8 +2635,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		WorkflowDefinitionLink workflowDefinitionLink = fetchByPrimaryKey(primaryKey);
 
 		if (workflowDefinitionLink == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchWorkflowDefinitionLinkException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2638,12 +2668,14 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	 */
 	@Override
 	public WorkflowDefinitionLink fetchByPrimaryKey(Serializable primaryKey) {
-		WorkflowDefinitionLink workflowDefinitionLink = (WorkflowDefinitionLink)entityCache.getResult(WorkflowDefinitionLinkModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(WorkflowDefinitionLinkModelImpl.ENTITY_CACHE_ENABLED,
 				WorkflowDefinitionLinkImpl.class, primaryKey);
 
-		if (workflowDefinitionLink == _nullWorkflowDefinitionLink) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		WorkflowDefinitionLink workflowDefinitionLink = (WorkflowDefinitionLink)serializable;
 
 		if (workflowDefinitionLink == null) {
 			Session session = null;
@@ -2659,8 +2691,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 				}
 				else {
 					entityCache.putResult(WorkflowDefinitionLinkModelImpl.ENTITY_CACHE_ENABLED,
-						WorkflowDefinitionLinkImpl.class, primaryKey,
-						_nullWorkflowDefinitionLink);
+						WorkflowDefinitionLinkImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -2715,18 +2746,20 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			WorkflowDefinitionLink workflowDefinitionLink = (WorkflowDefinitionLink)entityCache.getResult(WorkflowDefinitionLinkModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(WorkflowDefinitionLinkModelImpl.ENTITY_CACHE_ENABLED,
 					WorkflowDefinitionLinkImpl.class, primaryKey);
 
-			if (workflowDefinitionLink == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, workflowDefinitionLink);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (WorkflowDefinitionLink)serializable);
+				}
 			}
 		}
 
@@ -2740,7 +2773,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -2769,8 +2802,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(WorkflowDefinitionLinkModelImpl.ENTITY_CACHE_ENABLED,
-					WorkflowDefinitionLinkImpl.class, primaryKey,
-					_nullWorkflowDefinitionLink);
+					WorkflowDefinitionLinkImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2872,7 +2904,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK);
 
@@ -2992,6 +3024,8 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_WORKFLOWDEFINITIONLINK = "SELECT workflowDefinitionLink FROM WorkflowDefinitionLink workflowDefinitionLink";
@@ -3003,35 +3037,4 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No WorkflowDefinitionLink exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No WorkflowDefinitionLink exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(WorkflowDefinitionLinkPersistenceImpl.class);
-	private static final WorkflowDefinitionLink _nullWorkflowDefinitionLink = new WorkflowDefinitionLinkImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<WorkflowDefinitionLink> toCacheModel() {
-				return _nullWorkflowDefinitionLinkCacheModel;
-			}
-		};
-
-	private static final CacheModel<WorkflowDefinitionLink> _nullWorkflowDefinitionLinkCacheModel =
-		new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<WorkflowDefinitionLink>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public WorkflowDefinitionLink toEntityModel() {
-			return _nullWorkflowDefinitionLink;
-		}
-	}
 }

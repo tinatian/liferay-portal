@@ -16,18 +16,18 @@ package com.liferay.portal.action;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.PortalPreferences;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.taglib.ui.util.SessionTreeJSClicks;
 
 import java.util.ConcurrentModificationException;
@@ -74,6 +74,10 @@ public class SessionTreeJSClickAction extends Action {
 					boolean privateLayout = ParamUtil.getBoolean(
 						request, "privateLayout");
 
+					SessionTreeJSClicks.openLayoutNodes(
+						request, treeId, false, LayoutConstants.DEFAULT_PLID,
+						false);
+
 					List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
 						groupId, privateLayout,
 						LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
@@ -104,6 +108,10 @@ public class SessionTreeJSClickAction extends Action {
 					long groupId = ParamUtil.getLong(request, "groupId");
 					boolean privateLayout = ParamUtil.getBoolean(
 						request, "privateLayout");
+
+					SessionTreeJSClicks.closeLayoutNodes(
+						request, treeId, false, LayoutConstants.DEFAULT_PLID,
+						false);
 
 					List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
 						groupId, privateLayout,
@@ -184,6 +192,11 @@ public class SessionTreeJSClickAction extends Action {
 					0L);
 
 				for (long checkedLayoutId : checkedLayoutIds) {
+					if (checkedLayoutId == LayoutConstants.DEFAULT_PLID) {
+						jsonArray.put(
+							String.valueOf(LayoutConstants.DEFAULT_PLID));
+					}
+
 					Layout checkedLayout = LayoutLocalServiceUtil.fetchLayout(
 						groupId, privateLayout, checkedLayoutId);
 

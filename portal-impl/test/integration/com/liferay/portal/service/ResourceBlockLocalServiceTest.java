@@ -14,18 +14,18 @@
 
 package com.liferay.portal.service;
 
-import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.PermissionedModel;
+import com.liferay.portal.kernel.model.ResourceBlockPermissionsContainer;
+import com.liferay.portal.kernel.service.ResourceBlockLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.NamedThreadFactory;
-import com.liferay.portal.model.PermissionedModel;
-import com.liferay.portal.model.ResourceBlockPermissionsContainer;
+import com.liferay.portal.test.rule.ExpectedDBType;
 import com.liferay.portal.test.rule.ExpectedLog;
 import com.liferay.portal.test.rule.ExpectedLogs;
 import com.liferay.portal.test.rule.ExpectedType;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -56,16 +56,15 @@ public class ResourceBlockLocalServiceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
 		Connection connection = DataAccess.getConnection();
 
 		PreparedStatement preparedStatement = connection.prepareStatement(
-			"DELETE FROM ResourceBlock WHERE companyId = ? AND groupId " +
-				"= ? AND name = ?");
+			"DELETE FROM ResourceBlock WHERE companyId = ? AND groupId = ? " +
+				"AND name = ?");
 
 		preparedStatement.setLong(1, _COMPANY_ID);
 		preparedStatement.setLong(2, _GROUP_ID);
@@ -79,53 +78,58 @@ public class ResourceBlockLocalServiceTest {
 	@ExpectedLogs(
 		expectedLogs = {
 			@ExpectedLog(
-				dbType = DB.TYPE_DB2, expectedLog = "Error for batch element",
+				expectedDBType = ExpectedDBType.DB2,
+				expectedLog = "Error for batch element",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_DB2,
+				expectedDBType = ExpectedDBType.DB2,
 				expectedLog = "[jcc][t4][102][10040][4.16.53] Batch failure.",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_HYPERSONIC,
-				expectedLog =
-					"integrity constraint violation: unique constraint or " +
-						"index violation:",
+				expectedDBType = ExpectedDBType.HYPERSONIC,
+				expectedLog = "integrity constraint violation: unique constraint or index violation:",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_MYSQL,
-				expectedLog =
-					"Deadlock found when trying to get lock; try restarting " +
-						"transaction",
+				expectedDBType = ExpectedDBType.MARIADB,
+				expectedLog = "Deadlock found when trying to get lock; try restarting transaction",
 				expectedType = ExpectedType.EXACT
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_MYSQL, expectedLog = "Duplicate entry ",
+				expectedDBType = ExpectedDBType.MARIADB,
+				expectedLog = "Duplicate entry ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_ORACLE,
-				expectedLog ="ORA-00001: unique constraint",
+				expectedDBType = ExpectedDBType.MYSQL,
+				expectedLog = "Deadlock found when trying to get lock; try restarting transaction",
+				expectedType = ExpectedType.EXACT
+			),
+			@ExpectedLog(
+				expectedDBType = ExpectedDBType.MYSQL,
+				expectedLog = "Duplicate entry ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_POSTGRESQL,
+				expectedDBType = ExpectedDBType.ORACLE,
+				expectedLog = "ORA-00001: unique constraint",
+				expectedType = ExpectedType.PREFIX
+			),
+			@ExpectedLog(
+				expectedDBType = ExpectedDBType.POSTGRESQL,
 				expectedLog = "Batch entry 0 insert into ResourceBlock ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_POSTGRESQL,
-				expectedLog =
-					"ERROR: duplicate key value violates unique constraint ",
+				expectedDBType = ExpectedDBType.POSTGRESQL,
+				expectedLog = "ERROR: duplicate key value violates unique constraint ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_SYBASE,
-				expectedLog =
-					"Attempt to insert duplicate key row in object " +
-						"'ResourceBlock'",
+				expectedDBType = ExpectedDBType.SYBASE,
+				expectedLog = "Attempt to insert duplicate key row in object 'ResourceBlock'",
 				expectedType = ExpectedType.CONTAINS
 			)
 		},
@@ -209,53 +213,58 @@ public class ResourceBlockLocalServiceTest {
 	@ExpectedLogs(
 		expectedLogs = {
 			@ExpectedLog(
-				dbType = DB.TYPE_DB2, expectedLog = "Error for batch element",
+				expectedDBType = ExpectedDBType.DB2,
+				expectedLog = "Error for batch element",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_DB2,
+				expectedDBType = ExpectedDBType.DB2,
 				expectedLog = "[jcc][t4][102][10040][4.16.53] Batch failure.",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_HYPERSONIC,
-				expectedLog =
-					"integrity constraint violation: unique constraint or " +
-						"index violation:",
+				expectedDBType = ExpectedDBType.HYPERSONIC,
+				expectedLog = "integrity constraint violation: unique constraint or index violation:",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_MYSQL,
-				expectedLog =
-					"Deadlock found when trying to get lock; try restarting " +
-						"transaction",
+				expectedDBType = ExpectedDBType.MARIADB,
+				expectedLog = "Deadlock found when trying to get lock; try restarting transaction",
 				expectedType = ExpectedType.EXACT
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_MYSQL, expectedLog = "Duplicate entry ",
+				expectedDBType = ExpectedDBType.MARIADB,
+				expectedLog = "Duplicate entry ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_ORACLE,
-				expectedLog ="ORA-00001: unique constraint",
+				expectedDBType = ExpectedDBType.MYSQL,
+				expectedLog = "Deadlock found when trying to get lock; try restarting transaction",
+				expectedType = ExpectedType.EXACT
+			),
+			@ExpectedLog(
+				expectedDBType = ExpectedDBType.MYSQL,
+				expectedLog = "Duplicate entry ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_POSTGRESQL,
+				expectedDBType = ExpectedDBType.ORACLE,
+				expectedLog = "ORA-00001: unique constraint",
+				expectedType = ExpectedType.PREFIX
+			),
+			@ExpectedLog(
+				expectedDBType = ExpectedDBType.POSTGRESQL,
 				expectedLog = "Batch entry 0 insert into ResourceBlock ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_POSTGRESQL,
-				expectedLog =
-					"ERROR: duplicate key value violates unique constraint ",
+				expectedDBType = ExpectedDBType.POSTGRESQL,
+				expectedLog = "ERROR: duplicate key value violates unique constraint ",
 				expectedType = ExpectedType.PREFIX
 			),
 			@ExpectedLog(
-				dbType = DB.TYPE_SYBASE,
-				expectedLog =
-					"Attempt to insert duplicate key row in object " +
-						"'ResourceBlock'",
+				expectedDBType = ExpectedDBType.SYBASE,
+				expectedLog = "Attempt to insert duplicate key row in object 'ResourceBlock'",
 				expectedType = ExpectedType.CONTAINS
 			)
 		},
@@ -341,8 +350,8 @@ public class ResourceBlockLocalServiceTest {
 		Connection connection = DataAccess.getConnection();
 
 		PreparedStatement preparedStatement = connection.prepareStatement(
-			"SELECT * FROM ResourceBlock WHERE companyId = ? AND groupId " +
-				"= ? AND name = ?");
+			"SELECT * FROM ResourceBlock WHERE companyId = ? AND groupId = ? " +
+				"AND name = ?");
 
 		preparedStatement.setLong(1, companyId);
 		preparedStatement.setLong(2, groupId);
@@ -362,8 +371,8 @@ public class ResourceBlockLocalServiceTest {
 		Connection connection = DataAccess.getConnection();
 
 		PreparedStatement preparedStatement = connection.prepareStatement(
-			"SELECT referenceCount FROM ResourceBlock WHERE " +
-				"resourceBlockId = " + resourceBlockId);
+			"SELECT referenceCount FROM ResourceBlock WHERE resourceBlockId " +
+				"= " + resourceBlockId);
 
 		ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -389,7 +398,7 @@ public class ResourceBlockLocalServiceTest {
 
 	private static final int _THREAD_COUNT = 10;
 
-	private class MockPermissionedModel implements PermissionedModel {
+	private static class MockPermissionedModel implements PermissionedModel {
 
 		@Override
 		public long getResourceBlockId() {
@@ -409,7 +418,8 @@ public class ResourceBlockLocalServiceTest {
 
 	}
 
-	private class ReleaseResourceBlockCallable implements Callable<Void> {
+	private static class ReleaseResourceBlockCallable
+		implements Callable<Void> {
 
 		@Override
 		public Void call() throws Exception {
@@ -435,7 +445,8 @@ public class ResourceBlockLocalServiceTest {
 
 	}
 
-	private class UpdateResourceBlockIdCallable implements Callable<Void> {
+	private static class UpdateResourceBlockIdCallable
+		implements Callable<Void> {
 
 		@Override
 		public Void call() throws Exception {

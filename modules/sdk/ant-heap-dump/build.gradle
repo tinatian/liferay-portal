@@ -1,28 +1,14 @@
-dependencies {
-	compile group: "org.apache.ant", name: "ant", transitive: false, version: "1.9.4"
+clean {
+	ext {
+		cleanDeployed = false
+	}
+}
 
-	provided group: "com.liferay.portal", name: "portal-service", version: liferay.portalVersion
+dependencies {
+	provided group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.51.0"
+	provided group: "org.apache.ant", name: "ant", transitive: false, version: "1.9.4"
 }
 
 liferay {
-	deployDir = file("../../../tools/sdk/dependencies/${bundle.instructions['Bundle-SymbolicName']}/lib")
-}
-
-task deployJar(type: Copy)
-
-deploy {
-	finalizedBy deployJar
-}
-
-deployJar {
-	ext {
-		autoClean = false
-	}
-
-	from jar
-	into "../../../lib/development"
-
-	rename {
-		archivesBaseName + ".jar"
-	}
+	deployDir = "../../../tools/sdk/dependencies/com.liferay.ant.heap.dump/lib"
 }

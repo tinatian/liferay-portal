@@ -14,14 +14,18 @@
 
 package com.liferay.portal.security.permission;
 
+import com.liferay.portal.kernel.security.permission.ModelResourceActionsBag;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * @author László Csontos
+ * @author     László Csontos
+ * @deprecated As of 7.0.0, with no direct replacement
  */
+@Deprecated
 public class ModelResourceActionsBagImpl
 	extends ResourceActionsBagImpl implements ModelResourceActionsBag {
 

@@ -14,27 +14,27 @@
 
 package com.liferay.portal.action;
 
-import com.liferay.portal.NoSuchLayoutSetException;
+import com.liferay.layouts.admin.kernel.util.SitemapUtil;
+import com.liferay.portal.kernel.exception.NoSuchLayoutSetException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupConstants;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.VirtualHost;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
+import com.liferay.portal.kernel.service.VirtualHostLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.GroupConstants;
-import com.liferay.portal.model.LayoutSet;
-import com.liferay.portal.model.VirtualHost;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutSetLocalServiceUtil;
-import com.liferay.portal.service.VirtualHostLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.WebKeys;
-import com.liferay.portlet.layoutsadmin.util.SitemapUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +59,7 @@ public class SitemapAction extends Action {
 			ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
+			String layoutUuid = ParamUtil.getString(request, "layoutUuid");
 			long groupId = ParamUtil.getLong(request, "groupId");
 			boolean privateLayout = ParamUtil.getBoolean(
 				request, "privateLayout");
@@ -82,9 +83,11 @@ public class SitemapAction extends Action {
 				host = host.trim();
 
 				VirtualHost virtualHost =
-					VirtualHostLocalServiceUtil.getVirtualHost(host);
+					VirtualHostLocalServiceUtil.fetchVirtualHost(host);
 
-				if (virtualHost.getLayoutSetId() != 0) {
+				if ((virtualHost != null) &&
+					(virtualHost.getLayoutSetId() != 0)) {
+
 					layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
 						virtualHost.getLayoutSetId());
 				}
@@ -105,7 +108,7 @@ public class SitemapAction extends Action {
 			}
 
 			String sitemap = SitemapUtil.getSitemap(
-				layoutSet.getGroupId(), layoutSet.isPrivateLayout(),
+				layoutUuid, layoutSet.getGroupId(), layoutSet.isPrivateLayout(),
 				themeDisplay);
 
 			ServletResponseUtil.sendFile(

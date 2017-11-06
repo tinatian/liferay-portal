@@ -14,33 +14,33 @@
 
 package com.liferay.portal.repository;
 
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderServiceUtil;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.kernel.repository.LocalRepository;
 import com.liferay.portal.kernel.repository.RepositoryProviderUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.service.RepositoryLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Repository;
 import com.liferay.portal.repository.liferayrepository.LiferayRepository;
-import com.liferay.portal.service.RepositoryLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
-import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFolderServiceUtil;
 
 import java.io.InputStream;
 
@@ -58,8 +58,7 @@ public class RepositoryTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -171,8 +170,10 @@ public class RepositoryTest {
 				localRepository.getFileEntry(fileEntryIds[i]);
 
 				Assert.fail(
-					"Should not be able to get file entry " + fileEntryIds[i] +
-						" from repository " + dlRepository.getRepositoryId());
+					StringBundler.concat(
+						"Should not be able to get file entry ",
+						String.valueOf(fileEntryIds[i]), " from repository ",
+						String.valueOf(dlRepository.getRepositoryId())));
 			}
 			catch (Exception e) {
 			}
@@ -220,8 +221,7 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void
-			testRepositoryFileEntriesAreDeletedWhenDeletingLiferayRepository()
+	public void testRepositoryFileEntriesAreDeletedWhenDeletingLiferayRepository()
 		throws Exception {
 
 		long[] fileEntryIds = new long[4];

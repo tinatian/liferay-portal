@@ -14,6 +14,10 @@
 
 package com.liferay.portlet.asset.service.persistence.impl;
 
+import com.liferay.asset.kernel.exception.NoSuchCategoryException;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryConstants;
+import com.liferay.asset.kernel.service.persistence.AssetCategoryFinder;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -25,11 +29,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portlet.asset.NoSuchCategoryException;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.model.AssetCategoryConstants;
 import com.liferay.portlet.asset.model.impl.AssetCategoryImpl;
-import com.liferay.portlet.asset.service.persistence.AssetCategoryFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.Iterator;
@@ -174,10 +174,9 @@ public class AssetCategoryFinderImpl
 			closeSession(session);
 		}
 
-		StringBundler sb = new StringBundler(6);
+		StringBundler sb = new StringBundler(5);
 
-		sb.append("No AssetCategory exists with the key ");
-		sb.append("{groupId=");
+		sb.append("No AssetCategory exists with the key {groupId=");
 		sb.append(groupId);
 		sb.append(", name=");
 		sb.append(name);
@@ -241,8 +240,8 @@ public class AssetCategoryFinderImpl
 		StringBundler sb = new StringBundler(categoryProperties.length * 3 + 2);
 
 		sb.append(" INNER JOIN AssetCategoryProperty ON ");
-		sb.append(" (AssetCategoryProperty.categoryId = ");
-		sb.append(" AssetCategory.categoryId) AND ");
+		sb.append("(AssetCategoryProperty.categoryId = ");
+		sb.append("AssetCategory.categoryId) AND ");
 
 		for (int i = 0; i < categoryProperties.length; i++) {
 			sb.append("(AssetCategoryProperty.key_ = ? AND ");

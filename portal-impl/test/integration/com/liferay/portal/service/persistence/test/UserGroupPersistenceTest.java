@@ -14,16 +14,19 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchUserGroupException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserGroupException;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.UserGroupPersistence;
+import com.liferay.portal.kernel.service.persistence.UserGroupUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,13 +34,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.service.UserGroupLocalServiceUtil;
-import com.liferay.portal.service.persistence.UserGroupPersistence;
-import com.liferay.portal.service.persistence.UserGroupUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -53,6 +52,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -140,8 +140,6 @@ public class UserGroupPersistenceTest {
 
 		newUserGroup.setAddedByLDAPImport(RandomTestUtil.randomBoolean());
 
-		newUserGroup.setLastPublishDate(RandomTestUtil.nextDate());
-
 		_userGroups.add(_persistence.update(newUserGroup));
 
 		UserGroup existingUserGroup = _persistence.findByPrimaryKey(newUserGroup.getPrimaryKey());
@@ -170,9 +168,6 @@ public class UserGroupPersistenceTest {
 			newUserGroup.getDescription());
 		Assert.assertEquals(existingUserGroup.getAddedByLDAPImport(),
 			newUserGroup.getAddedByLDAPImport());
-		Assert.assertEquals(Time.getShortTimestamp(
-				existingUserGroup.getLastPublishDate()),
-			Time.getShortTimestamp(newUserGroup.getLastPublishDate()));
 	}
 
 	@Test
@@ -244,8 +239,7 @@ public class UserGroupPersistenceTest {
 			true, "uuid", true, "userGroupId", true, "companyId", true,
 			"userId", true, "userName", true, "createDate", true,
 			"modifiedDate", true, "parentUserGroupId", true, "name", true,
-			"description", true, "addedByLDAPImport", true, "lastPublishDate",
-			true);
+			"description", true, "addedByLDAPImport", true);
 	}
 
 	@Test
@@ -451,7 +445,7 @@ public class UserGroupPersistenceTest {
 		Assert.assertEquals(Long.valueOf(existingUserGroup.getCompanyId()),
 			ReflectionTestUtil.<Long>invoke(existingUserGroup,
 				"getOriginalCompanyId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(existingUserGroup.getName(),
+		Assert.assertTrue(Objects.equals(existingUserGroup.getName(),
 				ReflectionTestUtil.invoke(existingUserGroup, "getOriginalName",
 					new Class<?>[0])));
 	}
@@ -482,8 +476,6 @@ public class UserGroupPersistenceTest {
 		userGroup.setDescription(RandomTestUtil.randomString());
 
 		userGroup.setAddedByLDAPImport(RandomTestUtil.randomBoolean());
-
-		userGroup.setLastPublishDate(RandomTestUtil.nextDate());
 
 		_userGroups.add(_persistence.update(userGroup));
 

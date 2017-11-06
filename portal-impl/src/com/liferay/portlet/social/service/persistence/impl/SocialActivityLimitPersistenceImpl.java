@@ -16,6 +16,7 @@ package com.liferay.portlet.social.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -27,18 +28,19 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
-import com.liferay.portlet.social.NoSuchActivityLimitException;
-import com.liferay.portlet.social.model.SocialActivityLimit;
 import com.liferay.portlet.social.model.impl.SocialActivityLimitImpl;
 import com.liferay.portlet.social.model.impl.SocialActivityLimitModelImpl;
-import com.liferay.portlet.social.service.persistence.SocialActivityLimitPersistence;
+
+import com.liferay.social.kernel.exception.NoSuchActivityLimitException;
+import com.liferay.social.kernel.model.SocialActivityLimit;
+import com.liferay.social.kernel.service.persistence.SocialActivityLimitPersistence;
 
 import java.io.Serializable;
 
@@ -48,6 +50,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -59,7 +62,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see SocialActivityLimitPersistence
- * @see com.liferay.portlet.social.service.persistence.SocialActivityLimitUtil
+ * @see com.liferay.social.kernel.service.persistence.SocialActivityLimitUtil
  * @generated
  */
 @ProviderType
@@ -211,7 +214,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -429,8 +432,9 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -718,7 +722,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -936,8 +940,9 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1126,7 +1131,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Returns all the social activity limits where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the matching social activity limits
 	 */
 	@Override
@@ -1143,7 +1148,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * </p>
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of social activity limits
 	 * @param end the upper bound of the range of social activity limits (not inclusive)
 	 * @return the range of matching social activity limits
@@ -1162,7 +1167,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * </p>
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of social activity limits
 	 * @param end the upper bound of the range of social activity limits (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -1184,7 +1189,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * </p>
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of social activity limits
 	 * @param end the upper bound of the range of social activity limits (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -1238,7 +1243,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1308,7 +1313,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Returns the first social activity limit in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching social activity limit
 	 * @throws NoSuchActivityLimitException if a matching social activity limit could not be found
@@ -1343,7 +1348,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Returns the first social activity limit in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching social activity limit, or <code>null</code> if a matching social activity limit could not be found
 	 */
@@ -1364,7 +1369,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Returns the last social activity limit in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching social activity limit
 	 * @throws NoSuchActivityLimitException if a matching social activity limit could not be found
@@ -1399,7 +1404,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Returns the last social activity limit in the ordered set where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching social activity limit, or <code>null</code> if a matching social activity limit could not be found
 	 */
@@ -1427,7 +1432,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 *
 	 * @param activityLimitId the primary key of the current social activity limit
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next social activity limit
 	 * @throws NoSuchActivityLimitException if a social activity limit with the primary key could not be found
@@ -1471,11 +1476,12 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYLIMIT_WHERE);
@@ -1578,7 +1584,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Removes all the social activity limits where classNameId = &#63; and classPK = &#63; from the database.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 */
 	@Override
 	public void removeByC_C(long classNameId, long classPK) {
@@ -1592,7 +1598,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * Returns the number of social activity limits where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the number of matching social activity limits
 	 */
 	@Override
@@ -1676,7 +1682,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * @param groupId the group ID
 	 * @param userId the user ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param activityType the activity type
 	 * @param activityCounterName the activity counter name
 	 * @return the matching social activity limit
@@ -1714,8 +1720,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchActivityLimitException(msg.toString());
@@ -1730,7 +1736,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * @param groupId the group ID
 	 * @param userId the user ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param activityType the activity type
 	 * @param activityCounterName the activity counter name
 	 * @return the matching social activity limit, or <code>null</code> if a matching social activity limit could not be found
@@ -1749,7 +1755,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * @param groupId the group ID
 	 * @param userId the user ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param activityType the activity type
 	 * @param activityCounterName the activity counter name
 	 * @param retrieveFromCache whether to retrieve from the finder cache
@@ -1779,7 +1785,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 					(classNameId != socialActivityLimit.getClassNameId()) ||
 					(classPK != socialActivityLimit.getClassPK()) ||
 					(activityType != socialActivityLimit.getActivityType()) ||
-					!Validator.equals(activityCounterName,
+					!Objects.equals(activityCounterName,
 						socialActivityLimit.getActivityCounterName())) {
 				result = null;
 			}
@@ -1890,7 +1896,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * @param groupId the group ID
 	 * @param userId the user ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param activityType the activity type
 	 * @param activityCounterName the activity counter name
 	 * @return the social activity limit that was removed
@@ -1911,7 +1917,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 * @param groupId the group ID
 	 * @param userId the user ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param activityType the activity type
 	 * @param activityCounterName the activity counter name
 	 * @return the number of matching social activity limits
@@ -2090,7 +2096,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((SocialActivityLimitModelImpl)socialActivityLimit);
+		clearUniqueFindersCache((SocialActivityLimitModelImpl)socialActivityLimit,
+			true);
 	}
 
 	@Override
@@ -2103,48 +2110,12 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 				SocialActivityLimitImpl.class,
 				socialActivityLimit.getPrimaryKey());
 
-			clearUniqueFindersCache((SocialActivityLimitModelImpl)socialActivityLimit);
+			clearUniqueFindersCache((SocialActivityLimitModelImpl)socialActivityLimit,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		SocialActivityLimitModelImpl socialActivityLimitModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getGroupId(),
-					socialActivityLimitModelImpl.getUserId(),
-					socialActivityLimitModelImpl.getClassNameId(),
-					socialActivityLimitModelImpl.getClassPK(),
-					socialActivityLimitModelImpl.getActivityType(),
-					socialActivityLimitModelImpl.getActivityCounterName()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_G_U_C_C_A_A, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_G_U_C_C_A_A, args,
-				socialActivityLimitModelImpl);
-		}
-		else {
-			if ((socialActivityLimitModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_G_U_C_C_A_A.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						socialActivityLimitModelImpl.getGroupId(),
-						socialActivityLimitModelImpl.getUserId(),
-						socialActivityLimitModelImpl.getClassNameId(),
-						socialActivityLimitModelImpl.getClassPK(),
-						socialActivityLimitModelImpl.getActivityType(),
-						socialActivityLimitModelImpl.getActivityCounterName()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_G_U_C_C_A_A, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_G_U_C_C_A_A, args,
-					socialActivityLimitModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		SocialActivityLimitModelImpl socialActivityLimitModelImpl) {
 		Object[] args = new Object[] {
 				socialActivityLimitModelImpl.getGroupId(),
@@ -2155,12 +2126,32 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 				socialActivityLimitModelImpl.getActivityCounterName()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_G_U_C_C_A_A, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_G_U_C_C_A_A, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_G_U_C_C_A_A, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_G_U_C_C_A_A, args,
+			socialActivityLimitModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		SocialActivityLimitModelImpl socialActivityLimitModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					socialActivityLimitModelImpl.getGroupId(),
+					socialActivityLimitModelImpl.getUserId(),
+					socialActivityLimitModelImpl.getClassNameId(),
+					socialActivityLimitModelImpl.getClassPK(),
+					socialActivityLimitModelImpl.getActivityType(),
+					socialActivityLimitModelImpl.getActivityCounterName()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_U_C_C_A_A, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_G_U_C_C_A_A, args);
+		}
 
 		if ((socialActivityLimitModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_G_U_C_C_A_A.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					socialActivityLimitModelImpl.getOriginalGroupId(),
 					socialActivityLimitModelImpl.getOriginalUserId(),
 					socialActivityLimitModelImpl.getOriginalClassNameId(),
@@ -2186,6 +2177,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 		socialActivityLimit.setNew(true);
 		socialActivityLimit.setPrimaryKey(activityLimitId);
+
+		socialActivityLimit.setCompanyId(companyProvider.getCompanyId());
 
 		return socialActivityLimit;
 	}
@@ -2222,8 +2215,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 					primaryKey);
 
 			if (socialActivityLimit == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchActivityLimitException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2308,8 +2301,37 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					socialActivityLimitModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] { socialActivityLimitModelImpl.getUserId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
+				args);
+
+			args = new Object[] {
+					socialActivityLimitModelImpl.getClassNameId(),
+					socialActivityLimitModelImpl.getClassPK()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2373,8 +2395,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 			SocialActivityLimitImpl.class, socialActivityLimit.getPrimaryKey(),
 			socialActivityLimit, false);
 
-		clearUniqueFindersCache(socialActivityLimitModelImpl);
-		cacheUniqueFindersCache(socialActivityLimitModelImpl, isNew);
+		clearUniqueFindersCache(socialActivityLimitModelImpl, false);
+		cacheUniqueFindersCache(socialActivityLimitModelImpl);
 
 		socialActivityLimit.resetOriginalValues();
 
@@ -2406,7 +2428,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	}
 
 	/**
-	 * Returns the social activity limit with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the social activity limit with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the social activity limit
 	 * @return the social activity limit
@@ -2418,8 +2440,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		SocialActivityLimit socialActivityLimit = fetchByPrimaryKey(primaryKey);
 
 		if (socialActivityLimit == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchActivityLimitException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2450,12 +2472,14 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	 */
 	@Override
 	public SocialActivityLimit fetchByPrimaryKey(Serializable primaryKey) {
-		SocialActivityLimit socialActivityLimit = (SocialActivityLimit)entityCache.getResult(SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 				SocialActivityLimitImpl.class, primaryKey);
 
-		if (socialActivityLimit == _nullSocialActivityLimit) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		SocialActivityLimit socialActivityLimit = (SocialActivityLimit)serializable;
 
 		if (socialActivityLimit == null) {
 			Session session = null;
@@ -2471,8 +2495,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 				}
 				else {
 					entityCache.putResult(SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
-						SocialActivityLimitImpl.class, primaryKey,
-						_nullSocialActivityLimit);
+						SocialActivityLimitImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -2526,18 +2549,20 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			SocialActivityLimit socialActivityLimit = (SocialActivityLimit)entityCache.getResult(SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 					SocialActivityLimitImpl.class, primaryKey);
 
-			if (socialActivityLimit == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, socialActivityLimit);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (SocialActivityLimit)serializable);
+				}
 			}
 		}
 
@@ -2551,7 +2576,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		query.append(_SQL_SELECT_SOCIALACTIVITYLIMIT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -2580,8 +2605,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
-					SocialActivityLimitImpl.class, primaryKey,
-					_nullSocialActivityLimit);
+					SocialActivityLimitImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2683,7 +2707,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_SOCIALACTIVITYLIMIT);
 
@@ -2803,6 +2827,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_SOCIALACTIVITYLIMIT = "SELECT socialActivityLimit FROM SocialActivityLimit socialActivityLimit";
@@ -2814,23 +2840,4 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No SocialActivityLimit exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No SocialActivityLimit exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(SocialActivityLimitPersistenceImpl.class);
-	private static final SocialActivityLimit _nullSocialActivityLimit = new SocialActivityLimitImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<SocialActivityLimit> toCacheModel() {
-				return _nullSocialActivityLimitCacheModel;
-			}
-		};
-
-	private static final CacheModel<SocialActivityLimit> _nullSocialActivityLimitCacheModel =
-		new CacheModel<SocialActivityLimit>() {
-			@Override
-			public SocialActivityLimit toEntityModel() {
-				return _nullSocialActivityLimit;
-			}
-		};
 }

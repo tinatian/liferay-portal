@@ -14,7 +14,8 @@
 
 package com.liferay.portal.verify.model;
 
-import com.liferay.portlet.documentlibrary.model.DLFileShortcutConstants;
+import com.liferay.document.library.kernel.model.DLFileShortcutConstants;
+import com.liferay.portal.kernel.verify.model.VerifiableResourcedModel;
 
 /**
  * @author Brian Wing Shun Chan

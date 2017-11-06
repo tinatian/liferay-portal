@@ -15,30 +15,34 @@
 package com.liferay.portlet.usersadmin.util;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchEngineUtil;
 import com.liferay.portal.kernel.search.Summary;
+import com.liferay.portal.kernel.search.TermQuery;
 import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.QueryFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
+import com.liferay.portal.kernel.search.generic.TermQueryImpl;
 import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.OrganizationConstants;
-import com.liferay.portal.service.OrganizationLocalServiceUtil;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,7 +62,6 @@ public class OrganizationIndexer extends BaseIndexer<Organization> {
 	public static final String CLASS_NAME = Organization.class.getName();
 
 	public OrganizationIndexer() {
-		setCommitImmediately(true);
 		setDefaultSelectedFieldNames(
 			Field.COMPANY_ID, Field.ORGANIZATION_ID, Field.UID);
 		setPermissionAware(true);
@@ -99,8 +102,15 @@ public class OrganizationIndexer extends BaseIndexer<Organization> {
 		List<Organization> organizationsTree = (List<Organization>)params.get(
 			"organizationsTree");
 
-		if (ListUtil.isNotEmpty(organizationsTree)) {
+		if (organizationsTree != null) {
 			BooleanFilter booleanFilter = new BooleanFilter();
+
+			if (organizationsTree.isEmpty()) {
+				TermQuery termQuery = new TermQueryImpl(
+					Field.TREE_PATH, StringPool.BLANK);
+
+				booleanFilter.add(new QueryFilter(termQuery));
+			}
 
 			for (Organization organization : organizationsTree) {
 				String treePath = organization.buildTreePath();
@@ -210,7 +220,7 @@ public class OrganizationIndexer extends BaseIndexer<Organization> {
 	protected void doReindex(Organization organization) throws Exception {
 		Document document = getDocument(organization);
 
-		SearchEngineUtil.updateDocument(
+		IndexWriterHelperUtil.updateDocument(
 			getSearchEngineId(), organization.getCompanyId(), document,
 			isCommitImmediately());
 	}
@@ -231,11 +241,11 @@ public class OrganizationIndexer extends BaseIndexer<Organization> {
 	}
 
 	protected void reindexOrganizations(long companyId) throws Exception {
-		final ActionableDynamicQuery actionableDynamicQuery =
-			OrganizationLocalServiceUtil.getActionableDynamicQuery();
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			OrganizationLocalServiceUtil.getIndexableActionableDynamicQuery();
 
-		actionableDynamicQuery.setCompanyId(companyId);
-		actionableDynamicQuery.setPerformActionMethod(
+		indexableActionableDynamicQuery.setCompanyId(companyId);
+		indexableActionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<Organization>() {
 
 				@Override
@@ -243,7 +253,7 @@ public class OrganizationIndexer extends BaseIndexer<Organization> {
 					try {
 						Document document = getDocument(organization);
 
-						actionableDynamicQuery.addDocument(document);
+						indexableActionableDynamicQuery.addDocuments(document);
 					}
 					catch (PortalException pe) {
 						if (_log.isWarnEnabled()) {
@@ -256,9 +266,9 @@ public class OrganizationIndexer extends BaseIndexer<Organization> {
 				}
 
 			});
-		actionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 
-		actionableDynamicQuery.performActions();
+		indexableActionableDynamicQuery.performActions();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

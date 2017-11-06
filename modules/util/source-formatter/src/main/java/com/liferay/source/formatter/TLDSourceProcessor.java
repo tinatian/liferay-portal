@@ -14,10 +14,6 @@
 
 package com.liferay.source.formatter;
 
-import com.liferay.portal.kernel.util.StringUtil;
-
-import java.io.File;
-
 import java.util.List;
 
 /**
@@ -26,27 +22,17 @@ import java.util.List;
 public class TLDSourceProcessor extends BaseSourceProcessor {
 
 	@Override
-	public String[] getIncludes() {
-		return _INCLUDES;
-	}
-
-	@Override
-	protected String doFormat(
-			File file, String fileName, String absolutePath, String content)
-		throws Exception {
-
-		content = trimContent(content, false);
-
-		return StringUtil.replace(content, "\n\n\n", "\n\n");
-	}
-
-	@Override
 	protected List<String> doGetFileNames() throws Exception {
-		String[] excludes = new String[] {"**/WEB-INF/tld/**"};
+		String[] excludes = {"**/WEB-INF/tld/**", "**/test_*.tld"};
 
 		return getFileNames(excludes, getIncludes());
 	}
 
-	private static final String[] _INCLUDES = new String[] {"**/*.tld"};
+	@Override
+	protected String[] doGetIncludes() {
+		return _INCLUDES;
+	}
+
+	private static final String[] _INCLUDES = {"**/*.tld"};
 
 }

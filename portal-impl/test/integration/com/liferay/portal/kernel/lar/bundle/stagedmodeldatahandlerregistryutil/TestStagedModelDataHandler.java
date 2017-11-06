@@ -14,10 +14,10 @@
 
 package com.liferay.portal.kernel.lar.bundle.stagedmodeldatahandlerregistryutil;
 
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.xml.Element;
-import com.liferay.portal.model.User;
-import com.liferay.portlet.exportimport.lar.PortletDataContext;
-import com.liferay.portlet.exportimport.lar.StagedModelDataHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -28,9 +28,8 @@ import org.osgi.service.component.annotations.Component;
  * @author Peter Fellwock
  */
 @Component(
-	immediate = true, property = {
-		"service.ranking:Integer=" + Integer.MAX_VALUE
-	}
+	immediate = true,
+	property = {"service.ranking:Integer=" + Integer.MAX_VALUE}
 )
 public class TestStagedModelDataHandler
 	implements StagedModelDataHandler<User> {

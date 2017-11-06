@@ -34,8 +34,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author Shuyang Zhou
+ * @author     Shuyang Zhou
+ * @deprecated As of 7.0.0, with no direct replacement
  */
+@Deprecated
 public class BufferedIncrementProcessor {
 
 	public BufferedIncrementProcessor(
@@ -90,7 +92,7 @@ public class BufferedIncrementProcessor {
 		if (_batchablePipe.put(bufferedIncreasableEntry)) {
 			Runnable runnable = new BufferedIncrementRunnable(
 				_bufferedIncrementConfiguration, _batchablePipe,
-					_queueLengthTracker, Thread.currentThread());
+				_queueLengthTracker, Thread.currentThread());
 
 			if (ProxyModeThreadLocal.isForceSync()) {
 				runnable.run();

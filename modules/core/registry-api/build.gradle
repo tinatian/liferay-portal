@@ -1,7 +1,10 @@
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
 dependencies {
-	compile group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "2.4.1"
+	provided group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
 }
 
 liferay {
-	deployDir = file("${appServerLibGlobalDir}")
+	deployDir = appServerLibGlobalDir
 }

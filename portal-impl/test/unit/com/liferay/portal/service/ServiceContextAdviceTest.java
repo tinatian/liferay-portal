@@ -14,6 +14,8 @@
 
 package com.liferay.portal.service;
 
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.spring.aop.ServiceBeanAopCacheManager;
 
@@ -71,17 +73,6 @@ public class ServiceContextAdviceTest {
 	}
 
 	@Test
-	public void testWithNullServiceContextArgument() throws Throwable {
-		MethodInvocation methodInvocation = createMethodInvocation(
-			new Object[0], new Class<?>[] {ServiceContext.class}, true);
-
-		_serviceContextAdvice.invoke(methodInvocation);
-
-		Assert.assertFalse(
-			_testServiceBeanAopCacheManager.isRemovedMethodInterceptor());
-	}
-
-	@Test
 	public void testWithoutServiceContextParameter() throws Throwable {
 		MethodInvocation methodInvocation = createMethodInvocation(
 			new Object[] {null}, new Class<?>[] {Object.class}, true);
@@ -115,13 +106,23 @@ public class ServiceContextAdviceTest {
 		return new MethodInvocation() {
 
 			@Override
+			public Object[] getArguments() {
+				return arguments;
+			}
+
+			@Override
 			public Method getMethod() {
 				return method;
 			}
 
 			@Override
-			public Object[] getArguments() {
-				return arguments;
+			public AccessibleObject getStaticPart() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public Object getThis() {
+				throw new UnsupportedOperationException();
 			}
 
 			@Override
@@ -136,16 +137,6 @@ public class ServiceContextAdviceTest {
 				return null;
 			}
 
-			@Override
-			public Object getThis() {
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public AccessibleObject getStaticPart() {
-				throw new UnsupportedOperationException();
-			}
-
 		};
 	}
 
@@ -153,7 +144,7 @@ public class ServiceContextAdviceTest {
 	private ServiceContextAdvice _serviceContextAdvice;
 	private TestServiceBeanAopCacheManager _testServiceBeanAopCacheManager;
 
-	private class TestInterceptedClass {
+	private static class TestInterceptedClass {
 
 		@SuppressWarnings("unused")
 		public void method() {
@@ -173,7 +164,7 @@ public class ServiceContextAdviceTest {
 
 	}
 
-	private class TestServiceBeanAopCacheManager
+	private static class TestServiceBeanAopCacheManager
 		extends ServiceBeanAopCacheManager {
 
 		public boolean isRemovedMethodInterceptor() {
@@ -192,7 +183,7 @@ public class ServiceContextAdviceTest {
 
 	}
 
-	private class TestServiceContextWrapper extends ServiceContext {
+	private static class TestServiceContextWrapper extends ServiceContext {
 	}
 
 }

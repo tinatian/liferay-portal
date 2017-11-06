@@ -300,8 +300,9 @@ public class PluginsGitSvnSyncer {
 			_fileUtil.write(tempFile, StringUtil.merge(ignoresArray, "\n"));
 
 			_exec(
-				_SVN_SET_IGNORES + "-F \"" + tempFile.getCanonicalPath() +
-					"\" \"" + destDirName + dirName + "\"");
+				StringBundler.concat(
+					_SVN_SET_IGNORES, "-F \"", tempFile.getCanonicalPath(),
+					"\" \"", destDirName, dirName, "\""));
 		}
 		finally {
 			_fileUtil.delete(tempFile);
@@ -313,9 +314,8 @@ public class PluginsGitSvnSyncer {
 		"/docroot/WEB-INF/tld"
 	};
 
-	private static final String[] _PLUGIN_TYPES = {
-		"clients", "ext", "hooks", "layouttpl", "portlets", "themes", "webs"
-	};
+	private static final String[] _PLUGIN_TYPES =
+		{"clients", "ext", "hooks", "layouttpl", "portlets", "themes", "webs"};
 
 	private static final String _SVN_DEL_IGNORES = "svn propdel svn:ignore ";
 

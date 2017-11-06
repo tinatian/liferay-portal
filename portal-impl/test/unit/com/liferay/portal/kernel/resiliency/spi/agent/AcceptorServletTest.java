@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.resiliency.spi.SPIUtil;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.util.PortalImpl;
-import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
 
@@ -73,8 +73,7 @@ public class AcceptorServletTest {
 					return _pathContext;
 				}
 
-			}
-		);
+			});
 
 		ConcurrentMap<String, Object> attributes =
 			LocalProcessLauncher.ProcessContext.getAttributes();
@@ -198,7 +197,7 @@ public class AcceptorServletTest {
 					"IOException on prepare request", ioe.getMessage());
 			}
 
-			Assert.assertEquals(1, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 
@@ -226,7 +225,7 @@ public class AcceptorServletTest {
 					"RuntimeException on prepare request", re.getMessage());
 			}
 
-			Assert.assertEquals(1, logRecords.size());
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
 
 			logRecord = logRecords.get(0);
 

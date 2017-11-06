@@ -15,13 +15,12 @@
 package com.liferay.portal.servlet.filters.compoundsessionid;
 
 import com.liferay.portal.kernel.servlet.WrapHttpServletRequestFilter;
-import com.liferay.portal.kernel.servlet.filters.compoundsessionid.CompoundSessionIdServletRequest;
-import com.liferay.portal.kernel.servlet.filters.compoundsessionid.CompoundSessionIdSplitterUtil;
 import com.liferay.portal.servlet.filters.BasePortalFilter;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceTracker;
 
-import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -34,44 +33,48 @@ import javax.servlet.http.HttpServletResponse;
 public class CompoundSessionIdFilter
 	extends BasePortalFilter implements WrapHttpServletRequestFilter {
 
+	public CompoundSessionIdFilter() {
+		Registry registry = RegistryUtil.getRegistry();
+
+		_serviceTracker = registry.trackServices(
+			CompoundSessionIdServletRequestFactory.class);
+
+		_serviceTracker.open();
+	}
+
+	@Override
+	public void destroy() {
+		_serviceTracker.close();
+
+		super.destroy();
+	}
+
 	@Override
 	public HttpServletRequest getWrappedHttpServletRequest(
 		HttpServletRequest request, HttpServletResponse response) {
 
-		HttpServletRequest wrappedRequest = request;
+		CompoundSessionIdServletRequestFactory
+			compoundSessionIdServletRequestFactory =
+				_serviceTracker.getService();
 
-		while (wrappedRequest instanceof HttpServletRequestWrapper) {
-			if (wrappedRequest instanceof CompoundSessionIdServletRequest) {
-				return request;
-			}
-
-			HttpServletRequestWrapper httpServletRequestWrapper =
-				(HttpServletRequestWrapper)wrappedRequest;
-
-			wrappedRequest =
-				(HttpServletRequest)httpServletRequestWrapper.getRequest();
+		if (compoundSessionIdServletRequestFactory != null) {
+			return compoundSessionIdServletRequestFactory.create(request);
 		}
 
-		return new CompoundSessionIdServletRequest(request);
-	}
-
-	@Override
-	public void init(FilterConfig filterConfig) {
-		super.init(filterConfig);
-
-		if (CompoundSessionIdSplitterUtil.hasSessionDelimiter()) {
-			_filterEnabled = true;
-		}
-		else {
-			_filterEnabled = false;
-		}
+		return request;
 	}
 
 	@Override
 	public boolean isFilterEnabled() {
-		return _filterEnabled;
+		if (_serviceTracker.isEmpty()) {
+			return false;
+		}
+
+		return true;
 	}
 
-	private static boolean _filterEnabled;
+	private final ServiceTracker
+		<CompoundSessionIdServletRequestFactory,
+			CompoundSessionIdServletRequestFactory> _serviceTracker;
 
 }

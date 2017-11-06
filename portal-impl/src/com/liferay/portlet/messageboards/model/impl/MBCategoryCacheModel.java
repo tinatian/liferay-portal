@@ -16,12 +16,12 @@ package com.liferay.portlet.messageboards.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.message.boards.kernel.model.MBCategory;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.messageboards.model.MBCategory;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -215,22 +215,31 @@ public class MBCategoryCacheModel implements CacheModel<MBCategory>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		categoryId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
 		parentCategoryId = objectInput.readLong();
 		name = objectInput.readUTF();
 		description = objectInput.readUTF();
 		displayStyle = objectInput.readUTF();
+
 		threadCount = objectInput.readInt();
+
 		messageCount = objectInput.readInt();
 		lastPostDate = objectInput.readLong();
 		lastPublishDate = objectInput.readLong();
+
 		status = objectInput.readInt();
+
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
@@ -247,8 +256,11 @@ public class MBCategoryCacheModel implements CacheModel<MBCategory>,
 		}
 
 		objectOutput.writeLong(categoryId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
@@ -260,6 +272,7 @@ public class MBCategoryCacheModel implements CacheModel<MBCategory>,
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
 		objectOutput.writeLong(parentCategoryId);
 
 		if (name == null) {
@@ -284,10 +297,13 @@ public class MBCategoryCacheModel implements CacheModel<MBCategory>,
 		}
 
 		objectOutput.writeInt(threadCount);
+
 		objectOutput.writeInt(messageCount);
 		objectOutput.writeLong(lastPostDate);
 		objectOutput.writeLong(lastPublishDate);
+
 		objectOutput.writeInt(status);
+
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {

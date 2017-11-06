@@ -27,7 +27,7 @@ boolean advancedSearch = displayTerms.isAdvancedSearch();
 				<span class="icon-remove"></span>
 			</button>
 
-			<input class="form-control" <%= advancedSearch ? "disabled" : StringPool.BLANK %> id="<%= id + DisplayTerms.KEYWORDS %>" name="<portlet:namespace /><%= DisplayTerms.KEYWORDS %>" placeholder="<liferay-ui:message key="search" />..." title="search" type="text" value="<%= HtmlUtil.escapeAttribute(displayTerms.getKeywords()) %>" />
+			<input class="form-control search-query" <%= advancedSearch ? "disabled" : StringPool.BLANK %> id="<%= id + DisplayTerms.KEYWORDS %>" name="<portlet:namespace /><%= DisplayTerms.KEYWORDS %>" placeholder="<liferay-ui:message key="search" />..." title="search" type="text" value="<%= HtmlUtil.escapeAttribute(displayTerms.getKeywords()) %>" />
 		</div>
 	</div>
 
@@ -36,9 +36,9 @@ boolean advancedSearch = displayTerms.isAdvancedSearch();
 			<span class="icon-search"></span>
 		</button>
 
-		<a class="toggle-advanced" href="javascript:;" id="<%= id %>toggleAdvanced">
-			<i class="caret"></i>
-		</a>
+		<button class="btn btn-default toggle-advanced" id="<%= id %>toggleAdvanced" type="button">
+			<span class="caret"></span>
+		</button>
 	</div>
 </div>
 
@@ -51,8 +51,8 @@ boolean advancedSearch = displayTerms.isAdvancedSearch();
 		<div class="taglib-search-toggle-advanced-content" id="<%= id %>advancedContent">
 			<div class="form-group form-group-inline">
 				<aui:select label="match" name="<%= DisplayTerms.AND_OPERATOR %>" wrapperCssClass="match-fields">
-					<aui:option label="all" selected="<%= displayTerms.isAndOperator() %>" value="true" />
-					<aui:option label="any" selected="<%= !displayTerms.isAndOperator() %>" value="false" />
+					<aui:option label="all" selected="<%= displayTerms.isAndOperator() %>" value="<%= true %>" />
+					<aui:option label="any" selected="<%= !displayTerms.isAndOperator() %>" value="<%= false %>" />
 				</aui:select>
 
 				<span class="match-fields-legend">

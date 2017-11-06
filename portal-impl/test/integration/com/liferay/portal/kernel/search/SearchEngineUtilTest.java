@@ -14,10 +14,8 @@
 
 package com.liferay.portal.kernel.search;
 
-import com.liferay.portal.kernel.search.bundle.searchengineutil.TestSearchEngineConfigurator;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
 import com.liferay.portal.util.test.AtomicState;
 
@@ -37,7 +35,7 @@ public class SearchEngineUtilTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule("bundle.searchengineutil"));
 
 	@BeforeClass
@@ -52,10 +50,7 @@ public class SearchEngineUtilTest {
 
 	@Test
 	public void testAfterPropertiesSet() {
-		Assert.assertEquals(
-			TestSearchEngineConfigurator.class.getName() +
-				"#afterPropertiesSet#38",
-			_atomicState.get());
+		Assert.assertTrue(_atomicState.get());
 	}
 
 	private static AtomicState _atomicState;

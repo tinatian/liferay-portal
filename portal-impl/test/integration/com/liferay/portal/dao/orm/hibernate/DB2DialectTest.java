@@ -16,14 +16,15 @@ package com.liferay.portal.dao.orm.hibernate;
 
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.dao.db.DB;
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
+import com.liferay.portal.kernel.dao.db.DBType;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import java.util.List;
 
@@ -47,11 +48,9 @@ public class DB2DialectTest {
 
 	@Before
 	public void setUp() throws Exception {
-		DB db = DBFactoryUtil.getDB();
+		DB db = DBManagerUtil.getDB();
 
-		String dbType = db.getType();
-
-		Assume.assumeTrue(dbType.equals(DB.TYPE_DB2));
+		Assume.assumeTrue(db.getDBType() == DBType.DB2);
 	}
 
 	@Test
@@ -93,7 +92,8 @@ public class DB2DialectTest {
 				q, _sessionFactory.getDialect(), start, end);
 
 			Assert.assertNotNull(result);
-			Assert.assertEquals(expectedResultSize, result.size());
+			Assert.assertEquals(
+				result.toString(), expectedResultSize, result.size());
 		}
 		finally {
 			_sessionFactory.closeSession(session);

@@ -1,0 +1,10 @@
+#
+# Liferay App Version 3.0.0
+#
+
+app.artifacts-3.0.0=\
+	
+
+app.change.log-3.0.0=LPS-69989
+
+app.git.id-3.0.0=9b144d3ec4147139663c58e51b9bd8b220b74ab5

@@ -14,11 +14,11 @@
 
 package com.liferay.portal.fabric.netty.worker;
 
+import com.liferay.portal.fabric.ReturnProcessCallable;
 import com.liferay.portal.kernel.process.ProcessCallable;
 import com.liferay.portal.kernel.process.ProcessConfig;
 import com.liferay.portal.kernel.process.ProcessConfig.Builder;
 import com.liferay.portal.kernel.process.ProcessException;
-import com.liferay.portal.kernel.process.local.ReturnProcessCallable;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.util.SerializableUtil;
@@ -85,7 +85,7 @@ public class NettyFabricWorkerConfigTest {
 		}
 
 		NettyFabricWorkerConfig<String> nettyFabricWorkerConfig =
-			new NettyFabricWorkerConfig<String>(
+			new NettyFabricWorkerConfig<>(
 				id, processConfig, processCallable,
 				Collections.<Path, Path>emptyMap());
 

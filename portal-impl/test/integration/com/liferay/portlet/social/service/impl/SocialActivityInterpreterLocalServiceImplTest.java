@@ -16,12 +16,12 @@ package com.liferay.portlet.social.service.impl;
 
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
-import com.liferay.portlet.social.model.SocialActivityInterpreter;
-import com.liferay.portlet.social.service.SocialActivityInterpreterLocalServiceUtil;
 import com.liferay.portlet.social.service.impl.bundle.socialactivityinterpreterlocalserviceimpl.TestSocialActivityInterpreter;
+import com.liferay.social.kernel.model.SocialActivityInterpreter;
+import com.liferay.social.kernel.service.SocialActivityInterpreterLocalServiceUtil;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class SocialActivityInterpreterLocalServiceImplTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule(
 				"bundle.socialactivityinterpreterlocalserviceimpl"));
 
@@ -51,7 +51,9 @@ public class SocialActivityInterpreterLocalServiceImplTest {
 		List<SocialActivityInterpreter> socialActivityInterpreters =
 			activityInterpreters.get(TestSocialActivityInterpreter.SELECTOR);
 
-		Assert.assertEquals(1, socialActivityInterpreters.size());
+		Assert.assertEquals(
+			socialActivityInterpreters.toString(), 1,
+			socialActivityInterpreters.size());
 
 		SocialActivityInterpreter socialActivityInterpreter =
 			socialActivityInterpreters.get(0);
@@ -62,7 +64,7 @@ public class SocialActivityInterpreterLocalServiceImplTest {
 
 		String[] classNames = socialActivityInterpreter.getClassNames();
 
-		Assert.assertEquals(1, classNames.length);
+		Assert.assertEquals(Arrays.toString(classNames), 1, classNames.length);
 		Assert.assertEquals(
 			TestSocialActivityInterpreter.class.getName(), classNames[0]);
 	}
@@ -73,7 +75,8 @@ public class SocialActivityInterpreterLocalServiceImplTest {
 			SocialActivityInterpreterLocalServiceUtil.getActivityInterpreters(
 				TestSocialActivityInterpreter.SELECTOR);
 
-		Assert.assertEquals(1, activityInterpreters.size());
+		Assert.assertEquals(
+			activityInterpreters.toString(), 1, activityInterpreters.size());
 
 		SocialActivityInterpreter socialActivityInterpreter =
 			activityInterpreters.get(0);
@@ -84,7 +87,7 @@ public class SocialActivityInterpreterLocalServiceImplTest {
 
 		String[] classNames = socialActivityInterpreter.getClassNames();
 
-		Assert.assertEquals(1, classNames.length);
+		Assert.assertEquals(Arrays.toString(classNames), 1, classNames.length);
 		Assert.assertEquals(
 			TestSocialActivityInterpreter.class.getName(), classNames[0]);
 	}

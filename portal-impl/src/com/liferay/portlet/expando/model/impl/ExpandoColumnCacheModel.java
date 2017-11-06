@@ -16,12 +16,12 @@ package com.liferay.portlet.expando.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoColumn;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.expando.model.ExpandoColumn;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -124,9 +124,12 @@ public class ExpandoColumnCacheModel implements CacheModel<ExpandoColumn>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		columnId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		tableId = objectInput.readLong();
 		name = objectInput.readUTF();
+
 		type = objectInput.readInt();
 		defaultData = objectInput.readUTF();
 		typeSettings = objectInput.readUTF();
@@ -136,7 +139,9 @@ public class ExpandoColumnCacheModel implements CacheModel<ExpandoColumn>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(columnId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(tableId);
 
 		if (name == null) {

@@ -16,15 +16,23 @@ package com.liferay.portal.test.randomizerbumpers;
 
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.test.rule.AdviseWith;
+import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -33,8 +41,10 @@ import org.junit.Test;
 public class TikaSafeRandomizerBumperTest {
 
 	@ClassRule
-	public static final CodeCoverageAssertor codeCoverageAssertor =
-		CodeCoverageAssertor.INSTANCE;
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new AggregateTestRule(
+			AspectJNewEnvTestRule.INSTANCE, CodeCoverageAssertor.INSTANCE);
 
 	@Test
 	public void testAcceptAny() {
@@ -81,6 +91,40 @@ public class TikaSafeRandomizerBumperTest {
 			tikaSafeRandomizerBumper, _BROKEN_EXE_BYTES, false, Level.INFO);
 	}
 
+	@AdviseWith(adviceClasses = {ReflectionTestUtilAdvice.class})
+	@NewEnv(type = NewEnv.Type.CLASSLOADER)
+	@Test
+	public void testExceptionInInitializerError()
+		throws ClassNotFoundException {
+
+		try {
+			Class.forName(TikaSafeRandomizerBumper.class.getName());
+
+			Assert.fail();
+		}
+		catch (ExceptionInInitializerError eiie) {
+			Assert.assertSame(
+				ReflectionTestUtilAdvice._exception, eiie.getCause());
+		}
+	}
+
+	@Aspect
+	public static class ReflectionTestUtilAdvice {
+
+		@Before(
+			"execution(public static T " +
+				"com.liferay.portal.kernel.test.ReflectionTestUtil." +
+					"getFieldValue(java.lang.Class<?>, java.lang.String))"
+		)
+		public void getFieldValue() {
+			throw _exception;
+		}
+
+		private static final RuntimeException _exception =
+			new RuntimeException();
+
+	}
+
 	protected void doAccept(
 		TikaSafeRandomizerBumper tikaSafeRandomizerBumper, byte[] byteArray,
 		boolean accept, Level level) {
@@ -95,7 +139,8 @@ public class TikaSafeRandomizerBumperTest {
 				List<LogRecord> logRecords = captureHandler.getLogRecords();
 
 				if (level == Level.INFO) {
-					Assert.assertEquals(1, logRecords.size());
+					Assert.assertEquals(
+						logRecords.toString(), 1, logRecords.size());
 
 					LogRecord logRecord = logRecords.get(0);
 
@@ -123,7 +168,7 @@ public class TikaSafeRandomizerBumperTest {
 
 	// http://www.phreedom.org/research/tinype
 
-	private static final byte[] _EXE_BYTE_ARRAY = new byte[] {
+	private static final byte[] _EXE_BYTE_ARRAY = {
 		77, 90, 0, 0, 80, 69, 0, 0, 76, 1, 1, 0, 106, 42, 88, -61, 0, 0, 0, 0,
 		0, 0, 0, 0, 4, 0, 3, 1, 11, 1, 8, 0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0,
 		12, 0, 0, 0, 4, 0, 0, 0, 12, 0, 0, 0, 0, 0, 64, 0, 4, 0, 0, 0, 4, 0, 0,

@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.util.ClassLoaderUtil;
 
 import java.io.InputStream;
 
+import java.net.URL;
+
 /**
  * This class is a simple wrapper in order to make the framework module running
  * under its own class loader.
@@ -37,6 +39,10 @@ public class ModuleFrameworkUtilAdapter {
 		throws PortalException {
 
 		return _moduleFramework.addBundle(location, inputStream);
+	}
+
+	public static URL getBundleResource(long bundleId, String name) {
+		return _moduleFramework.getBundleResource(bundleId, name);
 	}
 
 	public static Object getFramework() {
@@ -75,7 +81,7 @@ public class ModuleFrameworkUtilAdapter {
 		_moduleFramework = moduleFramework;
 
 		_moduleFrameworkAdapterHelper.exec(
-			"setModuleFramework", new Class[] {ModuleFramework.class},
+			"setModuleFramework", new Class<?>[] {ModuleFramework.class},
 			_moduleFramework);
 	}
 
@@ -119,6 +125,10 @@ public class ModuleFrameworkUtilAdapter {
 		_moduleFramework.uninstallBundle(bundleId);
 	}
 
+	public static void unregisterContext(Object context) {
+		_moduleFramework.unregisterContext(context);
+	}
+
 	public static void updateBundle(long bundleId) throws PortalException {
 		_moduleFramework.updateBundle(bundleId);
 	}
@@ -135,9 +145,8 @@ public class ModuleFrameworkUtilAdapter {
 			"com.liferay.portal.bootstrap.ModuleFrameworkUtil");
 
 	static {
-		_moduleFramework =
-			(ModuleFramework)_moduleFrameworkAdapterHelper.execute(
-				"getModuleFramework");
+		_moduleFramework = (ModuleFramework)_moduleFrameworkAdapterHelper.exec(
+			"getModuleFramework", new Class<?>[0]);
 	}
 
 }

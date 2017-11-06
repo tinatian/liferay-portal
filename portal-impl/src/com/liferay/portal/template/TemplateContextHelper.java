@@ -14,23 +14,52 @@
 
 package com.liferay.portal.template;
 
+import com.liferay.expando.kernel.service.ExpandoColumnLocalService;
+import com.liferay.expando.kernel.service.ExpandoRowLocalService;
+import com.liferay.expando.kernel.service.ExpandoTableLocalService;
+import com.liferay.expando.kernel.service.ExpandoValueLocalService;
 import com.liferay.portal.kernel.audit.AuditMessageFactoryUtil;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.image.ImageToolUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.language.UnicodeLanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.Theme;
 import com.liferay.portal.kernel.portlet.PortletModeFactory_IW;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.portlet.PortletRequestModelFactory;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.WindowStateFactory_IW;
+import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.GroupService;
+import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.service.LayoutService;
+import com.liferay.portal.kernel.service.OrganizationLocalService;
+import com.liferay.portal.kernel.service.OrganizationService;
+import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.service.UserService;
+import com.liferay.portal.kernel.service.permission.AccountPermissionUtil;
+import com.liferay.portal.kernel.service.permission.CommonPermissionUtil;
+import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
+import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
+import com.liferay.portal.kernel.service.permission.OrganizationPermissionUtil;
+import com.liferay.portal.kernel.service.permission.PasswordPolicyPermissionUtil;
+import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
+import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
+import com.liferay.portal.kernel.service.permission.RolePermissionUtil;
+import com.liferay.portal.kernel.service.permission.UserGroupPermissionUtil;
+import com.liferay.portal.kernel.service.permission.UserPermissionUtil;
 import com.liferay.portal.kernel.servlet.BrowserSnifferUtil;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandlerRegistryUtil;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
+import com.liferay.portal.kernel.theme.NavItem;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil_IW;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
@@ -44,47 +73,19 @@ import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ListMergeable;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil_IW;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SessionClicks_IW;
 import com.liferay.portal.kernel.util.StaticFieldGetter;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil_IW;
 import com.liferay.portal.kernel.util.TimeZoneUtil_IW;
 import com.liferay.portal.kernel.util.UnicodeFormatter_IW;
 import com.liferay.portal.kernel.util.Validator_IW;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.Theme;
-import com.liferay.portal.service.GroupLocalService;
-import com.liferay.portal.service.GroupService;
-import com.liferay.portal.service.LayoutLocalService;
-import com.liferay.portal.service.LayoutService;
-import com.liferay.portal.service.OrganizationLocalService;
-import com.liferay.portal.service.OrganizationService;
-import com.liferay.portal.service.UserLocalService;
-import com.liferay.portal.service.UserService;
-import com.liferay.portal.service.permission.AccountPermissionUtil;
-import com.liferay.portal.service.permission.CommonPermissionUtil;
-import com.liferay.portal.service.permission.GroupPermissionUtil;
-import com.liferay.portal.service.permission.LayoutPermissionUtil;
-import com.liferay.portal.service.permission.OrganizationPermissionUtil;
-import com.liferay.portal.service.permission.PasswordPolicyPermissionUtil;
-import com.liferay.portal.service.permission.PortalPermissionUtil;
-import com.liferay.portal.service.permission.PortletPermissionUtil;
-import com.liferay.portal.service.permission.RolePermissionUtil;
-import com.liferay.portal.service.permission.UserGroupPermissionUtil;
-import com.liferay.portal.service.permission.UserPermissionUtil;
-import com.liferay.portal.theme.NavItem;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.SessionClicks_IW;
-import com.liferay.portal.util.WebKeys;
-import com.liferay.portal.webserver.WebServerServletTokenUtil;
-import com.liferay.portlet.PortletURLFactoryUtil;
-import com.liferay.portlet.expando.service.ExpandoColumnLocalService;
-import com.liferay.portlet.expando.service.ExpandoRowLocalService;
-import com.liferay.portlet.expando.service.ExpandoTableLocalService;
-import com.liferay.portlet.expando.service.ExpandoValueLocalService;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
+import com.liferay.portal.kernel.xml.SAXReader;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -266,8 +267,7 @@ public class TemplateContextHelper {
 						return portletRequestModel.toXML();
 					}
 
-				}
-			);
+				});
 		}
 
 		// Theme display
@@ -279,32 +279,38 @@ public class TemplateContextHelper {
 			Layout layout = themeDisplay.getLayout();
 			List<Layout> layouts = themeDisplay.getLayouts();
 
-			contextObjects.put("themeDisplay", themeDisplay);
+			contextObjects.put("bodyCssClass", StringPool.BLANK);
+			contextObjects.put("colorScheme", themeDisplay.getColorScheme());
 			contextObjects.put("company", themeDisplay.getCompany());
-			contextObjects.put("user", themeDisplay.getUser());
-			contextObjects.put("realUser", themeDisplay.getRealUser());
 			contextObjects.put("layout", layout);
 			contextObjects.put("layouts", layouts);
-			contextObjects.put("plid", String.valueOf(themeDisplay.getPlid()));
 			contextObjects.put(
 				"layoutTypePortlet", themeDisplay.getLayoutTypePortlet());
-			contextObjects.put(
-				"scopeGroupId", Long.valueOf(themeDisplay.getScopeGroupId()));
+			contextObjects.put("locale", themeDisplay.getLocale());
 			contextObjects.put(
 				"permissionChecker", themeDisplay.getPermissionChecker());
-			contextObjects.put("locale", themeDisplay.getLocale());
-			contextObjects.put("timeZone", themeDisplay.getTimeZone());
-			contextObjects.put("colorScheme", themeDisplay.getColorScheme());
+			contextObjects.put("plid", String.valueOf(themeDisplay.getPlid()));
 			contextObjects.put(
 				"portletDisplay", themeDisplay.getPortletDisplay());
+			contextObjects.put("realUser", themeDisplay.getRealUser());
+			contextObjects.put(
+				"scopeGroupId", Long.valueOf(themeDisplay.getScopeGroupId()));
+			contextObjects.put("themeDisplay", themeDisplay);
+			contextObjects.put("timeZone", themeDisplay.getTimeZone());
+			contextObjects.put("user", themeDisplay.getUser());
 
 			// Navigation items
 
 			if (layout != null) {
-				List<NavItem> navItems = NavItem.fromLayouts(
-					request, layouts, contextObjects);
+				try {
+					List<NavItem> navItems = NavItem.fromLayouts(
+						request, themeDisplay, contextObjects);
 
-				contextObjects.put("navItems", navItems);
+					contextObjects.put("navItems", navItems);
+				}
+				catch (PortalException pe) {
+					_log.error(pe, pe);
+				}
 			}
 
 			// Deprecated
@@ -620,7 +626,7 @@ public class TemplateContextHelper {
 			try {
 				variables.put(
 					"saxReaderUtil",
-					utilLocator.findUtil(SAXReaderUtil.class.getName()));
+					utilLocator.findUtil(SAXReader.class.getName()));
 			}
 			catch (SecurityException se) {
 				_log.error(se, se);

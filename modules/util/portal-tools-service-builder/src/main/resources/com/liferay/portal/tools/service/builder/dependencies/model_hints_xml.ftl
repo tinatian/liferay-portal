@@ -1,10 +1,10 @@
 <#list entities as entity>
-	<#assign modelName = packagePath + ".model." + entity.name>
+	<#assign modelName = apiPackagePath + ".model." + entity.name />
 
 	<#if entity.hasColumns()>
 		<model name="${modelName}">
 			<#if modelHintsUtil.getDefaultHints(modelName)??>
-				<#assign defaultHints = modelHintsUtil.getDefaultHints(modelName)>
+				<#assign defaultHints = modelHintsUtil.getDefaultHints(modelName) />
 
 				<#if defaultHints?keys?size gt 0>
 					<default-hints>
@@ -17,42 +17,48 @@
 
 			<#list entity.columnList as column>
 				<#if !column.isCollection()>
-					<field name="${column.name}" type="${column.type}"
+					<field
 
 					<#if column.localized>
 						localized="true"
 					</#if>
 
-					<#assign closeField = false>
+					name="${column.name}" type="${column.type}"
+
+					<#assign closeField = false />
 
 					<#if modelHintsUtil.getFieldsElement(modelName, column.name)??>
-						<#assign fieldsElement = modelHintsUtil.getFieldsElement(modelName, column.name)>
+						<#assign
+							fieldsElement = modelHintsUtil.getFieldsElement(modelName, column.name)
 
-						<#assign hintElements = fieldsElement.elements()>
+							hintElements = fieldsElement.elements()
+						/>
 
 						<#if hintElements?size gt 0>
-							<#assign closeField = true>
+							<#assign closeField = true />
 						</#if>
 					</#if>
 
 					<#if modelHintsUtil.getSanitizeTuple(modelName, column.name)??>
-						<#assign closeField = true>
+						<#assign closeField = true />
 					</#if>
 
 					<#if modelHintsUtil.getValidators(modelName, column.name)??>
-						<#assign closeField = true>
+						<#assign closeField = true />
 					</#if>
 
 					<#if closeField>
 						>
 
 						<#if modelHintsUtil.getFieldsElement(modelName, column.name)??>
-							<#assign fieldsElement = modelHintsUtil.getFieldsElement(modelName, column.name)>
+							<#assign
+								fieldsElement = modelHintsUtil.getFieldsElement(modelName, column.name)
 
-							<#assign hintElements = fieldsElement.elements()>
+								hintElements = fieldsElement.elements()
+							/>
 
 							<#list hintElements as hintElement>
-								<#if hintElement.name == "hint">
+								<#if stringUtil.equals(hintElement.name, "hint")>
 									<hint name="${hintElement.attributeValue("name")}">${hintElement.text}</hint>
 								<#elseif hintElement.name == "hint-collection">
 									<hint-collection name="${hintElement.attributeValue("name")}" />
@@ -61,31 +67,35 @@
 						</#if>
 
 						<#if modelHintsUtil.getSanitizeTuple(modelName, column.name)??>
-							<#assign sanitizeTuple = modelHintsUtil.getSanitizeTuple(modelName, column.name)>
+							<#assign
+								sanitizeTuple = modelHintsUtil.getSanitizeTuple(modelName, column.name)
 
-							<#assign contentType = sanitizeTuple.getObject(1)>
-							<#assign modes = sanitizeTuple.getObject(2)>
+								contentType = sanitizeTuple.getObject(1)
+								modes = sanitizeTuple.getObject(2)
+							/>
 
 							<sanitize content-type="${contentType}" modes="${modes}" />
 						</#if>
 
-					    <#if modelHintsUtil.getValidators(modelName, column.name)??>
-							<#assign validators = modelHintsUtil.getValidators(modelName, column.name)>
+						<#if modelHintsUtil.getValidators(modelName, column.name)??>
+							<#assign validators = modelHintsUtil.getValidators(modelName, column.name) />
 
-							<#list validators as validator>
-								<#assign validatorName = validator.getObject(1)>
-								<#assign validatorErrorMessage = validator.getObject(2)>
-								<#assign validatorValue = validator.getObject(3)>
+							<#list validators as curValidator>
+								<#assign
+									validatorName = curValidator.getObject(1)
+									validatorErrorMessage = curValidator.getObject(2)
+									validatorValue = curValidator.getObject(3)
+								/>
 
 								<validator
 
-								<#if validatorErrorMessage != "">
+								<#if validator.isNotNull(validatorErrorMessage)>
 									error-message="${validatorErrorMessage}"
 								</#if>
 
 								name="${validatorName}"
 
-								<#if validatorValue != "">
+								<#if validator.isNotNull(validatorValue)>
 									>
 										${validatorValue}
 									</validator>

@@ -19,9 +19,9 @@ import com.liferay.portal.kernel.editor.configuration.EditorConfiguration;
 import com.liferay.portal.kernel.editor.configuration.EditorConfigurationFactory;
 import com.liferay.portal.kernel.editor.configuration.EditorOptions;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.security.pacl.permission.PortalRuntimePermission;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.RequestBackedPortletURLFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.registry.collections.ServiceTrackerCollections;
 import com.liferay.registry.collections.ServiceTrackerMap;
 
@@ -81,12 +81,8 @@ public class EditorConfigurationFactoryImpl
 	private static EditorConfigProvider _editorConfigProvider;
 	private static final ServiceTrackerMap<String, EditorConfigTransformer>
 		_editorConfigTransformerServiceTrackerMap =
-			ServiceTrackerCollections.singleValueMap(
+			ServiceTrackerCollections.openSingleValueMap(
 				EditorConfigTransformer.class, "editor.name");
 	private static EditorOptionsProvider _editorOptionsProvider;
-
-	static {
-		_editorConfigTransformerServiceTrackerMap.open();
-	}
 
 }

@@ -16,6 +16,11 @@ package com.liferay.portlet.asset.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.exception.NoSuchTagStatsException;
+import com.liferay.asset.kernel.model.AssetTagStats;
+import com.liferay.asset.kernel.service.persistence.AssetTagStatsPersistence;
+
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -27,17 +32,15 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
-import com.liferay.portlet.asset.NoSuchTagStatsException;
-import com.liferay.portlet.asset.model.AssetTagStats;
 import com.liferay.portlet.asset.model.impl.AssetTagStatsImpl;
 import com.liferay.portlet.asset.model.impl.AssetTagStatsModelImpl;
-import com.liferay.portlet.asset.service.persistence.AssetTagStatsPersistence;
 
 import java.io.Serializable;
 
@@ -58,7 +61,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see AssetTagStatsPersistence
- * @see com.liferay.portlet.asset.service.persistence.AssetTagStatsUtil
+ * @see com.liferay.asset.kernel.service.persistence.AssetTagStatsUtil
  * @generated
  */
 @ProviderType
@@ -208,7 +211,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -422,8 +425,9 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -714,7 +718,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -930,8 +934,9 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1131,8 +1136,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchTagStatsException(msg.toString());
@@ -1391,7 +1396,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((AssetTagStatsModelImpl)assetTagStats);
+		clearUniqueFindersCache((AssetTagStatsModelImpl)assetTagStats, true);
 	}
 
 	@Override
@@ -1403,52 +1408,38 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 			entityCache.removeResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
 				AssetTagStatsImpl.class, assetTagStats.getPrimaryKey());
 
-			clearUniqueFindersCache((AssetTagStatsModelImpl)assetTagStats);
+			clearUniqueFindersCache((AssetTagStatsModelImpl)assetTagStats, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		AssetTagStatsModelImpl assetTagStatsModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					assetTagStatsModelImpl.getTagId(),
-					assetTagStatsModelImpl.getClassNameId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_T_C, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_T_C, args,
-				assetTagStatsModelImpl);
-		}
-		else {
-			if ((assetTagStatsModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_T_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						assetTagStatsModelImpl.getTagId(),
-						assetTagStatsModelImpl.getClassNameId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_T_C, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_T_C, args,
-					assetTagStatsModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		AssetTagStatsModelImpl assetTagStatsModelImpl) {
 		Object[] args = new Object[] {
 				assetTagStatsModelImpl.getTagId(),
 				assetTagStatsModelImpl.getClassNameId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_T_C, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_T_C, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_T_C, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_T_C, args,
+			assetTagStatsModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		AssetTagStatsModelImpl assetTagStatsModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					assetTagStatsModelImpl.getTagId(),
+					assetTagStatsModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_T_C, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_T_C, args);
+		}
 
 		if ((assetTagStatsModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_T_C.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					assetTagStatsModelImpl.getOriginalTagId(),
 					assetTagStatsModelImpl.getOriginalClassNameId()
 				};
@@ -1470,6 +1461,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 		assetTagStats.setNew(true);
 		assetTagStats.setPrimaryKey(tagStatsId);
+
+		assetTagStats.setCompanyId(companyProvider.getCompanyId());
 
 		return assetTagStats;
 	}
@@ -1505,8 +1498,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 					primaryKey);
 
 			if (assetTagStats == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchTagStatsException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1589,8 +1582,26 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !AssetTagStatsModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!AssetTagStatsModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { assetTagStatsModelImpl.getTagId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TAGID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TAGID,
+				args);
+
+			args = new Object[] { assetTagStatsModelImpl.getClassNameId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_CLASSNAMEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CLASSNAMEID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1633,8 +1644,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 			AssetTagStatsImpl.class, assetTagStats.getPrimaryKey(),
 			assetTagStats, false);
 
-		clearUniqueFindersCache(assetTagStatsModelImpl);
-		cacheUniqueFindersCache(assetTagStatsModelImpl, isNew);
+		clearUniqueFindersCache(assetTagStatsModelImpl, false);
+		cacheUniqueFindersCache(assetTagStatsModelImpl);
 
 		assetTagStats.resetOriginalValues();
 
@@ -1652,6 +1663,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		assetTagStatsImpl.setPrimaryKey(assetTagStats.getPrimaryKey());
 
 		assetTagStatsImpl.setTagStatsId(assetTagStats.getTagStatsId());
+		assetTagStatsImpl.setCompanyId(assetTagStats.getCompanyId());
 		assetTagStatsImpl.setTagId(assetTagStats.getTagId());
 		assetTagStatsImpl.setClassNameId(assetTagStats.getClassNameId());
 		assetTagStatsImpl.setAssetCount(assetTagStats.getAssetCount());
@@ -1660,7 +1672,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 	}
 
 	/**
-	 * Returns the asset tag stats with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the asset tag stats with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the asset tag stats
 	 * @return the asset tag stats
@@ -1672,8 +1684,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		AssetTagStats assetTagStats = fetchByPrimaryKey(primaryKey);
 
 		if (assetTagStats == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchTagStatsException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1704,12 +1716,14 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 	 */
 	@Override
 	public AssetTagStats fetchByPrimaryKey(Serializable primaryKey) {
-		AssetTagStats assetTagStats = (AssetTagStats)entityCache.getResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
 				AssetTagStatsImpl.class, primaryKey);
 
-		if (assetTagStats == _nullAssetTagStats) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		AssetTagStats assetTagStats = (AssetTagStats)serializable;
 
 		if (assetTagStats == null) {
 			Session session = null;
@@ -1725,7 +1739,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 				}
 				else {
 					entityCache.putResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
-						AssetTagStatsImpl.class, primaryKey, _nullAssetTagStats);
+						AssetTagStatsImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1779,18 +1793,20 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			AssetTagStats assetTagStats = (AssetTagStats)entityCache.getResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
 					AssetTagStatsImpl.class, primaryKey);
 
-			if (assetTagStats == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, assetTagStats);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (AssetTagStats)serializable);
+				}
 			}
 		}
 
@@ -1804,7 +1820,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		query.append(_SQL_SELECT_ASSETTAGSTATS_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -1832,7 +1848,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(AssetTagStatsModelImpl.ENTITY_CACHE_ENABLED,
-					AssetTagStatsImpl.class, primaryKey, _nullAssetTagStats);
+					AssetTagStatsImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1934,7 +1950,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_ASSETTAGSTATS);
 
@@ -2054,6 +2070,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_ASSETTAGSTATS = "SELECT assetTagStats FROM AssetTagStats assetTagStats";
@@ -2065,22 +2083,4 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No AssetTagStats exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No AssetTagStats exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(AssetTagStatsPersistenceImpl.class);
-	private static final AssetTagStats _nullAssetTagStats = new AssetTagStatsImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<AssetTagStats> toCacheModel() {
-				return _nullAssetTagStatsCacheModel;
-			}
-		};
-
-	private static final CacheModel<AssetTagStats> _nullAssetTagStatsCacheModel = new CacheModel<AssetTagStats>() {
-			@Override
-			public AssetTagStats toEntityModel() {
-				return _nullAssetTagStats;
-			}
-		};
 }

@@ -26,17 +26,17 @@ import com.liferay.portal.kernel.jsonwebservice.NoSuchJSONWebServiceException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.pacl.DoPrivileged;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.servlet.HttpMethods;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MethodParameter;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.service.ServiceContextThreadLocal;
 import com.liferay.portal.spring.context.PortalContextLoaderListener;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
 
 import java.lang.reflect.Method;
@@ -294,7 +294,10 @@ public class JSONWebServiceActionsManagerImpl
 		int count = getJSONWebServiceActionsCount(contextPath);
 
 		if (_log.isInfoEnabled()) {
-			_log.info("Configured " + count + " actions for " + contextPath);
+			_log.info(
+				StringBundler.concat(
+					"Configured ", String.valueOf(count), " actions for ",
+					contextPath));
 		}
 
 		return count;
@@ -334,7 +337,10 @@ public class JSONWebServiceActionsManagerImpl
 		int count = getJSONWebServiceActionsCount(contextPath);
 
 		if (_log.isInfoEnabled()) {
-			_log.info("Configured " + count + " actions for " + contextPath);
+			_log.info(
+				StringBundler.concat(
+					"Configured ", String.valueOf(count), " actions for ",
+					contextPath));
 		}
 
 		return count;
@@ -465,8 +471,9 @@ public class JSONWebServiceActionsManagerImpl
 
 		if (_log.isDebugEnabled()) {
 			_log.debug(
-				"Request JSON web service action with path " + path +
-					" and method " + method + " for " + contextName);
+				StringBundler.concat(
+					"Request JSON web service action with path ", path,
+					" and method ", method, " for ", contextName));
 		}
 
 		String[] parameterNames =
@@ -488,8 +495,9 @@ public class JSONWebServiceActionsManagerImpl
 
 		if (jsonWebServiceActionConfig == null) {
 			throw new NoSuchJSONWebServiceException(
-				"No JSON web service action with path " + path +
-					" and method " + method + " for " + contextName);
+				StringBundler.concat(
+					"No JSON web service action with path ", path,
+					" and method ", method, " for ", contextName));
 		}
 
 		return jsonWebServiceActionConfig;
@@ -530,8 +538,9 @@ public class JSONWebServiceActionsManagerImpl
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"Unable to find JSON web service actions with path " +
-						path + " for " + contextName);
+					StringBundler.concat(
+						"Unable to find JSON web service actions with path ",
+						path, " for ", contextName));
 			}
 
 			return null;
@@ -539,9 +548,11 @@ public class JSONWebServiceActionsManagerImpl
 
 		if (_log.isDebugEnabled()) {
 			_log.debug(
-				"Found " + jsonWebServiceActionConfigs.size() +
-					" JSON web service actions with path " + path + " for " +
-						contextName);
+				StringBundler.concat(
+					"Found ",
+					String.valueOf(jsonWebServiceActionConfigs.size()),
+					" JSON web service actions with path ", path, " for ",
+					contextName));
 		}
 
 		jsonWebServiceActionConfigs = new ArrayList<>(
@@ -595,13 +606,15 @@ public class JSONWebServiceActionsManagerImpl
 		if (_log.isDebugEnabled()) {
 			if (matchedJSONWebServiceActionConfig == null) {
 				_log.debug(
-					"Unable to match parameters to a JSON web service " +
-						"action with path " + path + " for " + contextName);
+					StringBundler.concat(
+						"Unable to match parameters to a JSON web service ",
+						"action with path ", path, " for ", contextName));
 			}
 			else {
 				_log.debug(
-					"Matched parameters to a JSON web service action with " +
-						"path " + path + " for " + contextName);
+					StringBundler.concat(
+						"Matched parameters to a JSON web service action with ",
+						"path ", path, " for ", contextName));
 			}
 		}
 
@@ -672,8 +685,14 @@ public class JSONWebServiceActionsManagerImpl
 			contextName = servletContext.getServletContextName();
 
 			if (Validator.isNotNull(contextName)) {
-				path = StringPool.SLASH.concat(contextName).concat(
-					StringPool.PERIOD).concat(path.substring(1));
+				StringBundler sb = new StringBundler(4);
+
+				sb.append(StringPool.SLASH);
+				sb.append(contextName);
+				sb.append(StringPool.PERIOD);
+				sb.append(path.substring(1));
+
+				path = sb.toString();
 			}
 		}
 

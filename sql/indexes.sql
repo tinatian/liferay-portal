@@ -37,6 +37,8 @@ create index IX_B2A61B55 on AssetEntries_AssetTags (tagId);
 create unique index IX_1E9D371D on AssetEntry (classNameId, classPK);
 create index IX_7306C60 on AssetEntry (companyId);
 create index IX_75D42FF9 on AssetEntry (expirationDate);
+create index IX_6418BB52 on AssetEntry (groupId, classNameId, publishDate, expirationDate);
+create index IX_82C4BEF6 on AssetEntry (groupId, classNameId, visible);
 create index IX_1EBA6821 on AssetEntry (groupId, classUuid[$COLUMN_LENGTH:75$]);
 create index IX_FEC4A201 on AssetEntry (layoutUuid[$COLUMN_LENGTH:75$]);
 create index IX_2E4E3885 on AssetEntry (publishDate);
@@ -77,13 +79,6 @@ create index IX_507BA031 on BlogsStatsUser (userId, lastPostDate);
 
 create unique index IX_E7B95510 on BrowserTracker (userId);
 
-create index IX_D6FD9496 on CalEvent (companyId);
-create index IX_4FDDD2BF on CalEvent (groupId, repeating);
-create index IX_FD93CBFA on CalEvent (groupId, type_[$COLUMN_LENGTH:75$], repeating);
-create index IX_F6006202 on CalEvent (remindBy);
-create index IX_299639C6 on CalEvent (uuid_[$COLUMN_LENGTH:75$], companyId);
-create unique index IX_5CCE79C8 on CalEvent (uuid_[$COLUMN_LENGTH:75$], groupId);
-
 create unique index IX_B27A301F on ClassName_ (value[$COLUMN_LENGTH:200$]);
 
 create index IX_38EFE3FD on Company (logoId);
@@ -103,6 +98,8 @@ create unique index IX_19DA007B on Country (name[$COLUMN_LENGTH:75$]);
 create unique index IX_FDD1AAA8 on DLContent (companyId, repositoryId, path_[$COLUMN_LENGTH:255$], version[$COLUMN_LENGTH:75$]);
 
 create index IX_5444C427 on DLFileEntry (companyId, fileEntryTypeId);
+create index IX_B8526DBE on DLFileEntry (custom1ImageId);
+create index IX_AC9BDEDD on DLFileEntry (custom2ImageId);
 create index IX_772ECDE7 on DLFileEntry (fileEntryTypeId);
 create index IX_8F6C75D0 on DLFileEntry (folderId, name[$COLUMN_LENGTH:255$]);
 create index IX_BAF654E5 on DLFileEntry (groupId, fileEntryTypeId);
@@ -111,15 +108,17 @@ create unique index IX_DF37D92E on DLFileEntry (groupId, folderId, fileName[$COL
 create unique index IX_5391712 on DLFileEntry (groupId, folderId, name[$COLUMN_LENGTH:255$]);
 create unique index IX_ED5CA615 on DLFileEntry (groupId, folderId, title[$COLUMN_LENGTH:255$]);
 create index IX_D20C434D on DLFileEntry (groupId, userId, folderId);
+create index IX_4DB7A143 on DLFileEntry (largeImageId);
 create index IX_D9492CF6 on DLFileEntry (mimeType[$COLUMN_LENGTH:75$]);
 create index IX_1B352F4A on DLFileEntry (repositoryId, folderId);
+create index IX_25F5CAB9 on DLFileEntry (smallImageId, largeImageId, custom1ImageId, custom2ImageId);
 create index IX_31079DE8 on DLFileEntry (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_BC2E7E6A on DLFileEntry (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create unique index IX_7332B44F on DLFileEntryMetadata (DDMStructureId, fileVersionId);
 create index IX_4F40FE5E on DLFileEntryMetadata (fileEntryId);
 create index IX_1FE9C04 on DLFileEntryMetadata (fileVersionId);
-create index IX_D49AB5D1 on DLFileEntryMetadata (uuid_[$COLUMN_LENGTH:75$]);
+create index IX_E69431B7 on DLFileEntryMetadata (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create unique index IX_5B6BEF5F on DLFileEntryType (groupId, fileEntryTypeKey[$COLUMN_LENGTH:75$]);
 create index IX_5B03E942 on DLFileEntryType (uuid_[$COLUMN_LENGTH:75$], companyId);
@@ -184,6 +183,9 @@ create index IX_1827A2E5 on ExportImportConfiguration (companyId);
 create index IX_38FA468D on ExportImportConfiguration (groupId, status);
 create index IX_47CC6234 on ExportImportConfiguration (groupId, type_, status);
 
+create index IX_8257E37B on Group_ (classNameId, classPK);
+create index IX_BD3CB13A on Group_ (classNameId, groupId, companyId, parentGroupId);
+create index IX_DDC91A87 on Group_ (companyId, active_);
 create unique index IX_D0D5E397 on Group_ (companyId, classNameId, classPK);
 create unique index IX_A729E3A6 on Group_ (companyId, classNameId, liveGroupId, groupKey[$COLUMN_LENGTH:150$]);
 create index IX_ABE2D54 on Group_ (companyId, classNameId, parentGroupId);
@@ -211,14 +213,15 @@ create index IX_3B69160F on Groups_UserGroups (userGroupId);
 
 create index IX_6A925A4D on Image (size_);
 
-create index IX_C7FBC998 on Layout (companyId);
+create index IX_881EABCB on Layout (companyId, layoutPrototypeUuid[$COLUMN_LENGTH:75$]);
 create unique index IX_BC2C4231 on Layout (groupId, privateLayout, friendlyURL[$COLUMN_LENGTH:255$]);
 create unique index IX_7162C27C on Layout (groupId, privateLayout, layoutId);
-create index IX_6DE88B06 on Layout (groupId, privateLayout, parentLayoutId);
+create index IX_7399B71E on Layout (groupId, privateLayout, parentLayoutId, priority);
 create index IX_8CE8C0D9 on Layout (groupId, privateLayout, sourcePrototypeLayoutUuid[$COLUMN_LENGTH:75$]);
 create index IX_1A1B61D2 on Layout (groupId, privateLayout, type_[$COLUMN_LENGTH:75$]);
 create index IX_23922F7D on Layout (iconImageId);
 create index IX_B529BFD3 on Layout (layoutPrototypeUuid[$COLUMN_LENGTH:75$]);
+create index IX_3BC009C0 on Layout (privateLayout, iconImageId);
 create index IX_39A18ECC on Layout (sourcePrototypeLayoutUuid[$COLUMN_LENGTH:75$]);
 create index IX_2CE4BE84 on Layout (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_E118C537 on Layout (uuid_[$COLUMN_LENGTH:75$], groupId, privateLayout);
@@ -238,6 +241,7 @@ create index IX_63ED2532 on LayoutPrototype (uuid_[$COLUMN_LENGTH:75$], companyI
 
 create index IX_43E8286A on LayoutRevision (head, plid);
 create index IX_E10AC39 on LayoutRevision (layoutSetBranchId, head, plid);
+create index IX_38C5DF14 on LayoutRevision (layoutSetBranchId, layoutBranchId, head, plid);
 create index IX_13984800 on LayoutRevision (layoutSetBranchId, layoutBranchId, plid);
 create index IX_4A84AF43 on LayoutRevision (layoutSetBranchId, parentLayoutRevisionId, plid);
 create index IX_70DA9ECB on LayoutRevision (layoutSetBranchId, plid, status);
@@ -246,6 +250,7 @@ create index IX_8EC3D2BC on LayoutRevision (plid, status);
 
 create unique index IX_48550691 on LayoutSet (groupId, privateLayout);
 create index IX_72BBA8B7 on LayoutSet (layoutSetPrototypeUuid[$COLUMN_LENGTH:75$]);
+create index IX_1B698D9 on LayoutSet (privateLayout, logoId);
 
 create index IX_CCF0DA29 on LayoutSetBranch (groupId, privateLayout, master);
 create unique index IX_5FF18552 on LayoutSetBranch (groupId, privateLayout, name[$COLUMN_LENGTH:75$]);
@@ -347,6 +352,7 @@ create index IX_96BDD537 on PortletItem (groupId, classNameId);
 create index IX_D699243F on PortletItem (groupId, name[$COLUMN_LENGTH:75$], portletId[$COLUMN_LENGTH:200$], classNameId);
 create index IX_E922D6C0 on PortletItem (groupId, portletId[$COLUMN_LENGTH:200$], classNameId);
 
+create index IX_60C49142 on PortletPreferences (companyId, ownerId, ownerType, portletId[$COLUMN_LENGTH:200$]);
 create unique index IX_C7057FF7 on PortletPreferences (ownerId, ownerType, plid, portletId[$COLUMN_LENGTH:200$]);
 create index IX_C9A3FCE2 on PortletPreferences (ownerId, ownerType, portletId[$COLUMN_LENGTH:200$]);
 create index IX_D5EDA3A1 on PortletPreferences (ownerType, plid, portletId[$COLUMN_LENGTH:200$]);
@@ -359,6 +365,18 @@ create unique index IX_B47E3C11 on RatingsEntry (userId, classNameId, classPK);
 create index IX_9F242DF6 on RatingsEntry (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create unique index IX_A6E99284 on RatingsStats (classNameId, classPK);
+
+create index IX_B91F79BD on RecentLayoutBranch (groupId);
+create index IX_351E86E8 on RecentLayoutBranch (layoutBranchId);
+create unique index IX_C27D6369 on RecentLayoutBranch (userId, layoutSetBranchId, plid);
+
+create index IX_8D8A2724 on RecentLayoutRevision (groupId);
+create index IX_DA0788DA on RecentLayoutRevision (layoutRevisionId);
+create unique index IX_4C600BD0 on RecentLayoutRevision (userId, layoutSetBranchId, plid);
+
+create index IX_711995A5 on RecentLayoutSetBranch (groupId);
+create index IX_23FF0700 on RecentLayoutSetBranch (layoutSetBranchId);
+create unique index IX_4654D204 on RecentLayoutSetBranch (userId, layoutSetId);
 
 create index IX_2D9A426F on Region (active_);
 create index IX_11FB3E42 on Region (countryId, active_);
@@ -385,6 +403,8 @@ create index IX_20A2E3D9 on ResourceBlockPermission (roleId);
 create unique index IX_8D83D0CE on ResourcePermission (companyId, name[$COLUMN_LENGTH:255$], scope, primKey[$COLUMN_LENGTH:255$], roleId);
 create index IX_49AEC6F3 on ResourcePermission (companyId, name[$COLUMN_LENGTH:255$], scope, primKeyId, roleId, viewActionId);
 create index IX_26284944 on ResourcePermission (companyId, primKey[$COLUMN_LENGTH:255$]);
+create index IX_F6BAE86A on ResourcePermission (companyId, scope, primKey[$COLUMN_LENGTH:255$]);
+create index IX_D5F1E2A2 on ResourcePermission (name[$COLUMN_LENGTH:255$]);
 create index IX_A37A0588 on ResourcePermission (roleId);
 create index IX_F4555981 on ResourcePermission (scope);
 
@@ -399,30 +419,6 @@ create index IX_F436EC8E on Role_ (name[$COLUMN_LENGTH:75$]);
 create index IX_5EB4E2FB on Role_ (subtype[$COLUMN_LENGTH:75$]);
 create index IX_CBE204 on Role_ (type_, subtype[$COLUMN_LENGTH:75$]);
 create index IX_B9FF6043 on Role_ (uuid_[$COLUMN_LENGTH:75$], companyId);
-
-create index IX_630CC727 on SCFrameworkVersi_SCProductVers (companyId);
-create index IX_3BB93ECA on SCFrameworkVersi_SCProductVers (frameworkVersionId);
-create index IX_E8D33FF9 on SCFrameworkVersi_SCProductVers (productVersionId);
-
-create index IX_C98C0D78 on SCFrameworkVersion (companyId);
-create index IX_6E1764F on SCFrameworkVersion (groupId, active_);
-
-create index IX_5327BB79 on SCLicense (active_, recommended);
-
-create index IX_2EE8A074 on SCLicenses_SCProductEntries (companyId);
-create index IX_27006638 on SCLicenses_SCProductEntries (licenseId);
-create index IX_D7710A66 on SCLicenses_SCProductEntries (productEntryId);
-
-create index IX_5D25244F on SCProductEntry (companyId);
-create index IX_98E6A9CB on SCProductEntry (groupId, userId);
-create index IX_7311E812 on SCProductEntry (repoGroupId[$COLUMN_LENGTH:75$], repoArtifactId[$COLUMN_LENGTH:75$]);
-
-create index IX_AE8224CC on SCProductScreenshot (fullImageId);
-create index IX_DA913A55 on SCProductScreenshot (productEntryId, priority);
-create index IX_6C572DAC on SCProductScreenshot (thumbnailId);
-
-create index IX_7020130F on SCProductVersion (directDownloadURL[$COLUMN_LENGTH:2000$]);
-create index IX_8377A211 on SCProductVersion (productEntryId);
 
 create unique index IX_4F0315B8 on ServiceComponent (buildNamespace[$COLUMN_LENGTH:75$], buildNumber);
 
@@ -517,12 +513,14 @@ create unique index IX_D1C44A6E on UserIdMapper (userId, type_[$COLUMN_LENGTH:75
 
 create unique index IX_8B6E3ACE on UserNotificationDelivery (userId, portletId[$COLUMN_LENGTH:200$], classNameId, notificationType, deliveryType);
 
+create index IX_BF29100B on UserNotificationEvent (type_[$COLUMN_LENGTH:200$]);
 create index IX_5CE95F03 on UserNotificationEvent (userId, actionRequired, archived);
 create index IX_3DBB361A on UserNotificationEvent (userId, archived);
 create index IX_E32CC19 on UserNotificationEvent (userId, delivered, actionRequired);
 create index IX_C4EFBD45 on UserNotificationEvent (userId, deliveryType, actionRequired, archived);
 create index IX_A87A585C on UserNotificationEvent (userId, deliveryType, archived);
 create index IX_A6F83617 on UserNotificationEvent (userId, deliveryType, delivered, actionRequired);
+create index IX_8FB65EC1 on UserNotificationEvent (userId, type_[$COLUMN_LENGTH:200$], deliveryType, delivered);
 create index IX_A6BAFDFE on UserNotificationEvent (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create index IX_29BA1CF5 on UserTracker (companyId);
@@ -535,6 +533,7 @@ create index IX_BCFDA257 on User_ (companyId, createDate, modifiedDate);
 create index IX_C6EA4F34 on User_ (companyId, defaultUser, status);
 create unique index IX_615E9F7A on User_ (companyId, emailAddress[$COLUMN_LENGTH:75$]);
 create index IX_1D731F03 on User_ (companyId, facebookId);
+create index IX_B6E3AE1 on User_ (companyId, googleUserId[$COLUMN_LENGTH:75$]);
 create index IX_EE8ABD19 on User_ (companyId, modifiedDate);
 create index IX_89509087 on User_ (companyId, openId[$COLUMN_LENGTH:1024$]);
 create unique index IX_C5806019 on User_ (companyId, screenName[$COLUMN_LENGTH:75$]);

@@ -14,30 +14,36 @@
 
 package com.liferay.portlet.documentlibrary.service.persistence.impl;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileShortcutConstants;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.persistence.DLFileEntryUtil;
+import com.liferay.document.library.kernel.service.persistence.DLFileShortcutUtil;
+import com.liferay.document.library.kernel.service.persistence.DLFolderFinder;
+import com.liferay.document.library.kernel.service.persistence.DLFolderUtil;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.security.permission.InlineSQLHelperUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileShortcutConstants;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
+import com.liferay.portlet.documentlibrary.DLGroupServiceSettings;
 import com.liferay.portlet.documentlibrary.model.impl.DLFileEntryImpl;
 import com.liferay.portlet.documentlibrary.model.impl.DLFileShortcutImpl;
 import com.liferay.portlet.documentlibrary.model.impl.DLFileVersionImpl;
 import com.liferay.portlet.documentlibrary.model.impl.DLFolderImpl;
-import com.liferay.portlet.documentlibrary.service.persistence.DLFileEntryUtil;
-import com.liferay.portlet.documentlibrary.service.persistence.DLFileShortcutUtil;
-import com.liferay.portlet.documentlibrary.service.persistence.DLFolderFinder;
-import com.liferay.portlet.documentlibrary.service.persistence.DLFolderUtil;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.ArrayList;
@@ -72,14 +78,14 @@ public class DLFolderFinderImpl
 	public static final String FIND_FS_BY_G_F_A =
 		DLFolderFinder.class.getName() + ".findFS_ByG_F_A";
 
+	public static final String JOIN_AE_BY_DL_FOLDER =
+		DLFolderFinder.class.getName() + ".joinAE_ByDLFolder";
+
 	public static final String JOIN_FE_BY_DL_FILE_VERSION =
 		DLFolderFinder.class.getName() + ".joinFE_ByDLFileVersion";
 
 	public static final String JOIN_FS_BY_DL_FILE_ENTRY =
 		DLFolderFinder.class.getName() + ".joinFS_ByDLFileEntry";
-
-	public static final String JOIN_AE_BY_DL_FOLDER =
-		DLFolderFinder.class.getName() + ".joinAE_ByDLFolder";
 
 	@Override
 	public int countF_FE_FS_ByG_F_M_M(
@@ -168,6 +174,11 @@ public class DLFolderFinderImpl
 
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(
+				PortalUtil.getClassNameId(DLFolderConstants.getClassName()));
+
 			q.addEntity("DLFolder", DLFolderImpl.class);
 
 			return q.list(true);
@@ -235,7 +246,10 @@ public class DLFolderFinderImpl
 
 			sql = sb.toString();
 
-			sql = updateSQL(sql, folderId, includeMountFolders);
+			boolean showHiddenMountFolders = isShowHiddenMountFolders(groupId);
+
+			sql = updateSQL(
+				sql, folderId, includeMountFolders, showHiddenMountFolders);
 
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
@@ -245,7 +259,11 @@ public class DLFolderFinderImpl
 
 			qPos.add(groupId);
 
-			if (!includeMountFolders) {
+			if (!showHiddenMountFolders || !includeMountFolders) {
+				qPos.add(false);
+			}
+
+			if (!showHiddenMountFolders && !includeMountFolders) {
 				qPos.add(false);
 			}
 
@@ -253,6 +271,14 @@ public class DLFolderFinderImpl
 			qPos.add(folderId);
 			qPos.add(groupId);
 			qPos.add(queryDefinition.getStatus());
+
+			if ((queryDefinition.getOwnerUserId() > 0) &&
+				queryDefinition.isIncludeOwner()) {
+
+				qPos.add(queryDefinition.getOwnerUserId());
+				qPos.add(WorkflowConstants.STATUS_IN_TRASH);
+			}
+
 			qPos.add(folderId);
 
 			if (mimeTypes != null) {
@@ -303,7 +329,7 @@ public class DLFolderFinderImpl
 				COUNT_FE_BY_G_F, groupId, null, queryDefinition,
 				inlineSQLHelper);
 
-			sql = updateSQL(sql, folderId, false);
+			sql = updateSQL(sql, folderId, false, false);
 
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
@@ -344,7 +370,7 @@ public class DLFolderFinderImpl
 		try {
 			session = openSession();
 
-			StringBundler sb = new StringBundler(7);
+			StringBundler sb = new StringBundler(5);
 
 			sb.append(StringPool.OPEN_PARENTHESIS);
 
@@ -353,6 +379,7 @@ public class DLFolderFinderImpl
 				inlineSQLHelper);
 
 			sb.append(sql);
+
 			sb.append(") UNION ALL (");
 			sb.append(
 				getFileShortcutsSQL(
@@ -362,7 +389,7 @@ public class DLFolderFinderImpl
 
 			sql = sb.toString();
 
-			sql = updateSQL(sql, folderId, false);
+			sql = updateSQL(sql, folderId, false, false);
 
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
@@ -440,6 +467,7 @@ public class DLFolderFinderImpl
 				inlineSQLHelper);
 
 			sb.append(sql);
+
 			sb.append(" UNION ALL ");
 
 			sql = getFileShortcutsSQL(
@@ -447,11 +475,16 @@ public class DLFolderFinderImpl
 				inlineSQLHelper);
 
 			sb.append(sql);
+
 			sb.append(") TEMP_TABLE ORDER BY modelFolder DESC, title ASC");
 
 			sql = sb.toString();
 
-			sql = updateSQL(sql, folderId, includeMountFolders);
+			boolean showHiddenMountFolders = isShowHiddenMountFolders(groupId);
+
+			sql = updateSQL(
+				sql, folderId, includeMountFolders, showHiddenMountFolders);
+
 			sql = CustomSQLUtil.replaceOrderBy(
 				sql, queryDefinition.getOrderByComparator());
 
@@ -467,7 +500,11 @@ public class DLFolderFinderImpl
 
 			qPos.add(groupId);
 
-			if (!includeMountFolders) {
+			if (!showHiddenMountFolders || !includeMountFolders) {
+				qPos.add(false);
+			}
+
+			if (!showHiddenMountFolders && !includeMountFolders) {
 				qPos.add(false);
 			}
 
@@ -475,6 +512,14 @@ public class DLFolderFinderImpl
 			qPos.add(folderId);
 			qPos.add(groupId);
 			qPos.add(queryDefinition.getStatus());
+
+			if ((queryDefinition.getOwnerUserId() > 0) &&
+				queryDefinition.isIncludeOwner()) {
+
+				qPos.add(queryDefinition.getOwnerUserId());
+				qPos.add(WorkflowConstants.STATUS_IN_TRASH);
+			}
+
 			qPos.add(folderId);
 
 			if (mimeTypes != null) {
@@ -549,6 +594,7 @@ public class DLFolderFinderImpl
 				inlineSQLHelper);
 
 			sb.append(sql);
+
 			sb.append(" UNION ALL ");
 
 			sql = getFileShortcutsSQL(
@@ -556,11 +602,12 @@ public class DLFolderFinderImpl
 				inlineSQLHelper);
 
 			sb.append(sql);
+
 			sb.append(") TEMP_TABLE ORDER BY modelFolder DESC, title ASC");
 
 			sql = sb.toString();
 
-			sql = updateSQL(sql, folderId, false);
+			sql = updateSQL(sql, folderId, false, false);
 
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
@@ -739,7 +786,7 @@ public class DLFolderFinderImpl
 			return StringPool.BLANK;
 		}
 
-		StringBundler sb = new StringBundler(mimeTypes.length * 2 - 1);
+		StringBundler sb = new StringBundler(mimeTypes.length * 3 - 1);
 
 		for (int i = 0; i < mimeTypes.length; i++) {
 			sb.append(tableName);
@@ -753,8 +800,28 @@ public class DLFolderFinderImpl
 		return sb.toString();
 	}
 
+	protected boolean isShowHiddenMountFolders(long groupId) {
+		try {
+			DLGroupServiceSettings dlGroupServiceSettings =
+				DLGroupServiceSettings.getInstance(groupId);
+
+			return dlGroupServiceSettings.isShowHiddenMountFolders();
+		}
+		catch (PortalException pe) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(pe, pe);
+			}
+		}
+
+		return false;
+	}
+
 	protected String updateSQL(
-		String sql, long folderId, boolean includeMountFolders) {
+		String sql, long folderId, boolean includeMountFolders,
+		boolean showHiddenMountFolders) {
 
 		sql = StringUtil.replace(
 			sql,
@@ -769,12 +836,32 @@ public class DLFolderFinderImpl
 				getFolderId(folderId, DLFolderImpl.TABLE_NAME)
 			});
 
-		if (includeMountFolders) {
-			sql = StringUtil.replace(
-				sql, "(DLFolder.mountPoint = ?) AND", StringPool.BLANK);
+		if (showHiddenMountFolders) {
+			if (includeMountFolders) {
+				sql = StringUtil.replace(
+					sql, "([$HIDDEN$]) AND", StringPool.BLANK);
+			}
+			else {
+				sql = StringUtil.replace(
+					sql, "([$HIDDEN$]) AND", "(DLFolder.mountPoint = ?) AND");
+			}
+		}
+		else {
+			if (includeMountFolders) {
+				sql = StringUtil.replace(
+					sql, "([$HIDDEN$]) AND", "(DLFolder.hidden_ = ?) AND");
+			}
+			else {
+				sql = StringUtil.replace(
+					sql, "([$HIDDEN$]) AND",
+					"(DLFolder.hidden_ = ?) AND (DLFolder.mountPoint = ?) AND");
+			}
 		}
 
 		return sql;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFolderFinderImpl.class);
 
 }

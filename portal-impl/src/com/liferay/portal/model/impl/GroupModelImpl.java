@@ -16,28 +16,29 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.LocaleException;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupModel;
+import com.liferay.portal.kernel.model.GroupSoap;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.GroupModel;
-import com.liferay.portal.model.GroupSoap;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -124,7 +125,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 		TABLE_COLUMNS_MAP.put("active_", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Group_ (mvccVersion LONG default 0,uuid_ VARCHAR(75) null,groupId LONG not null primary key,companyId LONG,creatorUserId LONG,classNameId LONG,classPK LONG,parentGroupId LONG,liveGroupId LONG,treePath STRING null,groupKey VARCHAR(150) null,name STRING null,description STRING null,type_ INTEGER,typeSettings TEXT null,manualMembership BOOLEAN,membershipRestriction INTEGER,friendlyURL VARCHAR(255) null,site BOOLEAN,remoteStagingGroupCount INTEGER,inheritContent BOOLEAN,active_ BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table Group_ (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,groupId LONG not null primary key,companyId LONG,creatorUserId LONG,classNameId LONG,classPK LONG,parentGroupId LONG,liveGroupId LONG,treePath STRING null,groupKey VARCHAR(150) null,name STRING null,description STRING null,type_ INTEGER,typeSettings TEXT null,manualMembership BOOLEAN,membershipRestriction INTEGER,friendlyURL VARCHAR(255) null,site BOOLEAN,remoteStagingGroupCount INTEGER,inheritContent BOOLEAN,active_ BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Group_";
 	public static final String ORDER_BY_JPQL = " ORDER BY group_.name ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Group_.name ASC";
@@ -132,13 +133,13 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.Group"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.Group"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.Group"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.Group"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.Group"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.Group"),
 			true);
 	public static final long ACTIVE_COLUMN_BITMASK = 1L;
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 2L;
@@ -151,9 +152,10 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	public static final long LIVEGROUPID_COLUMN_BITMASK = 256L;
 	public static final long PARENTGROUPID_COLUMN_BITMASK = 512L;
 	public static final long SITE_COLUMN_BITMASK = 1024L;
-	public static final long TYPE_COLUMN_BITMASK = 2048L;
-	public static final long UUID_COLUMN_BITMASK = 4096L;
-	public static final long NAME_COLUMN_BITMASK = 8192L;
+	public static final long TREEPATH_COLUMN_BITMASK = 2048L;
+	public static final long TYPE_COLUMN_BITMASK = 4096L;
+	public static final long UUID_COLUMN_BITMASK = 8192L;
+	public static final long NAME_COLUMN_BITMASK = 16384L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -220,7 +222,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 			{ "groupId", Types.BIGINT },
 			{ "organizationId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_GROUPS_ORGS_SQL_CREATE = "create table Groups_Orgs (companyId LONG not null,groupId LONG not null,organizationId LONG not null,primary key (companyId, groupId, organizationId))";
+	public static final String MAPPING_TABLE_GROUPS_ORGS_SQL_CREATE = "create table Groups_Orgs (companyId LONG not null,groupId LONG not null,organizationId LONG not null,primary key (groupId, organizationId))";
 	public static final boolean FINDER_CACHE_ENABLED_GROUPS_ORGS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Groups_Orgs"), true);
 	public static final String MAPPING_TABLE_GROUPS_ROLES_NAME = "Groups_Roles";
@@ -229,7 +231,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 			{ "groupId", Types.BIGINT },
 			{ "roleId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_GROUPS_ROLES_SQL_CREATE = "create table Groups_Roles (companyId LONG not null,groupId LONG not null,roleId LONG not null,primary key (companyId, groupId, roleId))";
+	public static final String MAPPING_TABLE_GROUPS_ROLES_SQL_CREATE = "create table Groups_Roles (companyId LONG not null,groupId LONG not null,roleId LONG not null,primary key (groupId, roleId))";
 	public static final boolean FINDER_CACHE_ENABLED_GROUPS_ROLES = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Groups_Roles"), true);
 	public static final String MAPPING_TABLE_GROUPS_USERGROUPS_NAME = "Groups_UserGroups";
@@ -238,7 +240,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 			{ "groupId", Types.BIGINT },
 			{ "userGroupId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_GROUPS_USERGROUPS_SQL_CREATE = "create table Groups_UserGroups (companyId LONG not null,groupId LONG not null,userGroupId LONG not null,primary key (companyId, groupId, userGroupId))";
+	public static final String MAPPING_TABLE_GROUPS_USERGROUPS_SQL_CREATE = "create table Groups_UserGroups (companyId LONG not null,groupId LONG not null,userGroupId LONG not null,primary key (groupId, userGroupId))";
 	public static final boolean FINDER_CACHE_ENABLED_GROUPS_USERGROUPS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Groups_UserGroups"), true);
 	public static final String MAPPING_TABLE_USERS_GROUPS_NAME = "Users_Groups";
@@ -247,11 +249,11 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 			{ "groupId", Types.BIGINT },
 			{ "userId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_USERS_GROUPS_SQL_CREATE = "create table Users_Groups (companyId LONG not null,groupId LONG not null,userId LONG not null,primary key (companyId, groupId, userId))";
+	public static final String MAPPING_TABLE_USERS_GROUPS_SQL_CREATE = "create table Users_Groups (companyId LONG not null,groupId LONG not null,userId LONG not null,primary key (groupId, userId))";
 	public static final boolean FINDER_CACHE_ENABLED_USERS_GROUPS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Users_Groups"), true);
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.Group"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.Group"));
 
 	public GroupModelImpl() {
 	}
@@ -689,7 +691,17 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 
 	@Override
 	public void setTreePath(String treePath) {
+		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
+
+		if (_originalTreePath == null) {
+			_originalTreePath = _treePath;
+		}
+
 		_treePath = treePath;
+	}
+
+	public String getOriginalTreePath() {
+		return GetterUtil.getString(_originalTreePath);
 	}
 
 	@JSON
@@ -967,6 +979,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 		return _manualMembership;
 	}
 
+	@JSON
 	@Override
 	public boolean isManualMembership() {
 		return _manualMembership;
@@ -1020,6 +1033,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 		return _site;
 	}
 
+	@JSON
 	@Override
 	public boolean isSite() {
 		return _site;
@@ -1059,6 +1073,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 		return _inheritContent;
 	}
 
+	@JSON
 	@Override
 	public boolean isInheritContent() {
 		return _inheritContent;
@@ -1087,6 +1102,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 		return _active;
 	}
 
+	@JSON
 	@Override
 	public boolean isActive() {
 		return _active;
@@ -1330,6 +1346,8 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 
 		groupModelImpl._setOriginalLiveGroupId = false;
 
+		groupModelImpl._originalTreePath = groupModelImpl._treePath;
+
 		groupModelImpl._originalGroupKey = groupModelImpl._groupKey;
 
 		groupModelImpl._originalType = groupModelImpl._type;
@@ -1504,7 +1522,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.Group");
+		sb.append("com.liferay.portal.kernel.model.Group");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -1628,6 +1646,7 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 	private long _originalLiveGroupId;
 	private boolean _setOriginalLiveGroupId;
 	private String _treePath;
+	private String _originalTreePath;
 	private String _groupKey;
 	private String _originalGroupKey;
 	private String _name;

@@ -14,6 +14,12 @@
 
 package com.liferay.portlet.asset.service.persistence.test;
 
+import com.liferay.asset.kernel.exception.NoSuchCategoryPropertyException;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetCategoryPropertyPersistence;
+import com.liferay.asset.kernel.service.persistence.AssetCategoryPropertyUtil;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -22,7 +28,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -30,15 +35,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
-
-import com.liferay.portlet.asset.NoSuchCategoryPropertyException;
-import com.liferay.portlet.asset.model.AssetCategoryProperty;
-import com.liferay.portlet.asset.service.AssetCategoryPropertyLocalServiceUtil;
-import com.liferay.portlet.asset.service.persistence.AssetCategoryPropertyPersistence;
-import com.liferay.portlet.asset.service.persistence.AssetCategoryPropertyUtil;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -54,6 +53,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -437,7 +437,7 @@ public class AssetCategoryPropertyPersistenceTest {
 				existingAssetCategoryProperty.getCategoryId()),
 			ReflectionTestUtil.<Long>invoke(existingAssetCategoryProperty,
 				"getOriginalCategoryId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(
+		Assert.assertTrue(Objects.equals(
 				existingAssetCategoryProperty.getKey(),
 				ReflectionTestUtil.invoke(existingAssetCategoryProperty,
 					"getOriginalKey", new Class<?>[0])));

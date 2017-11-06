@@ -14,18 +14,19 @@
 
 package com.liferay.portlet.messageboards.service.impl;
 
+import com.liferay.message.boards.kernel.exception.BannedUserException;
+import com.liferay.message.boards.kernel.model.MBBan;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.SystemEventConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
-import com.liferay.portal.model.SystemEventConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.messageboards.BannedUserException;
-import com.liferay.portlet.messageboards.model.MBBan;
 import com.liferay.portlet.messageboards.service.base.MBBanLocalServiceBaseImpl;
 import com.liferay.portlet.messageboards.util.MBUtil;
 
@@ -73,7 +74,7 @@ public class MBBanLocalServiceImpl extends MBBanLocalServiceBaseImpl {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void checkBan(long groupId, long banUserId) throws PortalException {
 		if (hasBan(groupId, banUserId)) {
-			throw new BannedUserException();
+			throw new BannedUserException("Banned user " + banUserId);
 		}
 	}
 
@@ -138,8 +139,10 @@ public class MBBanLocalServiceImpl extends MBBanLocalServiceBaseImpl {
 			if (now >= unbanTime) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
-						"Auto expiring ban " + ban.getBanId() + " on user " +
-							ban.getBanUserId());
+						StringBundler.concat(
+							"Auto expiring ban ",
+							String.valueOf(ban.getBanId()), " on user ",
+							String.valueOf(ban.getBanUserId())));
 				}
 
 				mbBanPersistence.remove(ban);

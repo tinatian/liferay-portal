@@ -14,6 +14,14 @@
 
 package com.liferay.portlet.expando.util;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.model.ExpandoColumn;
+import com.liferay.expando.kernel.model.ExpandoColumnConstants;
+import com.liferay.expando.kernel.model.ExpandoTableConstants;
+import com.liferay.expando.kernel.model.ExpandoValue;
+import com.liferay.expando.kernel.service.ExpandoColumnLocalServiceUtil;
+import com.liferay.expando.kernel.service.ExpandoValueLocalServiceUtil;
+import com.liferay.expando.kernel.util.ExpandoBridgeIndexer;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -27,14 +35,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.model.ExpandoColumn;
-import com.liferay.portlet.expando.model.ExpandoColumnConstants;
-import com.liferay.portlet.expando.model.ExpandoTableConstants;
-import com.liferay.portlet.expando.model.ExpandoValue;
 import com.liferay.portlet.expando.model.impl.ExpandoValueImpl;
-import com.liferay.portlet.expando.service.ExpandoColumnLocalServiceUtil;
-import com.liferay.portlet.expando.service.ExpandoValueLocalServiceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +60,29 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 		}
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #encodeFieldName(String,
+	 *             int)}
+	 */
+	@Deprecated
 	@Override
 	public String encodeFieldName(String columnName) {
-		StringBundler sb = new StringBundler(3);
+		return encodeFieldName(
+			columnName, ExpandoColumnConstants.INDEX_TYPE_TEXT);
+	}
+
+	@Override
+	public String encodeFieldName(String columnName, int indexType) {
+		StringBundler sb = new StringBundler(7);
 
 		sb.append(FIELD_NAMESPACE);
 		sb.append(StringPool.DOUBLE_UNDERLINE);
+
+		if (indexType == ExpandoColumnConstants.INDEX_TYPE_KEYWORD) {
+			sb.append("keyword");
+			sb.append(StringPool.DOUBLE_UNDERLINE);
+		}
+
 		sb.append(
 			StringUtil.toLowerCase(ExpandoTableConstants.DEFAULT_TABLE_NAME));
 		sb.append(StringPool.DOUBLE_UNDERLINE);
@@ -78,7 +96,13 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 			List<ExpandoValue> expandoValues)
 		throws PortalException {
 
-		String fieldName = encodeFieldName(expandoColumn.getName());
+		UnicodeProperties unicodeProperties =
+			expandoColumn.getTypeSettingsProperties();
+
+		int indexType = GetterUtil.getInteger(
+			unicodeProperties.getProperty(ExpandoColumnConstants.INDEX_TYPE));
+
+		String fieldName = encodeFieldName(expandoColumn.getName(), indexType);
 
 		ExpandoValue expandoValue = new ExpandoValueImpl();
 
@@ -96,13 +120,6 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 				break;
 			}
 		}
-
-		UnicodeProperties typeSettingsProperties =
-			expandoColumn.getTypeSettingsProperties();
-
-		int indexType = GetterUtil.getInteger(
-			typeSettingsProperties.getProperty(
-				ExpandoColumnConstants.INDEX_TYPE));
 
 		int type = expandoColumn.getType();
 

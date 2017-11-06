@@ -15,7 +15,7 @@
 </tr>
 <tr>
 	<td>PANEL_TOGGLE</td>
-	<td>//div[contains(.,'Comment')]//div[@class='panel-toggle']</td>
+	<td>//div[contains(.,'Comments')]//div[@class='panel-heading']</td>
 	<td></td>
 </tr>
 <tr>
@@ -24,8 +24,28 @@
 	<td></td>
 </tr>
 <tr>
+	<td>COMMENT_ACTIONS</td>
+	<td>//div[contains(@class,'card-row') and contains(.,'${key_entryComment}')]//div[contains(@class,'card-col-field')]//span/*[name()='svg'][contains(@class,'icon-ellipsis-v')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>COMMENT_BODY</td>
-	<td>//div[(@class='lfr-discussion-message-body')]/p[contains(.,'${key_entryComment}')]</td>
+	<td>//div[(@class='lfr-discussion-message-body')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>COMMENT_BODY_ASSET</td>
+	<td>//div/p[contains(.,'${key_commentBody}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>COMMENT_BODY_SPECIFIC</td>
+	<td>//div[(@class='lfr-discussion-message-body') and contains(.,'${key_entryComment}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>COMMENT_AUTHOR</td>
+	<td>//div[contains(@class,'lfr-discussion-body') and contains(.,'${key_commentBody}')]//header[@class='lfr-discussion-message-author']/a</td>
 	<td></td>
 </tr>
 <tr>
@@ -74,6 +94,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>SIGN_IN_TO_COMMENTS_LINK</td>
+	<td>//span//a[contains(@id,'portlet_BlogsPortlet')]//span[contains(.,'Please sign in to ${key_entryType}.')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>SUBSCRIBE_TO_COMMENTS_LINK</td>
 	<td>link=Subscribe to Comments</td>
 	<td></td>
@@ -99,13 +124,18 @@
 	<td></td>
 </tr>
 <tr>
+	<td>REPLY_TO_COMMENT</td>
+	<td>//div[@class='lfr-discussion-body' and contains(.,'${key_entryComment}')]//span[contains(.,'Reply')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>SUCCESS_MESSAGE</td>
 	<td>//div[contains(@class,'lfr-message-response') and contains(@class,'alert') and contains(@class,'alert-success')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>USER_NAME</td>
-	<td>//header[@class='lfr-discussion-message-author']/a | //span[@class='user-name']</td>
+	<td>//header[@class='lfr-discussion-message-author']/a[contains(.,'${key_userFullName}')] | //header[@class='lfr-discussion-message-author']//span[contains(.,'${key_userFullName}')]</td>
 	<td></td>
 </tr>
 <tr>

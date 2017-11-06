@@ -46,12 +46,11 @@ public class AntUtil {
 
 				StringBundler sb = new StringBundler();
 
-				try {
-					boolean first = true;
-
-					UnsyncBufferedReader unsyncBufferedReader =
+				try (UnsyncBufferedReader unsyncBufferedReader =
 						new UnsyncBufferedReader(
-							new UnsyncStringReader(buildEvent.getMessage()));
+							new UnsyncStringReader(buildEvent.getMessage()))) {
+
+					boolean first = true;
 
 					String line = unsyncBufferedReader.readLine();
 
@@ -86,7 +85,7 @@ public class AntUtil {
 		};
 
 		buildLogger.setErrorPrintStream(System.err);
-		buildLogger.setMessageOutputLevel(Project.MSG_INFO);
+		buildLogger.setMessageOutputLevel(Project.MSG_WARN);
 		buildLogger.setOutputPrintStream(System.out);
 
 		project.addBuildListener(buildLogger);

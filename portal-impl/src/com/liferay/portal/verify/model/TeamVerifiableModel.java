@@ -14,7 +14,9 @@
 
 package com.liferay.portal.verify.model;
 
-import com.liferay.portal.model.Team;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.verify.model.VerifiableResourcedModel;
+import com.liferay.portal.kernel.verify.model.VerifiableUUIDModel;
 
 /**
  * @author Brian Wing Shun Chan

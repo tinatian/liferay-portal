@@ -1,0 +1,11 @@
+<definition default="runScript">
+	<command name="runScript">
+		<execute function="WaitForSPARefresh" />
+
+		<execute function="Poshi.RunScript#runScript" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+	</command>
+</definition>

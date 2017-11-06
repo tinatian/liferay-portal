@@ -14,17 +14,17 @@
 
 package com.liferay.portal.metadata;
 
+import com.liferay.dynamic.data.mapping.kernel.DDMForm;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormField;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
+import com.liferay.dynamic.data.mapping.kernel.UnlocalizedValue;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.metadata.RawMetadataProcessor;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portlet.dynamicdatamapping.DDMForm;
-import com.liferay.portlet.dynamicdatamapping.DDMFormField;
-import com.liferay.portlet.dynamicdatamapping.DDMFormFieldValue;
-import com.liferay.portlet.dynamicdatamapping.DDMFormValues;
-import com.liferay.portlet.dynamicdatamapping.UnlocalizedValue;
 
 import java.io.File;
 import java.io.InputStream;
@@ -142,8 +142,8 @@ public abstract class BaseRawMetadataProcessor implements RawMetadataProcessor {
 			return ddmFormValuesMap;
 		}
 
-		for (String key : fieldsMap.keySet()) {
-			Field[] fields = fieldsMap.get(key);
+		for (Map.Entry<String, Field[]> entry : fieldsMap.entrySet()) {
+			Field[] fields = entry.getValue();
 
 			DDMFormValues ddmFormValues = createDDMFormValues(metadata, fields);
 
@@ -156,7 +156,7 @@ public abstract class BaseRawMetadataProcessor implements RawMetadataProcessor {
 				continue;
 			}
 
-			ddmFormValuesMap.put(key, ddmFormValues);
+			ddmFormValuesMap.put(entry.getKey(), ddmFormValues);
 		}
 
 		return ddmFormValuesMap;

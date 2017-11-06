@@ -14,22 +14,31 @@
 
 package com.liferay.portlet.dynamicdatamapping;
 
+import com.liferay.dynamic.data.mapping.kernel.DDMForm;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormField;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructureManager;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructureManagerUtil;
+import com.liferay.dynamic.data.mapping.kernel.LocalizedValue;
+import com.liferay.dynamic.data.mapping.kernel.StorageEngineManager;
+import com.liferay.dynamic.data.mapping.kernel.Value;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.DocumentImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.util.PortalUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +59,7 @@ public class DDMStructureManagerUtilTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -159,7 +167,8 @@ public class DDMStructureManagerUtilTest {
 			_group.getCompanyId(), _classNameId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS);
 
-		Assert.assertEquals(initialSize + 1, structures.size());
+		Assert.assertEquals(
+			structures.toString(), initialSize + 1, structures.size());
 	}
 
 	@Test
@@ -177,7 +186,8 @@ public class DDMStructureManagerUtilTest {
 			_group.getCompanyId(), _classNameId,
 			DDMStructureManager.STRUCTURE_COMPARATOR_STRUCTURE_KEY);
 
-		Assert.assertEquals(initialSize + 1, structures.size());
+		Assert.assertEquals(
+			structures.toString(), initialSize + 1, structures.size());
 	}
 
 	@Test
@@ -195,7 +205,8 @@ public class DDMStructureManagerUtilTest {
 		structures = DDMStructureManagerUtil.getClassStructures(
 			_group.getCompanyId(), _classNameId);
 
-		Assert.assertEquals(initialSize + 1, structures.size());
+		Assert.assertEquals(
+			structures.toString(), initialSize + 1, structures.size());
 	}
 
 	@Test

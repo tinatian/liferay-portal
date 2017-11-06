@@ -30,9 +30,8 @@ public class ServiceBuilderArgs {
 	public static final String OUTPUT_KEY_MODIFIED_FILES =
 		"service.builder.modified.files";
 
-	public static final String[] READ_ONLY_PREFIXES = {
-		"fetch", "get", "has", "is", "load", "reindex", "search"
-	};
+	public static final String[] READ_ONLY_PREFIXES =
+		{"fetch", "get", "has", "is", "load", "reindex", "search"};
 
 	public static final String[] RESOURCE_ACTION_CONFIGS = {
 		"META-INF/resource-actions/default.xml", "resource-actions/default.xml"
@@ -336,7 +335,7 @@ public class ServiceBuilderArgs {
 		return s.split(",");
 	}
 
-	private String _apiDirName = "../portal-service/src";
+	private String _apiDirName = "../portal-kernel/src";
 	private boolean _autoImportDefaultReferences = true;
 	private boolean _autoNamespaceTables;
 	private String _beanLocatorUtil =
@@ -358,7 +357,7 @@ public class ServiceBuilderArgs {
 	private boolean _resourceActionsConfigsSet;
 	private String _resourcesDirName = "src";
 	private String _springFileName = "src/META-INF/portal-spring.xml";
-	private String[] _springNamespaces = new String[] {"beans"};
+	private String[] _springNamespaces = {"beans"};
 	private String _sqlDirName = "../sql";
 	private String _sqlFileName = "portal-tables.sql";
 	private String _sqlIndexesFileName = "indexes.sql";

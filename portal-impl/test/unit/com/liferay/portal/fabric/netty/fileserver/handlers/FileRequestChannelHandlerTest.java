@@ -203,6 +203,7 @@ public class FileRequestChannelHandlerTest {
 				Assert.assertEquals(
 					"Last modified time mismatch", fileTime.toMillis(),
 					BigEndianCodec.getLong(zipEntry.getExtra(), 0));
+
 				Assert.assertEquals(
 					"File size mismatch", Files.size(expectedFile),
 					BigEndianCodec.getLong(zipEntry.getExtra(), 8));
@@ -235,8 +236,8 @@ public class FileRequestChannelHandlerTest {
 	private byte[] _readFileRegion(FileRegion fileRegion) throws IOException {
 		try (UnsyncByteArrayOutputStream unsyncByteArrayOutputStream =
 				new UnsyncByteArrayOutputStream();
-			WritableByteChannel writableByteChannel = Channels.newChannel(
-				unsyncByteArrayOutputStream)) {
+			WritableByteChannel writableByteChannel =
+				Channels.newChannel(unsyncByteArrayOutputStream)) {
 
 			while (fileRegion.transfered() < fileRegion.count()) {
 				fileRegion.transferTo(

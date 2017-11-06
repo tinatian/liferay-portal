@@ -57,7 +57,7 @@
 </tr>
 <tr>
 	<td>USER_GROUP_TABLE_CHECKBOX</td>
-	<td>//tr[contains(.,'${key_userGroupName}')]/td[1]/input</td>
+	<td>//tr[contains(.,'${key_userGroupName}')]/td[1]//input</td>
 	<td></td>
 </tr>
 <tr>
@@ -67,17 +67,17 @@
 </tr>
 <tr>
 	<td>USER_GROUP_TABLE_NAME_LINK</td>
-	<td>//tr[contains(.,'${key_userGroupName}')]/td[2]/a</td>
+	<td>//tr[contains(.,'${key_userGroupName}')]/td[2]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>USER_GROUP_TABLE_DESCRIPTION</td>
-	<td>//tr[contains(.,'${key_userGroupName}')]/td[3]/a</td>
+	<td>//tr[contains(.,'${key_userGroupName}')]/td[3]//a</td>
 	<td></td>
 </tr>
 <tr>
 	<td>USER_GROUP_TABLE_ACTIONS</td>
-	<td>//tr[contains(.,'${key_userGroupName}')]/td[4]/div/a</td>
+	<td>//tr[contains(.,'${key_userGroupName}')]/td[5]//span/*[name()='svg'][contains(@class,'icon-ellipsis')]</td>
 	<td></td>
 </tr>
 </tbody>

@@ -16,6 +16,7 @@ package com.liferay.portal.tools.upgrade.table.builder;
 
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ReleaseInfo;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.tools.ArgumentsUtil;
 
 import java.io.BufferedReader;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,11 +56,13 @@ public class UpgradeTableBuilder {
 		boolean osgiModule = GetterUtil.getBoolean(
 			arguments.get("upgrade.osgi.module"),
 			UpgradeTableBuilderArgs.OSGI_MODULE);
+		String releaseInfoFileName = arguments.get("upgrade.release.info.file");
 		String upgradeTableDirName = arguments.get("upgrade.table.dir");
 
 		try {
 			new UpgradeTableBuilder(
-				baseDirName, osgiModule, upgradeTableDirName);
+				baseDirName, osgiModule, releaseInfoFileName,
+				upgradeTableDirName);
 		}
 		catch (Exception e) {
 			ArgumentsUtil.processMainException(arguments, e);
@@ -66,17 +70,28 @@ public class UpgradeTableBuilder {
 	}
 
 	public UpgradeTableBuilder(
-			String baseDirName, boolean osgiModule, String upgradeTableDirName)
+			String baseDirName, boolean osgiModule, String releaseInfoFileName,
+			String upgradeTableDirName)
 		throws Exception {
 
 		_baseDirName = baseDirName;
 		_osgiModule = osgiModule;
+
+		if (_osgiModule) {
+			_releaseInfoVersion = null;
+		}
+		else {
+			_releaseInfoVersion = _getReleaseInfoVersion(releaseInfoFileName);
+		}
+
 		_upgradeTableDirName = upgradeTableDirName;
 
 		FileSystem fileSystem = FileSystems.getDefault();
 
 		final PathMatcher pathMatcher = fileSystem.getPathMatcher(
 			"glob:**/upgrade/v**/util/*Table.java");
+
+		final AtomicBoolean tableFilesFound = new AtomicBoolean();
 
 		Files.walkFileTree(
 			Paths.get(_baseDirName),
@@ -88,6 +103,8 @@ public class UpgradeTableBuilder {
 					throws IOException {
 
 					if (pathMatcher.matches(path)) {
+						tableFilesFound.set(true);
+
 						_buildUpgradeTable(path);
 					}
 
@@ -95,6 +112,12 @@ public class UpgradeTableBuilder {
 				}
 
 			});
+
+		if (!tableFilesFound.get()) {
+			System.out.println(
+				"No files matching the pattern \"" + _baseDirName +
+					"/**/upgrade/v**/util/*Table.java\" have been found.");
+		}
 	}
 
 	private void _buildUpgradeTable(Path path) throws IOException {
@@ -122,7 +145,7 @@ public class UpgradeTableBuilder {
 			_upgradeTableDirName, upgradeFileVersion, upgradeFileName);
 
 		if (Files.notExists(upgradeFilePath)) {
-			if (!upgradeFileVersion.equals(_getModuleVersion())) {
+			if (!upgradeFileVersion.equals(_getSchemaVersion())) {
 				return;
 			}
 
@@ -369,9 +392,36 @@ public class UpgradeTableBuilder {
 		return indexesFilePath;
 	}
 
-	private String _getModuleVersion() throws IOException {
-		if (!_osgiModule) {
+	private String _getPackagePath(String content) {
+		Matcher matcher = _packagePathPattern.matcher(content);
+
+		if (matcher.find()) {
+			return matcher.group(1);
+		}
+
+		return null;
+	}
+
+	private String _getReleaseInfoVersion(String fileName) throws IOException {
+		if (Validator.isNull(fileName)) {
 			return ReleaseInfo.getVersion();
+		}
+
+		String releaseInfo = _read(Paths.get(fileName));
+
+		Matcher matcher = _releaseInfoVersionPattern.matcher(releaseInfo);
+
+		if (!matcher.find()) {
+			throw new IOException(
+				"Unable to get release info version from " + fileName);
+		}
+
+		return matcher.group(1);
+	}
+
+	private String _getSchemaVersion() throws IOException {
+		if (!_osgiModule) {
+			return _releaseInfoVersion;
 		}
 
 		Properties properties = new Properties();
@@ -382,17 +432,7 @@ public class UpgradeTableBuilder {
 			properties.load(inputStream);
 		}
 
-		return properties.getProperty("Bundle-Version");
-	}
-
-	private String _getPackagePath(String content) {
-		Matcher matcher = _packagePathPattern.matcher(content);
-
-		if (matcher.find()) {
-			return matcher.group(1);
-		}
-
-		return null;
+		return properties.getProperty("Liferay-Require-SchemaVersion");
 	}
 
 	private Path _getUpgradeFilePath(String fileName) throws IOException {
@@ -415,9 +455,12 @@ public class UpgradeTableBuilder {
 
 	private static final Pattern _packagePathPattern = Pattern.compile(
 		"package (.+?);");
+	private static final Pattern _releaseInfoVersionPattern = Pattern.compile(
+		"private static final String _VERSION = \"(.+)\";");
 
 	private final String _baseDirName;
 	private final boolean _osgiModule;
+	private final String _releaseInfoVersion;
 	private final String _upgradeTableDirName;
 
 }

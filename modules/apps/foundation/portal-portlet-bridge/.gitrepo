@@ -1,0 +1,11 @@
+;
+; Do not manually edit this file.
+;
+[subrepo]
+	autopull = false
+	cmdver = liferay
+	commit = 8a5d81b069b907322d9dce59470d053a9d9039ea
+	mergebuttonmergecommits = false
+	mode = push
+	parent = 9142e3f5ab94fa16838ec552acd3810af398497e
+	remote = git@github.com:liferay/com-liferay-portal-portlet-bridge.git

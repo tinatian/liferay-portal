@@ -14,23 +14,21 @@
 
 package com.liferay.portlet.asset.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategoryConstants;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.model.AssetVocabularyDisplay;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.asset.model.AssetCategoryConstants;
-import com.liferay.portlet.asset.model.AssetVocabulary;
-import com.liferay.portlet.asset.model.AssetVocabularyDisplay;
 import com.liferay.portlet.asset.service.base.AssetVocabularyServiceBaseImpl;
-import com.liferay.portlet.asset.service.permission.AssetPermission;
+import com.liferay.portlet.asset.service.permission.AssetCategoriesPermission;
 import com.liferay.portlet.asset.service.permission.AssetVocabularyPermission;
 import com.liferay.portlet.asset.util.AssetUtil;
 import com.liferay.util.dao.orm.CustomSQLUtil;
@@ -59,7 +57,7 @@ public class AssetVocabularyServiceImpl extends AssetVocabularyServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		AssetPermission.check(
+		AssetCategoriesPermission.check(
 			getPermissionChecker(), groupId, ActionKeys.ADD_VOCABULARY);
 
 		return assetVocabularyLocalService.addVocabulary(
@@ -72,23 +70,11 @@ public class AssetVocabularyServiceImpl extends AssetVocabularyServiceBaseImpl {
 			long groupId, String title, ServiceContext serviceContext)
 		throws PortalException {
 
-		AssetPermission.check(
+		AssetCategoriesPermission.check(
 			getPermissionChecker(), groupId, ActionKeys.ADD_VOCABULARY);
 
 		return assetVocabularyLocalService.addVocabulary(
 			getUserId(), groupId, title, serviceContext);
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, Replaced by {@link #deleteVocabularies(long[],
-	 *             ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public void deleteVocabularies(long[] vocabularyIds)
-		throws PortalException {
-
-		deleteVocabularies(vocabularyIds, null);
 	}
 
 	@Override
@@ -237,7 +223,7 @@ public class AssetVocabularyServiceImpl extends AssetVocabularyServiceBaseImpl {
 		int count = assetVocabularyLocalService.getGroupVocabulariesCount(
 			new long[] {groupId});
 
-		if (count> 0) {
+		if (count > 0) {
 			return vocabularies;
 		}
 
@@ -335,48 +321,6 @@ public class AssetVocabularyServiceImpl extends AssetVocabularyServiceBaseImpl {
 	}
 
 	/**
-	 * @deprecated As of 6.2.0, with no direct replacement
-	 */
-	@Deprecated
-	@Override
-	public JSONObject getJSONGroupVocabularies(
-			long groupId, String name, int start, int end,
-			OrderByComparator<AssetVocabulary> obc)
-		throws PortalException {
-
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		int page = end / (end - start);
-
-		jsonObject.put("page", page);
-
-		List<AssetVocabulary> vocabularies;
-		int total = 0;
-
-		if (Validator.isNotNull(name)) {
-			name = (CustomSQLUtil.keywords(name))[0];
-
-			vocabularies = getGroupVocabularies(groupId, name, start, end, obc);
-			total = getGroupVocabulariesCount(groupId, name);
-		}
-		else {
-			vocabularies = getGroupVocabularies(groupId, start, end, obc);
-			total = getGroupVocabulariesCount(groupId);
-		}
-
-		String vocabulariesJSON = JSONFactoryUtil.looseSerialize(vocabularies);
-
-		JSONArray vocabulariesJSONArray = JSONFactoryUtil.createJSONArray(
-			vocabulariesJSON);
-
-		jsonObject.put("vocabularies", vocabulariesJSONArray);
-
-		jsonObject.put("total", total);
-
-		return jsonObject;
-	}
-
-	/**
 	 * @deprecated As of 7.0.0, replaced by {@link
 	 *             AssetUtil#filterVocabularyIds(PermissionChecker, long[])}
 	 */
@@ -401,15 +345,25 @@ public class AssetVocabularyServiceImpl extends AssetVocabularyServiceBaseImpl {
 
 	@Override
 	public AssetVocabularyDisplay searchVocabulariesDisplay(
-			long groupId, String title, int start, int end,
-			boolean addDefaultVocabulary)
+			long groupId, String title, boolean addDefaultVocabulary, int start,
+			int end)
+		throws PortalException {
+
+		return searchVocabulariesDisplay(
+			groupId, title, addDefaultVocabulary, start, end, null);
+	}
+
+	@Override
+	public AssetVocabularyDisplay searchVocabulariesDisplay(
+			long groupId, String title, boolean addDefaultVocabulary, int start,
+			int end, Sort sort)
 		throws PortalException {
 
 		User user = getUser();
 
 		BaseModelSearchResult<AssetVocabulary> baseModelSearchResult =
 			assetVocabularyLocalService.searchVocabularies(
-				user.getCompanyId(), groupId, title, start, end);
+				user.getCompanyId(), groupId, title, start, end, sort);
 
 		List<AssetVocabulary> vocabularies =
 			baseModelSearchResult.getBaseModels();

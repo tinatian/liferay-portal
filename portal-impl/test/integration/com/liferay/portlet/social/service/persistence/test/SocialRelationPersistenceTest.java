@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,12 +30,13 @@ import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
-import com.liferay.portlet.social.NoSuchRelationException;
-import com.liferay.portlet.social.model.SocialRelation;
-import com.liferay.portlet.social.service.SocialRelationLocalServiceUtil;
-import com.liferay.portlet.social.service.persistence.SocialRelationPersistence;
-import com.liferay.portlet.social.service.persistence.SocialRelationUtil;
+import com.liferay.social.kernel.exception.NoSuchRelationException;
+import com.liferay.social.kernel.model.SocialRelation;
+import com.liferay.social.kernel.service.SocialRelationLocalServiceUtil;
+import com.liferay.social.kernel.service.persistence.SocialRelationPersistence;
+import com.liferay.social.kernel.service.persistence.SocialRelationUtil;
 
 import org.junit.After;
 import org.junit.Assert;

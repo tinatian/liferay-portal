@@ -171,7 +171,8 @@ public class ServletPathsTest {
 			servletPaths = new ServletPaths(servletContext, file1.getName());
 
 			Assert.assertNull(servletPaths.getContent());
-			Assert.assertEquals(1, logRecords.size());
+
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
 
 			LogRecord logRecord = logRecords.get(0);
 

@@ -14,36 +14,34 @@
 
 package com.liferay.portal.servlet.filters.cache;
 
-import com.liferay.portal.NoSuchLayoutException;
+import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutTypePortlet;
+import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.BrowserSnifferUtil;
 import com.liferay.portal.kernel.servlet.BufferCacheServletResponse;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.struts.LastPath;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.Http;
-import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutTypePortlet;
-import com.liferay.portal.security.auth.AuthTokenUtil;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.servlet.filters.BasePortalFilter;
 import com.liferay.portal.util.PortalInstances;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.WebKeys;
 import com.liferay.util.servlet.filters.CacheResponseData;
 import com.liferay.util.servlet.filters.CacheResponseUtil;
 
@@ -74,6 +72,10 @@ public class CacheFilter extends BasePortalFilter {
 
 			_log.error("Cache pattern is invalid");
 		}
+
+		_includeUserAgent = GetterUtil.getBoolean(
+			filterConfig.getInitParameter("includeUserAgent"),
+			PropsValues.CACHE_FILTER_INCLUDE_USER_AGENT);
 	}
 
 	@Override
@@ -91,16 +93,11 @@ public class CacheFilter extends BasePortalFilter {
 	}
 
 	protected String getCacheKey(HttpServletRequest request) {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(9);
 
 		// Url
 
-		sb.append(HttpUtil.getProtocol(request));
-		sb.append(Http.PROTOCOL_DELIMITER);
-		sb.append(request.getContextPath());
-		sb.append(request.getServletPath());
-		sb.append(request.getPathInfo());
-		sb.append(StringPool.QUESTION);
+		sb.append(request.getRequestURL());
 
 		String queryString = request.getQueryString();
 
@@ -111,7 +108,7 @@ public class CacheFilter extends BasePortalFilter {
 			if (queryString == null) {
 				String url = PortalUtil.getCurrentCompleteURL(request);
 
-				int pos = url.indexOf(StringPool.QUESTION);
+				int pos = url.indexOf(CharPool.QUESTION);
 
 				if (pos > -1) {
 					queryString = url.substring(pos + 1);
@@ -120,6 +117,7 @@ public class CacheFilter extends BasePortalFilter {
 		}
 
 		if (queryString != null) {
+			sb.append(StringPool.QUESTION);
 			sb.append(queryString);
 		}
 
@@ -138,11 +136,13 @@ public class CacheFilter extends BasePortalFilter {
 
 		// User agent
 
-		String userAgent = GetterUtil.getString(
-			request.getHeader(HttpHeaders.USER_AGENT));
+		if (_includeUserAgent) {
+			String userAgent = GetterUtil.getString(
+				request.getHeader(HttpHeaders.USER_AGENT));
 
-		sb.append(StringPool.POUND);
-		sb.append(StringUtil.toLowerCase(userAgent).hashCode());
+			sb.append(StringPool.POUND);
+			sb.append(StringUtil.toLowerCase(userAgent).hashCode());
+		}
 
 		// Gzip compression
 
@@ -209,12 +209,12 @@ public class CacheFilter extends BasePortalFilter {
 		}
 		catch (NoSuchLayoutException nsle) {
 			if (_log.isWarnEnabled()) {
-				_log.warn(nsle);
+				_log.warn(nsle, nsle);
 			}
 		}
 		catch (Exception e) {
 			if (_log.isWarnEnabled()) {
-				_log.warn(e);
+				_log.warn("Unable to get friendly URL group", e);
 			}
 
 			return 0;
@@ -254,12 +254,12 @@ public class CacheFilter extends BasePortalFilter {
 			return layout.getPlid();
 		}
 		catch (NoSuchLayoutException nsle) {
-			_log.warn(nsle);
+			_log.warn("Unable to get friendly URL layout", nsle);
 
 			return 0;
 		}
 		catch (Exception e) {
-			_log.error(e);
+			_log.error("Unable to get friendly URL layout", e);
 
 			return 0;
 		}
@@ -381,11 +381,13 @@ public class CacheFilter extends BasePortalFilter {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
 						"Request is not cacheable " + key +
-							", invalid token received");
+							", invalid token received",
+						pe);
 				}
 
 				processFilter(
-					CacheFilter.class, request, response, filterChain);
+					CacheFilter.class.getName(), request, response,
+					filterChain);
 
 				return;
 			}
@@ -416,7 +418,8 @@ public class CacheFilter extends BasePortalFilter {
 				}
 
 				processFilter(
-					CacheFilter.class, request, response, filterChain);
+					CacheFilter.class.getName(), request, response,
+					filterChain);
 
 				return;
 			}
@@ -429,8 +432,8 @@ public class CacheFilter extends BasePortalFilter {
 				new BufferCacheServletResponse(response);
 
 			processFilter(
-				CacheFilter.class, request, bufferCacheServletResponse,
-				filterChain);
+				CacheFilter.class.getName(), request,
+				bufferCacheServletResponse, filterChain);
 
 			cacheResponseData = new CacheResponseData(
 				bufferCacheServletResponse);
@@ -451,11 +454,9 @@ public class CacheFilter extends BasePortalFilter {
 				bufferCacheServletResponse.getHeader(
 					HttpHeaders.CACHE_CONTROL));
 
-			if ((bufferCacheServletResponse.getStatus() ==
-					HttpServletResponse.SC_OK) &&
+			if (isCacheableResponse(bufferCacheServletResponse) &&
 				!cacheControl.contains(HttpHeaders.PRAGMA_NO_CACHE_VALUE) &&
-				isCacheableRequest(request) &&
-				isCacheableResponse(bufferCacheServletResponse)) {
+				isCacheableRequest(request)) {
 
 				CacheUtil.putCacheResponseData(
 					companyId, key, cacheResponseData);
@@ -491,6 +492,7 @@ public class CacheFilter extends BasePortalFilter {
 
 	private static final Log _log = LogFactoryUtil.getLog(CacheFilter.class);
 
+	private boolean _includeUserAgent;
 	private int _pattern;
 
 }

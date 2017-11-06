@@ -9,38 +9,38 @@
 </thead>
 <tbody>
 <tr>
-	<td>ADD</td>
-	<td>//a[contains(@id,'addPanel') and i[contains(@class,'icon-plus')]]</td>
+	<td>ADD_REPEATABLE_ENTRY</td>
+	<td>xpath=(//div[contains(@data-fieldname,'${key_assetType}')]/../div//a[contains(@class,'repeatable-add-button')])[${key_counter}]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>ADVANCED_SEARCH</td>
-	<td>//a[contains(@class,'toggle-advanced') and i[@class='caret']]</td>
+	<td>//button[contains(@class,'toggle-advanced') and span[@class='caret']] | //a[contains(@id,'searchtoggleAdvanced')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>ANGLE_LEFT_BACK</td>
-	<td>//div[contains(@class,'toolbar-group-content')]//span[contains(@class,'icon-angle-left')]</td>
+	<td>//div[contains(@class,'taglib-header')]//span[contains(.,'Back')]/a | //*[name()='svg'][contains(@class,'icon-angle-left')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASTERISK</td>
+	<td>//*[name()='svg'][contains(@class,'icon-asterisk')] | //span[contains(@class,'icon-asterisk')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASTERISK_DATE_FIELD</td>
+	<td>//label[contains(.,'${key_fieldFieldLabel}')]//span[contains(@class,'icon-asterisk')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>BACK</td>
-	<td>//a[contains(@class,'icon-circle-arrow-left') and contains(@class,'previous-level')] | //span[contains(@class,'icon-angle-left')]</td>
+	<td>//*[name()='svg'][contains(@class,'icon-angle-left')] | //a[contains(@class,'icon-circle-arrow-left') and contains(@class,'previous-level')] | //span[contains(@class,'icon-angle-left')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>BASIC_SEARCH</td>
-	<td>//button[contains(@type,'submit')]/span[@class='icon-search']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>BODY_VERTICAL_ELLIPSIS</td>
-	<td>//div[contains(@class,'portlet') and contains(@class,'container')]//span[contains(@class,'icon-ellipsis-vertical')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>BODY_VERTICAL_ELLIPSIS_2</td>
-	<td>xpath=(//div[contains(@class,'portlet') and contains(@class,'container')]//span[contains(@class,'icon-ellipsis-vertical')])[2]</td>
+	<td>//button[contains(@type,'submit')]/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -54,13 +54,23 @@
 	<td></td>
 </tr>
 <tr>
+	<td>CARET_ASCENDING</td>
+	<td>//*[@data-qa-id='ascendingButton']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARET_DESCENDING</td>
+	<td>//*[@data-qa-id='descendingButton']</td>
+	<td></td>
+</tr>
+<tr>
 	<td>CLEAR_SEARCH</td>
 	<td>//input[@type='image' and @title='Clear Search']</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CLOSE</td>
-	<td>//button[contains(@class,'close')]</td>
+	<td>//button[contains(@class,'close')] | //a[contains(@id,'closePanelAdd') and contains(@class,'close')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -70,17 +80,7 @@
 </tr>
 <tr>
 	<td>DELETE</td>
-	<td>//a/span[contains(@class,'icon-trash')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DESCRIPTIVE_VERTICAL_ELLIPSIS</td>
-	<td>//li[@data-title='${key_assetEntry}']//span[contains(@class,'icon-ellipsis-vertical')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>DESCRIPTIVE_HEADER_VERTICAL_ELLIPSIS</td>
-	<td>//h2[contains(.,'${key_assetHeader}')]//..//span[contains(@class,'icon-ellipsis-vertical')]</td>
+	<td>//*[contains(@data-qa-id,'deleteButton')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -89,23 +89,43 @@
 	<td></td>
 </tr>
 <tr>
+	<td>DISPLAY_STYLE_DESCRIPTIVE_ACTIVE</td>
+	<td>//*[@data-qa-id='descriptiveButton' and contains(@class,'active')]/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DISPLAY_STYLE_ICON_ACTIVE</td>
+	<td>//*[@data-qa-id='iconButton' and contains(@class,'active')]/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DISPLAY_STYLE_LIST_ACTIVE</td>
+	<td>//*[@data-qa-id='listButton' and contains(@class,'active')]/span</td>
+	<td></td>
+</tr>
+<tr>
 	<td>DISPLAY_STYLE_DESCRIPTIVE</td>
-	<td>//a[contains(@href,'=descriptive')]/span</td>
+	<td>//*[@data-qa-id='descriptiveButton']/span | //a[@title='Descriptive']/span</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DISPLAY_STYLE_ICON</td>
-	<td>//a[contains(@href,'=icon')]/span</td>
+	<td>//*[@data-qa-id='iconButton']/span | //a[@title='Icon']/span</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DISPLAY_STYLE_LIST</td>
-	<td>//a[contains(@href,'=list')]/span</td>
+	<td>//*[@data-qa-id='listButton']/span | //a[@title='List']/span</td>
 	<td></td>
 </tr>
 <tr>
 	<td>EDIT</td>
-	<td>//a[contains(@id,'ControlMenuPortlet') and i[contains(@class,'icon-cog')]]</td>
+	<td>//span[contains(.,'${key_assetTitle}')]//*[name()='svg'][contains(@class,'icon-pencil')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CUSTOM_EDIT</td>
+	<td>//a[contains(@class,'taglib-icon')]/i[contains(@class,'icon-edit')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -114,18 +134,23 @@
 	<td></td>
 </tr>
 <tr>
+	<td>EDIT_PENCIL</td>
+	<td>//*[name()='svg'][contains(@class,'lexicon-icon-pencil')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>EXPIRE</td>
-	<td>//a[contains(@href,'editEntry')]/span[contains(@class,'icon-time')]</td>
+	<td>//*[@data-qa-id='expireButton'] | //a[contains(@id,'expireArticle') or contains(@href,'editEntry')]/span[contains(@class,'icon-time')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>FLAG</td>
-	<td>//div[contains(@class,'asset-actions')]/div[@title='Flag']/span/a</td>
+	<td>//div[@title='Flag']//i[@class='icon-flag']</td>
 	<td></td>
 </tr>
 <tr>
 	<td>FACEBOOK</td>
-	<td>//i[contains(@class,'icon-facebook')]</td>
+	<td>//span[contains(.,'Facebook')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -134,13 +159,13 @@
 	<td></td>
 </tr>
 <tr>
-	<td>HEADER_VERTICAL_ELLIPSIS</td>
-	<td>//header//span[contains(@class,'icon-ellipsis-vertical')]</td>
+	<td>INFO</td>
+	<td>//*[@data-qa-id='infoButton'] | //div[contains(@class,'management-bar-default')]//a[contains(@class,'infoPanelToggler')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>INFO</td>
-	<td>//div[contains(@class,'management-bar-default')]//a[contains(@class,'infoPanelToggler')]</td>
+	<td>INFO_ACTIVE</td>
+	<td>//*[contains(@class,'active') and contains(@class,'open') and @data-qa-id='infoButton']</td>
 	<td></td>
 </tr>
 <tr>
@@ -149,33 +174,33 @@
 	<td></td>
 </tr>
 <tr>
-	<td>LIST_VERTICAL_ELLIPSIS</td>
-	<td>//tr[td[contains(.,'${key_listEntry}')]]//span[contains(@class,'icon-ellipsis-vertical')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>LOCALIZED_FLAG</td>
 	<td>//li[@role='menuitem' and @data-value='${key_localizationName}']/a</td>
 	<td></td>
 </tr>
 <tr>
+	<td>MARK_AS_READ</td>
+	<td>//span/*[name()='svg'][contains(@class,'icon-envelope-open')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MARK_AS_UNREAD</td>
+	<td>//span/*[name()='svg'][contains(@class,'icon-envelope-closed')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>MERGE</td>
-	<td>//a[contains(@id,'merge')]//span[contains(@class,'icon-random')]</td>
+	<td>//*[@data-qa-id='mergeButton'] | //a[contains(@id,'merge')]//span[contains(@class,'icon-random')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>MOVE</td>
-	<td>//a[contains(@href,'editEntry')]/span[contains(@class,'icon-move')]</td>
+	<td>//*[@data-qa-id='moveButton'] | //a[contains(@href,'editEntry')]/span[contains(@class,'icon-move')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>PENCIL</td>
-	<td>//a[contains(@class,'btn icon-monospaced btn-default')]/i[contains(@class,'icon-pencil')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>PREVIEW</td>
-	<td>//a[contains(@id,'previewPanel') and i[contains(@class,'icon-desktop')]]</td>
+	<td>MOVE_TO_RECYCLE_BIN</td>
+	<td>//a[contains(@data-qa-id,'recycle-binButton')]/span[contains(@class,'icon-monospaced')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -194,8 +219,94 @@
 	<td></td>
 </tr>
 <tr>
+	<td>SHARE</td>
+	<td>//div[contains(@class,'dropdown')]//a[@title='Share']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STAR_UNSUBSCRIBED</td>
+	<td>//span/*[name()='svg'][contains(@class,'icon-star-o')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SUBSCRIBE</td>
+	<td>//span/*[name()='svg'][contains(@class,'icon-star')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TOOLTIP</td>
+	<td>//span/*[name()='svg'][contains(@class,'icon-question')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>INHERIT_CHANGES_TOOLTIP</td>
+	<td>//div[not(contains(@class,'hide'))]/div/label[contains(.,'Inherit Changes')]//span/*[name()='svg'][contains(@class,'icon-question')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>TWITTER</td>
 	<td>//i[contains(@class,'icon-twitter')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--ELLIPSIS-->
+<tr>
+	<td>BODY_VERTICAL_ELLIPSIS</td>
+	<td>//div[contains(@class,'portlet') and contains(@class,'container')]//span/*[name()='svg'][contains(@class,'icon-ellipsis')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>BODY_VERTICAL_ELLIPSIS_2</td>
+	<td>xpath=(//div[contains(@class,'portlet') and contains(@class,'container')]//span/*[name()='svg'][contains(@class,'icon-ellipsis')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DESCRIPTIVE_HEADER_VERTICAL_ELLIPSIS</td>
+	<td>//h2[contains(.,'${key_assetHeader}')]//..//span/*[name()='svg'][contains(@class,'icon-ellipsis')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HEADER_VERTICAL_ELLIPSIS</td>
+	<td>//*[@data-qa-id='header']//*[name()='svg'][contains(@class,'icon-ellipsis')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HISTORY_VERTICAL_ELLIPSIS</td>
+	<td>//*[contains(@class,'lexicon-icon-ellipsis-v')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_CUSTOMIZATION_ELLIPSIS</td>
+	<td>//*[@data-qa-id='controlMenu']//div[contains(@class,'icon-menu')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ROW_VERTICAL_ELLIPSIS</td>
+	<td>//*[@data-qa-id='row' and contains(.,'${key_rowEntry}')]//span/*[name()='svg'][contains(@class,'icon-ellipsis')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ROW_VERTICAL_ELLIPSIS_2</td>
+	<td>xPath=(//*[@data-qa-id='row' and contains(.,'${key_rowEntry}')]//span/*[name()='svg'][contains(@class,'icon-ellipsis')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ROW_VERTICAL_ELLIPSIS_N</td>
+	<td>xpath=(//*[@data-qa-id='row']//span/*[name()='svg'][contains(@class,'icon-ellipsis')])[${key_rowIndexNumber}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STAGING</td>
+	<td>//a[contains(@id,'stagingBarButton')]/i</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STAGING_BAR_VERTICAL_ELLIPSIS</td>
+	<td>//li[contains(@class,'control-menu-nav-item')]//*[contains(@class,'lexicon-icon-ellipsis-v')]</td>
 	<td></td>
 </tr>
 </tbody>

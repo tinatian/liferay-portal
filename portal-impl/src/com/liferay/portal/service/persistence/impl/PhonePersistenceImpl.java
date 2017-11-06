@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchPhoneException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,24 +26,29 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchPhoneException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Phone;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.PhonePersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.Phone;
 import com.liferay.portal.model.impl.PhoneImpl;
 import com.liferay.portal.model.impl.PhoneModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextThreadLocal;
-import com.liferay.portal.service.persistence.PhonePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -52,6 +57,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -63,7 +69,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see PhonePersistence
- * @see com.liferay.portal.service.persistence.PhoneUtil
+ * @see com.liferay.portal.kernel.service.persistence.PhoneUtil
  * @generated
  */
 @ProviderType
@@ -195,7 +201,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Phone phone : list) {
-					if (!Validator.equals(uuid, phone.getUuid())) {
+					if (!Objects.equals(uuid, phone.getUuid())) {
 						list = null;
 
 						break;
@@ -209,7 +215,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -432,8 +438,9 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -746,7 +753,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Phone phone : list) {
-					if (!Validator.equals(uuid, phone.getUuid()) ||
+					if (!Objects.equals(uuid, phone.getUuid()) ||
 							(companyId != phone.getCompanyId())) {
 						list = null;
 
@@ -761,7 +768,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1001,11 +1008,12 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_PHONE_WHERE);
@@ -1330,7 +1338,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1540,8 +1548,9 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1826,7 +1835,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2036,8 +2045,9 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -2335,7 +2345,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2562,11 +2572,12 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_PHONE_WHERE);
@@ -2768,7 +2779,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the matching phones
 	 */
 	@Override
@@ -2787,7 +2798,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of phones
 	 * @param end the upper bound of the range of phones (not inclusive)
 	 * @return the range of matching phones
@@ -2807,7 +2818,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of phones
 	 * @param end the upper bound of the range of phones (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -2830,7 +2841,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param start the lower bound of the range of phones
 	 * @param end the upper bound of the range of phones (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -2884,7 +2895,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(5 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(5);
@@ -2959,7 +2970,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching phone
 	 * @throws NoSuchPhoneException if a matching phone could not be found
@@ -2998,7 +3009,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching phone, or <code>null</code> if a matching phone could not be found
 	 */
@@ -3020,7 +3031,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching phone
 	 * @throws NoSuchPhoneException if a matching phone could not be found
@@ -3059,7 +3070,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching phone, or <code>null</code> if a matching phone could not be found
 	 */
@@ -3088,7 +3099,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 * @param phoneId the primary key of the current phone
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next phone
 	 * @throws NoSuchPhoneException if a phone with the primary key could not be found
@@ -3131,10 +3142,11 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 		if (orderByComparator != null) {
 			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(5);
 		}
 
 		query.append(_SQL_SELECT_PHONE_WHERE);
@@ -3242,7 +3254,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 */
 	@Override
 	public void removeByC_C_C(long companyId, long classNameId, long classPK) {
@@ -3257,7 +3269,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @return the number of matching phones
 	 */
 	@Override
@@ -3352,7 +3364,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @return the matching phones
 	 */
@@ -3372,7 +3384,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param start the lower bound of the range of phones
 	 * @param end the upper bound of the range of phones (not inclusive)
@@ -3394,7 +3406,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param start the lower bound of the range of phones
 	 * @param end the upper bound of the range of phones (not inclusive)
@@ -3418,7 +3430,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param start the lower bound of the range of phones
 	 * @param end the upper bound of the range of phones (not inclusive)
@@ -3474,7 +3486,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(6 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(6);
@@ -3553,7 +3565,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching phone
@@ -3596,7 +3608,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching phone, or <code>null</code> if a matching phone could not be found
@@ -3620,7 +3632,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching phone
@@ -3663,7 +3675,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching phone, or <code>null</code> if a matching phone could not be found
@@ -3694,7 +3706,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 * @param phoneId the primary key of the current phone
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next phone
@@ -3737,11 +3749,12 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(7 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(6);
 		}
 
 		query.append(_SQL_SELECT_PHONE_WHERE);
@@ -3853,7 +3866,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 */
 	@Override
@@ -3870,7 +3883,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 *
 	 * @param companyId the company ID
 	 * @param classNameId the class name ID
-	 * @param classPK the class p k
+	 * @param classPK the class pk
 	 * @param primary the primary
 	 * @return the number of matching phones
 	 */
@@ -3941,6 +3954,24 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 	public PhonePersistenceImpl() {
 		setModelClass(Phone.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+			dbColumnNames.put("number", "number_");
+			dbColumnNames.put("primary", "primary_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -4034,6 +4065,8 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 		phone.setUuid(uuid);
 
+		phone.setCompanyId(companyProvider.getCompanyId());
+
 		return phone;
 	}
 
@@ -4066,8 +4099,8 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 			Phone phone = (Phone)session.get(PhoneImpl.class, primaryKey);
 
 			if (phone == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchPhoneException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -4178,8 +4211,68 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !PhoneModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!PhoneModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { phoneModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					phoneModelImpl.getUuid(), phoneModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { phoneModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				args);
+
+			args = new Object[] { phoneModelImpl.getUserId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
+				args);
+
+			args = new Object[] {
+					phoneModelImpl.getCompanyId(),
+					phoneModelImpl.getClassNameId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C,
+				args);
+
+			args = new Object[] {
+					phoneModelImpl.getCompanyId(),
+					phoneModelImpl.getClassNameId(), phoneModelImpl.getClassPK()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C_C,
+				args);
+
+			args = new Object[] {
+					phoneModelImpl.getCompanyId(),
+					phoneModelImpl.getClassNameId(), phoneModelImpl.getClassPK(),
+					phoneModelImpl.getPrimary()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C_C_P, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C_C_P,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -4356,7 +4449,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	}
 
 	/**
-	 * Returns the phone with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the phone with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the phone
 	 * @return the phone
@@ -4368,8 +4461,8 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		Phone phone = fetchByPrimaryKey(primaryKey);
 
 		if (phone == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchPhoneException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -4399,12 +4492,14 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	 */
 	@Override
 	public Phone fetchByPrimaryKey(Serializable primaryKey) {
-		Phone phone = (Phone)entityCache.getResult(PhoneModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(PhoneModelImpl.ENTITY_CACHE_ENABLED,
 				PhoneImpl.class, primaryKey);
 
-		if (phone == _nullPhone) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Phone phone = (Phone)serializable;
 
 		if (phone == null) {
 			Session session = null;
@@ -4419,7 +4514,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 				}
 				else {
 					entityCache.putResult(PhoneModelImpl.ENTITY_CACHE_ENABLED,
-						PhoneImpl.class, primaryKey, _nullPhone);
+						PhoneImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -4473,18 +4568,20 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Phone phone = (Phone)entityCache.getResult(PhoneModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(PhoneModelImpl.ENTITY_CACHE_ENABLED,
 					PhoneImpl.class, primaryKey);
 
-			if (phone == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, phone);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Phone)serializable);
+				}
 			}
 		}
 
@@ -4498,7 +4595,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		query.append(_SQL_SELECT_PHONE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -4526,7 +4623,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(PhoneModelImpl.ENTITY_CACHE_ENABLED,
-					PhoneImpl.class, primaryKey, _nullPhone);
+					PhoneImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -4627,7 +4724,7 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PHONE);
 
@@ -4752,6 +4849,8 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_PHONE = "SELECT phone FROM Phone phone";
@@ -4766,33 +4865,4 @@ public class PhonePersistenceImpl extends BasePersistenceImpl<Phone>
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"uuid", "number", "primary"
 			});
-	private static final Phone _nullPhone = new PhoneImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Phone> toCacheModel() {
-				return _nullPhoneCacheModel;
-			}
-		};
-
-	private static final CacheModel<Phone> _nullPhoneCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<Phone>, MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public Phone toEntityModel() {
-			return _nullPhone;
-		}
-	}
 }

@@ -14,17 +14,17 @@
 
 package com.liferay.portlet.tck.bridge;
 
-import aQute.bnd.annotation.metatype.Configurable;
-
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.util.ThreadUtil;
 import com.liferay.portal.kernel.util.Time;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.struts.StrutsActionRegistryUtil;
-import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.tck.bridge.configuration.PortletTCKBridgeConfiguration;
+import com.liferay.portlet.tck.bridge.struts.PortletTCKStrutsAction;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -52,7 +52,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Matthew Tambara
  */
 @Component(
-	configurationPid ="com.liferay.portlet.tck.bridge.configuration.PortletTCKBridgeConfiguration"
+	configurationPid = "com.liferay.portlet.tck.bridge.configuration.PortletTCKBridgeConfiguration"
 )
 public class PortletTCKBridge {
 
@@ -65,7 +65,7 @@ public class PortletTCKBridge {
 
 		FutureTask<Void> futureTask = new FutureTask<>(
 			new HandshakeServerCallable(
-				Configurable.createConfigurable(
+				ConfigurableUtil.createConfigurable(
 					PortletTCKBridgeConfiguration.class,
 					componentContext.getProperties())));
 

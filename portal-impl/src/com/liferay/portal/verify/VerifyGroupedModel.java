@@ -15,13 +15,14 @@
 package com.liferay.portal.verify;
 
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
-import com.liferay.portal.kernel.concurrent.ThrowableAwareRunnable;
+import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LoggingTimer;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.verify.model.VerifiableGroupedModel;
+import com.liferay.portal.kernel.verify.model.VerifiableGroupedModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,13 +32,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * @author Shinn Lok
  */
 public class VerifyGroupedModel extends VerifyProcess {
 
-	public void verify(VerifiableGroupedModel ... verifiableGroupedModels)
+	public void verify(VerifiableGroupedModel... verifiableGroupedModels)
 		throws Exception {
 
 		List<String> unverifiedTableNames = new ArrayList<>();
@@ -48,7 +50,7 @@ public class VerifyGroupedModel extends VerifyProcess {
 			unverifiedTableNames.add(verifiableGroupedModel.getTableName());
 		}
 
-		List<VerifiableGroupedModelRunnable> verifiableGroupedModelRunnables =
+		List<VerifiableGroupedModelCallable> verifiableGroupedModelCallables =
 			new ArrayList<>(unverifiedTableNames.size());
 
 		while (!unverifiedTableNames.isEmpty()) {
@@ -65,10 +67,11 @@ public class VerifyGroupedModel extends VerifyProcess {
 					continue;
 				}
 
-				VerifiableGroupedModelRunnable verifyAuditedModelRunnable =
-					new VerifiableGroupedModelRunnable(verifiableGroupedModel);
+				VerifiableGroupedModelCallable verifiableGroupedModelCallable =
+					new VerifiableGroupedModelCallable(verifiableGroupedModel);
 
-				verifiableGroupedModelRunnables.add(verifyAuditedModelRunnable);
+				verifiableGroupedModelCallables.add(
+					verifiableGroupedModelCallable);
 
 				unverifiedTableNames.remove(
 					verifiableGroupedModel.getTableName());
@@ -80,7 +83,7 @@ public class VerifyGroupedModel extends VerifyProcess {
 			}
 		}
 
-		doVerify(verifiableGroupedModelRunnables);
+		doVerify(verifiableGroupedModelCallables);
 	}
 
 	@Override
@@ -97,49 +100,47 @@ public class VerifyGroupedModel extends VerifyProcess {
 	}
 
 	protected long getGroupId(
-			String tableName, String primaryKeColumnName, long primKey)
+			Connection con, String tableName, String primaryKeColumnName,
+			long primKey)
 		throws Exception {
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
-
-			ps = con.prepareStatement(
-				"select groupId from " + tableName + " where " +
-					primaryKeColumnName + " = ?");
+		try (PreparedStatement ps = con.prepareStatement(
+				StringBundler.concat(
+					"select groupId from ", tableName, " where ",
+					primaryKeColumnName, " = ?"))) {
 
 			ps.setLong(1, primKey);
 
-			rs = ps.executeQuery();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return rs.getLong("groupId");
+				}
 
-			if (rs.next()) {
-				return rs.getLong("groupId");
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						StringBundler.concat(
+							"Unable to find ", tableName, " ",
+							String.valueOf(primKey)));
+				}
+
+				return 0;
 			}
-
-			if (_log.isDebugEnabled()) {
-				_log.debug("Unable to find " + tableName + " " + primKey);
-			}
-
-			return 0;
 		}
-		finally {
-			DataAccess.cleanUp(con, ps, rs);
-		}
+	}
+
+	@Override
+	protected boolean isForceConcurrent(
+		Collection<? extends Callable<Void>> callables) {
+
+		return true;
 	}
 
 	protected void verifyGroupedModel(
 			VerifiableGroupedModel verifiableGroupedModel)
 		throws Exception {
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
+		try (LoggingTimer loggingTimer = new LoggingTimer(
+				verifiableGroupedModel.getTableName())) {
 
 			StringBundler sb = new StringBundler(7);
 
@@ -151,59 +152,67 @@ public class VerifyGroupedModel extends VerifyProcess {
 			sb.append(verifiableGroupedModel.getTableName());
 			sb.append(" where groupId is null");
 
-			ps = con.prepareStatement(sb.toString());
+			try (Connection con = DataAccess.getUpgradeOptimizedConnection();
+				PreparedStatement ps1 = con.prepareStatement(sb.toString());
+				ResultSet rs = ps1.executeQuery()) {
 
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				long primKey = rs.getLong(
-					verifiableGroupedModel.getPrimaryKeyColumnName());
-				long relatedPrimKey = rs.getLong(
-					verifiableGroupedModel.getRelatedPrimaryKeyColumnName());
-
-				long groupId = getGroupId(
-					verifiableGroupedModel.getRelatedTableName(),
-					verifiableGroupedModel.getRelatedPrimaryKeyColumnName(),
-					relatedPrimKey);
-
-				if (groupId <= 0) {
-					continue;
-				}
-
-				sb = new StringBundler(8);
+				sb = new StringBundler(5);
 
 				sb.append("update ");
 				sb.append(verifiableGroupedModel.getTableName());
-				sb.append(" set groupId = ");
-				sb.append(groupId);
-				sb.append(" where ");
+				sb.append(" set groupId = ? where ");
 				sb.append(verifiableGroupedModel.getPrimaryKeyColumnName());
-				sb.append(" = ");
-				sb.append(primKey);
+				sb.append(" = ?");
 
-				runSQL(sb.toString());
+				try (PreparedStatement ps2 =
+						AutoBatchPreparedStatementUtil.autoBatch(
+							con.prepareStatement(sb.toString()))) {
+
+					while (rs.next()) {
+						long primKey = rs.getLong(
+							verifiableGroupedModel.getPrimaryKeyColumnName());
+						long relatedPrimKey = rs.getLong(
+							verifiableGroupedModel.
+								getRelatedPrimaryKeyColumnName());
+
+						long groupId = getGroupId(
+							con, verifiableGroupedModel.getRelatedTableName(),
+							verifiableGroupedModel.
+								getRelatedPrimaryKeyColumnName(),
+							relatedPrimKey);
+
+						if (groupId <= 0) {
+							continue;
+						}
+
+						ps2.setLong(1, groupId);
+						ps2.setLong(2, primKey);
+
+						ps2.addBatch();
+					}
+
+					ps2.executeBatch();
+				}
 			}
-		}
-		finally {
-			DataAccess.cleanUp(con, ps, rs);
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		VerifyGroupedModel.class);
 
-	private class VerifiableGroupedModelRunnable
-		extends ThrowableAwareRunnable {
+	private class VerifiableGroupedModelCallable implements Callable<Void> {
 
-		public VerifiableGroupedModelRunnable(
+		@Override
+		public Void call() throws Exception {
+			verifyGroupedModel(_verifiableGroupedModel);
+
+			return null;
+		}
+
+		private VerifiableGroupedModelCallable(
 			VerifiableGroupedModel verifiableGroupedModel) {
 
 			_verifiableGroupedModel = verifiableGroupedModel;
-		}
-
-		@Override
-		protected void doRun() throws Exception {
-			verifyGroupedModel(_verifiableGroupedModel);
 		}
 
 		private final VerifiableGroupedModel _verifiableGroupedModel;

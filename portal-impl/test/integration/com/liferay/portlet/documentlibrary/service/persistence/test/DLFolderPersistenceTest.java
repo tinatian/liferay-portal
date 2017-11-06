@@ -14,6 +14,12 @@
 
 package com.liferay.portlet.documentlibrary.service.persistence.test;
 
+import com.liferay.document.library.kernel.exception.NoSuchFolderException;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.document.library.kernel.service.persistence.DLFolderPersistence;
+import com.liferay.document.library.kernel.service.persistence.DLFolderUtil;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -22,7 +28,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -30,15 +35,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
-
-import com.liferay.portlet.documentlibrary.NoSuchFolderException;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.persistence.DLFolderPersistence;
-import com.liferay.portlet.documentlibrary.service.persistence.DLFolderUtil;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -54,6 +53,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -616,7 +616,7 @@ public class DLFolderPersistenceTest {
 
 		DLFolder existingDLFolder = _persistence.findByPrimaryKey(newDLFolder.getPrimaryKey());
 
-		Assert.assertTrue(Validator.equals(existingDLFolder.getUuid(),
+		Assert.assertTrue(Objects.equals(existingDLFolder.getUuid(),
 				ReflectionTestUtil.invoke(existingDLFolder, "getOriginalUuid",
 					new Class<?>[0])));
 		Assert.assertEquals(Long.valueOf(existingDLFolder.getGroupId()),
@@ -636,7 +636,7 @@ public class DLFolderPersistenceTest {
 		Assert.assertEquals(Long.valueOf(existingDLFolder.getParentFolderId()),
 			ReflectionTestUtil.<Long>invoke(existingDLFolder,
 				"getOriginalParentFolderId", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(existingDLFolder.getName(),
+		Assert.assertTrue(Objects.equals(existingDLFolder.getName(),
 				ReflectionTestUtil.invoke(existingDLFolder, "getOriginalName",
 					new Class<?>[0])));
 	}

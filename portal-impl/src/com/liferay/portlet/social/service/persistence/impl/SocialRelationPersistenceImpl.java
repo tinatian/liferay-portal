@@ -16,6 +16,7 @@ package com.liferay.portlet.social.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -27,22 +28,27 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
-import com.liferay.portlet.social.NoSuchRelationException;
-import com.liferay.portlet.social.model.SocialRelation;
 import com.liferay.portlet.social.model.impl.SocialRelationImpl;
 import com.liferay.portlet.social.model.impl.SocialRelationModelImpl;
-import com.liferay.portlet.social.service.persistence.SocialRelationPersistence;
+
+import com.liferay.social.kernel.exception.NoSuchRelationException;
+import com.liferay.social.kernel.model.SocialRelation;
+import com.liferay.social.kernel.service.persistence.SocialRelationPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,6 +56,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -61,7 +68,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see SocialRelationPersistence
- * @see com.liferay.portlet.social.service.persistence.SocialRelationUtil
+ * @see com.liferay.social.kernel.service.persistence.SocialRelationUtil
  * @generated
  */
 @ProviderType
@@ -197,7 +204,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if ((list != null) && !list.isEmpty()) {
 				for (SocialRelation socialRelation : list) {
-					if (!Validator.equals(uuid, socialRelation.getUuid())) {
+					if (!Objects.equals(uuid, socialRelation.getUuid())) {
 						list = null;
 
 						break;
@@ -211,7 +218,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -439,8 +446,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -755,7 +763,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if ((list != null) && !list.isEmpty()) {
 				for (SocialRelation socialRelation : list) {
-					if (!Validator.equals(uuid, socialRelation.getUuid()) ||
+					if (!Objects.equals(uuid, socialRelation.getUuid()) ||
 							(companyId != socialRelation.getCompanyId())) {
 						list = null;
 
@@ -770,7 +778,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1016,11 +1024,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
@@ -1348,7 +1357,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1564,8 +1573,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1852,7 +1862,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2068,8 +2078,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -2356,7 +2367,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2572,8 +2583,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -2859,7 +2871,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -3073,8 +3085,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -3372,7 +3385,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -3604,11 +3617,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
@@ -3915,7 +3929,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -4147,11 +4161,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
@@ -4457,7 +4472,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -4689,11 +4704,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
@@ -4999,7 +5015,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -5231,11 +5247,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
@@ -5455,8 +5472,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchRelationException(msg.toString());
@@ -5660,6 +5677,23 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 	public SocialRelationPersistenceImpl() {
 		setModelClass(SocialRelation.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+			dbColumnNames.put("type", "type_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -5732,7 +5766,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((SocialRelationModelImpl)socialRelation);
+		clearUniqueFindersCache((SocialRelationModelImpl)socialRelation, true);
 	}
 
 	@Override
@@ -5744,42 +5778,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			entityCache.removeResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 				SocialRelationImpl.class, socialRelation.getPrimaryKey());
 
-			clearUniqueFindersCache((SocialRelationModelImpl)socialRelation);
+			clearUniqueFindersCache((SocialRelationModelImpl)socialRelation,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		SocialRelationModelImpl socialRelationModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					socialRelationModelImpl.getUserId1(),
-					socialRelationModelImpl.getUserId2(),
-					socialRelationModelImpl.getType()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_U1_U2_T, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_U1_U2_T, args,
-				socialRelationModelImpl);
-		}
-		else {
-			if ((socialRelationModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_U1_U2_T.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						socialRelationModelImpl.getUserId1(),
-						socialRelationModelImpl.getUserId2(),
-						socialRelationModelImpl.getType()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_U1_U2_T, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_U1_U2_T, args,
-					socialRelationModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		SocialRelationModelImpl socialRelationModelImpl) {
 		Object[] args = new Object[] {
 				socialRelationModelImpl.getUserId1(),
@@ -5787,12 +5791,28 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 				socialRelationModelImpl.getType()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_U1_U2_T, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_U1_U2_T, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_U1_U2_T, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_U1_U2_T, args,
+			socialRelationModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		SocialRelationModelImpl socialRelationModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					socialRelationModelImpl.getUserId1(),
+					socialRelationModelImpl.getUserId2(),
+					socialRelationModelImpl.getType()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_U1_U2_T, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_U1_U2_T, args);
+		}
 
 		if ((socialRelationModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_U1_U2_T.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					socialRelationModelImpl.getOriginalUserId1(),
 					socialRelationModelImpl.getOriginalUserId2(),
 					socialRelationModelImpl.getOriginalType()
@@ -5819,6 +5839,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		String uuid = PortalUUIDUtil.generate();
 
 		socialRelation.setUuid(uuid);
+
+		socialRelation.setCompanyId(companyProvider.getCompanyId());
 
 		return socialRelation;
 	}
@@ -5855,8 +5877,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 					primaryKey);
 
 			if (socialRelation == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchRelationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -5945,8 +5967,89 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !SocialRelationModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!SocialRelationModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { socialRelationModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					socialRelationModelImpl.getUuid(),
+					socialRelationModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { socialRelationModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				args);
+
+			args = new Object[] { socialRelationModelImpl.getUserId1() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID1, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID1,
+				args);
+
+			args = new Object[] { socialRelationModelImpl.getUserId2() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID2, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID2,
+				args);
+
+			args = new Object[] { socialRelationModelImpl.getType() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE,
+				args);
+
+			args = new Object[] {
+					socialRelationModelImpl.getCompanyId(),
+					socialRelationModelImpl.getType()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_T, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_T,
+				args);
+
+			args = new Object[] {
+					socialRelationModelImpl.getUserId1(),
+					socialRelationModelImpl.getUserId2()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_U1_U2, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_U1_U2,
+				args);
+
+			args = new Object[] {
+					socialRelationModelImpl.getUserId1(),
+					socialRelationModelImpl.getType()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_U1_T, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_U1_T,
+				args);
+
+			args = new Object[] {
+					socialRelationModelImpl.getUserId2(),
+					socialRelationModelImpl.getType()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_U2_T, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_U2_T,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -6145,8 +6248,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			SocialRelationImpl.class, socialRelation.getPrimaryKey(),
 			socialRelation, false);
 
-		clearUniqueFindersCache(socialRelationModelImpl);
-		cacheUniqueFindersCache(socialRelationModelImpl, isNew);
+		clearUniqueFindersCache(socialRelationModelImpl, false);
+		cacheUniqueFindersCache(socialRelationModelImpl);
 
 		socialRelation.resetOriginalValues();
 
@@ -6175,7 +6278,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 	}
 
 	/**
-	 * Returns the social relation with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the social relation with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the social relation
 	 * @return the social relation
@@ -6187,8 +6290,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		SocialRelation socialRelation = fetchByPrimaryKey(primaryKey);
 
 		if (socialRelation == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchRelationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -6219,12 +6322,14 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 	 */
 	@Override
 	public SocialRelation fetchByPrimaryKey(Serializable primaryKey) {
-		SocialRelation socialRelation = (SocialRelation)entityCache.getResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 				SocialRelationImpl.class, primaryKey);
 
-		if (socialRelation == _nullSocialRelation) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		SocialRelation socialRelation = (SocialRelation)serializable;
 
 		if (socialRelation == null) {
 			Session session = null;
@@ -6240,8 +6345,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 				}
 				else {
 					entityCache.putResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-						SocialRelationImpl.class, primaryKey,
-						_nullSocialRelation);
+						SocialRelationImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -6295,18 +6399,20 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			SocialRelation socialRelation = (SocialRelation)entityCache.getResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 					SocialRelationImpl.class, primaryKey);
 
-			if (socialRelation == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, socialRelation);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (SocialRelation)serializable);
+				}
 			}
 		}
 
@@ -6320,7 +6426,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -6348,7 +6454,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-					SocialRelationImpl.class, primaryKey, _nullSocialRelation);
+					SocialRelationImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -6450,7 +6556,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_SOCIALRELATION);
 
@@ -6575,6 +6681,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_SOCIALRELATION = "SELECT socialRelation FROM SocialRelation socialRelation";
@@ -6589,23 +6697,4 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"uuid", "type"
 			});
-	private static final SocialRelation _nullSocialRelation = new SocialRelationImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<SocialRelation> toCacheModel() {
-				return _nullSocialRelationCacheModel;
-			}
-		};
-
-	private static final CacheModel<SocialRelation> _nullSocialRelationCacheModel =
-		new CacheModel<SocialRelation>() {
-			@Override
-			public SocialRelation toEntityModel() {
-				return _nullSocialRelation;
-			}
-		};
 }

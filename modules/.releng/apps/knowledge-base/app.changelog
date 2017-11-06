@@ -1,0 +1,16 @@
+#
+# Liferay App Version 3.0.0
+#
+
+app.artifacts-3.0.0=\
+	com.liferay.knowledge.base.api-4.5.0.jar,\
+	com.liferay.knowledge.base.editor.configuration-1.0.1.jar,\
+	com.liferay.knowledge.base.item.selector.api-1.0.1.jar,\
+	com.liferay.knowledge.base.item.selector.web-1.0.2.jar,\
+	com.liferay.knowledge.base.markdown.converter-1.0.6.jar,\
+	com.liferay.knowledge.base.service-1.1.14.jar,\
+	com.liferay.knowledge.base.web-1.0.23.jar
+
+app.change.log-3.0.0=LPS-66605 LPS-66853 LPS-66997 LPS-68404 LPS-68923 LPS-68924 LPS-68991 LPS-69081 LPS-69271
+
+app.git.id-3.0.0=4da01f65be8f9c391b0f4a607c94c4358ecefbd3

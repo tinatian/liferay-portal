@@ -14,15 +14,16 @@
 
 package com.liferay.portal.service.persistence;
 
+import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.portal.kernel.dao.orm.ORMException;
 import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.util.InitialThreadLocal;
-import com.liferay.portal.model.BaseModel;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.service.persistence.BatchSession;
 
 /**
  * @author     Raymond Augé
  * @author     Brian Wing Shun Chan
- * @deprecated As of 6.2.0, see LPS-30598.
+ * @deprecated As of 6.2.0, see LPS-30598
  */
 @Deprecated
 public class BatchSessionImpl implements BatchSession {
@@ -66,6 +67,7 @@ public class BatchSessionImpl implements BatchSession {
 	}
 
 	private static final ThreadLocal<Boolean> _enabled =
-		new InitialThreadLocal<>(BatchSessionImpl.class + "._enabled", false);
+		new CentralizedThreadLocal<>(
+			BatchSessionImpl.class + "._enabled", () -> Boolean.FALSE, false);
 
 }

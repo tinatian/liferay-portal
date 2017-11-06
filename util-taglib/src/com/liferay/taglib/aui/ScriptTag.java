@@ -14,12 +14,12 @@
 
 package com.liferay.taglib.aui;
 
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.servlet.taglib.BodyContentWrapper;
 import com.liferay.portal.kernel.servlet.taglib.aui.ScriptData;
 import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Portlet;
 import com.liferay.taglib.FileAvailabilityUtil;
 import com.liferay.taglib.aui.base.BaseScriptTag;
 import com.liferay.taglib.util.PortalIncludeUtil;
@@ -95,7 +95,7 @@ public class ScriptTag extends BaseScriptTag {
 
 		request.removeAttribute(WebKeys.AUI_SCRIPT_DATA);
 
-		scriptData.writeTo(request, pageContext.getOut());
+		scriptData.writeTo(pageContext.getOut());
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class ScriptTag extends BaseScriptTag {
 					PortalIncludeUtil.include(pageContext, page);
 				}
 				else {
-					scriptData.writeTo(request, pageContext.getOut());
+					scriptData.writeTo(pageContext.getOut());
 				}
 			}
 			else {

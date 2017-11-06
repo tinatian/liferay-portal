@@ -18,10 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.LayoutRevisionServiceUtil;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-import com.liferay.portal.security.auth.HttpPrincipal;
-import com.liferay.portal.service.LayoutRevisionServiceUtil;
 
 /**
  * Provides the HTTP utility for the
@@ -53,7 +54,7 @@ import com.liferay.portal.service.LayoutRevisionServiceUtil;
  */
 @ProviderType
 public class LayoutRevisionServiceHttp {
-	public static com.liferay.portal.model.LayoutRevision addLayoutRevision(
+	public static com.liferay.portal.kernel.model.LayoutRevision addLayoutRevision(
 		HttpPrincipal httpPrincipal, long userId, long layoutSetBranchId,
 		long layoutBranchId, long parentLayoutRevisionId, boolean head,
 		long plid, long portletPreferencesPlid, boolean privateLayout,
@@ -61,9 +62,8 @@ public class LayoutRevisionServiceHttp {
 		java.lang.String description, java.lang.String keywords,
 		java.lang.String robots, java.lang.String typeSettings,
 		boolean iconImage, long iconImageId, java.lang.String themeId,
-		java.lang.String colorSchemeId, java.lang.String wapThemeId,
-		java.lang.String wapColorSchemeId, java.lang.String css,
-		com.liferay.portal.service.ServiceContext serviceContext)
+		java.lang.String colorSchemeId, java.lang.String css,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutRevisionServiceUtil.class,
@@ -73,8 +73,8 @@ public class LayoutRevisionServiceHttp {
 					layoutSetBranchId, layoutBranchId, parentLayoutRevisionId,
 					head, plid, portletPreferencesPlid, privateLayout, name,
 					title, description, keywords, robots, typeSettings,
-					iconImage, iconImageId, themeId, colorSchemeId, wapThemeId,
-					wapColorSchemeId, css, serviceContext);
+					iconImage, iconImageId, themeId, colorSchemeId, css,
+					serviceContext);
 
 			Object returnObj = null;
 
@@ -89,7 +89,7 @@ public class LayoutRevisionServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutRevision)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutRevision)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -106,8 +106,7 @@ public class LayoutRevisionServiceHttp {
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class, boolean.class, long.class,
 			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class,
-			com.liferay.portal.service.ServiceContext.class
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 }

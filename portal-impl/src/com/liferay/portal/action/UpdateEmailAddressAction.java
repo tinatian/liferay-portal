@@ -14,19 +14,19 @@
 
 package com.liferay.portal.action;
 
-import com.liferay.portal.NoSuchUserException;
-import com.liferay.portal.UserEmailAddressException;
+import com.liferay.portal.kernel.exception.NoSuchUserException;
+import com.liferay.portal.kernel.exception.UserEmailAddressException;
+import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.service.UserServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.auth.AuthTokenUtil;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextFactory;
-import com.liferay.portal.service.UserServiceUtil;
 import com.liferay.portal.struts.ActionConstants;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.admin.util.AdminUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,7 +89,9 @@ public class UpdateEmailAddressAction extends Action {
 			request, UpdateEmailAddressAction.class.getName());
 
 		long userId = PortalUtil.getUserId(request);
+
 		String password = AdminUtil.getUpdateUserPassword(request, userId);
+
 		String emailAddress1 = ParamUtil.getString(request, "emailAddress1");
 		String emailAddress2 = ParamUtil.getString(request, "emailAddress2");
 

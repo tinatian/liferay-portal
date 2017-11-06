@@ -14,8 +14,16 @@
 
 package com.liferay.portlet.documentlibrary.service.impl;
 
-import com.liferay.portal.NoSuchGroupException;
+import com.liferay.document.library.kernel.exception.FileEntryLockException;
+import com.liferay.document.library.kernel.exception.NoSuchFileEntryException;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.util.DLProcessorRegistryUtil;
+import com.liferay.document.library.kernel.util.comparator.FolderNameComparator;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelModifiedDateComparator;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelTitleComparator;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
@@ -26,7 +34,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.InvalidRepositoryIdException;
 import com.liferay.portal.kernel.repository.Repository;
 import com.liferay.portal.kernel.repository.RepositoryException;
-import com.liferay.portal.kernel.repository.RepositoryProviderUtil;
+import com.liferay.portal.kernel.repository.RepositoryProvider;
 import com.liferay.portal.kernel.repository.capabilities.TrashCapability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileShortcut;
@@ -37,6 +45,9 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
@@ -49,23 +60,10 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.documentlibrary.NoSuchFileEntryException;
-import com.liferay.portlet.documentlibrary.NoSuchFileShortcutException;
-import com.liferay.portlet.documentlibrary.NoSuchFileVersionException;
-import com.liferay.portlet.documentlibrary.NoSuchFolderException;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.base.DLAppServiceBaseImpl;
-import com.liferay.portlet.documentlibrary.service.permission.DLFileEntryPermission;
-import com.liferay.portlet.documentlibrary.service.permission.DLFileShortcutPermission;
 import com.liferay.portlet.documentlibrary.service.permission.DLFolderPermission;
 import com.liferay.portlet.documentlibrary.service.permission.DLPermission;
 import com.liferay.portlet.documentlibrary.util.DLAppUtil;
-import com.liferay.portlet.documentlibrary.util.DLProcessorRegistryUtil;
-import com.liferay.portlet.documentlibrary.util.comparator.FolderNameComparator;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelModifiedDateComparator;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelTitleComparator;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,7 +96,7 @@ import java.util.concurrent.Callable;
  * Liferay repository, the <code>repositoryId</code> is the <code>groupId</code>
  * or <code>scopeGroupId</code>. Otherwise, the <code>repositoryId</code> will
  * correspond to values obtained from {@link
- * com.liferay.portal.service.RepositoryServiceUtil}.
+ * com.liferay.portal.kernel.service.RepositoryServiceUtil}.
  * </p>
  *
  * @author Alexander Chow
@@ -137,8 +135,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         type </li> <li> fieldsMap - mapping for fields associated with a
 	 *         custom file entry type </li> </ul>
 	 * @return the file entry
-	 * @throws PortalException if the parent folder could not be found or if the
-	 *         file entry's information was invalid
 	 */
 	@Override
 	public FileEntry addFileEntry(
@@ -195,8 +191,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         type </li> <li> fieldsMap - mapping for fields associated with a
 	 *         custom file entry type </li> </ul>
 	 * @return the file entry
-	 * @throws PortalException if the parent folder could not be found or if the
-	 *         file entry's information was invalid
 	 */
 	@Override
 	public FileEntry addFileEntry(
@@ -252,8 +246,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         type </li> <li> fieldsMap - mapping for fields associated with a
 	 *         custom file entry type </li> </ul>
 	 * @return the file entry
-	 * @throws PortalException if the parent folder could not be found or if the
-	 *         file entry's information was invalid
 	 */
 	@Override
 	public FileEntry addFileEntry(
@@ -315,8 +307,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         asset category IDs, asset tag names, and expando bridge
 	 *         attributes for the file entry.
 	 * @return the file shortcut
-	 * @throws PortalException if the parent folder or file entry could not be
-	 *         found, or if the file shortcut's information was invalid
 	 */
 	@Override
 	public FileShortcut addFileShortcut(
@@ -341,8 +331,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         repository, it may include boolean mountPoint specifying whether
 	 *         folder is a facade for mounting a third-party repository
 	 * @return the folder
-	 * @throws PortalException if the parent folder could not be found or if the
-	 *         new folder's information was invalid
 	 */
 	@Override
 	public Folder addFolder(
@@ -377,7 +365,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  file the file's data (optionally <code>null</code>)
 	 * @param  mimeType the file's MIME type
 	 * @return the temporary file entry
-	 * @throws PortalException if the file name was invalid
 	 * @see    TempFileEntryUtil
 	 */
 	@Override
@@ -411,8 +398,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  inputStream the file's data
 	 * @param  mimeType the file's MIME type
 	 * @return the temporary file entry
-	 * @throws PortalException if the file name was invalid or if a portal
-	 *         exception occurred
 	 * @see    TempFileEntryUtil
 	 */
 	@Override
@@ -443,15 +428,15 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * results in the deletion of the PWC and unlocking of the file entry.
 	 * </p>
 	 *
-	 * @param  fileEntryId the primary key of the file entry to cancel the
-	 *         checkout
-	 * @throws PortalException if the file entry could not be found
-	 * @see    #checkInFileEntry(long, boolean, String, ServiceContext)
-	 * @see    #checkOutFileEntry(long, ServiceContext)
+	 * @param fileEntryId the primary key of the file entry to cancel the
+	 *        checkout
+	 * @see   #checkInFileEntry(long, boolean, String, ServiceContext)
+	 * @see   #checkOutFileEntry(long, ServiceContext)
 	 */
 	@Override
 	public void cancelCheckOut(long fileEntryId) throws PortalException {
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
 
@@ -481,13 +466,12 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * results in the deletion of the PWC and unlocking of the file entry.
 	 * </p>
 	 *
-	 * @param  fileEntryId the primary key of the file entry to check in
-	 * @param  majorVersion whether the new file version is a major version
-	 * @param  changeLog the file's version change log
-	 * @param  serviceContext the service context to be applied
-	 * @throws PortalException if the file entry could not be found
-	 * @see    #cancelCheckOut(long)
-	 * @see    #checkOutFileEntry(long, ServiceContext)
+	 * @param fileEntryId the primary key of the file entry to check in
+	 * @param majorVersion whether the new file version is a major version
+	 * @param changeLog the file's version change log
+	 * @param serviceContext the service context to be applied
+	 * @see   #cancelCheckOut(long)
+	 * @see   #checkOutFileEntry(long, ServiceContext)
 	 */
 	@Override
 	public void checkInFileEntry(
@@ -495,7 +479,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		repository.checkInFileEntry(
 			getUserId(), fileEntryId, majorVersion, changeLog, serviceContext);
@@ -507,18 +492,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		dlAppHelperLocalService.updateFileEntry(
 			getUserId(), fileEntry, null, fileVersion,
 			fileVersion.getFileVersionId());
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #checkInFileEntry(long,
-	 *             String, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public void checkInFileEntry(long fileEntryId, String lockUuid)
-		throws PortalException {
-
-		checkInFileEntry(fileEntryId, lockUuid, new ServiceContext());
 	}
 
 	/**
@@ -537,19 +510,19 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * results in the deletion of the PWC and unlocking of the file entry.
 	 * </p>
 	 *
-	 * @param  fileEntryId the primary key of the file entry to check in
-	 * @param  lockUuid the lock's UUID
-	 * @param  serviceContext the service context to be applied
-	 * @throws PortalException if the file entry could not be found
-	 * @see    #cancelCheckOut(long)
-	 * @see    #checkOutFileEntry(long, String, long, ServiceContext)
+	 * @param fileEntryId the primary key of the file entry to check in
+	 * @param lockUuid the lock's UUID
+	 * @param serviceContext the service context to be applied
+	 * @see   #cancelCheckOut(long)
+	 * @see   #checkOutFileEntry(long, String, long, ServiceContext)
 	 */
 	@Override
 	public void checkInFileEntry(
 			long fileEntryId, String lockUuid, ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		repository.checkInFileEntry(
 			getUserId(), fileEntryId, lockUuid, serviceContext);
@@ -577,18 +550,18 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * results in the deletion of the PWC and unlocking of the file entry.
 	 * </p>
 	 *
-	 * @param  fileEntryId the file entry to check out
-	 * @param  serviceContext the service context to be applied
-	 * @throws PortalException if the file entry could not be found
-	 * @see    #cancelCheckOut(long)
-	 * @see    #checkInFileEntry(long, boolean, String, ServiceContext)
+	 * @param fileEntryId the file entry to check out
+	 * @param serviceContext the service context to be applied
+	 * @see   #cancelCheckOut(long)
+	 * @see   #checkInFileEntry(long, boolean, String, ServiceContext)
 	 */
 	@Override
 	public void checkOutFileEntry(
 			long fileEntryId, ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.checkOutFileEntry(
 			fileEntryId, serviceContext);
@@ -618,10 +591,9 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @param  expirationTime the time in milliseconds before the lock expires.
 	 *         If the value is <code>0</code>, the default expiration time will
-	 *         be used from <code>portal.properties>.
+	 *         be used from <code>portal.properties</code>.
 	 * @param  serviceContext the service context to be applied
 	 * @return the file entry
-	 * @throws PortalException if the file entry could not be found
 	 * @see    #cancelCheckOut(long)
 	 * @see    #checkInFileEntry(long, String)
 	 */
@@ -631,7 +603,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.checkOutFileEntry(
 			fileEntryId, owner, expirationTime, serviceContext);
@@ -654,8 +627,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  description the new folder's description
 	 * @param  serviceContext the service context to be applied
 	 * @return the folder
-	 * @throws PortalException if the source folder or the new parent folder
-	 *         could not be found or if the new folder's information was invalid
 	 */
 	@Override
 	public Folder copyFolder(
@@ -681,12 +652,12 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	/**
 	 * Deletes the file entry with the primary key.
 	 *
-	 * @param  fileEntryId the primary key of the file entry
-	 * @throws PortalException if the file entry could not be found
+	 * @param fileEntryId the primary key of the file entry
 	 */
 	@Override
 	public void deleteFileEntry(long fileEntryId) throws PortalException {
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
 
@@ -698,10 +669,9 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	/**
 	 * Deletes the file entry with the title in the folder.
 	 *
-	 * @param  repositoryId the primary key of the repository
-	 * @param  folderId the primary key of the file entry's parent folder
-	 * @param  title the file entry's title
-	 * @throws PortalException if the file entry could not be found
+	 * @param repositoryId the primary key of the repository
+	 * @param folderId the primary key of the file entry's parent folder
+	 * @param title the file entry's title
 	 */
 	@Override
 	public void deleteFileEntryByTitle(
@@ -721,12 +691,12 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Deletes the file shortcut with the primary key. This method is only
 	 * supported by the Liferay repository.
 	 *
-	 * @param  fileShortcutId the primary key of the file shortcut
-	 * @throws PortalException if the file shortcut could not be found
+	 * @param fileShortcutId the primary key of the file shortcut
 	 */
 	@Override
 	public void deleteFileShortcut(long fileShortcutId) throws PortalException {
-		Repository repository = getFileShortcutRepository(fileShortcutId);
+		Repository repository = repositoryProvider.getFileShortcutRepository(
+			fileShortcutId);
 
 		repository.deleteFileShortcut(fileShortcutId);
 	}
@@ -736,15 +706,15 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * approved and there are other approved file versions available. This
 	 * method is only supported by the Liferay repository.
 	 *
-	 * @param  fileEntryId the primary key of the file entry
-	 * @param  version the version label of the file version
-	 * @throws PortalException if the file version could not be found or invalid
+	 * @param fileEntryId the primary key of the file entry
+	 * @param version the version label of the file version
 	 */
 	@Override
 	public void deleteFileVersion(long fileEntryId, String version)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		repository.deleteFileVersion(fileEntryId, version);
 	}
@@ -753,12 +723,12 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Deletes the folder with the primary key and all of its subfolders and
 	 * file entries.
 	 *
-	 * @param  folderId the primary key of the folder
-	 * @throws PortalException if the folder could not be found
+	 * @param folderId the primary key of the folder
 	 */
 	@Override
 	public void deleteFolder(long folderId) throws PortalException {
-		Repository repository = getFolderRepository(folderId);
+		Repository repository = repositoryProvider.getFolderRepository(
+			folderId);
 
 		Folder folder = repository.getFolder(folderId);
 
@@ -790,10 +760,9 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Deletes the folder with the name in the parent folder and all of its
 	 * subfolders and file entries.
 	 *
-	 * @param  repositoryId the primary key of the repository
-	 * @param  parentFolderId the primary key of the folder's parent folder
-	 * @param  name the folder's name
-	 * @throws PortalException if the folder could not be found
+	 * @param repositoryId the primary key of the repository
+	 * @param parentFolderId the primary key of the folder's parent folder
+	 * @param name the folder's name
 	 */
 	@Override
 	public void deleteFolder(
@@ -822,13 +791,12 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	/**
 	 * Deletes the temporary file entry.
 	 *
-	 * @param  groupId the primary key of the group
-	 * @param  folderId the primary key of the folder where the file entry was
-	 *         eventually to reside
-	 * @param  folderName the temporary folder's name
-	 * @param  fileName the file's original name
-	 * @throws PortalException if the file name was invalid
-	 * @see    TempFileEntryUtil
+	 * @param groupId the primary key of the group
+	 * @param folderId the primary key of the folder where the file entry was
+	 *        eventually to reside
+	 * @param folderName the temporary folder's name
+	 * @param fileName the file's original name
+	 * @see   TempFileEntryUtil
 	 */
 	@Override
 	public void deleteTempFileEntry(
@@ -848,7 +816,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  repositoryId the primary key of the file entry's repository
 	 * @param  folderId the primary key of the file entry's folder
 	 * @return the file entries in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public List<FileEntry> getFileEntries(long repositoryId, long folderId)
@@ -875,7 +842,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  start the lower bound of the range of results
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the name-ordered range of file entries in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public List<FileEntry> getFileEntries(
@@ -907,7 +873,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of file entries in the folder ordered by comparator
 	 *         <code>obc</code>
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public List<FileEntry> getFileEntries(
@@ -927,7 +892,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  folderId the primary key of the file entry's folder
 	 * @param  fileEntryTypeId the primary key of the file entry type
 	 * @return the file entries with the file entry type in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public List<FileEntry> getFileEntries(
@@ -949,7 +913,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  start the lower bound of the range of results
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the name-ordered range of the file entries in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public List<FileEntry> getFileEntries(
@@ -975,7 +938,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of file entries with the file entry type in the folder
 	 *         ordered by <code>null</code>
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public List<FileEntry> getFileEntries(
@@ -1029,7 +991,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  start the lower bound of the range of results
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the range of file entries and shortcuts in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
@@ -1050,7 +1011,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  folderId the primary key of the folder
 	 * @param  status the workflow status
 	 * @return the number of file entries and shortcuts in the folder
-	 * @throws PortalException if the folder ould not be found
 	 */
 	@Override
 	public int getFileEntriesAndFileShortcutsCount(
@@ -1070,7 +1030,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  status the workflow status
 	 * @param  mimeTypes allowed media types
 	 * @return the number of file entries and shortcuts in the folder
-	 * @throws PortalException if the folder ould not be found
 	 */
 	@Override
 	public int getFileEntriesAndFileShortcutsCount(
@@ -1089,7 +1048,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  repositoryId the primary key of the file entry's repository
 	 * @param  folderId the primary key of the file entry's folder
 	 * @return the number of file entries in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public int getFileEntriesCount(long repositoryId, long folderId)
@@ -1108,7 +1066,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  folderId the primary key of the file entry's folder
 	 * @param  fileEntryTypeId the primary key of the file entry type
 	 * @return the number of file entries with the file entry type in the folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public int getFileEntriesCount(
@@ -1135,11 +1092,11 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *
 	 * @param  fileEntryId the primary key of the file entry
 	 * @return the file entry with the primary key
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public FileEntry getFileEntry(long fileEntryId) throws PortalException {
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		return repository.getFileEntry(fileEntryId);
 	}
@@ -1151,7 +1108,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  folderId the primary key of the file entry's folder
 	 * @param  title the file entry's title
 	 * @return the file entry with the title in the folder
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public FileEntry getFileEntry(long groupId, long folderId, String title)
@@ -1164,7 +1120,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		}
 		catch (NoSuchFileEntryException nsfee) {
 			if (folderId != DLFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
-				Repository repository = getFolderRepository(folderId);
+				Repository repository = repositoryProvider.getFolderRepository(
+					folderId);
 
 				return repository.getFileEntry(folderId, title);
 			}
@@ -1180,7 +1137,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  uuid the file entry's UUID
 	 * @param  groupId the primary key of the file entry's group
 	 * @return the file entry with the UUID and group
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public FileEntry getFileEntryByUuidAndGroupId(String uuid, long groupId)
@@ -1193,10 +1149,12 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			return fileEntry;
 		}
 
-		List<com.liferay.portal.model.Repository> repositories =
+		List<com.liferay.portal.kernel.model.Repository> repositories =
 			repositoryPersistence.findByGroupId(groupId);
 
-		for (com.liferay.portal.model.Repository repository : repositories) {
+		for (com.liferay.portal.kernel.model.Repository repository :
+				repositories) {
+
 			fileEntry = fetchFileEntryByUuidAndRepositoryId(
 				uuid, repository.getRepositoryId());
 
@@ -1223,13 +1181,13 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *
 	 * @param  fileShortcutId the primary key of the file shortcut
 	 * @return the file shortcut with the primary key
-	 * @throws PortalException if the file shortcut could not be found
 	 */
 	@Override
 	public FileShortcut getFileShortcut(long fileShortcutId)
 		throws PortalException {
 
-		Repository repository = getFileShortcutRepository(fileShortcutId);
+		Repository repository = repositoryProvider.getFileShortcutRepository(
+			fileShortcutId);
 
 		return repository.getFileShortcut(fileShortcutId);
 	}
@@ -1239,13 +1197,13 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *
 	 * @param  fileVersionId the primary key of the file version
 	 * @return the file version with the primary key
-	 * @throws PortalException if the file version could not be found
 	 */
 	@Override
 	public FileVersion getFileVersion(long fileVersionId)
 		throws PortalException {
 
-		Repository repository = getFileVersionRepository(fileVersionId);
+		Repository repository = repositoryProvider.getFileVersionRepository(
+			fileVersionId);
 
 		return repository.getFileVersion(fileVersionId);
 	}
@@ -1255,11 +1213,11 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *
 	 * @param  folderId the primary key of the folder
 	 * @return the folder with the primary key
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public Folder getFolder(long folderId) throws PortalException {
-		Repository repository = getFolderRepository(folderId);
+		Repository repository = repositoryProvider.getFolderRepository(
+			folderId);
 
 		return repository.getFolder(folderId);
 	}
@@ -1271,7 +1229,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  parentFolderId the primary key of the folder's parent folder
 	 * @param  name the folder's name
 	 * @return the folder with the name in the parent folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public Folder getFolder(long repositoryId, long parentFolderId, String name)
@@ -1288,7 +1245,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  repositoryId the primary key of the folder's repository
 	 * @param  parentFolderId the primary key of the folder's parent folder
 	 * @return the immediate subfolders of the parent folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(long repositoryId, long parentFolderId)
@@ -1307,7 +1263,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  includeMountFolders whether to include mount folders for
 	 *         third-party repositories
 	 * @return the immediate subfolders of the parent folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(
@@ -1341,7 +1296,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the name-ordered range of immediate subfolders of the parent
 	 *         folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(
@@ -1377,7 +1331,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of immediate subfolders of the parent folder ordered by
 	 *         comparator <code>obc</code>
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(
@@ -1415,7 +1368,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of immediate subfolders of the parent folder ordered by
 	 *         comparator <code>obc</code>
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(
@@ -1449,7 +1401,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the name-ordered range of immediate subfolders of the parent
 	 *         folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(
@@ -1482,7 +1433,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of immediate subfolders of the parent folder ordered by
 	 *         comparator <code>obc</code>
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Folder> getFolders(
@@ -1517,7 +1467,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the name-ordered range of immediate subfolders, file entries, and
 	 *         file shortcuts in the parent folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Object> getFoldersAndFileEntriesAndFileShortcuts(
@@ -1555,7 +1504,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @return the range of immediate subfolders, file entries, and file
 	 *         shortcuts in the parent folder ordered by comparator
 	 *         <code>obc</code>
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public List<Object> getFoldersAndFileEntriesAndFileShortcuts(
@@ -1594,7 +1542,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         third-party repositories
 	 * @return the number of immediate subfolders, file entries, and file
 	 *         shortcuts in the parent folder
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public int getFoldersAndFileEntriesAndFileShortcutsCount(
@@ -1624,7 +1571,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  repositoryId the primary key of the folder's repository
 	 * @param  parentFolderId the primary key of the folder's parent folder
 	 * @return the number of immediate subfolders of the parent folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public int getFoldersCount(long repositoryId, long parentFolderId)
@@ -1642,7 +1588,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  includeMountFolders whether to include mount folders for
 	 *         third-party repositories
 	 * @return the number of immediate subfolders of the parent folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public int getFoldersCount(
@@ -1664,7 +1609,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  includeMountFolders whether to include mount folders for
 	 *         third-party repositories
 	 * @return the number of immediate subfolders of the parent folder
-	 * @throws PortalException if the parent folder could not be found
 	 */
 	@Override
 	public int getFoldersCount(
@@ -1688,7 +1632,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  status the workflow status
 	 * @return the number of immediate subfolders and file entries across the
 	 *         folders
-	 * @throws PortalException if the repository could not be found
 	 */
 	@Override
 	public int getFoldersFileEntriesCount(
@@ -1722,7 +1665,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  start the lower bound of the range of results
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the range of matching file entries ordered by date modified
-	 * @throws PortalException if the group could not be found
 	 */
 	@Override
 	public List<FileEntry> getGroupFileEntries(
@@ -1758,7 +1700,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of matching file entries ordered by comparator
 	 *         <code>obc</code>
-	 * @throws PortalException if the group could not be found
 	 */
 	@Override
 	public List<FileEntry> getGroupFileEntries(
@@ -1794,7 +1735,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  start the lower bound of the range of results
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the range of matching file entries ordered by date modified
-	 * @throws PortalException if the group could not be found
 	 */
 	@Override
 	public List<FileEntry> getGroupFileEntries(
@@ -1832,7 +1772,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>null</code>)
 	 * @return the range of matching file entries ordered by comparator
 	 *         <code>obc</code>
-	 * @throws PortalException if the group could not be found
 	 */
 	@Override
 	public List<FileEntry> getGroupFileEntries(
@@ -1868,7 +1807,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  userId the primary key of the user who created the file
 	 *         (optionally <code>0</code>)
 	 * @return the number of matching file entries
-	 * @throws PortalException if the group could not be found
 	 */
 	@Override
 	public int getGroupFileEntriesCount(long groupId, long userId)
@@ -1890,7 +1828,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  rootFolderId the primary key of the root folder to begin the
 	 *         search
 	 * @return the number of matching file entries
-	 * @throws PortalException if the group could not be found
 	 */
 	@Override
 	public int getGroupFileEntriesCount(
@@ -1923,8 +1860,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  parentFolderId the primary key of the folder's parent folder
 	 * @return the immediate subfolders of the parent folder that are used for
 	 *         mounting third-party repositories
-	 * @throws PortalException if the repository or parent folder could not be
-	 *         found
 	 */
 	@Override
 	public List<Folder> getMountFolders(long repositoryId, long parentFolderId)
@@ -1954,8 +1889,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  end the upper bound of the range of results (not inclusive)
 	 * @return the name-ordered range of immediate subfolders of the parent
 	 *         folder that are used for mounting third-party repositories
-	 * @throws PortalException if the repository or parent folder could not be
-	 *         found
 	 */
 	@Override
 	public List<Folder> getMountFolders(
@@ -1990,8 +1923,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @return the range of immediate subfolders of the parent folder that are
 	 *         used for mounting third-party repositories ordered by comparator
 	 *         <code>obc</code>
-	 * @throws PortalException if the repository or parent folder could not be
-	 *         found
 	 */
 	@Override
 	public List<Folder> getMountFolders(
@@ -2013,8 +1944,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  parentFolderId the primary key of the parent folder
 	 * @return the number of folders of the parent folder that are used for
 	 *         mounting third-party repositories
-	 * @throws PortalException if the repository or parent folder could not be
-	 *         found
 	 */
 	@Override
 	public int getMountFoldersCount(long repositoryId, long parentFolderId)
@@ -2041,8 +1970,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  repositoryId the primary key of the repository
 	 * @param  folderId the primary key of the folder
 	 * @return the descendant folders of the folder with the primary key
-	 * @throws PortalException if the repository or parent folder could not be
-	 *         found
 	 */
 	@Override
 	public List<Long> getSubfolderIds(long repositoryId, long folderId)
@@ -2059,8 +1986,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  folderId the primary key of the folder
 	 * @param  recurse whether to recurse through each subfolder
 	 * @return the descendant folders of the folder with the primary key
-	 * @throws PortalException if the repository or parent folder could not be
-	 *         found
 	 */
 	@Override
 	public List<Long> getSubfolderIds(
@@ -2080,7 +2005,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         eventually reside
 	 * @param  folderName the temporary folder's name
 	 * @return the temporary file entry names
-	 * @throws PortalException if the folder was invalid
 	 * @see    #addTempFileEntry(long, long, String, String, File, String)
 	 * @see    TempFileEntryUtil
 	 */
@@ -2102,7 +2026,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  repositoryId the primary key of the repository
 	 * @param  folderId the primary key of the folder
 	 * @return the lock object
-	 * @throws PortalException if the repository or folder could not be found
 	 */
 	@Override
 	public Lock lockFolder(long repositoryId, long folderId)
@@ -2123,9 +2046,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  inheritable whether the lock must propagate to descendants
 	 * @param  expirationTime the time in milliseconds before the lock expires.
 	 *         If the value is <code>0</code>, the default expiration time will
-	 *         be used from <code>portal.properties>.
+	 *         be used from <code>portal.properties</code>.
 	 * @return the lock object
-	 * @throws PortalException if the repository or folder could not be found
 	 */
 	@Override
 	public Lock lockFolder(
@@ -2146,15 +2068,14 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  newFolderId the primary key of the new folder
 	 * @param  serviceContext the service context to be applied
 	 * @return the file entry
-	 * @throws PortalException if the file entry or the new folder could not be
-	 *         found
 	 */
 	@Override
 	public FileEntry moveFileEntry(
 			long fileEntryId, long newFolderId, ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository fromRepository = getFileEntryRepository(fileEntryId);
+		Repository fromRepository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 		Repository toRepository = getFolderRepository(
 			newFolderId, serviceContext.getScopeGroupId());
 
@@ -2177,114 +2098,9 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 
 		// Move file entries between repositories
 
-		return moveFileEntries(
+		return moveFileEntry(
 			fileEntryId, newFolderId, fromRepository, toRepository,
 			serviceContext);
-	}
-
-	/**
-	 * Moves the file entry from a trashed folder to the new folder.
-	 *
-	 * @param  fileEntryId the primary key of the file entry
-	 * @param  newFolderId the primary key of the new folder
-	 * @param  serviceContext the service context to be applied
-	 * @return the file entry
-	 * @throws PortalException if the file entry or the new folder could not be
-	 *         found
-	 */
-	@Override
-	public FileEntry moveFileEntryFromTrash(
-			long fileEntryId, long newFolderId, ServiceContext serviceContext)
-		throws PortalException {
-
-		Repository repository = getFileEntryRepository(fileEntryId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
-
-		DLFileEntryPermission.check(
-			getPermissionChecker(), fileEntry, ActionKeys.UPDATE);
-
-		Folder destinationFolder = repository.getFolder(newFolderId);
-
-		return trashCapability.moveFileEntryFromTrash(
-			getUserId(), fileEntry, destinationFolder, serviceContext);
-	}
-
-	/**
-	 * Moves the file entry with the primary key to the trash portlet.
-	 *
-	 * @param  fileEntryId the primary key of the file entry
-	 * @return the file entry
-	 * @throws PortalException if the file entry could not be found
-	 */
-	@Override
-	public FileEntry moveFileEntryToTrash(long fileEntryId)
-		throws PortalException {
-
-		Repository repository = getFileEntryRepository(fileEntryId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
-
-		DLFileEntryPermission.check(
-			getPermissionChecker(), fileEntry, ActionKeys.DELETE);
-
-		return trashCapability.moveFileEntryToTrash(getUserId(), fileEntry);
-	}
-
-	/**
-	 * Moves the file shortcut from a trashed folder to the new folder.
-	 *
-	 * @param  fileShortcutId the primary key of the file shortcut
-	 * @param  newFolderId the primary key of the new folder
-	 * @param  serviceContext the service context to be applied
-	 * @return the file shortcut
-	 * @throws PortalException if the file entry or the new folder could not be
-	 *         found
-	 */
-	@Override
-	public FileShortcut moveFileShortcutFromTrash(
-			long fileShortcutId, long newFolderId,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		FileShortcut fileShortcut = getFileShortcut(fileShortcutId);
-
-		DLFileShortcutPermission.check(
-			getPermissionChecker(), fileShortcut, ActionKeys.UPDATE);
-
-		return dlAppHelperLocalService.moveFileShortcutFromTrash(
-			getUserId(), fileShortcut, newFolderId, serviceContext);
-	}
-
-	/**
-	 * Moves the file shortcut with the primary key to the trash portlet.
-	 *
-	 * @param  fileShortcutId the primary key of the file shortcut
-	 * @return the file shortcut
-	 * @throws PortalException if the file shortcut could not be found
-	 */
-	@Override
-	public FileShortcut moveFileShortcutToTrash(long fileShortcutId)
-		throws PortalException {
-
-		Repository repository = getFileShortcutRepository(fileShortcutId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		FileShortcut fileShortcut = repository.getFileShortcut(fileShortcutId);
-
-		DLFileShortcutPermission.check(
-			getPermissionChecker(), fileShortcut, ActionKeys.DELETE);
-
-		return trashCapability.moveFileShortcutToTrash(
-			getUserId(), fileShortcut);
 	}
 
 	/**
@@ -2294,14 +2110,14 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  parentFolderId the primary key of the new parent folder
 	 * @param  serviceContext the service context to be applied
 	 * @return the file entry
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public Folder moveFolder(
 			long folderId, long parentFolderId, ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository fromRepository = getFolderRepository(folderId);
+		Repository fromRepository = repositoryProvider.getFolderRepository(
+			folderId);
 		Repository toRepository = getFolderRepository(
 			parentFolderId, serviceContext.getScopeGroupId());
 
@@ -2324,66 +2140,9 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 
 		// Move file entries between repositories
 
-		return moveFolders(
+		return moveFolder(
 			folderId, parentFolderId, fromRepository, toRepository,
 			serviceContext);
-	}
-
-	/**
-	 * Moves the folder with the primary key from the trash portlet to the new
-	 * parent folder with the primary key.
-	 *
-	 * @param  folderId the primary key of the folder
-	 * @param  parentFolderId the primary key of the new parent folder
-	 * @param  serviceContext the service context to be applied
-	 * @return the file entry
-	 * @throws PortalException if the folder could not be found
-	 */
-	@Override
-	public Folder moveFolderFromTrash(
-			long folderId, long parentFolderId, ServiceContext serviceContext)
-		throws PortalException {
-
-		Repository repository = getFolderRepository(folderId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		Folder folder = repository.getFolder(folderId);
-
-		DLFolderPermission.check(
-			getPermissionChecker(), folder, ActionKeys.UPDATE);
-
-		Folder destinationFolder = null;
-
-		if (parentFolderId != DLFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
-			destinationFolder = repository.getFolder(parentFolderId);
-		}
-
-		return trashCapability.moveFolderFromTrash(
-			getUserId(), folder, destinationFolder, serviceContext);
-	}
-
-	/**
-	 * Moves the folder with the primary key to the trash portlet.
-	 *
-	 * @param  folderId the primary key of the folder
-	 * @return the file entry
-	 * @throws PortalException if the folder could not be found
-	 */
-	@Override
-	public Folder moveFolderToTrash(long folderId) throws PortalException {
-		Repository repository = getFolderRepository(folderId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		Folder folder = repository.getFolder(folderId);
-
-		DLFolderPermission.check(
-			getPermissionChecker(), folder, ActionKeys.DELETE);
-
-		return trashCapability.moveFolderToTrash(getUserId(), folder);
 	}
 
 	/**
@@ -2394,9 +2153,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  companyId the primary key of the file entry's company
 	 * @param  expirationTime the time in milliseconds before the lock expires.
 	 *         If the value is <code>0</code>, the default expiration time will
-	 *         be used from <code>portal.properties>.
+	 *         be used from <code>portal.properties</code>.
 	 * @return the lock object
-	 * @throws PortalException if the file entry or lock could not be found
 	 */
 	@Override
 	public Lock refreshFileEntryLock(
@@ -2408,7 +2166,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 
 		long fileEntryId = GetterUtil.getLong(lock.getKey());
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		return repository.refreshFileEntryLock(
 			lockUuid, companyId, expirationTime);
@@ -2422,9 +2181,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  companyId the primary key of the file entry's company
 	 * @param  expirationTime the time in milliseconds before the lock expires.
 	 *         If the value is <code>0</code>, the default expiration time will
-	 *         be used from <code>portal.properties>.
+	 *         be used from <code>portal.properties</code>.
 	 * @return the lock object
-	 * @throws PortalException if the folder or lock could not be found
 	 */
 	@Override
 	public Lock refreshFolderLock(
@@ -2436,90 +2194,28 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 
 		long folderId = GetterUtil.getLong(lock.getKey());
 
-		Repository repository = getFolderRepository(folderId);
+		Repository repository = repositoryProvider.getFolderRepository(
+			folderId);
 
 		return repository.refreshFolderLock(
 			lockUuid, companyId, expirationTime);
 	}
 
 	/**
-	 * Restores the file entry with the primary key from the trash portlet.
-	 *
-	 * @param  fileEntryId the primary key of the file entry
-	 * @throws PortalException if the file entry could not be found
-	 */
-	@Override
-	public void restoreFileEntryFromTrash(long fileEntryId)
-		throws PortalException {
-
-		Repository repository = getFileEntryRepository(fileEntryId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		FileEntry fileEntry = repository.getFileEntry(fileEntryId);
-
-		DLFileEntryPermission.check(
-			getPermissionChecker(), fileEntry, ActionKeys.DELETE);
-
-		trashCapability.restoreFileEntryFromTrash(getUserId(), fileEntry);
-	}
-
-	/**
-	 * Restores the file shortcut with the primary key from the trash portlet.
-	 *
-	 * @param  fileShortcutId the primary key of the file shortcut
-	 * @throws PortalException if the file shortcut could not be found
-	 */
-	@Override
-	public void restoreFileShortcutFromTrash(long fileShortcutId)
-		throws PortalException {
-
-		FileShortcut fileShortcut = getFileShortcut(fileShortcutId);
-
-		DLFileShortcutPermission.check(
-			getPermissionChecker(), fileShortcut, ActionKeys.DELETE);
-
-		dlAppHelperLocalService.restoreFileShortcutFromTrash(
-			getUserId(), fileShortcut);
-	}
-
-	/**
-	 * Restores the folder with the primary key from the trash portlet.
-	 *
-	 * @param  folderId the primary key of the folder
-	 * @throws PortalException if the folder could not be found
-	 */
-	@Override
-	public void restoreFolderFromTrash(long folderId) throws PortalException {
-		Repository repository = getFolderRepository(folderId);
-
-		TrashCapability trashCapability = repository.getCapability(
-			TrashCapability.class);
-
-		Folder folder = repository.getFolder(folderId);
-
-		DLFolderPermission.check(
-			getPermissionChecker(), folder, ActionKeys.DELETE);
-
-		trashCapability.restoreFolderFromTrash(getUserId(), folder);
-	}
-
-	/**
 	 * Reverts the file entry to a previous version. A new version will be
 	 * created based on the previous version and metadata.
 	 *
-	 * @param  fileEntryId the primary key of the file entry
-	 * @param  version the version to revert back to
-	 * @param  serviceContext the service context to be applied
-	 * @throws PortalException if the file entry or version could not be found
+	 * @param fileEntryId the primary key of the file entry
+	 * @param version the version to revert back to
+	 * @param serviceContext the service context to be applied
 	 */
 	@Override
 	public void revertFileEntry(
 			long fileEntryId, String version, ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		repository.revertFileEntry(
 			getUserId(), fileEntryId, version, serviceContext);
@@ -2561,6 +2257,11 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		try {
 			Repository repository = getRepository(repositoryId);
 
+			PermissionChecker permissionChecker = getPermissionChecker();
+
+			searchContext.setCompanyId(permissionChecker.getCompanyId());
+			searchContext.setUserId(permissionChecker.getUserId());
+
 			return repository.search(searchContext);
 		}
 		catch (Exception e) {
@@ -2576,6 +2277,11 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		try {
 			Repository repository = getRepository(repositoryId);
 
+			PermissionChecker permissionChecker = getPermissionChecker();
+
+			searchContext.setCompanyId(permissionChecker.getCompanyId());
+			searchContext.setUserId(permissionChecker.getUserId());
+
 			return repository.search(searchContext, query);
 		}
 		catch (Exception e) {
@@ -2587,10 +2293,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Subscribe the user to changes in documents of the file entry type. This
 	 * method is only supported by the Liferay repository.
 	 *
-	 * @param  groupId the primary key of the file entry type's group
-	 * @param  fileEntryTypeId the primary key of the file entry type
-	 * @throws PortalException if the user or group could not be found, or if
-	 *         subscribing was not permissible
+	 * @param groupId the primary key of the file entry type's group
+	 * @param fileEntryTypeId the primary key of the file entry type
 	 */
 	@Override
 	public void subscribeFileEntryType(long groupId, long fileEntryTypeId)
@@ -2607,10 +2311,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Subscribe the user to document changes in the folder. This method is only
 	 * supported by the Liferay repository.
 	 *
-	 * @param  groupId the primary key of the folder's group
-	 * @param  folderId the primary key of the folder
-	 * @throws PortalException if the user or group could not be found, or if
-	 *         subscribing was not permissible
+	 * @param groupId the primary key of the folder's group
+	 * @param folderId the primary key of the folder
 	 */
 	@Override
 	public void subscribeFolder(long groupId, long folderId)
@@ -2623,35 +2325,11 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	}
 
 	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #checkInFileEntry(long,
-	 *             boolean, String, ServiceContext)}.
-	 */
-	@Deprecated
-	@Override
-	public void unlockFileEntry(long fileEntryId) throws PortalException {
-		checkInFileEntry(
-			fileEntryId, false, StringPool.BLANK, new ServiceContext());
-	}
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #checkInFileEntry(long,
-	 *             String)}.
-	 */
-	@Deprecated
-	@Override
-	public void unlockFileEntry(long fileEntryId, String lockUuid)
-		throws PortalException {
-
-		checkInFileEntry(fileEntryId, lockUuid);
-	}
-
-	/**
 	 * Unlocks the folder. This method is primarily used by WebDAV.
 	 *
-	 * @param  repositoryId the primary key of the repository
-	 * @param  folderId the primary key of the folder
-	 * @param  lockUuid the lock's UUID
-	 * @throws PortalException if the repository or folder could not be found
+	 * @param repositoryId the primary key of the repository
+	 * @param folderId the primary key of the folder
+	 * @param lockUuid the lock's UUID
 	 */
 	@Override
 	public void unlockFolder(long repositoryId, long folderId, String lockUuid)
@@ -2665,11 +2343,10 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	/**
 	 * Unlocks the folder. This method is primarily used by WebDAV.
 	 *
-	 * @param  repositoryId the primary key of the repository
-	 * @param  parentFolderId the primary key of the parent folder
-	 * @param  name the folder's name
-	 * @param  lockUuid the lock's UUID
-	 * @throws PortalException if the repository or folder could not be found
+	 * @param repositoryId the primary key of the repository
+	 * @param parentFolderId the primary key of the parent folder
+	 * @param name the folder's name
+	 * @param lockUuid the lock's UUID
 	 */
 	@Override
 	public void unlockFolder(
@@ -2686,10 +2363,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Unsubscribe the user from changes in documents of the file entry type.
 	 * This method is only supported by the Liferay repository.
 	 *
-	 * @param  groupId the primary key of the file entry type's group
-	 * @param  fileEntryTypeId the primary key of the file entry type
-	 * @throws PortalException if the user or group could not be found, or if
-	 *         unsubscribing was not permissible
+	 * @param groupId the primary key of the file entry type's group
+	 * @param fileEntryTypeId the primary key of the file entry type
 	 */
 	@Override
 	public void unsubscribeFileEntryType(long groupId, long fileEntryTypeId)
@@ -2706,10 +2381,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * Unsubscribe the user from document changes in the folder. This method is
 	 * only supported by the Liferay repository.
 	 *
-	 * @param  groupId the primary key of the folder's group
-	 * @param  folderId the primary key of the folder
-	 * @throws PortalException if the user or group could not be found, or if
-	 *         unsubscribing was not permissible
+	 * @param groupId the primary key of the folder's group
+	 * @param folderId the primary key of the folder
 	 */
 	@Override
 	public void unsubscribeFolder(long groupId, long folderId)
@@ -2753,7 +2426,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         type </li> <li> fieldsMap - mapping for fields associated with a
 	 *         custom file entry type </li> </ul>
 	 * @return the file entry
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public FileEntry updateFileEntry(
@@ -2813,7 +2485,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         type </li> <li> fieldsMap - mapping for fields associated with a
 	 *         custom file entry type </li> </ul>
 	 * @return the file entry
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public FileEntry updateFileEntry(
@@ -2830,14 +2501,15 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 
 		mimeType = DLAppUtil.getMimeType(sourceFileName, mimeType, title, file);
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.updateFileEntry(
 			getUserId(), fileEntryId, sourceFileName, mimeType, title,
 			description, changeLog, majorVersion, file, serviceContext);
 
 		dlAppHelperLocalService.updateFileEntry(
-			getUserId(), fileEntry, null, fileEntry.getFileVersion(),
+			getUserId(), fileEntry, null, fileEntry.getLatestFileVersion(),
 			serviceContext);
 
 		return fileEntry;
@@ -2876,7 +2548,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         type </li> <li> fieldsMap - mapping for fields associated with a
 	 *         custom file entry type </li> </ul>
 	 * @return the file entry
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public FileEntry updateFileEntry(
@@ -2915,14 +2586,15 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			}
 		}
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.updateFileEntry(
 			getUserId(), fileEntryId, sourceFileName, mimeType, title,
 			description, changeLog, majorVersion, is, size, serviceContext);
 
 		dlAppHelperLocalService.updateFileEntry(
-			getUserId(), fileEntry, null, fileEntry.getFileVersion(),
+			getUserId(), fileEntry, null, fileEntry.getLatestFileVersion(),
 			serviceContext);
 
 		return fileEntry;
@@ -2941,7 +2613,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 				changeLog, majorVersion, null, 0, serviceContext);
 		}
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.updateFileEntry(
 			getUserId(), fileEntryId, sourceFileName, mimeType, title,
@@ -2965,7 +2638,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileEntryRepository(fileEntryId);
+		Repository repository = repositoryProvider.getFileEntryRepository(
+			fileEntryId);
 
 		FileEntry fileEntry = repository.updateFileEntry(
 			getUserId(), fileEntryId, sourceFileName, mimeType, title,
@@ -2992,8 +2666,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         asset category IDs, asset tag names, and expando bridge
 	 *         attributes for the file entry.
 	 * @return the file shortcut
-	 * @throws PortalException if the file shortcut, folder, or file entry could
-	 *         not be found
 	 */
 	@Override
 	public FileShortcut updateFileShortcut(
@@ -3001,7 +2673,8 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			ServiceContext serviceContext)
 		throws PortalException {
 
-		Repository repository = getFileShortcutRepository(fileShortcutId);
+		Repository repository = repositoryProvider.getFileShortcutRepository(
+			fileShortcutId);
 
 		return repository.updateFileShortcut(
 			getUserId(), fileShortcutId, folderId, toFileEntryId,
@@ -3027,8 +2700,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 *         <code>fileEntryTypeId</code> (optionally <code>0</code>).</li>
 	 *         </ul>
 	 * @return the folder
-	 * @throws PortalException if the current or new parent folder could not be
-	 *         found or if the new parent folder's information was invalid
 	 */
 	@Override
 	public Folder updateFolder(
@@ -3059,7 +2730,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  lockUuid the lock's UUID
 	 * @return <code>true</code> if the file entry is checked out;
 	 *         <code>false</code> otherwise
-	 * @throws PortalException if the file entry could not be found
 	 */
 	@Override
 	public boolean verifyFileEntryCheckOut(
@@ -3090,7 +2760,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 	 * @param  lockUuid the lock's UUID
 	 * @return <code>true</code> if the inheritable lock exists;
 	 *         <code>false</code> otherwise
-	 * @throws PortalException if the folder could not be found
 	 */
 	@Override
 	public boolean verifyInheritableLock(
@@ -3113,8 +2782,10 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		FileVersion latestFileVersion = fileVersions.get(
 			fileVersions.size() - 1);
 
+		String sourceFileName = DLAppUtil.getSourceFileName(latestFileVersion);
+
 		FileEntry destinationFileEntry = toRepository.addFileEntry(
-			getUserId(), newFolderId, fileEntry.getTitle(),
+			getUserId(), newFolderId, sourceFileName,
 			latestFileVersion.getMimeType(), latestFileVersion.getTitle(),
 			latestFileVersion.getDescription(), StringPool.BLANK,
 			latestFileVersion.getContentStream(false),
@@ -3123,12 +2794,14 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		for (int i = fileVersions.size() - 2; i >= 0; i--) {
 			FileVersion fileVersion = fileVersions.get(i);
 
+			sourceFileName = DLAppUtil.getSourceFileName(fileVersion);
+
 			FileVersion previousFileVersion = fileVersions.get(i + 1);
 
 			try {
 				destinationFileEntry = toRepository.updateFileEntry(
 					getUserId(), destinationFileEntry.getFileEntryId(),
-					fileVersion.getTitle(), fileVersion.getMimeType(),
+					sourceFileName, fileVersion.getMimeType(),
 					fileVersion.getTitle(), fileVersion.getDescription(),
 					StringPool.BLANK,
 					DLAppUtil.isMajorVersion(previousFileVersion, fileVersion),
@@ -3151,6 +2824,38 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		}
 
 		return destinationFileEntry;
+	}
+
+	protected Folder copyFolder(
+			long folderId, long parentFolderId, Repository fromRepository,
+			Repository toRepository, ServiceContext serviceContext)
+		throws PortalException {
+
+		Folder newFolder = null;
+
+		try {
+			Folder folder = fromRepository.getFolder(folderId);
+
+			newFolder = toRepository.addFolder(
+				getUserId(), parentFolderId, folder.getName(),
+				folder.getDescription(), serviceContext);
+
+			dlAppHelperLocalService.addFolder(
+				getUserId(), newFolder, serviceContext);
+
+			copyFolderDependencies(
+				folder, newFolder, fromRepository, toRepository,
+				serviceContext);
+
+			return newFolder;
+		}
+		catch (PortalException pe) {
+			if (newFolder != null) {
+				toRepository.deleteFolder(newFolder.getFolderId());
+			}
+
+			throw pe;
+		}
 	}
 
 	protected void copyFolder(
@@ -3225,6 +2930,52 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			});
 	}
 
+	protected void copyFolderDependencies(
+			Folder sourceFolder, Folder destinationFolder,
+			Repository fromRepository, Repository toRepository,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		List<RepositoryEntry> repositoryEntries =
+			fromRepository.getFoldersAndFileEntriesAndFileShortcuts(
+				sourceFolder.getFolderId(), WorkflowConstants.STATUS_ANY, true,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		for (RepositoryEntry repositoryEntry : repositoryEntries) {
+			if (repositoryEntry instanceof FileEntry) {
+				FileEntry fileEntry = (FileEntry)repositoryEntry;
+
+				copyFileEntry(
+					toRepository, fileEntry, destinationFolder.getFolderId(),
+					serviceContext);
+			}
+			else if (repositoryEntry instanceof FileShortcut) {
+				if (destinationFolder.isSupportsShortcuts()) {
+					FileShortcut fileShortcut = (FileShortcut)repositoryEntry;
+
+					toRepository.addFileShortcut(
+						getUserId(), destinationFolder.getFolderId(),
+						fileShortcut.getToFileEntryId(), serviceContext);
+				}
+			}
+			else if (repositoryEntry instanceof Folder) {
+				Folder currentFolder = (Folder)repositoryEntry;
+
+				Folder newFolder = toRepository.addFolder(
+					getUserId(), destinationFolder.getFolderId(),
+					currentFolder.getName(), currentFolder.getDescription(),
+					serviceContext);
+
+				dlAppHelperLocalService.addFolder(
+					getUserId(), newFolder, serviceContext);
+
+				copyFolderDependencies(
+					currentFolder, newFolder, fromRepository, toRepository,
+					serviceContext);
+			}
+		}
+	}
+
 	protected void deleteFileEntry(
 			long oldFileEntryId, long newFileEntryId, Repository fromRepository,
 			Repository toRepository)
@@ -3269,76 +3020,6 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		}
 	}
 
-	protected Repository getFileEntryRepository(long fileEntryId)
-		throws PortalException {
-
-		try {
-			return RepositoryProviderUtil.getFileEntryRepository(fileEntryId);
-		}
-		catch (InvalidRepositoryIdException irie) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append("No FileEntry exists with the key {fileEntryId=");
-			sb.append(fileEntryId);
-			sb.append("}");
-
-			throw new NoSuchFileEntryException(sb.toString(), irie);
-		}
-	}
-
-	protected Repository getFileShortcutRepository(long fileShortcutId)
-		throws PortalException {
-
-		try {
-			return RepositoryProviderUtil.getFileShortcutRepository(
-				fileShortcutId);
-		}
-		catch (InvalidRepositoryIdException irie) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append("No FileShortcut exists with the key {fileShortcutId=");
-			sb.append(fileShortcutId);
-			sb.append("}");
-
-			throw new NoSuchFileShortcutException(sb.toString(), irie);
-		}
-	}
-
-	protected Repository getFileVersionRepository(long fileVersionId)
-		throws PortalException {
-
-		try {
-			return RepositoryProviderUtil.getFileVersionRepository(
-				fileVersionId);
-		}
-		catch (InvalidRepositoryIdException irie) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append("No FileVersion exists with the key {fileVersionId=");
-			sb.append(fileVersionId);
-			sb.append("}");
-
-			throw new NoSuchFileVersionException(sb.toString(), irie);
-		}
-	}
-
-	protected Repository getFolderRepository(long folderId)
-		throws PortalException {
-
-		try {
-			return RepositoryProviderUtil.getFolderRepository(folderId);
-		}
-		catch (InvalidRepositoryIdException irie) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append("No Folder exists with the key {folderId=");
-			sb.append(folderId);
-			sb.append("}");
-
-			throw new NoSuchFolderException(sb.toString(), irie);
-		}
-	}
-
 	protected Repository getFolderRepository(long folderId, long groupId)
 		throws PortalException {
 
@@ -3346,14 +3027,14 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 			return getRepository(groupId);
 		}
 
-		return getFolderRepository(folderId);
+		return repositoryProvider.getFolderRepository(folderId);
 	}
 
 	protected Repository getRepository(long repositoryId)
 		throws PortalException {
 
 		try {
-			return RepositoryProviderUtil.getRepository(repositoryId);
+			return repositoryProvider.getRepository(repositoryId);
 		}
 		catch (InvalidRepositoryIdException irie) {
 			StringBundler sb = new StringBundler(3);
@@ -3366,12 +3047,16 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		}
 	}
 
-	protected FileEntry moveFileEntries(
+	protected FileEntry moveFileEntry(
 			long fileEntryId, long newFolderId, Repository fromRepository,
 			Repository toRepository, ServiceContext serviceContext)
 		throws PortalException {
 
 		FileEntry sourceFileEntry = fromRepository.getFileEntry(fileEntryId);
+
+		if (sourceFileEntry.isCheckedOut()) {
+			throw new FileEntryLockException.MustBeUnlocked();
+		}
 
 		FileEntry destinationFileEntry = copyFileEntry(
 			toRepository, sourceFileEntry, newFolderId, serviceContext);
@@ -3383,70 +3068,22 @@ public class DLAppServiceImpl extends DLAppServiceBaseImpl {
 		return destinationFileEntry;
 	}
 
-	protected Folder moveFolders(
+	protected Folder moveFolder(
 			long folderId, long parentFolderId, Repository fromRepository,
 			Repository toRepository, ServiceContext serviceContext)
 		throws PortalException {
 
-		Folder folder = fromRepository.getFolder(folderId);
+		Folder newFolder = copyFolder(
+			folderId, parentFolderId, fromRepository, toRepository,
+			serviceContext);
 
-		Folder newFolder = toRepository.addFolder(
-			getUserId(), parentFolderId, folder.getName(),
-			folder.getDescription(), serviceContext);
-
-		dlAppHelperLocalService.addFolder(
-			getUserId(), newFolder, serviceContext);
-
-		List<RepositoryEntry> repositoryEntries =
-			fromRepository.getFoldersAndFileEntriesAndFileShortcuts(
-				folderId, WorkflowConstants.STATUS_ANY, true, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null);
-
-		try {
-			for (RepositoryEntry repositoryEntry : repositoryEntries) {
-				if (repositoryEntry instanceof FileEntry) {
-					FileEntry fileEntry = (FileEntry)repositoryEntry;
-
-					copyFileEntry(
-						toRepository, fileEntry, newFolder.getFolderId(),
-						serviceContext);
-				}
-				else if (repositoryEntry instanceof Folder) {
-					Folder currentFolder = (Folder)repositoryEntry;
-
-					moveFolders(
-						currentFolder.getFolderId(), newFolder.getFolderId(),
-						fromRepository, toRepository, serviceContext);
-				}
-				else if (repositoryEntry instanceof FileShortcut) {
-					if (newFolder.isSupportsShortcuts()) {
-						FileShortcut fileShortcut =
-							(FileShortcut)repositoryEntry;
-
-						toRepository.addFileShortcut(
-							getUserId(), newFolder.getFolderId(),
-							fileShortcut.getToFileEntryId(), serviceContext);
-					}
-				}
-			}
-		}
-		catch (PortalException pe) {
-			toRepository.deleteFolder(newFolder.getFolderId());
-
-			throw pe;
-		}
-
-		try {
-			fromRepository.deleteFolder(folderId);
-		}
-		catch (PortalException pe) {
-			toRepository.deleteFolder(newFolder.getFolderId());
-
-			throw pe;
-		}
+		fromRepository.deleteFolder(folderId);
 
 		return newFolder;
 	}
+
+	@BeanReference(type = RepositoryProvider.class)
+	protected RepositoryProvider repositoryProvider;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DLAppServiceImpl.class);

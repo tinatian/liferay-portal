@@ -16,21 +16,22 @@ package com.liferay.portlet.trash.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.util.PortalUtil;
 
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.trash.model.TrashVersion;
-import com.liferay.portlet.trash.model.TrashVersionModel;
+import com.liferay.trash.kernel.model.TrashVersion;
+import com.liferay.trash.kernel.model.TrashVersionModel;
 
 import java.io.Serializable;
 
@@ -63,6 +64,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 	public static final String TABLE_NAME = "TrashVersion";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "versionId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
 			{ "entryId", Types.BIGINT },
 			{ "classNameId", Types.BIGINT },
 			{ "classPK", Types.BIGINT },
@@ -73,6 +75,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 
 	static {
 		TABLE_COLUMNS_MAP.put("versionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("entryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("classNameId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("classPK", Types.BIGINT);
@@ -80,7 +83,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table TrashVersion (versionId LONG not null primary key,entryId LONG,classNameId LONG,classPK LONG,typeSettings TEXT null,status INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table TrashVersion (versionId LONG not null primary key,companyId LONG,entryId LONG,classNameId LONG,classPK LONG,typeSettings TEXT null,status INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table TrashVersion";
 	public static final String ORDER_BY_JPQL = " ORDER BY trashVersion.versionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY TrashVersion.versionId ASC";
@@ -88,20 +91,20 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portlet.trash.model.TrashVersion"),
+				"value.object.entity.cache.enabled.com.liferay.trash.kernel.model.TrashVersion"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portlet.trash.model.TrashVersion"),
+				"value.object.finder.cache.enabled.com.liferay.trash.kernel.model.TrashVersion"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portlet.trash.model.TrashVersion"),
+				"value.object.column.bitmask.enabled.com.liferay.trash.kernel.model.TrashVersion"),
 			true);
 	public static final long CLASSNAMEID_COLUMN_BITMASK = 1L;
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 	public static final long ENTRYID_COLUMN_BITMASK = 4L;
 	public static final long VERSIONID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portlet.trash.model.TrashVersion"));
+				"lock.expiration.time.com.liferay.trash.kernel.model.TrashVersion"));
 
 	public TrashVersionModelImpl() {
 	}
@@ -141,6 +144,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("versionId", getVersionId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("entryId", getEntryId());
 		attributes.put("classNameId", getClassNameId());
 		attributes.put("classPK", getClassPK());
@@ -159,6 +163,12 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 
 		if (versionId != null) {
 			setVersionId(versionId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Long entryId = (Long)attributes.get("entryId");
@@ -200,6 +210,16 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 	@Override
 	public void setVersionId(long versionId) {
 		_versionId = versionId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
 	}
 
 	@Override
@@ -319,7 +339,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			TrashVersion.class.getName(), getPrimaryKey());
 	}
 
@@ -345,6 +365,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 		TrashVersionImpl trashVersionImpl = new TrashVersionImpl();
 
 		trashVersionImpl.setVersionId(getVersionId());
+		trashVersionImpl.setCompanyId(getCompanyId());
 		trashVersionImpl.setEntryId(getEntryId());
 		trashVersionImpl.setClassNameId(getClassNameId());
 		trashVersionImpl.setClassPK(getClassPK());
@@ -433,6 +454,8 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 
 		trashVersionCacheModel.versionId = getVersionId();
 
+		trashVersionCacheModel.companyId = getCompanyId();
+
 		trashVersionCacheModel.entryId = getEntryId();
 
 		trashVersionCacheModel.classNameId = getClassNameId();
@@ -454,10 +477,12 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{versionId=");
 		sb.append(getVersionId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
 		sb.append(", entryId=");
 		sb.append(getEntryId());
 		sb.append(", classNameId=");
@@ -475,15 +500,19 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portlet.trash.model.TrashVersion");
+		sb.append("com.liferay.trash.kernel.model.TrashVersion");
 		sb.append("</model-name>");
 
 		sb.append(
 			"<column><column-name>versionId</column-name><column-value><![CDATA[");
 		sb.append(getVersionId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>entryId</column-name><column-value><![CDATA[");
@@ -516,6 +545,7 @@ public class TrashVersionModelImpl extends BaseModelImpl<TrashVersion>
 			TrashVersion.class
 		};
 	private long _versionId;
+	private long _companyId;
 	private long _entryId;
 	private long _originalEntryId;
 	private boolean _setOriginalEntryId;

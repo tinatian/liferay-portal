@@ -14,33 +14,34 @@
 
 package com.liferay.portlet.blogs.service.impl;
 
+import com.liferay.blogs.kernel.model.BlogsEntry;
+import com.liferay.blogs.kernel.util.comparator.EntryDisplayDateComparator;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.servlet.taglib.ui.ImageSelector;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.TempFileEntryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.blogs.model.BlogsEntry;
 import com.liferay.portlet.blogs.service.base.BlogsEntryServiceBaseImpl;
 import com.liferay.portlet.blogs.service.permission.BlogsEntryPermission;
 import com.liferay.portlet.blogs.service.permission.BlogsPermission;
-import com.liferay.portlet.blogs.util.comparator.EntryDisplayDateComparator;
 import com.liferay.util.RSSUtil;
 
 import com.sun.syndication.feed.synd.SyndContent;
@@ -53,6 +54,7 @@ import com.sun.syndication.feed.synd.SyndLink;
 import com.sun.syndication.feed.synd.SyndLinkImpl;
 import com.sun.syndication.io.FeedException;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
@@ -93,17 +95,24 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 		ImageSelector coverImageImageSelector = null;
 		ImageSelector smallImageImageSelector = null;
 
-		if (smallImage && Validator.isNotNull(smallImageFileName) &&
-			(smallImageInputStream != null)) {
+		if (smallImage) {
+			if (Validator.isNotNull(smallImageFileName) &&
+				(smallImageInputStream != null)) {
 
-			FileEntry fileEntry = TempFileEntryUtil.addTempFileEntry(
-				serviceContext.getScopeGroupId(), getUserId(),
-				BlogsEntry.class.getName(), smallImageFileName,
-				smallImageInputStream,
-				MimeTypesUtil.getContentType(smallImageFileName));
+				try {
+					byte[] bytes = FileUtil.getBytes(smallImageInputStream);
 
-			smallImageImageSelector = new ImageSelector(
-				fileEntry.getFileEntryId(), smallImageURL, null);
+					smallImageImageSelector = new ImageSelector(
+						bytes, smallImageFileName,
+						MimeTypesUtil.getContentType(smallImageFileName), null);
+				}
+				catch (IOException ioe) {
+					_log.error("Unable to create image selector", ioe);
+				}
+			}
+			else if (Validator.isNotNull(smallImageURL)) {
+				smallImageImageSelector = new ImageSelector(smallImageURL);
+			}
 		}
 
 		return addEntry(
@@ -169,7 +178,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 			queryDefinition.setStart(queryDefinition.getStart() + max);
 
-			listNotExhausted = (entryList.size() == max);
+			listNotExhausted = entryList.size() == max;
 
 			for (BlogsEntry entry : entryList) {
 				if (entries.size() >= max) {
@@ -197,6 +206,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 		Company company = companyPersistence.findByPrimaryKey(companyId);
 
 		String name = company.getName();
+
 		List<BlogsEntry> blogsEntries = getCompanyEntries(
 			companyId, displayDate, status, max);
 
@@ -207,10 +217,12 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 	@Override
 	public BlogsEntry getEntry(long entryId) throws PortalException {
-		BlogsEntryPermission.check(
-			getPermissionChecker(), entryId, ActionKeys.VIEW);
+		BlogsEntry entry = blogsEntryLocalService.getEntry(entryId);
 
-		return blogsEntryLocalService.getEntry(entryId);
+		BlogsEntryPermission.check(
+			getPermissionChecker(), entry, ActionKeys.VIEW);
+
+		return entry;
 	}
 
 	@Override
@@ -220,7 +232,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 		BlogsEntry entry = blogsEntryLocalService.getEntry(groupId, urlTitle);
 
 		BlogsEntryPermission.check(
-			getPermissionChecker(), entry.getEntryId(), ActionKeys.VIEW);
+			getPermissionChecker(), entry, ActionKeys.VIEW);
 
 		return entry;
 	}
@@ -316,6 +328,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 		Group group = groupPersistence.findByPrimaryKey(groupId);
 
 		String name = group.getDescriptiveName();
+
 		List<BlogsEntry> blogsEntries = getGroupEntries(
 			groupId, displayDate, status, max);
 
@@ -349,7 +362,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 			queryDefinition.setStart(queryDefinition.getStart() + max);
 
-			listNotExhausted = (entryList.size() == max);
+			listNotExhausted = entryList.size() == max;
 
 			for (BlogsEntry entry : entryList) {
 				if (entries.size() >= max) {
@@ -384,6 +397,15 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 	}
 
 	@Override
+	public List<BlogsEntry> getGroupUserEntries(
+		long groupId, long userId, int[] statuses, int start, int end,
+		OrderByComparator<BlogsEntry> obc) {
+
+		return blogsEntryPersistence.filterFindByG_U_S(
+			groupId, userId, statuses, start, end, obc);
+	}
+
+	@Override
 	public int getGroupUserEntriesCount(long groupId, long userId, int status) {
 		if (status == WorkflowConstants.STATUS_ANY) {
 			return blogsEntryPersistence.filterCountByG_U_NotS(
@@ -393,6 +415,14 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			return blogsEntryPersistence.filterCountByG_U_S(
 				groupId, userId, status);
 		}
+	}
+
+	@Override
+	public int getGroupUserEntriesCount(
+		long groupId, long userId, int[] statuses) {
+
+		return blogsEntryPersistence.filterCountByG_U_S(
+			groupId, userId, statuses);
 	}
 
 	@Override
@@ -419,7 +449,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 
 			queryDefinition.setStart(queryDefinition.getStart() + max);
 
-			listNotExhausted = (entryList.size() == max);
+			listNotExhausted = entryList.size() == max;
 
 			for (BlogsEntry entry : entryList) {
 				if (entries.size() >= max) {
@@ -448,6 +478,7 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			organizationId);
 
 		String name = organization.getName();
+
 		List<BlogsEntry> blogsEntries = getOrganizationEntries(
 			organizationId, displayDate, status, max);
 
@@ -516,18 +547,23 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			if (Validator.isNotNull(smallImageFileName) &&
 				(smallImageInputStream != null)) {
 
-				FileEntry fileEntry = TempFileEntryUtil.addTempFileEntry(
-					serviceContext.getScopeGroupId(), getUserId(),
-					BlogsEntry.class.getName(), smallImageFileName,
-					smallImageInputStream,
-					MimeTypesUtil.getContentType(smallImageFileName));
+				try {
+					byte[] bytes = FileUtil.getBytes(smallImageInputStream);
 
-				smallImageImageSelector = new ImageSelector(
-					fileEntry.getFileEntryId(), smallImageURL, null);
+					smallImageImageSelector = new ImageSelector(
+						bytes, smallImageFileName,
+						MimeTypesUtil.getContentType(smallImageFileName), null);
+				}
+				catch (IOException ioe) {
+					_log.error("Unable to create image selector", ioe);
+				}
+			}
+			else if (Validator.isNotNull(smallImageURL)) {
+				smallImageImageSelector = new ImageSelector(smallImageURL);
 			}
 		}
 		else {
-			smallImageImageSelector = new ImageSelector(0);
+			smallImageImageSelector = new ImageSelector();
 		}
 
 		return updateEntry(
@@ -661,5 +697,8 @@ public class BlogsEntryServiceImpl extends BlogsEntryServiceBaseImpl {
 			throw new SystemException(fe);
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		BlogsEntryServiceImpl.class);
 
 }

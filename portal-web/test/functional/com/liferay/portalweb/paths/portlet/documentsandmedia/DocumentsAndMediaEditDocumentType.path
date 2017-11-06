@@ -25,7 +25,7 @@
 </tr>
 <tr>
 	<td>REMOVE_METADATA_SET_BUTTON</td>
-	<td>//tbody[contains(.,'${key_metadataSetName}')]/tr/td[contains(.,'Remove')]/a/span/span</td>
+	<td>//tbody[contains(.,'${key_metadataSetName}')]/tr/td[contains(.,'Remove')]//a/span/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -47,6 +47,22 @@
 <tr>
 	<td>DETAILS_PARENT_REMOVE_BUTTON</td>
 	<td>//button[contains(@id,'_removeParentStructureButton')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--PANEL-->
+<tr>
+	<td>PANEL_MAIN_METADATA_FIELDS</td>
+	<td>//div[@id='main-metadata-fieldsHeader']//a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PANEL_ADDITIONAL_METADATA_FIELDS</td>
+	<td>//div[contains(@id,'additionalMetadataFields')]//a[contains(.,'Additional Metadata Fields')</td>
 	<td></td>
 </tr>
 </tbody>

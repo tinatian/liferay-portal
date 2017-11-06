@@ -41,7 +41,7 @@ public class TestCustomJspBag implements CustomJspBag {
 
 	@Override
 	public String getCustomJspDir() {
-		return StringPool.BLANK;
+		return StringPool.SLASH;
 	}
 
 	@Override
@@ -64,13 +64,15 @@ public class TestCustomJspBag implements CustomJspBag {
 	private final URLContainer _urlContainer = new URLContainer() {
 
 		@Override
-		public Set<String> getResources(String path) {
-			return Collections.singleton(path);
+		public URL getResource(String name) {
+			Class<?> clazz = getClass();
+
+			return clazz.getResource("dependencies/bottom-ext.jsp");
 		}
 
 		@Override
-		public URL getResource(String name) {
-			return null;
+		public Set<String> getResources(String path) {
+			return Collections.singleton("/html/common/themes/bottom-ext.jsp");
 		}
 
 	};

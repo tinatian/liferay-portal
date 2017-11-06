@@ -4,24 +4,36 @@
 
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_TYPE" value1="${assetType}" />
+
 		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_TABLE_ACTIONS" />
-		<execute function="AssertClickNoError" locator1="MenuItem#DELETE" value1="Delete" />
+
+		<execute function="AssertClickNoError" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+			<var name="key_menuItem" value="Delete" />
+		</execute>
+
 		<execute function="Confirm#waitForConfirmation" value1="Are you sure you want to delete this? It will be deleted immediately." />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 		<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="The Recycle Bin is empty." />
 		<execute function="AssertTextNotPresent" value1="${assetName}" />
 	</command>
 
 	<command name="disableRecycleBinViaSiteSettings">
-		<execute function="AssertClick" locator1="NavListItem#RECYCLE_BIN" value1="Recycle Bin" />
+		<execute macro="Navigator#gotoNavTab">
+			<var name="navTab" value="Advanced" />
+		</execute>
 
-		<execute function="ClickNoError" locator1="Checkbox#ENABLE_RECYCLE_BIN" />
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Recycle Bin" />
+		</execute>
+
+		<execute function="Uncheck#uncheckToggleSwitchNoErrorNoAssert" locator1="Checkbox#ENABLE_RECYCLE_BIN" />
 
 		<execute function="Confirm" value1="Disabling the Recycle Bin prevents the restoring of content that has been moved to the Recycle Bin." />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute function="AssertNotChecked#assertNotCheckedToggleSwitch" locator1="Checkbox#ENABLE_RECYCLE_BIN" />
 
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="dragAndDropContentToRecycleBin">
@@ -33,11 +45,15 @@
 	</command>
 
 	<command name="emptyCP">
+		<execute function="Click" locator1="Icon#HEADER_VERTICAL_ELLIPSIS" />
+
 		<if>
 			<condition function="IsElementPresent" locator1="RecycleBin#EMPTY_RECYCLE_BIN" />
 			<then>
 				<execute function="AssertClickNoError" locator1="RecycleBin#EMPTY_RECYCLE_BIN" value1="Empty the Recycle Bin" />
+
 				<execute function="Confirm#waitForConfirmation" value1="Are you sure you want to empty the Recycle Bin?" />
+
 				<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="The Recycle Bin is empty." />
 			</then>
 		</if>
@@ -46,15 +62,11 @@
 	<command name="gotoEntryViaSuccessMessage">
 		<var name="key_assetName" value="${assetName}" />
 
-		<execute function="AssertClick" locator1="RecycleBin#SUCCESS_MESSAGE_CONTENT_LINK" value1="${assetName}" />
+		<execute function="AssertClick" locator1="RecycleBin#SUCCESS_MESSAGE_CONTENT_LINK" value1="the Recycle Bin" />
 
-		<execute function="AssertTextEquals" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" value1="${assetName}" />
-	</command>
-
-	<command name="gotoRecycleBinViaSuccessMessage">
-		<execute function="AssertClick" locator1="RecycleBin#SUCCESS_MESSAGE_RECYCLE_BIN_LINK" value1="the Recycle Bin" />
-
-		<execute function="AssertTextEquals" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" value1="Recycle Bin" />
+		<execute macro="SiteAdmin#viewPortletTitle">
+			<var name="portletTitle" value="Recycle Bin" />
+		</execute>
 	</command>
 
 	<command name="restoreContentFromFolderCP">
@@ -62,55 +74,64 @@
 
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_TYPE" value1="${assetType}" />
+
 		<execute function="AssertClick" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
 
 		<var name="key_assetName" value="${documentName}" />
 
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_FOLDER_DOCUMENT_NAME" value1="${documentName}" />
-		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_FOLDER_ACTIONS" />
-		<execute function="AssertClick" locator1="MenuItem#RESTORE" value1="Restore" />
+
+		<var name="key_rowEntry" value="${documentName}" />
+
+		<execute function="Click" locator1="Icon#ROW_VERTICAL_ELLIPSIS" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Restore">
+			<var name="key_menuItem" value="Restore" />
+		</execute>
+
 		<execute function="SelectFrame" locator1="RecycleBin#RECYCLE_BIN_FOLDER_WARNING_IFRAME" />
+
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_FOLDER_WARNING_INFO" value1="The original Folder does not exist anymore. Choose a different Folder to restore ${documentName}." />
+
 		<execute function="AssertClick" locator1="RecycleBin#RECYCLE_BIN_FOLDER_WARNING_CHOOSE_THIS_FOLDER_BUTTON" value1="Choose This Folder" />
+
 		<execute function="SelectFrameTop" value1="relative=top" />
 
-		<var name="key_assetType" value="${assetType2}" />
-
-		<execute function="AssertTextEquals" locator1="Message#RECYCLE_BIN_RESTORE_SUCCESS" value1="The ${assetType2} ${documentName} was restored to ${assetRestoreLocation}." />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_RESTORE_SUCCESS" value1="The ${assetType2} ${documentName} was restored to ${assetRestoreLocation}." />
 	</command>
 
 	<command name="restoreCP">
 		<var name="key_assetName" value="${assetName}" />
 
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
+
 		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_TABLE_ACTIONS" />
-		<execute function="AssertClick" locator1="MenuItem#RESTORE" value1="Restore" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Restore">
+			<var name="key_menuItem" value="Restore" />
+		</execute>
 
 		<if>
 			<isset var="assetType" />
 			<then>
-				<var name="key_assetType" value="${assetType}" />
-
 				<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_RESTORE_SUCCESS" value1="${assetType}" />
 			</then>
 			<else>
-				<execute function="AssertTextEquals" locator1="Message#SUCCESS_1" value1="The item was restored." />
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_RESTORE_SUCCESS" value1="The item was restored." />
 			</else>
 		</if>
 
 		<if>
 			<isset var="assetRestoreLocation" />
 			<then>
-				<var name="key_assetType" value="${assetType}" />
-
-				<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_SUCCESS" value1="${assetRestoreLocation}" />
+				<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_RESTORE_SUCCESS" value1="${assetRestoreLocation}" />
 			</then>
 		</if>
 
 		<if>
 			<equals arg1="${multipleAssets}" arg2="true" />
 			<then>
-				<execute function="AssertTextNotPresent" locator1="Message#EMPTY_INFO" value1="The Recycle Bin is empty." />
+				<execute function="AssertElementNotPresent" locator1="Message#EMPTY_INFO" value1="The Recycle Bin is empty." />
 			</then>
 			<else>
 				<execute function="AssertTextEquals" locator1="Message#EMPTY_INFO" value1="The Recycle Bin is empty." />
@@ -121,17 +142,21 @@
 	</command>
 
 	<command name="restoreOverwriteCP">
-		<var name="key_assetName" value="${assetName}" />
+		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_TABLE_ACTIONS">
+			<var name="key_assetName" value="${assetName}" />
+		</execute>
 
-		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_TABLE_ACTIONS" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Restore">
+			<var name="key_menuItem" value="Restore" />
+		</execute>
 
-		<execute function="AssertClick" locator1="MenuItem#RESTORE" value1="Restore" />
-
-		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_WARNING_MESSAGE" value1="An entry with name ${assetName} already exists." />
+		<execute macro="Alert#viewErrorMessage">
+			<var name="errorMessage" value="An entry with name ${assetName} already exists." />
+		</execute>
 
 		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_WARNING_OVERWRITE_RADIO" />
 
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="restoreWarningCP">
@@ -139,12 +164,20 @@
 
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_TYPE" value1="${assetType}" />
+
 		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_TABLE_ACTIONS" />
-		<execute function="AssertClick" locator1="MenuItem#RESTORE" value1="Restore" />
-		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_WARNING_MESSAGE" value1="An entry with name ${assetName} already exists." />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Restore">
+			<var name="key_menuItem" value="Restore" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="Message#ERROR" value1="An entry with name ${assetName} already exists." />
+
 		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_WARNING_KEEP_AND_RENAME_RADIO" />
+
 		<execute function="Type" locator1="RecycleBin#RECYCLE_BIN_WARNING_KEEP_AND_RENAME_FIELD" value1="${newAssetName}" />
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
+
+		<execute macro="Button#clickSave" />
 
 		<var name="key_assetType" value="${newAssetName}" />
 
@@ -159,6 +192,7 @@
 
 	<command name="searchCP">
 		<execute function="Type" locator1="NavBar#BASIC_SEARCH_FIELD" value1="${assetName}" />
+
 		<execute function="Click" locator1="Icon#BASIC_SEARCH" />
 	</command>
 
@@ -170,13 +204,20 @@
 		<var name="key_assetName" value="${assetName}" />
 
 		<if>
-			<isset var="customMaxAgeMsg" />
+			<condition function="IsElementPresent" locator1="RecycleBin#EMPTY_RECYCLE_BIN" />
+
 			<then>
-				<execute function="AssertTextEquals" locator1="Message#INFO" value1="${customMaxAgeMsg}" />
+				<execute function="MouseOver" locator1="Icon#TOOLTIP" />
+				<if>
+					<isset var="customMaxAgeMsg" />
+					<then>
+						<execute function="AssertTextEquals#assertPartialText" locator1="Message#RECYCLE_BIN_INFO" value1="${customMaxAgeMsg}" />
+					</then>
+					<else>
+						<execute function="AssertTextEquals" locator1="Message#RECYCLE_BIN_INFO" value1="The Recycle Bin shows all assets removed by users. Assets can be restored or permanently deleted.Entries that have been in the Recycle Bin for more than 1 month are automatically deleted." />
+					</else>
+				</if>
 			</then>
-			<else>
-				<execute function="AssertTextEquals" locator1="Message#INFO" value1="Entries that have been in the Recycle Bin for more than 1 month are automatically deleted. Empty the Recycle Bin" />
-			</else>
 		</if>
 
 		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
@@ -194,15 +235,29 @@
 	<command name="viewDuplicateNames">
 		<var name="key_assetName" value="${assetName}" />
 
-		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME_1" value1="${assetName}" />
-		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME_2" value1="${assetName}" />
+		<var name="key_rowNumber" value="1" />
+
+		<execute function="AssertTextEquals" locator1="ContentRow#ENTRY_CONTENT_ROW_NUMBER_TD_2" value1="${assetName}" />
+
+		<var name="key_rowNumber" value="2" />
+
+		<execute function="AssertTextEquals" locator1="ContentRow#ENTRY_CONTENT_ROW_NUMBER_TD_2" value1="${assetName}" />
 	</command>
 
 	<command name="viewEntry">
-		<execute function="AssertTextEquals" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" value1="${assetName}" />
-		<execute function="AssertTextPresent" value1="${assetContent}" />
-		<execute function="AssertElementPresent" locator1="Button#RESTORE" />
-		<execute function="AssertElementPresent" locator1="Button#DELETE" />
+		<var name="key_assetName" value="${assetName}" />
+
+		<execute function="AssertTextEquals" locator1="RecycleBin#RECYCLE_BIN_TABLE_NAME" value1="${assetName}" />
+
+		<execute function="Click" locator1="RecycleBin#RECYCLE_BIN_TABLE_ACTIONS" />
+
+		<execute function="AssertElementPresent" locator1="MenuItem#ANY_MENU_ITEM" value1="Restore">
+			<var name="key_menuItem" value="Restore" />
+		</execute>
+
+		<execute function="AssertElementPresent" locator1="MenuItem#ANY_MENU_ITEM" value1="Delete">
+			<var name="key_menuItem" value="Delete" />
+		</execute>
 	</command>
 
 	<command name="viewRecycleBinMaxAge">
@@ -211,6 +266,7 @@
 
 	<command name="viewRecyclebinViaSiteSettingsCP">
 		<execute function="AssertClick" locator1="SitesEditSite#MENU_BASIC_INFORMATION_RECYCLE_BIN" value1="Recycle Bin" />
+
 		<execute function="AssertTextEquals#assertValue" locator1="TextInput#TRASH_ENTRIES_MAX_AGE" value1="${maxAgeField}" />
 	</command>
 </definition>

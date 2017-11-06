@@ -14,14 +14,13 @@
 
 package com.liferay.portal.ratings;
 
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portlet.ratings.test.BaseRatingsTestCase;
 
 import org.junit.ClassRule;
@@ -35,8 +34,7 @@ public class UserRatingsTest extends BaseRatingsTestCase {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Override
 	protected BaseModel<?> addBaseModel(

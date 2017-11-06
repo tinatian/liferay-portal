@@ -14,37 +14,36 @@
 
 package com.liferay.portal.comment.action;
 
+import com.liferay.message.boards.kernel.exception.DiscussionMaxCommentsException;
+import com.liferay.message.boards.kernel.exception.MessageBodyException;
+import com.liferay.message.boards.kernel.exception.NoSuchMessageException;
+import com.liferay.message.boards.kernel.exception.RequiredMessageException;
 import com.liferay.portal.kernel.comment.Comment;
 import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.comment.DiscussionPermission;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.servlet.BrowserSnifferUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFunction;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.struts.BaseStrutsAction;
 import com.liferay.portal.kernel.struts.StrutsAction;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Function;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextFunction;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.servlet.NamespaceServletRequest;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.WebKeys;
-import com.liferay.portlet.messageboards.DiscussionMaxCommentsException;
-import com.liferay.portlet.messageboards.MessageBodyException;
-import com.liferay.portlet.messageboards.NoSuchMessageException;
-import com.liferay.portlet.messageboards.RequiredMessageException;
 
 import java.io.IOException;
 
@@ -129,7 +128,7 @@ public class EditDiscussionStrutsAction extends BaseStrutsAction {
 
 		long commentId = ParamUtil.getLong(request, "commentId");
 
-		DiscussionPermission discussionPermission = getDiscussionPermission(
+		DiscussionPermission discussionPermission = _getDiscussionPermission(
 			themeDisplay);
 
 		discussionPermission.checkDeletePermission(commentId);
@@ -173,7 +172,7 @@ public class EditDiscussionStrutsAction extends BaseStrutsAction {
 		Function<String, ServiceContext> serviceContextFunction =
 			new ServiceContextFunction(request);
 
-		DiscussionPermission discussionPermission = getDiscussionPermission(
+		DiscussionPermission discussionPermission = _getDiscussionPermission(
 			themeDisplay);
 
 		if (commentId <= 0) {
@@ -251,23 +250,17 @@ public class EditDiscussionStrutsAction extends BaseStrutsAction {
 
 	protected void writeJSON(
 			HttpServletRequest request, HttpServletResponse response,
-			Object json)
+			Object jsonObj)
 		throws IOException {
 
-		String contentType = ContentTypes.APPLICATION_JSON;
+		response.setContentType(ContentTypes.APPLICATION_JSON);
 
-		if (BrowserSnifferUtil.isIe(request)) {
-			contentType = ContentTypes.TEXT_HTML;
-		}
-
-		response.setContentType(contentType);
-
-		ServletResponseUtil.write(response, json.toString());
+		ServletResponseUtil.write(response, jsonObj.toString());
 
 		response.flushBuffer();
 	}
 
-	private DiscussionPermission getDiscussionPermission(
+	private DiscussionPermission _getDiscussionPermission(
 			ThemeDisplay themeDisplay)
 		throws PrincipalException {
 

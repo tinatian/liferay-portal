@@ -1,21 +1,35 @@
 <definition component-name="portal-permissions">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Permissions" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="User#logoutAndLoginPG">
-			<var name="userLoginEmailAddress" value="test@liferay.com" />
-			<var name="userLoginFullName" value="Test Test" />
-		</execute>
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="User#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="User#logoutAndLoginPG">
+					<var name="userLoginEmailAddress" value="test@liferay.com" />
+					<var name="userLoginFullName" value="Test Test" />
+				</execute>
 
-		<execute macro="Role#tearDownCP" />
+				<execute macro="User#tearDownCP" />
 
-		<execute macro="PortalSettings#tearDownCP" />
+				<execute macro="Role#tearDownCP" />
+
+				<execute macro="PortalSettings#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="PreviewDeviceRegRole" priority="4">
@@ -32,9 +46,9 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#openURL" />
+		<execute macro="Navigator#openURL" />
 
-		<execute function="AssertElementNotPresent" locator1="Icon#PREVIEW" />
+		<execute function="AssertElementNotPresent" locator1="ControlMenu#SIMULATION" />
 
 		<execute macro="Permissions#definePermissionLoginUserCP">
 			<var name="permissionDefinitionKey" value="CONTROL_PANEL_SITES_SITES_RESOURCE_PERMISSIONS_SITE_PREVIEW_IN_DEVICE_CHECKBOX" />
@@ -44,7 +58,7 @@
 			<var name="userLoginFullName" value="userfn userln" />
 		</execute>
 
-		<execute macro="Page#openURL" />
+		<execute macro="Navigator#openURL" />
 
 		<execute macro="MobileDevice#previewPG">
 			<var name="deviceType" value="smartphone" />
@@ -58,8 +72,8 @@
 			<var name="userLoginFullName" value="userfn userln" />
 		</execute>
 
-		<execute macro="Page#openURL" />
+		<execute macro="Navigator#openURL" />
 
-		<execute function="AssertElementNotPresent" locator1="Icon#PREVIEW" />
+		<execute function="AssertElementNotPresent" locator1="ControlMenu#SIMULATION" />
 	</command>
 </definition>

@@ -1,56 +1,82 @@
 <definition component-name="portal-xsl">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="XSL" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Test Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Test Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
 			<var name="portletName" value="XSL Content" />
 		</execute>
 
-		<execute macro="ProductMenu#gotoControlPanelSystem">
-			<var name="portlet" value="Configuration Admin" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="System Settings" />
 		</execute>
 
 		<execute macro="XSLContent#configureConfigurationAdminXSL" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="User#logoutAndLoginPG">
-			<var name="userLoginEmailAddress" value="test@liferay.com" />
-			<var name="userLoginFullName" value="Test Test" />
-		</execute>
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="Site#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="User#logoutAndLoginPG">
+					<var name="userLoginEmailAddress" value="test@liferay.com" />
+					<var name="userLoginFullName" value="Test Test" />
+				</execute>
+
+				<execute macro="Site#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="AddXSL" priority="4">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<property name="test.name.skip.portal.instance" value="XSLContent#AddXSL" />
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -59,9 +85,25 @@
 			<var name="dmDocumentTitle" value="Test XML Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test XML Title" />
+		</execute>
+
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
+
+		<execute macro="IFrame#closeFrame" />
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -70,19 +112,32 @@
 			<var name="dmDocumentTitle" value="Test XSL Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test XSL Title" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test XML Title" />
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test XML Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
+		<execute macro="IFrame#closeFrame" />
 
-		<execute function="Pause" locator1="5000" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
 
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test XML Title" />
+		</execute>
+
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -90,19 +145,17 @@
 
 		<echo message="xml url ${xmlURL}" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test XSL Title" />
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test XSL Title" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test XSL Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
-
-		<execute function="Pause" locator1="5000" />
-
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -110,30 +163,29 @@
 
 		<echo message="xsl url ${xslURL}" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#DIALOG" />
+		<execute macro="IFrame#selectDialogFrame" />
 
 		<execute function="Type" locator1="TextInput#SETUP_XML_URL" value1="@portal_url@/${xmlURL}" />
 		<execute function="Type" locator1="TextInput#SETUP_XSL_URL" value1="@portal_url@/${xslURL}" />
 
 		<execute function="Click" locator1="Button#SAVE" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 
 		<execute function="SelectFrameTop" value1="relative=top" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="XSLContent#viewXSLPortletHymnDisplay">
@@ -153,10 +205,16 @@
 
 	<command name="ConfigurePortletWithCorruptXML" priority="4">
 		<property name="ignore.errors" value="must be terminated by the matching end-tag" />
+		<property name="test.name.skip.portal.instance" value="XSLContent#ConfigurePortletWithCorruptXML" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -165,9 +223,25 @@
 			<var name="dmDocumentTitle" value="Test Corrupt XML Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test Corrupt XML Title" />
+		</execute>
+
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
+
+		<execute macro="IFrame#closeFrame" />
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -176,19 +250,32 @@
 			<var name="dmDocumentTitle" value="Test XSL Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test XSL Title" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test Corrupt XML Title" />
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test Corrupt XML Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
+		<execute macro="IFrame#closeFrame" />
 
-		<execute function="Pause" locator1="5000" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
 
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test Corrupt XML Title" />
+		</execute>
+
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -196,19 +283,17 @@
 
 		<echo message="xml url ${xmlURL}" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test XSL Title" />
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test XSL Title" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test XSL Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
-
-		<execute function="Pause" locator1="5000" />
-
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -216,30 +301,29 @@
 
 		<echo message="xsl url ${xslURL}" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#DIALOG" />
+		<execute macro="IFrame#selectDialogFrame" />
 
 		<execute function="Type" locator1="TextInput#SETUP_XML_URL" value1="@portal_url@/${xmlURL}" />
 		<execute function="Type" locator1="TextInput#SETUP_XSL_URL" value1="@portal_url@/${xslURL}" />
 
 		<execute function="Click" locator1="Button#SAVE" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 
 		<execute function="SelectFrameTop" value1="relative=top" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="XSLContent#viewErrorMessage" />
@@ -247,10 +331,16 @@
 
 	<command name="ConfigurePortletWithCorruptXSL" priority="4">
 		<property name="ignore.errors" value="must be terminated by the matching end-tag" />
+		<property name="test.name.skip.portal.instance" value="XSLContent#ConfigurePortletWithCorruptXSL" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -259,9 +349,25 @@
 			<var name="dmDocumentTitle" value="Test XML Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test XML Title" />
+		</execute>
+
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
+
+		<execute macro="IFrame#closeFrame" />
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -270,19 +376,32 @@
 			<var name="dmDocumentTitle" value="Test Corrupt XSL Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test Corrupt XSL Title" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test XML Title" />
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test XML Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
+		<execute macro="IFrame#closeFrame" />
 
-		<execute function="Pause" locator1="5000" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
 
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test XML Title" />
+		</execute>
+
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -290,19 +409,17 @@
 
 		<echo message="xml url ${xmlURL}" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test Corrupt XSL Title" />
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test Corrupt XSL Title" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test Corrupt XSL Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
-
-		<execute function="Pause" locator1="5000" />
-
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -310,39 +427,45 @@
 
 		<echo message="xsl url ${xslURL}" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#DIALOG" />
+		<execute macro="IFrame#selectDialogFrame" />
 
 		<execute function="Type" locator1="TextInput#SETUP_XML_URL" value1="@portal_url@/${xmlURL}" />
 		<execute function="Type" locator1="TextInput#SETUP_XSL_URL" value1="@portal_url@/${xslURL}" />
 
 		<execute function="Click" locator1="Button#SAVE" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 
 		<execute function="SelectFrameTop" value1="relative=top" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="XSLContent#viewErrorMessage" />
 	</command>
 
 	<command name="ConfigurePortletWithIncorrectVersionXmlAndXsl" priority="4">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<property name="test.name.skip.portal.instance" value="XSLContent#ConfigurePortletWithIncorrectVersionXmlAndXsl" />
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -351,9 +474,25 @@
 			<var name="dmDocumentTitle" value="Test XML Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test XML Title" />
+		</execute>
+
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
+
+		<execute macro="IFrame#closeFrame" />
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
 		<execute macro="DMDocument#addCP">
@@ -362,19 +501,32 @@
 			<var name="dmDocumentTitle" value="Test XSL Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="DMNavigator#gotoDocumentPermissionsCP">
+			<var name="dmDocumentTitle" value="Test XSL Title" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test XML Title" />
+		<execute macro="PermissionsInline#addOrRemoveViewPermissionFromAllRoles">
+			<var name="addOrRemoveViewPermission" value="Add" />
+			<var name="roleList" value="Guest" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test XML Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
+		<execute macro="IFrame#closeFrame" />
 
-		<execute function="Pause" locator1="5000" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
 
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test XML Title" />
+		</execute>
+
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -382,19 +534,17 @@
 
 		<echo message="xml url ${xmlURL}" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Documents and Media" />
 		</execute>
 
-		<var name="key_dmDocumentTitle" value="Test XSL Title" />
+		<execute macro="XSLContent#gotoDocumentURL">
+			<var name="dmDocumentTitle" value="Test XSL Title" />
+		</execute>
 
-		<execute function="AssertClick" locator1="DocumentsAndMedia#ICON_DOCUMENT_TITLE" value1="Test XSL Title" />
-		<execute function="ClickNoError" locator1="CPDocumentsandmediaDocument#DOCUMENT_INFO_URL_LINK" />
-
-		<execute function="Pause" locator1="5000" />
-
-		<var method="selenium#getValue('//input[contains(@id,\'url\')]')" name="valueName" />
+		<var method="selenium#getElementValue('//input[contains(@id,\'url\')]')" name="valueName" />
 
 		<echo message="value name ${valueName}" />
 
@@ -402,30 +552,29 @@
 
 		<echo message="xsl url ${xslURL}" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="IFrame#DIALOG" />
+		<execute macro="IFrame#selectDialogFrame" />
 
 		<execute function="Type" locator1="TextInput#SETUP_XML_URL" value1="@portal_url@/${xmlURL}" />
 		<execute function="Type" locator1="TextInput#SETUP_XSL_URL" value1="@portal_url@/${xslURL}" />
 
 		<execute function="Click" locator1="Button#SAVE" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 
 		<execute function="SelectFrameTop" value1="relative=top" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="XSLContent#viewErrorMessage" />
@@ -436,10 +585,11 @@
 	</command>
 
 	<command name="ViewXSLDefaultContent" priority="4">
-		<execute macro="Page#gotoPG">
+		<property name="test.name.skip.portal.instance" value="XSLContent#ViewXSLDefaultContent" />
+
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#viewPG">
@@ -447,10 +597,9 @@
 			<var name="portletName" value="XSL Content" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Test Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">

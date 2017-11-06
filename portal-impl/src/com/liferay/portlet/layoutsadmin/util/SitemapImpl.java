@@ -14,11 +14,21 @@
 
 package com.liferay.portlet.layoutsadmin.util;
 
+import com.liferay.layouts.admin.kernel.util.Sitemap;
+import com.liferay.layouts.admin.kernel.util.SitemapURLProvider;
+import com.liferay.layouts.admin.kernel.util.SitemapURLProviderRegistryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutTypeController;
 import com.liferay.portal.kernel.security.pacl.DoPrivileged;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -26,17 +36,12 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.LayoutTypeControllerTracker;
 import com.liferay.portal.util.PropsValues;
 
 import java.text.DateFormat;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -149,8 +154,7 @@ public class SitemapImpl implements Sitemap {
 	@Override
 	public String encodeXML(String input) {
 		return StringUtil.replace(
-			input,
-			new String[] {"&", "<", ">", "'", "\""},
+			input, new char[] {'&', '<', '>', '\'', '\"'},
 			new String[] {"&amp;", "&lt;", "&gt;", "&apos;", "&quot;"});
 	}
 
@@ -159,18 +163,7 @@ public class SitemapImpl implements Sitemap {
 			String canonicalURL, ThemeDisplay themeDisplay, Layout layout)
 		throws PortalException {
 
-		Map<Locale, String> alternateURLs = new HashMap<>();
-
-		for (Locale availableLocale : LanguageUtil.getAvailableLocales(
-				layout.getGroupId())) {
-
-			String alternateURL = PortalUtil.getAlternateURL(
-				canonicalURL, themeDisplay, availableLocale, layout);
-
-			alternateURLs.put(availableLocale, alternateURL);
-		}
-
-		return alternateURLs;
+		return PortalUtil.getAlternateURLs(canonicalURL, themeDisplay, layout);
 	}
 
 	@Override
@@ -178,40 +171,105 @@ public class SitemapImpl implements Sitemap {
 			long groupId, boolean privateLayout, ThemeDisplay themeDisplay)
 		throws PortalException {
 
+		return getSitemap(null, groupId, privateLayout, themeDisplay);
+	}
+
+	@Override
+	public String getSitemap(
+			String layoutUuid, long groupId, boolean privateLayout,
+			ThemeDisplay themeDisplay)
+		throws PortalException {
+
 		Document document = SAXReaderUtil.createDocument();
 
 		document.setXMLEncoding(StringPool.UTF8);
 
-		Element rootElement = document.addElement(
-			"urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
+		Element rootElement = null;
+
+		if (Validator.isNull(layoutUuid) &&
+			PropsValues.XML_SITEMAP_INDEX_ENABLED) {
+
+			rootElement = document.addElement(
+				"sitemapindex", "http://www.sitemaps.org/schemas/sitemap/0.9");
+		}
+		else {
+			rootElement = document.addElement(
+				"urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
+		}
 
 		rootElement.addAttribute("xmlns:xhtml", "http://www.w3.org/1999/xhtml");
 
-		List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
-			groupId, privateLayout, LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
+		LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+			groupId, privateLayout);
+
+		if (Validator.isNull(layoutUuid) &&
+			PropsValues.XML_SITEMAP_INDEX_ENABLED) {
+
+			visitLayoutSet(rootElement, layoutSet, themeDisplay);
+
+			return document.asXML();
+		}
 
 		List<SitemapURLProvider> sitemapURLProviders =
 			SitemapURLProviderRegistryUtil.getSitemapURLProviders();
 
-		visitLayouts(rootElement, layouts, sitemapURLProviders, themeDisplay);
+		for (SitemapURLProvider sitemapURLProvider : sitemapURLProviders) {
+			if (Validator.isNull(layoutUuid)) {
+				sitemapURLProvider.visitLayoutSet(
+					rootElement, layoutSet, themeDisplay);
+			}
+			else {
+				sitemapURLProvider.visitLayout(
+					rootElement, layoutUuid, layoutSet, themeDisplay);
+			}
+		}
 
 		return document.asXML();
 	}
 
-	protected void visitLayouts(
-			Element element, List<Layout> layouts,
-			List<SitemapURLProvider> sitemapURLProviders,
-			ThemeDisplay themeDisplay)
-		throws PortalException {
+	protected void visitLayoutSet(
+		Element element, LayoutSet layoutSet, ThemeDisplay themeDisplay) {
 
-		for (Layout layout : layouts) {
-			for (SitemapURLProvider sitemapURLProvider : sitemapURLProviders) {
-				sitemapURLProvider.visitLayout(element, layout, themeDisplay);
+		if (layoutSet.isPrivateLayout()) {
+			return;
+		}
+
+		String portalURL = themeDisplay.getPortalURL();
+
+		Map<String, LayoutTypeController> layoutTypeControllers =
+			LayoutTypeControllerTracker.getLayoutTypeControllers();
+
+		for (Map.Entry<String, LayoutTypeController> entry :
+				layoutTypeControllers.entrySet()) {
+
+			LayoutTypeController layoutTypeController = entry.getValue();
+
+			if (!layoutTypeController.isSitemapable()) {
+				continue;
 			}
 
-			visitLayouts(
-				element, layout.getChildren(), sitemapURLProviders,
-				themeDisplay);
+			List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
+				layoutSet.getGroupId(), layoutSet.getPrivateLayout(),
+				entry.getKey());
+
+			for (Layout layout : layouts) {
+				Element sitemapElement = element.addElement("sitemap");
+
+				Element locationElement = sitemapElement.addElement("loc");
+
+				StringBundler sb = new StringBundler(8);
+
+				sb.append(portalURL);
+				sb.append(PortalUtil.getPathContext());
+				sb.append("/sitemap.xml?layoutUuid=");
+				sb.append(layout.getUuid());
+				sb.append("&groupId=");
+				sb.append(layoutSet.getGroupId());
+				sb.append("&privateLayout=");
+				sb.append(layout.getPrivateLayout());
+
+				locationElement.addText(sb.toString());
+			}
 		}
 	}
 

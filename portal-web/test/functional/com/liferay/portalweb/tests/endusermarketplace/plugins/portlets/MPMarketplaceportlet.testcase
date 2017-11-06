@@ -1,4 +1,4 @@
-<definition component-name="marketplace-plugins-marketplace-portlet">
+<definition component-name="portal-plugins-deployment">
 	<property name="testray.main.component.name" value="Plugin Installer" />
 
 	<set-up>
@@ -8,8 +8,10 @@
 	<command name="MarketplacePortletSmoke" priority="4">
 		<var name="appName" value="Marketplace" />
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="App Manager" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Apps" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="App Manager" />
 		</execute>
 
 		<execute macro="AppManager#viewAppCP">

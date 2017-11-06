@@ -9,23 +9,13 @@
 </thead>
 <tbody>
 <tr>
-	<td>EXTEND_ACTION_PATH</td>
-	<td>BasePortlet</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<tr>
 	<td>SECTIONS_TITLE</td>
 	<td>//div[@class='kb-articles-sections-title']</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PORTLET_BODY</td>
-	<td>//div[@class='portlet-body']</td>
+	<td>//div[contains(@id,'knowledge_base_web')]//div[@class='portlet-body']</td>
 	<td></td>
 </tr>
 <tr>
@@ -41,22 +31,22 @@
 <!--CONFIGURATION-->
 <tr>
 	<td>CONFIGURATION_SHOW_SECTIONS_TITLE_CHECKBOX</td>
-	<td>//input[@id='_86_showKBArticlesSectionsTitle']</td>
+	<td>//input[contains(@id,'showKBArticlesSectionsTitle')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONFIGURATION_SECTIONS_SELECT</td>
-	<td>//select[@id='_86_kbArticlesSections']</td>
+	<td>//select[contains(@id,'kbArticlesSections')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONFIGURATION_ARTICLE_DISPLAY_STYLE_SELECT</td>
-	<td>//select[@id='_86_kbArticleDisplayStyle']</td>
+	<td>//select[contains(@id,'kbArticleDisplayStyle')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CONFIGURATION_ARTICLE_WINDOW_STATE_SELECT</td>
-	<td>//select[@id='_86_kbArticleWindowState']</td>
+	<td>//select[contains(@id,'kbArticleWindowState')]</td>
 	<td></td>
 </tr>
 </tbody>

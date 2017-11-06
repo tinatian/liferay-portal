@@ -14,27 +14,31 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.NoSuchRepositoryException;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.exception.NoSuchRepositoryException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.kernel.repository.InvalidRepositoryIdException;
-import com.liferay.portal.kernel.repository.RepositoryException;
+import com.liferay.portal.kernel.repository.RepositoryConfiguration;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.model.ClassName;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Repository;
 import com.liferay.portal.repository.registry.RepositoryClassDefinition;
 import com.liferay.portal.repository.registry.RepositoryClassDefinitionCatalog;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.base.RepositoryServiceBaseImpl;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.service.permission.DLFileEntryPermission;
 import com.liferay.portlet.documentlibrary.service.permission.DLFolderPermission;
 import com.liferay.portlet.documentlibrary.service.permission.DLPermission;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Alexander Chow
@@ -78,31 +82,27 @@ public class RepositoryServiceImpl extends RepositoryServiceBaseImpl {
 
 	@Override
 	public Repository getRepository(long repositoryId) throws PortalException {
-		return repositoryPersistence.findByPrimaryKey(repositoryId);
-	}
+		Repository repository = repositoryPersistence.findByPrimaryKey(
+			repositoryId);
 
-	@Override
-	public String[] getSupportedConfigurations(long classNameId) {
-		try {
-			ClassName className = classNameLocalService.getClassName(
-				classNameId);
+		DLFolderPermission.check(
+			getPermissionChecker(), repository.getGroupId(),
+			repository.getDlFolderId(), ActionKeys.VIEW);
 
-			String repositoryImplClassName = className.getValue();
-
-			RepositoryClassDefinition repositoryClassDefinition =
-				_repositoryClassDefinitionCatalog.getRepositoryClassDefinition(
-					repositoryImplClassName);
-
-			return repositoryClassDefinition.getSupportedConfigurations();
-		}
-		catch (PortalException pe) {
-			throw new SystemException(pe);
-		}
+		return repository;
 	}
 
 	/**
-	 * @deprecated As of 7.0.0, replaced by {@link
-	 *             #getSupportedParameters(String, String)}
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
+	@Override
+	public String[] getSupportedConfigurations(long classNameId) {
+		return _SUPPORTED_CONFIGURATIONS;
+	}
+
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
 	 */
 	@Deprecated
 	@Override
@@ -118,35 +118,50 @@ public class RepositoryServiceImpl extends RepositoryServiceBaseImpl {
 			return getSupportedParameters(
 				repositoryImplClassName, configuration);
 		}
-		catch (PortalException e) {
-			throw new SystemException(e);
+		catch (PortalException pe) {
+			throw new SystemException(pe);
 		}
 	}
 
+	/**
+	 * @deprecated As of 7.0.0, with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public String[] getSupportedParameters(
 		String className, String configuration) {
 
 		try {
+			if (!configuration.equals(_CONFIGURATION)) {
+				throw new IllegalArgumentException(
+					StringBundler.concat(
+						"Specified ", configuration, " does not match ",
+						"supported configuration ", _CONFIGURATION));
+			}
+
+			Collection<String> supportedParameters = new ArrayList<>();
+
 			RepositoryClassDefinition repositoryClassDefinition =
 				_repositoryClassDefinitionCatalog.getRepositoryClassDefinition(
 					className);
 
-			String[] supportedConfigurations =
-				repositoryClassDefinition.getSupportedConfigurations();
+			RepositoryConfiguration repositoryConfiguration =
+				repositoryClassDefinition.getRepositoryConfiguration();
 
-			String[][] supportedParameters =
-				repositoryClassDefinition.getSupportedParameters();
+			Collection<RepositoryConfiguration.Parameter>
+				repositoryConfigurationParameters =
+					repositoryConfiguration.getParameters();
 
-			for (int i = 0; i < supportedConfigurations.length; i++) {
-				if (supportedConfigurations[i].equals(configuration)) {
-					return supportedParameters[i];
-				}
+			for (RepositoryConfiguration.Parameter
+					repositoryConfigurationParameter :
+						repositoryConfigurationParameters) {
+
+				supportedParameters.add(
+					repositoryConfigurationParameter.getName());
 			}
 
-			throw new RepositoryException(
-				"Configuration not found for repository with class name " +
-					className);
+			return supportedParameters.toArray(
+				new String[repositoryConfigurationParameters.size()]);
 		}
 		catch (Exception e) {
 			throw new SystemException(e);
@@ -240,6 +255,10 @@ public class RepositoryServiceImpl extends RepositoryServiceBaseImpl {
 			throw new InvalidRepositoryIdException(nsre.getMessage());
 		}
 	}
+
+	private static final String _CONFIGURATION = "DEFAULT";
+
+	private static final String[] _SUPPORTED_CONFIGURATIONS = {_CONFIGURATION};
 
 	@BeanReference(type = RepositoryClassDefinitionCatalog.class)
 	private RepositoryClassDefinitionCatalog _repositoryClassDefinitionCatalog;

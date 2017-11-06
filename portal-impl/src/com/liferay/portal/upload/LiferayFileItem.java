@@ -14,15 +14,16 @@
 
 package com.liferay.portal.upload;
 
+import com.liferay.petra.memory.DeleteFileFinalizeAction;
+import com.liferay.petra.memory.FinalizeManager;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.memory.DeleteFileFinalizeAction;
-import com.liferay.portal.kernel.memory.FinalizeManager;
 import com.liferay.portal.kernel.upload.FileItem;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.util.PropsUtil;
 
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
  * @author Brian Wing Shun Chan
@@ -43,11 +45,11 @@ public class LiferayFileItem extends DiskFileItem implements FileItem {
 		PropsUtil.get(LiferayFileItem.class.getName() + ".threshold.size"));
 
 	public LiferayFileItem(
-		String fieldName, String contentType, boolean isFormField,
+		String fieldName, String contentType, boolean formField,
 		String fileName, int sizeThreshold, File repository) {
 
 		super(
-			fieldName, contentType, isFormField, fileName, sizeThreshold,
+			fieldName, contentType, formField, fileName, sizeThreshold,
 			repository);
 
 		_fileName = fileName;
@@ -101,9 +103,58 @@ public class LiferayFileItem extends DiskFileItem implements FileItem {
 		return _fileName;
 	}
 
+	public long getItemSize() {
+		long size = getSize();
+
+		String contentType = getContentType();
+
+		if (contentType != null) {
+			byte[] bytes = contentType.getBytes();
+
+			size += bytes.length;
+		}
+
+		String fieldName = getFieldName();
+
+		if (fieldName != null) {
+			byte[] bytes = fieldName.getBytes();
+
+			size += bytes.length;
+		}
+
+		String fileName = getFileName();
+
+		if (fileName != null) {
+			byte[] bytes = fileName.getBytes();
+
+			size += bytes.length;
+		}
+
+		return size;
+	}
+
 	@Override
 	public int getSizeThreshold() {
 		return _sizeThreshold;
+	}
+
+	@Override
+	public File getStoreLocation() {
+		if (!ServerDetector.isWebLogic()) {
+			return super.getStoreLocation();
+		}
+
+		try {
+			DeferredFileOutputStream dfos =
+				(DeferredFileOutputStream)getOutputStream();
+
+			return dfos.getFile();
+		}
+		catch (IOException ioe) {
+			_log.error(ioe, ioe);
+
+			return null;
+		}
 	}
 
 	@Override

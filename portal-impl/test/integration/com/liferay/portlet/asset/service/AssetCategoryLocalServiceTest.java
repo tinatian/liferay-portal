@@ -14,8 +14,18 @@
 
 package com.liferay.portlet.asset.service;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.ListTypeConstants;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.OrganizationConstants;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.rule.Sync;
@@ -24,16 +34,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.ListTypeConstants;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.OrganizationConstants;
-import com.liferay.portal.service.OrganizationLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.model.AssetVocabulary;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -54,8 +55,7 @@ public class AssetCategoryLocalServiceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -100,7 +100,7 @@ public class AssetCategoryLocalServiceTest {
 			TestPropsValues.getUserId(),
 			OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID,
 			RandomTestUtil.randomString(),
-			OrganizationConstants.TYPE_REGULAR_ORGANIZATION, 0, 0,
+			OrganizationConstants.TYPE_ORGANIZATION, 0, 0,
 			ListTypeConstants.ORGANIZATION_STATUS_DEFAULT,
 			RandomTestUtil.randomString(), true, serviceContext);
 

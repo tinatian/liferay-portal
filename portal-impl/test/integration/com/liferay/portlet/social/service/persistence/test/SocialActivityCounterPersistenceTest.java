@@ -22,22 +22,21 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
-import com.liferay.portlet.social.NoSuchActivityCounterException;
-import com.liferay.portlet.social.model.SocialActivityCounter;
-import com.liferay.portlet.social.service.SocialActivityCounterLocalServiceUtil;
-import com.liferay.portlet.social.service.persistence.SocialActivityCounterPersistence;
-import com.liferay.portlet.social.service.persistence.SocialActivityCounterUtil;
+import com.liferay.social.kernel.exception.NoSuchActivityCounterException;
+import com.liferay.social.kernel.model.SocialActivityCounter;
+import com.liferay.social.kernel.service.SocialActivityCounterLocalServiceUtil;
+import com.liferay.social.kernel.service.persistence.SocialActivityCounterPersistence;
+import com.liferay.social.kernel.service.persistence.SocialActivityCounterUtil;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -53,6 +52,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -471,7 +471,7 @@ public class SocialActivityCounterPersistenceTest {
 				existingSocialActivityCounter.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(existingSocialActivityCounter,
 				"getOriginalClassPK", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(
+		Assert.assertTrue(Objects.equals(
 				existingSocialActivityCounter.getName(),
 				ReflectionTestUtil.invoke(existingSocialActivityCounter,
 					"getOriginalName", new Class<?>[0])));
@@ -496,7 +496,7 @@ public class SocialActivityCounterPersistenceTest {
 				existingSocialActivityCounter.getClassPK()),
 			ReflectionTestUtil.<Long>invoke(existingSocialActivityCounter,
 				"getOriginalClassPK", new Class<?>[0]));
-		Assert.assertTrue(Validator.equals(
+		Assert.assertTrue(Objects.equals(
 				existingSocialActivityCounter.getName(),
 				ReflectionTestUtil.invoke(existingSocialActivityCounter,
 					"getOriginalName", new Class<?>[0])));

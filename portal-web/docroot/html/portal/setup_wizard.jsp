@@ -36,7 +36,6 @@
 						<%= PropsValues.COMPANY_DEFAULT_NAME %>
 					</span>
 				</span>
-
 				<span class="configuration-title" title="<liferay-ui:message key="basic-configuration" />">
 					<i class="icon-cog"></i>
 
@@ -50,14 +49,6 @@
 		<div id="main-content">
 
 			<%
-			String defaultEmailAddress = PropsValues.DEFAULT_ADMIN_EMAIL_ADDRESS_PREFIX + StringPool.AT + company.getMx();
-
-			long emailAddressId = ParamUtil.getLong(request, "emailAddressId");
-
-			EmailAddress emailAddresModel = EmailAddressServiceUtil.fetchEmailAddress(emailAddressId);
-
-			String emailAddress = (emailAddresModel == null) ? defaultEmailAddress : emailAddresModel.getAddress();
-
 			UnicodeProperties unicodeProperties = (UnicodeProperties)session.getAttribute(WebKeys.SETUP_WIZARD_PROPERTIES);
 			%>
 
@@ -75,23 +66,25 @@
 							<aui:fieldset cssClass="col-md-6" label="portal">
 								<aui:input helpTextCssClass="help-inline" label="portal-name" name="companyName" suffix='<%= LanguageUtil.format(request, "for-example-x", "Liferay", false) %>' value="<%= PropsValues.COMPANY_DEFAULT_NAME %>" />
 
-								<aui:select inlineField="<%= true %>" label="default-language" name="companyLocale">
+								<aui:field-wrapper inlineLabel="default-language" label="default-language" name="companyLocale">
+									<aui:select label="" name="companyLocale">
 
-									<%
-									String languageId = GetterUtil.getString((String)session.getAttribute(WebKeys.SETUP_WIZARD_DEFAULT_LOCALE), SetupWizardUtil.getDefaultLanguageId());
+										<%
+										String languageId = GetterUtil.getString((String)session.getAttribute(WebKeys.SETUP_WIZARD_DEFAULT_LOCALE), SetupWizardUtil.getDefaultLanguageId());
 
-									for (Locale curLocale : LanguageUtil.getAvailableLocales()) {
-									%>
+										for (Locale curLocale : LanguageUtil.getAvailableLocales()) {
+										%>
 
-										<aui:option label="<%= curLocale.getDisplayName(curLocale) %>" selected="<%= languageId.equals(LocaleUtil.toLanguageId(curLocale)) %>" value="<%= LocaleUtil.toLanguageId(curLocale) %>" />
+											<aui:option label="<%= curLocale.getDisplayName(curLocale) %>" selected="<%= languageId.equals(LocaleUtil.toLanguageId(curLocale)) %>" value="<%= LocaleUtil.toLanguageId(curLocale) %>" />
 
-									<%
-									}
-									%>
+										<%
+										}
+										%>
 
-								</aui:select>
+									</aui:select>
 
-								<aui:button cssClass="change-language" name="changeLanguageButton" value="change" />
+									<aui:button cssClass="change-language" name="changeLanguageButton" value="change" />
+								</aui:field-wrapper>
 
 								<aui:input label="add-sample-data" name='<%= "properties--" + PropsKeys.SETUP_WIZARD_ADD_SAMPLE_DATA + "--" %>' type="checkbox" value="<%= true %>" />
 							</aui:fieldset>
@@ -99,7 +92,7 @@
 							<aui:fieldset cssClass="col-md-6 column-last" label="administrator-user">
 								<%@ include file="/html/portal/setup_wizard_user_name.jspf" %>
 
-								<aui:input label="email" name="adminEmailAddress" value="<%= emailAddress %>">
+								<aui:input label="email" name="adminEmailAddress" value="<%= PropsValues.ADMIN_EMAIL_FROM_ADDRESS %>">
 									<aui:validator name="email" />
 									<aui:validator name="required" />
 								</aui:input>
@@ -182,21 +175,21 @@
 									<aui:select cssClass="database-type" name="databaseType">
 
 										<%
-										for (int i = 0; i < PropsValues.SETUP_DATABASE_TYPES.length; i++) {
-											String databaseType = PropsValues.SETUP_DATABASE_TYPES[i];
+										for (DBType dbType : DBManagerUtil.getDBTypes()) {
+											String dbTypeString = dbType.toString();
 
 											Map<String, Object> data = new HashMap<String, Object>();
 
-											String driverClassName = PropsUtil.get(PropsKeys.SETUP_DATABASE_DRIVER_CLASS_NAME, new Filter(databaseType));
+											String driverClassName = PropsUtil.get(PropsKeys.SETUP_DATABASE_DRIVER_CLASS_NAME, new Filter(dbTypeString));
 
 											data.put("driverClassName", driverClassName);
 
-											String url = PropsUtil.get(PropsKeys.SETUP_DATABASE_URL, new Filter(databaseType));
+											String url = PropsUtil.get(PropsKeys.SETUP_DATABASE_URL, new Filter(dbTypeString));
 
 											data.put("url", url);
 										%>
 
-											<aui:option data="<%= data %>" label='<%= "database." + databaseType %>' selected="<%= PropsValues.JDBC_DEFAULT_URL.contains(databaseType) %>" value="<%= databaseType %>" />
+											<aui:option data="<%= data %>" label='<%= "database." + dbTypeString %>' selected="<%= PropsValues.JDBC_DEFAULT_URL.contains(dbTypeString) %>" value="<%= dbTypeString %>" />
 
 										<%
 										}
@@ -220,7 +213,7 @@
 						</div>
 
 						<aui:button-row>
-							<aui:button name="finishButton" type="submit" value="finish-configuration" />
+							<aui:button cssClass="btn-lg" name="finishButton" type="submit" value="finish-configuration" />
 						</aui:button-row>
 					</aui:form>
 
@@ -232,13 +225,11 @@
 						var defaultDatabaseOptions = A.one('#defaultDatabaseOptions');
 						var defaultDatabaseOptionsLink = A.one('#defaultDatabaseOptionsLink');
 
-						var jdbcDefaultURL = A.one('#jdbcDefaultURL');
 						var jdbcDefaultDriverClassName = A.one('#jdbcDefaultDriverName');
-						var jdbcDefaultUserName = A.one('#jdbcDefaultUserName');
-						var jdbcDefaultPassword = A.one('#jdbcDefaultPassword');
+						var jdbcDefaultURL = A.one('#jdbcDefaultURL');
 
-						var setupForm = A.one('#fm');
 						var command = A.one('#<%= Constants.CMD %>');
+						var setupForm = A.one('#fm');
 
 						var connectionMessages = A.one('#connectionMessages');
 
@@ -263,17 +254,15 @@
 						}
 
 						var onChangeDatabaseSelector = function() {
-							var value = databaseSelector.val();
-
 							var index = databaseSelector.get('selectedIndex');
 
 							var selectedOption = databaseSelector.get('options').item(index);
 
-							var driverClassName = selectedOption.attr('data-driverClassName');
 							var databaseURL = selectedOption.attr('data-url');
+							var driverClassName = selectedOption.attr('data-driverClassName');
 
-							jdbcDefaultURL.val(databaseURL);
 							jdbcDefaultDriverClassName.val(driverClassName);
+							jdbcDefaultURL.val(databaseURL);
 						};
 
 						databaseSelector.on('change', onChangeDatabaseSelector);

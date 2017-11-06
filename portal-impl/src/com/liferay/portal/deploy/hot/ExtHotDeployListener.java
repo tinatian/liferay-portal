@@ -14,6 +14,8 @@
 
 package com.liferay.portal.deploy.hot;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.deploy.hot.BaseHotDeployListener;
 import com.liferay.portal.kernel.deploy.hot.HotDeployEvent;
 import com.liferay.portal.kernel.deploy.hot.HotDeployException;
@@ -22,13 +24,14 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.WebDirDetector;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.tools.WebXMLBuilder;
 import com.liferay.portal.util.ExtRegistry;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.taglib.FileAvailabilityUtil;
 import com.liferay.util.ant.CopyTask;
 
@@ -49,6 +52,7 @@ import javax.servlet.ServletContext;
 /**
  * @author Brian Wing Shun Chan
  */
+@ProviderType
 public class ExtHotDeployListener extends BaseHotDeployListener {
 
 	@Override
@@ -85,7 +89,8 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 
 		String servletContextName = servletContext.getServletContextName();
 
-		String jarFullName = "/WEB-INF/" + jarName + "/" + jarName + ".jar";
+		String jarFullName = StringBundler.concat(
+			"/WEB-INF/", jarName, "/", jarName, ".jar");
 
 		InputStream is = servletContext.getResourceAsStream(jarFullName);
 
@@ -93,8 +98,8 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 			throw new HotDeployException(jarFullName + " does not exist");
 		}
 
-		String newJarFullName =
-			dir + "ext-" + servletContextName + jarName.substring(3) + ".jar";
+		String newJarFullName = StringBundler.concat(
+			dir, "ext-", servletContextName, jarName.substring(3), ".jar");
 
 		StreamUtil.transfer(is, new FileOutputStream(new File(newJarFullName)));
 	}
@@ -139,9 +144,9 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 		if (!conflicts.isEmpty()) {
 			StringBundler sb = new StringBundler();
 
-			sb.append(
-				"Extension environment for " + servletContextName +
-					" cannot be applied because of detected conflicts:");
+			sb.append("Extension environment for ");
+			sb.append(servletContextName);
+			sb.append(" cannot be applied because of detected conflicts:");
 
 			for (Map.Entry<String, Set<String>> entry : conflicts.entrySet()) {
 				String conflictServletContextName = entry.getKey();
@@ -168,9 +173,10 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
-				"Extension environment for " + servletContextName +
-					" has been applied. You must reboot the server and " +
-						"redeploy all other plugins.");
+				StringBundler.concat(
+					"Extension environment for ", servletContextName,
+					" has been applied. You must reboot the server and ",
+					"redeploy all other plugins."));
 		}
 	}
 
@@ -195,9 +201,17 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 
 		if (_log.isInfoEnabled()) {
 			_log.info(
-				"Extension environment for " +
-					servletContextName + " will not be undeployed");
+				"Extension environment for " + servletContextName +
+					" will not be undeployed");
 		}
+	}
+
+	/**
+	 * @deprecated As of 7.0.0
+	 */
+	@Deprecated
+	protected void installExt(ServletContext servletContext) throws Exception {
+		installExt(servletContext, servletContext.getClassLoader());
 	}
 
 	protected void installExt(
@@ -211,7 +225,18 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 		String portalLibDir = PortalUtil.getPortalLibDir();
 		String pluginWebDir = WebDirDetector.getRootDir(portletClassLoader);
 
-		copyJar(servletContext, globalLibDir, "ext-service");
+		if (ServerDetector.isTomcat()) {
+			portalLibDir = globalLibDir.concat("portal/");
+
+			FileUtil.mkdirs(portalLibDir);
+
+			globalLibDir = globalLibDir.concat("global/");
+
+			FileUtil.mkdirs(globalLibDir);
+		}
+
+		copyJar(servletContext, globalLibDir, "ext-kernel");
+
 		copyJar(servletContext, portalLibDir, "ext-impl");
 		copyJar(servletContext, portalLibDir, "ext-util-bridges");
 		copyJar(servletContext, portalLibDir, "ext-util-java");
@@ -224,8 +249,10 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 			StringPool.BLANK, "**/WEB-INF/web.xml", true, false);
 
 		FileUtil.copyFile(
-			pluginWebDir + "WEB-INF/ext-" + servletContextName + ".xml",
-			portalWebDir + "WEB-INF/ext-" + servletContextName + ".xml");
+			StringBundler.concat(
+				pluginWebDir, "WEB-INF/ext-", servletContextName, ".xml"),
+			StringBundler.concat(
+				portalWebDir, "WEB-INF/ext-", servletContextName, ".xml"));
 
 		ExtRegistry.registerExt(servletContext);
 	}

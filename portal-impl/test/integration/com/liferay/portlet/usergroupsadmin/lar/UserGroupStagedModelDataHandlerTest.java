@@ -14,28 +14,30 @@
 
 package com.liferay.portlet.usergroupsadmin.lar;
 
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
+import com.liferay.portal.kernel.test.rule.Sync;
+import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.UserGroupTestUtil;
 import com.liferay.portal.lar.test.BaseStagedModelDataHandlerTestCase;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.StagedModel;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.service.UserGroupLocalServiceUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
 
 /**
  * @author David Mendez Gonzalez
  */
+@Sync
 public class UserGroupStagedModelDataHandlerTest
 	extends BaseStagedModelDataHandlerTestCase {
 
@@ -43,8 +45,8 @@ public class UserGroupStagedModelDataHandlerTest
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
-			TransactionalTestRule.INSTANCE);
+			new LiferayIntegrationTestRule(),
+			SynchronousDestinationTestRule.INSTANCE);
 
 	@After
 	@Override
@@ -83,6 +85,24 @@ public class UserGroupStagedModelDataHandlerTest
 	@Override
 	protected Class<? extends StagedModel> getStagedModelClass() {
 		return UserGroup.class;
+	}
+
+	@Override
+	protected void validateImportedStagedModel(
+			StagedModel stagedModel, StagedModel importedStagedModel)
+		throws Exception {
+
+		super.validateImportedStagedModel(stagedModel, importedStagedModel);
+
+		UserGroup userGroup = (UserGroup)stagedModel;
+		UserGroup importedUserGroup = (UserGroup)importedStagedModel;
+
+		Assert.assertEquals(userGroup.getName(), importedUserGroup.getName());
+		Assert.assertEquals(
+			userGroup.getDescription(), importedUserGroup.getDescription());
+		Assert.assertEquals(
+			userGroup.isAddedByLDAPImport(),
+			importedUserGroup.isAddedByLDAPImport());
 	}
 
 	@DeleteAfterTestRun

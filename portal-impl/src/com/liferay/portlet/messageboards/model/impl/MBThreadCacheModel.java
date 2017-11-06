@@ -16,12 +16,12 @@ package com.liferay.portlet.messageboards.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.message.boards.kernel.model.MBThread;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.messageboards.model.MBThread;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -202,24 +202,38 @@ public class MBThreadCacheModel implements CacheModel<MBThread>, Externalizable 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		threadId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
 		categoryId = objectInput.readLong();
+
 		rootMessageId = objectInput.readLong();
+
 		rootMessageUserId = objectInput.readLong();
+
 		messageCount = objectInput.readInt();
+
 		viewCount = objectInput.readInt();
+
 		lastPostByUserId = objectInput.readLong();
 		lastPostDate = objectInput.readLong();
+
 		priority = objectInput.readDouble();
+
 		question = objectInput.readBoolean();
 		lastPublishDate = objectInput.readLong();
+
 		status = objectInput.readInt();
+
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
@@ -236,8 +250,11 @@ public class MBThreadCacheModel implements CacheModel<MBThread>, Externalizable 
 		}
 
 		objectOutput.writeLong(threadId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
@@ -249,17 +266,27 @@ public class MBThreadCacheModel implements CacheModel<MBThread>, Externalizable 
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
 		objectOutput.writeLong(categoryId);
+
 		objectOutput.writeLong(rootMessageId);
+
 		objectOutput.writeLong(rootMessageUserId);
+
 		objectOutput.writeInt(messageCount);
+
 		objectOutput.writeInt(viewCount);
+
 		objectOutput.writeLong(lastPostByUserId);
 		objectOutput.writeLong(lastPostDate);
+
 		objectOutput.writeDouble(priority);
+
 		objectOutput.writeBoolean(question);
 		objectOutput.writeLong(lastPublishDate);
+
 		objectOutput.writeInt(status);
+
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {

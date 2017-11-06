@@ -16,11 +16,11 @@ package com.liferay.portlet.announcements.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.announcements.kernel.model.AnnouncementsFlag;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.announcements.model.AnnouncementsFlag;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -65,10 +65,12 @@ public class AnnouncementsFlagCacheModel implements CacheModel<AnnouncementsFlag
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{flagId=");
 		sb.append(flagId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append(", userId=");
 		sb.append(userId);
 		sb.append(", createDate=");
@@ -87,6 +89,7 @@ public class AnnouncementsFlagCacheModel implements CacheModel<AnnouncementsFlag
 		AnnouncementsFlagImpl announcementsFlagImpl = new AnnouncementsFlagImpl();
 
 		announcementsFlagImpl.setFlagId(flagId);
+		announcementsFlagImpl.setCompanyId(companyId);
 		announcementsFlagImpl.setUserId(userId);
 
 		if (createDate == Long.MIN_VALUE) {
@@ -107,9 +110,14 @@ public class AnnouncementsFlagCacheModel implements CacheModel<AnnouncementsFlag
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		flagId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		createDate = objectInput.readLong();
+
 		entryId = objectInput.readLong();
+
 		value = objectInput.readInt();
 	}
 
@@ -117,13 +125,19 @@ public class AnnouncementsFlagCacheModel implements CacheModel<AnnouncementsFlag
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(flagId);
+
+		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 		objectOutput.writeLong(createDate);
+
 		objectOutput.writeLong(entryId);
+
 		objectOutput.writeInt(value);
 	}
 
 	public long flagId;
+	public long companyId;
 	public long userId;
 	public long createDate;
 	public long entryId;

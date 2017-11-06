@@ -1,9 +1,20 @@
-dependencies {
-	compile group: "javax.servlet", name: "jstl", transitive: false, version: "1.2"
-	compile group: "javax.servlet.jsp.jstl", name: "jstl-api", transitive: false, version: "1.2"
-	compile group: "org.apache.ant", name: "ant", version: "1.9.4"
-	compile group: "org.apache.tomcat", name: "tomcat-jasper", version: "7.0.42"
-}
-
 sourceCompatibility = "1.6"
 targetCompatibility = "1.6"
+
+dependencies {
+	compile(group: "com.liferay", name: "com.liferay.portal.servlet.jsp.compiler", version: "1.0.5") {
+		exclude group: "com.liferay.portal"
+		exclude group: "javax.servlet"
+		exclude group: "javax.servlet.jsp", module: "jsp-api"
+	}
+
+	compile group: "org.apache.ant", name: "ant", version: "1.9.4"
+}
+
+liferay {
+	deployDir = "../../../tools/sdk/dependencies/com.liferay.jasper.jspc/lib"
+}
+
+updateFileVersions {
+	match(/com\.liferay\.jasper\.jspc=(\d.+)/, "../../sdk/gradle-plugins/src/main/resources/com/liferay/gradle/plugins/dependencies/portal-tools.properties")
+}

@@ -14,8 +14,9 @@
 
 package com.liferay.portal.security.permission;
 
-import com.liferay.portal.model.BaseModelListener;
-import com.liferay.portal.model.ResourceBlock;
+import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.model.ResourceBlock;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.model.impl.ResourceBlockModelImpl;
 
 /**
@@ -59,12 +60,16 @@ public class ResourceBlockModelListener
 			PermissionCacheUtil.clearResourceBlockCache(
 				resourceBlock.getCompanyId(), resourceBlock.getGroupId(),
 				resourceBlock.getName());
+
+			PermissionCacheUtil.clearResourcePermissionCache(
+				ResourceConstants.SCOPE_INDIVIDUAL, resourceBlock.getName(),
+				String.valueOf(resourceBlock.getPrimaryKey()));
 		}
 	}
 
 	private static final long _CLEAR_ON_BEFORE_BITMASK =
 		ResourceBlockModelImpl.COMPANYID_COLUMN_BITMASK |
-			ResourceBlockModelImpl.GROUPID_COLUMN_BITMASK |
-				ResourceBlockModelImpl.NAME_COLUMN_BITMASK;
+		ResourceBlockModelImpl.GROUPID_COLUMN_BITMASK |
+		ResourceBlockModelImpl.NAME_COLUMN_BITMASK;
 
 }

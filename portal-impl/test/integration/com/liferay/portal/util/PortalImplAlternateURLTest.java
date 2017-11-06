@@ -14,20 +14,22 @@
 
 package com.liferay.portal.util;
 
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.test.LayoutTestUtil;
 
 import java.util.Arrays;
@@ -49,8 +51,7 @@ public class PortalImplAlternateURLTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -181,6 +182,7 @@ public class PortalImplAlternateURLTest {
 		themeDisplay.setCompany(company);
 
 		themeDisplay.setLayoutSet(group.getPublicLayoutSet());
+		themeDisplay.setPortalDomain(HttpUtil.getDomain(portalURL));
 		themeDisplay.setPortalURL(portalURL);
 
 		return themeDisplay;

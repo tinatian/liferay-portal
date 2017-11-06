@@ -16,24 +16,26 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserModel;
+import com.liferay.portal.kernel.model.UserSoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserModel;
-import com.liferay.portal.model.UserSoap;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
 
 import java.io.Serializable;
 
@@ -87,6 +89,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			{ "screenName", Types.VARCHAR },
 			{ "emailAddress", Types.VARCHAR },
 			{ "facebookId", Types.BIGINT },
+			{ "googleUserId", Types.VARCHAR },
 			{ "ldapServerId", Types.BIGINT },
 			{ "openId", Types.VARCHAR },
 			{ "portraitId", Types.BIGINT },
@@ -132,6 +135,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		TABLE_COLUMNS_MAP.put("screenName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("emailAddress", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("googleUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("ldapServerId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("openId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("portraitId", Types.BIGINT);
@@ -156,7 +160,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table User_ (mvccVersion LONG default 0,uuid_ VARCHAR(75) null,userId LONG not null primary key,companyId LONG,createDate DATE null,modifiedDate DATE null,defaultUser BOOLEAN,contactId LONG,password_ VARCHAR(75) null,passwordEncrypted BOOLEAN,passwordReset BOOLEAN,passwordModifiedDate DATE null,digest VARCHAR(255) null,reminderQueryQuestion VARCHAR(75) null,reminderQueryAnswer VARCHAR(75) null,graceLoginCount INTEGER,screenName VARCHAR(75) null,emailAddress VARCHAR(75) null,facebookId LONG,ldapServerId LONG,openId VARCHAR(1024) null,portraitId LONG,languageId VARCHAR(75) null,timeZoneId VARCHAR(75) null,greeting VARCHAR(255) null,comments STRING null,firstName VARCHAR(75) null,middleName VARCHAR(75) null,lastName VARCHAR(75) null,jobTitle VARCHAR(100) null,loginDate DATE null,loginIP VARCHAR(75) null,lastLoginDate DATE null,lastLoginIP VARCHAR(75) null,lastFailedLoginDate DATE null,failedLoginAttempts INTEGER,lockout BOOLEAN,lockoutDate DATE null,agreedToTermsOfUse BOOLEAN,emailAddressVerified BOOLEAN,status INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table User_ (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,userId LONG not null primary key,companyId LONG,createDate DATE null,modifiedDate DATE null,defaultUser BOOLEAN,contactId LONG,password_ VARCHAR(75) null,passwordEncrypted BOOLEAN,passwordReset BOOLEAN,passwordModifiedDate DATE null,digest VARCHAR(255) null,reminderQueryQuestion VARCHAR(75) null,reminderQueryAnswer VARCHAR(75) null,graceLoginCount INTEGER,screenName VARCHAR(75) null,emailAddress VARCHAR(75) null,facebookId LONG,googleUserId VARCHAR(75) null,ldapServerId LONG,openId VARCHAR(1024) null,portraitId LONG,languageId VARCHAR(75) null,timeZoneId VARCHAR(75) null,greeting VARCHAR(255) null,comments STRING null,firstName VARCHAR(75) null,middleName VARCHAR(75) null,lastName VARCHAR(75) null,jobTitle VARCHAR(100) null,loginDate DATE null,loginIP VARCHAR(75) null,lastLoginDate DATE null,lastLoginIP VARCHAR(75) null,lastFailedLoginDate DATE null,failedLoginAttempts INTEGER,lockout BOOLEAN,lockoutDate DATE null,agreedToTermsOfUse BOOLEAN,emailAddressVerified BOOLEAN,status INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table User_";
 	public static final String ORDER_BY_JPQL = " ORDER BY user.userId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY User_.userId ASC";
@@ -164,13 +168,13 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.User"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.User"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.User"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.User"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.User"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.User"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long CONTACTID_COLUMN_BITMASK = 2L;
@@ -178,13 +182,14 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	public static final long DEFAULTUSER_COLUMN_BITMASK = 8L;
 	public static final long EMAILADDRESS_COLUMN_BITMASK = 16L;
 	public static final long FACEBOOKID_COLUMN_BITMASK = 32L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
-	public static final long OPENID_COLUMN_BITMASK = 128L;
-	public static final long PORTRAITID_COLUMN_BITMASK = 256L;
-	public static final long SCREENNAME_COLUMN_BITMASK = 512L;
-	public static final long STATUS_COLUMN_BITMASK = 1024L;
-	public static final long USERID_COLUMN_BITMASK = 2048L;
-	public static final long UUID_COLUMN_BITMASK = 4096L;
+	public static final long GOOGLEUSERID_COLUMN_BITMASK = 64L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+	public static final long OPENID_COLUMN_BITMASK = 256L;
+	public static final long PORTRAITID_COLUMN_BITMASK = 512L;
+	public static final long SCREENNAME_COLUMN_BITMASK = 1024L;
+	public static final long STATUS_COLUMN_BITMASK = 2048L;
+	public static final long USERID_COLUMN_BITMASK = 4096L;
+	public static final long UUID_COLUMN_BITMASK = 8192L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -218,6 +223,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		model.setScreenName(soapModel.getScreenName());
 		model.setEmailAddress(soapModel.getEmailAddress());
 		model.setFacebookId(soapModel.getFacebookId());
+		model.setGoogleUserId(soapModel.getGoogleUserId());
 		model.setLdapServerId(soapModel.getLdapServerId());
 		model.setOpenId(soapModel.getOpenId());
 		model.setPortraitId(soapModel.getPortraitId());
@@ -270,7 +276,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			{ "groupId", Types.BIGINT },
 			{ "userId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_USERS_GROUPS_SQL_CREATE = "create table Users_Groups (companyId LONG not null,groupId LONG not null,userId LONG not null,primary key (companyId, groupId, userId))";
+	public static final String MAPPING_TABLE_USERS_GROUPS_SQL_CREATE = "create table Users_Groups (companyId LONG not null,groupId LONG not null,userId LONG not null,primary key (groupId, userId))";
 	public static final boolean FINDER_CACHE_ENABLED_USERS_GROUPS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Users_Groups"), true);
 	public static final String MAPPING_TABLE_USERS_ORGS_NAME = "Users_Orgs";
@@ -279,7 +285,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			{ "organizationId", Types.BIGINT },
 			{ "userId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_USERS_ORGS_SQL_CREATE = "create table Users_Orgs (companyId LONG not null,organizationId LONG not null,userId LONG not null,primary key (companyId, organizationId, userId))";
+	public static final String MAPPING_TABLE_USERS_ORGS_SQL_CREATE = "create table Users_Orgs (companyId LONG not null,organizationId LONG not null,userId LONG not null,primary key (organizationId, userId))";
 	public static final boolean FINDER_CACHE_ENABLED_USERS_ORGS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Users_Orgs"), true);
 	public static final String MAPPING_TABLE_USERS_ROLES_NAME = "Users_Roles";
@@ -288,7 +294,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			{ "roleId", Types.BIGINT },
 			{ "userId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_USERS_ROLES_SQL_CREATE = "create table Users_Roles (companyId LONG not null,roleId LONG not null,userId LONG not null,primary key (companyId, roleId, userId))";
+	public static final String MAPPING_TABLE_USERS_ROLES_SQL_CREATE = "create table Users_Roles (companyId LONG not null,roleId LONG not null,userId LONG not null,primary key (roleId, userId))";
 	public static final boolean FINDER_CACHE_ENABLED_USERS_ROLES = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Users_Roles"), true);
 	public static final String MAPPING_TABLE_USERS_TEAMS_NAME = "Users_Teams";
@@ -297,7 +303,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			{ "teamId", Types.BIGINT },
 			{ "userId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_USERS_TEAMS_SQL_CREATE = "create table Users_Teams (companyId LONG not null,teamId LONG not null,userId LONG not null,primary key (companyId, teamId, userId))";
+	public static final String MAPPING_TABLE_USERS_TEAMS_SQL_CREATE = "create table Users_Teams (companyId LONG not null,teamId LONG not null,userId LONG not null,primary key (teamId, userId))";
 	public static final boolean FINDER_CACHE_ENABLED_USERS_TEAMS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Users_Teams"), true);
 	public static final String MAPPING_TABLE_USERS_USERGROUPS_NAME = "Users_UserGroups";
@@ -306,11 +312,11 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 			{ "userId", Types.BIGINT },
 			{ "userGroupId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_USERS_USERGROUPS_SQL_CREATE = "create table Users_UserGroups (companyId LONG not null,userId LONG not null,userGroupId LONG not null,primary key (companyId, userId, userGroupId))";
+	public static final String MAPPING_TABLE_USERS_USERGROUPS_SQL_CREATE = "create table Users_UserGroups (companyId LONG not null,userId LONG not null,userGroupId LONG not null,primary key (userId, userGroupId))";
 	public static final boolean FINDER_CACHE_ENABLED_USERS_USERGROUPS = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.Users_UserGroups"), true);
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.User"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.User"));
 
 	public UserModelImpl() {
 	}
@@ -368,6 +374,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		attributes.put("screenName", getScreenName());
 		attributes.put("emailAddress", getEmailAddress());
 		attributes.put("facebookId", getFacebookId());
+		attributes.put("googleUserId", getGoogleUserId());
 		attributes.put("ldapServerId", getLdapServerId());
 		attributes.put("openId", getOpenId());
 		attributes.put("portraitId", getPortraitId());
@@ -513,6 +520,12 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 		if (facebookId != null) {
 			setFacebookId(facebookId);
+		}
+
+		String googleUserId = (String)attributes.get("googleUserId");
+
+		if (googleUserId != null) {
+			setGoogleUserId(googleUserId);
 		}
 
 		Long ldapServerId = (Long)attributes.get("ldapServerId");
@@ -802,6 +815,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		return _defaultUser;
 	}
 
+	@JSON
 	@Override
 	public boolean isDefaultUser() {
 		return _defaultUser;
@@ -1038,6 +1052,32 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	public long getOriginalFacebookId() {
 		return _originalFacebookId;
+	}
+
+	@JSON
+	@Override
+	public String getGoogleUserId() {
+		if (_googleUserId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _googleUserId;
+		}
+	}
+
+	@Override
+	public void setGoogleUserId(String googleUserId) {
+		_columnBitmask |= GOOGLEUSERID_COLUMN_BITMASK;
+
+		if (_originalGoogleUserId == null) {
+			_originalGoogleUserId = _googleUserId;
+		}
+
+		_googleUserId = googleUserId;
+	}
+
+	public String getOriginalGoogleUserId() {
+		return GetterUtil.getString(_originalGoogleUserId);
 	}
 
 	@JSON
@@ -1310,6 +1350,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		return _lockout;
 	}
 
+	@JSON
 	@Override
 	public boolean isLockout() {
 		return _lockout;
@@ -1337,6 +1378,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		return _agreedToTermsOfUse;
 	}
 
+	@JSON
 	@Override
 	public boolean isAgreedToTermsOfUse() {
 		return _agreedToTermsOfUse;
@@ -1353,6 +1395,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		return _emailAddressVerified;
 	}
 
+	@JSON
 	@Override
 	public boolean isEmailAddressVerified() {
 		return _emailAddressVerified;
@@ -1442,6 +1485,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		userImpl.setScreenName(getScreenName());
 		userImpl.setEmailAddress(getEmailAddress());
 		userImpl.setFacebookId(getFacebookId());
+		userImpl.setGoogleUserId(getGoogleUserId());
 		userImpl.setLdapServerId(getLdapServerId());
 		userImpl.setOpenId(getOpenId());
 		userImpl.setPortraitId(getPortraitId());
@@ -1557,6 +1601,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		userModelImpl._originalFacebookId = userModelImpl._facebookId;
 
 		userModelImpl._setOriginalFacebookId = false;
+
+		userModelImpl._originalGoogleUserId = userModelImpl._googleUserId;
 
 		userModelImpl._originalOpenId = userModelImpl._openId;
 
@@ -1677,6 +1723,14 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		}
 
 		userCacheModel.facebookId = getFacebookId();
+
+		userCacheModel.googleUserId = getGoogleUserId();
+
+		String googleUserId = userCacheModel.googleUserId;
+
+		if ((googleUserId != null) && (googleUserId.length() == 0)) {
+			userCacheModel.googleUserId = null;
+		}
 
 		userCacheModel.ldapServerId = getLdapServerId();
 
@@ -1821,7 +1875,7 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(83);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
@@ -1861,6 +1915,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		sb.append(getEmailAddress());
 		sb.append(", facebookId=");
 		sb.append(getFacebookId());
+		sb.append(", googleUserId=");
+		sb.append(getGoogleUserId());
 		sb.append(", ldapServerId=");
 		sb.append(getLdapServerId());
 		sb.append(", openId=");
@@ -1912,10 +1968,10 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(127);
+		StringBundler sb = new StringBundler(130);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.User");
+		sb.append("com.liferay.portal.kernel.model.User");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -1993,6 +2049,10 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 		sb.append(
 			"<column><column-name>facebookId</column-name><column-value><![CDATA[");
 		sb.append(getFacebookId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>googleUserId</column-name><column-value><![CDATA[");
+		sb.append(getGoogleUserId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>ldapServerId</column-name><column-value><![CDATA[");
@@ -2127,6 +2187,8 @@ public class UserModelImpl extends BaseModelImpl<User> implements UserModel {
 	private long _facebookId;
 	private long _originalFacebookId;
 	private boolean _setOriginalFacebookId;
+	private String _googleUserId;
+	private String _originalGoogleUserId;
 	private long _ldapServerId;
 	private String _openId;
 	private String _originalOpenId;

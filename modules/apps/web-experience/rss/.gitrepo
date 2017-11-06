@@ -1,0 +1,11 @@
+;
+; Do not manually edit this file.
+;
+[subrepo]
+	autopull = false
+	cmdver = liferay
+	commit = 11079de9da72841837493b7b9fc11e3b4d7386d1
+	mergebuttonmergecommits = false
+	mode = push
+	parent = c65716e8455bcab0b61716503a42356bba97bf7c
+	remote = git@github.com:liferay/com-liferay-rss.git

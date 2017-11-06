@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchUserNotificationDeliveryException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,18 +26,19 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchUserNotificationDeliveryException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.UserNotificationDelivery;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.UserNotificationDeliveryPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.UserNotificationDelivery;
 import com.liferay.portal.model.impl.UserNotificationDeliveryImpl;
 import com.liferay.portal.model.impl.UserNotificationDeliveryModelImpl;
-import com.liferay.portal.service.persistence.UserNotificationDeliveryPersistence;
 
 import java.io.Serializable;
 
@@ -47,6 +48,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -58,7 +60,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see UserNotificationDeliveryPersistence
- * @see com.liferay.portal.service.persistence.UserNotificationDeliveryUtil
+ * @see com.liferay.portal.kernel.service.persistence.UserNotificationDeliveryUtil
  * @generated
  */
 @ProviderType
@@ -210,7 +212,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -429,8 +431,9 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -656,8 +659,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchUserNotificationDeliveryException(msg.toString());
@@ -714,7 +717,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 			UserNotificationDelivery userNotificationDelivery = (UserNotificationDelivery)result;
 
 			if ((userId != userNotificationDelivery.getUserId()) ||
-					!Validator.equals(portletId,
+					!Objects.equals(portletId,
 						userNotificationDelivery.getPortletId()) ||
 					(classNameId != userNotificationDelivery.getClassNameId()) ||
 					(notificationType != userNotificationDelivery.getNotificationType()) ||
@@ -1013,7 +1016,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((UserNotificationDeliveryModelImpl)userNotificationDelivery);
+		clearUniqueFindersCache((UserNotificationDeliveryModelImpl)userNotificationDelivery,
+			true);
 	}
 
 	@Override
@@ -1027,47 +1031,12 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 				UserNotificationDeliveryImpl.class,
 				userNotificationDelivery.getPrimaryKey());
 
-			clearUniqueFindersCache((UserNotificationDeliveryModelImpl)userNotificationDelivery);
+			clearUniqueFindersCache((UserNotificationDeliveryModelImpl)userNotificationDelivery,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		UserNotificationDeliveryModelImpl userNotificationDeliveryModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					userNotificationDeliveryModelImpl.getUserId(),
-					userNotificationDeliveryModelImpl.getPortletId(),
-					userNotificationDeliveryModelImpl.getClassNameId(),
-					userNotificationDeliveryModelImpl.getNotificationType(),
-					userNotificationDeliveryModelImpl.getDeliveryType()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_U_P_C_N_D, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_U_P_C_N_D, args,
-				userNotificationDeliveryModelImpl);
-		}
-		else {
-			if ((userNotificationDeliveryModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_U_P_C_N_D.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						userNotificationDeliveryModelImpl.getUserId(),
-						userNotificationDeliveryModelImpl.getPortletId(),
-						userNotificationDeliveryModelImpl.getClassNameId(),
-						userNotificationDeliveryModelImpl.getNotificationType(),
-						userNotificationDeliveryModelImpl.getDeliveryType()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_U_P_C_N_D, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_U_P_C_N_D, args,
-					userNotificationDeliveryModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		UserNotificationDeliveryModelImpl userNotificationDeliveryModelImpl) {
 		Object[] args = new Object[] {
 				userNotificationDeliveryModelImpl.getUserId(),
@@ -1077,12 +1046,31 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 				userNotificationDeliveryModelImpl.getDeliveryType()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_U_P_C_N_D, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_U_P_C_N_D, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_U_P_C_N_D, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_U_P_C_N_D, args,
+			userNotificationDeliveryModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		UserNotificationDeliveryModelImpl userNotificationDeliveryModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					userNotificationDeliveryModelImpl.getUserId(),
+					userNotificationDeliveryModelImpl.getPortletId(),
+					userNotificationDeliveryModelImpl.getClassNameId(),
+					userNotificationDeliveryModelImpl.getNotificationType(),
+					userNotificationDeliveryModelImpl.getDeliveryType()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_U_P_C_N_D, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_U_P_C_N_D, args);
+		}
 
 		if ((userNotificationDeliveryModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_U_P_C_N_D.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					userNotificationDeliveryModelImpl.getOriginalUserId(),
 					userNotificationDeliveryModelImpl.getOriginalPortletId(),
 					userNotificationDeliveryModelImpl.getOriginalClassNameId(),
@@ -1107,6 +1095,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 		userNotificationDelivery.setNew(true);
 		userNotificationDelivery.setPrimaryKey(userNotificationDeliveryId);
+
+		userNotificationDelivery.setCompanyId(companyProvider.getCompanyId());
 
 		return userNotificationDelivery;
 	}
@@ -1143,8 +1133,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 					primaryKey);
 
 			if (userNotificationDelivery == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchUserNotificationDeliveryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1229,8 +1219,22 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !UserNotificationDeliveryModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!UserNotificationDeliveryModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					userNotificationDeliveryModelImpl.getUserId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1259,8 +1263,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 			userNotificationDelivery.getPrimaryKey(), userNotificationDelivery,
 			false);
 
-		clearUniqueFindersCache(userNotificationDeliveryModelImpl);
-		cacheUniqueFindersCache(userNotificationDeliveryModelImpl, isNew);
+		clearUniqueFindersCache(userNotificationDeliveryModelImpl, false);
+		cacheUniqueFindersCache(userNotificationDeliveryModelImpl);
 
 		userNotificationDelivery.resetOriginalValues();
 
@@ -1292,7 +1296,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 	}
 
 	/**
-	 * Returns the user notification delivery with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the user notification delivery with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the user notification delivery
 	 * @return the user notification delivery
@@ -1304,8 +1308,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		UserNotificationDelivery userNotificationDelivery = fetchByPrimaryKey(primaryKey);
 
 		if (userNotificationDelivery == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchUserNotificationDeliveryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1337,12 +1341,14 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 	 */
 	@Override
 	public UserNotificationDelivery fetchByPrimaryKey(Serializable primaryKey) {
-		UserNotificationDelivery userNotificationDelivery = (UserNotificationDelivery)entityCache.getResult(UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 				UserNotificationDeliveryImpl.class, primaryKey);
 
-		if (userNotificationDelivery == _nullUserNotificationDelivery) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		UserNotificationDelivery userNotificationDelivery = (UserNotificationDelivery)serializable;
 
 		if (userNotificationDelivery == null) {
 			Session session = null;
@@ -1359,7 +1365,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 				else {
 					entityCache.putResult(UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 						UserNotificationDeliveryImpl.class, primaryKey,
-						_nullUserNotificationDelivery);
+						nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1414,18 +1420,20 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			UserNotificationDelivery userNotificationDelivery = (UserNotificationDelivery)entityCache.getResult(UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 					UserNotificationDeliveryImpl.class, primaryKey);
 
-			if (userNotificationDelivery == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, userNotificationDelivery);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (UserNotificationDelivery)serializable);
+				}
 			}
 		}
 
@@ -1439,7 +1447,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		query.append(_SQL_SELECT_USERNOTIFICATIONDELIVERY_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -1468,8 +1476,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-					UserNotificationDeliveryImpl.class, primaryKey,
-					_nullUserNotificationDelivery);
+					UserNotificationDeliveryImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1571,7 +1578,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_USERNOTIFICATIONDELIVERY);
 
@@ -1691,6 +1698,8 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_USERNOTIFICATIONDELIVERY = "SELECT userNotificationDelivery FROM UserNotificationDelivery userNotificationDelivery";
@@ -1703,35 +1712,4 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No UserNotificationDelivery exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No UserNotificationDelivery exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(UserNotificationDeliveryPersistenceImpl.class);
-	private static final UserNotificationDelivery _nullUserNotificationDelivery = new UserNotificationDeliveryImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<UserNotificationDelivery> toCacheModel() {
-				return _nullUserNotificationDeliveryCacheModel;
-			}
-		};
-
-	private static final CacheModel<UserNotificationDelivery> _nullUserNotificationDeliveryCacheModel =
-		new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<UserNotificationDelivery>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public UserNotificationDelivery toEntityModel() {
-			return _nullUserNotificationDelivery;
-		}
-	}
 }

@@ -1,34 +1,52 @@
 <definition component-name="portal-web-forms-and-data-lists">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Dynamic Data Lists" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="User#firstLoginPG" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="DDLList#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="User#firstLoginPG" />
 
-		<execute macro="DDLDataDefinition#tearDownCP" />
+				<execute macro="DDLList#tearDownCP" />
 
-		<execute macro="Page#tearDownPG" />
+				<execute macro="DDLDataDefinition#tearDownCP" />
+
+				<execute macro="Page#tearDownPG" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="Demo1" priority="3">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Company Picnic" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Company Picnic" />
+		</execute>
+
+		<execute macro="SitePageNavigator#gotoEditPage">
+			<var name="page" value="Company Picnic" />
 		</execute>
 
 		<execute macro="Page#editPageLayoutColumn">
-			<var name="columnName" value="1_column" />
+			<var name="columnName" value="1 Column" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Company Picnic" />
 		</execute>
 
@@ -72,7 +90,7 @@
 			<var name="fieldOptionsValues" value="Carrots,Beef Jerky,Chips" />
 		</execute>
 
-		<execute macro="DDLDataDefinition#saveCP" />
+		<execute macro="DDLDataDefinition#saveViaDDLDisplayPG" />
 
 		<execute macro="DDLDataDefinition#selectViaDDLDisplayPG">
 			<var name="ddlDataDefinitionName" value="Potluck Items" />
@@ -80,7 +98,7 @@
 
 		<execute macro="DDLList#saveViaDDLDisplayPG" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Company Picnic" />
 		</execute>
 
@@ -106,7 +124,7 @@
 			<var name="fieldName" value="WhatAreYouBringing" />
 		</execute>
 
-		<execute macro="DDLRecord#publishViaDDLDisplayPG" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="DDLRecord#addViaDDLDisplayPG">
 			<var name="ddlDataDefinitionName" value="Potluck Items" />
@@ -130,38 +148,52 @@
 			<var name="fieldName" value="WhatAreYouBringing" />
 		</execute>
 
-		<execute macro="DDLRecord#publishViaDDLDisplayPG" />
+		<execute macro="PortletEntry#publish" />
 
-		<execute function="AssertTextEquals" locator1="//thead[@class='table-columns']/tr/th[1]" value1="First Name" />
-		<execute function="AssertTextEquals" locator1="//thead[@class='table-columns']/tr/th[2]" value1="Last Name" />
-		<execute function="AssertTextEquals" locator1="//thead[@class='table-columns']/tr/th[3]" value1="What are you bringing?" />
-		<execute function="AssertTextEquals" locator1="//thead[@class='table-columns']/tr/th[4]" value1="Status" />
-		<execute function="AssertTextEquals" locator1="//thead[@class='table-columns']/tr/th[5]" value1="Modified Date" />
-		<execute function="AssertTextEquals" locator1="//thead[@class='table-columns']/tr/th[6]" value1="Author" />
+		<for list="John,Jane" param="ddlRecordFieldData">
+			<execute macro="DDLRecord#viewViaDDLDisplayTable">
+				<var name="ddlRecordFieldData" value="${ddlRecordFieldData}" />
+				<var name="fieldFieldLabel" value="First Name" />
+			</execute>
+		</for>
 
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr/td[1]/a" value1="Jane" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr/td[2]/a" value1="Smith" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr/td[3]/a" value1="Carrots" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr/td[4]/span/span/span/strong" value1="Approved" />
-		<execute function="AssertElementPresent" locator1="//tbody[@class='table-data']/tr/td[5]/a" value1="Modified Date" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr/td[6]/a" value1="Test Test" />
+		<for list="Doe,Smith" param="ddlRecordFieldData">
+			<execute macro="DDLRecord#viewViaDDLDisplayTable">
+				<var name="ddlRecordFieldData" value="${ddlRecordFieldData}" />
+				<var name="fieldFieldLabel" value="Last Name" />
+			</execute>
+		</for>
 
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr[2]/td[1]/a" value1="John" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr[2]/td[2]/a" value1="Doe" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr[2]/td[3]/a" value1="Beef Jerky" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr[2]/td[4]/span/span/span/strong" value1="Approved" />
-		<execute function="AssertElementPresent" locator1="//tbody[@class='table-data']/tr[2]/td[5]/a" value1="Modified Date" />
-		<execute function="AssertTextEquals" locator1="//tbody[@class='table-data']/tr[2]/td[6]/a" value1="Test Test" />
+		<for list="Beef Jerky,Carrots" param="ddlRecordFieldData">
+			<execute macro="DDLRecord#viewViaDDLDisplayTable">
+				<var name="ddlRecordFieldData" value="${ddlRecordFieldData}" />
+				<var name="fieldFieldLabel" value="What are you bringing" />
+			</execute>
+		</for>
+
+		<execute macro="DDLRecord#viewStatusViaDDLDisplayTable">
+			<var name="fieldFieldLabel" value="Status" />
+			<var name="workflowStatus" value="Approved" />
+		</execute>
+
+		<execute macro="DDLRecord#viewViaDDLDisplayTable">
+			<var name="ddlRecordFieldData" value="Test Test" />
+			<var name="fieldFieldLabel" value="Author" />
+		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute macro="DDLDisplayPortlet#configureListViewPG">
-			<var name="configureCheckBoxName" value="TEMPLATES_SPREADSHEET_VIEW_CHECKBOX" />
+		<execute macro="DDLNavigator#gotoOptionalConfiguration" />
+
+		<execute macro="FormFields#enableCheckbox">
+			<var name="fieldName" value="spreadsheet" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="PortletEntry#save" />
+
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Company Picnic" />
 		</execute>
 

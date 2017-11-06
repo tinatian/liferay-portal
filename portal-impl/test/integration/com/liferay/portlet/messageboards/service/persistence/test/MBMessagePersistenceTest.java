@@ -14,6 +14,12 @@
 
 package com.liferay.portlet.messageboards.service.persistence.test;
 
+import com.liferay.message.boards.kernel.exception.NoSuchMessageException;
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.service.MBMessageLocalServiceUtil;
+import com.liferay.message.boards.kernel.service.persistence.MBMessagePersistence;
+import com.liferay.message.boards.kernel.service.persistence.MBMessageUtil;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -23,7 +29,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,15 +36,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
-
-import com.liferay.portlet.messageboards.NoSuchMessageException;
-import com.liferay.portlet.messageboards.model.MBMessage;
-import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil;
-import com.liferay.portlet.messageboards.service.persistence.MBMessagePersistence;
-import com.liferay.portlet.messageboards.service.persistence.MBMessageUtil;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -55,6 +54,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -368,6 +368,14 @@ public class MBMessagePersistenceTest {
 			RandomTestUtil.nextInt());
 
 		_persistence.countByT_S(0L, 0);
+	}
+
+	@Test
+	public void testCountByT_notS() throws Exception {
+		_persistence.countByT_notS(RandomTestUtil.nextLong(),
+			RandomTestUtil.nextInt());
+
+		_persistence.countByT_notS(0L, 0);
 	}
 
 	@Test
@@ -700,7 +708,7 @@ public class MBMessagePersistenceTest {
 
 		MBMessage existingMBMessage = _persistence.findByPrimaryKey(newMBMessage.getPrimaryKey());
 
-		Assert.assertTrue(Validator.equals(existingMBMessage.getUuid(),
+		Assert.assertTrue(Objects.equals(existingMBMessage.getUuid(),
 				ReflectionTestUtil.invoke(existingMBMessage, "getOriginalUuid",
 					new Class<?>[0])));
 		Assert.assertEquals(Long.valueOf(existingMBMessage.getGroupId()),

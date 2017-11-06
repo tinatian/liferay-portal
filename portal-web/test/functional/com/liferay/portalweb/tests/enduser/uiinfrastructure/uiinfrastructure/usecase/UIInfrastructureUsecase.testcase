@@ -1,85 +1,74 @@
 <definition component-name="portal-user-interface">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="User Interface" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
-	<command name="CannotViewViewAllCP" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="User Groups" />
-		</execute>
+	<tear-down>
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute function="AssertTextNotPresent" value1="View All" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+		</if>
+	</tear-down>
 
-		<take-screenshot />
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Roles" />
-		</execute>
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Password Policies" />
-		</execute>
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Site Templates" />
-		</execute>
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Site Templates" />
-		</execute>
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Blogs" />
-		</execute>
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Dynamic Data Lists" />
-		</execute>
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Documents and Media" />
-		</execute>
-
-		<execute function="AssertClick#waitForDMHomeAssertTextEqualsClick" locator1="DocumentsAndMedia#TOOLBAR_MANAGE" value1="Manage" />
-		<execute function="AssertClick" locator1="MenuItem#DOCUMENT_TYPES" value1="Document Types" />
-
-		<execute macro="DMDocumentType#selectDocumentTypeFrame" />
-
-		<execute function="AssertTextNotPresent" value1="View All" />
-
-		<take-screenshot />
-	</command>
-
-	<command description="Ensure that a user can access portlet options and drag and drop portlets." name="Smoke" priority="5">
+	<command name="RightToLeftSmoke" priority="5">
 		<property name="portal.acceptance" value="true" />
 
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
+			<var name="pageName" value="RTL Test Page" />
+		</execute>
+
+		<execute macro="Portlet#addPG">
+			<var name="portletName" value="Language Selector" />
+		</execute>
+
+		<execute macro="LanguagePortlet#selectLanguagePG">
+			<var name="language" value="Hebrew (Israel)" />
+		</execute>
+
+		<execute macro="ProductMenuHelper#openProductMenu" />
+
+		<execute macro="Page#viewRTLLayout" />
+
+		<execute macro="LanguagePortlet#selectLanguagePG">
+			<var name="language" value="English (United States)" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
+		</execute>
+
+		<execute macro="WebContentNavigator#gotoAddCP" />
+
+		<execute macro="WebContent#addLocale">
+			<var name="language" value="Hebrew (Israel)" />
+			<var name="locale" value="iw_IL" />
+		</execute>
+
+		<execute macro="WebContent#addCP">
+			<var name="webContentTitle" value="WC Title" />
+		</execute>
+
+		<execute macro="WebContent#viewRTLLayout" />
+	</command>
+
+	<command name="Smoke" priority="5">
+		<description message="Ensure that a user can access portlet options and drag and drop portlets." />
+
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Page" />
 		</execute>
 
@@ -88,7 +77,7 @@
 		</execute>
 
 		<task summary="Close the Add Panel">
-			<execute function="Click" locator1="Icon#CLOSE" />
+			<execute function="Click" locator1="ControlMenuAddPanel#CLOSE_ADD_PANEL" />
 		</task>
 
 		<task summary="Assert the 'Configuration' iframe of the Hello World portlet">
@@ -97,9 +86,9 @@
 				<var name="portletOption" value="Configuration" />
 			</execute>
 
-			<execute function="SelectFrame" locator1="IFrame#CONFIGURATION" />
+			<execute macro="IFrame#selectConfigurationFrame" />
 
-			<execute function="AssertTextEquals" locator1="NavPill#PERMISSIONS" value1="Permissions" />
+			<execute function="AssertTextEquals" locator1="NavBar#SHARING" value1="Sharing" />
 
 			<execute function="SelectFrame" value1="relative=top" />
 
@@ -109,10 +98,10 @@
 		<task summary="Assert the 'Look and Feel' modal of the Hello World portlet">
 			<execute macro="Portlet#gotoPortletOptions">
 				<var name="portletName" value="Hello World" />
-				<var name="portletOption" value="Look and Feel" />
+				<var name="portletOption" value="Look and Feel Configuration" />
 			</execute>
 
-			<execute function="AssertTextEquals" locator1="NavTab#PORTLET_CONFIGURATION" value1="Portlet Configuration" />
+			<execute function="AssertTextEquals" locator1="NavTab#LOOK_AND_FEEL_GENERAL" value1="General" />
 
 			<execute function="Click" locator1="Icon#CLOSE" />
 		</task>
@@ -127,6 +116,76 @@
 			<var name="columnNumberFrom" value="2" />
 			<var name="columnNumberTo" value="1" />
 			<var name="portletName" value="Hello World" />
+		</execute>
+
+		<task summary="Removes Hello World Portlets on Test Page and Welcome Page">
+			<execute macro="Navigator#gotoPage">
+				<var name="pageName" value="Test Page" />
+			</execute>
+
+			<execute macro="Portlet#deletePG">
+				<var name="portletName" value="Hello World" />
+			</execute>
+
+			<execute macro="Navigator#gotoPage">
+				<var name="pageName" value="Welcome" />
+			</execute>
+
+			<execute macro="Portlet#deletePG">
+				<var name="portletName" value="Hello World" />
+			</execute>
+		</task>
+	</command>
+
+	<command name="ViewNonASCIICharactersWithSPADisabled">
+		<description message="This is a use case for LPS-70390." />
+		<property name="custom.properties" value="javascript.single.page.application.enabled=false" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#addCP">
+			<var name="userEmailAddress" value="skandi@liferay.com" />
+			<var name="userFirstName" value="Skändi" />
+			<var name="userLastName" value="Ääkkönen" />
+			<var name="userScreenName" value="uskandi" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#viewCP">
+			<var name="userEmailAddress" value="skandi@liferay.com" />
+			<var name="userFirstName" value="Skändi" />
+			<var name="userLastName" value="Ääkkönen" />
+			<var name="userScreenName" value="uskandi" />
+		</execute>
+	</command>
+
+	<command name="ViewSuccessMessageText" priority="5">
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Blogs" />
+		</execute>
+
+		<execute macro="BlogsNavigator#gotoAddEntry" />
+
+		<execute macro="BlogsEntry#addEntryContent">
+			<var name="entryContent" value="Blogs Content" />
+			<var name="entryTitle" value="Blogs Title" />
+		</execute>
+
+		<execute macro="Alert#viewSuccessMessageText">
+			<var name="sucessMessage" value="Your request completed successfully." />
 		</execute>
 	</command>
 </definition>

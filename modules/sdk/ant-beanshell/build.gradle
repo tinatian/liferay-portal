@@ -1,30 +1,18 @@
-dependencies {
-	compile group: "bsh", name: "bsh", version: "2.0b4"
-	compile group: "org.apache.ant", name: "ant", transitive: false, version: "1.9.4"
-}
-
-liferay {
-	deployDir = file("../../../tools/sdk/dependencies/${bundle.instructions['Bundle-SymbolicName']}/lib")
-}
-
 sourceCompatibility = "1.6"
 targetCompatibility = "1.6"
 
-task deployJar(type: Copy)
-
-deploy {
-	finalizedBy deployJar
+clean {
+	ext {
+		cleanDeployed = false
+	}
 }
 
-deployJar {
-	ext {
-		autoClean = false
-	}
+dependencies {
+	compile group: "bsh", name: "bsh", version: "2.0b4"
 
-	from jar
-	into "../../../lib/development"
+	provided group: "org.apache.ant", name: "ant", transitive: false, version: "1.9.4"
+}
 
-	rename {
-		archivesBaseName + ".jar"
-	}
+liferay {
+	deployDir = file("../../../lib/development")
 }

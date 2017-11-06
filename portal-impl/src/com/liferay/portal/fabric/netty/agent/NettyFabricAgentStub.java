@@ -109,7 +109,7 @@ public class NettyFabricAgentStub implements FabricAgent {
 			processCallable, fabricPathMappingVisitor);
 
 		NettyFabricWorkerStub<T> nettyFabricWorkerStub =
-			new NettyFabricWorkerStub<T>(
+			new NettyFabricWorkerStub<>(
 				id, _channel, _repository,
 				fabricPathMappingVisitor.getPathMap(), _rpcRelayTimeout);
 
@@ -162,12 +162,12 @@ public class NettyFabricAgentStub implements FabricAgent {
 		final ChannelFutureListener channelFutureListener =
 			new ChannelFutureListener() {
 
-			@Override
-			public void operationComplete(ChannelFuture channelFuture) {
-				startupNoticeableFuture.cancel(true);
-			}
+				@Override
+				public void operationComplete(ChannelFuture channelFuture) {
+					startupNoticeableFuture.cancel(true);
+				}
 
-		};
+			};
 
 		final ChannelFuture closeChannelFuture = _channel.closeFuture();
 
@@ -234,8 +234,8 @@ public class NettyFabricAgentStub implements FabricAgent {
 
 	private final Channel _channel;
 	private final AtomicLong _idGenerator = new AtomicLong();
-	private final Map<Long, NettyFabricWorkerStub<?>>
-		_nettyFabricWorkerStubs = new ConcurrentHashMap<>();
+	private final Map<Long, NettyFabricWorkerStub<?>> _nettyFabricWorkerStubs =
+		new ConcurrentHashMap<>();
 	private final Path _remoteRepositoryPath;
 	private final Repository<Channel> _repository;
 	private final long _rpcRelayTimeout;

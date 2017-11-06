@@ -1,17 +1,35 @@
 <definition component-name="portal-wcm">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Recycle Bin" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="WebContent#tearDownCP" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
+
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="WebContent#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="DeleteWebcontent" priority="4">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -21,14 +39,18 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinCP">
@@ -37,8 +59,12 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#deleteCP">
@@ -46,76 +72,45 @@
 			<var name="assetType" value="Web Content Article" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewDefaultCP">
 			<var name="assetName" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#viewDefaultCP">
 			<var name="webContentTitle" value="WC WebContent Title" />
-		</execute>
-	</command>
-
-	<command name="DragAndDropAssetToRecycleBin" priority="4">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
-		</execute>
-
-		<execute macro="WebContentNavigator#gotoAddCP" />
-
-		<execute macro="WebContent#addCP">
-			<var name="webContentContent" value="WC Web Content Content" />
-			<var name="webContentTitle" value="WC WebContent Title" />
-		</execute>
-
-		<execute macro="WebContent#publish" />
-
-		<execute macro="WebContent#viewTitle">
-			<var name="webContentTitle" value="WC WebContent Title" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
-		</execute>
-
-		<execute macro="RecycleBin#dragAndDropContentToRecycleBin">
-			<var name="assetName" value="WC WebContent Title" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
-		</execute>
-
-		<execute macro="WebContent#viewDefaultCP">
-			<var name="webContentTitle" value="WC WebContent Title" />
-		</execute>
-
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
-		</execute>
-
-		<execute macro="RecycleBin#viewCP">
-			<var name="assetName" value="WC WebContent Title" />
-			<var name="assetType" value="Web Content Article" />
-			<var name="deleteUser" value="Test Test" />
 		</execute>
 	</command>
 
 	<command name="MoveFolderWithWebContentToRecycleBin" priority="3">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#addCP">
@@ -123,9 +118,14 @@
 			<var name="folderName" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#gotoCP">
@@ -140,15 +140,20 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#moveToRecycleBinCP">
@@ -156,18 +161,28 @@
 			<var name="folderName" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#viewDefaultCP">
 			<var name="webContentTitle" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewCP">
@@ -178,9 +193,19 @@
 	</command>
 
 	<command name="RecycleWebContentViaDeleteIcon" priority="3">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -190,31 +215,46 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinViaDeleteIconCP" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#viewDefaultCP">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewCP">
@@ -225,8 +265,14 @@
 	</command>
 
 	<command name="RestoreWebcontent" priority="5">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -236,14 +282,18 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinCP">
@@ -252,8 +302,12 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#restoreCP">
@@ -262,16 +316,24 @@
 			<var name="assetType" value="Web Content Article" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewDefaultCP">
 			<var name="assetName" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoEditCP">
@@ -285,8 +347,12 @@
 	</command>
 
 	<command name="UndoMoveToRecycleBin" priority="3">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -296,14 +362,18 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinCP">
@@ -313,16 +383,24 @@
 
 		<execute macro="RecycleBin#undoMoveToRecycleBin" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewDefaultCP">
@@ -331,9 +409,19 @@
 	</command>
 
 	<command name="ViewDuplicateAssetNamesInRecycleBin" priority="3">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -343,22 +431,32 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinViaDeleteIconCP" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewCP">
@@ -367,9 +465,14 @@
 			<var name="deleteUser" value="Test Test" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -379,22 +482,32 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinViaDeleteIconCP" />
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewDuplicateNames">
@@ -403,9 +516,19 @@
 	</command>
 
 	<command name="ViewDuplicateFolderNamesInRecycleBin" priority="4">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#addCP">
@@ -413,9 +536,14 @@
 			<var name="folderName" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#moveToRecycleBinCP">
@@ -423,9 +551,14 @@
 			<var name="folderName" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewCP">
@@ -434,9 +567,14 @@
 			<var name="deleteUser" value="Test Test" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#addCP">
@@ -444,9 +582,14 @@
 			<var name="folderName" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentFolder#moveToRecycleBinCP">
@@ -454,9 +597,14 @@
 			<var name="folderName" value="WC Folder Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Recycle Bin" />
-			<var name="siteScopeName" value="Liferay" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="${siteName}" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Recycle Bin" />
 		</execute>
 
 		<execute macro="RecycleBin#viewDuplicateNames">
@@ -465,8 +613,12 @@
 	</command>
 
 	<command name="ViewRecycleBinEntryViaSuccessMessageLink" priority="3">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoAddCP" />
@@ -476,14 +628,18 @@
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="WC WebContent Title" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#moveToRecycleBinCP">
@@ -496,7 +652,6 @@
 		</execute>
 
 		<execute macro="RecycleBin#viewEntry">
-			<var name="assetContent" value="WC Web Content Content" />
 			<var name="assetName" value="WC WebContent Title" />
 		</execute>
 	</command>

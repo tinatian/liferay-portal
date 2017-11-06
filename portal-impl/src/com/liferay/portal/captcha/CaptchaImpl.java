@@ -36,8 +36,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author     Brian Wing Shun Chan
+ * @deprecated As of 7.0.0, with no direct replacement
  */
+@Deprecated
 @DoPrivileged
 public class CaptchaImpl implements Captcha {
 
@@ -63,18 +65,14 @@ public class CaptchaImpl implements Captcha {
 	}
 
 	@Override
-	public boolean isEnabled(HttpServletRequest request)
-		throws CaptchaException {
-
+	public boolean isEnabled(HttpServletRequest request) {
 		_initialize();
 
 		return _captcha.isEnabled(request);
 	}
 
 	@Override
-	public boolean isEnabled(PortletRequest portletRequest)
-		throws CaptchaException {
-
+	public boolean isEnabled(PortletRequest portletRequest) {
 		_initialize();
 
 		return _captcha.isEnabled(portletRequest);

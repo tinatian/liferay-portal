@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.PortalPreferences;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.PortalPreferences;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -118,8 +118,11 @@ public class PortalPreferencesCacheModel implements CacheModel<PortalPreferences
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		portalPreferencesId = objectInput.readLong();
+
 		ownerId = objectInput.readLong();
+
 		ownerType = objectInput.readInt();
 		preferences = objectInput.readUTF();
 	}
@@ -128,8 +131,11 @@ public class PortalPreferencesCacheModel implements CacheModel<PortalPreferences
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(portalPreferencesId);
+
 		objectOutput.writeLong(ownerId);
+
 		objectOutput.writeInt(ownerType);
 
 		if (preferences == null) {

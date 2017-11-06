@@ -29,9 +29,9 @@ import org.apache.catalina.startup.HostConfig;
  * Tomcat will always process XML descriptors first, then packaged WARs, and
  * then exploded WARs. However, Tomcat does not have a predictable load order
  * for the XML descriptors or the WARs. It relies on Java's
- * <code>java.io.File.list()</code> implementation which is not predictable.
- * This class overrides several of the deploy methods to ensure that the files
- * are always processed alphabetically (case sensitive).
+ * <code>File.list()</code> implementation which is not predictable. This class
+ * overrides several of the deploy methods to ensure that the files are always
+ * processed alphabetically (case sensitive).
  * </p>
  *
  * <p>
@@ -44,7 +44,7 @@ import org.apache.catalina.startup.HostConfig;
  * </p>
  *
  * <p>
- * See <code>org.apache.catalina.startup.HostConfig</code>.
+ * See <code>HostConfig</code>.
  * </p>
  *
  * @author Brian Wing Shun Chan

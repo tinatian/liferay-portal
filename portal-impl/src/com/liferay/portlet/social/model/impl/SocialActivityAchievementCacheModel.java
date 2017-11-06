@@ -16,12 +16,12 @@ package com.liferay.portlet.social.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
 
-import com.liferay.portlet.social.model.SocialActivityAchievement;
+import com.liferay.social.kernel.model.SocialActivityAchievement;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -112,11 +112,16 @@ public class SocialActivityAchievementCacheModel implements CacheModel<SocialAct
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		activityAchievementId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
+
 		createDate = objectInput.readLong();
 		name = objectInput.readUTF();
+
 		firstInGroup = objectInput.readBoolean();
 	}
 
@@ -124,9 +129,13 @@ public class SocialActivityAchievementCacheModel implements CacheModel<SocialAct
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(activityAchievementId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
+
 		objectOutput.writeLong(createDate);
 
 		if (name == null) {

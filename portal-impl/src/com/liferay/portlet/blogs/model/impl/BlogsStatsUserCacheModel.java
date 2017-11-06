@@ -16,11 +16,11 @@ package com.liferay.portlet.blogs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.blogs.kernel.model.BlogsStatsUser;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.blogs.model.BlogsStatsUser;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -119,13 +119,20 @@ public class BlogsStatsUserCacheModel implements CacheModel<BlogsStatsUser>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		statsUserId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
+
 		entryCount = objectInput.readInt();
 		lastPostDate = objectInput.readLong();
+
 		ratingsTotalEntries = objectInput.readInt();
+
 		ratingsTotalScore = objectInput.readDouble();
+
 		ratingsAverageScore = objectInput.readDouble();
 	}
 
@@ -133,13 +140,20 @@ public class BlogsStatsUserCacheModel implements CacheModel<BlogsStatsUser>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(statsUserId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
+
 		objectOutput.writeInt(entryCount);
 		objectOutput.writeLong(lastPostDate);
+
 		objectOutput.writeInt(ratingsTotalEntries);
+
 		objectOutput.writeDouble(ratingsTotalScore);
+
 		objectOutput.writeDouble(ratingsAverageScore);
 	}
 

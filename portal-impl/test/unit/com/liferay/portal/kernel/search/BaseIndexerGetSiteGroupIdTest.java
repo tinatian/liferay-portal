@@ -14,14 +14,14 @@
 
 package com.liferay.portal.kernel.search;
 
-import com.liferay.portal.NoSuchGroupException;
+import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.service.GroupLocalService;
-import com.liferay.portal.service.GroupLocalServiceUtil;
 
 import java.util.Locale;
 
@@ -45,9 +45,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author Miguel Angelo Caldas Gallindo
  * @author André de Oliveira
  */
-@PrepareOnlyThisForTest( {
-	GroupLocalServiceUtil.class
-})
+@PrepareOnlyThisForTest(GroupLocalServiceUtil.class)
 @RunWith(PowerMockRunner.class)
 public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 
@@ -208,7 +206,9 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 			new NoSuchGroupException()
 		).when(
 			_groupLocalService
-		).getGroup(groupId);
+		).getGroup(
+			groupId
+		);
 	}
 
 	protected void setUpPropsUtil() {

@@ -14,19 +14,18 @@
 
 package com.liferay.portal.repository.liferayrepository.model;
 
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.service.DLAppHelperLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.RepositoryModelOperation;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.auth.PrincipalThreadLocal;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.service.DLAppHelperLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 
 import java.io.File;
 import java.io.InputStream;
@@ -34,6 +33,7 @@ import java.io.Serializable;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Alexander Chow
@@ -68,9 +68,7 @@ public class LiferayFileVersion extends LiferayModel implements FileVersion {
 
 		LiferayFileVersion liferayFileVersion = (LiferayFileVersion)obj;
 
-		if (Validator.equals(
-				_dlFileVersion, liferayFileVersion._dlFileVersion)) {
-
+		if (Objects.equals(_dlFileVersion, liferayFileVersion._dlFileVersion)) {
 			return true;
 		}
 

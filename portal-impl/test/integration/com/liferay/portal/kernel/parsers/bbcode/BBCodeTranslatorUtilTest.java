@@ -17,8 +17,9 @@ package com.liferay.portal.kernel.parsers.bbcode;
 import com.liferay.portal.kernel.parsers.bbcode.bundle.bbcodetranslatorutil.TestBBCodeTranslator;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
+
+import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -34,7 +35,7 @@ public class BBCodeTranslatorUtilTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule("bundle.bbcodetranslatorutil"));
 
 	@Test
@@ -42,21 +43,25 @@ public class BBCodeTranslatorUtilTest {
 		String[] emoticonDescriptions =
 			BBCodeTranslatorUtil.getEmoticonDescriptions();
 
-		Assert.assertEquals(3, emoticonDescriptions.length);
+		Assert.assertEquals(
+			Arrays.toString(emoticonDescriptions), 3,
+			emoticonDescriptions.length);
 	}
 
 	@Test
 	public void testEmoticonFiles() {
 		String[] emoticonFiles = BBCodeTranslatorUtil.getEmoticonFiles();
 
-		Assert.assertEquals(2, emoticonFiles.length);
+		Assert.assertEquals(
+			Arrays.toString(emoticonFiles), 2, emoticonFiles.length);
 	}
 
 	@Test
 	public void testEmoticonSymbols() {
 		String[] emoticonSymbols = BBCodeTranslatorUtil.getEmoticonSymbols();
 
-		Assert.assertEquals(4, emoticonSymbols.length);
+		Assert.assertEquals(
+			Arrays.toString(emoticonSymbols), 4, emoticonSymbols.length);
 	}
 
 	@Test

@@ -43,14 +43,10 @@ public abstract class BaseButtonRowTag extends com.liferay.taglib.util.IncludeTa
 
 	public void setCssClass(java.lang.String cssClass) {
 		_cssClass = cssClass;
-
-		setScopedAttribute("cssClass", cssClass);
 	}
 
 	public void setId(java.lang.String id) {
 		_id = id;
-
-		setScopedAttribute("id", id);
 	}
 
 	@Override
@@ -68,8 +64,8 @@ public abstract class BaseButtonRowTag extends com.liferay.taglib.util.IncludeTa
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
-		setNamespacedAttribute(request, "cssClass", _cssClass);
-		setNamespacedAttribute(request, "id", _id);
+		request.setAttribute("aui:button-row:cssClass", _cssClass);
+		request.setAttribute("aui:button-row:id", _id);
 	}
 
 	protected static final String _ATTRIBUTE_NAMESPACE = "aui:button-row:";

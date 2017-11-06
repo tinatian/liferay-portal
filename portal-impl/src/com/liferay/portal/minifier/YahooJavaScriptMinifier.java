@@ -18,11 +18,13 @@ import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.util.PropsValues;
 
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
-import com.yahoo.platform.yui.mozilla.javascript.ErrorReporter;
-import com.yahoo.platform.yui.mozilla.javascript.EvaluatorException;
+
+import org.mozilla.javascript.ErrorReporter;
+import org.mozilla.javascript.EvaluatorException;
 
 /**
  * @author Carlos Sierra Andrés
@@ -58,7 +60,7 @@ public class YahooJavaScriptMinifier implements JavaScriptMinifier {
 	private static final Log _log = LogFactoryUtil.getLog(
 		YahooJavaScriptMinifier.class);
 
-	private class JavaScriptErrorReporter implements ErrorReporter {
+	private static class JavaScriptErrorReporter implements ErrorReporter {
 
 		@Override
 		public void error(
@@ -69,7 +71,10 @@ public class YahooJavaScriptMinifier implements JavaScriptMinifier {
 				_log.error(message);
 			}
 			else {
-				_log.error(line + ": " + lineOffset + ": " + message);
+				_log.error(
+					StringBundler.concat(
+						String.valueOf(line), ": ", String.valueOf(lineOffset),
+						": ", message));
 			}
 		}
 
@@ -96,7 +101,10 @@ public class YahooJavaScriptMinifier implements JavaScriptMinifier {
 				_log.warn(message);
 			}
 			else {
-				_log.warn(line + ": " + lineOffset + ": " + message);
+				_log.warn(
+					StringBundler.concat(
+						String.valueOf(line), ": ", String.valueOf(lineOffset),
+						": ", message));
 			}
 		}
 

@@ -14,25 +14,25 @@
 
 package com.liferay.portal.repository.external;
 
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.document.library.kernel.service.DLAppHelperLocalService;
+import com.liferay.document.library.kernel.service.DLFolderLocalService;
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.repository.BaseRepository;
 import com.liferay.portal.kernel.repository.LocalRepository;
 import com.liferay.portal.kernel.repository.Repository;
 import com.liferay.portal.kernel.repository.RepositoryException;
 import com.liferay.portal.kernel.repository.RepositoryFactory;
-import com.liferay.portal.model.ClassName;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.service.RepositoryEntryLocalService;
+import com.liferay.portal.kernel.service.RepositoryLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.repository.liferayrepository.LiferayRepository;
 import com.liferay.portal.repository.util.ExternalRepositoryFactoryUtil;
-import com.liferay.portal.service.ClassNameLocalService;
-import com.liferay.portal.service.CompanyLocalService;
-import com.liferay.portal.service.RepositoryEntryLocalService;
-import com.liferay.portal.service.RepositoryLocalService;
-import com.liferay.portal.service.UserLocalService;
-import com.liferay.portlet.asset.service.AssetEntryLocalService;
-import com.liferay.portlet.documentlibrary.service.DLAppHelperLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalService;
-import com.liferay.portlet.exportimport.lar.ExportImportThreadLocal;
 
 /**
  * @author Adolfo Pérez
@@ -69,15 +69,14 @@ public class LegacyExternalRepositoryFactory implements RepositoryFactory {
 
 		BaseRepository baseRepository = null;
 
-		com.liferay.portal.model.Repository repository = null;
+		com.liferay.portal.kernel.model.Repository repository = null;
+
+		ClassName className = _classNameLocalService.getClassName(classNameId);
+
+		String repositoryImplClassName = className.getValue();
 
 		try {
 			repository = _repositoryLocalService.getRepository(repositoryId);
-
-			ClassName className = _classNameLocalService.getClassName(
-				classNameId);
-
-			String repositoryImplClassName = className.getValue();
 
 			baseRepository = ExternalRepositoryFactoryUtil.getInstance(
 				repositoryImplClassName);
@@ -92,14 +91,19 @@ public class LegacyExternalRepositoryFactory implements RepositoryFactory {
 		setupRepository(repositoryId, repository, baseRepository);
 
 		if (!ExportImportThreadLocal.isImportInProcess()) {
-			baseRepository.initRepository();
+			try {
+				baseRepository.initRepository();
+			}
+			catch (Exception e) {
+				throw new RepositoryException(e);
+			}
 		}
 
 		return baseRepository;
 	}
 
 	protected long getRepositoryClassNameId(long repositoryId) {
-		com.liferay.portal.model.Repository repository =
+		com.liferay.portal.kernel.model.Repository repository =
 			_repositoryLocalService.fetchRepository(repositoryId);
 
 		if (repository != null) {
@@ -111,7 +115,8 @@ public class LegacyExternalRepositoryFactory implements RepositoryFactory {
 	}
 
 	protected void setupRepository(
-		long repositoryId, com.liferay.portal.model.Repository repository,
+		long repositoryId,
+		com.liferay.portal.kernel.model.Repository repository,
 		BaseRepository baseRepository) {
 
 		baseRepository.setAssetEntryLocalService(_assetEntryLocalService);

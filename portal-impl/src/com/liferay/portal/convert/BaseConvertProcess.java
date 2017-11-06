@@ -16,6 +16,7 @@ package com.liferay.portal.convert;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.util.MaintenanceUtil;
 
 import org.apache.commons.lang.time.StopWatch;
@@ -37,15 +38,20 @@ public abstract class BaseConvertProcess implements ConvertProcess {
 			stopWatch.start();
 
 			if (_log.isInfoEnabled()) {
-				_log.info("Starting conversion for " + getClass().getName());
+				Class<?> clazz = getClass();
+
+				_log.info("Starting conversion for " + clazz.getName());
 			}
 
 			doConvert();
 
 			if (_log.isInfoEnabled()) {
+				Class<?> clazz = getClass();
+
 				_log.info(
-					"Finished conversion for " + getClass().getName() + " in " +
-						stopWatch.getTime() + " ms");
+					StringBundler.concat(
+						"Finished conversion for ", clazz.getName(), " in ",
+						String.valueOf(stopWatch.getTime()), " ms"));
 			}
 		}
 		catch (Exception e) {
@@ -105,6 +111,6 @@ public abstract class BaseConvertProcess implements ConvertProcess {
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseConvertProcess.class);
 
-	private String[] _paramValues = null;
+	private String[] _paramValues;
 
 }

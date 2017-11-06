@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.service.persistence.UserGroupRolePK;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.UserGroupRole;
-import com.liferay.portal.service.persistence.UserGroupRolePK;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -77,7 +77,7 @@ public class UserGroupRoleCacheModel implements CacheModel<UserGroupRole>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -87,6 +87,8 @@ public class UserGroupRoleCacheModel implements CacheModel<UserGroupRole>,
 		sb.append(groupId);
 		sb.append(", roleId=");
 		sb.append(roleId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append("}");
 
 		return sb.toString();
@@ -100,6 +102,7 @@ public class UserGroupRoleCacheModel implements CacheModel<UserGroupRole>,
 		userGroupRoleImpl.setUserId(userId);
 		userGroupRoleImpl.setGroupId(groupId);
 		userGroupRoleImpl.setRoleId(roleId);
+		userGroupRoleImpl.setCompanyId(companyId);
 
 		userGroupRoleImpl.resetOriginalValues();
 
@@ -109,9 +112,14 @@ public class UserGroupRoleCacheModel implements CacheModel<UserGroupRole>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		userId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		roleId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
 
 		userGroupRolePK = new UserGroupRolePK(userId, groupId, roleId);
 	}
@@ -120,14 +128,20 @@ public class UserGroupRoleCacheModel implements CacheModel<UserGroupRole>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(userId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(roleId);
+
+		objectOutput.writeLong(companyId);
 	}
 
 	public long mvccVersion;
 	public long userId;
 	public long groupId;
 	public long roleId;
+	public long companyId;
 	public transient UserGroupRolePK userGroupRolePK;
 }

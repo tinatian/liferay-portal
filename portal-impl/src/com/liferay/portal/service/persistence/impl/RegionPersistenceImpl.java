@@ -16,7 +16,6 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchRegionException;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,21 +25,23 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchRegionException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Region;
+import com.liferay.portal.kernel.service.persistence.RegionPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.Region;
 import com.liferay.portal.model.impl.RegionImpl;
 import com.liferay.portal.model.impl.RegionModelImpl;
-import com.liferay.portal.service.persistence.RegionPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -59,7 +61,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see RegionPersistence
- * @see com.liferay.portal.service.persistence.RegionUtil
+ * @see com.liferay.portal.kernel.service.persistence.RegionUtil
  * @generated
  */
 @ProviderType
@@ -208,7 +210,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -421,8 +423,9 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -707,7 +710,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -920,8 +923,9 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -1121,8 +1125,8 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchRegionException(msg.toString());
@@ -1167,7 +1171,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 			Region region = (Region)result;
 
 			if ((countryId != region.getCountryId()) ||
-					!Validator.equals(regionCode, region.getRegionCode())) {
+					!Objects.equals(regionCode, region.getRegionCode())) {
 				result = null;
 			}
 		}
@@ -1472,7 +1476,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1700,11 +1704,12 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_REGION_WHERE);
@@ -1878,6 +1883,22 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 	public RegionPersistenceImpl() {
 		setModelClass(Region.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("active", "active_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -1946,7 +1967,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((RegionModelImpl)region);
+		clearUniqueFindersCache((RegionModelImpl)region, true);
 	}
 
 	@Override
@@ -1958,50 +1979,36 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 			entityCache.removeResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
 				RegionImpl.class, region.getPrimaryKey());
 
-			clearUniqueFindersCache((RegionModelImpl)region);
+			clearUniqueFindersCache((RegionModelImpl)region, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(RegionModelImpl regionModelImpl,
-		boolean isNew) {
-		if (isNew) {
+	protected void cacheUniqueFindersCache(RegionModelImpl regionModelImpl) {
+		Object[] args = new Object[] {
+				regionModelImpl.getCountryId(), regionModelImpl.getRegionCode()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_R, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_R, args, regionModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(RegionModelImpl regionModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
 			Object[] args = new Object[] {
 					regionModelImpl.getCountryId(),
 					regionModelImpl.getRegionCode()
 				};
 
-			finderCache.putResult(FINDER_PATH_COUNT_BY_C_R, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_C_R, args,
-				regionModelImpl);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_R, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_R, args);
 		}
-		else {
-			if ((regionModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_C_R.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						regionModelImpl.getCountryId(),
-						regionModelImpl.getRegionCode()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_C_R, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_C_R, args,
-					regionModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(RegionModelImpl regionModelImpl) {
-		Object[] args = new Object[] {
-				regionModelImpl.getCountryId(), regionModelImpl.getRegionCode()
-			};
-
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_C_R, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_C_R, args);
 
 		if ((regionModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_C_R.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					regionModelImpl.getOriginalCountryId(),
 					regionModelImpl.getOriginalRegionCode()
 				};
@@ -2056,8 +2063,8 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 			Region region = (Region)session.get(RegionImpl.class, primaryKey);
 
 			if (region == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchRegionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2140,8 +2147,34 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !RegionModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!RegionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { regionModelImpl.getCountryId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNTRYID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNTRYID,
+				args);
+
+			args = new Object[] { regionModelImpl.getActive() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ACTIVE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVE,
+				args);
+
+			args = new Object[] {
+					regionModelImpl.getCountryId(), regionModelImpl.getActive()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_A, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_A,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2202,8 +2235,8 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		entityCache.putResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
 			RegionImpl.class, region.getPrimaryKey(), region, false);
 
-		clearUniqueFindersCache(regionModelImpl);
-		cacheUniqueFindersCache(regionModelImpl, isNew);
+		clearUniqueFindersCache(regionModelImpl, false);
+		cacheUniqueFindersCache(regionModelImpl);
 
 		region.resetOriginalValues();
 
@@ -2231,7 +2264,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 	}
 
 	/**
-	 * Returns the region with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the region with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the region
 	 * @return the region
@@ -2243,8 +2276,8 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		Region region = fetchByPrimaryKey(primaryKey);
 
 		if (region == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchRegionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -2274,12 +2307,14 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 	 */
 	@Override
 	public Region fetchByPrimaryKey(Serializable primaryKey) {
-		Region region = (Region)entityCache.getResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
 				RegionImpl.class, primaryKey);
 
-		if (region == _nullRegion) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		Region region = (Region)serializable;
 
 		if (region == null) {
 			Session session = null;
@@ -2294,7 +2329,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 				}
 				else {
 					entityCache.putResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
-						RegionImpl.class, primaryKey, _nullRegion);
+						RegionImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -2348,18 +2383,20 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Region region = (Region)entityCache.getResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
 					RegionImpl.class, primaryKey);
 
-			if (region == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, region);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Region)serializable);
+				}
 			}
 		}
 
@@ -2373,7 +2410,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		query.append(_SQL_SELECT_REGION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -2401,7 +2438,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(RegionModelImpl.ENTITY_CACHE_ENABLED,
-					RegionImpl.class, primaryKey, _nullRegion);
+					RegionImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2502,7 +2539,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_REGION);
 
@@ -2641,34 +2678,4 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"active"
 			});
-	private static final Region _nullRegion = new RegionImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<Region> toCacheModel() {
-				return _nullRegionCacheModel;
-			}
-		};
-
-	private static final CacheModel<Region> _nullRegionCacheModel = new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<Region>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public Region toEntityModel() {
-			return _nullRegion;
-		}
-	}
 }

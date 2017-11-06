@@ -14,8 +14,8 @@
 
 package com.liferay.portal.util;
 
-import com.liferay.portal.kernel.concurrent.ConcurrentReferenceKeyHashMap;
-import com.liferay.portal.kernel.memory.FinalizeManager;
+import com.liferay.petra.concurrent.ConcurrentReferenceKeyHashMap;
+import com.liferay.petra.memory.FinalizeManager;
 import com.liferay.portal.kernel.util.MethodParameter;
 import com.liferay.portal.kernel.util.MethodParametersResolver;
 
@@ -39,19 +39,19 @@ public class MethodParametersResolverImpl implements MethodParametersResolver {
 			return methodParameters;
 		}
 
-			Class<?>[] methodParameterTypes = method.getParameterTypes();
+		Class<?>[] methodParameterTypes = method.getParameterTypes();
 
-			jodd.paramo.MethodParameter[] joddMethodParameters =
-				Paramo.resolveParameters(method);
+		jodd.paramo.MethodParameter[] joddMethodParameters =
+			Paramo.resolveParameters(method);
 
-			methodParameters = new MethodParameter[joddMethodParameters.length];
+		methodParameters = new MethodParameter[joddMethodParameters.length];
 
-			for (int i = 0; i < joddMethodParameters.length; i++) {
-				methodParameters[i] = new MethodParameter(
-					joddMethodParameters[i].getName(),
-					joddMethodParameters[i].getSignature(),
-					methodParameterTypes[i], true);
-			}
+		for (int i = 0; i < joddMethodParameters.length; i++) {
+			methodParameters[i] = new MethodParameter(
+				joddMethodParameters[i].getName(),
+				joddMethodParameters[i].getSignature(),
+				methodParameterTypes[i]);
+		}
 
 		_methodParameters.put(method, methodParameters);
 

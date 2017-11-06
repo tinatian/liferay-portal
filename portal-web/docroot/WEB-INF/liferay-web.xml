@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<filter>
 		<filter-name>Absolute Redirects Filter</filter-name>
 		<filter-class>com.liferay.portal.servlet.filters.absoluteredirects.AbsoluteRedirectsFilter</filter-class>
@@ -31,14 +31,6 @@
 		<init-param>
 			<param-name>portal_property_prefix</param-name>
 			<param-value>atom.servlet.</param-value>
-		</init-param>
-	</filter>
-	<filter>
-		<filter-name>Audit Filter</filter-name>
-		<filter-class>com.liferay.portal.servlet.filters.audit.AuditFilter</filter-class>
-		<init-param>
-			<param-name>url-regex-ignore-pattern</param-name>
-			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
 		</init-param>
 	</filter>
 	<filter>
@@ -74,7 +66,7 @@
 		<filter-class>com.liferay.portal.servlet.filters.cache.CacheFilter</filter-class>
 		<init-param>
 			<param-name>url-regex-ignore-pattern</param-name>
-			<param-value>.+/-/.+</param-value>
+			<param-value>(.+/-/.+|/webdav/.*)</param-value>
 		</init-param>
 		<init-param>
 			<param-name>pattern</param-name>
@@ -178,7 +170,7 @@
 		</init-param>
 		<init-param>
 			<param-name>Cache-Control</param-name>
-			<param-value>max-age=315360000, no-cache="Set-Cookie", public</param-value>
+			<param-value>max-age=315360000, public</param-value>
 		</init-param>
 		<init-param>
 			<param-name>Expires</param-name>
@@ -443,6 +435,11 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Thread Local Filter</filter-name>
+		<url-pattern>/c/portal/j_login</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Thread Local Filter</filter-name>
 		<url-pattern>/c/portal/resiliency</url-pattern>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
@@ -475,10 +472,6 @@
 		<url-pattern>/*</url-pattern>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>Audit Filter</filter-name>
-		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Absolute Redirects Filter</filter-name>

@@ -14,14 +14,14 @@
 
 package com.liferay.portlet.asset.service.permission;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryConstants;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.asset.model.AssetCategory;
-import com.liferay.portlet.asset.model.AssetCategoryConstants;
-import com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil;
 
 /**
  * @author Eduardo Lundgren
@@ -80,19 +80,21 @@ public class AssetCategoryPermission {
 		if (actionId.equals(ActionKeys.VIEW) &&
 			PropsValues.PERMISSIONS_VIEW_DYNAMIC_INHERITANCE) {
 
-			long categoryId = category.getCategoryId();
-
-			while (categoryId !=
-						AssetCategoryConstants.DEFAULT_PARENT_CATEGORY_ID) {
-
-				category = AssetCategoryLocalServiceUtil.getCategory(
-					categoryId);
-
+			while (true) {
 				if (!_hasPermission(permissionChecker, category, actionId)) {
 					return false;
 				}
 
-				categoryId = category.getParentCategoryId();
+				long parentCategoryId = category.getParentCategoryId();
+
+				if (parentCategoryId ==
+						AssetCategoryConstants.DEFAULT_PARENT_CATEGORY_ID) {
+
+					break;
+				}
+
+				category = AssetCategoryLocalServiceUtil.getCategory(
+					parentCategoryId);
 			}
 
 			return AssetVocabularyPermission.contains(
@@ -108,7 +110,7 @@ public class AssetCategoryPermission {
 		throws PortalException {
 
 		if (categoryId == AssetCategoryConstants.DEFAULT_PARENT_CATEGORY_ID) {
-			return AssetPermission.contains(
+			return AssetCategoriesPermission.contains(
 				permissionChecker, groupId, actionId);
 		}
 		else {

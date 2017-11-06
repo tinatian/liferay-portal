@@ -16,12 +16,12 @@ package com.liferay.portlet.social.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
 
-import com.liferay.portlet.social.model.SocialActivitySetting;
+import com.liferay.social.kernel.model.SocialActivitySetting;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -117,9 +117,13 @@ public class SocialActivitySettingCacheModel implements CacheModel<SocialActivit
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		activitySettingId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		classNameId = objectInput.readLong();
+
 		activityType = objectInput.readInt();
 		name = objectInput.readUTF();
 		value = objectInput.readUTF();
@@ -129,9 +133,13 @@ public class SocialActivitySettingCacheModel implements CacheModel<SocialActivit
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(activitySettingId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(classNameId);
+
 		objectOutput.writeInt(activityType);
 
 		if (name == null) {

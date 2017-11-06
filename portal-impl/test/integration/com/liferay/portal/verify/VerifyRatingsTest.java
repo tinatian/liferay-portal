@@ -15,19 +15,18 @@
 package com.liferay.portal.verify;
 
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
-import com.liferay.portal.model.User;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.verify.test.BaseVerifyProcessTestCase;
-import com.liferay.portlet.ratings.model.RatingsEntry;
-import com.liferay.portlet.ratings.model.RatingsStats;
-import com.liferay.portlet.ratings.service.RatingsEntryLocalServiceUtil;
-import com.liferay.portlet.ratings.service.RatingsStatsLocalServiceUtil;
 import com.liferay.portlet.ratings.util.test.RatingsTestUtil;
+import com.liferay.ratings.kernel.model.RatingsEntry;
+import com.liferay.ratings.kernel.model.RatingsStats;
+import com.liferay.ratings.kernel.service.RatingsEntryLocalServiceUtil;
+import com.liferay.ratings.kernel.service.RatingsStatsLocalServiceUtil;
 
 import java.util.List;
 
@@ -46,11 +45,13 @@ public class VerifyRatingsTest extends BaseVerifyProcessTestCase {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
+	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+
 		_active = CacheRegistryUtil.isActive();
 
 		CacheRegistryUtil.setActive(false);
@@ -59,7 +60,10 @@ public class VerifyRatingsTest extends BaseVerifyProcessTestCase {
 	}
 
 	@After
+	@Override
 	public void tearDown() throws Exception {
+		super.tearDown();
+
 		List<RatingsEntry> ratingEntries =
 			RatingsEntryLocalServiceUtil.getEntries(_CLASS_NAME, _CLASS_PK);
 

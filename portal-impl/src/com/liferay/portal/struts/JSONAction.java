@@ -19,21 +19,21 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
+import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.util.ClassUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.auth.AuthTokenUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.servlet.SharedSessionServletRequest;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.WebKeys;
 
 import java.io.OutputStream;
 
@@ -95,7 +95,7 @@ public abstract class JSONAction extends Action {
 			json = JSONFactoryUtil.serializeThrowable(se);
 		}
 		catch (Exception e) {
-			_log.error(e, e);
+			_log.error(e.getMessage());
 
 			PortalUtil.sendError(
 				HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e, request,

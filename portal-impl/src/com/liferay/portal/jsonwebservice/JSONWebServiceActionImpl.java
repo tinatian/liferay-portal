@@ -20,12 +20,13 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebServiceActionMapping;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebServiceNaming;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.CamelCaseUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MethodParameter;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.service.ServiceContext;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -143,6 +144,8 @@ public class JSONWebServiceActionImpl implements JSONWebServiceAction {
 						inputObject, outputObject);
 
 					beanCopy.copy();
+
+					return outputObject;
 				}
 				catch (Exception e) {
 					throw new TypeConversionException(e);
@@ -255,7 +258,12 @@ public class JSONWebServiceActionImpl implements JSONWebServiceAction {
 							null, parameterType);
 					}
 					catch (Exception e2) {
-						throw new ClassCastException(e1.getMessage());
+						ClassCastException cce = new ClassCastException(
+							e1.getMessage());
+
+						cce.addSuppressed(e2);
+
+						throw cce;
 					}
 
 					BeanCopy beanCopy = BeanCopy.beans(value, parameterValue);
@@ -378,8 +386,9 @@ public class JSONWebServiceActionImpl implements JSONWebServiceAction {
 			catch (Exception e) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
-						"Unable to set inner parameter " + parameterName + "." +
-							innerParameter.getName(),
+						StringBundler.concat(
+							"Unable to set inner parameter ", parameterName,
+							".", innerParameter.getName()),
 						e);
 				}
 			}
@@ -436,9 +445,10 @@ public class JSONWebServiceActionImpl implements JSONWebServiceAction {
 							parameterType, methodParameters[i].getType())) {
 
 						throw new IllegalArgumentException(
-							"Unmatched argument type " +
-								parameterType.getName() +
-									" for method argument " + i);
+							StringBundler.concat(
+								"Unmatched argument type ",
+								parameterType.getName(),
+								" for method argument ", String.valueOf(i)));
 					}
 				}
 

@@ -14,6 +14,8 @@
 
 package com.liferay.util.dao.orm;
 
+import com.liferay.portal.kernel.configuration.Configuration;
+import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.WildcardMode;
@@ -26,6 +28,7 @@ import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -36,7 +39,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
-import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +48,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +58,7 @@ import java.util.Properties;
  * @author Brian Wing Shun Chan
  * @author Bruno Farache
  * @author Raymond Augé
+ * @see    com.liferay.portal.dao.orm.custom.sql.CustomSQL
  */
 public class CustomSQL {
 
@@ -274,7 +278,7 @@ public class CustomSQL {
 		}
 
 		if (_CUSTOM_SQL_AUTO_ESCAPE_WILDCARDS_ENABLED) {
-			keywords = escapeWildCards(keywords);
+			keywords = _escapeWildCards(keywords);
 		}
 
 		if (lowerCase) {
@@ -463,13 +467,6 @@ public class CustomSQL {
 			DataAccess.cleanUp(con);
 		}
 
-		if (_sqlPool == null) {
-			_sqlPool = new HashMap<>();
-		}
-		else {
-			_sqlPool.clear();
-		}
-
 		try {
 			Class<?> clazz = getClass();
 
@@ -477,9 +474,13 @@ public class CustomSQL {
 
 			String[] configs = getConfigs();
 
-			for (String _config : configs) {
-				read(classLoader, _config);
+			Map<String, String> sqlPool = new HashMap<>();
+
+			for (String config : configs) {
+				_read(classLoader, config, sqlPool);
 			}
+
+			_sqlPool = sqlPool;
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -705,7 +706,7 @@ public class CustomSQL {
 			oldSql.append(" [$AND_OR_CONNECTOR$]");
 		}
 
-		StringBundler newSql = new StringBundler(values.length * 6 + 3);
+		StringBundler newSql = new StringBundler(values.length * 6 + 2);
 
 		newSql.append(StringPool.OPEN_PARENTHESIS);
 
@@ -751,17 +752,30 @@ public class CustomSQL {
 	}
 
 	protected String[] getConfigs() {
-		if (PortalClassLoaderUtil.getClassLoader() ==
-				CustomSQL.class.getClassLoader()) {
+		ClassLoader classLoader = CustomSQL.class.getClassLoader();
 
+		if (PortalClassLoaderUtil.isPortalClassLoader(classLoader)) {
 			Properties propsUtil = PortalUtil.getPortalProperties();
 
 			return StringUtil.split(
 				propsUtil.getProperty("custom.sql.configs"));
 		}
-		else {
-			return new String[] {"custom-sql/default.xml"};
+
+		if (classLoader.getResource("portlet.properties") != null) {
+			Configuration configuration =
+				ConfigurationFactoryUtil.getConfiguration(
+					classLoader, "portlet");
+
+			return ArrayUtil.append(
+				StringUtil.split(configuration.get("custom.sql.configs")),
+				new String[] {
+					"custom-sql/default.xml", "META-INF/custom-sql/default.xml"
+				});
 		}
+
+		return new String[] {
+			"custom-sql/default.xml", "META-INF/custom-sql/default.xml"
+		};
 	}
 
 	protected String insertWildcard(String keyword, WildcardMode wildcardMode) {
@@ -780,38 +794,12 @@ public class CustomSQL {
 		}
 	}
 
-	protected void read(ClassLoader classLoader, String source)
-		throws Exception {
-
-		try (InputStream is = classLoader.getResourceAsStream(source)) {
-			if (is == null) {
-				return;
-			}
-
-			if (_log.isDebugEnabled()) {
-				_log.debug("Loading " + source);
-			}
-
-			Document document = UnsecureSAXReaderUtil.read(is);
-
-			Element rootElement = document.getRootElement();
-
-			for (Element sqlElement : rootElement.elements("sql")) {
-				String file = sqlElement.attributeValue("file");
-
-				if (Validator.isNotNull(file)) {
-					read(classLoader, file);
-				}
-				else {
-					String id = sqlElement.attributeValue("id");
-					String content = transform(sqlElement.getText());
-
-					content = replaceIsNull(content);
-
-					_sqlPool.put(id, content);
-				}
-			}
-		}
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #_read(ClassLoader, String,
+	 *             Map)}
+	 */
+	@Deprecated
+	protected void read(ClassLoader classLoader, String source) {
 	}
 
 	protected String transform(String sql) {
@@ -836,7 +824,7 @@ public class CustomSQL {
 		return sb.toString();
 	}
 
-	private String escapeWildCards(String keywords) {
+	private String _escapeWildCards(String keywords) {
 		if (!isVendorMySQL() && !isVendorOracle()) {
 			return keywords;
 		}
@@ -862,6 +850,41 @@ public class CustomSQL {
 		}
 
 		return sb.toString();
+	}
+
+	private void _read(
+			ClassLoader classLoader, String source, Map<String, String> sqlPool)
+		throws Exception {
+
+		try (InputStream is = classLoader.getResourceAsStream(source)) {
+			if (is == null) {
+				return;
+			}
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Loading " + source);
+			}
+
+			Document document = UnsecureSAXReaderUtil.read(is);
+
+			Element rootElement = document.getRootElement();
+
+			for (Element sqlElement : rootElement.elements("sql")) {
+				String file = sqlElement.attributeValue("file");
+
+				if (Validator.isNotNull(file)) {
+					_read(classLoader, file, sqlPool);
+				}
+				else {
+					String id = sqlElement.attributeValue("id");
+					String content = transform(sqlElement.getText());
+
+					content = replaceIsNull(content);
+
+					sqlPool.put(id, content);
+				}
+			}
+		}
 	}
 
 	private static final boolean _CUSTOM_SQL_AUTO_ESCAPE_WILDCARDS_ENABLED =
@@ -892,7 +915,7 @@ public class CustomSQL {
 
 	private String _functionIsNotNull;
 	private String _functionIsNull;
-	private Map<String, String> _sqlPool;
+	private volatile Map<String, String> _sqlPool = Collections.emptyMap();
 	private boolean _vendorDB2;
 	private boolean _vendorHSQL;
 	private boolean _vendorInformix;

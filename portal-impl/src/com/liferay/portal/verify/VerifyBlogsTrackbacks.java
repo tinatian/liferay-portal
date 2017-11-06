@@ -14,20 +14,20 @@
 
 package com.liferay.portal.verify;
 
+import com.liferay.blogs.kernel.model.BlogsEntry;
+import com.liferay.blogs.kernel.service.BlogsEntryLocalServiceUtil;
+import com.liferay.message.boards.kernel.model.MBDiscussion;
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.service.MBMessageLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.LoggingTimer;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.Portal;
-import com.liferay.portlet.blogs.linkback.LinkbackConsumer;
 import com.liferay.portlet.blogs.linkback.LinkbackConsumerUtil;
-import com.liferay.portlet.blogs.model.BlogsEntry;
-import com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil;
-import com.liferay.portlet.messageboards.model.MBDiscussion;
-import com.liferay.portlet.messageboards.model.MBMessage;
-import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil;
 
 import java.util.List;
 
@@ -44,26 +44,32 @@ public class VerifyBlogsTrackbacks extends VerifyProcess {
 
 	@Override
 	protected void doVerify() throws Exception {
-		List<MBDiscussion> mbDiscussions =
-			MBMessageLocalServiceUtil.getDiscussions(
-				BlogsEntry.class.getName());
+		verifyMBDiscussions();
+	}
 
-		for (MBDiscussion mbDiscussion : mbDiscussions) {
-			try {
-				BlogsEntry entry = BlogsEntryLocalServiceUtil.getBlogsEntry(
-					mbDiscussion.getClassPK());
+	protected void verifyMBDiscussions() {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			List<MBDiscussion> mbDiscussions =
+				MBMessageLocalServiceUtil.getDiscussions(
+					BlogsEntry.class.getName());
 
-				List<MBMessage> mbMessages =
-					MBMessageLocalServiceUtil.getThreadMessages(
-						mbDiscussion.getThreadId(),
-						WorkflowConstants.STATUS_APPROVED);
+			for (MBDiscussion mbDiscussion : mbDiscussions) {
+				try {
+					BlogsEntry entry = BlogsEntryLocalServiceUtil.getBlogsEntry(
+						mbDiscussion.getClassPK());
 
-				for (MBMessage mbMessage : mbMessages) {
-					_verifyPost(entry, mbMessage);
+					List<MBMessage> mbMessages =
+						MBMessageLocalServiceUtil.getThreadMessages(
+							mbDiscussion.getThreadId(),
+							WorkflowConstants.STATUS_APPROVED);
+
+					for (MBMessage mbMessage : mbMessages) {
+						_verifyPost(entry, mbMessage);
+					}
 				}
-			}
-			catch (Exception e) {
-				_log.error(e, e);
+				catch (Exception e) {
+					_log.error(e, e);
+				}
 			}
 		}
 	}
@@ -93,7 +99,7 @@ public class VerifyBlogsTrackbacks extends VerifyProcess {
 				mbMessage.getCompanyId());
 
 			if (mbMessage.getUserId() == defaultUserId) {
-				_linkbackConsumer.verifyTrackback(
+				LinkbackConsumerUtil.verifyTrackback(
 					mbMessage.getMessageId(), url, entryURL);
 			}
 		}
@@ -101,8 +107,5 @@ public class VerifyBlogsTrackbacks extends VerifyProcess {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		VerifyBlogsTrackbacks.class);
-
-	private final LinkbackConsumer _linkbackConsumer =
-		LinkbackConsumerUtil.getLinkbackConsumer();
 
 }

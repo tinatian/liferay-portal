@@ -14,9 +14,10 @@
 
 package com.liferay.portal.service.permission;
 
-import com.liferay.portal.model.LayoutPrototype;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.model.LayoutPrototype;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.permission.LayoutPrototypePermission;
 
 /**
  * @author Jorge Ferrer
@@ -43,7 +44,7 @@ public class LayoutPrototypePermissionImpl
 		String actionId) {
 
 		if (permissionChecker.hasPermission(
-				0, LayoutPrototype.class.getName(), layoutPrototypeId,
+				null, LayoutPrototype.class.getName(), layoutPrototypeId,
 				actionId)) {
 
 			return true;

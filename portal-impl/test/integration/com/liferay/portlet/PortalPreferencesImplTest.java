@@ -14,37 +14,36 @@
 
 package com.liferay.portlet;
 
-import com.liferay.portal.NoSuchPreferencesException;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
+import com.liferay.portal.kernel.exception.NoSuchPreferencesException;
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.service.PortalPreferencesLocalService;
+import com.liferay.portal.kernel.service.PortalPreferencesLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.PortalPreferencesUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.transaction.TransactionAttribute.Builder;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.transaction.TransactionConfig;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.ReflectionUtil;
-import com.liferay.portal.service.PortalPreferencesLocalService;
-import com.liferay.portal.service.PortalPreferencesLocalServiceUtil;
-import com.liferay.portal.service.persistence.PortalPreferencesUtil;
 import com.liferay.portal.spring.transaction.DefaultTransactionExecutor;
+import com.liferay.portal.spring.transaction.TransactionAttributeAdapter;
 import com.liferay.portal.spring.transaction.TransactionInterceptor;
-import com.liferay.portal.test.log.CaptureAppender;
-import com.liferay.portal.test.log.Log4JLoggerTestUtil;
+import com.liferay.portal.spring.transaction.TransactionStatusAdapter;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.util.PortletKeys;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import java.util.ConcurrentModificationException;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.FutureTask;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.spi.LoggingEvent;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -55,8 +54,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.interceptor.TransactionAttribute;
 
 /**
  * @author Matthew Tambara
@@ -84,14 +81,16 @@ public class PortalPreferencesImplTest {
 		_updatePreferencesMethod =
 			PortalPreferencesLocalService.class.getMethod(
 				"updatePortalPreferences",
-				com.liferay.portal.model.PortalPreferences.class);
+				com.liferay.portal.kernel.model.PortalPreferences.class);
 	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
+		_testOwnerId = RandomTestUtil.nextLong();
+
 		PortalPreferences portalPreferences =
 			PortletPreferencesFactoryUtil.getPortalPreferences(
-				PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+				_testOwnerId, true);
 
 		portalPreferences.setValue(_NAMESPACE, "testKey", "testValue");
 
@@ -102,7 +101,7 @@ public class PortalPreferencesImplTest {
 	public void tearDown() throws Throwable {
 		_synchronizeThreadLocal.set(false);
 
-		Builder builder = new Builder();
+		TransactionConfig.Builder builder = new TransactionConfig.Builder();
 
 		TransactionInvokerUtil.invoke(
 			builder.build(),
@@ -111,8 +110,7 @@ public class PortalPreferencesImplTest {
 				@Override
 				public Void call() throws NoSuchPreferencesException {
 					PortalPreferencesUtil.removeByO_O(
-						PortletKeys.PREFS_OWNER_ID_DEFAULT,
-						PortletKeys.PREFS_OWNER_TYPE_USER);
+						_testOwnerId, PortletKeys.PREFS_OWNER_TYPE_USER);
 
 					return null;
 				}
@@ -120,8 +118,7 @@ public class PortalPreferencesImplTest {
 			});
 
 		PortalPreferencesWrapperCacheUtil.remove(
-			PortletKeys.PREFS_OWNER_ID_DEFAULT,
-			PortletKeys.PREFS_OWNER_TYPE_USER);
+			_testOwnerId, PortletKeys.PREFS_OWNER_TYPE_USER);
 	}
 
 	@Test
@@ -132,7 +129,7 @@ public class PortalPreferencesImplTest {
 			public Void call() {
 				PortalPreferences portalPreferences =
 					PortletPreferencesFactoryUtil.getPortalPreferences(
-						PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+						_testOwnerId, true);
 
 				portalPreferences.resetValues(_NAMESPACE);
 
@@ -141,13 +138,9 @@ public class PortalPreferencesImplTest {
 
 		};
 
-		try (CaptureAppender captureAppender =
-				Log4JLoggerTestUtil.configureLog4JLogger(
-					DefaultTransactionExecutor.class.getName(), Level.ERROR)) {
-
+		try {
 			updateSynchronously(
-				new FutureTask<>(callable), new FutureTask<>(callable),
-				captureAppender);
+				new FutureTask<>(callable), new FutureTask<>(callable));
 
 			Assert.fail();
 		}
@@ -168,11 +161,10 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValues(
-						_NAMESPACE, _KEY_1,
-						new String[] {null, _VALUE_2});
+						_NAMESPACE, _KEY_1, new String[] {null, _VALUE_2});
 
 					return null;
 				}
@@ -186,7 +178,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValue(_NAMESPACE, _KEY_1, _VALUE_1);
 
@@ -195,11 +187,8 @@ public class PortalPreferencesImplTest {
 
 			});
 
-		try (CaptureAppender captureAppender =
-				Log4JLoggerTestUtil.configureLog4JLogger(
-					DefaultTransactionExecutor.class.getName(), Level.ERROR)) {
-
-			updateSynchronously(futureTask1, futureTask2, captureAppender);
+		try {
+			updateSynchronously(futureTask1, futureTask2);
 
 			Assert.fail();
 		}
@@ -220,7 +209,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValue(_NAMESPACE, _KEY_1, _VALUE_1);
 
@@ -236,7 +225,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValue(_NAMESPACE, _KEY_2, _VALUE_1);
 
@@ -245,21 +234,16 @@ public class PortalPreferencesImplTest {
 
 			});
 
-		try (CaptureAppender captureAppender =
-				Log4JLoggerTestUtil.configureLog4JLogger(
-					DefaultTransactionExecutor.class.getName(), Level.ERROR)) {
+		updateSynchronously(futureTask1, futureTask2);
 
-			updateSynchronously(futureTask1, futureTask2, captureAppender);
+		PortalPreferences portalPreferences =
+			PortletPreferencesFactoryUtil.getPortalPreferences(
+				_testOwnerId, true);
 
-			PortalPreferences portalPreferences =
-				PortletPreferencesFactoryUtil.getPortalPreferences(
-					PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
-
-			Assert.assertEquals(
-				_VALUE_1, portalPreferences.getValue(_NAMESPACE, _KEY_1));
-			Assert.assertEquals(
-				_VALUE_1, portalPreferences.getValue(_NAMESPACE, _KEY_2));
-		}
+		Assert.assertEquals(
+			_VALUE_1, portalPreferences.getValue(_NAMESPACE, _KEY_1));
+		Assert.assertEquals(
+			_VALUE_1, portalPreferences.getValue(_NAMESPACE, _KEY_2));
 	}
 
 	@Test
@@ -271,7 +255,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValue(_NAMESPACE, _KEY_1, _VALUE_1);
 
@@ -287,7 +271,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValue(_NAMESPACE, _KEY_1, _VALUE_2);
 
@@ -296,11 +280,8 @@ public class PortalPreferencesImplTest {
 
 			});
 
-		try (CaptureAppender captureAppender =
-				Log4JLoggerTestUtil.configureLog4JLogger(
-					DefaultTransactionExecutor.class.getName(), Level.ERROR)) {
-
-			updateSynchronously(futureTask1, futureTask2, captureAppender);
+		try {
+			updateSynchronously(futureTask1, futureTask2);
 
 			Assert.fail();
 		}
@@ -321,7 +302,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValues(_NAMESPACE, _KEY_1, _VALUES_1);
 
@@ -337,7 +318,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValues(_NAMESPACE, _KEY_2, _VALUES_1);
 
@@ -346,21 +327,16 @@ public class PortalPreferencesImplTest {
 
 			});
 
-		try (CaptureAppender captureAppender =
-				Log4JLoggerTestUtil.configureLog4JLogger(
-					DefaultTransactionExecutor.class.getName(), Level.ERROR)) {
+		updateSynchronously(futureTask1, futureTask2);
 
-			updateSynchronously(futureTask1, futureTask2, captureAppender);
+		PortalPreferences portalPreferences =
+			PortletPreferencesFactoryUtil.getPortalPreferences(
+				_testOwnerId, true);
 
-			PortalPreferences portalPreferences =
-				PortletPreferencesFactoryUtil.getPortalPreferences(
-					PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
-
-			Assert.assertArrayEquals(
-				_VALUES_1, portalPreferences.getValues(_NAMESPACE, _KEY_1));
-			Assert.assertArrayEquals(
-				_VALUES_1, portalPreferences.getValues(_NAMESPACE, _KEY_2));
-		}
+		Assert.assertArrayEquals(
+			_VALUES_1, portalPreferences.getValues(_NAMESPACE, _KEY_1));
+		Assert.assertArrayEquals(
+			_VALUES_1, portalPreferences.getValues(_NAMESPACE, _KEY_2));
 	}
 
 	@Test
@@ -372,7 +348,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValues(_NAMESPACE, _KEY_1, _VALUES_1);
 
@@ -388,7 +364,7 @@ public class PortalPreferencesImplTest {
 				public Void call() {
 					PortalPreferences portalPreferences =
 						PortletPreferencesFactoryUtil.getPortalPreferences(
-							PortletKeys.PREFS_OWNER_ID_DEFAULT, true);
+							_testOwnerId, true);
 
 					portalPreferences.setValues(_NAMESPACE, _KEY_1, _VALUES_2);
 
@@ -397,11 +373,8 @@ public class PortalPreferencesImplTest {
 
 			});
 
-		try (CaptureAppender captureAppender =
-				Log4JLoggerTestUtil.configureLog4JLogger(
-					DefaultTransactionExecutor.class.getName(), Level.ERROR)) {
-
-			updateSynchronously(futureTask1, futureTask2, captureAppender);
+		try {
+			updateSynchronously(futureTask1, futureTask2);
 
 			Assert.fail();
 		}
@@ -414,8 +387,7 @@ public class PortalPreferencesImplTest {
 	}
 
 	protected void updateSynchronously(
-			FutureTask<Void> futureTask1, FutureTask<Void> futureTask2,
-			CaptureAppender captureAppender)
+			FutureTask<Void> futureTask1, FutureTask<Void> futureTask2)
 		throws Exception {
 
 		ReflectionTestUtil.setFieldValue(
@@ -423,7 +395,7 @@ public class PortalPreferencesImplTest {
 			ProxyUtil.newProxyInstance(
 				PortalPreferencesLocalService.class.getClassLoader(),
 				new Class<?>[] {PortalPreferencesLocalService.class},
-				new SynchronousInvocationHandler()));
+				new SynchronousInvocationHandler(_testOwnerId)));
 
 		Thread thread1 = new Thread(futureTask1, "Update Thread 1");
 
@@ -437,16 +409,6 @@ public class PortalPreferencesImplTest {
 
 		futureTask2.get();
 
-		List<LoggingEvent> loggingEvents = captureAppender.getLoggingEvents();
-
-		Assert.assertEquals(1, loggingEvents.size());
-
-		LoggingEvent loggingEvent = loggingEvents.get(0);
-
-		Assert.assertEquals(
-			"Application exception overridden by commit exception",
-			loggingEvent.getMessage());
-
 		EntityCacheUtil.clearLocalCache();
 		FinderCacheUtil.clearLocalCache();
 	}
@@ -457,34 +419,40 @@ public class PortalPreferencesImplTest {
 		@Override
 		public void commit(
 			PlatformTransactionManager platformTransactionManager,
-			TransactionAttribute transactionAttribute,
-			TransactionStatus transactionStatus) {
+			TransactionAttributeAdapter transactionAttributeAdapter,
+			TransactionStatusAdapter transactionStatusAdapter) {
 
 			if (!_synchronizeThreadLocal.get()) {
 				_originalTransactionExecutor.commit(
-					platformTransactionManager, transactionAttribute,
-					transactionStatus);
+					platformTransactionManager, transactionAttributeAdapter,
+					transactionStatusAdapter);
+
+				return;
 			}
 
 			try {
 				_cyclicBarrier.await();
 
 				_originalTransactionExecutor.commit(
-					platformTransactionManager, transactionAttribute,
-					transactionStatus);
+					platformTransactionManager, transactionAttributeAdapter,
+					transactionStatusAdapter);
 			}
 			catch (Throwable t) {
 				ReflectionUtil.throwException(t);
 			}
 			finally {
 				PortalPreferencesWrapperCacheUtil.remove(
-					PortletKeys.PREFS_OWNER_ID_DEFAULT,
-					PortletKeys.PREFS_OWNER_TYPE_USER);
+					_testOwnerId, PortletKeys.PREFS_OWNER_TYPE_USER);
 			}
 		}
 
+		private SynchronizedTransactionExecutor(long testOwnerId) {
+			_testOwnerId = testOwnerId;
+		}
+
 		private final CyclicBarrier _cyclicBarrier = new CyclicBarrier(
-			2, new Runnable() {
+			2,
+			new Runnable() {
 
 				@Override
 				public void run() {
@@ -493,6 +461,8 @@ public class PortalPreferencesImplTest {
 				}
 
 			});
+
+		private final long _testOwnerId;
 
 	}
 
@@ -512,20 +482,25 @@ public class PortalPreferencesImplTest {
 			return method.invoke(_originalPortalPreferencesLocalService, args);
 		}
 
-		private final CyclicBarrier _cyclicBarrier = new CyclicBarrier(
-			2, new Runnable() {
+		private SynchronousInvocationHandler(long testOwnerId) {
+			_cyclicBarrier = new CyclicBarrier(
+				2,
+				new Runnable() {
 
-				@Override
-				public void run() {
-					_transactionInterceptor.setTransactionExecutor(
-						new SynchronizedTransactionExecutor());
+					@Override
+					public void run() {
+						_transactionInterceptor.setTransactionExecutor(
+							new SynchronizedTransactionExecutor(testOwnerId));
 
-					ReflectionTestUtil.setFieldValue(
-						PortalPreferencesLocalServiceUtil.class, "_service",
-						_originalPortalPreferencesLocalService);
-				}
+						ReflectionTestUtil.setFieldValue(
+							PortalPreferencesLocalServiceUtil.class, "_service",
+							_originalPortalPreferencesLocalService);
+					}
 
-			});
+				});
+		}
+
+		private final CyclicBarrier _cyclicBarrier;
 
 	}
 
@@ -539,9 +514,9 @@ public class PortalPreferencesImplTest {
 
 	private static final String _VALUE_2 = "value2";
 
-	private static final String[] _VALUES_1 = new String[] {"values1"};
+	private static final String[] _VALUES_1 = {"values1"};
 
-	private static final String[] _VALUES_2 = new String[] {"values2"};
+	private static final String[] _VALUES_2 = {"values2"};
 
 	private static PortalPreferencesLocalService
 		_originalPortalPreferencesLocalService;
@@ -550,5 +525,7 @@ public class PortalPreferencesImplTest {
 		new InheritableThreadLocal<>();
 	private static TransactionInterceptor _transactionInterceptor;
 	private static Method _updatePreferencesMethod;
+
+	private long _testOwnerId;
 
 }

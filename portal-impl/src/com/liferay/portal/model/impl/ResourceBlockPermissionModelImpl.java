@@ -16,17 +16,18 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ResourceBlockPermission;
+import com.liferay.portal.kernel.model.ResourceBlockPermissionModel;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.ResourceBlockPermission;
-import com.liferay.portal.model.ResourceBlockPermissionModel;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -60,6 +61,7 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "mvccVersion", Types.BIGINT },
 			{ "resourceBlockPermissionId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
 			{ "resourceBlockId", Types.BIGINT },
 			{ "roleId", Types.BIGINT },
 			{ "actionIds", Types.BIGINT }
@@ -69,12 +71,13 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 	static {
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("resourceBlockPermissionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("resourceBlockId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("roleId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("actionIds", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table ResourceBlockPermission (mvccVersion LONG default 0,resourceBlockPermissionId LONG not null primary key,resourceBlockId LONG,roleId LONG,actionIds LONG)";
+	public static final String TABLE_SQL_CREATE = "create table ResourceBlockPermission (mvccVersion LONG default 0 not null,resourceBlockPermissionId LONG not null primary key,companyId LONG,resourceBlockId LONG,roleId LONG,actionIds LONG)";
 	public static final String TABLE_SQL_DROP = "drop table ResourceBlockPermission";
 	public static final String ORDER_BY_JPQL = " ORDER BY resourceBlockPermission.resourceBlockPermissionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ResourceBlockPermission.resourceBlockPermissionId ASC";
@@ -82,19 +85,19 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.ResourceBlockPermission"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.ResourceBlockPermission"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.ResourceBlockPermission"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.ResourceBlockPermission"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.ResourceBlockPermission"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.ResourceBlockPermission"),
 			true);
 	public static final long RESOURCEBLOCKID_COLUMN_BITMASK = 1L;
 	public static final long ROLEID_COLUMN_BITMASK = 2L;
 	public static final long RESOURCEBLOCKPERMISSIONID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.ResourceBlockPermission"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.ResourceBlockPermission"));
 
 	public ResourceBlockPermissionModelImpl() {
 	}
@@ -136,6 +139,7 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("resourceBlockPermissionId",
 			getResourceBlockPermissionId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("resourceBlockId", getResourceBlockId());
 		attributes.put("roleId", getRoleId());
 		attributes.put("actionIds", getActionIds());
@@ -159,6 +163,12 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 
 		if (resourceBlockPermissionId != null) {
 			setResourceBlockPermissionId(resourceBlockPermissionId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Long resourceBlockId = (Long)attributes.get("resourceBlockId");
@@ -198,6 +208,16 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 	@Override
 	public void setResourceBlockPermissionId(long resourceBlockPermissionId) {
 		_resourceBlockPermissionId = resourceBlockPermissionId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
 	}
 
 	@Override
@@ -260,7 +280,7 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			ResourceBlockPermission.class.getName(), getPrimaryKey());
 	}
 
@@ -287,6 +307,7 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 
 		resourceBlockPermissionImpl.setMvccVersion(getMvccVersion());
 		resourceBlockPermissionImpl.setResourceBlockPermissionId(getResourceBlockPermissionId());
+		resourceBlockPermissionImpl.setCompanyId(getCompanyId());
 		resourceBlockPermissionImpl.setResourceBlockId(getResourceBlockId());
 		resourceBlockPermissionImpl.setRoleId(getRoleId());
 		resourceBlockPermissionImpl.setActionIds(getActionIds());
@@ -371,6 +392,8 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 
 		resourceBlockPermissionCacheModel.resourceBlockPermissionId = getResourceBlockPermissionId();
 
+		resourceBlockPermissionCacheModel.companyId = getCompanyId();
+
 		resourceBlockPermissionCacheModel.resourceBlockId = getResourceBlockId();
 
 		resourceBlockPermissionCacheModel.roleId = getRoleId();
@@ -382,12 +405,14 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{mvccVersion=");
 		sb.append(getMvccVersion());
 		sb.append(", resourceBlockPermissionId=");
 		sb.append(getResourceBlockPermissionId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
 		sb.append(", resourceBlockId=");
 		sb.append(getResourceBlockId());
 		sb.append(", roleId=");
@@ -401,10 +426,10 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.ResourceBlockPermission");
+		sb.append("com.liferay.portal.kernel.model.ResourceBlockPermission");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -414,6 +439,10 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 		sb.append(
 			"<column><column-name>resourceBlockPermissionId</column-name><column-value><![CDATA[");
 		sb.append(getResourceBlockPermissionId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>resourceBlockId</column-name><column-value><![CDATA[");
@@ -439,6 +468,7 @@ public class ResourceBlockPermissionModelImpl extends BaseModelImpl<ResourceBloc
 		};
 	private long _mvccVersion;
 	private long _resourceBlockPermissionId;
+	private long _companyId;
 	private long _resourceBlockId;
 	private long _originalResourceBlockId;
 	private boolean _setOriginalResourceBlockId;

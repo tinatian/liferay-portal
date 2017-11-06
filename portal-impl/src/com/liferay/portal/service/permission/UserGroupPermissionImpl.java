@@ -14,9 +14,10 @@
 
 package com.liferay.portal.service.permission;
 
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.permission.UserGroupPermission;
 
 /**
  * @author Charles May
@@ -42,7 +43,7 @@ public class UserGroupPermissionImpl implements UserGroupPermission {
 		String actionId) {
 
 		return permissionChecker.hasPermission(
-			0, UserGroup.class.getName(), userGroupId, actionId);
+			null, UserGroup.class.getName(), userGroupId, actionId);
 	}
 
 }

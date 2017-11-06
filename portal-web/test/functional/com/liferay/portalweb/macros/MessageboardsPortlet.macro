@@ -1,8 +1,22 @@
 <definition>
 	<command name="configureAnonymousPostingCP">
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
+		</execute>
+
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
 		<execute function="Pause" locator1="10000" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
 		<if>
 			<equals arg1="${anonymousPostingEnabled}" arg2="true" />
@@ -17,21 +31,29 @@
 			</elseif>
 		</if>
 
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfiguration#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="configureGeneralCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
+
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
 
 		<execute function="Pause" locator1="10000" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
 		<if>
 			<equals arg1="${threadAsQuestionByDefaultEnabled}" arg2="true" />
@@ -40,42 +62,27 @@
 			</then>
 		</if>
 
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SAVE_BUTTON" value1="Save" />
-
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfiguration#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
-	</command>
-
-	<command name="configureGeneralPG">
-		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
-			<var name="portletOption" value="Configuration" />
-		</execute>
-
-		<execute function="SelectFrame" locator1="MessageBoardsConfiguration#IFRAME" />
-
-		<if>
-			<equals arg1="${messageFormatBBCodeEnabled}" arg2="true" />
-			<then>
-				<var name="key_messageFormat" value="${messageFormat}" />
-
-				<execute function="Select" locator1="MessageBoardsAdminConfiguration#GENERAL_MESSAGE_FORMAT_DROPDOWN_OPTION" value1="${key_messageFormat}" />
-			</then>
-		</if>
-
-		<execute function="AssertClick" locator1="Button#SAVE" value1="Save" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="You have successfully updated the setup." />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="configureMessageAddedEmailCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SETUP_NAVIGATION_MESSAGE_ADDED_EMAIL" value1="Message Added Email" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute function="AssertClick" locator1="MessageBoardsAdminConfiguration#SETUP_NAVIGATION_MESSAGE_ADDED_EMAIL" value1="Message Added Email" />
 
 		<if>
 			<equals arg1="${messageAddedEmailEnabled}" arg2="false" />
@@ -87,20 +94,29 @@
 			</else>
 		</if>
 
-		<execute function="AssertClick" locator1="CPMessageboardsConfigurationSetupMessageAddedEmail#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfigurationSetupMessageAddedEmail#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="configureMessageEmailFromCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SETUP_NAVIGATION_EMAIL_FROM" value1="Email From" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute function="AssertClick" locator1="MessageBoardsAdminConfiguration#SETUP_NAVIGATION_EMAIL_FROM" value1="Email From" />
 
 		<if>
 			<isset var="emailFromName" />
@@ -116,20 +132,29 @@
 			</then>
 		</if>
 
-		<execute function="AssertClick" locator1="CPMessageboardsConfigurationSetupMessageUpdatedEmail#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfigurationSetupMessageUpdatedEmail#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="configureMessageUpdatedEmailCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SETUP_NAVIGATION_MESSAGE_UPDATED_EMAIL" value1="Message Updated Email" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute function="AssertClick" locator1="MessageBoardsAdminConfiguration#SETUP_NAVIGATION_MESSAGE_UPDATED_EMAIL" value1="Message Updated Email" />
 
 		<if>
 			<equals arg1="${messageUpdatedEmailEnabled}" arg2="false" />
@@ -141,53 +166,29 @@
 			</else>
 		</if>
 
-		<execute function="AssertClick" locator1="CPMessageboardsConfigurationSetupMessageUpdatedEmail#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfigurationSetupMessageUpdatedEmail#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
-	</command>
-
-	<command name="configureMessageUpdatedEmailPG">
-		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
-			<var name="portletOption" value="Configuration" />
-		</execute>
-
-		<execute function="SelectFrame" locator1="MessageBoardsConfiguration#IFRAME" />
-		<execute function="AssertClick" locator1="PGMessageboardsConfiguration#SETUP_NAVIGATION_MESSAGE_UPDATED_EMAIL" value1="Message Updated Email" />
-
-		<if>
-			<equals arg1="${messageUpdatedEmailEnabled}" arg2="false" />
-			<then>
-				<execute function="Uncheck" locator1="MessageBoardsAdminConfiguration#MESSAGE_UPDATED_EMAIL_ENABLED_CHECKBOX" />
-			</then>
-			<else>
-				<execute function="AssertChecked" locator1="MessageBoardsAdminConfiguration#MESSAGE_UPDATED_EMAIL_ENABLED_CHECKBOX" />
-			</else>
-		</if>
-
-		<execute function="AssertClick" locator1="PGMessageboardsConfigurationSetupMessageUpdatedEmail#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="PGMessageboardsConfigurationSetupMessageUpdatedEmail#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+		<execute macro="Button#clickSave" />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="configureScopePG">
 		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
+			<var name="portletName" value="${portletName}" />
 			<var name="portletOption" value="Configuration" />
 		</execute>
 
-		<execute function="SelectFrame" locator1="MessageBoardsConfiguration#IFRAME" />
+		<execute macro="IFrame#selectConfigurationFrame" />
+
 		<execute function="AssertClick" locator1="MessageBoardsConfiguration#NAVIGATION_SCOPE" value1="Scope" />
 
-		<var name="key_scopeName" value="${scopeName}" />
+		<execute function="Select" locator1="Select#SCOPE" value1="${scopeName}" />
 
-		<execute function="Click" locator1="MessageBoardsConfiguration#SCOPE_DROPDOWN" />
-		<execute function="AssertClick#assertPartialTextClickAtAndWait" locator1="MessageBoardsConfiguration#SCOPE_MENULIST" value1="${scopeName}" />
-		<execute function="AssertTextEquals" locator1="PGMessageboardsConfigurationScope#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+		<execute macro="PortletEntry#save" />
 	</command>
 
 	<command name="gotoInlinePermissionsPG">
 		<execute function="AssertClick" locator1="Button#PERMISSIONS" value1="Permissions" />
 
-		<execute function="SelectFrame" locator1="Permissions#PERMISSIONS_IFRAME" />
+		<execute macro="IFrame#selectDialogFrame" />
 	</command>
 
 	<command name="gotoRecentPostsPG">
@@ -196,47 +197,71 @@
 
 	<command name="searchPG">
 		<execute function="Type" locator1="NavBar#BASIC_SEARCH_FIELD" value1="${searchTerm}" />
-		<execute function="AssertClick" locator1="NavBar#BASIC_SEARCH_BUTTON" value1="Search" />
+
+		<execute function="Click" locator1="MessageBoards#SEARCH_BUTTON" />
 	</command>
 
 	<command name="subscribePG">
 		<execute function="AssertClick" locator1="MessageBoards#SUBSCRIBE_LINK" value1="Subscribe" />
-		<execute function="AssertTextEquals#assertText" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="tearDownConfigurationEmailCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SETUP_NAVIGATION_MESSAGE_ADDED_EMAIL" value1="Message Added Email" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute function="AssertClick" locator1="MessageBoardsAdminConfiguration#SETUP_NAVIGATION_MESSAGE_ADDED_EMAIL" value1="Message Added Email" />
 
 		<execute function="Check" locator1="MessageBoardsAdminConfiguration#MESSAGE_ADDED_EMAIL_ENABLED_CHECKBOX" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfigurationSetupMessageAddedEmail#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfigurationSetupMessageAddedEmail#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
-		<execute function="AssertClick" locator1="CPMessageboardsConfigurationSetupMessageAddedEmail#SETUP_NAVIGATION_MESSAGE_UPDATED_EMAIL" value1="Message Updated Email" />
+
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
+
+		<execute function="AssertClick" locator1="MessageBoardsAdminConfiguration#SETUP_NAVIGATION_MESSAGE_UPDATED_EMAIL" value1="Message Updated Email" />
 
 		<execute function="Check" locator1="MessageBoardsAdminConfiguration#MESSAGE_UPDATED_EMAIL_ENABLED_CHECKBOX" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfigurationSetupMessageUpdatedEmail#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfigurationSetupMessageUpdatedEmail#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="tearDownConfigurationGeneralCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
 		<execute function="Check" locator1="MessageBoardsAdminConfiguration#GENERAL_ALLOW_ANONYMOUS_POSTING_CHECKBOX" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SAVE_BUTTON" value1="Save" />
-		<execute function="AssertTextEquals" locator1="CPMessageboardsConfiguration#SUCCESS_MESSAGE" value1="You have successfully updated the setup." />
+
+		<execute macro="Button#clickSave" />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
 	<command name="unbanUserPG">
@@ -245,13 +270,14 @@
 		<var name="key_userScreenName" value="${userScreenName}" />
 
 		<execute function="AssertClick" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_UNBAN_THIS_USER" value1="Unban This User" />
-		<execute function="AssertTextEquals" locator1="Message#SUCCESS" value1="Your request completed successfully." />
+
+		<execute macro="Alert#viewSuccessMessage" />
 		<execute function="AssertElementNotPresent" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_BANNED_USER" />
 		<execute function="AssertTextNotPresent" value1="${userScreenName}" />
 	</command>
 
 	<command name="viewAnonymousPostingConfigurationCP">
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
+		<execute macro="IFrame#selectConfigurationFrame" />
 
 		<if>
 			<equals arg1="${anonymousPostingEnabled}" arg2="true" />
@@ -276,10 +302,13 @@
 		<execute function="AssertTextEquals" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_BANNED_BY" value1="Test Test" />
 		<execute function="AssertVisible" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_BAN_DATE"  />
 		<execute function="AssertVisible" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_UNBAN_DATE"  />
-		<execute function="AssertTextEquals" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_UNBAN_THIS_USER" value1="Unban This User" />
+		<execute function="AssertElementPresent" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_UNBAN_THIS_USER" />
+
 		<execute function="AssertClick" locator1="MessageBoardsBannedUsers#BANNED_USERS_TABLE_BANNED_USER" value1="${userScreenName}" />
 
-		<execute function="AssertTextEquals" locator1="Home#SITE_NAME" value1="${userScreenName}" />
+		<var name="key_siteName" value="${userScreenName}" />
+
+		<execute function="AssertTextEquals" locator1="SitePages#SITE_NAME" value1="${userScreenName}" />
 	</command>
 
 	<command name="viewBanPG">
@@ -299,24 +328,34 @@
 	</command>
 
 	<command name="viewDefaultEmailFromCP">
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Message Boards" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Message Boards" />
 		</execute>
 
-		<execute function="Click" locator1="BasePortlet#OPTIONS_ICON" />
-		<execute function="AssertClick" locator1="BasePortlet#OPTIONS_MENULIST_CONFIGURATION" value1="Configuration" />
+		<execute function="Click" locator1="Portlet#OPTIONS_ICON" />
 
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
-		<execute function="AssertClick" locator1="CPMessageboardsConfiguration#SETUP_NAVIGATION_EMAIL_FROM" value1="Email From" />
+		<execute function="AssertClick" locator1="MenuItem#ANY_MENU_ITEM" value1="Configuration">
+			<var name="key_menuItem" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute function="AssertClick" locator1="MessageBoardsAdminConfiguration#SETUP_NAVIGATION_EMAIL_FROM" value1="Email From" />
 
 		<execute function="AssertTextEquals" locator1="MessageBoardsAdminConfiguration#EMAIL_FROM_NAME" value1="[$MESSAGE_USER_NAME$]" />
 		<execute function="AssertTextEquals" locator1="MessageBoardsAdminConfiguration#EMAIL_FROM_ADDRESS" value1="test@liferay.com" />
 	</command>
 
 	<command name="viewNoPermissionCP">
-		<execute function="AssertTextEquals" locator1="MessageBoardsAdmin#PORTLET_TITLE" value1="Message Boards" />
-		<execute function="AssertElementPresent" locator1="MessageBoardsAdmin#NAVBAR_CONTAINER" />
-		<execute function="AssertTextEquals#assertText" locator1="Message#INFO" value1="There are no threads in this category." />
+		<var name="key_portletTitle" value="Message Boards" />
+
+		<execute function="AssertTextEquals" locator1="Home#SITE_ADMINISTRATION_PORTLET_TITLE" value1="Message Boards" />
+		<execute function="AssertElementPresent" locator1="NavBar#CONTAINER" />
+		<execute function="AssertTextEquals#assertText" locator1="Message#EMPTY_INFO" value1="There are no threads nor categories." />
 	</command>
 
 	<command name="viewNoSearchResultSubjectPG">
@@ -325,30 +364,19 @@
 		<execute function="AssertElementNotPresent" locator1="MessageBoardsSearch#SEARCH_RESULTS_ENTRY_TITLE" />
 	</command>
 
-	<command name="viewRecentPostsConfigurationCP">
-		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletNameBorderless" value="${portletNameBorderless}" />
-			<var name="portletOption" value="Configuration" />
-		</execute>
-
-		<execute function="SelectFrame" locator1="CPMessageboardsConfiguration#MESSAGE_BOARDS_IFRAME" />
-		<execute function="AssertTextEquals" locator1="MessageBoardsAdminConfiguration#GENERAL_SHOW_RECENT_POSTS_FROM_LAST_DROPDOWN" value1="${recentPostsRange}" />
-	</command>
-
 	<command name="viewSearchResultPG">
+		<execute function="AssertVisible" locator1="MessageBoardsThread#THREAD_CONTROLS_BACK" />
+
 		<var name="key_threadSubject" value="${threadSubject}" />
 
-		<execute function="AssertTextEquals" locator1="MessageBoardsSearch#SEARCH_RESULTS_ENTRY_TITLE" value1="${threadSubject}" />
-		<execute function="AssertTextEquals" locator1="MessageBoardsSearch#SEARCH_RESULTS_ENTRY_DESCRIPTION" value1="${threadBody}" />
+		<execute function="AssertTextEquals" locator1="MessageBoards#THREAD_LIST_THREAD" value1="${threadSubject}" />
 
 		<if>
 			<isset var="mbThreadAttachment" />
 			<then>
-				<var name="key_userName" value="${userName}" />
+				<execute function="AssertClick" locator1="MessageBoards#THREAD_LIST_THREAD" value1="${threadSubject}" />
 
-				<execute function="AssertVisible" locator1="MessageBoardsSearch#SEARCH_RESULTS_ATTACHMENT_IMAGE" />
-				<execute function="AssertTextEquals" locator1="MessageBoardsSearch#SEARCH_RESULTS_ATTACHMENT_HEADER" value1="Attachment added by ${userName}." />
-				<execute function="AssertTextEquals#assertPartialText" locator1="MessageBoardsSearch#SEARCH_RESULTS_ATTACHMENT_BODY" value1="${searchTerm}" />
+				<execute function="AssertVisible" locator1="Link#MESSAGE_BOARDS_ATTACHMENT" />
 			</then>
 		</if>
 	</command>

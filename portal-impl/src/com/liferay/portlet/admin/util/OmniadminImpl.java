@@ -14,13 +14,14 @@
 
 package com.liferay.portlet.admin.util;
 
+import com.liferay.admin.kernel.util.Omniadmin;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PortalInstances;
 import com.liferay.portal.util.PropsValues;
 
@@ -31,6 +32,10 @@ public class OmniadminImpl implements Omniadmin {
 
 	@Override
 	public boolean isOmniadmin(long userId) {
+		if (userId <= 0) {
+			return false;
+		}
+
 		try {
 			User user = UserLocalServiceUtil.fetchUser(userId);
 
@@ -41,22 +46,23 @@ public class OmniadminImpl implements Omniadmin {
 			return isOmniadmin(user);
 		}
 		catch (SystemException se) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(se, se);
+			}
+
 			return false;
 		}
 	}
 
 	@Override
 	public boolean isOmniadmin(User user) {
-		long userId = user.getUserId();
-
-		if (userId <= 0) {
-			return false;
-		}
-
 		try {
 			if (PropsValues.OMNIADMIN_USERS.length > 0) {
 				for (int i = 0; i < PropsValues.OMNIADMIN_USERS.length; i++) {
-					if (PropsValues.OMNIADMIN_USERS[i] == userId) {
+					if (PropsValues.OMNIADMIN_USERS[i] == user.getUserId()) {
 						if (user.getCompanyId() !=
 								PortalInstances.getDefaultCompanyId()) {
 
@@ -70,15 +76,19 @@ public class OmniadminImpl implements Omniadmin {
 				return false;
 			}
 
-			if (user.getCompanyId() != PortalInstances.getDefaultCompanyId()) {
+			if (user.isDefaultUser() ||
+				(user.getCompanyId() !=
+					PortalInstances.getDefaultCompanyId())) {
+
 				return false;
 			}
 
 			return RoleLocalServiceUtil.hasUserRole(
-				userId, user.getCompanyId(), RoleConstants.ADMINISTRATOR, true);
+				user.getUserId(), user.getCompanyId(),
+				RoleConstants.ADMINISTRATOR, true);
 		}
 		catch (Exception e) {
-			_log.error(e);
+			_log.error("Unable to check if a user is an omniadmin", e);
 
 			return false;
 		}

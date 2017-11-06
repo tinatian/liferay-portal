@@ -126,22 +126,29 @@ public class Java2WsddTask {
 
 		// Get content
 
+		String packagePathWithSlashes = StringUtil.replace(
+			packagePath, CharPool.PERIOD, CharPool.SLASH);
+
 		File deployFile = new File(
-			tempDir + "/" + StringUtil.replace(packagePath, ".", "/") +
-				"/deploy.wsdd");
+			StringBundler.concat(
+				String.valueOf(tempDir), "/", packagePathWithSlashes,
+				"/deploy.wsdd"));
 
 		String deployContent = new String(
 			Files.readAllBytes(deployFile.toPath()));
 
 		deployContent = StringUtil.replace(
-			deployContent, packagePath + "." + serviceName + "SoapBindingImpl",
+			deployContent,
+			StringBundler.concat(
+				packagePath, ".", serviceName, "SoapBindingImpl"),
 			className);
 
 		deployContent = _format(deployContent);
 
 		File undeployFile = new File(
-			tempDir + "/" + StringUtil.replace(packagePath, ".", "/") +
-				"/undeploy.wsdd");
+			StringBundler.concat(
+				String.valueOf(tempDir), "/", packagePathWithSlashes,
+				"/undeploy.wsdd"));
 
 		String undeployContent = new String(
 			Files.readAllBytes(undeployFile.toPath()));
@@ -201,12 +208,14 @@ public class Java2WsddTask {
 				String name = element.attributeValue("name");
 
 				sb.append(name);
+
 				sb.append("_METHOD_");
 
 				for (Element parameterElement : parameters) {
 					String type = parameterElement.attributeValue("type");
 
 					sb.append(type);
+
 					sb.append("_PARAMETER_");
 				}
 

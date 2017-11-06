@@ -1,39 +1,167 @@
 <definition component-name="portal-breadcrumb">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Breadcrumb" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="Page#tearDownPG" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="Site#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="Page#tearDownPG" />
+
+				<execute macro="Site#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
-	<command name="DisableShowApplicationBreadcrumb" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+	<command name="AddADTViaBreadcrumb" priority="4">
+		<execute macro="Page#add">
+			<var name="pageName" value="Page Name" />
+		</execute>
+
+		<execute macro="Portlet#addPG">
+			<var name="portletName" value="Breadcrumb" />
+		</execute>
+
+		<execute macro="ApplicationDisplayTemplates#addPortletADTWithFieldEntry">
+			<var name="fieldName" value="Breadcrumb Entry" />
+			<var name="portletName" value="Breadcrumb" />
+		</execute>
+
+		<execute macro="Navigator#gotoPage">
+			<var name="pageName" value="Page Name" />
+		</execute>
+
+		<execute macro="ApplicationDisplayTemplates#selectPortletADT">
+			<var name="portletName" value="Breadcrumb" />
+			<var name="templateName" value="Breadcrumb Test ADT" />
+		</execute>
+
+		<execute macro="Navigator#gotoPage">
+			<var name="pageName" value="Page Name" />
+		</execute>
+
+		<execute macro="Portlet#gotoPortletOptions">
+			<var name="portletName" value="Breadcrumb" />
+			<var name="portletOption" value="Configuration" />
+		</execute>
+
+		<execute macro="IFrame#selectConfigurationFrame" />
+
+		<execute function="AssertElementPresent" locator1="Select#DISPLAY_TEMPLATE" value1="Breadcrumb Test ADT" />
+	</command>
+
+	<command name="ConfigureNoSave" priority="3">
+		<property name="test.name.skip.portal.instance" value="Breadcrumb#ConfigureNoSave" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Parent Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
+		</execute>
+
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Parent Page Name" />
+			<var name="siteChildPageName" value="Child Page Name" />
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="Page#gotoChildPagePG">
+			<var name="childPageName" value="Child Page Name" />
+			<var name="pageName" value="Parent Page Name" />
+		</execute>
+
+		<execute macro="Portlet#addPG">
+			<var name="portletName" value="Breadcrumb" />
+		</execute>
+
+		<execute macro="Portlet#gotoPortletOptions">
+			<var name="portletOption" value="Configuration" />
+		</execute>
+
+		<execute macro="Breadcrumb#configureBreadcrumb">
+			<var name="uncheckSetupName" value="Show Current Site,Show Guest Site,Show Page,Show Parent Sites,Show Application Breadcrumb" />
+		</execute>
+
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<execute macro="Breadcrumb#viewConfigurationPreview">
+			<var name="breadcrumbListNotVisible" value="${siteName},Site Name,Parent Page Name,Child Page Name" />
+		</execute>
+
+		<execute macro="Breadcrumb#configureBreadcrumb">
+			<var name="checkSetupName" value="Show Current Site,Show Guest Site,Show Page,Show Parent Sites,Show Application Breadcrumb" />
+			<var name="configureWithoutSave" value="true" />
+		</execute>
+
+		<execute macro="Breadcrumb#viewConfigurationPreview">
+			<var name="breadcrumbListVisible" value="${siteName},Site Name,Parent Page Name,Child Page Name" />
+		</execute>
+	</command>
+
+	<command name="DisableShowApplicationBreadcrumb" priority="4">
+		<property name="custom.properties" value="default.layout.template.id=1_column" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
+		</execute>
+
+		<execute macro="Site#addBlankCP">
+			<var name="siteName" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
+		</execute>
+
+		<execute macro="Page#add">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSitePage">
+			<var name="pageName" value="Page Name" />
+			<var name="siteName" value="Site Name" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -50,38 +178,37 @@
 			<var name="subCategoryName" value="MB Subcategory Name" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#addSubcategoryToSubcategoryPG">
-			<var name="categoryName" value="MB Subcategory Name" />
+			<var name="categoryName" value="MB Category Name" />
 			<var name="subCategoryDescription" value="MB Subcategory Description" />
-			<var name="subCategoryName" value="MB Subcategory Subcategory Name" />
+			<var name="subCategoryName" value="MB Subcategory Name" />
+			<var name="subCategorySubCategoryName" value="MB Subcategory Subcategory Name" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
 			<var name="portletName" value="Breadcrumb" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#viewSubcategoryPG">
 			<var name="categoryName" value="MB Category Name" />
 			<var name="subCategoryDescription" value="MB Subcategory Description" />
 			<var name="subCategoryName" value="MB Subcategory Name" />
+			<var name="threadsNumber" value="0" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#viewSubcategoryFromSubcategoryPG">
@@ -95,10 +222,9 @@
 			<var name="pathLocator" value="EMBEDDED" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#gotoPortletOptions">
@@ -115,16 +241,16 @@
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#viewSubcategoryPG">
 			<var name="categoryName" value="MB Category Name" />
 			<var name="subCategoryDescription" value="MB Subcategory Description" />
 			<var name="subCategoryName" value="MB Subcategory Name" />
+			<var name="threadsNumber" value="0" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#viewSubcategoryFromSubcategoryPG">
@@ -133,7 +259,7 @@
 			<var name="subCategoryName" value="MB Subcategory Subcategory Name" />
 		</execute>
 
-		<execute macro="Breadcrumb#viewPG">
+		<execute macro="Breadcrumb#viewSpecificPG">
 			<var name="breadcrumbListNotVisible" value="MB Category Name,MB Subcategory Name,MB Subcategory Subcategory Name" />
 			<var name="breadcrumbListVisible" value="Site Name,Page Name" />
 			<var name="pathLocator" value="EMBEDDED" />
@@ -153,16 +279,16 @@
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoSitePage">
 			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#viewSubcategoryPG">
 			<var name="categoryName" value="MB Category Name" />
 			<var name="subCategoryDescription" value="MB Subcategory Description" />
 			<var name="subCategoryName" value="MB Subcategory Name" />
+			<var name="threadsNumber" value="0" />
 		</execute>
 
 		<execute macro="MessageboardsCategory#viewSubcategoryFromSubcategoryPG">
@@ -178,40 +304,45 @@
 	</command>
 
 	<command name="DisableShowCurrentSite" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Parent Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Parent Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addChildCP">
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Parent Page Name" />
 			<var name="siteChildPageName" value="Child Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Parent Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Parent Page Name" />
-			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -240,11 +371,13 @@
 			<var name="breadcrumbListVisible" value="Parent Page Name,Child Page Name" />
 		</execute>
 
+		<execute macro="Navigator#openSiteURL">
+			<var name="siteName" value="Site Name" />
+		</execute>
+
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Parent Page Name" />
-			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Breadcrumb#viewPG">
@@ -267,11 +400,13 @@
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
+		<execute macro="Navigator#openSiteURL">
+			<var name="siteName" value="Site Name" />
+		</execute>
+
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Parent Page Name" />
-			<var name="siteName" value="Site Name" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Breadcrumb#viewPG">
@@ -281,15 +416,17 @@
 	</command>
 
 	<command name="DisableShowPage" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="SitePageNavigator#gotoPages">
+			<var name="page" value="Public Pages" />
 		</execute>
 
-		<execute macro="SitePage#addChildCP">
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Welcome" />
 			<var name="siteChildPageName" value="Child Page Name" />
-			<var name="siteName" value="Liferay" />
-			<var name="sitePageName" value="Welcome" />
-			<var name="sitePagePrivacy" value="Public" />
+			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="Page#gotoChildPagePG">
@@ -313,8 +450,13 @@
 			<var name="checkSetupName" value="Show Guest Site" />
 		</execute>
 
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
 		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListVisible" value="Liferay,Welcome,Child Page Name" />
+			<var name="breadcrumbListVisible" value="${siteName},Welcome,Child Page Name" />
 		</execute>
 
 		<execute macro="Breadcrumb#configureBreadcrumb">
@@ -322,10 +464,12 @@
 		</execute>
 
 		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListVisible" value="Liferay" />
+			<var name="breadcrumbListVisible" value="${siteName}" />
 		</execute>
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
+
+		<execute macro="Navigator#openURL" />
 
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
@@ -334,32 +478,37 @@
 
 		<execute macro="Breadcrumb#viewPG">
 			<var name="breadcrumbListNotVisible" value="Welcome,Child Page Name" />
-			<var name="breadcrumbListVisible" value="Liferay" />
+			<var name="breadcrumbListVisible" value="${siteName}" />
 			<var name="pathLocator" value="PAGE" />
 		</execute>
 	</command>
 
 	<command name="DisableShowParentSite" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Page Name" />
 			<var name="siteName" value="Site Name" />
-			<var name="sitePageName" value="Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
@@ -367,32 +516,37 @@
 			<var name="siteName" value="Child SiteName" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Site#searchInputCP">
 			<var name="siteName" value="Child SiteName" />
-			<var name="sitePageName" value="Parent Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="Page#add">
+			<var name="pageName" value="Parent Page Name" />
+			<var name="siteName" value="Child SiteName" />
 		</execute>
 
-		<execute macro="SitePage#addChildCP">
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
+		</execute>
+
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Parent Page Name" />
 			<var name="siteChildPageName" value="Child Page Name" />
 			<var name="siteName" value="Child SiteName" />
-			<var name="sitePageName" value="Parent Page Name" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Parent Page Name" />
-			<var name="siteName" value="Child SiteName" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
@@ -417,11 +571,13 @@
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
+		<execute macro="Navigator#openSiteURL">
+			<var name="siteName" value="Child SiteName" />
+		</execute>
+
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Parent Page Name" />
-			<var name="siteName" value="Child SiteName" />
-			<var name="siteURL" value="true" />
 		</execute>
 
 		<execute macro="Breadcrumb#viewPG">
@@ -431,66 +587,16 @@
 		</execute>
 	</command>
 
-	<command name="DisplayTemplateWithArrowsStyle" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
-		</execute>
-
-		<execute macro="SitePage#addChildCP">
-			<var name="siteChildPageName" value="Child Page Name" />
-			<var name="siteName" value="Liferay" />
-			<var name="sitePageName" value="Welcome" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="Page#gotoChildPagePG">
-			<var name="childPageName" value="Child Page Name" />
-			<var name="pageName" value="Welcome" />
-		</execute>
-
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Breadcrumb" />
-		</execute>
-
-		<execute macro="Portlet#gotoPortletOptions">
-			<var name="portletOption" value="Configuration" />
-		</execute>
-
-		<execute macro="Breadcrumb#displayTemplatePreview">
-			<var name="displayStyle" value="Arrows" />
-		</execute>
-
-		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListVisible" value="Welcome,Child Page Name" />
-		</execute>
-
-		<execute macro="Breadcrumb#saveDisplayPreview" />
-
-		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListVisible" value="Welcome,Child Page Name" />
-		</execute>
-
-		<execute macro="Page#gotoChildPagePG">
-			<var name="childPageName" value="Child Page Name" />
-			<var name="pageName" value="Welcome" />
-		</execute>
-
-		<execute macro="Breadcrumb#viewPG">
-			<var name="breadcrumbListVisible" value="Welcome,Child Page Name" />
-			<var name="pathLocator" value="PAGE" />
-		</execute>
-	</command>
-
 	<command name="DisplayTemplateWithHorizontalStyle" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="SitePageNavigator#gotoPages">
+			<var name="page" value="Public Pages" />
 		</execute>
 
-		<execute macro="SitePage#addChildCP">
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Welcome" />
 			<var name="siteChildPageName" value="Child Page Name" />
-			<var name="siteName" value="Liferay" />
-			<var name="sitePageName" value="Welcome" />
-			<var name="sitePagePrivacy" value="Public" />
+			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="Page#gotoChildPagePG">
@@ -516,6 +622,8 @@
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
+		<execute macro="Navigator#openURL" />
+
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Welcome" />
@@ -528,15 +636,15 @@
 	</command>
 
 	<command name="DisplayTemplateWithVerticalStyle" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="SitePageNavigator#gotoPages">
+			<var name="page" value="Public Pages" />
 		</execute>
 
-		<execute macro="SitePage#addChildCP">
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Welcome" />
 			<var name="siteChildPageName" value="Child Page Name" />
-			<var name="siteName" value="Liferay" />
-			<var name="sitePageName" value="Welcome" />
-			<var name="sitePagePrivacy" value="Public" />
+			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="Page#gotoChildPagePG">
@@ -562,6 +670,8 @@
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
+		<execute macro="Navigator#openURL" />
+
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
 			<var name="pageName" value="Welcome" />
@@ -574,15 +684,17 @@
 	</command>
 
 	<command name="EnableShowGuestSite" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<property name="test.name.skip.portal.instance" value="Breadcrumb#EnableShowGuestSite" />
+
+		<execute macro="SitePageNavigator#gotoPages">
+			<var name="page" value="Public Pages" />
 		</execute>
 
-		<execute macro="SitePage#addChildCP">
+		<execute macro="Page#addChild">
+			<var name="page" value="Public Pages" />
+			<var name="pageName" value="Welcome" />
 			<var name="siteChildPageName" value="Child Page Name" />
-			<var name="siteName" value="Liferay" />
-			<var name="sitePageName" value="Welcome" />
-			<var name="sitePagePrivacy" value="Public" />
+			<var name="siteScopeSelected" value="true" />
 		</execute>
 
 		<execute macro="Page#gotoChildPagePG">
@@ -602,8 +714,13 @@
 			<var name="breadcrumbListVisible" value="Welcome,Child Page Name" />
 		</execute>
 
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
 		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListNotVisible" value="Liferay" />
+			<var name="breadcrumbListNotVisible" value="${siteName}" />
 		</execute>
 
 		<execute macro="Breadcrumb#configureBreadcrumb">
@@ -611,14 +728,16 @@
 		</execute>
 
 		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListVisible" value="Liferay,Welcome,Child Page Name" />
+			<var name="breadcrumbListVisible" value="${siteName},Welcome,Child Page Name" />
 		</execute>
 
 		<execute macro="Breadcrumb#saveDisplayPreview" />
 
 		<execute macro="Breadcrumb#viewConfigurationPreview">
-			<var name="breadcrumbListVisible" value="Liferay,Welcome,Child Page Name" />
+			<var name="breadcrumbListVisible" value="${siteName},Welcome,Child Page Name" />
 		</execute>
+
+		<execute macro="Navigator#openURL" />
 
 		<execute macro="Page#gotoChildPagePG">
 			<var name="childPageName" value="Child Page Name" />
@@ -626,7 +745,7 @@
 		</execute>
 
 		<execute macro="Breadcrumb#viewPG">
-			<var name="breadcrumbListVisible" value="Liferay,Welcome,Child Page Name" />
+			<var name="breadcrumbListVisible" value="${siteName},Welcome,Child Page Name" />
 			<var name="pathLocator" value="PAGE" />
 		</execute>
 	</command>

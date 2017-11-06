@@ -17,6 +17,7 @@
 <%@ include file="/html/taglib/ui/search_container/init.jsp" %>
 
 <%
+String cssClass = GetterUtil.getString(request.getAttribute("liferay-ui:search-container-column-user:cssClass"));
 Date date = GetterUtil.getDate(request.getAttribute("liferay-ui:search-container-column-user:date"), DateFormatFactoryUtil.getDate(locale), null);
 boolean showDetails = GetterUtil.getBoolean(request.getAttribute("liferay-ui:search-container-column-user:showDetails"));
 long userId = GetterUtil.getLong(request.getAttribute("liferay-ui:search-container-column-user:userId"));
@@ -25,14 +26,15 @@ User user2 = UserLocalServiceUtil.fetchUser(userId);
 %>
 
 <div class="user-info">
-	<div class="user-icon user-icon-lg">
-		<img alt="<%= HtmlUtil.escapeAttribute((user2 != null) ? user2.getFullName() : LanguageUtil.get(request, "anonymous")) %>" class="img-responsive" src="<%= HtmlUtil.escape((user2 != null) ? user2.getPortraitURL(themeDisplay) : UserConstants.getPortraitURL(themeDisplay.getPathImage(), true, 0, StringPool.BLANK)) %>" />
-	</div>
+	<liferay-ui:user-portrait
+		cssClass="<%= cssClass %>"
+		user="<%= user2 %>"
+	/>
 
 	<c:if test="<%= showDetails %>">
 		<div class="user-details">
 			<div class="row <%= (date == null) ? "line" : StringPool.BLANK %>">
-				<span class="col-md-12 user-name"><%= HtmlUtil.escapeAttribute((user2 != null) ? user2.getFullName() : LanguageUtil.get(request, "anonymous")) %></span>
+				<span class="col-md-12 user-name"><%= HtmlUtil.escape((user2 != null) ? user2.getFullName() : LanguageUtil.get(resourceBundle, "anonymous")) %></span>
 			</div>
 
 			<c:if test="<%= date != null %>">

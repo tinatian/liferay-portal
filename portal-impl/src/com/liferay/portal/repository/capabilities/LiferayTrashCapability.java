@@ -14,9 +14,16 @@
 
 package com.liferay.portal.repository.capabilities;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryConstants;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppHelperLocalService;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.kernel.repository.LocalRepository;
 import com.liferay.portal.kernel.repository.capabilities.TrashCapability;
 import com.liferay.portal.kernel.repository.event.RepositoryEventAware;
@@ -26,23 +33,16 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileShortcut;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.repository.registry.RepositoryEventRegistry;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Repository;
 import com.liferay.portal.repository.capabilities.util.DLAppServiceAdapter;
 import com.liferay.portal.repository.capabilities.util.DLFileEntryServiceAdapter;
 import com.liferay.portal.repository.capabilities.util.DLFolderServiceAdapter;
 import com.liferay.portal.repository.capabilities.util.RepositoryServiceAdapter;
 import com.liferay.portal.repository.liferayrepository.model.LiferayFileEntry;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryConstants;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
-import com.liferay.portlet.documentlibrary.service.DLAppHelperLocalService;
-import com.liferay.portlet.trash.model.TrashEntry;
-import com.liferay.portlet.trash.service.TrashEntryLocalService;
-import com.liferay.portlet.trash.service.TrashVersionLocalService;
+import com.liferay.trash.kernel.model.TrashEntry;
+import com.liferay.trash.kernel.service.TrashEntryLocalService;
+import com.liferay.trash.kernel.service.TrashVersionLocalService;
 
 import java.util.List;
 
@@ -273,9 +273,7 @@ public class LiferayTrashCapability
 		}
 	}
 
-	protected void deleteTrashEntry(DLFileEntry dlFileEntry)
-		throws PortalException {
-
+	protected void deleteTrashEntry(DLFileEntry dlFileEntry) {
 		if (!dlFileEntry.isInTrash()) {
 			return;
 		}
@@ -297,7 +295,7 @@ public class LiferayTrashCapability
 		}
 	}
 
-	protected void deleteTrashEntry(DLFolder dlFolder) throws PortalException {
+	protected void deleteTrashEntry(DLFolder dlFolder) {
 		if (!dlFolder.isInTrash()) {
 			return;
 		}
@@ -312,13 +310,11 @@ public class LiferayTrashCapability
 		}
 	}
 
-	protected void deleteTrashEntry(FileEntry fileEntry)
-		throws PortalException {
-
+	protected void deleteTrashEntry(FileEntry fileEntry) {
 		deleteTrashEntry((DLFileEntry)fileEntry.getModel());
 	}
 
-	protected void deleteTrashEntry(Folder folder) throws PortalException {
+	protected void deleteTrashEntry(Folder folder) {
 		deleteTrashEntry((DLFolder)folder.getModel());
 	}
 
@@ -335,7 +331,7 @@ public class LiferayTrashCapability
 			<RepositoryEventType.Delete, FileEntry> {
 
 		@Override
-		public void execute(FileEntry fileEntry) throws PortalException {
+		public void execute(FileEntry fileEntry) {
 			LiferayTrashCapability.this.deleteTrashEntry(fileEntry);
 		}
 
@@ -345,7 +341,7 @@ public class LiferayTrashCapability
 		implements RepositoryEventListener<RepositoryEventType.Delete, Folder> {
 
 		@Override
-		public void execute(Folder folder) throws PortalException {
+		public void execute(Folder folder) {
 			LiferayTrashCapability.this.deleteTrashEntry(folder);
 		}
 

@@ -14,29 +14,28 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchServiceComponentException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchServiceComponentException;
+import com.liferay.portal.kernel.model.ServiceComponent;
+import com.liferay.portal.kernel.service.ServiceComponentLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.ServiceComponentPersistence;
+import com.liferay.portal.kernel.service.persistence.ServiceComponentUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ServiceComponent;
-import com.liferay.portal.service.ServiceComponentLocalServiceUtil;
-import com.liferay.portal.service.persistence.ServiceComponentPersistence;
-import com.liferay.portal.service.persistence.ServiceComponentUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -52,6 +51,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -393,7 +393,7 @@ public class ServiceComponentPersistenceTest {
 
 		ServiceComponent existingServiceComponent = _persistence.findByPrimaryKey(newServiceComponent.getPrimaryKey());
 
-		Assert.assertTrue(Validator.equals(
+		Assert.assertTrue(Objects.equals(
 				existingServiceComponent.getBuildNamespace(),
 				ReflectionTestUtil.invoke(existingServiceComponent,
 					"getOriginalBuildNamespace", new Class<?>[0])));

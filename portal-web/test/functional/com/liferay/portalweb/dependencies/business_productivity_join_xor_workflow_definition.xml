@@ -3,7 +3,8 @@
 <workflow-definition
 	xmlns="urn:liferay.com:liferay-workflow_6.2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">
+	xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd"
+>
 	<name>Join Xor</name>
 	<version>1</version>
 	<state>
@@ -138,7 +139,7 @@
 						import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
 						import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.toStatus("approved"), workflowContext);
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("approved"), workflowContext);
 					]]>
 				</script>
 				<script-language>groovy</script-language>

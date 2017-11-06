@@ -14,13 +14,12 @@
 
 package com.liferay.gradle.plugins.node.tasks;
 
-import com.liferay.gradle.util.GradleUtil;
+import com.liferay.gradle.plugins.node.internal.util.GradleUtil;
 
 import java.io.File;
 
 import java.nio.file.Files;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gradle.api.GradleException;
@@ -41,19 +40,19 @@ public class DownloadNodeModuleTask extends ExecuteNpmTask {
 				@Override
 				public boolean isSatisfiedBy(Task task) {
 					try {
-						File packageJsonFile = new File(
+						File packageJSONFile = new File(
 							getModuleDir(), "package.json");
 
-						if (!packageJsonFile.exists()) {
+						if (!packageJSONFile.exists()) {
 							return true;
 						}
 
-						String packageJson = new String(
-							Files.readAllBytes(packageJsonFile.toPath()));
+						String packageJSON = new String(
+							Files.readAllBytes(packageJSONFile.toPath()));
 
 						String version = getModuleVersion();
 
-						if (packageJson.contains(
+						if (packageJSON.contains(
 								"\"version\": \"" + version + "\"")) {
 
 							return false;
@@ -67,15 +66,6 @@ public class DownloadNodeModuleTask extends ExecuteNpmTask {
 				}
 
 			});
-	}
-
-	@Override
-	public void executeNode() {
-		setArgs(getCompleteArgs());
-
-		super.setWorkingDir(getWorkingDir());
-
-		super.executeNode();
 	}
 
 	@OutputDirectory
@@ -95,11 +85,6 @@ public class DownloadNodeModuleTask extends ExecuteNpmTask {
 		return GradleUtil.toString(_moduleVersion);
 	}
 
-	@Override
-	public File getWorkingDir() {
-		return getNodeDir();
-	}
-
 	public void setModuleName(Object moduleName) {
 		_moduleName = moduleName;
 	}
@@ -109,17 +94,11 @@ public class DownloadNodeModuleTask extends ExecuteNpmTask {
 	}
 
 	@Override
-	public void setWorkingDir(Object workingDir) {
-		throw new UnsupportedOperationException();
-	}
-
-	protected List<Object> getCompleteArgs() {
-		List<Object> completeArgs = new ArrayList<>();
+	protected List<String> getCompleteArgs() {
+		List<String> completeArgs = super.getCompleteArgs();
 
 		completeArgs.add("install");
 		completeArgs.add(getModuleName() + "@" + getModuleVersion());
-
-		completeArgs.addAll(getArgs());
 
 		return completeArgs;
 	}

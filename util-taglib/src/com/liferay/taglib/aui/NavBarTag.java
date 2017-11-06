@@ -14,6 +14,7 @@
 
 package com.liferay.taglib.aui;
 
+import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.aui.base.BaseNavBarTag;
@@ -31,21 +32,40 @@ public class NavBarTag extends BaseNavBarTag implements BodyTag {
 
 	@Override
 	public int doEndTag() throws JspException {
+		setNamespacedAttribute(request, "dataTarget", _dataTarget);
 		setNamespacedAttribute(
 			request, "responsiveButtons", _responsiveButtonsSB.toString());
+		setNamespacedAttribute(request, "selectedItemName", _selectedItemName);
 
 		return super.doEndTag();
+	}
+
+	@Override
+	public int doStartTag() throws JspException {
+		request.setAttribute("aui:nav-bar:navItemCount", new IntegerWrapper());
+
+		return super.doStartTag();
 	}
 
 	public StringBundler getResponsiveButtonsSB() {
 		return _responsiveButtonsSB;
 	}
 
+	public void setDataTarget(String dataTarget) {
+		_dataTarget = dataTarget;
+	}
+
+	public void setSelectedItemName(String selectedItemName) {
+		_selectedItemName = selectedItemName;
+	}
+
 	@Override
 	protected void cleanUp() {
 		super.cleanUp();
 
+		_dataTarget = null;
 		_responsiveButtonsSB.setIndex(0);
+		_selectedItemName = null;
 	}
 
 	@Override
@@ -64,6 +84,8 @@ public class NavBarTag extends BaseNavBarTag implements BodyTag {
 		return EVAL_BODY_BUFFERED;
 	}
 
+	private String _dataTarget;
 	private final StringBundler _responsiveButtonsSB = new StringBundler();
+	private String _selectedItemName;
 
 }

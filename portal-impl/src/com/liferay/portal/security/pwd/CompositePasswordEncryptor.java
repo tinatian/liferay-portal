@@ -14,10 +14,13 @@
 
 package com.liferay.portal.security.pwd;
 
-import com.liferay.portal.PwdEncryptorException;
+import com.liferay.portal.kernel.exception.PwdEncryptorException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.pwd.PasswordEncryptor;
+import com.liferay.portal.kernel.security.pwd.PasswordEncryptorUtil;
 import com.liferay.portal.kernel.util.ClassUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -30,6 +33,42 @@ import java.util.Map;
  */
 public class CompositePasswordEncryptor
 	extends BasePasswordEncryptor implements PasswordEncryptor {
+
+	public void afterPropertiesSet() {
+		if (_defaultAlgorithmPasswordEncryptor == null) {
+			_defaultAlgorithmPasswordEncryptor = _select(
+				getDefaultPasswordAlgorithmType());
+		}
+	}
+
+	@Override
+	public String encrypt(String plainTextPassword, String encryptedPassword)
+		throws PwdEncryptorException {
+
+		if (Validator.isNull(plainTextPassword)) {
+			throw new PwdEncryptorException("Unable to encrypt blank password");
+		}
+
+		return _defaultAlgorithmPasswordEncryptor.encrypt(
+			getDefaultPasswordAlgorithmType(), plainTextPassword,
+			encryptedPassword);
+	}
+
+	@Override
+	public String encrypt(
+			String algorithm, String plainTextPassword,
+			String encryptedPassword)
+		throws PwdEncryptorException {
+
+		if (Validator.isNull(plainTextPassword)) {
+			throw new PwdEncryptorException("Unable to encrypt blank password");
+		}
+
+		PasswordEncryptor passwordEncryptor = _select(algorithm);
+
+		return passwordEncryptor.encrypt(
+			algorithm, plainTextPassword, encryptedPassword);
+	}
 
 	@Override
 	public String[] getSupportedAlgorithmTypes() {
@@ -54,9 +93,13 @@ public class CompositePasswordEncryptor
 				passwordEncryptor.getSupportedAlgorithmTypes();
 
 			if (_log.isDebugEnabled()) {
+				Class<?> clazz = passwordEncryptor.getClass();
+
 				_log.debug(
-					"Registering " + StringUtil.merge(supportedAlgorithmTypes) +
-						" for " + passwordEncryptor.getClass().getName());
+					StringBundler.concat(
+						"Registering ",
+						StringUtil.merge(supportedAlgorithmTypes), " for ",
+						clazz.getName()));
 			}
 
 			for (String supportedAlgorithmType : supportedAlgorithmTypes) {
@@ -66,12 +109,7 @@ public class CompositePasswordEncryptor
 		}
 	}
 
-	@Override
-	protected String doEncrypt(
-			String algorithm, String plainTextPassword,
-			String encryptedPassword)
-		throws PwdEncryptorException {
-
+	private PasswordEncryptor _select(String algorithm) {
 		if (Validator.isNull(algorithm)) {
 			throw new IllegalArgumentException("Invalid algorithm");
 		}
@@ -100,17 +138,18 @@ public class CompositePasswordEncryptor
 
 		if (_log.isDebugEnabled()) {
 			_log.debug(
-				"Found " + ClassUtil.getClassName(passwordEncryptor) +
-					" to encrypt password using " + algorithm);
+				StringBundler.concat(
+					"Found ", ClassUtil.getClassName(passwordEncryptor),
+					" to encrypt password using ", algorithm));
 		}
 
-		return passwordEncryptor.encrypt(
-			algorithm, plainTextPassword, encryptedPassword);
+		return passwordEncryptor;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CompositePasswordEncryptor.class);
 
+	private PasswordEncryptor _defaultAlgorithmPasswordEncryptor;
 	private PasswordEncryptor _defaultPasswordEncryptor;
 	private final Map<String, PasswordEncryptor> _passwordEncryptors =
 		new HashMap<>();

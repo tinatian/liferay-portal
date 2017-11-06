@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -33,12 +32,13 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
-import com.liferay.portlet.ratings.NoSuchEntryException;
-import com.liferay.portlet.ratings.model.RatingsEntry;
-import com.liferay.portlet.ratings.service.RatingsEntryLocalServiceUtil;
-import com.liferay.portlet.ratings.service.persistence.RatingsEntryPersistence;
-import com.liferay.portlet.ratings.service.persistence.RatingsEntryUtil;
+import com.liferay.ratings.kernel.exception.NoSuchEntryException;
+import com.liferay.ratings.kernel.model.RatingsEntry;
+import com.liferay.ratings.kernel.service.RatingsEntryLocalServiceUtil;
+import com.liferay.ratings.kernel.service.persistence.RatingsEntryPersistence;
+import com.liferay.ratings.kernel.service.persistence.RatingsEntryUtil;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -197,6 +197,13 @@ public class RatingsEntryPersistenceTest {
 			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
 
 		_persistence.countByU_C_C(0L, 0L, 0L);
+	}
+
+	@Test
+	public void testCountByU_C_CArrayable() throws Exception {
+		_persistence.countByU_C_C(RandomTestUtil.nextLong(),
+			RandomTestUtil.nextLong(),
+			new long[] { RandomTestUtil.nextLong(), 0L });
 	}
 
 	@Test

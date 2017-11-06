@@ -10,11 +10,6 @@
 <tbody>
 <!--DETAILS-->
 <tr>
-	<td>DETAILS_PANEL_TOGGLE</td>
-	<td>//li/a[contains(@id,'GroupPagesPortlet_details')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>LOCALIZED_FLAG_ICON</td>
 	<td>//li[@role='menuitem' and @data-value='${key_localizationName}']/a</td>
 	<td></td>
@@ -50,18 +45,23 @@
 	<td></td>
 </tr>
 <tr>
-	<td>LAYOUT_RADIO</td>
-	<td>//input[@value='${columnName}']</td>
+	<td>LAYOUT_CARD</td>
+	<td>//div[contains(@class,'card')]//span[contains(.,'${key_columnName}')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>PAGE_TYPE_LABEL</td>
-	<td>//li[contains(@data-search,'${key_pageType}')]//label[contains(@for,'addLayoutSelectedPageTemplate')]</td>
+	<td>LAYOUT_CARD_SELECTED</td>
+	<td>//div[label[contains(.,'${key_columnName}')]]//img[contains(@class,'layout-selected')]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>PAGE_TYPE_RADIO</td>
-	<td>//li[contains(@data-search,'${key_pageType}')]//input[contains(@id,'addLayoutSelectedPageTemplate')]</td>
+	<td>PAGE_TYPE_SELECT</td>
+	<td>//div[contains(@class,'input-select')]//select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_TYPE_SELECT_OPTION</td>
+	<td>//div[contains(@class,'input-select')]//select//option[contains(.,'${key_pageType}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -76,7 +76,7 @@
 </tr>
 <tr>
 	<td>PAGE_TYPE_TEMPLATE_AUTOMATICALLY_APPLY_CHANGES_LABEL</td>
-	<td>//li[contains(@data-search,'${key_pageType}')]//label[contains(@for,'addLayoutLayoutPrototypeLinkEnabled')]</td>
+	<td>//div[contains(@data-search,'${key_pageType}')]//label[contains(@for,'addLayoutLayoutPrototypeLinkEnabled')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -86,17 +86,12 @@
 </tr>
 <tr>
 	<td>PAGE_TYPE_TEMPLATE_AUTOMATICALLY_APPLY_CHANGES_CHECKBOX</td>
-	<td>//li[contains(@data-search,'${key_pageType}')]//input[contains(@name,'layoutPrototypeLinkEnabled')]</td>
+	<td>//div[contains(@data-search,'${key_pageType}')]//input[contains(@name,'layoutPrototypeLinkEnabled')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TYPE_TEMPLATE_AUTOMATICALLY_APPLY_CHANGES_CHECKBOX_GENERIC</td>
-	<td>//label[contains(@for,'layoutPrototypeLinkEnabled')]/input[contains(@id,'layoutPrototypeLinkEnabled')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>PAGE_TYPE_PANEL_DESCRIPTION_FIELD</td>
-	<td>//textarea[contains(@id,'descriptionPanel')]</td>
+	<td>//label[contains(.,'Inherit Changes')]/input</td>
 	<td></td>
 </tr>
 <tr>
@@ -121,17 +116,17 @@
 </tr>
 <tr>
 	<td>PAGE_TYPE_EMBEDDED_DESCRIPTION_FIELD</td>
-	<td>//textarea[contains(@id,'_descriptionEmbedded')]</td>
+	<td>//div[@class='layout-type']/p[contains(@class,'text')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TYPE_LINK_TO_URL_URL_FIELD</td>
-	<td>//input[contains(@id,'GroupPagesPortlet_url')]</td>
+	<td>//input[contains(@name,'TypeSettingsProperties--url') and contains(@type,'text')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>PAGE_TYPE_LINK_TO_URL_DESCRIPTION_FIELD</td>
-	<td>//textarea[contains(@id,'descriptionUrl')]</td>
+	<td>//div[@class='layout-type']/p[contains(@class,'text')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -141,7 +136,12 @@
 </tr>
 <tr>
 	<td>PAGE_TYPE_LINK_TO_PAGE_PAGE_SELECT</td>
-	<td>//div[contains(@class,'link_to_layout')]/div/select[contains(@id,'linkToLayoutId')]</td>
+	<td>//select[contains(@id,'linkToLayoutId')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_TYPE_FULL_PAGE_APPLICATION_SELECT</td>
+	<td>//select[contains(@id,'fullPageApplication')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -153,6 +153,16 @@
 <tr>
 	<td>CATEGORIZATION_PANEL_TOGGLE</td>
 	<td>//li/a[contains(@id,'categorization')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_CATEGORY_BUTTON</td>
+	<td>//button[contains(@title,'Select ${key_vocabularyName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CATEGORY_TREE_NODE</td>
+	<td>//li[contains(@id,'category')]//div//span[contains(@class,'tree-node-checkbox-container')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -172,13 +182,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>SEO_HTML_TITLE</td>
-	<td>//div[contains(.,'HTML Title')]/span/input</td>
-	<td></td>
-</tr>
-<tr>
 	<td>SEO_HTML_TITLE_META_TAGS</td>
-	<td>//div[contains(.,'HTML Title')]/span//ul/li[@data-value='${key_defaultSiteLanguageKey}']</td>
+	<td>//div[contains(.,'HTML')]/span//ul/li[@data-value='${key_defaultSiteLanguageKey}']</td>
 	<td></td>
 </tr>
 <tr>
@@ -246,57 +251,6 @@
 	<td></td>
 	<td></td>
 </tr>
-<!--EMBEDDED_PORTLETS-->
-<tr>
-	<td>EMBEDDED_PORTLETS_PANEL_TOGGLE</td>
-	<td>//li/a[contains(@id,'embeddedPortlets')]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_CHECKBOX_1</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[1]/td[1]/input</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_CHECKBOX_2</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[2]/td[1]/input</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_PORTLET_ID_1</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[1]/td[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_PORTLET_ID_2</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[2]/td[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_TITLE_1</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[1]/td[3]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_TITLE_2</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[2]/td[3]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_STATUS_1</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[1]/td[4]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>EMBEDDED_PORTLETS_STATUS_2</td>
-	<td>//div[contains(@id,'embeddedPortlets')]//tbody/tr[2]/td[4]</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
 <!--CUSTOMIZATION_SETTINGS-->
 <tr>
 	<td>CUSTOMIZATION_SETTINGS_PANEL_TOGGLE</td>
@@ -305,7 +259,7 @@
 </tr>
 <tr>
 	<td>CUSTOMIZATION_SETTINGS_SHOW_CUSTOMIZABLE_SECTIONS</td>
-	<td>//div[@class='customization-settings']/button[contains(@id,'manageCustomization')]</td>
+	<td>//input[contains(@id,'CUSTOMIZABLE_LAYOUT')]</td>
 	<td></td>
 </tr>
 <tr>

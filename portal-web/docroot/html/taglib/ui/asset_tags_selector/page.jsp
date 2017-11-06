@@ -16,15 +16,12 @@
 
 <%@ include file="/html/taglib/init.jsp" %>
 
-<portlet:defineObjects />
-
 <%
 String addCallback = GetterUtil.getString((String)request.getAttribute("liferay-ui:asset-tags-selector:addCallback"));
 boolean allowAddEntry = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:asset-tags-selector:allowAddEntry"));
 boolean autoFocus = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:asset-tags-selector:autoFocus"));
 String className = (String)request.getAttribute("liferay-ui:asset-tags-selector:className");
 long classPK = GetterUtil.getLong((String)request.getAttribute("liferay-ui:asset-tags-selector:classPK"));
-String contentCallback = GetterUtil.getString((String)request.getAttribute("liferay-ui:asset-tags-selector:contentCallback"));
 String curTags = GetterUtil.getString((String)request.getAttribute("liferay-ui:asset-tags-selector:curTags"));
 long[] groupIds = (long[])request.getAttribute("liferay-ui:asset-tags-selector:groupIds");
 String hiddenInput = (String)request.getAttribute("liferay-ui:asset-tags-selector:hiddenInput");
@@ -51,7 +48,7 @@ if (!ignoreRequestValue) {
 	<aui:input name="<%= hiddenInput %>" type="hidden" />
 
 	<c:if test="<%= allowAddEntry %>">
-		<input class="lfr-tag-selector-input" id="<%= id %>assetTagNames" maxlength="<%= ModelHintsConstants.TEXT_MAX_LENGTH %>" size="15" title="<liferay-ui:message key="add-tags" />" type="text" />
+		<input class="form-control lfr-tag-selector-input" id="<%= id %>assetTagNames" size="15" title="<liferay-ui:message key="add-tags" />" type="text" />
 	</c:if>
 </div>
 
@@ -59,17 +56,7 @@ if (!ignoreRequestValue) {
 	var assetTagsSelector = new Liferay.AssetTagsSelector(
 		{
 			allowAddEntry: <%= allowAddEntry %>,
-			allowSuggestions: <%= PropsValues.ASSET_TAG_SUGGESTIONS_ENABLED %>,
 			contentBox: '#<%= namespace + id %>assetTagsSelector',
-
-			<c:if test="<%= PropsValues.ASSET_TAG_SUGGESTIONS_ENABLED && Validator.isNotNull(contentCallback) %>">
-				contentCallback: function() {
-					if (window.<%= contentCallback %>) {
-						return <%= contentCallback %>();
-					}
-				},
-			</c:if>
-
 			curEntries: '<%= HtmlUtil.escapeJS(curTags) %>',
 
 			<c:if test="<%= groupIds != null %>">
@@ -83,6 +70,7 @@ if (!ignoreRequestValue) {
 			</c:if>
 
 			instanceVar: '<%= namespace + id %>',
+			maxLength: <%= ModelHintsConstants.TEXT_MAX_LENGTH %>,
 			portalModelResource: <%= Validator.isNotNull(className) && (ResourceActionsUtil.isPortalModelResource(className) || className.equals(Group.class.getName())) %>
 		}
 	).render();

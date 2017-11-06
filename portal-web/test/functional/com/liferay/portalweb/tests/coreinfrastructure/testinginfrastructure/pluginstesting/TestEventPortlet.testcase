@@ -1,4 +1,6 @@
 <definition component-name="portal-test-plugins">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Test Plugins" />
 	<property name="portlet.plugins.includes" value="test-event-portlet" />
 
@@ -11,7 +13,7 @@
 	</tear-down>
 
 	<command name="ViewEvent" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Test Event Page" />
 		</execute>
 
@@ -19,7 +21,7 @@
 			<var name="portletName" value="Event Consumer" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Test Event Page" />
 		</execute>
 

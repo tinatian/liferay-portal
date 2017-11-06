@@ -1,14 +1,24 @@
 <definition>
-	<command name="addField">
-		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
+	<command name="_editFieldLabel">
+		<execute macro="DynamicDataMapping#editFieldSettings">
+			<var name="fieldFieldLabel" value="${field}" />
+		</execute>
 
+		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" />
+
+		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldFieldLabel}" />
+
+		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+	</command>
+
+	<command name="addField">
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
 		<var name="key_field" value="${field}" />
 
 		<execute function="DragAndDrop" locator1="DDMEditStructure#FIELDS_FIELD" locator2="DDMEditStructure#FORM_BUILDER" value1="${field}" />
 
-		<execute macro="DynamicDataMapping#editFieldLabelCmd">
+		<execute macro="DynamicDataMapping#_editFieldLabel">
 			<var name="field" value="${field}" />
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
@@ -23,8 +33,6 @@
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_NAME" value1="${fieldName}" />
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
-
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
 	</command>
 
 	<command name="addFieldFormTemplateSpecific">
@@ -42,9 +50,13 @@
 			<equals arg1="${field}" arg2="Fieldset" />
 			<then>
 				<execute function="Click" locator1="DDMEditStructure#FORM_FIELDSET" />
+
 				<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" />
+
 				<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldFieldLabel}" />
+
 				<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 				<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" value1="${fieldFieldLabel}" />
 			</then>
 			<elseif>
@@ -63,7 +75,7 @@
 
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="addFieldNested">
@@ -77,7 +89,30 @@
 
 		<execute function="DragAndDrop" locator1="DDMEditStructure#FIELDS_FIELD" locator2="DDMEditStructure#FORM_BUILDER_FIELD" value1="${field}" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute macro="DynamicDataMapping#_editFieldLabel">
+			<var name="field" value="${field}" />
+			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" value1="${fieldFieldLabel}" />
+		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
+
+		<execute macro="DynamicDataMapping#editFieldNameCmd">
+			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
+			<var name="fieldName" value="${fieldName}" />
+		</execute>
+
+		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_NAME" value1="${fieldName}" />
+
+		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
+
+		<execute function="SelectFrame" value1="relative=top" />
+	</command>
+
+	<command name="addFieldViaJSON">
+		<execute function="Click" locator1="NavTab#SOURCE" value1="Source" />
+
+		<execute function="Type#typeNotVisibleNoMouseOver" locator1="DDMEditStructure#SOURCE_EDITOR_CONTENT" value1="${sourceJSON} " />
 	</command>
 
 	<command name="addFieldWithoutRename">
@@ -89,14 +124,14 @@
 
 		<execute function="DragAndDrop" locator1="DDMEditStructure#FIELDS_FIELD" locator2="DDMEditStructure#FORM_BUILDER" value1="${field}" />
 
-		<execute macro="DynamicDataMapping#editFieldLabelCmd">
+		<execute macro="DynamicDataMapping#_editFieldLabel">
 			<var name="field" value="${field}" />
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" value1="${fieldFieldLabel}" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="assertFieldNameErrorMessage">
@@ -109,16 +144,23 @@
 		<var name="key_fieldFieldLabel" value="${fieldFieldLabel}" />
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#FORM_FIELD" />
+
 		<execute function="MouseOver" locator1="DDMEditStructure#FORM_FIELD" />
+
 		<execute function="ClickNoError" locator1="DDMEditStructure#FORM_FIELD_DELETE_ICON" />
-		<execute function="Confirm" value1="Are you sure you want to delete the selected entries? They will be deleted immediately." />
+
+		<execute function="AssertTextEquals" locator1="DDMEditStructure#ARE_YOU_SURE_DIALOG_BOX_HEADER" value1="${fieldFieldLabel}" />
+		<execute function="AssertTextEquals" locator1="DDMEditStructure#ARE_YOU_SURE_DIALOG_BOX_BODY" value1="Are you sure you want to delete the selected entries? They will be deleted immediately." />
+
+		<execute function="AssertClick" locator1="Button#OK" value1="OK" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editField">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
@@ -126,8 +168,11 @@
 			<isset var="fieldFieldLabelEdit" />
 			<then>
 				<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" />
+
 				<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldFieldLabelEdit}" />
+
 				<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 				<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" value1="${fieldFieldLabelEdit}" />
 			</then>
 		</if>
@@ -136,40 +181,53 @@
 			<isset var="fieldNameEdit" />
 			<then>
 				<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_NAME" />
+
 				<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldNameEdit}" />
+
 				<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 				<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_NAME" value1="${fieldNameEdit}" />
 			</then>
 		</if>
 
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldIndexable">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_INDEXABLE" />
+
 		<execute function="Click" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_NOT_INDEXABLE_RADIO" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
-	<command name="editFieldLabelCmd">
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
-			<var name="fieldFieldLabel" value="${field}" />
+	<command name="editFieldLabel">
+		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
+
+		<execute macro="DynamicDataMapping#_editFieldLabel">
+			<var name="field" value="${field}" />
+			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
-		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" />
-		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldFieldLabel}" />
-		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+		<execute function="SelectFrame" value1="relative=top" />
+
+		<execute macro="DynamicDataMapping#viewField">
+			<var name="field" value="${field}" />
+			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
+			<var name="fieldName" value="${fieldName}" />
+		</execute>
 	</command>
 
 	<command name="editFieldLabelNested">
@@ -185,20 +243,23 @@
 	<command name="editFieldLocalizable">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_LOCALIZABLE" />
+
 		<execute function="Click" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_NO_RADIO" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldNameCmd">
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
@@ -211,8 +272,12 @@
 			</then>
 		</if>
 
+		<execute function="AssertTextNotEquals#assertNotPartialText" locator1="DDMEditStructure#SETTINGS_NAME" value1="_" />
+
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_NAME" />
+
 		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldName}" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
 	</command>
 
@@ -228,14 +293,16 @@
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD_ALERT" value1="Please enter only alphanumeric characters." />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldNameNested">
 		<execute macro="DynamicDataMapping#editFieldSettingsNested" />
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_NAME" />
+
 		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD" value1="${fieldName}" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
 	</command>
 
@@ -252,13 +319,13 @@
 			<var name="fieldName" value="${fieldNameEdit}" />
 		</execute>
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldOptions">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
@@ -296,14 +363,12 @@
 		</execute>
 
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
-
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
 	</command>
 
 	<command name="editFieldPredefinedValue">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
@@ -362,6 +427,7 @@
 		</if>
 
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_PREDEFINED_VALUE" value1="${fieldPredefinedValue}" />
 
 		<execute macro="DynamicDataMapping#viewFieldPredefinedValueCmd">
@@ -373,40 +439,55 @@
 
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldRepeatable">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_REPEATABLE" />
+
 		<execute function="Click" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_YES_RADIO" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
-	<command name="editFieldSettingsCmd">
+	<command name="editFieldRequired">
+		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
+
+		<execute macro="DynamicDataMapping#editFieldSettings">
+			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
+		</execute>
+
+		<execute macro="DynamicDataMapping#makeFieldRequired" />
+	</command>
+
+	<command name="editFieldSettings">
 		<var name="key_fieldFieldLabel" value="${fieldFieldLabel}" />
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#FORM_FIELD" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_LINK" value1="Settings" />
 	</command>
 
 	<command name="editFieldSettingsNested">
 		<execute function="DoubleClick" locator1="DDMEditStructure#FORM_FIELD_NESTED" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_LINK" value1="Settings" />
 	</command>
 
 	<command name="editFieldShowLabel">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
@@ -429,60 +510,74 @@
 		</if>
 
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_SHOW_LABEL" value1="${fieldShowLabel}" />
+
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldStyle">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_STYLE" />
+
 		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_TEXT_AREA" value1="${fieldStyle}" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_STYLE" value1="${fieldStyle}" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldText">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_TEXT" />
+
 		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_TEXT_AREA" value1="${fieldText}" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_TEXT" value1="${fieldText}" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldTip">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
 		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_TIP" />
+
 		<execute function="Type" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_TEXT_AREA" value1="${fieldTip}" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_TIP" value1="${fieldTip}" />
+
 		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="editFieldWidth">
 		<execute macro="DynamicDataMapping#selectDynamicDataMappingFrame" />
 
-		<execute macro="DynamicDataMapping#editFieldSettingsCmd">
+		<execute macro="DynamicDataMapping#editFieldSettings">
 			<var name="fieldFieldLabel" value="${fieldFieldLabel}" />
 		</execute>
 
@@ -491,7 +586,21 @@
 		<var name="key_widthSize" value="${widthSize}" />
 
 		<execute function="Click" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_WIDTH" />
+
 		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
+		<execute function="SelectFrame" value1="relative=top" />
+	</command>
+
+	<command name="makeFieldRequired">
+		<execute function="DoubleClick" locator1="DDMEditStructure#SETTINGS_REQUIRED" />
+
+		<execute function="Click" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_YES_RADIO" />
+
+		<execute function="AssertClick" locator1="DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON" value1="Save" />
+
+		<execute function="AssertClick#pauseAssertTextClickAt" locator1="DDMEditStructure#FIELDS_LINK" value1="Fields" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
@@ -501,12 +610,13 @@
 			<then>
 				<execute function="SelectFrame" locator1="DDMEditStructure#IFRAME" />
 			</then>
+			<elseif>
+				<condition function="IsElementPresent" locator1="IFrame#DIALOG" />
+				<then>
+					<execute macro="IFrame#selectDialogFrame" />
+				</then>
+			</elseif>
 		</if>
-	</command>
-
-	<command name="selectFrameTopCmd">
-		<execute function="Click" locator1="DDMEditStructure#HEADER_TITLE" />
-		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="viewCanAddField">
@@ -515,6 +625,7 @@
 		<var name="key_field" value="${field}" />
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#FIELDS_FIELD" value1="${field}" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
@@ -524,6 +635,7 @@
 		<var name="key_field" value="${field}" />
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#FIELDS_FIELD_UNSELECTABLE" value1="${field}" />
+
 		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
@@ -541,6 +653,8 @@
 				<execute function="AssertClick" locator1="DDMEditStructure#FORM_FIELD" value1="${fieldFieldLabel}" />
 			</else>
 		</if>
+
+		<execute function="AssertTextNotEquals#assertNotPartialText" locator1="DDMEditStructure#SETTINGS_NAME" value1="_" />
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_NAME" value1="${fieldName}" />
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" value1="${fieldFieldLabel}" />
@@ -611,6 +725,7 @@
 			<equals arg1="${field}" arg2="Fieldset" />
 			<then>
 				<execute function="Click" locator1="DDMEditStructure#FORM_FIELDSET" />
+
 				<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_FIELD_LABEL" value1="${fieldFieldLabel}" />
 			</then>
 			<elseif>
@@ -637,7 +752,7 @@
 
 		<execute function="AssertTextEquals" locator1="DDMEditStructure#SETTINGS_NAME" value1="${fieldNameNested}" />
 
-		<execute macro="DynamicDataMapping#selectFrameTopCmd" />
+		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="viewFieldOptionsCmd">
@@ -723,7 +838,6 @@
 		<if>
 			<or>
 				<equals arg1="${field}" arg2="Decimal" />
-				<equals arg1="${field}" arg2="HTML" />
 				<equals arg1="${field}" arg2="Integer" />
 				<equals arg1="${field}" arg2="Number" />
 				<equals arg1="${field}" arg2="Text" />

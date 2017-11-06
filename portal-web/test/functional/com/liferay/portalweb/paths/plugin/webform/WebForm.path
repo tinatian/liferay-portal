@@ -8,16 +8,6 @@
 <tr><td rowspan="1" colspan="3">WebForm</td></tr>
 </thead>
 <tbody>
-<tr>
-	<td>EXTEND_ACTION_PATH</td>
-	<td>BasePortlet</td>
-	<td></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
 <!--FORM_INFORMATION-->
 <tr>
 	<td>FORM_INFORMATION_TITLE</td>
@@ -42,7 +32,7 @@
 </tr>
 <tr>
 	<td>FORM_FIELDS_FIELD_HEADER</td>
-	<td>//div[contains(.,'${key_wfFieldName}')]/label[contains(@for,'webformportlet')]</td>
+	<td>//div[contains(.,'${key_wfFieldName}')]/label[contains(@for,'WebFormPortlet')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -63,6 +53,11 @@
 <tr>
 	<td>FORM_FIELDS_CHECKBOX_FIELD_HEADER</td>
 	<td>//div[contains(@class,'checkbox')]/label[contains(.,'${key_wfFieldName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FORM_FIELDS_PARAGRAPH_FIELD</td>
+	<td>//div[@class='portlet-body']/form/fieldset/div/p[@class='format-paragraph']</td>
 	<td></td>
 </tr>
 <tr>

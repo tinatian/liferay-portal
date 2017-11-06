@@ -16,11 +16,11 @@ package com.liferay.portal.kernel.dao.orm;
 
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.dao.db.DB;
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class QueryUtilTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		_db = DBFactoryUtil.getDB();
+		_db = DBManagerUtil.getDB();
 
 		_db.runSQL(_SQL_CREATE_TABLE);
 		_db.runSQL(createInserts(_SIZE));
@@ -237,7 +237,7 @@ public class QueryUtilTest {
 				q, _sessionFactory.getDialect(), start, end, unmodifiable);
 
 			Assert.assertNotNull(result);
-			Assert.assertEquals(expectedSize, result.size());
+			Assert.assertEquals(result.toString(), expectedSize, result.size());
 
 			if (expectedSize > 0) {
 				Object[] firstRow = result.get(0);
@@ -257,11 +257,11 @@ public class QueryUtilTest {
 
 				Assert.assertFalse(unmodifiable);
 			}
-			catch (UnsupportedOperationException e) {
+			catch (UnsupportedOperationException uoe) {
 				Assert.assertTrue(unmodifiable);
 			}
 
-			Assert.assertEquals(expectedSize, result.size());
+			Assert.assertEquals(result.toString(), expectedSize, result.size());
 		}
 		finally {
 			_sessionFactory.closeSession(session);
@@ -286,7 +286,7 @@ public class QueryUtilTest {
 			List<Integer> result = (List<Integer>)QueryUtil.list(
 				sqlQuery, _sessionFactory.getDialect(), start, end, true);
 
-			Assert.assertEquals(end - start, result.size());
+			Assert.assertEquals(result.toString(), end - start, result.size());
 
 			Number firstId = result.get(0);
 			Number lastId = result.get(result.size() - 1);
@@ -320,7 +320,7 @@ public class QueryUtilTest {
 			List<Object[]> result = (List<Object[]>)QueryUtil.list(
 				q, _sessionFactory.getDialect(), start, end, true);
 
-			Assert.assertEquals(size, result.size());
+			Assert.assertEquals(result.toString(), size, result.size());
 
 			Object[] firstRow = result.get(0);
 			Object[] lastRow = result.get(result.size() - 1);
@@ -337,8 +337,8 @@ public class QueryUtilTest {
 	private static final int _SIZE = 20;
 
 	private static final String _SQL_CREATE_TABLE =
-		"CREATE TABLE QueryUtilTest (id INTEGER NOT NULL PRIMARY KEY, " +
-			"value INTEGER)";
+		"CREATE TABLE QueryUtilTest (id INTEGER NOT NULL PRIMARY KEY, value " +
+			"INTEGER)";
 
 	private static final String _SQL_DROP_TABLE = "DROP TABLE QueryUtilTest";
 
@@ -349,8 +349,8 @@ public class QueryUtilTest {
 		"SELECT id, value FROM QueryUtilTest ORDER BY id ASC";
 
 	private static final String _SQL_UNION_SELECT =
-		"( SELECT 'value' AS type, id as value from QueryUtilTest ) " +
-			"UNION ALL ( SELECT 'id' AS type, id as value from QueryUtilTest )";
+		"( SELECT 'value' AS type, id as value from QueryUtilTest ) UNION " +
+			"ALL ( SELECT 'id' AS type, id as value from QueryUtilTest )";
 
 	private static DB _db;
 

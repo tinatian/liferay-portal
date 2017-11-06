@@ -14,18 +14,31 @@
 
 package com.liferay.deployment.helper;
 
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.tools.ArgumentsUtil;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 import org.zeroturnaround.zip.ByteSource;
 import org.zeroturnaround.zip.FileSource;
@@ -38,35 +51,36 @@ import org.zeroturnaround.zip.ZipUtil;
 public class DeploymentHelper {
 
 	public static void main(String[] args) throws Exception {
-		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
-
-		String deploymentFileNames = arguments.get("deployment.files");
-
-		if (Validator.isNull(deploymentFileNames)) {
-			throw new IllegalArgumentException(
-				"The \"deployment.files\" argument is required");
-		}
-
-		String deploymentPath = arguments.get("deployment.path");
-
-		if (Validator.isNull(deploymentPath)) {
-			throw new IllegalArgumentException(
-				"The \"deployment.path\" argument is required");
-		}
-
-		String outputFileName = arguments.get("deployment.output.file");
-
-		if (Validator.isNull(outputFileName)) {
-			throw new IllegalArgumentException(
-				"The \"deployment.output.file\" argument is required");
-		}
-
 		try {
+			Options options = _getOptions();
+
+			CommandLineParser commandLineParser = new DefaultParser();
+
+			CommandLine commandLine = commandLineParser.parse(options, args);
+
+			if (commandLine.hasOption("help")) {
+				_printOptions();
+
+				return;
+			}
+
+			String deploymentFileNames = commandLine.getOptionValue(
+				"fileNames");
+			String deploymentPath = commandLine.getOptionValue("path", "");
+			String outputFileName = commandLine.getOptionValue("outputFile");
+
 			new DeploymentHelper(
 				deploymentFileNames, deploymentPath, outputFileName);
 		}
+		catch (ParseException pe) {
+			System.err.println(pe.getMessage());
+
+			_printOptions();
+		}
 		catch (Exception e) {
-			ArgumentsUtil.processMainException(arguments, e);
+			System.err.println("Error running deployment helper");
+
+			e.printStackTrace();
 		}
 	}
 
@@ -80,15 +94,14 @@ public class DeploymentHelper {
 		StringBuilder sb = new StringBuilder();
 
 		for (String deploymentFileName : deploymentFileNames.split(",")) {
-			File file = new File(deploymentFileName.trim());
+			File deploymentFile = new File(deploymentFileName.trim());
 
-			String webInfDeploymentFileName = "WEB-INF/" + file.getName();
-
-			zipEntrySources.add(new FileSource(webInfDeploymentFileName, file));
-
-			sb.append('/');
-			sb.append(webInfDeploymentFileName);
-			sb.append(',');
+			if (deploymentFile.isDirectory()) {
+				addDeploymentFiles(deploymentFile, sb, zipEntrySources);
+			}
+			else {
+				addDeploymentFile(deploymentFile, sb, zipEntrySources);
+			}
 		}
 
 		sb.setLength(sb.length() - 1);
@@ -98,12 +111,53 @@ public class DeploymentHelper {
 
 		zipEntrySources.add(
 			getClassZipEntrySource(
-				"com/liferay/deployment/helper/servlet/" +
-					"DeploymentHelperContextListener.class"));
+				"com/liferay/deployment/helper/servlet" +
+					"/DeploymentHelperContextListener.class"));
 
 		ZipUtil.pack(
 			zipEntrySources.toArray(new ZipEntrySource[zipEntrySources.size()]),
 			new File(outputFileName));
+	}
+
+	protected void addDeploymentFile(
+		File file, StringBuilder sb, List<ZipEntrySource> zipEntrySources) {
+
+		String webInfDeploymentFileName = "WEB-INF/" + file.getName();
+
+		sb.append('/');
+		sb.append(webInfDeploymentFileName);
+		sb.append(',');
+
+		zipEntrySources.add(new FileSource(webInfDeploymentFileName, file));
+	}
+
+	protected void addDeploymentFiles(
+			File dir, final StringBuilder sb,
+			final List<ZipEntrySource> zipEntrySources)
+		throws IOException {
+
+		FileSystem fileSystem = FileSystems.getDefault();
+
+		final PathMatcher pathMatcher = fileSystem.getPathMatcher(
+			"glob:**/*.jar");
+
+		Files.walkFileTree(
+			dir.toPath(),
+			new SimpleFileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult visitFile(
+						Path path, BasicFileAttributes basicFileAttributes)
+					throws IOException {
+
+					if (pathMatcher.matches(path)) {
+						addDeploymentFile(path.toFile(), sb, zipEntrySources);
+					}
+
+					return FileVisitResult.CONTINUE;
+				}
+
+			});
 	}
 
 	protected ZipEntrySource getClassZipEntrySource(String fileName)
@@ -148,6 +202,43 @@ public class DeploymentHelper {
 		}
 
 		return byteArrayOutputStream.toByteArray();
+	}
+
+	private static Options _getOptions() {
+		Options options = new Options();
+
+		Option fileNamesOption = new Option(
+			"f", "fileNames", true,
+			"Set the files you would like to include in the WAR.");
+
+		fileNamesOption.setRequired(true);
+
+		options.addOption(fileNamesOption);
+
+		options.addOption(
+			new Option("h", "help", false, "Print this message."));
+
+		Option outputFileOption = new Option(
+			"o", "outputFile", true, "Set the name of the output file.");
+
+		outputFileOption.setRequired(true);
+
+		options.addOption(outputFileOption);
+
+		options.addOption(
+			new Option(
+				"p", "path", true,
+				"Set the path the files will be deployed. If this is not " +
+					"set, it will deploy to the value set in the portal " +
+						"property \"auto.deploy.deploy.dir\"."));
+
+		return options;
+	}
+
+	private static void _printOptions() {
+		HelpFormatter helpFormatter = new HelpFormatter();
+
+		helpFormatter.printHelp("Liferay Deployment Helper", _getOptions());
 	}
 
 }

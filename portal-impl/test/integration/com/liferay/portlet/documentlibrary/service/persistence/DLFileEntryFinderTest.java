@@ -14,10 +14,27 @@
 
 package com.liferay.portlet.documentlibrary.service.persistence;
 
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileVersionLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLTrashServiceUtil;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Repository;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.RepositoryLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
@@ -28,32 +45,15 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Repository;
-import com.liferay.portal.model.User;
 import com.liferay.portal.repository.liferayrepository.LiferayRepository;
 import com.liferay.portal.repository.liferayrepository.model.LiferayFileEntry;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.RepositoryLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.spring.hibernate.LastSessionRecorderUtil;
 import com.liferay.portal.test.randomizerbumpers.TikaSafeRandomizerBumper;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryTypeConstants;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
-import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFileVersionLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.util.test.DLAppTestUtil;
 
 import java.util.ArrayList;
@@ -63,6 +63,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -76,7 +77,7 @@ public class DLFileEntryFinderTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			SynchronousDestinationTestRule.INSTANCE);
 
 	@BeforeClass
@@ -184,8 +185,7 @@ public class DLFileEntryFinderTest {
 		queryDefinition.setStatus(WorkflowConstants.STATUS_APPROVED);
 
 		Assert.assertEquals(
-			1,
-			doCountBy_G_U_F_M(0, ContentTypes.TEXT_PLAIN, queryDefinition));
+			1, doCountBy_G_U_F_M(0, ContentTypes.TEXT_PLAIN, queryDefinition));
 	}
 
 	@Test
@@ -287,8 +287,7 @@ public class DLFileEntryFinderTest {
 		queryDefinition.setStatus(WorkflowConstants.STATUS_IN_TRASH, true);
 
 		Assert.assertEquals(
-			1,
-			doCountBy_G_U_F_M(0, ContentTypes.TEXT_PLAIN, queryDefinition));
+			1, doCountBy_G_U_F_M(0, ContentTypes.TEXT_PLAIN, queryDefinition));
 	}
 
 	@Test
@@ -479,8 +478,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_BothRepositories()
+	public void testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_BothRepositories()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -495,8 +493,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_DefaultRepository()
+	public void testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_DefaultRepository()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -511,8 +508,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_EmptyRepositories()
+	public void testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_EmptyRepositories()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -527,8 +523,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_NewRepository()
+	public void testCountByG_U_R_F_M_StatusAnyByUserIdAndMimeType_NewRepository()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -647,8 +642,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_BothRepositories()
+	public void testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_BothRepositories()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -663,8 +657,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_DefaultRepository()
+	public void testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_DefaultRepository()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -679,8 +672,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_EmptyRepositories()
+	public void testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_EmptyRepositories()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -695,8 +687,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_NewRepository()
+	public void testCountByG_U_R_F_M_StatusApprovedByUserIdAndMimeType_NewRepository()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -871,8 +862,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_BothRepositories()
+	public void testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_BothRepositories()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -887,8 +877,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_DefaultRepository()
+	public void testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_DefaultRepository()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -903,8 +892,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_EmptyRepositories()
+	public void testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_EmptyRepositories()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -919,8 +907,7 @@ public class DLFileEntryFinderTest {
 	}
 
 	@Test
-	public void
-			testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_NewRepository()
+	public void testCountByG_U_R_F_M_StatusInTrashByUserIdAndMimeType_NewRepository()
 		throws Exception {
 
 		QueryDefinition<DLFileEntry> queryDefinition = new QueryDefinition<>();
@@ -956,7 +943,7 @@ public class DLFileEntryFinderTest {
 			_defaultRepositoryFolder.getUserId(), ContentTypes.TEXT_PLAIN,
 			queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -975,7 +962,7 @@ public class DLFileEntryFinderTest {
 			_defaultRepositoryFolder.getUserId(), ContentTypes.TEXT_PLAIN,
 			queryDefinition);
 
-		Assert.assertEquals(2, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 2, dlFileEntries.size());
 	}
 
 	@Test
@@ -990,7 +977,7 @@ public class DLFileEntryFinderTest {
 			_defaultRepositoryFolder.getUserId(), ContentTypes.TEXT_PLAIN,
 			queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1009,7 +996,7 @@ public class DLFileEntryFinderTest {
 			_defaultRepositoryFolder.getUserId(), ContentTypes.TEXT_PLAIN,
 			queryDefinition);
 
-		Assert.assertEquals(2, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 2, dlFileEntries.size());
 	}
 
 	@Test
@@ -1022,7 +1009,7 @@ public class DLFileEntryFinderTest {
 			_newRepositoryFolder.getUserId(), ContentTypes.TEXT_PLAIN,
 			queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1038,7 +1025,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_F_M(
 			_defaultRepositoryFolder.getUserId(), null, queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1056,7 +1043,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_BothRepositories(
 			_defaultRepositoryFolder.getUserId(), null, queryDefinition);
 
-		Assert.assertEquals(2, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 2, dlFileEntries.size());
 	}
 
 	@Test
@@ -1070,7 +1057,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_DefaultRepository(
 			_defaultRepositoryFolder.getUserId(), null, queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1088,7 +1075,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_EmptyRepositories(
 			_defaultRepositoryFolder.getUserId(), null, queryDefinition);
 
-		Assert.assertEquals(2, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 2, dlFileEntries.size());
 	}
 
 	@Test
@@ -1102,7 +1089,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_NewRepository(
 			_newRepositoryFolder.getUserId(), null, queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1118,7 +1105,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_F_M(
 			0, ContentTypes.TEXT_PLAIN, queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1136,7 +1123,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_BothRepositories(
 			0, ContentTypes.TEXT_PLAIN, queryDefinition);
 
-		Assert.assertEquals(2, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 2, dlFileEntries.size());
 	}
 
 	@Test
@@ -1150,7 +1137,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_DefaultRepository(
 			0, ContentTypes.TEXT_PLAIN, queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1168,7 +1155,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_EmptyRepositories(
 			0, ContentTypes.TEXT_PLAIN, queryDefinition);
 
-		Assert.assertEquals(2, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 2, dlFileEntries.size());
 	}
 
 	@Test
@@ -1182,7 +1169,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries = doFindBy_G_U_R_F_M_NewRepository(
 			0, ContentTypes.TEXT_PLAIN, queryDefinition);
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1203,7 +1190,8 @@ public class DLFileEntryFinderTest {
 			List<DLFileEntry> dlFileEntries =
 				DLFileEntryLocalServiceUtil.getMisversionedFileEntries();
 
-			Assert.assertEquals(1, dlFileEntries.size());
+			Assert.assertEquals(
+				dlFileEntries.toString(), 1, dlFileEntries.size());
 
 			DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1217,6 +1205,7 @@ public class DLFileEntryFinderTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testFindByNoAssets() throws Exception {
 		AssetEntryLocalServiceUtil.deleteEntry(
@@ -1228,7 +1217,7 @@ public class DLFileEntryFinderTest {
 		List<DLFileEntry> dlFileEntries =
 			DLFileEntryLocalServiceUtil.getNoAssetFileEntries();
 
-		Assert.assertEquals(1, dlFileEntries.size());
+		Assert.assertEquals(dlFileEntries.toString(), 1, dlFileEntries.size());
 
 		DLFileEntry dlFileEntry = dlFileEntries.get(0);
 
@@ -1252,176 +1241,6 @@ public class DLFileEntryFinderTest {
 			(byte[])null, serviceContext);
 	}
 
-	protected int doCountBy_G_U_R_F_M_NewRepository(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = ListUtil.toList(
-			new long[] {_newRepositoryFolder.getRepositoryId()});
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {_newRepositoryFolder.getFolderId()});
-
-		return doCountBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected int doCountBy_G_U_R_F_M_DefaultRepository(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = ListUtil.toList(
-			new long[] {_defaultRepositoryFolder.getRepositoryId()});
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {_defaultRepositoryFolder.getFolderId()});
-
-		return doCountBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected int doCountBy_G_U_R_F_M_BothRepositories(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = ListUtil.toList(
-			new long[] {
-				_defaultRepositoryFolder.getRepositoryId(),
-				_newRepositoryFolder.getRepositoryId()
-			});
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {
-				_defaultRepositoryFolder.getFolderId(),
-				_newRepositoryFolder.getFolderId()
-			});
-
-		return doCountBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected int doCountBy_G_U_R_F_M_EmptyRepositories(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = new ArrayList<>();
-		List<Long> folderIds = new ArrayList<>();
-
-		return doCountBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected int doCountBy_G_U_R_F_M(
-			long userId, List<Long> repositoryIds, List<Long> folderIds,
-			String mimeType, QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		String[] mimeTypes = null;
-
-		if (mimeType != null) {
-			mimeTypes = new String[] {mimeType};
-		}
-
-		return DLFileEntryLocalServiceUtil.getFileEntriesCount(
-			_group.getGroupId(), userId, repositoryIds, folderIds, mimeTypes,
-			queryDefinition);
-	}
-
-	protected List<DLFileEntry> doFindBy_G_U_F_M(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {_defaultRepositoryFolder.getFolderId()});
-
-		String[] mimeTypes = null;
-
-		if (mimeType != null) {
-			mimeTypes = new String[] {mimeType};
-		}
-
-		return DLFileEntryLocalServiceUtil.getFileEntries(
-			_group.getGroupId(), userId, folderIds, mimeTypes, queryDefinition);
-	}
-
-	protected List<DLFileEntry> doFindBy_G_U_R_F_M_NewRepository(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = ListUtil.toList(
-			new long[] {_newRepositoryFolder.getRepositoryId()});
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {_newRepositoryFolder.getFolderId()});
-
-		return doFindBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected List<DLFileEntry> doFindBy_G_U_R_F_M_DefaultRepository(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = ListUtil.toList(
-			new long[] {_defaultRepositoryFolder.getRepositoryId()});
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {_defaultRepositoryFolder.getFolderId()});
-
-		return doFindBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected List<DLFileEntry> doFindBy_G_U_R_F_M_BothRepositories(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = ListUtil.toList(
-			new long[] {
-				_defaultRepositoryFolder.getRepositoryId(),
-				_newRepositoryFolder.getRepositoryId()
-			});
-		List<Long> folderIds = ListUtil.toList(
-			new long[] {
-				_defaultRepositoryFolder.getFolderId(),
-				_newRepositoryFolder.getFolderId()
-			});
-
-		return doFindBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected List<DLFileEntry> doFindBy_G_U_R_F_M_EmptyRepositories(
-			long userId, String mimeType,
-			QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		List<Long> repositoryIds = new ArrayList<>();
-		List<Long> folderIds = new ArrayList<>();
-
-		return doFindBy_G_U_R_F_M(
-			userId, repositoryIds, folderIds, mimeType, queryDefinition);
-	}
-
-	protected List<DLFileEntry> doFindBy_G_U_R_F_M(
-			long userId, List<Long> repositoryIds, List<Long> folderIds,
-			String mimeType, QueryDefinition<DLFileEntry> queryDefinition)
-		throws Exception {
-
-		String[] mimeTypes = null;
-
-		if (mimeType != null) {
-			mimeTypes = new String[] {mimeType};
-		}
-
-		return DLFileEntryLocalServiceUtil.getFileEntries(
-			_group.getGroupId(), userId, repositoryIds, folderIds, mimeTypes,
-			queryDefinition);
-	}
-
 	protected static Object[] setUp(
 			long repositoryId, String titleSuffix,
 			ServiceContext serviceContext)
@@ -1440,7 +1259,7 @@ public class DLFileEntryFinderTest {
 			TestPropsValues.getUserId(), repositoryId, folder.getFolderId(),
 			"Folder C", StringPool.BLANK, serviceContext);
 
-		DLAppServiceUtil.moveFolderToTrash(folderC.getFolderId());
+		DLTrashServiceUtil.moveFolderToTrash(folderC.getFolderId());
 
 		FileEntry fileEntry = addFileEntry(
 			_user.getUserId(), repositoryId, folder.getFolderId(), "FE1.txt",
@@ -1488,7 +1307,7 @@ public class DLFileEntryFinderTest {
 
 		DLFileVersionLocalServiceUtil.updateDLFileVersion(dlFileVersion3);
 
-		DLAppServiceUtil.moveFileEntryToTrash(fileEntry.getFileEntryId());
+		DLTrashServiceUtil.moveFileEntryToTrash(fileEntry.getFileEntryId());
 
 		return new Object[] {folder, dlFileVersion};
 	}
@@ -1509,6 +1328,176 @@ public class DLFileEntryFinderTest {
 
 		return DLFileEntryLocalServiceUtil.getFileEntriesCount(
 			_group.getGroupId(), userId, folderIds, mimeTypes, queryDefinition);
+	}
+
+	protected int doCountBy_G_U_R_F_M(
+			long userId, List<Long> repositoryIds, List<Long> folderIds,
+			String mimeType, QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		String[] mimeTypes = null;
+
+		if (mimeType != null) {
+			mimeTypes = new String[] {mimeType};
+		}
+
+		return DLFileEntryLocalServiceUtil.getFileEntriesCount(
+			_group.getGroupId(), userId, repositoryIds, folderIds, mimeTypes,
+			queryDefinition);
+	}
+
+	protected int doCountBy_G_U_R_F_M_BothRepositories(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = ListUtil.toList(
+			new long[] {
+				_defaultRepositoryFolder.getRepositoryId(),
+				_newRepositoryFolder.getRepositoryId()
+			});
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {
+				_defaultRepositoryFolder.getFolderId(),
+				_newRepositoryFolder.getFolderId()
+			});
+
+		return doCountBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected int doCountBy_G_U_R_F_M_DefaultRepository(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = ListUtil.toList(
+			new long[] {_defaultRepositoryFolder.getRepositoryId()});
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {_defaultRepositoryFolder.getFolderId()});
+
+		return doCountBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected int doCountBy_G_U_R_F_M_EmptyRepositories(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = new ArrayList<>();
+		List<Long> folderIds = new ArrayList<>();
+
+		return doCountBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected int doCountBy_G_U_R_F_M_NewRepository(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = ListUtil.toList(
+			new long[] {_newRepositoryFolder.getRepositoryId()});
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {_newRepositoryFolder.getFolderId()});
+
+		return doCountBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected List<DLFileEntry> doFindBy_G_U_F_M(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {_defaultRepositoryFolder.getFolderId()});
+
+		String[] mimeTypes = null;
+
+		if (mimeType != null) {
+			mimeTypes = new String[] {mimeType};
+		}
+
+		return DLFileEntryLocalServiceUtil.getFileEntries(
+			_group.getGroupId(), userId, folderIds, mimeTypes, queryDefinition);
+	}
+
+	protected List<DLFileEntry> doFindBy_G_U_R_F_M(
+			long userId, List<Long> repositoryIds, List<Long> folderIds,
+			String mimeType, QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		String[] mimeTypes = null;
+
+		if (mimeType != null) {
+			mimeTypes = new String[] {mimeType};
+		}
+
+		return DLFileEntryLocalServiceUtil.getFileEntries(
+			_group.getGroupId(), userId, repositoryIds, folderIds, mimeTypes,
+			queryDefinition);
+	}
+
+	protected List<DLFileEntry> doFindBy_G_U_R_F_M_BothRepositories(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = ListUtil.toList(
+			new long[] {
+				_defaultRepositoryFolder.getRepositoryId(),
+				_newRepositoryFolder.getRepositoryId()
+			});
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {
+				_defaultRepositoryFolder.getFolderId(),
+				_newRepositoryFolder.getFolderId()
+			});
+
+		return doFindBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected List<DLFileEntry> doFindBy_G_U_R_F_M_DefaultRepository(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = ListUtil.toList(
+			new long[] {_defaultRepositoryFolder.getRepositoryId()});
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {_defaultRepositoryFolder.getFolderId()});
+
+		return doFindBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected List<DLFileEntry> doFindBy_G_U_R_F_M_EmptyRepositories(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = new ArrayList<>();
+		List<Long> folderIds = new ArrayList<>();
+
+		return doFindBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
+	}
+
+	protected List<DLFileEntry> doFindBy_G_U_R_F_M_NewRepository(
+			long userId, String mimeType,
+			QueryDefinition<DLFileEntry> queryDefinition)
+		throws Exception {
+
+		List<Long> repositoryIds = ListUtil.toList(
+			new long[] {_newRepositoryFolder.getRepositoryId()});
+		List<Long> folderIds = ListUtil.toList(
+			new long[] {_newRepositoryFolder.getFolderId()});
+
+		return doFindBy_G_U_R_F_M(
+			userId, repositoryIds, folderIds, mimeType, queryDefinition);
 	}
 
 	private static final long _SMALL_IMAGE_ID = 1234L;

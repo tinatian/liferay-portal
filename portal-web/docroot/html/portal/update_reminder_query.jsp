@@ -47,13 +47,13 @@ if (referer.equals(themeDisplay.getPathMain() + "/portal/update_reminder_query")
 			</div>
 		</c:if>
 
-		<aui:input cssClass="reminder-query-answer" label="answer" maxlength="<%= ModelHintsConstants.TEXT_MAX_LENGTH %>" name="reminderQueryAnswer" showRequiredLabel="<%= false %>" size="50" type="text" value="<%= user.getReminderQueryAnswer() %>">
+		<aui:input autocomplete="off" cssClass="reminder-query-answer" label="answer" maxlength="<%= ModelHintsConstants.TEXT_MAX_LENGTH %>" name="reminderQueryAnswer" showRequiredLabel="<%= false %>" size="50" type="text" value="<%= user.getReminderQueryAnswer() %>">
 			<aui:validator name="required" />
 		</aui:input>
 	</aui:fieldset>
 
 	<aui:button-row>
-		<aui:button type="submit" />
+		<aui:button cssClass="btn-lg" type="submit" />
 	</aui:button-row>
 </aui:form>
 

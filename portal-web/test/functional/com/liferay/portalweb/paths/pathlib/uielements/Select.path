@@ -9,6 +9,16 @@
 </thead>
 <tbody>
 <tr>
+	<td>APPLICATION_DECORATORS</td>
+	<td>//div[label[contains(.,'Application Decorators')]]/select[contains(@id,'portlet-decorator')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSIONS_VIEW_ROLE</td>
+	<td>//select[contains(.,'${key_permissionsViewRole}')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>AVAILABLE</td>
 	<td>//div[label[contains(.,'Available')]]/select</td>
 	<td></td>
@@ -19,13 +29,38 @@
 	<td></td>
 </tr>
 <tr>
+	<td>CONTENT_ALL_CONTENT</td>
+	<td>//option[contains(@id,'allContent')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_CHOOSE_CONTENT</td>
+	<td>//option[contains(@id,'chooseContent')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>COUNTRY</td>
 	<td>//div[label[contains(.,'Country')]]/select</td>
 	<td></td>
 </tr>
 <tr>
+	<td>DATE_RANGE_START_DATE</td>
+	<td>xpath=(//ul[contains(@class,'date-range-options')]//input[contains(@name,'startDate') and contains(@type,'text')])[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DATE_RANGE_END_DATE</td>
+	<td>xpath=(//ul[contains(@class,'date-range-options')]//input[contains(@name,'endDate') and contains(@type,'text')])[1]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>DEFAULT_LANGUAGE</td>
-	<td>//div[label[contains(.,'Default Language')]]/select</td>
+	<td>//div[contains(.,'Default Language')]//select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DEFAULT_VALUE_SELECT</td>
+	<td>//select[contains(@id,'defaultValue')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -44,8 +79,28 @@
 	<td></td>
 </tr>
 <tr>
+	<td>FEED_ITEM_CONTENT</td>
+	<td>//select[contains(@id,'contentFieldSelector')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FEED_TYPE</td>
+	<td>//select[contains(@id,'feedType')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EXPORT_IMPORT_CONTENT</td>
+	<td>//select[contains(@id,'PORTLET_DATA')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>GENDER</td>
 	<td>//div[label[contains(.,'Gender')]]/select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>GENERIC_SELECT_FIELD</td>
+	<td>//div[label[contains(.,'${key_fieldLabel}')]//select</td>
 	<td></td>
 </tr>
 <tr>
@@ -59,8 +114,23 @@
 	<td></td>
 </tr>
 <tr>
+	<td>KNOWLEDGE_BASE_RATING</td>
+	<td>//select[contains(@id,'knowledge-base')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>LANGUAGE</td>
 	<td>//div[label[contains(.,'Language')]]/select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LAST_TIME</td>
+	<td>//select[contains(@id, 'last')]/option[contains(.,'${key_lastDateRange}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LENGTH</td>
+	<td>//select[contains(@id,'length')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -126,6 +196,11 @@
 <tr>
 	<td>SITES</td>
 	<td>//div[label[contains(.,'Sites')]]/select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCOPE</td>
+	<td>//div[label[contains(.,'Scope')]]/select | //div/select[@title='Scope']</td>
 	<td></td>
 </tr>
 <tr>

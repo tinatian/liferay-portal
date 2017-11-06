@@ -24,6 +24,7 @@ long[] classNameIds = GetterUtil.getLongValues(request.getAttribute("liferay-ui:
 long[] classTypeIds = GetterUtil.getLongValues(request.getAttribute("liferay-ui:asset-add-button:classTypeIds"));
 long[] groupIds = GetterUtil.getLongValues(request.getAttribute("liferay-ui:asset-add-button:groupIds"));
 String redirect = (String)request.getAttribute("liferay-ui:asset-add-button:redirect");
+boolean useDialog = GetterUtil.getBoolean(request.getAttribute("liferay-ui:asset-add-button:useDialog"), true);
 
 boolean hasAddPortletURLs = false;
 
@@ -35,8 +36,8 @@ for (long groupId : groupIds) {
 	}
 %>
 
-	<c:if test="<%= (addPortletURLs != null) && !addPortletURLs.isEmpty() %>">
-		<aui:nav cssClass="navbar-nav">
+	<c:if test="<%= hasAddPortletURLs %>">
+		<aui:nav>
 			<c:choose>
 				<c:when test="<%= addPortletURLs.size() == 1 %>">
 
@@ -47,9 +48,9 @@ for (long groupId : groupIds) {
 
 					Map.Entry<String, PortletURL> entry = iterator.next();
 
-					AssetRendererFactory<?> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(_getClassName(entry.getKey()));
+					AssetRendererFactory<?> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(AssetUtil.getClassName(entry.getKey()));
 
-					String message = _getMessage(entry.getKey(), addPortletURLs, locale);
+					String message = AssetUtil.getClassNameMessage(entry.getKey(), locale);
 
 					long curGroupId = groupId;
 
@@ -61,24 +62,21 @@ for (long groupId : groupIds) {
 					%>
 
 					<aui:nav-item
-						href="<%= _getURL(curGroupId, plid, entry.getValue(), assetRendererFactory.getPortletId(), message, addDisplayPageParameter, layout, pageContext, portletResponse) %>"
-						iconCssClass="<%= assetRendererFactory.getIconCssClass() %>"
-						iconSrc="<%= assetRendererFactory.getIconPath(portletRequest) %>"
+						href="<%= _getURL(curGroupId, plid, entry.getValue(), assetRendererFactory.getPortletId(), message, addDisplayPageParameter, layout, pageContext, portletResponse, useDialog) %>"
 						label='<%= LanguageUtil.format(request, (groupIds.length == 1) ? "add-x" : "add-x-in-x", new Object[] {HtmlUtil.escape(message), HtmlUtil.escape((GroupLocalServiceUtil.getGroup(groupId)).getDescriptiveName(locale))}, false) %>'
 					/>
 				</c:when>
 				<c:otherwise>
 					<aui:nav-item
 						dropdown="<%= true %>"
-						iconCssClass="icon-plus"
 						label='<%= LanguageUtil.format(request, (groupIds.length == 1) ? "add-new" : "add-new-in-x", HtmlUtil.escape((GroupLocalServiceUtil.getGroup(groupId)).getDescriptiveName(locale)), false) %>'
 					>
 
 						<%
 						for (Map.Entry<String, PortletURL> entry : addPortletURLs.entrySet()) {
-							AssetRendererFactory<?> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(_getClassName(entry.getKey()));
+							AssetRendererFactory<?> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(AssetUtil.getClassName(entry.getKey()));
 
-							String message = _getMessage(entry.getKey(), addPortletURLs, locale);
+							String message = AssetUtil.getClassNameMessage(entry.getKey(), locale);
 
 							long curGroupId = groupId;
 
@@ -90,9 +88,7 @@ for (long groupId : groupIds) {
 						%>
 
 							<aui:nav-item
-								href="<%= _getURL(curGroupId, plid, entry.getValue(), assetRendererFactory.getPortletId(), message, addDisplayPageParameter, layout, pageContext, portletResponse) %>"
-								iconCssClass="<%= assetRendererFactory.getIconCssClass() %>"
-								iconSrc="<%= assetRendererFactory.getIconPath(portletRequest) %>"
+								href="<%= _getURL(curGroupId, plid, entry.getValue(), assetRendererFactory.getPortletId(), message, addDisplayPageParameter, layout, pageContext, portletResponse, useDialog) %>"
 								label="<%= HtmlUtil.escape(message) %>"
 							/>
 
@@ -113,50 +109,13 @@ request.setAttribute("liferay-ui:asset-add-button:hasAddPortletURLs", hasAddPort
 %>
 
 <%!
-private String _getClassName(String className) {
-	int pos = className.indexOf(AssetUtil.CLASSNAME_SEPARATOR);
+private String _getURL(long groupId, long plid, PortletURL addPortletURL, String portletId, String message, boolean addDisplayPageParameter, Layout layout, PageContext pageContext, PortletResponse portletResponse, boolean useDialog) {
+	String addPortletURLString = AssetUtil.getAddURLPopUp(groupId, plid, addPortletURL, portletId, addDisplayPageParameter, layout);
 
-	if (pos != -1) {
-		className = className.substring(0, pos);
+	if (useDialog) {
+		return "javascript:Liferay.Util.openWindow({dialog: {destroyOnHide: true}, dialogIframe: {bodyCssClass: 'dialog-with-footer'}, id: '" + portletResponse.getNamespace() + "editAsset', title: '" + HtmlUtil.escapeJS(LanguageUtil.format((HttpServletRequest) pageContext.getRequest(), "new-x", HtmlUtil.escape(message), false)) + "', uri: '" + HtmlUtil.escapeJS(addPortletURLString) + "'});";
 	}
 
-	return className;
-}
-
-private String _getMessage(String className, Map<String, PortletURL> addPortletURLs, Locale locale) {
-	String message = null;
-
-	int pos = className.indexOf(AssetUtil.CLASSNAME_SEPARATOR);
-
-	if (pos != -1) {
-		message = className.substring(pos + AssetUtil.CLASSNAME_SEPARATOR.length());
-
-		className = className.substring(0, pos);
-	}
-
-	AssetRendererFactory<?> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(className);
-
-	if (pos == -1) {
-		message = assetRendererFactory.getTypeName(locale);
-	}
-
-	return message;
-}
-
-private String _getURL(long groupId, long plid, PortletURL addPortletURL, String portletId, String message, boolean addDisplayPageParameter, Layout layout, PageContext pageContext, PortletResponse portletResponse) {
-	addPortletURL.setParameter("groupId", String.valueOf(groupId));
-	addPortletURL.setParameter("showHeader", Boolean.FALSE.toString());
-
-	String addPortletURLString = addPortletURL.toString();
-
-	addPortletURLString = HttpUtil.addParameter(addPortletURLString, "refererPlid", plid);
-
-	String namespace = PortalUtil.getPortletNamespace(portletId);
-
-	if (addDisplayPageParameter) {
-		addPortletURLString = HttpUtil.addParameter(addPortletURLString, namespace + "layoutUuid", layout.getUuid());
-	}
-
-	return "javascript:Liferay.Util.openWindow({dialog: {destroyOnHide: true}, id: '" + portletResponse.getNamespace() + "editAsset', title: '" + HtmlUtil.escapeJS(LanguageUtil.format((HttpServletRequest)pageContext.getRequest(), "new-x", HtmlUtil.escape(message), false)) + "', uri: '" + HtmlUtil.escapeJS(addPortletURLString) + "'});";
+	return addPortletURLString;
 }
 %>

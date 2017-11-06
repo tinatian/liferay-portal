@@ -15,14 +15,19 @@
 package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.model.ResourcePermission;
-import com.liferay.portal.service.persistence.ResourcePermissionPersistence;
+import com.liferay.portal.kernel.model.ResourcePermission;
+import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
 /**
  * @author Brian Wing Shun Chan
  * @generated
  */
 public class ResourcePermissionFinderBaseImpl extends BasePersistenceImpl<ResourcePermission> {
+	public ResourcePermissionFinderBaseImpl() {
+		setModelClass(ResourcePermission.class);
+	}
+
 	/**
 	 * Returns the resource permission persistence.
 	 *

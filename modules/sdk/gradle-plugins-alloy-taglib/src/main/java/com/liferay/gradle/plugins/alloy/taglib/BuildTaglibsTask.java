@@ -28,7 +28,11 @@ import java.util.Map;
 
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.JavaExec;
+import org.gradle.api.tasks.Optional;
+import org.gradle.api.tasks.SkipWhenEmpty;
 import org.gradle.util.GUtil;
 
 /**
@@ -36,116 +40,79 @@ import org.gradle.util.GUtil;
  */
 public class BuildTaglibsTask extends JavaExec {
 
+	public BuildTaglibsTask() {
+		setMain("com.liferay.alloy.tools.tagbuilder.TagBuilder");
+	}
+
 	public BuildTaglibsTask componentsXmlFiles(Iterable<?> componentsXmlFiles) {
 		GUtil.addToCollection(_componentsXmlFiles, componentsXmlFiles);
 
 		return this;
 	}
 
-	public BuildTaglibsTask componentsXmlFiles(Object ... componentsXmlFiles) {
+	public BuildTaglibsTask componentsXmlFiles(Object... componentsXmlFiles) {
 		return componentsXmlFiles(Arrays.asList(componentsXmlFiles));
 	}
 
 	@Override
 	public void exec() {
-		super.setSystemProperties(getSystemProperties());
-		super.setWorkingDir(getWorkingDir());
+		setSystemProperties(_getCompleteSystemProperties());
 
 		super.exec();
 	}
 
+	@InputFiles
+	@SkipWhenEmpty
 	public FileCollection getComponentsXmlFiles() {
 		Project project = getProject();
 
 		return project.files(_componentsXmlFiles.toArray());
 	}
 
+	@Input
 	public String getCopyrightYear() {
 		return GradleUtil.toString(_copyrightYear);
 	}
 
+	@Input
 	public File getJavaDir() {
 		return GradleUtil.toFile(getProject(), _javaDir);
 	}
 
+	@Input
 	public String getJavaPackage() {
 		return GradleUtil.toString(_javaPackage);
 	}
 
+	@Input
 	public String getJspCommonInitPath() {
 		return GradleUtil.toString(_jspCommonInitPath);
 	}
 
+	@Input
 	public String getJspDirName() {
 		return GradleUtil.toString(_jspDirName);
 	}
 
+	@Input
 	public File getJspParentDir() {
 		return GradleUtil.toFile(getProject(), _jspParentDir);
 	}
 
-	@Override
-	public String getMain() {
-		return "com.liferay.alloy.tools.tagbuilder.TagBuilder";
-	}
-
+	@Input
+	@Optional
 	public String getOsgiModuleSymbolicName() {
 		return GradleUtil.toString(_osgiModuleSymbolicName);
 	}
 
-	@Override
-	public Map<String, Object> getSystemProperties() {
-		Map<String, Object> systemProperties = new HashMap<>();
-
-		systemProperties.put(
-			"tagbuilder.components.xml",
-			getRelativePaths(getComponentsXmlFiles()));
-		systemProperties.put("tagbuilder.copyright.year", getCopyrightYear());
-		systemProperties.put(
-			"tagbuilder.java.dir", getRelativePath(getJavaDir()) + "/");
-		systemProperties.put("tagbuilder.java.package", getJavaPackage());
-		systemProperties.put(
-			"tagbuilder.jsp.common.init.path", getJspCommonInitPath());
-
-		String jspDirName = getJspDirName();
-
-		if (!jspDirName.endsWith("/")) {
-			jspDirName = jspDirName + "/";
-		}
-
-		systemProperties.put("tagbuilder.jsp.dir", jspDirName);
-
-		systemProperties.put(
-			"tagbuilder.jsp.parent.dir",
-			getRelativePath(getJspParentDir()) + "/");
-
-		String osgiModuleSymbolicName = getOsgiModuleSymbolicName();
-
-		if (Validator.isNotNull(osgiModuleSymbolicName)) {
-			systemProperties.put(
-				"tagbuilder.osgi.module.symbolic.name", osgiModuleSymbolicName);
-		}
-
-		systemProperties.put("tagbuilder.templates.dir", getTemplatesDirName());
-		systemProperties.put(
-			"tagbuilder.tld.dir", getRelativePath(getTldDir()) + "/");
-
-		return systemProperties;
-	}
-
+	@Input
 	public String getTemplatesDirName() {
 		return GradleUtil.toString(_templatesDirName);
 	}
 
+	@Input
 	public File getTldDir() {
 		return GradleUtil.toFile(getProject(), _tldDir);
-	}
-
-	@Override
-	public File getWorkingDir() {
-		Project project = getProject();
-
-		return project.getProjectDir();
 	}
 
 	public void setComponentsXmlFiles(Iterable<?> componentsXmlFiles) {
@@ -154,7 +121,7 @@ public class BuildTaglibsTask extends JavaExec {
 		componentsXmlFiles(componentsXmlFiles);
 	}
 
-	public void setComponentsXmlFiles(Object ... componentsXmlFiles) {
+	public void setComponentsXmlFiles(Object... componentsXmlFiles) {
 		setComponentsXmlFiles(Arrays.asList(componentsXmlFiles));
 	}
 
@@ -186,11 +153,6 @@ public class BuildTaglibsTask extends JavaExec {
 		_osgiModuleSymbolicName = osgiModuleSymbolicName;
 	}
 
-	@Override
-	public void setSystemProperties(Map<String, ?> properties) {
-		throw new UnsupportedOperationException();
-	}
-
 	public void setTemplatesDirName(Object templatesDirName) {
 		_templatesDirName = templatesDirName;
 	}
@@ -199,41 +161,47 @@ public class BuildTaglibsTask extends JavaExec {
 		_tldDir = tldDir;
 	}
 
-	@Override
-	public void setWorkingDir(Object dir) {
-		throw new UnsupportedOperationException();
-	}
+	private Map<String, Object> _getCompleteSystemProperties() {
+		Map<String, Object> systemProperties = new HashMap<>(
+			getSystemProperties());
 
-	@Override
-	public JavaExec systemProperties(Map<String, ?> properties) {
-		throw new UnsupportedOperationException();
-	}
+		systemProperties.put(
+			"tagbuilder.components.xml",
+			_getRelativePaths(getComponentsXmlFiles()));
+		systemProperties.put("tagbuilder.copyright.year", getCopyrightYear());
+		systemProperties.put(
+			"tagbuilder.java.dir", _getRelativePath(getJavaDir()) + "/");
+		systemProperties.put("tagbuilder.java.package", getJavaPackage());
+		systemProperties.put(
+			"tagbuilder.jsp.common.init.path", getJspCommonInitPath());
 
-	@Override
-	public JavaExec systemProperty(String name, Object value) {
-		throw new UnsupportedOperationException();
-	}
+		String jspDirName = getJspDirName();
 
-	protected String getComponentsXml() {
-		FileCollection fileCollection = getComponentsXmlFiles();
-
-		if (fileCollection.isEmpty()) {
-			return "";
+		if (!jspDirName.endsWith("/")) {
+			jspDirName = jspDirName + "/";
 		}
 
-		StringBuilder sb = new StringBuilder();
+		systemProperties.put("tagbuilder.jsp.dir", jspDirName);
 
-		Project project = getProject();
+		systemProperties.put(
+			"tagbuilder.jsp.parent.dir",
+			_getRelativePath(getJspParentDir()) + "/");
 
-		for (File file : fileCollection) {
-			sb.append(project.relativePath(file));
-			sb.append(',');
+		String osgiModuleSymbolicName = getOsgiModuleSymbolicName();
+
+		if (Validator.isNotNull(osgiModuleSymbolicName)) {
+			systemProperties.put(
+				"tagbuilder.osgi.module.symbolic.name", osgiModuleSymbolicName);
 		}
 
-		return sb.substring(0, sb.length() - 1);
+		systemProperties.put("tagbuilder.templates.dir", getTemplatesDirName());
+		systemProperties.put(
+			"tagbuilder.tld.dir", _getRelativePath(getTldDir()) + "/");
+
+		return systemProperties;
 	}
 
-	protected String getRelativePath(File file) {
+	private String _getRelativePath(File file) {
 		Project project = getProject();
 
 		String relativePath = project.relativePath(file);
@@ -241,11 +209,11 @@ public class BuildTaglibsTask extends JavaExec {
 		return relativePath.replace('\\', '/');
 	}
 
-	protected String getRelativePaths(Iterable<File> files) {
+	private String _getRelativePaths(Iterable<File> files) {
 		List<String> relativePaths = new ArrayList<>();
 
 		for (File file : files) {
-			relativePaths.add(getRelativePath(file));
+			relativePaths.add(_getRelativePath(file));
 		}
 
 		return StringUtil.merge(

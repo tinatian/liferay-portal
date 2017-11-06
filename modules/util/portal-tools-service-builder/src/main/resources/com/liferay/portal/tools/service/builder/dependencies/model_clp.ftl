@@ -1,45 +1,41 @@
-package ${packagePath}.model;
+package ${apiPackagePath}.model;
 
-import ${packagePath}.service.ClpSerializer;
+import ${apiPackagePath}.service.ClpSerializer;
 
 <#if entity.hasLocalService() && entity.hasColumns()>
-	import ${packagePath}.service.${entity.name}LocalServiceUtil;
+	import ${apiPackagePath}.service.${entity.name}LocalServiceUtil;
 </#if>
 
 <#if entity.hasCompoundPK()>
-	import ${packagePath}.service.persistence.${entity.name}PK;
+	import ${apiPackagePath}.service.persistence.${entity.name}PK;
 </#if>
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.LocaleException;
-import com.liferay.portal.NoSuchModelException;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.trash.TrashHandler;
-import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.ContainerModel;
+import com.liferay.portal.kernel.model.TrashedModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.ContainerModel;
-import com.liferay.portal.model.TrashedModel;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
-import com.liferay.portlet.trash.model.TrashEntry;
-import com.liferay.portlet.trash.service.TrashEntryLocalServiceUtil;
 
 import java.io.Serializable;
 
@@ -54,6 +50,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * @generated
+ */
 @ProviderType
 public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements ${entity.name} {
 
@@ -181,7 +180,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 	}
 
 	<#list entity.regularColList as column>
-		<#if column.name == "classNameId">
+		<#if stringUtil.equals(column.name, "classNameId")>
 			@Override
 			public String getClassName() {
 				if (getClassNameId() <= 0) {
@@ -332,7 +331,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 			}
 		</#if>
 
-		<#if (column.name == "resourcePrimKey") && entity.isResourcedModel()>
+		<#if stringUtil.equals(column.name, "resourcePrimKey") && entity.isResourcedModel()>
 			@Override
 			public boolean isResourceMain() {
 				return _resourceMain;
@@ -363,11 +362,11 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 	</#list>
 
 	<#list methods as method>
-		<#if !method.isConstructor() && !method.isStatic() && method.isPublic() && !(entity.isResourcedModel() && (method.name == "isResourceMain") && (method.parameters?size == 0))>
+		<#if !method.isStatic() && method.isPublic() && !(entity.isResourcedModel() && stringUtil.equals(method.name, "isResourceMain") && (method.parameters?size == 0))>
 			@Override
 			public ${serviceBuilder.getTypeGenericsName(method.returns)} ${method.name} (
 
-			<#assign parameters = method.parameters>
+			<#assign parameters = method.parameters />
 
 			<#list parameters as parameter>
 				${serviceBuilder.getTypeGenericsName(parameter.type)} ${parameter.name}
@@ -384,7 +383,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 					throws
 				</#if>
 
-				${exception.value}
+				${exception.fullyQualifiedName}
 
 				<#if exception_has_next>
 					,
@@ -397,7 +396,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 
 					Class<?>[] parameterTypes = new Class<?>[] {
 						<#list parameters as parameter>
-							${parameter.type.getValue()}.class
+							${parameter.type.fullyQualifiedName}.class
 							<#if parameter_has_next>
 								,
 							</#if>
@@ -414,7 +413,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 					};
 
 					<#if serviceBuilder.getTypeGenericsName(method.returns) != "void">
-						<#assign returnTypeObj = serviceBuilder.getPrimitiveObj(serviceBuilder.getTypeGenericsName(method.returns))>
+						<#assign returnTypeObj = serviceBuilder.getPrimitiveObj(serviceBuilder.getTypeGenericsName(method.returns)) />
 
 						${returnTypeObj} returnObj = (${returnTypeObj})
 					</#if>
@@ -433,10 +432,10 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 	</#list>
 
 	<#if entity.isContainerModel()>
-		<#assign hasParentContainerModelId = entity.hasColumn("parentContainerModelId")>
+		<#assign hasParentContainerModelId = entity.hasColumn("parentContainerModelId") />
 
 		<#list entity.columnList as column>
-			<#if column.isContainerModel() && (column.name != "containerModelId")>
+			<#if column.isContainerModel() && !stringUtil.equals(column.name, "containerModelId")>
 				public long getContainerModelId() {
 					return get${column.methodName}();
 				}
@@ -446,8 +445,8 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 				}
 			</#if>
 
-			<#if column.isParentContainerModel() && (column.name != "parentContainerModelId")>
-				<#assign hasParentContainerModelId = true>
+			<#if column.isParentContainerModel() && !stringUtil.equals(column.name, "parentContainerModelId")>
+				<#assign hasParentContainerModelId = true />
 
 				public long getParentContainerModelId() {
 					return get${column.methodName}();
@@ -497,18 +496,18 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 		</#if>
 
 		@Override
-		public TrashEntry getTrashEntry() throws PortalException {
+		public com.liferay.trash.kernel.model.TrashEntry getTrashEntry() throws PortalException {
 			if (!isInTrash()) {
 				return null;
 			}
 
-			TrashEntry trashEntry = TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(), getTrashEntryClassPK());
+			com.liferay.trash.kernel.model.TrashEntry trashEntry = com.liferay.trash.kernel.service.TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(), getTrashEntryClassPK());
 
 			if (trashEntry != null) {
 				return trashEntry;
 			}
 
-			TrashHandler trashHandler = getTrashHandler();
+			com.liferay.portal.kernel.trash.TrashHandler trashHandler = getTrashHandler();
 
 			if (!Validator.isNull(trashHandler.getContainerModelClassName())) {
 				ContainerModel containerModel = null;
@@ -517,7 +516,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 					containerModel = trashHandler.getParentContainerModel(this);
 				}
 				catch (NoSuchModelException nsme) {
-	            	return null;
+					return null;
 				}
 
 				while (containerModel != null) {
@@ -527,7 +526,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 						return trashedModel.getTrashEntry();
 					}
 
-					trashHandler = TrashHandlerRegistryUtil.getTrashHandler(trashHandler.getContainerModelClassName());
+					trashHandler = com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil.getTrashHandler(trashHandler.getContainerModelClassName());
 
 					if (trashHandler == null) {
 						return null;
@@ -545,9 +544,13 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 			return getPrimaryKey();
 		}
 
+		/**
+		* @deprecated As of 7.0.0, with no direct replacement
+		*/
+		@Deprecated
 		@Override
-		public TrashHandler getTrashHandler() {
-			return TrashHandlerRegistryUtil.getTrashHandler(getModelClassName());
+		public com.liferay.portal.kernel.trash.TrashHandler getTrashHandler() {
+			return com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil.getTrashHandler(getModelClassName());
 		}
 
 		@Override
@@ -562,7 +565,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 
 		@Override
 		public boolean isInTrashContainer() {
-			TrashHandler trashHandler = getTrashHandler();
+			com.liferay.portal.kernel.trash.TrashHandler trashHandler = getTrashHandler();
 
 			if ((trashHandler == null) || Validator.isNull(trashHandler.getContainerModelClassName())) {
 				return false;
@@ -591,7 +594,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 				return false;
 			}
 
-			TrashEntry trashEntry = TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(), getTrashEntryClassPK());
+			com.liferay.trash.kernel.model.TrashEntry trashEntry = com.liferay.trash.kernel.service.TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(), getTrashEntryClassPK());
 
 			if (trashEntry != null) {
 				return true;
@@ -606,7 +609,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 				return false;
 			}
 
-			TrashEntry trashEntry = TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(), getTrashEntryClassPK());
+			com.liferay.trash.kernel.model.TrashEntry trashEntry = com.liferay.trash.kernel.service.TrashEntryLocalServiceUtil.fetchEntry(getModelClassName(), getTrashEntryClassPK());
 
 			if (trashEntry != null) {
 				return false;
@@ -617,7 +620,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 	</#if>
 
 	<#if entity.isTreeModel()>
-		<#assign pkColumn = entity.getPKList()?first>
+		<#assign pkColumn = entity.getPKList()?first />
 
 		<#if entity.hasColumn("parent" + pkColumn.methodName)>
 			@Override
@@ -646,15 +649,6 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 	</#if>
 
 	<#if entity.isWorkflowEnabled()>
-		/**
-		 * @deprecated As of 6.1.0, replaced by {@link #isApproved}
-		 */
-		@Deprecated
-		@Override
-		public boolean getApproved() {
-			return isApproved();
-		}
-
 		@Override
 		public boolean isApproved() {
 			if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
@@ -900,12 +894,15 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 
 			<#list entity.order.columns as column>
 				<#if column.isPrimitiveType()>
-					<#if column.type == "boolean">
-						<#assign ltComparator = "==">
-						<#assign gtComparator = "!=">
+					<#if stringUtil.equals(column.type, "boolean")>
+						<#assign
+							ltComparator = "=="
+							gtComparator = "!="
+						/>
+
 					<#else>
-						<#assign ltComparator = "<">
-						<#assign gtComparator = ">">
+						<#assign ltComparator = "<" />
+						<#assign gtComparator = ">" />
 					</#if>
 
 					if (get${column.methodName}() ${ltComparator} ${entity.varName}.get${column.methodName}()) {
@@ -918,7 +915,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 						value = 0;
 					}
 				<#else>
-					<#if column.type == "Date">
+					<#if stringUtil.equals(column.type, "Date")>
 						value = DateUtil.compareTo(get${column.methodName}(), ${entity.varName}.get${column.methodName}());
 					<#else>
 						<#if column.isCaseSensitive()>
@@ -992,7 +989,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 	@Override
 	public int hashCode() {
 		<#if entity.hasPrimitivePK(false)>
-			<#if entity.PKClassName == "int">
+			<#if stringUtil.equals(entity.PKClassName, "int")>
 				return getPrimaryKey();
 			<#else>
 				return (int)getPrimaryKey();
@@ -1038,7 +1035,7 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 		StringBundler sb = new StringBundler(${entity.regularColList?size * 3 + 4});
 
 		sb.append("<model><model-name>");
-		sb.append("${packagePath}.model.${entity.name}");
+		sb.append("${apiPackagePath}.model.${entity.name}");
 		sb.append("</model-name>");
 
 		<#list entity.regularColList as column>
@@ -1059,13 +1056,13 @@ public class ${entity.name}Clp extends BaseModelImpl<${entity.name}> implements 
 			private String _${column.name}CurrentLanguageId;
 		</#if>
 
-		<#if (column.name == "resourcePrimKey") && entity.isResourcedModel()>
+		<#if stringUtil.equals(column.name, "resourcePrimKey") && entity.isResourcedModel()>
 			private boolean _resourceMain;
 		</#if>
 	</#list>
 
 	private BaseModel<?> _${entity.varName}RemoteModel;
-	private Class<?> _clpSerializerClass = ${packagePath}.service.ClpSerializer.class;
+	private Class<?> _clpSerializerClass = ${apiPackagePath}.service.ClpSerializer.class;
 	private boolean _entityCacheEnabled;
 	private boolean _finderCacheEnabled;
 

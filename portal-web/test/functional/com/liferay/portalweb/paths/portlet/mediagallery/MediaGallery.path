@@ -9,6 +9,11 @@
 </thead>
 <tbody>
 <tr>
+	<td>BREADCRUMB</td>
+	<td>//h3[@class='header-title']/span[contains(.,'${key_mgFolderName}')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>CLOSE</td>
 	<td>//button[contains(@class,'image-viewer-close') and contains(@class,'close')]</td>
 	<td></td>
@@ -30,18 +35,18 @@
 </tr>
 <tr>
 	<td>IMAGE_TITLE</td>
-	<td>//span[@class='image-title' and contains(.,'${key_mgDocumentTitle}')]</td>
+	<td>//div[contains(@class,'image')]//span[contains(@class,'lfr-card-title-text') and contains(.,'${key_mgDocumentTitle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
 	<td></td>
 </tr>
 <!--ENTRY-->
 <tr>
 	<td>ENTRY_THUMBNAIL</td>
-	<td>//a[contains(.,'${key_mgDocumentTitle}')]/span[@class='image-thumbnail']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>ENTRY_TITLE</td>
-	<td>//span[@class='entry-title' and contains(.,'${key_mgDocumentTitle}')]</td>
+	<td>//div[contains(@title,'${key_mgDocumentTitle}')]//span/img</td>
 	<td></td>
 </tr>
 <tr>
@@ -67,7 +72,12 @@
 </tr>
 <tr>
 	<td>FOLDER_NAME</td>
-	<td>//span[@class='image-title' and contains(.,'${key_mgFolderName}')]</td>
+	<td>//span//a[@title='${key_mgFolderName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FOLDER_GENERIC</td>
+	<td>//li[@data-qa-id='row']//div[contains(@class,'card-row')]</td>
 	<td></td>
 </tr>
 <tr>

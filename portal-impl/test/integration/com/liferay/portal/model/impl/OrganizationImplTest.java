@@ -14,13 +14,12 @@
 
 package com.liferay.portal.model.impl;
 
+import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.model.Organization;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,7 @@ public class OrganizationImplTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,6 +57,7 @@ public class OrganizationImplTest {
 			false);
 
 		_organizations.add(_organization4);
+
 		_organizations.add(_organization3);
 		_organizations.add(_organization2);
 		_organizations.add(_organization1);
@@ -88,6 +87,21 @@ public class OrganizationImplTest {
 				_organization3.getOrganizationId()
 			},
 			_organization4.getAncestorOrganizationIds());
+	}
+
+	@Test
+	public void testGetDescendants() throws Exception {
+		Assert.assertEquals(3, _organization1.getDescendants().size());
+		Assert.assertEquals(2, _organization2.getDescendants().size());
+		Assert.assertEquals(1, _organization3.getDescendants().size());
+		Assert.assertEquals(0, _organization4.getDescendants().size());
+
+		List<Organization> organizations = _organization1.getDescendants();
+
+		Assert.assertTrue(organizations.contains(_organization2));
+		Assert.assertTrue(organizations.contains(_organization3));
+		Assert.assertTrue(organizations.contains(_organization4));
+		Assert.assertTrue(!organizations.contains(_organization1));
 	}
 
 	private Organization _organization1;

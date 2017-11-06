@@ -16,20 +16,21 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.CompanyModel;
+import com.liferay.portal.kernel.model.CompanySoap;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.CompanyModel;
-import com.liferay.portal.model.CompanySoap;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
@@ -92,7 +93,7 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 		TABLE_COLUMNS_MAP.put("active_", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Company (mvccVersion LONG default 0,companyId LONG not null primary key,accountId LONG,webId VARCHAR(75) null,key_ TEXT null,mx VARCHAR(75) null,homeURL STRING null,logoId LONG,system BOOLEAN,maxUsers INTEGER,active_ BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table Company (mvccVersion LONG default 0 not null,companyId LONG not null primary key,accountId LONG,webId VARCHAR(75) null,key_ TEXT null,mx VARCHAR(75) null,homeURL STRING null,logoId LONG,system BOOLEAN,maxUsers INTEGER,active_ BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Company";
 	public static final String ORDER_BY_JPQL = " ORDER BY company.companyId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Company.companyId ASC";
@@ -100,13 +101,13 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.Company"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.Company"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.Company"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.Company"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.Company"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.Company"),
 			true);
 	public static final long LOGOID_COLUMN_BITMASK = 1L;
 	public static final long MX_COLUMN_BITMASK = 2L;
@@ -163,7 +164,7 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.Company"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.Company"));
 
 	public CompanyModelImpl() {
 	}
@@ -435,6 +436,7 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 		return _system;
 	}
 
+	@JSON
 	@Override
 	public boolean isSystem() {
 		return _system;
@@ -474,6 +476,7 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 		return _active;
 	}
 
+	@JSON
 	@Override
 	public boolean isActive() {
 		return _active;
@@ -482,6 +485,14 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 	@Override
 	public void setActive(boolean active) {
 		_active = active;
+	}
+
+	public CompanyImpl.CompanySecurityBag getCompanySecurityBag() {
+		return null;
+	}
+
+	public void setCompanySecurityBag(
+		CompanyImpl.CompanySecurityBag companySecurityBag) {
 	}
 
 	public java.security.Key getKeyObj() {
@@ -614,6 +625,8 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 
 		companyModelImpl._setOriginalSystem = false;
 
+		setCompanySecurityBag(null);
+
 		setKeyObj(null);
 
 		setVirtualHostname(null);
@@ -671,6 +684,8 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 
 		companyCacheModel.active = getActive();
 
+		companyCacheModel._companySecurityBag = getCompanySecurityBag();
+
 		companyCacheModel._keyObj = getKeyObj();
 
 		companyCacheModel._virtualHostname = getVirtualHostname();
@@ -714,7 +729,7 @@ public class CompanyModelImpl extends BaseModelImpl<Company>
 		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.Company");
+		sb.append("com.liferay.portal.kernel.model.Company");
 		sb.append("</model-name>");
 
 		sb.append(

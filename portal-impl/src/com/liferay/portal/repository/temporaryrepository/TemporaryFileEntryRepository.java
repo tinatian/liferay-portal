@@ -14,20 +14,24 @@
 
 package com.liferay.portal.repository.temporaryrepository;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLAppHelperLocalService;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalService;
+import com.liferay.document.library.kernel.service.DLFileEntryService;
+import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
+import com.liferay.document.library.kernel.service.DLFileShortcutLocalService;
+import com.liferay.document.library.kernel.service.DLFileShortcutService;
+import com.liferay.document.library.kernel.service.DLFileVersionLocalService;
+import com.liferay.document.library.kernel.service.DLFileVersionService;
+import com.liferay.document.library.kernel.service.DLFolderLocalService;
+import com.liferay.document.library.kernel.service.DLFolderService;
+import com.liferay.petra.function.UnsafeSupplier;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.RepositoryLocalService;
+import com.liferay.portal.kernel.service.RepositoryService;
+import com.liferay.portal.kernel.service.ResourceLocalService;
+import com.liferay.portal.kernel.systemevent.SystemEventHierarchyEntryThreadLocal;
 import com.liferay.portal.repository.liferayrepository.LiferayRepository;
-import com.liferay.portal.service.RepositoryLocalService;
-import com.liferay.portal.service.RepositoryService;
-import com.liferay.portal.service.ResourceLocalService;
-import com.liferay.portlet.documentlibrary.service.DLAppHelperLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryService;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryTypeLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFileShortcutLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFileShortcutService;
-import com.liferay.portlet.documentlibrary.service.DLFileVersionLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFileVersionService;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalService;
-import com.liferay.portlet.documentlibrary.service.DLFolderService;
 
 /**
  * @author Iván Zaera
@@ -57,6 +61,106 @@ public class TemporaryFileEntryRepository extends LiferayRepository {
 			dlFileShortcutService, dlFileVersionLocalService,
 			dlFileVersionService, dlFolderLocalService, dlFolderService,
 			resourceLocalService, groupId, repositoryId, dlFolderId);
+	}
+
+	@Override
+	public void deleteAll() {
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteAll();
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFileEntry(long fileEntryId) throws PortalException {
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFileEntry(fileEntryId);
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFileEntry(long folderId, String title)
+		throws PortalException {
+
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFileEntry(folderId, title);
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFileShortcut(long fileShortcutId) throws PortalException {
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFileShortcut(fileShortcutId);
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFileShortcuts(long toFileEntryId) throws PortalException {
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFileShortcuts(toFileEntryId);
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFileVersion(long fileEntryId, String version)
+		throws PortalException {
+
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFileVersion(fileEntryId, version);
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFolder(long folderId) throws PortalException {
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFolder(folderId);
+
+				return null;
+			});
+	}
+
+	@Override
+	public void deleteFolder(long parentFolderId, String name)
+		throws PortalException {
+
+		_runWithoutSystemEvents(
+			() -> {
+				super.deleteFolder(parentFolderId, name);
+
+				return null;
+			});
+	}
+
+	private <T extends Throwable> void _runWithoutSystemEvents(
+			UnsafeSupplier<Void, T> unsafeSupplier)
+		throws T {
+
+		SystemEventHierarchyEntryThreadLocal.push(DLFileEntry.class);
+
+		try {
+			unsafeSupplier.get();
+		}
+		finally {
+			SystemEventHierarchyEntryThreadLocal.pop(DLFileEntry.class);
+		}
 	}
 
 }

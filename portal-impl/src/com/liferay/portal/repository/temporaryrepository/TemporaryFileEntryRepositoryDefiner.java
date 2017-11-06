@@ -60,6 +60,7 @@ public class TemporaryFileEntryRepositoryDefiner extends BaseRepositoryDefiner {
 			new LiferayBulkOperationCapability(
 				documentRepository, dlFileEntryServiceAdapter,
 				DLFolderServiceAdapter.create(documentRepository)));
+
 		capabilityRegistry.addExportedCapability(
 			TemporaryFileEntriesCapability.class,
 			new TemporaryFileEntriesCapabilityImpl(documentRepository));

@@ -17,6 +17,7 @@ package com.liferay.util.xml;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.util.xml.descriptor.XMLDescriptor;
@@ -87,7 +88,7 @@ public class XMLMergerRunner {
 		String header = xml.substring(pos, xml.indexOf("?>", pos) + 2);
 
 		xml = StringUtil.replace(xml, header, "");
-		xml = header + "\n" + docType + "\n" + xml;
+		xml = StringBundler.concat(header, "\n", docType, "\n", xml);
 
 		return xml;
 	}
@@ -103,6 +104,7 @@ public class XMLMergerRunner {
 		if (pos >= 0) {
 			masterDoctype = masterXml.substring(
 				pos, masterXml.indexOf(">", pos) + 1);
+
 			masterXml = StringUtil.replace(masterXml, masterDoctype, "");
 		}
 
@@ -113,6 +115,7 @@ public class XMLMergerRunner {
 		if (pos >= 0) {
 			slaveDoctype = slaveXml.substring(
 				pos, slaveXml.indexOf(">", pos) + 1);
+
 			slaveXml = StringUtil.replace(slaveXml, slaveDoctype, "");
 		}
 

@@ -14,18 +14,18 @@
 
 package com.liferay.mail.messaging;
 
+import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.util.HookFactory;
+import com.liferay.petra.mail.MailEngine;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.security.auth.EmailAddressGenerator;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
-import com.liferay.portal.security.auth.EmailAddressGenerator;
 import com.liferay.portal.security.auth.EmailAddressGeneratorFactory;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.util.mail.MailEngine;
 
 import java.util.ArrayList;
 import java.util.List;

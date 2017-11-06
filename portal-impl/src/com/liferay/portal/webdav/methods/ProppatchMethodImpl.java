@@ -18,6 +18,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.WebDAVProps;
+import com.liferay.portal.kernel.service.WebDAVPropsLocalServiceUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
@@ -31,8 +33,6 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.Namespace;
 import com.liferay.portal.kernel.xml.QName;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.model.WebDAVProps;
-import com.liferay.portal.service.WebDAVPropsLocalServiceUtil;
 import com.liferay.portal.webdav.InvalidRequestException;
 import com.liferay.portal.webdav.LockException;
 import com.liferay.util.xml.Dom4jUtil;
@@ -64,6 +64,13 @@ public class ProppatchMethodImpl extends BasePropMethodImpl {
 			return HttpServletResponse.SC_BAD_REQUEST;
 		}
 		catch (LockException le) {
+
+			// LPS-52675
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(le, le);
+			}
+
 			return WebDAVUtil.SC_LOCKED;
 		}
 		catch (Exception e) {

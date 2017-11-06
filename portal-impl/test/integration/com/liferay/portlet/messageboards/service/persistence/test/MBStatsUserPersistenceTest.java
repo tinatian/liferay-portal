@@ -14,6 +14,12 @@
 
 package com.liferay.portlet.messageboards.service.persistence.test;
 
+import com.liferay.message.boards.kernel.exception.NoSuchStatsUserException;
+import com.liferay.message.boards.kernel.model.MBStatsUser;
+import com.liferay.message.boards.kernel.service.MBStatsUserLocalServiceUtil;
+import com.liferay.message.boards.kernel.service.persistence.MBStatsUserPersistence;
+import com.liferay.message.boards.kernel.service.persistence.MBStatsUserUtil;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -22,7 +28,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -31,12 +36,7 @@ import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
-
-import com.liferay.portlet.messageboards.NoSuchStatsUserException;
-import com.liferay.portlet.messageboards.model.MBStatsUser;
-import com.liferay.portlet.messageboards.service.MBStatsUserLocalServiceUtil;
-import com.liferay.portlet.messageboards.service.persistence.MBStatsUserPersistence;
-import com.liferay.portlet.messageboards.service.persistence.MBStatsUserUtil;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -119,6 +119,8 @@ public class MBStatsUserPersistenceTest {
 
 		newMBStatsUser.setGroupId(RandomTestUtil.nextLong());
 
+		newMBStatsUser.setCompanyId(RandomTestUtil.nextLong());
+
 		newMBStatsUser.setUserId(RandomTestUtil.nextLong());
 
 		newMBStatsUser.setMessageCount(RandomTestUtil.nextInt());
@@ -133,6 +135,8 @@ public class MBStatsUserPersistenceTest {
 			newMBStatsUser.getStatsUserId());
 		Assert.assertEquals(existingMBStatsUser.getGroupId(),
 			newMBStatsUser.getGroupId());
+		Assert.assertEquals(existingMBStatsUser.getCompanyId(),
+			newMBStatsUser.getCompanyId());
 		Assert.assertEquals(existingMBStatsUser.getUserId(),
 			newMBStatsUser.getUserId());
 		Assert.assertEquals(existingMBStatsUser.getMessageCount(),
@@ -196,8 +200,8 @@ public class MBStatsUserPersistenceTest {
 
 	protected OrderByComparator<MBStatsUser> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("MBStatsUser",
-			"statsUserId", true, "groupId", true, "userId", true,
-			"messageCount", true, "lastPostDate", true);
+			"statsUserId", true, "groupId", true, "companyId", true, "userId",
+			true, "messageCount", true, "lastPostDate", true);
 	}
 
 	@Test
@@ -414,6 +418,8 @@ public class MBStatsUserPersistenceTest {
 		MBStatsUser mbStatsUser = _persistence.create(pk);
 
 		mbStatsUser.setGroupId(RandomTestUtil.nextLong());
+
+		mbStatsUser.setCompanyId(RandomTestUtil.nextLong());
 
 		mbStatsUser.setUserId(RandomTestUtil.nextLong());
 

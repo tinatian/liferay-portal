@@ -23,9 +23,10 @@ import com.liferay.portal.kernel.process.ClassPathUtil;
 import com.liferay.portal.kernel.process.ProcessCallable;
 import com.liferay.portal.kernel.process.ProcessChannel;
 import com.liferay.portal.kernel.process.ProcessException;
-import com.liferay.portal.kernel.process.ProcessExecutorUtil;
+import com.liferay.portal.kernel.process.ProcessExecutor;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.ServiceProxyFactory;
 import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
@@ -37,7 +38,6 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.pdfbox.exceptions.CryptographyException;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
@@ -80,9 +80,8 @@ public class TikaRawMetadataProcessor extends XugglerRawMetadataProcessor {
 		catch (Exception e) {
 			Throwable throwable = ExceptionUtils.getRootCause(e);
 
-			if ((throwable instanceof CryptographyException) ||
-				(throwable instanceof EncryptedDocumentException) ||
-				(throwable instanceof UnsupportedZipFeatureException)) {
+			if (throwable instanceof EncryptedDocumentException ||
+				throwable instanceof UnsupportedZipFeatureException) {
 
 				if (_log.isWarnEnabled()) {
 					_log.warn(
@@ -132,7 +131,7 @@ public class TikaRawMetadataProcessor extends XugglerRawMetadataProcessor {
 
 			try {
 				ProcessChannel<Metadata> processChannel =
-					ProcessExecutorUtil.execute(
+					_processExecutor.execute(
 						ClassPathUtil.getPortalProcessConfig(),
 						extractMetadataProcessCallable);
 
@@ -175,6 +174,11 @@ public class TikaRawMetadataProcessor extends XugglerRawMetadataProcessor {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		TikaRawMetadataProcessor.class);
+
+	private static volatile ProcessExecutor _processExecutor =
+		ServiceProxyFactory.newServiceTrackedInstance(
+			ProcessExecutor.class, TikaRawMetadataProcessor.class,
+			"_processExecutor", true);
 
 	private Parser _parser;
 

@@ -14,22 +14,24 @@
 
 package com.liferay.portal.increment;
 
-import com.liferay.portal.kernel.cache.Lifecycle;
-import com.liferay.portal.kernel.cache.ThreadLocalCacheManager;
+import com.liferay.petra.lang.CentralizedThreadLocal;
+import com.liferay.portal.kernel.cache.thread.local.Lifecycle;
+import com.liferay.portal.kernel.cache.thread.local.ThreadLocalCacheManager;
 import com.liferay.portal.kernel.concurrent.BatchablePipe;
 import com.liferay.portal.kernel.increment.Increment;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.CentralizedThreadLocal;
-import com.liferay.portal.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 
 import java.io.Serializable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author Shuyang Zhou
+ * @author     Shuyang Zhou
+ * @deprecated As of 7.0.0, with no direct replacement
  */
+@Deprecated
 public class BufferedIncrementRunnable implements Runnable {
 
 	public BufferedIncrementRunnable(
@@ -67,7 +69,8 @@ public class BufferedIncrementRunnable implements Runnable {
 			}
 			catch (Throwable t) {
 				_log.error(
-					"Unable to write buffered increment value to the database",
+					"Unable to persist buffered increment value: " +
+						bufferedIncreasableEntry,
 					t);
 			}
 

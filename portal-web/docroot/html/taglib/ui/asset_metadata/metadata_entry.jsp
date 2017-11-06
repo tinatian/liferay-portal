@@ -22,8 +22,7 @@ AssetRenderer<?> assetRenderer = (AssetRenderer<?>)request.getAttribute("liferay
 boolean filterByMetadata = GetterUtil.getBoolean(request.getAttribute("liferay-ui:asset-metadata:filterByMetadata"));
 String metadataField = (String)request.getAttribute("liferay-ui:asset-metadata:metadataField");
 
-String iconCssClass = StringPool.BLANK;
-String label = LanguageUtil.get(request, metadataField);
+String label = LanguageUtil.get(resourceBundle, metadataField);
 String metadataFieldCssClass = "metadata-" + metadataField;
 boolean showLabel = true;
 String value = null;
@@ -42,12 +41,9 @@ else if (metadataField.equals("categories")) {
 	}
 }
 else if (metadataField.equals("create-date")) {
-	iconCssClass = "icon-calendar";
 	value = dateFormatDate.format(assetEntry.getCreateDate());
 }
 else if (metadataField.equals("expiration-date")) {
-	iconCssClass = "icon-calendar";
-
 	if (assetEntry.getExpirationDate() == null) {
 		value = StringPool.BLANK;
 	}
@@ -56,16 +52,12 @@ else if (metadataField.equals("expiration-date")) {
 	}
 }
 else if (metadataField.equals("modified-date")) {
-	iconCssClass = "icon-calendar";
 	value = dateFormatDate.format(assetEntry.getModifiedDate());
 }
 else if (metadataField.equals("priority")) {
-	iconCssClass = "icon-long-arrow-up";
-	value = LanguageUtil.get(request, "priority") + StringPool.COLON + StringPool.SPACE + assetEntry.getPriority();
+	value = LanguageUtil.get(resourceBundle, "priority") + StringPool.COLON + StringPool.SPACE + assetEntry.getPriority();
 }
 else if (metadataField.equals("publish-date")) {
-	iconCssClass = "icon-calendar";
-
 	if (assetEntry.getPublishDate() == null) {
 		value = StringPool.BLANK;
 	}
@@ -85,12 +77,12 @@ else if (metadataField.equals("tags")) {
 else if (metadataField.equals("view-count")) {
 	int viewCount = assetEntry.getViewCount();
 
-	value = viewCount + StringPool.SPACE + LanguageUtil.get(request, (viewCount == 1) ? "view" : "views");
+	value = viewCount + StringPool.SPACE + LanguageUtil.get(resourceBundle, (viewCount == 1) ? "view" : "views");
 }
 %>
 
 <c:choose>
-	<c:when test='<%= Validator.equals(value, "author") %>'>
+	<c:when test='<%= Objects.equals(value, "author") %>'>
 
 		<%
 		User assetRendererUser = UserLocalServiceUtil.getUser(assetRenderer.getUserId());
@@ -107,21 +99,23 @@ else if (metadataField.equals("view-count")) {
 
 		<div class="metadata-author">
 			<div class="asset-avatar">
-				<img alt="<%= HtmlUtil.escapeAttribute(assetRendererUser.getFullName()) %>" class="avatar img-circle" src="<%= HtmlUtil.escape(assetRendererUser.getPortraitURL(themeDisplay)) %>" />
+				<liferay-ui:user-portrait
+					user="<%= assetRendererUser %>"
+				/>
 			</div>
 
 			<div class="asset-user-info">
-				<span class="user-info"><%= assetRendererUser.getFullName() %></span>
+				<span class="user-info"><%= HtmlUtil.escape(assetRendererUser.getFullName()) %></span>
 
 				<span class="date-info"><%= displayDate %></span>
 			</div>
 		</div>
 	</c:when>
 	<c:when test="<%= Validator.isNotNull(value) %>">
-		<aui:column cssClass="help-block">
+		<aui:col cssClass="help-block" md="3" sm="4" xs="6">
 			<dt class="metadata-entry-label <%= showLabel ? StringPool.BLANK : "hide" %>"><%= label %></dt>
 
-			<dd class="metadata-entry <%= metadataFieldCssClass %> <%= iconCssClass %>">
+			<dd class="metadata-entry <%= metadataFieldCssClass %>">
 				<c:choose>
 					<c:when test='<%= value.equals("categories") %>'>
 						<liferay-ui:asset-categories-summary
@@ -142,6 +136,6 @@ else if (metadataField.equals("view-count")) {
 					</c:otherwise>
 				</c:choose>
 			</dd>
-		</aui:column>
+		</aui:col>
 	</c:when>
 </c:choose>

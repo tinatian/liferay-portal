@@ -18,10 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.LayoutPrototypeServiceUtil;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-import com.liferay.portal.security.auth.HttpPrincipal;
-import com.liferay.portal.service.LayoutPrototypeServiceUtil;
 
 /**
  * Provides the HTTP utility for the
@@ -53,11 +54,12 @@ import com.liferay.portal.service.LayoutPrototypeServiceUtil;
  */
 @ProviderType
 public class LayoutPrototypeServiceHttp {
-	public static com.liferay.portal.model.LayoutPrototype addLayoutPrototype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype addLayoutPrototype(
 		HttpPrincipal httpPrincipal,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
-		boolean active, com.liferay.portal.service.ServiceContext serviceContext)
+		boolean active,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
@@ -79,7 +81,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutPrototype)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -88,49 +90,15 @@ public class LayoutPrototypeServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.model.LayoutPrototype addLayoutPrototype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype addLayoutPrototype(
 		HttpPrincipal httpPrincipal,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
-		java.lang.String description, boolean active)
+		java.lang.String description, boolean active,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
 					"addLayoutPrototype", _addLayoutPrototypeParameterTypes1);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, nameMap,
-					description, active);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static com.liferay.portal.model.LayoutPrototype addLayoutPrototype(
-		HttpPrincipal httpPrincipal,
-		java.util.Map<java.util.Locale, java.lang.String> nameMap,
-		java.lang.String description, boolean active,
-		com.liferay.portal.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
-					"addLayoutPrototype", _addLayoutPrototypeParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, nameMap,
 					description, active, serviceContext);
@@ -148,7 +116,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutPrototype)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -163,7 +131,7 @@ public class LayoutPrototypeServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
 					"deleteLayoutPrototype",
-					_deleteLayoutPrototypeParameterTypes3);
+					_deleteLayoutPrototypeParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					layoutPrototypeId);
@@ -186,12 +154,12 @@ public class LayoutPrototypeServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.model.LayoutPrototype fetchLayoutPrototype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype fetchLayoutPrototype(
 		HttpPrincipal httpPrincipal, long layoutPrototypeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
-					"fetchLayoutPrototype", _fetchLayoutPrototypeParameterTypes4);
+					"fetchLayoutPrototype", _fetchLayoutPrototypeParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					layoutPrototypeId);
@@ -209,7 +177,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutPrototype)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -218,12 +186,12 @@ public class LayoutPrototypeServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.model.LayoutPrototype getLayoutPrototype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype getLayoutPrototype(
 		HttpPrincipal httpPrincipal, long layoutPrototypeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
-					"getLayoutPrototype", _getLayoutPrototypeParameterTypes5);
+					"getLayoutPrototype", _getLayoutPrototypeParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					layoutPrototypeId);
@@ -241,7 +209,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutPrototype)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -250,13 +218,13 @@ public class LayoutPrototypeServiceHttp {
 		}
 	}
 
-	public static java.util.List<com.liferay.portal.model.LayoutPrototype> search(
+	public static java.util.List<com.liferay.portal.kernel.model.LayoutPrototype> search(
 		HttpPrincipal httpPrincipal, long companyId, java.lang.Boolean active,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.model.LayoutPrototype> obc)
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.LayoutPrototype> obc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
-					"search", _searchParameterTypes6);
+					"search", _searchParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					companyId, active, obc);
@@ -274,7 +242,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (java.util.List<com.liferay.portal.model.LayoutPrototype>)returnObj;
+			return (java.util.List<com.liferay.portal.kernel.model.LayoutPrototype>)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -283,16 +251,17 @@ public class LayoutPrototypeServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.model.LayoutPrototype updateLayoutPrototype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype updateLayoutPrototype(
 		HttpPrincipal httpPrincipal, long layoutPrototypeId,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.util.Map<java.util.Locale, java.lang.String> descriptionMap,
-		boolean active, com.liferay.portal.service.ServiceContext serviceContext)
+		boolean active,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
 					"updateLayoutPrototype",
-					_updateLayoutPrototypeParameterTypes7);
+					_updateLayoutPrototypeParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					layoutPrototypeId, nameMap, descriptionMap, active,
@@ -311,7 +280,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutPrototype)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -320,51 +289,16 @@ public class LayoutPrototypeServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.model.LayoutPrototype updateLayoutPrototype(
-		HttpPrincipal httpPrincipal, long layoutPrototypeId,
-		java.util.Map<java.util.Locale, java.lang.String> nameMap,
-		java.lang.String description, boolean active)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
-					"updateLayoutPrototype",
-					_updateLayoutPrototypeParameterTypes8);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					layoutPrototypeId, nameMap, description, active);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static com.liferay.portal.model.LayoutPrototype updateLayoutPrototype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype updateLayoutPrototype(
 		HttpPrincipal httpPrincipal, long layoutPrototypeId,
 		java.util.Map<java.util.Locale, java.lang.String> nameMap,
 		java.lang.String description, boolean active,
-		com.liferay.portal.service.ServiceContext serviceContext)
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutPrototypeServiceUtil.class,
 					"updateLayoutPrototype",
-					_updateLayoutPrototypeParameterTypes9);
+					_updateLayoutPrototypeParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					layoutPrototypeId, nameMap, description, active,
@@ -383,7 +317,7 @@ public class LayoutPrototypeServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.model.LayoutPrototype)returnObj;
+			return (com.liferay.portal.kernel.model.LayoutPrototype)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -395,38 +329,32 @@ public class LayoutPrototypeServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(LayoutPrototypeServiceHttp.class);
 	private static final Class<?>[] _addLayoutPrototypeParameterTypes0 = new Class[] {
 			java.util.Map.class, java.util.Map.class, boolean.class,
-			com.liferay.portal.service.ServiceContext.class
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _addLayoutPrototypeParameterTypes1 = new Class[] {
-			java.util.Map.class, java.lang.String.class, boolean.class
-		};
-	private static final Class<?>[] _addLayoutPrototypeParameterTypes2 = new Class[] {
 			java.util.Map.class, java.lang.String.class, boolean.class,
-			com.liferay.portal.service.ServiceContext.class
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
-	private static final Class<?>[] _deleteLayoutPrototypeParameterTypes3 = new Class[] {
+	private static final Class<?>[] _deleteLayoutPrototypeParameterTypes2 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _fetchLayoutPrototypeParameterTypes4 = new Class[] {
+	private static final Class<?>[] _fetchLayoutPrototypeParameterTypes3 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _getLayoutPrototypeParameterTypes5 = new Class[] {
+	private static final Class<?>[] _getLayoutPrototypeParameterTypes4 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _searchParameterTypes6 = new Class[] {
+	private static final Class<?>[] _searchParameterTypes5 = new Class[] {
 			long.class, java.lang.Boolean.class,
 			com.liferay.portal.kernel.util.OrderByComparator.class
 		};
-	private static final Class<?>[] _updateLayoutPrototypeParameterTypes7 = new Class[] {
+	private static final Class<?>[] _updateLayoutPrototypeParameterTypes6 = new Class[] {
 			long.class, java.util.Map.class, java.util.Map.class, boolean.class,
-			com.liferay.portal.service.ServiceContext.class
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
-	private static final Class<?>[] _updateLayoutPrototypeParameterTypes8 = new Class[] {
+	private static final Class<?>[] _updateLayoutPrototypeParameterTypes7 = new Class[] {
 			long.class, java.util.Map.class, java.lang.String.class,
-			boolean.class
-		};
-	private static final Class<?>[] _updateLayoutPrototypeParameterTypes9 = new Class[] {
-			long.class, java.util.Map.class, java.lang.String.class,
-			boolean.class, com.liferay.portal.service.ServiceContext.class
+			boolean.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 }

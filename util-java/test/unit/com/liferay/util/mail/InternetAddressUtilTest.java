@@ -14,6 +14,8 @@
 
 package com.liferay.util.mail;
 
+import java.util.Arrays;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
@@ -23,7 +25,11 @@ import org.junit.Test;
 
 /**
  * @author Miguel Pastor
+ * @see    com.liferay.petra.mail.InternetAddressUtilTest
+ * @deprecated As of 7.0.0, replaced by {@link
+ *             com.liferay.petra.mail.InternetAddressUtilTest}
  */
+@Deprecated
 public class InternetAddressUtilTest {
 
 	@Before
@@ -64,7 +70,8 @@ public class InternetAddressUtilTest {
 		InternetAddress[] internetAddresses = InternetAddressUtil.removeEntry(
 			_internetAddresses, "1@liferay.com");
 
-		Assert.assertEquals(10, internetAddresses.length);
+		Assert.assertEquals(
+			Arrays.toString(internetAddresses), 10, internetAddresses.length);
 	}
 
 	@Test
@@ -73,7 +80,9 @@ public class InternetAddressUtilTest {
 			InternetAddressUtil.removeEntry(
 				_internetAddresses, "12@liferay.com");
 
-		Assert.assertEquals(11, restOfInternetAddresses.length);
+		Assert.assertEquals(
+			Arrays.toString(restOfInternetAddresses), 11,
+			restOfInternetAddresses.length);
 	}
 
 	@Test

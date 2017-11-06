@@ -14,117 +14,197 @@
 
 package com.liferay.portal.upgrade.v7_0_0;
 
-import com.liferay.portal.kernel.dao.jdbc.DataAccess;
+import com.liferay.portal.kernel.model.dao.ReleaseDAO;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
-import com.liferay.portal.model.ReleaseConstants;
+import com.liferay.portal.kernel.util.LoggingTimer;
+import com.liferay.portal.kernel.util.StringBundler;
 
-import java.sql.Connection;
+import java.io.IOException;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.SQLException;
 
 /**
- * @author Miguel Pastor
+ * @author Roberto Díaz
  */
 public class UpgradeModules extends UpgradeProcess {
 
-	@Override
-	protected void doUpgrade() throws Exception {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+	public String[] getBundleSymbolicNames() {
+		return _BUNDLE_SYMBOLIC_NAMES;
+	}
 
-		try {
-			con = DataAccess.getUpgradeOptimizedConnection();
+	public String[][] getConvertedLegacyModules() {
+		return _CONVERTED_LEGACY_MODULES;
+	}
 
-			ps = con.prepareStatement(
-				"insert into Release_ values  (?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-					"?, ?)");
+	protected void addRelease(String... bundleSymbolicNames)
+		throws SQLException {
 
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		ReleaseDAO releaseDAO = new ReleaseDAO();
 
-			for (String bundleSymbolicName : _bundleSymbolicNames) {
-				ps.setLong(1, increment());
-				ps.setTimestamp(2, timestamp);
-				ps.setTimestamp(3, timestamp);
-				ps.setString(4, bundleSymbolicName);
-				ps.setInt(5, 001);
-				ps.setTimestamp(6, timestamp);
-				ps.setInt(7, 1);
-				ps.setInt(8, 0);
-				ps.setString(9, ReleaseConstants.TEST_STRING);
-				ps.setString(10, "0.0.1");
-				ps.setLong(11, 0);
-
-				ps.addBatch();
-			}
-
-			ps.executeBatch();
-		}
-		finally {
-			DataAccess.cleanUp(con, ps, rs);
+		for (String bundleSymbolicName : bundleSymbolicNames) {
+			releaseDAO.addRelease(connection, bundleSymbolicName);
 		}
 	}
 
-	private static final String[] _bundleSymbolicNames = new String[] {
-		"com.liferay.amazon.rankings.web", "com.liferay.announcements.web",
-		"com.liferay.asset.browser.web",
-		"com.liferay.asset.categories.admin.web",
+	@Override
+	protected void doUpgrade() throws Exception {
+		updateExtractedModules();
+
+		updateConvertedLegacyModules();
+	}
+
+	protected boolean hasServiceComponent(String buildNamespace)
+		throws SQLException {
+
+		try (PreparedStatement ps = connection.prepareStatement(
+				"select serviceComponentId from ServiceComponent where " +
+					"buildNamespace = ?")) {
+
+			ps.setString(1, buildNamespace);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	protected void updateConvertedLegacyModules()
+		throws IOException, SQLException {
+
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			for (String[] convertedLegacyModule : getConvertedLegacyModules()) {
+				String oldServletContextName = convertedLegacyModule[0];
+				String newServletContextName = convertedLegacyModule[1];
+				String buildNamespace = convertedLegacyModule[2];
+
+				try (PreparedStatement ps = connection.prepareStatement(
+						"select servletContextName, buildNumber from " +
+							"Release_ where servletContextName = ?")) {
+
+					ps.setString(1, oldServletContextName);
+
+					try (ResultSet rs = ps.executeQuery()) {
+						if (!rs.next()) {
+							if (hasServiceComponent(buildNamespace)) {
+								addRelease(newServletContextName);
+							}
+						}
+						else {
+							updateServletContextName(
+								oldServletContextName, newServletContextName);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	protected void updateExtractedModules() throws SQLException {
+		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			addRelease(getBundleSymbolicNames());
+		}
+	}
+
+	protected void updateServletContextName(
+			String oldServletContextName, String newServletContextName)
+		throws IOException, SQLException {
+
+		runSQL(
+			StringBundler.concat(
+				"update Release_ set servletContextName = '",
+				newServletContextName, "' where servletContextName = '",
+				oldServletContextName, "'"));
+	}
+
+	private static final String[] _BUNDLE_SYMBOLIC_NAMES = {
+		"com.liferay.amazon.rankings.web", "com.liferay.asset.browser.web",
 		"com.liferay.asset.categories.navigation.web",
-		"com.liferay.asset.publisher.web", "com.liferay.asset.tags.admin.web",
+		"com.liferay.asset.publisher.web",
 		"com.liferay.asset.tags.compiler.web",
 		"com.liferay.asset.tags.navigation.web",
 		"com.liferay.blogs.recent.bloggers.web", "com.liferay.blogs.web",
 		"com.liferay.bookmarks.service", "com.liferay.bookmarks.web",
-		"com.liferay.calendar.service", "com.liferay.calendar.web",
-		"com.liferay.comment.page.comments.web",
+		"com.liferay.calendar.web", "com.liferay.comment.page.comments.web",
 		"com.liferay.currency.converter.web", "com.liferay.dictionary.web",
+		"com.liferay.document.library.service",
 		"com.liferay.document.library.web",
 		"com.liferay.dynamic.data.lists.service",
 		"com.liferay.dynamic.data.lists.web",
-		"com.liferay.dynamic.data.mapping.service", "com.liferay.expando.web",
-		"com.liferay.exportimport.web", "com.liferay.flags.page.flags.web",
-		"com.liferay.hello.velocity.web", "com.liferay.iframe.web",
+		"com.liferay.dynamic.data.mapping.service",
+		"com.liferay.exportimport.service", "com.liferay.exportimport.web",
+		"com.liferay.flags.web", "com.liferay.hello.velocity.web",
+		"com.liferay.hello.world.web", "com.liferay.iframe.web",
 		"com.liferay.invitation.web", "com.liferay.item.selector.web",
 		"com.liferay.journal.content.search.web",
 		"com.liferay.journal.content.web", "com.liferay.journal.service",
 		"com.liferay.journal.web", "com.liferay.layout.admin.web",
-		"com.liferay.layout.prototype.web",
-		"com.liferay.layout.set.prototype.web",
-		"com.liferay.loan.calculator.web", "com.liferay.marketplace.service",
-		"com.liferay.message.boards.web", "com.liferay.microblogs.service",
-		"com.liferay.microblogs.web", "com.liferay.mobile.device.rules.web",
-		"com.liferay.my.account.web", "com.liferay.nested.portlets.web",
-		"com.liferay.network.utilities.web",
-		"com.liferay.password.generator.web",
-		"com.liferay.password.policies.admin.web",
-		"com.liferay.plugins.admin.web", "com.liferay.polls.service",
+		"com.liferay.license.manager.web", "com.liferay.loan.calculator.web",
+		"com.liferay.login.web", "com.liferay.message.boards.web",
+		"com.liferay.mobile.device.rules.service",
+		"com.liferay.mobile.device.rules.web", "com.liferay.my.account.web",
+		"com.liferay.nested.portlets.web", "com.liferay.network.utilities.web",
+		"com.liferay.password.generator.web", "com.liferay.plugins.admin.web",
+		"com.liferay.polls.service",
+		"com.liferay.portal.background.task.service",
 		"com.liferay.portal.instances.web", "com.liferay.portal.lock.service",
+		"com.liferay.portal.scheduler.quartz", "com.liferay.portal.search.web",
 		"com.liferay.portal.settings.web",
-		"com.liferay.portal.workflow.kaleo.service",
-		"com.liferay.portlet.configuration.web", "com.liferay.portlet.css.web",
-		"com.liferay.quick.note.web.uprade;",
-		"com.liferay.ratings.page.ratings.web", "com.liferay.roles.admin.web",
-		"com.liferay.rss.web", "com.liferay.search.web",
+		"com.liferay.portlet.configuration.css.web",
+		"com.liferay.portlet.configuration.web",
+		"com.liferay.product.navigation.product.menu.web",
+		"com.liferay.quick.note.web", "com.liferay.ratings.page.ratings.web",
+		"com.liferay.rss.web", "com.liferay.server.admin.web",
 		"com.liferay.shopping.service", "com.liferay.shopping.web",
-		"com.liferay.site.admin.web", "com.liferay.site.browser.web",
-		"com.liferay.site.memberships.web", "com.liferay.site.my.sites.web",
+		"com.liferay.site.browser.web", "com.liferay.site.my.sites.web",
 		"com.liferay.site.navigation.breadcrumb.web",
 		"com.liferay.site.navigation.directory.web",
 		"com.liferay.site.navigation.language.web",
 		"com.liferay.site.navigation.menu.web",
 		"com.liferay.site.navigation.site.map.web",
-		"com.liferay.site.teams.web", "com.liferay.social.activities.web",
-		"com.liferay.social.activity.web",
+		"com.liferay.social.activities.web", "com.liferay.social.activity.web",
 		"com.liferay.social.group.statistics.web",
-		"com.liferay.social.networking.service",
 		"com.liferay.social.requests.web",
 		"com.liferay.social.user.statistics.web", "com.liferay.staging.bar.web",
 		"com.liferay.translator.web", "com.liferay.trash.web",
-		"com.liferay.unit.converter.web", "com.liferay.user.groups.admin.web",
-		"com.liferay.users.admin.web", "com.liferay.web.proxy.web",
+		"com.liferay.unit.converter.web", "com.liferay.web.proxy.web",
 		"com.liferay.wiki.service", "com.liferay.wiki.web",
 		"com.liferay.xsl.content.web"
+	};
+
+	private static final String[][] _CONVERTED_LEGACY_MODULES = {
+		{"calendar-portlet", "com.liferay.calendar.service", "Calendar"},
+		{"chat-portlet", "com.liferay.chat.service", "Chat"},
+		{"contacts-portlet", "com.liferay.contacts.service", "Contacts"},
+		{
+			"kaleo-designer-portlet",
+			"com.liferay.portal.workflow.kaleo.designer.service",
+			"KaleoDesigner"
+		},
+		{
+			"kaleo-forms-portlet",
+			"com.liferay.portal.workflow.kaleo.forms.service", "KaleoForms"
+		},
+		{"kaleo-web", "com.liferay.portal.workflow.kaleo.service", "Kaleo"},
+		{
+			"marketplace-portlet", "com.liferay.marketplace.service",
+			"Marketplace"
+		},
+		{"microblogs-portlet", "com.liferay.microblogs.service", "Microblogs"},
+		{
+			"private-messaging-portlet",
+			"com.liferay.social.privatemessaging.service", "PM"
+		},
+		{"so-portlet", "com.liferay.invitation.invite.members.service", "SO"},
+		{
+			"social-networking-portlet",
+			"com.liferay.social.networking.service", "SN"
+		}
 	};
 
 }

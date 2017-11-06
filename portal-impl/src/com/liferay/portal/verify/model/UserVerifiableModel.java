@@ -14,7 +14,8 @@
 
 package com.liferay.portal.verify.model;
 
-import com.liferay.portal.model.User;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.verify.model.VerifiableResourcedModel;
 
 /**
  * @author Brian Wing Shun Chan

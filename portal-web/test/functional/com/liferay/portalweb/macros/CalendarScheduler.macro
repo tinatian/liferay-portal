@@ -11,16 +11,12 @@
 		</if>
 	</command>
 
-	<command name="_gotoDetailsViaDialogBox">
-		<execute function="AssertClick" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_VIEW_DETAILS_BUTTON" value1="View Details" />
-
-		<execute function="SelectFrame" locator1="CalendarViewEventDetails#VIEW_EVENT_IFRAME" />
-	</command>
-
 	<command name="_selectSpecificEventCurrentDay">
 		<var name="key_eventTitle" value="${eventTitle}" />
 
-		<execute function="AssertClick#assertTextClickNoMouseOver" locator1="PGCalendar#SCHEDULER_REGULAR_EVENT_SPECIFIC_CURRENT_DAY_VIA_DAY_OR_WEEK_VIEW" value1="${eventTitle}" />
+		<execute function="ScrollWebElementIntoView" locator1="Calendar#SCHEDULER_REGULAR_EVENT_SPECIFIC_CURRENT_DAY_VIA_DAY_OR_WEEK_VIEW" />
+
+		<execute function="AssertClick#assertPartialTextClickAt" locator1="Calendar#SCHEDULER_REGULAR_EVENT_SPECIFIC_CURRENT_DAY_VIA_DAY_OR_WEEK_VIEW" value1="${eventTitle}" />
 	</command>
 
 	<command name="_viewCalendarViaDialogBox">
@@ -85,19 +81,35 @@
 		<execute macro="CalendarScheduler#saveEvent" />
 	</command>
 
+	<command name="addLocalizedEvent">
+		<execute macro="CalendarNavigator#gotoAddEventToday">
+			<var name="viewType" value="${viewType}" />
+			<var name="viewTypeUppercase" value="${viewTypeUppercase}" />
+		</execute>
+
+		<execute macro="CalendarScheduler#editTitle">
+			<var name="eventTitle" value="${eventTitle}" />
+		</execute>
+
+		<var name="key_saveButton" value="${saveButton}" />
+
+		<execute function="AssertClick" locator1="Button#SAVE_LOCALIZED" value1="${saveButton}" />
+	</command>
+
 	<command name="changeCalendar">
 		<execute macro="CalendarNavigator#gotoView">
 			<var name="viewType" value="Week" />
 		</execute>
 
-		<execute macro="CalendarScheduler#selectEvent">
+		<execute macro="CalendarScheduler#selectSpecificEvent">
 			<var name="eventTitle" value="${eventTitle}" />
-			<var name="eventType" value="${eventType}" />
 		</execute>
 
 		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_EVENT_TITLE" value1="${eventTitle}" />
 		<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_CALENDAR" value1="${calendarDefaultName}" />
+
 		<execute function="Select" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_CALENDAR" value1="${calendarName}" />
+
 		<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_CALENDAR" value1="${calendarName}" />
 
 		<execute macro="CalendarScheduler#saveEvent" />
@@ -105,13 +117,12 @@
 		<if>
 			<condition function="IsElementPresent" locator1="CalendarEditEvent#RECURRING_EVENT_DIALOG_BOX_HEADER" />
 			<then>
-				<execute function="AssertClick" locator1="CalendarEditEvent#ALL_EVENTS_IN_THE_SERIES_BUTTON" value1="All Events in the Series" />
+				<execute function="AssertClick" locator1="CalendarEditEvent#ENTIRE_SERIES_BUTTON" value1="Entire Series" />
 			</then>
 		</if>
 
-		<execute macro="CalendarScheduler#selectEvent">
+		<execute macro="CalendarScheduler#selectSpecificEvent">
 			<var name="eventTitle" value="${eventTitle}" />
-			<var name="eventType" value="${eventType}" />
 		</execute>
 
 		<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_CALENDAR" value1="${calendarName}" />
@@ -122,9 +133,8 @@
 			<var name="viewType" value="Day" />
 		</execute>
 
-		<execute macro="CalendarScheduler#selectEvent">
+		<execute macro="CalendarScheduler#selectSpecificEvent">
 			<var name="eventTitle" value="${eventTitle}" />
-			<var name="eventType" value="${eventType}" />
 		</execute>
 
 		<execute function="Type" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_EVENT_TITLE" value1="${eventTitleEdit}" />
@@ -144,7 +154,13 @@
 	</command>
 
 	<command name="gotoAddViaDayView">
-		<execute function="SikuliClick" locator1="PGCalendar#SCHEDULER_DAY_VIEW_PNG" />
+		<execute function="SikuliClick" locator1="Calendar#SCHEDULER_DAY_VIEW_PNG" />
+	</command>
+
+	<command name="gotoDetailsViaDialogBox">
+		<execute function="AssertClick" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_VIEW_DETAILS_BUTTON" value1="View Details" />
+
+		<execute function="SelectFrame" locator1="CalendarViewEventDetails#VIEW_EVENT_IFRAME" />
 	</command>
 
 	<command name="gotoEdit">
@@ -152,11 +168,30 @@
 			<var name="viewType" value="Week" />
 		</execute>
 
-		<execute macro="CalendarScheduler#selectEvent">
+		<execute macro="CalendarScheduler#selectSpecificEvent">
 			<var name="eventTitle" value="${eventTitle}" />
-			<var name="eventType" value="${eventType}" />
 		</execute>
 
+		<execute function="AssertClick" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_EDIT_BUTTON" value1="Edit" />
+
+		<execute function="SelectFrame" locator1="CalendarEditEvent#EDIT_EVENT_IFRAME" />
+	</command>
+
+	<command name="gotoEditSpecific">
+		<execute macro="CalendarNavigator#gotoView">
+			<var name="viewType" value="Week" />
+		</execute>
+
+		<execute macro="CalendarScheduler#selectSpecificEvent">
+			<var name="eventTitle" value="${eventTitle}" />
+		</execute>
+
+		<execute function="AssertClick" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_EDIT_BUTTON" value1="Edit" />
+
+		<execute function="SelectFrame" locator1="CalendarEditEvent#EDIT_EVENT_IFRAME" />
+	</command>
+
+	<command name="gotoEditViaDialogBox">
 		<execute function="AssertClick" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_EDIT_BUTTON" value1="Edit" />
 
 		<execute function="SelectFrame" locator1="CalendarEditEvent#EDIT_EVENT_IFRAME" />
@@ -166,32 +201,61 @@
 		<execute function="AssertClick" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_SAVE_BUTTON" value1="Save" />
 	</command>
 
-	<command name="selectCalendar">
-		<execute function="Select" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_CALENDAR" value1="${calendarName}" />
+	<command name="saveRepeatingEvent">
+		<execute macro="Button#clickSave" />
+
+		<execute function="AssertElementPresent" locator1="CalendarEditEvent#RECURRING_EVENT_DIALOG_BOX_HEADER" />
+
+		<var method="StringUtil#replace('${saveOption}', ' ', '_')" name="saveOptionPath" />
+
+		<var method="StringUtil#upperCase('${saveOptionPath}')" name="saveOptionPath" />
+
+		<execute function="AssertClick" locator1="CalendarEditEvent#${saveOptionPath}_BUTTON" value1="${saveOption}" />
+
+		<execute function="Refresh" />
+
+		<execute macro="Alert#viewSuccessMessage" />
 	</command>
 
-	<command name="selectEvent">
-		<var name="key_eventTitle" value="${eventTitle}" />
-
-		<if>
-			<equals arg1="${eventType}" arg2="All Day" />
-			<then>
-				<execute macro="CalendarScheduler#selectSpecificEvent">
-					<var name="eventTitle" value="${eventTitle}" />
-				</execute>
-			</then>
-			<else>
-				<execute macro="CalendarScheduler#_selectSpecificEventCurrentDay">
-					<var name="eventTitle" value="${eventTitle}" />
-				</execute>
-			</else>
-		</if>
+	<command name="selectCalendar">
+		<execute function="Select" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_CALENDAR" value1="${calendarName}" />
 	</command>
 
 	<command name="selectSpecificEvent">
 		<var name="key_eventTitle" value="${eventTitle}" />
 
-		<execute function="AssertClick#assertTextClickNoMouseOver" locator1="Calendar#SCHEDULER_EVENT_SPECIFIC" value1="${eventTitle}" />
+		<if>
+			<contains string="${eventTitle}" substring="All Day" />
+			<then>
+				<execute function="AssertClick#assertTextClickNoMouseOver" locator1="Calendar#SCHEDULER_EVENT_SPECIFIC_ALL_DAY" value1="${eventTitle}" />
+			</then>
+			<elseif>
+				<condition function="IsElementNotPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" />
+				<then>
+					<execute macro="CalendarNavigator#gotoView">
+						<var name="viewType" value="Week" />
+					</execute>
+
+					<if>
+						<not>
+							<condition function="IsElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_NOT_TODAY" />
+						</not>
+						<then>
+							<execute function="Click" locator1="Calendar#VIEW_NEXT_BUTTON" />
+						</then>
+					</if>
+
+					<execute function="ScrollWebElementIntoView" locator1="Calendar#SCHEDULER_VIEW_EVENT_NOT_TODAY" />
+
+					<execute function="AssertClick#assertPartialTextClickAt" locator1="Calendar#SCHEDULER_VIEW_EVENT_NOT_TODAY" value1="${eventTitle}" />
+				</then>
+			</elseif>
+			<else>
+				<execute function="ScrollWebElementIntoView" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" />
+
+				<execute function="AssertClick#assertPartialTextClickAt" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" value1="${eventTitle}" />
+			</else>
+		</if>
 	</command>
 
 	<command name="viewAgenda">
@@ -199,17 +263,16 @@
 			<var name="viewType" value="Agenda" />
 		</execute>
 
-		<var name="i" value="1" />
 		<var name="key_eventTitle" value="${eventTitle}" />
 
-		<while>
-			<condition function="IsElementPresent" locator1="xpath=(//div[contains(@class,'scheduler-view-agenda-event') and contains(@data-clientid,'scheduler-event')]//div[contains(.,'${key_eventTitle}')])[${i}]" />
+		<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_FIRST_EVENT_AGENDA_VIEW" value1="${eventTitle}" />
+
+		<if>
+			<equals arg1="${numberOfOccurrences}" arg2="2" />
 			<then>
-				<execute function="AssertElementPresent" locator1="xpath=(//div[contains(@class,'scheduler-view-agenda-event') and contains(@data-clientid,'scheduler-event')]//div[contains(.,'${key_eventTitle}')])[${i}]" />
-				<execute function="AssertTextEquals" locator1="xpath=(//div[contains(@class,'scheduler-view-agenda-event') and contains(@data-clientid,'scheduler-event')]//div[contains(.,'${key_eventTitle}')])[${i}]" value1="${eventTitle}" />
-				<var method="MathUtil#sum('${i}', '1')" name="i" />
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_LAST_EVENT_AGENDA_VIEW" value1="${eventTitle}" />
 			</then>
-		</while>
+		</if>
 
 		<execute function="AssertTextNotPresent" locator1="CalendarAgendaView#EMPTY_MESSAGE" value1="No events." />
 	</command>
@@ -221,22 +284,19 @@
 
 		<execute function="Pause" value1="1000" />
 
-		<var name="i" value="1" />
 		<var name="key_eventTitle" value="${eventTitle}" />
 
-		<while>
-			<condition function="IsElementPresent" locator1="xpath=(//td[contains(@class,'scheduler-view-day-table-col scheduler-view-day-table-colday scheduler-today')]//div[@class='scheduler-event-content' and contains(.,'${key_eventTitle}')])[${i}]" />
+		<if>
+			<condition function="IsElementNotPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" />
 			<then>
-				<if>
-					<condition function="IsElementPresent#isVisible" locator1="xpath=(//td[contains(@class,'scheduler-view-day-table-col scheduler-view-day-table-colday scheduler-today')]//div[@class='scheduler-event-content' and contains(.,'${key_eventTitle}')])[${i}]" />
-					<then>
-						<execute function="AssertTextEquals" locator1="xpath=(//td[contains(@class,'scheduler-view-day-table-col scheduler-view-day-table-colday scheduler-today')]//div[@class='scheduler-event-content' and contains(.,'${key_eventTitle}')])[${i}]" value1="${eventTitle}" />
+				<execute macro="CalendarNavigator#gotoNextDay" />
 
-						<var method="MathUtil#sum('${i}', '1')" name="i" />
-					</then>
-				</if>
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_EVENT_SPECIFIC" value1="${eventTitle}" />
 			</then>
-		</while>
+			<else>
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" value1="${eventTitle}" />
+			</else>
+		</if>
 	</command>
 
 	<command name="viewDefault">
@@ -264,12 +324,8 @@
 			<var name="viewType" value="Month" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
-			<var name="defaultURL" value="${defaultURL}" />
-			<var name="nodePort" value="${nodePort}" />
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
-			<var name="soDashboard" value="${soDashboard}" />
-			<var name="soPage" value="${soPage}" />
 		</execute>
 
 		<execute macro="CalendarScheduler#viewSpecificEventNotPresent">
@@ -361,8 +417,8 @@
 	</command>
 
 	<command name="viewEventTimesViaDialogBox">
-		<execute function="AssertTextEquals#assertPartialText" locator1="PGCalendar#SCHEDULER_EVENT_DIALOG_BOX_WHEN_FIELD" value1="${startDateTime}" />
-		<execute function="AssertTextEquals#assertPartialText" locator1="PGCalendar#SCHEDULER_EVENT_DIALOG_BOX_WHEN_FIELD" value1="${endDateTime}" />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_WHEN_FIELD" value1="${startDateTime}" />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_WHEN_FIELD" value1="${endDateTime}" />
 	</command>
 
 	<command name="viewEventTitleViaDialogBox">
@@ -378,10 +434,10 @@
 	</command>
 
 	<command name="viewEventUsersViaDialogBox">
-		<execute function="AssertTextEquals" locator1="PGCalendar#SCHEDULER_EVENT_DIALOG_BOX_USERS_LABEL" value1="Users:" />
+		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_USERS_LABEL" value1="Users:" />
 
 		<for list="${usersList}" param="user">
-			<execute function="AssertTextEquals#assertPartialText" locator1="PGCalendar#SCHEDULER_EVENT_DIALOG_BOX_USERS_FIELD" value1="${user}" />
+			<execute function="AssertTextEquals#assertPartialText" locator1="Calendar#SCHEDULER_EVENT_DIALOG_BOX_USERS_FIELD" value1="${user}" />
 		</for>
 	</command>
 
@@ -401,7 +457,7 @@
 			<var name="viewType" value="Day" />
 		</execute>
 
-		<execute function="AssertTextEquals" locator1="PGCalendar#SCHEDULER_VIEW_DAY_FIRST_HOUR" value1="${firstHour}" />
+		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_VIEW_DAY_FIRST_HOUR" value1="${firstHour}" />
 
 		<execute macro="CalendarNavigator#gotoView">
 			<var name="viewType" value="Week" />
@@ -415,7 +471,7 @@
 			<var name="viewType" value="Day" />
 		</execute>
 
-		<execute function="AssertTextEquals" locator1="PGCalendar#SCHEDULER_VIEW_DAY_LAST_HOUR" value1="${lastHour}" />
+		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_VIEW_DAY_LAST_HOUR" value1="${lastHour}" />
 
 		<execute macro="CalendarNavigator#gotoView">
 			<var name="viewType" value="Week" />
@@ -424,35 +480,44 @@
 		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_VIEW_WEEK_LAST_HOUR" value1="${lastHour}" />
 	</command>
 
+	<command name="viewLocalizedEvent">
+		<execute macro="CalendarNavigator#gotoView">
+			<var name="viewType" value="${viewTypeLocalized}" />
+		</execute>
+
+		<var name="key_eventTitle" value="${eventTitle}" />
+
+		<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_EVENT_SPECIFIC" value1="${eventTitle}" />
+	</command>
+
 	<command name="viewMonth">
 		<execute macro="CalendarNavigator#gotoView">
 			<var name="viewType" value="Month" />
 		</execute>
 
-		<var name="i" value="1" />
 		<var name="key_eventTitle" value="${eventTitle}" />
 
-		<while>
-			<condition function="IsElementPresent" locator1="xpath=(//div[contains(@class,'scheduler-view-table scheduler-view-month')]//div[contains(@class,'calendar-portlet-event')]/div[contains(.,'${key_eventTitle}')])[${i}]" />
+		<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_MONTH_VIEW" value1="${eventTitle}" />
+
+		<if>
+			<and>
+				<equals arg1="${numberOfOccurrences}" arg2="2" />
+				<equals arg1="${frequency}" arg2="Daily" />
+			</and>
 			<then>
-				<if>
-					<condition function="IsElementPresent#isVisible" locator1="xpath=(//div[contains(@class,'scheduler-view-table scheduler-view-month')]//div[contains(@class,'calendar-portlet-event')]/div[contains(.,'${key_eventTitle}')])[${i}]" />
-					<then>
-						<execute function="AssertTextEquals" locator1="xpath=(//div[contains(@class,'scheduler-view-table scheduler-view-month')]//div[contains(@class,'calendar-portlet-event')]/div[contains(.,'${key_eventTitle}')])[${i}]" value1="${eventTitle}" />
-
-						<var method="MathUtil#sum('${i}', '1')" name="i" />
-					</then>
-					<elseif>
-						<condition function="IsElementNotPresent#isNotVisible" locator1="xpath=(//div[contains(@class,'scheduler-view-table scheduler-view-month')]//div[contains(@class,'calendar-portlet-event')]/div[contains(.,'${key_eventTitle}')])[2]" />
-						<then>
-							<execute function="Click" locator1="Calendar#VIEW_NEXT_BUTTON"  />
-
-							<execute function="AssertTextEquals" locator1="xpath=(//div[contains(@class,'scheduler-view-table scheduler-view-month')]//div[contains(@class,'calendar-portlet-event')]/div[contains(.,'${key_eventTitle}')])[1]" value1="${eventTitle}" />
-						</then>
-					</elseif>
-				</if>
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_REPEATING_DAILY_REPEATED_EVENT_WEEK_AND_MONTH_VIEW" value1="${eventTitle}" />
 			</then>
-		</while>
+		</if>
+
+		<if>
+			<and>
+				<equals arg1="${numberOfOccurrences}" arg2="2" />
+				<equals arg1="${frequency}" arg2="Weekly" />
+			</and>
+			<then>
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_REPEATING_WEEKLY_REPEATED_EVENT_WEEK_AND_MONTH_VIEW" value1="${eventTitle}" />
+			</then>
+		</if>
 
 		<if>
 			<isset var="eventNumber" />
@@ -484,6 +549,7 @@
 	<command name="viewNoRSVP">
 		<execute macro="CalendarScheduler#selectSpecificEvent">
 			<var name="eventTitle" value="${eventTitle}" />
+			<var name="eventToday" value="${eventToday}" />
 		</execute>
 
 		<var name="key_rsvp" value="Yes" />
@@ -505,6 +571,7 @@
 	<command name="viewRSVP">
 		<execute macro="CalendarScheduler#selectSpecificEvent">
 			<var name="eventTitle" value="${eventTitle}" />
+			<var name="eventToday" value="${eventToday}" />
 		</execute>
 
 		<var name="key_rsvp" value="${rsvp}" />
@@ -515,18 +582,36 @@
 	<command name="viewSelectedView">
 		<var method="StringUtil#upperCase('${view}')" name="viewUppercase" />
 
-		<execute function="AssertElementPresent" locator1="PGCalendar#VIEW_${viewUppercase}_BUTTON_ACTIVE" />
-		<execute function="AssertElementPresent#assertVisible" locator1="PGCalendar#SCHEDULER_VIEW_${viewUppercase}" />
+		<execute function="AssertElementPresent" locator1="Calendar#VIEW_${viewUppercase}_BUTTON_ACTIVE" />
+		<execute function="AssertElementPresent#assertVisible" locator1="Calendar#SCHEDULER_VIEW_${viewUppercase}" />
 	</command>
 
 	<command name="viewShowMoreLocalizedViaDayView">
 		<execute function="AssertClick" locator1="Calendar#VIEW_DAY_BUTTON" value1="${viewTypeLocalized}" />
 
-		<execute function="Pause" locator1="5000" />
+		<execute function="Pause" locator1="10000" />
 
 		<var name="key_messageLocalized" value="${messageLocalized}" />
 
-		<execute function="AssertTextEquals" locator1="PGCalendar#SCHEDULER_VIEW_DAY_SHOW_MORE_LOCALIZED" value1="${messageLocalized}" />
+		<if>
+			<not>
+				<execute function="IsElementPresent" locator1="Calendar#SCHEDULER_VIEW_DAY_SHOW_MORE_LOCALIZED" />
+			</not>
+			<then>
+				<execute function="Click" locator1="Calendar#VIEW_NEXT_BUTTON" />
+			</then>
+		</if>
+
+		<if>
+			<not>
+				<execute function="IsElementPresent" locator1="Calendar#SCHEDULER_VIEW_DAY_SHOW_MORE_LOCALIZED" />
+			</not>
+			<then>
+				<execute function="Click" locator1="Calendar#VIEW_PREVIOUS_BUTTON" />
+			</then>
+		</if>
+
+		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_VIEW_DAY_SHOW_MORE_LOCALIZED" value1="${messageLocalized}" />
 	</command>
 
 	<command name="viewShowMoreLocalizedViaMonthView">
@@ -536,7 +621,7 @@
 
 		<var name="key_messageLocalized" value="${messageLocalized}" />
 
-		<execute function="AssertTextEquals" locator1="PGCalendar#SCHEDULER_VIEW_MONTH_SHOW_MORE_LOCALIZED" value1="${messageLocalized}" />
+		<execute function="AssertTextEquals" locator1="Calendar#SCHEDULER_VIEW_MONTH_SHOW_MORE_LOCALIZED" value1="${messageLocalized}" />
 	</command>
 
 	<command name="viewShowMoreLocalizedViaWeekView">
@@ -561,17 +646,27 @@
 			<var name="viewType" value="Week" />
 		</execute>
 
-		<var name="i" value="1" />
 		<var name="key_eventTitle" value="${eventTitle}" />
 
-		<while>
-			<condition function="IsElementPresent" locator1="//div[contains(@class,'calendar-portlet-event')]/div[${i}][contains(.,'${key_eventTitle}')]" />
+		<if>
+			<condition function="IsElementNotPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" />
 			<then>
-				<execute function="AssertElementPresent" locator1="//div[contains(@class,'calendar-portlet-event')]/div[${i}][contains(.,'${key_eventTitle}')]" />
-				<execute function="AssertTextEquals" locator1="//div[contains(@class,'calendar-portlet-event')]/div[${i}][contains(.,'${key_eventTitle}')]" value1="${eventTitle}" />
-				<var method="MathUtil#sum('${i}', '1')" name="i" />
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_EVENT_SPECIFIC" value1="${eventTitle}" />
 			</then>
-		</while>
+			<else>
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_DAY_AND_WEEK_VIEW" value1="${eventTitle}" />
+			</else>
+		</if>
+
+		<if>
+			<and>
+				<equals arg1="${numberOfOccurrences}" arg2="2" />
+				<equals arg1="${frequency}" arg2="Daily" />
+			</and>
+			<then>
+				<execute function="AssertElementPresent" locator1="Calendar#SCHEDULER_VIEW_EVENT_REPEATING_DAILY_REPEATED_EVENT_WEEK_AND_MONTH_VIEW" value1="${eventTitle}" />
+			</then>
+		</if>
 	</command>
 
 	<command name="viewWeekStartDayViaWeekView">

@@ -14,15 +14,15 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.EmailAddressException;
+import com.liferay.portal.kernel.exception.EmailAddressException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.EmailAddress;
+import com.liferay.portal.kernel.model.ListTypeConstants;
+import com.liferay.portal.kernel.model.SystemEventConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.EmailAddress;
-import com.liferay.portal.model.ListTypeConstants;
-import com.liferay.portal.model.SystemEventConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.base.EmailAddressLocalServiceBaseImpl;
 
 import java.util.List;
@@ -33,22 +33,6 @@ import java.util.List;
  */
 public class EmailAddressLocalServiceImpl
 	extends EmailAddressLocalServiceBaseImpl {
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #addEmailAddress(long,
-	 *             String, long, String, int, boolean, ServiceContext)}
-	 */
-	@Deprecated
-	@Override
-	public EmailAddress addEmailAddress(
-			long userId, String className, long classPK, String address,
-			long typeId, boolean primary)
-		throws PortalException {
-
-		return addEmailAddress(
-			userId, className, classPK, address, typeId, primary,
-			new ServiceContext());
-	}
 
 	@Override
 	public EmailAddress addEmailAddress(
@@ -195,7 +179,7 @@ public class EmailAddressLocalServiceImpl
 			classPK = emailAddress.getClassPK();
 		}
 
-		listTypeService.validate(
+		listTypeLocalService.validate(
 			typeId, classNameId, ListTypeConstants.EMAIL_ADDRESS);
 
 		validate(emailAddressId, companyId, classNameId, classPK, primary);

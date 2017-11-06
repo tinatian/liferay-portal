@@ -14,16 +14,20 @@
 
 package com.liferay.portal.security.permission;
 
+import com.liferay.portal.kernel.security.permission.PortletResourceActionsBag;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * @author László Csontos
+ * @author     László Csontos
+ * @deprecated As of 7.0.0, with no direct replacement
  */
-public class PortletResourceActionsBagImpl extends ResourceActionsBagImpl
-		implements PortletResourceActionsBag {
+@Deprecated
+public class PortletResourceActionsBagImpl
+	extends ResourceActionsBagImpl implements PortletResourceActionsBag {
 
 	public PortletResourceActionsBagImpl() {
 	}

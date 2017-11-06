@@ -14,12 +14,13 @@
 
 package com.liferay.portal.zip;
 
+import com.liferay.petra.memory.DeleteFileFinalizeAction;
+import com.liferay.petra.memory.FinalizeManager;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.memory.DeleteFileFinalizeAction;
-import com.liferay.portal.kernel.memory.FinalizeManager;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -43,8 +44,9 @@ public class ZipWriterImpl implements ZipWriter {
 
 	public ZipWriterImpl() {
 		_file = new File(
-			SystemProperties.get(SystemProperties.TMP_DIR) + StringPool.SLASH +
-				PortalUUIDUtil.generate() + ".zip");
+			StringBundler.concat(
+				SystemProperties.get(SystemProperties.TMP_DIR),
+				StringPool.SLASH, PortalUUIDUtil.generate(), ".zip"));
 
 		_file.mkdir();
 

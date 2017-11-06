@@ -40,6 +40,10 @@ public class InputDateTag extends BaseValidatorTagSupport {
 		_cssClass = cssClass;
 	}
 
+	public void setDateTogglerCheckboxLabel(String dateTogglerCheckboxLabel) {
+		_dateTogglerCheckboxLabel = dateTogglerCheckboxLabel;
+	}
+
 	public void setDayParam(String dayParam) {
 		_dayParam = dayParam;
 	}
@@ -92,6 +96,14 @@ public class InputDateTag extends BaseValidatorTagSupport {
 		_nullable = nullable;
 	}
 
+	public void setRequired(boolean required) {
+		_required = required;
+	}
+
+	public void setShowDisableCheckbox(boolean showDisableCheckbox) {
+		_showDisableCheckbox = showDisableCheckbox;
+	}
+
 	public void setYearParam(String yearParam) {
 		_yearParam = yearParam;
 	}
@@ -104,6 +116,7 @@ public class InputDateTag extends BaseValidatorTagSupport {
 	protected void cleanUp() {
 		_autoFocus = false;
 		_cssClass = null;
+		_dateTogglerCheckboxLabel = null;
 		_dayParam = null;
 		_dayValue = 0;
 		_disabled = false;
@@ -116,6 +129,8 @@ public class InputDateTag extends BaseValidatorTagSupport {
 		_monthParam = null;
 		_monthValue = -1;
 		_nullable = false;
+		_required = false;
+		_showDisableCheckbox = false;
 		_yearParam = null;
 		_yearValue = 0;
 	}
@@ -130,6 +145,9 @@ public class InputDateTag extends BaseValidatorTagSupport {
 		request.setAttribute(
 			"liferay-ui:input-date:autoFocus", String.valueOf(_autoFocus));
 		request.setAttribute("liferay-ui:input-date:cssClass", _cssClass);
+		request.setAttribute(
+			"liferay-ui:input-date:dateTogglerCheckboxLabel",
+			_dateTogglerCheckboxLabel);
 		request.setAttribute("liferay-ui:input-date:dayParam", _dayParam);
 		request.setAttribute(
 			"liferay-ui:input-date:dayValue", String.valueOf(_dayValue));
@@ -154,6 +172,11 @@ public class InputDateTag extends BaseValidatorTagSupport {
 		request.setAttribute("liferay-ui:input-date:name", _name);
 		request.setAttribute(
 			"liferay-ui:input-date:nullable", String.valueOf(_nullable));
+		request.setAttribute(
+			"liferay-ui:input-date:required", String.valueOf(_required));
+		request.setAttribute(
+			"liferay-ui:input-date:showDisableCheckbox",
+			String.valueOf(_showDisableCheckbox));
 		request.setAttribute("liferay-ui:input-date:yearParam", _yearParam);
 		request.setAttribute(
 			"liferay-ui:input-date:yearValue", String.valueOf(_yearValue));
@@ -163,6 +186,7 @@ public class InputDateTag extends BaseValidatorTagSupport {
 
 	private boolean _autoFocus;
 	private String _cssClass;
+	private String _dateTogglerCheckboxLabel;
 	private String _dayParam;
 	private int _dayValue;
 	private boolean _disabled;
@@ -176,6 +200,8 @@ public class InputDateTag extends BaseValidatorTagSupport {
 	private int _monthValue = -1;
 	private String _name;
 	private boolean _nullable;
+	private boolean _required;
+	private boolean _showDisableCheckbox;
 	private String _yearParam;
 	private int _yearValue;
 

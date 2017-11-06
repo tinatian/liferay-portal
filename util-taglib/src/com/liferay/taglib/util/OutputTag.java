@@ -17,7 +17,6 @@ package com.liferay.taglib.util;
 import com.liferay.portal.kernel.servlet.taglib.util.OutputData;
 import com.liferay.portal.kernel.util.ServerDetector;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -33,7 +32,12 @@ public class OutputTag extends PositionTagSupport {
 	public static StringBundler getData(
 		ServletRequest servletRequest, String webKey) {
 
-		OutputData outputData = _getOutputData(servletRequest);
+		OutputData outputData = (OutputData)servletRequest.getAttribute(
+			WebKeys.OUTPUT_DATA);
+
+		if (outputData == null) {
+			return null;
+		}
 
 		return outputData.getMergedData(webKey);
 	}
@@ -46,19 +50,10 @@ public class OutputTag extends PositionTagSupport {
 	public int doEndTag() throws JspException {
 		try {
 			if (_output) {
+				String bodyContentString =
+					getBodyContentAsStringBundler().toString();
+
 				if (isPositionInLine()) {
-					StringBundler replaceSb = new StringBundler(3);
-
-					replaceSb.append("<script data-outputkey=\"");
-					replaceSb.append(_outputKey);
-					replaceSb.append("\" ");
-
-					String bodyContentString =
-						getBodyContentAsStringBundler().toString();
-
-					bodyContentString = StringUtil.replace(
-						bodyContentString, "<script", replaceSb.toString());
-
 					JspWriter jspWriter = pageContext.getOut();
 
 					jspWriter.write(bodyContentString);
@@ -68,7 +63,8 @@ public class OutputTag extends PositionTagSupport {
 						pageContext.getRequest());
 
 					outputData.addData(
-						_outputKey, _webKey, getBodyContentAsStringBundler());
+						_outputKey, _webKey,
+						new StringBundler(bodyContentString));
 				}
 			}
 

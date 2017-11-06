@@ -15,6 +15,7 @@
 package com.liferay.taglib.ui;
 
 import com.liferay.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.taglib.util.IncludeTag;
 
@@ -57,25 +58,25 @@ public class SectionTag extends IncludeTag {
 			String sectionName = _tabsTag.getSectionName();
 			_sectionSelected = Boolean.valueOf(_tabsTag.getSectionSelected());
 			String sectionScroll = namespace + sectionParam + "TabsScroll";
-			String sectionRedirectParams =
-				"&scroll=" + sectionScroll + "&" + sectionParam + "=" +
-					sectionName;
+
+			String sectionRedirectParams = StringBundler.concat(
+				"&scroll=", sectionScroll, "&", sectionParam, "=", sectionName);
 
 			_tabsTag.incrementSection();
 
 			request.setAttribute("liferay-ui:section:data", _data);
-			request.setAttribute("liferay-ui:section:param", sectionParam);
 			request.setAttribute("liferay-ui:section:name", sectionName);
+			request.setAttribute("liferay-ui:section:param", sectionParam);
+			request.setAttribute("liferay-ui:section:scroll", sectionScroll);
 			request.setAttribute(
 				"liferay-ui:section:selected", _sectionSelected);
-			request.setAttribute("liferay-ui:section:scroll", sectionScroll);
 
-			pageContext.setAttribute("sectionSelected", _sectionSelected);
-			pageContext.setAttribute("sectionParam", sectionParam);
 			pageContext.setAttribute("sectionName", sectionName);
-			pageContext.setAttribute("sectionScroll", sectionScroll);
+			pageContext.setAttribute("sectionParam", sectionParam);
 			pageContext.setAttribute(
 				"sectionRedirectParams", sectionRedirectParams);
+			pageContext.setAttribute("sectionScroll", sectionScroll);
+			pageContext.setAttribute("sectionSelected", _sectionSelected);
 
 			include(getStartPage(), true);
 
@@ -128,6 +129,6 @@ public class SectionTag extends IncludeTag {
 
 	private Map<String, Object> _data;
 	private Boolean _sectionSelected = Boolean.FALSE;
-	private TabsTag _tabsTag = null;
+	private TabsTag _tabsTag;
 
 }

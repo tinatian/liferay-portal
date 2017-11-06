@@ -14,13 +14,13 @@
 
 package com.liferay.taglib.ui;
 
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.taglib.util.IncludeTag;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,10 +49,6 @@ public class AssetTagsSelectorTag extends IncludeTag {
 
 	public void setClassPK(long classPK) {
 		_classPK = classPK;
-	}
-
-	public void setContentCallback(String contentCallback) {
-		_contentCallback = contentCallback;
 	}
 
 	public void setCurTags(String curTags) {
@@ -86,7 +82,6 @@ public class AssetTagsSelectorTag extends IncludeTag {
 		_autoFocus = false;
 		_className = null;
 		_classPK = 0;
-		_contentCallback = null;
 		_curTags = null;
 		_groupIds = null;
 		_hiddenInput = "assetTagNames";
@@ -123,9 +118,6 @@ public class AssetTagsSelectorTag extends IncludeTag {
 			"liferay-ui:asset-tags-selector:className", _className);
 		request.setAttribute(
 			"liferay-ui:asset-tags-selector:classPK", String.valueOf(_classPK));
-		request.setAttribute(
-			"liferay-ui:asset-tags-selector:contentCallback",
-			String.valueOf(_contentCallback));
 		request.setAttribute(
 			"liferay-ui:asset-tags-selector:curTags", _curTags);
 		request.setAttribute(
@@ -174,7 +166,6 @@ public class AssetTagsSelectorTag extends IncludeTag {
 	private boolean _autoFocus;
 	private String _className;
 	private long _classPK;
-	private String _contentCallback;
 	private String _curTags;
 	private long[] _groupIds;
 	private String _hiddenInput = "assetTagNames";

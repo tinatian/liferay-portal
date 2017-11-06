@@ -1,166 +1,154 @@
 <definition component-name="portal-user-interface">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="User Interface" />
 
 	<var name="pageName" value="CKEditor Page" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="Page#tearDownPG" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
+
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="Page#tearDownPG" />
+			</else>
+		</if>
 	</tear-down>
 
-	<command name="AddWikiFrontPageWithImageViaAttachments" priority="4" >
-		<execute macro="Page#addPG">
+	<command name="AddBlogsEntryWithImageViaBlogsImages" priority="4">
+		<execute macro="Page#add">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Wiki" />
+			<var name="portletName" value="Blogs" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
-		<execute macro="WikiPage#gotoPG">
-			<var name="wikiPageTitle" value="FrontPage" />
+		<execute macro="Blogs#addEntryWithUploadedCoverImage">
+			<var name="coverImageName" value="Document_1" />
+			<var name="entryContent" value="Blogs Entry Content" />
+			<var name="entrySubtitle" value="Blogs Entry Subtitle" />
+			<var name="entryTitle" value="Blogs Entry Title" />
+			<var name="navTab" value="Upload Image" />
+			<var name="uploadFileName" value="Document_1.jpg" />
 		</execute>
 
-		<execute macro="WikiPage#addAttachmentViaPageDetailsPG">
-			<var name="attachmentFileName" value="Document_1.jpg" />
-			<var name="wikiPageTitle" value="FrontPage" />
+		<execute function="Pause" locator1="10000" />
+
+		<execute macro="BlogsEntry#saveAsDraft" />
+
+		<execute function="Click" locator1="BlogsEditEntry#DELETE_COVER_IMAGE_BUTTON" />
+
+		<execute function="Click#pauseClickAt" locator1="AlloyEditor#CONTENT_FIELD" />
+
+		<execute function="Click" locator1="AlloyEditor#CONTENT_ADD_BUTTON" />
+
+		<execute function="Click" locator1="AlloyEditor#CONTENT_ADD_MENUBAR_IMAGE" />
+
+		<execute macro="ItemSelector#selectBlogImage">
+			<var name="imageFileName" value="Document_1.jpg" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="${pageName}" />
+		<execute function="Pause" locator1="10000" />
+
+		<execute macro="PortletEntry#publish" />
+
+		<execute function="Refresh" />
+
+		<execute macro="BlogsNavigator#gotoEntryPG">
+			<var name="entryContent" value="Blogs Entry Content" />
+			<var name="entryTitle" value="Blogs Entry Title" />
 		</execute>
 
-		<execute function="AssertClick" locator1="Wiki#FRONTPAGE_DEFAULT_MESSAGE" value1="This page is empty. Edit it to add some text." />
-
-		<execute function="AssertClick" locator1="Wiki#PAGE_TABS_CONTENT" value1="Content" />
-
-		<execute macro="DMDocument#linkImage">
-			<var name="documentName" value="Document_1.jpg" />
-		</execute>
-
-		<execute function="AssertClick#assertTextClickAtAndWaitCKEditor" locator1="Button#PUBLISH" value1="Publish" />
-
-		<var name="key_htmlTags" value="p/img[contains(@src,'Document_1.jpg')]" />
-
-		<execute function="AssertElementPresent" locator1="Wiki#HTML_BODY" />
+		<execute function="AssertElementPresent" locator1="//div[contains(@class,'entry-content')]/p/img[contains(@src,'Document_1.jpg')]" />
 	</command>
 
-	<command name="AddWikiFrontPageWithImageViaURL" priority="4">
-		<execute macro="Page#addPG">
-			<var name="pageName" value="${pageName}" />
+	<command name="AddWebContentArticleWithImageViaURL" priority="4">
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Wiki" />
+		<execute macro="WebContentNavigator#gotoAddCP" />
+
+		<execute macro="PortletEntry#inputTitle">
+			<var name="title" value="Web Content Title" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="${pageName}" />
+		<execute function="Click#pauseClickAt" locator1="AlloyEditor#CONTENT_FIELD" />
+
+		<execute function="Click" locator1="AlloyEditor#CONTENT_ADD_BUTTON" />
+
+		<execute function="Click" locator1="AlloyEditor#CONTENT_ADD_MENUBAR_IMAGE" />
+
+		<execute macro="ItemSelector#addFromURL">
+			<var name="imageSourceURL" value="https://raw.githubusercontent.com/liferay/liferay-portal/master/portal-web/test/functional/com/liferay/portalweb/dependencies/Document_1.jpg" />
 		</execute>
 
-		<execute function="AssertClick" locator1="Wiki#FRONTPAGE_DEFAULT_MESSAGE" value1="This page is empty. Edit it to add some text." />
+		<execute macro="PortletEntry#publish" />
 
-		<execute function="Click#pauseClickAt" locator1="CKEditor#CONTENT_IMAGE_LINK" />
-		<execute function="Type" locator1="CKEditor#CONTENT_IMAGE_LINK_URL_FIELD" value1="https://raw.githubusercontent.com/liferay/liferay-portal/master/portal-web/test/functional/com/liferay/portalweb/dependencies/Document_1.jpg" />
-		<execute function="AssertClick" locator1="CKEditor#CONTENT_IMAGE_LINK_OK_BUTTON" value1="OK" />
+		<execute macro="WebContentNavigator#gotoPreviewEntryCP">
+			<var name="webContentTitle" value="Web Content Title" />
+		</execute>
 
-		<execute function="AssertClick#assertTextClickAtAndWaitCKEditor" locator1="Button#PUBLISH" value1="Publish" />
+		<execute macro="IFrame#selectDialogFrame" />
 
-		<var name="key_htmlTags" value="p/img[contains(@src,'Document_1.jpg')]" />
-
-		<execute function="AssertElementPresent" locator1="Wiki#HTML_BODY" />
+		<execute function="AssertElementPresent" locator1="//img[contains(@src,'Document_1.jpg')]" />
 	</command>
 
-	<command name="ViewCKEditorsInheritanceNo" priority="4">
-		<var name="ckEditorFormatOptionsInvalid" value="Heading,Heading 2,Heading 3,Heading 4,Heading 5,Heading 6" />
-		<var name="ckEditorFormatOptionsValid" value="Normal,Formatted" />
-		<var name="invalidSubstring" value="Heading" />
-		<var name="portlet1Name" value="Message Boards" />
-		<var name="portlet2Name" value="Wiki" />
+	<command name="RemoveAppliedStylingInAlloyEditor" priority="4">
+		<description message="This is a use case for LPS-61676." />
 
-		<execute macro="Page#addPG">
-			<var name="pageName" value="${pageName}" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="${pageName}" />
+		<execute macro="WebContentNavigator#gotoAddCP" />
+
+		<execute macro="AlloyEditor#addContent">
+			<var name="content" value="This is a sentence" />
 		</execute>
 
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="${portlet1Name}" />
+		<execute macro="AlloyEditor#toggleStylingInAlloyEditor">
+			<var name="boldContent" value="This is a sentence" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="${pageName}" />
+		<execute macro="AlloyEditor#viewStylingInAlloyEditor">
+			<var name="boldContent" value="This is a sentence" />
 		</execute>
 
-		<execute macro="Portlet#addPG">
-			<var name="portletName" value="${portlet2Name}" />
+		<execute macro="AlloyEditor#toggleStylingInAlloyEditor">
+			<var name="boldContent" value="This is a sentence" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
-			<var name="pageName" value="${pageName}" />
+		<execute macro="AlloyEditor#viewNoStylingInAlloyEditor">
+			<var name="boldContent" value="This is a sentence" />
 		</execute>
-
-		<execute function="Click" locator1="MessageBoards#POST_NEW_THREAD_BUTTON" />
-
-		<var name="key_portletName" value="${portlet1Name}" />
-
-		<execute function="AssertTextEquals" locator1="CKEditor#TOOLBAR_FONT_BUTTON_PORTLET" value1="Font" />
-		<execute function="AssertTextEquals" locator1="CKEditor#TOOLBAR_SIZE_BUTTON_PORTLET" value1="14" />
-		<execute function="AssertElementPresent" locator1="//script[contains(@src,'/ckeditor/plugins/bbcode/bbcode_parser.js')]" />
-		<execute function="AssertClick#pauseAssertTextClickAt" locator1="CKEditor#TOOLBAR_FORMAT_BUTTON_PORTLET" value1="Format" />
-		<execute function="SelectFrame" locator1="CKEditor#TOOLBAR_FORMAT_IFRAME" />
-
-		<for list="${ckEditorFormatOptionsValid},${ckEditorFormatOptionsInvalid}" param="optionList" >
-			<var name="key_format" value="${optionList}" />
-
-			<if>
-				<contains string="${optionList}" substring="${invalidSubstring}" />
-				<then>
-					<execute function="AssertElementNotPresent" locator1="CKEditor#TOOLBAR_FORMAT_MENULIST" value1="${optionList}" />
-				</then>
-				<else>
-					<execute function="AssertTextEquals" locator1="CKEditor#TOOLBAR_FORMAT_MENULIST" value1="${optionList}" />
-				</else>
-			</if>
-		</for>
-
-		<execute function="SelectFrame" value1="relative=top" />
-
-		<execute function="AssertClick" locator1="Wiki#FRONTPAGE_DEFAULT_MESSAGE" value1="This page is empty. Edit it to add some text." />
-
-		<execute function="AssertTextEquals" locator1="CKEditor#TOOLBAR_FONT_BUTTON_PORTLET" value1="Font" />
-		<execute function="AssertTextEquals" locator1="CKEditor#TOOLBAR_SIZE_BUTTON_PORTLET" value1="14" />
-		<execute function="AssertClick#pauseAssertTextClickAt" locator1="CKEditor#TOOLBAR_FORMAT_BUTTON_PORTLET" value1="Format" />
-		<execute function="SelectFrame" locator1="CKEditor#TOOLBAR_FORMAT_IFRAME" />
-
-		<for list="${ckEditorFormatOptionsValid},${ckEditorFormatOptionsInvalid}" param="optionList" >
-			<var name="key_format" value="${optionList}" />
-
-			<if>
-				<contains string="${optionList}" substring="${invalidSubstring}" />
-				<then>
-					<execute function="AssertElementNotPresent" locator1="CKEditor#TOOLBAR_FORMAT_MENULIST" value1="${optionList}" />
-				</then>
-				<else>
-					<execute function="AssertTextEquals" locator1="CKEditor#TOOLBAR_FORMAT_MENULIST" value1="${optionList}" />
-				</else>
-			</if>
-		</for>
-
-		<execute function="SelectFrame" value1="relative=top" />
 	</command>
 
 	<command name="ViewWikiFrontPageLeftToRight" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
@@ -168,7 +156,7 @@
 			<var name="portletName" value="Wiki" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
@@ -178,7 +166,7 @@
 			<var name="wikiPageContent" value="Wiki Left to Right Content" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
@@ -188,26 +176,17 @@
 	</command>
 
 	<command name="ViewWikiFrontPageRightToLeft" priority="4">
-		<var name="currentPortalLanguages" value="English (United States),Arabic (Saudi Arabia)" />
+		<property name="test.name.skip.portal.instance" value="WYSIWIGUsecase#ViewWikiFrontPageRightToLeft" />
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Portal Settings" />
-		</execute>
-
-		<execute macro="PortalSettings#configureCurrentLanguagesCP">
-			<var name="currentPortalLanguages" value="${currentPortalLanguages}" />
-			<var name="displaySettings" value="Display Settings" />
-		</execute>
-
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
 		<execute macro="Portlet#addPG">
-			<var name="portletName" value="Language" />
+			<var name="portletName" value="Language Selector" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
@@ -216,23 +195,23 @@
 		</execute>
 
 		<execute macro="LanguagePortlet#selectLanguagePG">
-			<var name="language" value="Arabic (Saudi Arabia)" />
+			<var name="language" value="Hebrew (Israel)" />
 		</execute>
 
 		<execute macro="WikiPage#addLocalizedFrontPagePG">
-			<var name="emptyPageMessage" value="هذه الصفحة فارغة. قم بتحريرها لإضافة نص." />
+			<var name="emptyPageMessage" value="דף זה ריק. ערוך אותו על מנת להוסיף טקסט" />
 			<var name="rtl" value="true" />
-			<var name="successMessage" value="تم تنفيذ طلبك بنجاح." />
-			<var name="wikiPageContent" value="Wiki Right to Left محتوى" />
+			<var name="successMessage" value="בקשתך עברה בהצלחה" />
+			<var name="wikiPageContent" value="Wiki Right to Left תוֹכֶן" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="${pageName}" />
 		</execute>
 
 		<execute macro="WikiPage#viewLocalizedFrontPagePG">
 			<var name="rightToLeft" value="true" />
-			<var name="wikiPageContent" value="Wiki Right to Left محتوى" />
+			<var name="wikiPageContent" value="Wiki Right to Left תוֹכֶן" />
 		</execute>
 
 		<execute macro="LanguagePortlet#selectLanguagePG">

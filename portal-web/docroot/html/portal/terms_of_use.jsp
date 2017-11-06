@@ -36,24 +36,24 @@ TermsOfUseContentProvider termsOfUseContentProvider = TermsOfUseContentProviderR
 		<c:when test="<%= termsOfUseContentProvider != null %>">
 
 			<%
-			termsOfUseContentProvider.includeView(request, response);
+			termsOfUseContentProvider.includeView(request, PipingServletResponse.createPipingServletResponse(pageContext));
 			%>
 
 		</c:when>
 		<c:otherwise>
-			 <liferay-util:include page="/html/portal/terms_of_use_default.jsp" />
+			<liferay-util:include page="/html/portal/terms_of_use_default.jsp" />
 		</c:otherwise>
 	</c:choose>
 
 	<c:if test="<%= !user.isAgreedToTermsOfUse() %>">
 		<aui:button-row>
-			<aui:button type="submit" value="i-agree" />
+			<aui:button cssClass="btn-lg" type="submit" value="i-agree" />
 
 			<%
 			String taglibOnClick = "alert('" + UnicodeLanguageUtil.get(request, "you-must-agree-with-the-terms-of-use-to-continue") + "');";
 			%>
 
-			<aui:button onClick="<%= taglibOnClick %>" type="cancel" value="i-disagree" />
+			<aui:button cssClass="btn-lg" onClick="<%= taglibOnClick %>" type="cancel" value="i-disagree" />
 		</aui:button-row>
 	</c:if>
 </aui:form>

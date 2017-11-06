@@ -16,12 +16,12 @@ package com.liferay.portlet.documentlibrary.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.document.library.kernel.model.DLFileEntryType;
+
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-
-import com.liferay.portlet.documentlibrary.model.DLFileEntryType;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -170,9 +170,13 @@ public class DLFileEntryTypeCacheModel implements CacheModel<DLFileEntryType>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		fileEntryTypeId = objectInput.readLong();
+
 		groupId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
@@ -194,8 +198,11 @@ public class DLFileEntryTypeCacheModel implements CacheModel<DLFileEntryType>,
 		}
 
 		objectOutput.writeLong(fileEntryTypeId);
+
 		objectOutput.writeLong(groupId);
+
 		objectOutput.writeLong(companyId);
+
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {

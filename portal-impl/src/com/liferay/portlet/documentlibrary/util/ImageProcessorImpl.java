@@ -14,6 +14,16 @@
 
 package com.liferay.portlet.documentlibrary.util;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifIFD0Directory;
+
+import com.liferay.document.library.kernel.exception.NoSuchFileEntryException;
+import com.liferay.document.library.kernel.model.DLProcessorConstants;
+import com.liferay.document.library.kernel.store.DLStoreUtil;
+import com.liferay.document.library.kernel.util.DLPreviewableProcessor;
+import com.liferay.document.library.kernel.util.ImageProcessor;
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.image.ImageBag;
 import com.liferay.portal.kernel.image.ImageTool;
@@ -23,19 +33,18 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
+import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.documentlibrary.NoSuchFileEntryException;
-import com.liferay.portlet.documentlibrary.model.DLProcessorConstants;
-import com.liferay.portlet.documentlibrary.store.DLStoreUtil;
-import com.liferay.portlet.exportimport.lar.PortletDataContext;
 
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
@@ -315,6 +324,9 @@ public class ImageProcessorImpl
 				}
 			}
 
+			renderedImage = _tiffOrientationTransform(
+				renderedImage, destinationFileVersion);
+
 			if (!_hasPreview(destinationFileVersion)) {
 				_storePreviewImage(destinationFileVersion, renderedImage);
 			}
@@ -333,6 +345,29 @@ public class ImageProcessorImpl
 
 			_fileVersionIds.remove(destinationFileVersion.getFileVersionId());
 		}
+	}
+
+	private String _getTiffOrientationValue(FileVersion fileVersion)
+		throws PortalException {
+
+		try (InputStream is = fileVersion.getContentStream(false)) {
+			Metadata metadata = ImageMetadataReader.readMetadata(is);
+
+			ExifIFD0Directory exifIFD0Directory =
+				metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+
+			if (exifIFD0Directory.containsTag(
+					ExifIFD0Directory.TAG_ORIENTATION)) {
+
+				return exifIFD0Directory.getString(
+					ExifIFD0Directory.TAG_ORIENTATION);
+			}
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return ImageTool.ORIENTATION_VALUE_HORIZONTAL_NORMAL;
 	}
 
 	private String _getType(FileVersion fileVersion) {
@@ -356,7 +391,7 @@ public class ImageProcessorImpl
 		else if (mimeType.equals(ContentTypes.IMAGE_PNG)) {
 			type = ImageTool.TYPE_PNG;
 		}
-		else if (!_previewGenerationRequired(fileVersion)) {
+		else if (!_isTiff(mimeType)) {
 			type = fileVersion.getExtension();
 		}
 
@@ -384,15 +419,39 @@ public class ImageProcessorImpl
 		return true;
 	}
 
-	private boolean _previewGenerationRequired(FileVersion fileVersion) {
-		String mimeType = fileVersion.getMimeType();
-
+	private boolean _isTiff(String mimeType) {
 		if (mimeType.contains("tiff") || mimeType.contains("tif")) {
 			return true;
 		}
-		else {
-			return false;
+
+		return false;
+	}
+
+	private boolean _previewGenerationRequired(FileVersion fileVersion)
+		throws PortalException {
+
+		String mimeType = fileVersion.getMimeType();
+
+		if (_isTiff(mimeType)) {
+			return true;
 		}
+
+		String[] dlFileEntryPreviewImageMimeTypes =
+			PropsValues.DL_FILE_ENTRY_PREVIEW_IMAGE_MIME_TYPES;
+
+		if (_DL_FILE_ENTRY_EXIF_METADATA_ROTATION_ENABLED &&
+			ArrayUtil.contains(dlFileEntryPreviewImageMimeTypes, mimeType)) {
+
+			String orientationValue = _getTiffOrientationValue(fileVersion);
+
+			if (!orientationValue.equals(
+					ImageTool.ORIENTATION_VALUE_HORIZONTAL_NORMAL)) {
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void _queueGeneration(
@@ -473,6 +532,70 @@ public class ImageProcessorImpl
 			FileUtil.delete(file);
 		}
 	}
+
+	private RenderedImage _tiffOrientationTransform(
+			RenderedImage renderedImage, FileVersion fileVersion)
+		throws Exception {
+
+		if (!_DL_FILE_ENTRY_EXIF_METADATA_ROTATION_ENABLED) {
+			return renderedImage;
+		}
+
+		String tiffOrientationValue = _getTiffOrientationValue(fileVersion);
+
+		if (Validator.isNull(tiffOrientationValue) ||
+			tiffOrientationValue.equals(
+				ImageTool.ORIENTATION_VALUE_HORIZONTAL_NORMAL)) {
+
+			return renderedImage;
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.ORIENTATION_VALUE_MIRROR_HORIZONTAL)) {
+
+			return ImageToolUtil.flipHorizontal(renderedImage);
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.
+						ORIENTATION_VALUE_MIRROR_HORIZONTAL_ROTATE_90_CW)) {
+
+			return ImageToolUtil.flipVertical(
+				ImageToolUtil.rotate(renderedImage, 90));
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.
+						ORIENTATION_VALUE_MIRROR_HORIZONTAL_ROTATE_270_CW)) {
+
+			return ImageToolUtil.flipVertical(
+				ImageToolUtil.rotate(renderedImage, 270));
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.ORIENTATION_VALUE_MIRROR_VERTICAL)) {
+
+			return ImageToolUtil.flipVertical(renderedImage);
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.ORIENTATION_VALUE_ROTATE_90_CW)) {
+
+			return ImageToolUtil.rotate(renderedImage, 90);
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.ORIENTATION_VALUE_ROTATE_180)) {
+
+			return ImageToolUtil.rotate(renderedImage, 180);
+		}
+		else if (tiffOrientationValue.equals(
+					ImageTool.ORIENTATION_VALUE_ROTATE_270_CW)) {
+
+			return ImageToolUtil.rotate(renderedImage, 270);
+		}
+
+		return renderedImage;
+	}
+
+	private static final boolean _DL_FILE_ENTRY_EXIF_METADATA_ROTATION_ENABLED =
+		GetterUtil.getBoolean(
+			PropsUtil.get(
+				"dl.file.entry.image.exif.metadata.rotation.enabled"));
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ImageProcessorImpl.class);

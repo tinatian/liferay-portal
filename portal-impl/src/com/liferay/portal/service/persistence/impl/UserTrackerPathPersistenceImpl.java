@@ -16,7 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchUserTrackerPathException;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,20 +26,25 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchUserTrackerPathException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.UserTrackerPath;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
+import com.liferay.portal.kernel.service.persistence.UserTrackerPathPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.UserTrackerPath;
 import com.liferay.portal.model.impl.UserTrackerPathImpl;
 import com.liferay.portal.model.impl.UserTrackerPathModelImpl;
-import com.liferay.portal.service.persistence.UserTrackerPathPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,7 +63,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see UserTrackerPathPersistence
- * @see com.liferay.portal.service.persistence.UserTrackerPathUtil
+ * @see com.liferay.portal.kernel.service.persistence.UserTrackerPathUtil
  * @generated
  */
 @ProviderType
@@ -218,7 +223,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -435,8 +440,9 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -602,6 +608,22 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 	public UserTrackerPathPersistenceImpl() {
 		setModelClass(UserTrackerPath.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("path", "path_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -694,6 +716,8 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		userTrackerPath.setNew(true);
 		userTrackerPath.setPrimaryKey(userTrackerPathId);
 
+		userTrackerPath.setCompanyId(companyProvider.getCompanyId());
+
 		return userTrackerPath;
 	}
 
@@ -729,8 +753,8 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 					primaryKey);
 
 			if (userTrackerPath == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchUserTrackerPathException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -813,8 +837,22 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !UserTrackerPathModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!UserTrackerPathModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					userTrackerPathModelImpl.getUserTrackerId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERTRACKERID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERTRACKERID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -859,6 +897,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 		userTrackerPathImpl.setMvccVersion(userTrackerPath.getMvccVersion());
 		userTrackerPathImpl.setUserTrackerPathId(userTrackerPath.getUserTrackerPathId());
+		userTrackerPathImpl.setCompanyId(userTrackerPath.getCompanyId());
 		userTrackerPathImpl.setUserTrackerId(userTrackerPath.getUserTrackerId());
 		userTrackerPathImpl.setPath(userTrackerPath.getPath());
 		userTrackerPathImpl.setPathDate(userTrackerPath.getPathDate());
@@ -867,7 +906,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 	}
 
 	/**
-	 * Returns the user tracker path with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the user tracker path with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the user tracker path
 	 * @return the user tracker path
@@ -879,8 +918,8 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		UserTrackerPath userTrackerPath = fetchByPrimaryKey(primaryKey);
 
 		if (userTrackerPath == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchUserTrackerPathException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -911,12 +950,14 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 	 */
 	@Override
 	public UserTrackerPath fetchByPrimaryKey(Serializable primaryKey) {
-		UserTrackerPath userTrackerPath = (UserTrackerPath)entityCache.getResult(UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 				UserTrackerPathImpl.class, primaryKey);
 
-		if (userTrackerPath == _nullUserTrackerPath) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		UserTrackerPath userTrackerPath = (UserTrackerPath)serializable;
 
 		if (userTrackerPath == null) {
 			Session session = null;
@@ -932,8 +973,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 				}
 				else {
 					entityCache.putResult(UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
-						UserTrackerPathImpl.class, primaryKey,
-						_nullUserTrackerPath);
+						UserTrackerPathImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -987,18 +1027,20 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			UserTrackerPath userTrackerPath = (UserTrackerPath)entityCache.getResult(UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 					UserTrackerPathImpl.class, primaryKey);
 
-			if (userTrackerPath == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, userTrackerPath);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (UserTrackerPath)serializable);
+				}
 			}
 		}
 
@@ -1012,7 +1054,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		query.append(_SQL_SELECT_USERTRACKERPATH_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -1040,7 +1082,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
-					UserTrackerPathImpl.class, primaryKey, _nullUserTrackerPath);
+					UserTrackerPathImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1142,7 +1184,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_USERTRACKERPATH);
 
@@ -1267,6 +1309,8 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	protected EntityCache entityCache = EntityCacheUtil.getEntityCache();
 	protected FinderCache finderCache = FinderCacheUtil.getFinderCache();
 	private static final String _SQL_SELECT_USERTRACKERPATH = "SELECT userTrackerPath FROM UserTrackerPath userTrackerPath";
@@ -1281,35 +1325,4 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"path"
 			});
-	private static final UserTrackerPath _nullUserTrackerPath = new UserTrackerPathImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<UserTrackerPath> toCacheModel() {
-				return _nullUserTrackerPathCacheModel;
-			}
-		};
-
-	private static final CacheModel<UserTrackerPath> _nullUserTrackerPathCacheModel =
-		new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<UserTrackerPath>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public UserTrackerPath toEntityModel() {
-			return _nullUserTrackerPath;
-		}
-	}
 }

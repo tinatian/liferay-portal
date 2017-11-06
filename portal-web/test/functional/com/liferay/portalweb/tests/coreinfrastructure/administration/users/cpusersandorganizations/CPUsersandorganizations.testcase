@@ -1,23 +1,42 @@
 <definition component-name="portal-user-management-and-portal-configuration">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Users and Organizations" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="User#tearDownCP" />
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="Site#tearDownCP" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="User#tearDownCP" />
 
-		<execute macro="Suborganization#tearDownCP" />
+				<execute macro="Site#tearDownCP" />
 
-		<execute macro="Organization#tearDownCP" />
+				<execute macro="Suborganization#tearDownCP" />
+
+				<execute macro="Organization#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
-	<command name="ActivateUserActions" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+	<command name="ActivateUserActions" priority="5">
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -27,8 +46,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -36,8 +57,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#deactivateCP">
@@ -47,8 +70,7 @@
 		</execute>
 
 		<execute macro="User#activateCP">
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
+			<var name="userName" value="userfn userln" />
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
@@ -68,43 +90,14 @@
 		</execute>
 	</command>
 
-	<command name="AddChildOrganization" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#addCP">
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Suborganization#addCP">
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-			<var name="suborgName" value="Sub Organization Name" />
-			<var name="suborgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#viewSubOrganizationCP">
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-			<var name="suborganizationCount" value="1 Suborganization" />
-			<var name="suborgName" value="Sub Organization Name" />
-			<var name="suborgType" value="Regular Organization" />
-		</execute>
-	</command>
-
 	<command name="AddMember" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -114,18 +107,24 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addMemberCP">
 			<var name="orgName" value="Organization Name" />
@@ -134,9 +133,13 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#gotoCP">
 			<var name="orgName" value="Organization Name" />
@@ -144,169 +147,227 @@
 		</execute>
 
 		<execute macro="Organization#viewAssignMemberCP">
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
+			<var name="userName" value="userfn userln" />
 			<var name="userScreenName" value="usersn" />
 		</execute>
 	</command>
 
 	<command name="AddOrganization" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name" />
+			<var name="searchTerm" value="Organization Name" />
 		</execute>
 
 		<execute macro="Organization#viewCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 	</command>
 
 	<command name="AddOrganizationComment" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
 		<execute macro="Organization#addCommentCP">
 			<var name="orgComment" value="This is a test comment!" />
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#viewCommentCP">
-			<var name="orgComment" value="This is a test comment!" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 	</command>
 
 	<command name="AddOrganizationNameDuplicate" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name" />
+			<var name="searchTerm" value="Organization Name" />
 		</execute>
 
 		<execute macro="Organization#viewCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="organizationName" value="Duplicate" />
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 	</command>
 
 	<command name="AddOrganizations" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name 1" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name 1" />
+			<var name="searchTerm" value="Organization Name 1" />
 		</execute>
 
 		<execute macro="Organization#viewCP">
 			<var name="orgName" value="Organization Name 1" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name 2" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name 2" />
+			<var name="searchTerm" value="Organization Name 2" />
 		</execute>
 
 		<execute macro="Organization#viewCP">
 			<var name="orgName" value="Organization Name 2" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name 3" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name 3" />
+			<var name="searchTerm" value="Organization Name 3" />
 		</execute>
 
 		<execute macro="Organization#viewCP">
 			<var name="orgName" value="Organization Name 3" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 	</command>
 
-	<command name="AddOrganizationSite" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+	<command name="AddOrganizationSite" priority="5">
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#viewCP">
@@ -317,131 +378,185 @@
 	</command>
 
 	<command name="AddOrganizationSitePrivatePage" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<var method="TestPropsUtil#get('portal.url')" name="portalURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Private Page" />
 			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Private Page" />
 			<var name="sitePagePrivacy" value="Private" />
 		</execute>
 
-		<execute macro="SitePage#viewPG">
-			<var name="pageAccess" value="Private" />
+		<execute macro="Navigator#gotoSpecificURLPage">
 			<var name="pageName" value="Private Page" />
-			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Private Page" />
-			<var name="sitePageURL" value="http://localhost:8080/group/organization-name/private-page" />
-			<var name="siteURL" value="true" />
+			<var name="url" value="${portalURL}/group/organization-name/private-page" />
+		</execute>
+
+		<execute macro="Page#view">
+			<var name="pageName" value="Private Page" />
 		</execute>
 	</command>
 
 	<command name="AddOrganizationSitePublicPage" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<var method="TestPropsUtil#get('portal.url')" name="portalURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Public Page" />
-			<var name="sitePagePrivacy" value="Public" />
-		</execute>
-
-		<execute macro="SitePage#viewPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Public Page" />
 			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Public Page" />
-			<var name="sitePageURL" value="http://localhost:8080/web/organization-name/public-page" />
-			<var name="siteURL" value="true" />
+		</execute>
+
+		<execute macro="Navigator#gotoSpecificURLPage">
+			<var name="pageName" value="Public Page" />
+			<var name="url" value="${portalURL}/web/organization-name/public-page" />
+		</execute>
+
+		<execute macro="Page#view">
+			<var name="pageName" value="Public Page" />
 		</execute>
 	</command>
 
-	<command name="AddOrganizationTeam" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+	<command name="AddOrganizationTeam" priority="5">
+		<property name="portal.acceptance" value="true" />
+		<property name="test.name.skip.portal.instance" value="CPUsersandorganizations#AddOrganizationTeam" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Server Administration" />
+		</execute>
+
+		<execute macro="ServerAdministration#executeServerResourcesActions">
+			<var name="actionsDescription" value="Reindex all search indexes." />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#manageMembershipOptionsInSites">
 			<var name="allowManualMembershipManagement" value="true" />
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addMemberCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userScreenName" value="usersn" />
+			<var name="userFirstName" value="Test" />
+			<var name="userLastName" value="Test" />
+			<var name="userScreenName" value="test" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Organization Public Page" />
 			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Public Page" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
-		<execute macro="Page#gotoUsersCP">
-			<var name="portletName" value="Site Teams" />
-			<var name="siteScopeName" value="Organization Name" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Organization Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Members" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Site Teams" />
 		</execute>
 
 		<execute macro="Team#addCP">
@@ -451,43 +566,77 @@
 		</execute>
 	</command>
 
-	<command name="AddSuborganization" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+	<command name="AddSuborganization" priority="5">
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name" />
+			<var name="searchTerm" value="Organization Name" />
+		</execute>
+
+		<execute macro="Organization#viewCP">
+			<var name="orgName" value="Organization Name" />
+			<var name="orgType" value="Organization" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Suborganization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 			<var name="suborgName" value="Suborganization Name" />
-			<var name="suborgType" value="Regular Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Suborganization#viewCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 			<var name="suborgName" value="Suborganization Name" />
-			<var name="suborgSearchName" value="Suborganization" />
-			<var name="suborgType" value="Regular Organization" />
+			<var name="suborgType" value="Organization" />
 		</execute>
 	</command>
 
 	<command name="AddUser" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -497,8 +646,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#viewCP">
@@ -510,8 +661,10 @@
 	</command>
 
 	<command name="AddUserDisplaySettings" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -521,8 +674,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editUserDisplaySettingsCP">
@@ -532,8 +687,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressAt" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -544,9 +701,7 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
+		<execute macro="Navigator#gotoBack" />
 
 		<execute macro="User#viewCP">
 			<var name="userEmailAddress" value="userea@@liferay.com" />
@@ -558,8 +713,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressBackSlash" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -572,8 +729,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressBackTick" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -585,8 +744,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressCaret" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -598,8 +759,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressCloseBracket" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -612,8 +775,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressCloseCurlyBrace" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -625,8 +790,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressCloseParenthesis" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -639,8 +806,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressColon" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -653,8 +822,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressDash" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -666,8 +837,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressEqual" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -677,8 +850,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#viewCP">
@@ -690,8 +865,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressGreaterThan" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -704,8 +881,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressMinus" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -717,13 +896,15 @@
 	</command>
 
 	<command name="AddUserEmailAddressNull" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
 			<var name="userEmailAddress" value="" />
-			<var name="userEmailAddressVariation" value="Invalid" />
+			<var name="userEmailAddressVariation" value="Null" />
 			<var name="userFirstName" value="userfn" />
 			<var name="userLastName" value="userln" />
 			<var name="userScreenName" value="usersn" />
@@ -731,8 +912,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressOpenBracket" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -745,8 +928,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressOpenCurlyBrace" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -758,8 +943,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressOpenParenthesis" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -772,8 +959,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressPeriod" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -784,9 +973,7 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
+		<execute macro="Navigator#gotoBack" />
 
 		<execute macro="User#viewCP">
 			<var name="userEmailAddress" value="userea.@liferay.com" />
@@ -798,8 +985,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressRoot" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -812,8 +1001,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressSemicolon" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -826,8 +1017,10 @@
 	</command>
 
 	<command name="AddUserEmailAddressUnderline" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -837,8 +1030,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#viewCP">
@@ -850,68 +1045,60 @@
 	</command>
 
 	<command name="AddUsers" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
+		<var name="count" value="1" />
 
-		<execute macro="User#addCP">
-			<var name="userEmailAddress" value="userea1@liferay.com" />
-			<var name="userFirstName" value="userfn1" />
-			<var name="userLastName" value="userln1" />
-			<var name="userScreenName" value="usersn1" />
-		</execute>
+		<while>
+			<not>
+				<equals arg1="${count}" arg2="4" />
+			</not>
+			<then>
+				<execute macro="ProductMenu#gotoPortlet">
+					<var name="category" value="Users" />
+					<var name="panel" value="Control Panel" />
+					<var name="portlet" value="Users and Organizations" />
+				</execute>
 
-		<execute macro="User#addCP">
-			<var name="userEmailAddress" value="userea2@liferay.com" />
-			<var name="userFirstName" value="userfn2" />
-			<var name="userLastName" value="userln2" />
-			<var name="userScreenName" value="usersn2" />
-		</execute>
+				<execute macro="User#addCP">
+					<var name="userEmailAddress" value="userea${count}@liferay.com" />
+					<var name="userFirstName" value="userfn${count}" />
+					<var name="userLastName" value="userln${count}" />
+					<var name="userScreenName" value="usersn${count}" />
+				</execute>
 
-		<execute macro="User#addCP">
-			<var name="userEmailAddress" value="userea3@liferay.com" />
-			<var name="userFirstName" value="userfn3" />
-			<var name="userLastName" value="userln3" />
-			<var name="userScreenName" value="usersn3" />
-		</execute>
+				<var method="MathUtil#sum('${count}', '1')" name="count" />
+			</then>
+		</while>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
+		<var name="count" value="1" />
 
-		<execute macro="User#viewCP">
-			<var name="userEmailAddress" value="userea1@liferay.com" />
-			<var name="userFirstName" value="userfn1" />
-			<var name="userLastName" value="userln1" />
-			<var name="userScreenName" value="usersn1" />
-		</execute>
+		<while>
+			<not>
+				<equals arg1="${count}" arg2="4" />
+			</not>
+			<then>
+				<execute macro="ProductMenu#gotoPortlet">
+					<var name="category" value="Users" />
+					<var name="panel" value="Control Panel" />
+					<var name="portlet" value="Users and Organizations" />
+				</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
+				<execute macro="User#viewCP">
+					<var name="userEmailAddress" value="userea${count}@liferay.com" />
+					<var name="userFirstName" value="userfn${count}" />
+					<var name="userLastName" value="userln${count}" />
+					<var name="userScreenName" value="usersn${count}" />
+				</execute>
 
-		<execute macro="User#viewCP">
-			<var name="userEmailAddress" value="userea2@liferay.com" />
-			<var name="userFirstName" value="userfn2" />
-			<var name="userLastName" value="userln2" />
-			<var name="userScreenName" value="usersn2" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#viewCP">
-			<var name="userEmailAddress" value="userea3@liferay.com" />
-			<var name="userFirstName" value="userfn3" />
-			<var name="userLastName" value="userln3" />
-			<var name="userScreenName" value="usersn3" />
-		</execute>
+				<var method="MathUtil#sum('${count}', '1')" name="count" />
+			</then>
+		</while>
 	</command>
 
 	<command name="AddUserScreenNameInvalid" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -922,9 +1109,7 @@
 			<var name="userScreenNameVariation" value="Invalid" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
+		<execute macro="Navigator#gotoBack" />
 
 		<execute macro="User#viewCP">
 			<var name="userEmailAddress" value="userea@liferay.com" />
@@ -938,8 +1123,10 @@
 	<command name="AddUserScreenNameNumber" priority="3">
 		<property name="custom.properties" value="users.screen.name.allow.numeric=true" />
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -949,8 +1136,10 @@
 			<var name="userScreenName" value="11111" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#viewCP">
@@ -961,206 +1150,11 @@
 		</execute>
 	</command>
 
-	<command name="AdvancedSearchOrganizationAddress" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#addCP">
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#addAddressCP">
-			<var name="orgAddressCity" value="Diamond Bar" />
-			<var name="orgAddressCountry" value="United States" />
-			<var name="orgAddressPostal" value="41111" />
-			<var name="orgAddressRegion" value="California" />
-			<var name="orgAddressStreet" value="12345 Organization Name St" />
-			<var name="orgAddressType" value="Billing" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#viewAddressCP">
-			<var name="orgAddressCity" value="Diamond Bar" />
-			<var name="orgAddressCountry" value="United States" />
-			<var name="orgAddressPostal" value="41111" />
-			<var name="orgAddressRegion" value="California" />
-			<var name="orgAddressStreet" value="12345 Organization Name St" />
-			<var name="orgAddressType" value="Billing" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#advancedSearchCP">
-			<var name="orgAddressCity" value="Diamond Bar" />
-			<var name="orgAddressCountry" value="United States" />
-			<var name="orgAddressPostal" value="41111" />
-			<var name="orgAddressRegion" value="California" />
-			<var name="orgAddressStreet" value="12345 Organization Name St" />
-			<var name="orgAdvancedSearch" value="City" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#advancedSearchCP">
-			<var name="orgAddressCity" value="Diamond Bar" />
-			<var name="orgAddressCountry" value="United States" />
-			<var name="orgAddressPostal" value="41111" />
-			<var name="orgAddressRegion" value="California" />
-			<var name="orgAddressStreet" value="12345 Organization Name St" />
-			<var name="orgAdvancedSearch" value="Street" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#advancedSearchCP">
-			<var name="orgAddressCity" value="Diamond Bar" />
-			<var name="orgAddressCountry" value="United States" />
-			<var name="orgAddressPostal" value="41111" />
-			<var name="orgAddressRegion" value="California" />
-			<var name="orgAddressStreet" value="12345 Organization Name St" />
-			<var name="orgAdvancedSearch" value="Postal" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-	</command>
-
-	<command name="AdvancedSearchOrganizationName" priority="3">
-		<var name="orgName" value="Organization Name" />
-		<var name="orgType" value="Regular Organization" />
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#addCP">
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="Organization#advancedSearchCP">
-			<var name="orgAdvancedSearch" value="Name" />
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
-		</execute>
-	</command>
-
-	<command name="AdvancedSearchUser" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#addCP">
-			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#editUserMiddleNameCP">
-			<var name="userMiddleName" value="usermn" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#advancedSearchCP">
-			<var name="userAdvancedSearch" value="First Name" />
-			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userMiddleName" value="usermn" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#advancedSearchCP">
-			<var name="userAdvancedSearch" value="Middle Name" />
-			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userMiddleName" value="usermn" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#advancedSearchCP">
-			<var name="userAdvancedSearch" value="Last Name" />
-			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userMiddleName" value="usermn" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#advancedSearchCP">
-			<var name="userAdvancedSearch" value="Screen Name" />
-			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userMiddleName" value="usermn" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
-		</execute>
-
-		<execute macro="User#advancedSearchCP">
-			<var name="userAdvancedSearch" value="Email Address" />
-			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
-			<var name="userMiddleName" value="usermn" />
-			<var name="userScreenName" value="usersn" />
-		</execute>
-	</command>
-
 	<command name="ChangeUserPassword" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1170,8 +1164,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -1195,8 +1191,10 @@
 	</command>
 
 	<command name="ChangeUserPasswordInvalid" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1206,8 +1204,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -1232,8 +1232,10 @@
 	</command>
 
 	<command name="DeactivateUserActions" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1243,8 +1245,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -1252,8 +1256,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#deactivateCP">
@@ -1277,8 +1283,12 @@
 	</command>
 
 	<command name="DeactivateUserDeactivateButton" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<var method="TestPropsUtil#get('portal.url')" name="portalURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1288,8 +1298,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -1297,8 +1309,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#deactivateCP">
@@ -1307,7 +1321,9 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="User#logoutPG" />
+		<execute macro="Navigator#openSpecificURL">
+			<var name="url" value="${portalURL}/c/portal/logout" />
+		</execute>
 
 		<execute macro="User#loginUserInvalidPG">
 			<var name="password" value="test" />
@@ -1322,44 +1338,70 @@
 	</command>
 
 	<command name="DeleteOrganization" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#deleteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#viewNoOrganizationsFoundCP" />
 	</command>
 
 	<command name="DeleteOrganizationSite" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#viewCP">
@@ -1368,8 +1410,10 @@
 			<var name="siteType" value="Private" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#deleteCP">
@@ -1378,8 +1422,12 @@
 	</command>
 
 	<command name="DeleteUser" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1389,8 +1437,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#deactivateCP">
@@ -1398,35 +1448,60 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#deleteCP">
 			<var name="userFirstName" value="userfn" />
 		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#searchCP">
+			<var name="searchTerm" value="usersn" />
+		</execute>
+
+		<execute macro="User#viewNoUsersFoundCP" />
 	</command>
 
 	<command name="EditOrganizationSite" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+		<property name="testray.component.names" value="Training" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#viewCP">
@@ -1435,55 +1510,95 @@
 			<var name="siteType" value="Private" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#editSiteCP">
 			<var name="orgName" value="Organization Name" />
 			<var name="orgNameEdit" value="Organization Name Edit" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
-		<execute macro="Organization#viewEditSiteCP">
-			<var name="orgNameEdit" value="Organization Name Edit" />
-			<var name="orgType" value="Regular Organization" />
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
+
+		<execute macro="Organization#searchCP">
+			<var name="orgName" value="Organization Name Edit" />
+			<var name="searchTerm" value="Organization Name Edit" />
+		</execute>
+
+		<execute macro="Organization#viewCP">
+			<var name="orgName" value="Organization Name Edit" />
+			<var name="orgType" value="Organization" />
 		</execute>
 	</command>
 
 	<command name="EditOrganizationSiteTeam" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#addCP">
+			<var name="userEmailAddress" value="userea@liferay.com" />
+			<var name="userFirstName" value="userfn" />
+			<var name="userLastName" value="userln" />
+			<var name="userScreenName" value="usersn" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#manageMembershipOptionsInSites">
 			<var name="allowManualMembershipManagement" value="true" />
 			<var name="orgName" value="Organization Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addMemberCP">
 			<var name="orgName" value="Organization Name" />
@@ -1492,19 +1607,25 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
+		<execute macro="Page#add">
+			<var name="pageName" value="Public Page" />
 			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Public Page" />
-			<var name="sitePagePrivacy" value="Public" />
 		</execute>
 
-		<execute macro="Page#gotoUsersCP">
-			<var name="portletName" value="Site Teams" />
-			<var name="siteScopeName" value="Organization Name" />
+		<execute macro="Navigator#openSiteURL">
+			<var name="siteName" value="Organization Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Members" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Site Teams" />
 		</execute>
 
 		<execute macro="Team#addCP">
@@ -1528,8 +1649,12 @@
 	</command>
 
 	<command name="EditUserSite" priority="5">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<property name="portal.acceptance" value="true" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1539,16 +1664,20 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editUserSiteCP">
@@ -1556,8 +1685,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#gotoEditCP">
@@ -1570,25 +1701,34 @@
 	</command>
 
 	<command name="ErrorAddUserScreenNameNumberSiteId" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
 		<execute macro="Site#addBlankCP">
 			<var name="siteName" value="Site Name" />
 		</execute>
 
-		<execute macro="Page#gotoConfigurationCP">
-			<var name="portletName" value="Site Settings" />
-			<var name="siteScopeName" value="Site Name" />
+		<execute macro="ProductMenu#gotoSite">
+			<var name="site" value="Site Name" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Configuration" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Site Settings" />
 		</execute>
 
 		<var name="siteID" value="siteID" />
 
 		<execute function="Copy" locator1="SitesEditSite#SITE_ID" value1="siteID" />
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addScreenNameNumberSiteIdCP">
@@ -1601,8 +1741,10 @@
 	</command>
 
 	<command name="LoginUser" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1612,8 +1754,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -1637,8 +1781,10 @@
 	</command>
 
 	<command name="RemoveMember" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1648,18 +1794,24 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addMemberCP">
 			<var name="orgName" value="Organization Name" />
@@ -1668,9 +1820,13 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#removeMemberCP">
 			<var name="orgName" value="Organization Name" />
@@ -1678,9 +1834,13 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#viewRemoveMemberCP">
 			<var name="orgName" value="Organization Name" />
@@ -1689,28 +1849,36 @@
 	</command>
 
 	<command name="SearchOrganization" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#searchCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="searchTerm" value="Organization Name" />
 		</execute>
 	</command>
 
 	<command name="SearchUser" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1720,22 +1888,25 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#basicSearchCP">
 			<var name="userBasicSearch" value="Basic" />
 			<var name="userEmailAddress" value="userea@liferay.com" />
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
+			<var name="userName" value="userfn userln" />
 			<var name="userScreenName" value="usersn" />
 		</execute>
 	</command>
 
 	<command name="SearchUserFullName" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1745,8 +1916,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#basicSearchCP">
@@ -1754,13 +1927,16 @@
 			<var name="userEmailAddress" value="userea@liferay.com" />
 			<var name="userFirstName" value="userfn" />
 			<var name="userLastName" value="userln" />
+			<var name="userName" value="userfn userln" />
 			<var name="userScreenName" value="usersn" />
 		</execute>
 	</command>
 
 	<command name="SearchUserQuotes" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1768,6 +1944,12 @@
 			<var name="userFirstName" value="userfn1" />
 			<var name="userLastName" value="userln1" />
 			<var name="userScreenName" value="usersn1" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1777,40 +1959,40 @@
 			<var name="userScreenName" value="usersn2" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<var name="key_userScreenName" value="usersn1" />
 
-		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_FIRST_NAME" value1="userfn1" />
-		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_LAST_NAME" value1="userln1" />
+		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_NAME" value1="userfn1 userln1" />
 		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_SCREEN_NAME" value1="usersn1" />
 
 		<var name="key_userScreenName" value="usersn2" />
 
-		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_FIRST_NAME" value1="userfn2" />
-		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_LAST_NAME" value1="userln2" />
+		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_NAME" value1="userfn2 userln2" />
 		<execute function="AssertTextEquals" locator1="UsersAndOrganizations#USER_TABLE_SCREEN_NAME" value1="usersn2" />
 
 		<execute macro="User#basicSearchCP">
 			<var name="userBasicSearch" value="Quotes" />
 			<var name="userEmailAddress" value="userea1@liferay.com" />
-			<var name="userFirstName" value="userfn1" />
-			<var name="userLastName" value="userln1" />
+			<var name="userName" value="userfn1 userln1" />
 			<var name="userScreenName" value="usersn1" />
 		</execute>
 
 		<var name="key_userScreenName" value="usersn2" />
 
-		<execute function="AssertTextNotPresent" locator1="UsersAndOrganizations#USER_TABLE_FIRST_NAME" value1="userfn2" />
-		<execute function="AssertTextNotPresent" locator1="UsersAndOrganizations#USER_TABLE_LAST_NAME" value1="userln2" />
+		<execute function="AssertTextNotPresent" locator1="UsersAndOrganizations#USER_TABLE_NAME" value1="userfn2 userln2" />
 		<execute function="AssertTextNotPresent" locator1="UsersAndOrganizations#USER_TABLE_SCREEN_NAME" value1="usersn2" />
 	</command>
 
 	<command name="SearchUsersInOrganization" priority="4">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -1820,14 +2002,24 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Organization#addCP">
-			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="Organization#addCP">
+			<var name="orgName" value="Organization Name" />
+			<var name="orgType" value="Organization" />
 		</execute>
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addMemberCP">
 			<var name="orgName" value="Organization Name" />
@@ -1836,9 +2028,13 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#gotoCP">
 			<var name="orgName" value="Organization Name" />
@@ -1846,43 +2042,49 @@
 		</execute>
 
 		<execute macro="User#searchCP">
-			<var name="searchToken" value="usersn" />
+			<var name="searchTerm" value="usersn" />
 		</execute>
 
 		<execute macro="Organization#viewAssignMemberCP">
-			<var name="userFirstName" value="userfn" />
-			<var name="userLastName" value="userln" />
+			<var name="userName" value="userfn userln" />
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
 		<execute macro="User#searchCP">
-			<var name="searchToken" value="test" />
+			<var name="searchTerm" value="test" />
 		</execute>
 
 		<execute macro="Organization#viewMembersNotFoundCP" />
 	</command>
 
 	<command name="ViewBack" priority="3">
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute function="AssertElementPresent" locator1="UsersAndOrganizationsEditOrganization#BACK" />
+		<execute function="AssertElementPresent" locator1="Icon#BACK" />
 
 		<take-screenshot />
 	</command>
 
 	<command name="ViewOrganizationSiteViaSitesDirectory" priority="4">
-		<execute macro="Page#addPG">
+		<execute macro="TestCase#getSiteName">
+			<return from="siteName" name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<execute macro="Page#add">
 			<var name="pageName" value="Sites Directory Page" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Sites Directory Page" />
 		</execute>
 
@@ -1890,49 +2092,60 @@
 			<var name="portletName" value="Sites Directory" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name 1" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
+
+		<execute macro="UsersAndOrganizationsNavigator#gotoOrganizations" />
 
 		<execute macro="Organization#addSiteCP">
 			<var name="orgName" value="Organization Name 1" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Sites" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Sites" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Sites" />
 		</execute>
 
-		<execute macro="SitePage#addCP">
-			<var name="siteName" value="Organization Name" />
-			<var name="sitePageName" value="Test Page" />
-			<var name="sitePagePrivacy" value="Public" />
+		<execute macro="Page#add">
+			<var name="pageName" value="Test Page" />
+			<var name="siteName" value="Organization Name 1" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="Organization#addCP">
 			<var name="orgName" value="Organization Name 2" />
-			<var name="orgType" value="Regular Organization" />
+			<var name="orgType" value="Organization" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Sites Directory Page" />
 		</execute>
 
-		<var name="key_orgName" value="Organization Name" />
+		<var name="key_siteName" value="${siteName}" />
 
-		<execute function="AssertTextEquals" locator1="SitesDirectory#SITE_ENTRY" value1="Liferay" />
+		<var name="key_orgName" value="Organization Name 1" />
+
+		<execute function="AssertTextEquals#assertPartialText" locator1="SitesDirectory#SITE_ENTRY" value1="${siteName}" />
 		<execute function="AssertTextEquals" locator1="SitesDirectory#ORG_SITE_ENTRY" value1="Organization Name 1" />
 		<execute function="AssertTextNotPresent" locator1="SitesDirectory#ORG_SITE_ENTRY" value1="Organization Name 2" />
 
@@ -1942,16 +2155,16 @@
 			<var name="portletName" value="Breadcrumb" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Sites Directory Page" />
 		</execute>
 
-		<var name="key_orgName" value="Organization Name" />
+		<var name="key_orgName" value="Organization Name 1" />
 
 		<execute function="AssertClick" locator1="SitesDirectory#ORG_SITE_ENTRY" value1="Organization Name 1" />
 
 		<execute macro="Breadcrumb#viewPG">
-			<var name="breadcrumbListNotVisible" value="Liferay" />
+			<var name="breadcrumbListNotVisible" value="${siteName}" />
 			<var name="breadcrumbListVisible" value="Organization Name 1" />
 			<var name="pathLocator" value="CURRENT_LOCATION" />
 		</execute>
@@ -1960,7 +2173,5 @@
 			<var name="breadcrumbListVisible" value="Test Page" />
 			<var name="pathLocator" value="PAGE" />
 		</execute>
-
-		<execute macro="Page#tearDownPG" />
 	</command>
 </definition>

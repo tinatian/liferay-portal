@@ -17,126 +17,57 @@ package com.liferay.css.builder;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 
-import java.io.File;
-import java.io.IOException;
-
-import java.net.URL;
-
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
- * @author Eduardo Garcia
- * @author David Truong
+ * @author Andrea Di Giorgi
  */
-public class CSSBuilderTest {
+@RunWith(Parameterized.class)
+public class CSSBuilderTest extends BaseCSSBuilderTestCase {
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		URL url = CSSBuilderTest.class.getResource("dependencies");
-
-		Path path = Paths.get(url.toURI());
-
-		_docrootDirName = path.toString();
+	@Parameters(name = "{0}")
+	public static String[] getSeparators() {
+		return new String[] {StringPool.EQUAL, StringPool.SPACE};
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		Files.walkFileTree(
-			Paths.get(_docrootDirName + "/css/.sass-cache"),
-			new SimpleFileVisitor<Path>() {
-
-				@Override
-				public FileVisitResult visitFile(
-						Path path, BasicFileAttributes basicFileAttributes)
-					throws IOException {
-
-					Files.delete(path);
-
-					return FileVisitResult.CONTINUE;
-				}
-
-				@Override
-				public FileVisitResult postVisitDirectory(
-						Path path, IOException ioe)
-					throws IOException {
-
-					Files.delete(path);
-
-					return FileVisitResult.CONTINUE;
-				}
-
-			});
+	public CSSBuilderTest(String separator) {
+		_separator = separator;
 	}
 
-	@Test
-	public void testJniSassToCssBuilder() throws Exception {
-		_testSassToCssBuilder("jni");
+	@Override
+	protected void executeCSSBuilder(
+			String dirName, Path docrootDirPath, boolean generateSourceMap,
+			String outputDirName, Path portalCommonPath, int precision,
+			String[] rtlExcludedPathRegexps, String sassCompilerClassName)
+		throws Exception {
+
+		List<String> args = new ArrayList<>();
+
+		args.add("sass.dir" + _separator + dirName);
+		args.add(
+			"sass.docroot.dir" + _separator + docrootDirPath.toAbsolutePath());
+		args.add("sass.generate.source.map" + _separator + generateSourceMap);
+		args.add("sass.output.dir" + _separator + outputDirName);
+		args.add(
+			"sass.portal.common.path" + _separator +
+				portalCommonPath.toAbsolutePath());
+		args.add("sass.precision" + _separator + precision);
+		args.add(
+			"sass.rtl.excluded.path.regexps" + _separator +
+				StringUtil.merge(rtlExcludedPathRegexps));
+		args.add(
+			"sass.compiler.class.name" + _separator + sassCompilerClassName);
+
+		CSSBuilder.main(args.toArray(new String[0]));
 	}
 
-	@Test
-	public void testRubySassToCssBuilder() throws Exception {
-		_testSassToCssBuilder("ruby");
-	}
-
-	private String _read(String fileName) throws Exception {
-		Path path = Paths.get(fileName);
-
-		String s = new String(Files.readAllBytes(path), StringPool.UTF8);
-
-		return StringUtil.replace(
-			s, StringPool.RETURN_NEW_LINE, StringPool.NEW_LINE);
-	}
-
-	private void _testSassToCssBuilder(String compiler) throws Exception {
-		CSSBuilder cssBuilder = new CSSBuilder(
-			_docrootDirName,
-			"../../frontend/frontend-common-css/tmp/META-INF/resources",
-			new String[0], compiler);
-
-		cssBuilder.execute(Arrays.asList(new String[] {"/css"}));
-
-		String expectedCacheContent = _read(
-			_docrootDirName + "/expected/test.css");
-		String actualTestCacheContent = _read(
-			_docrootDirName + "/css/.sass-cache/test.css");
-
-		Assert.assertEquals(expectedCacheContent, actualTestCacheContent);
-
-		String actualMainCacheContent = _read(
-			_docrootDirName + "/css/.sass-cache/main.css");
-
-		Assert.assertEquals(expectedCacheContent, actualMainCacheContent);
-
-		File file = new File(
-			Paths.get("/css/.sass-cache/_partial.css").toString());
-
-		Assert.assertFalse(file.exists());
-
-		String expectedRtlCacheContent = _read(
-			_docrootDirName + "/expected/test_rtl.css");
-		String actualTestRtlCacheContent = _read(
-			_docrootDirName + "/css/.sass-cache/test_rtl.css");
-
-		Assert.assertEquals(expectedRtlCacheContent, actualTestRtlCacheContent);
-
-		String actualMainRtlCacheContent = _read(
-			_docrootDirName + "/css/.sass-cache/main_rtl.css");
-
-		Assert.assertEquals(expectedRtlCacheContent, actualMainRtlCacheContent);
-	}
-
-	private static String _docrootDirName;
+	private final String _separator;
 
 }

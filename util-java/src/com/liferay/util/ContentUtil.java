@@ -26,7 +26,11 @@ import java.util.Map;
 /**
  * @author Brian Wing Shun Chan
  * @author Raymond Augé
+ * @see    com.liferay.petra.content.ContentUtil
+ * @deprecated As of 7.0.0, replaced by {@link
+ *             com.liferay.petra.content.ContentUtil}
  */
+@Deprecated
 public class ContentUtil {
 
 	public static String get(ClassLoader classLoader, String location) {
@@ -69,7 +73,9 @@ public class ContentUtil {
 	}
 
 	private String _get(String location, boolean all) {
-		return _get(getClass().getClassLoader(), location, all);
+		Class<?> clazz = getClass();
+
+		return _get(clazz.getClassLoader(), location, all);
 	}
 
 	private void _put(String location, String content) {

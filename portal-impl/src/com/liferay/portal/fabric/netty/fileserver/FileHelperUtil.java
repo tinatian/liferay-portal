@@ -73,6 +73,17 @@ public class FileHelperUtil {
 						}
 
 						@Override
+						public FileVisitResult visitFile(
+								Path file,
+								BasicFileAttributes basicFileAttributes)
+							throws IOException {
+
+							Files.delete(file);
+
+							return FileVisitResult.CONTINUE;
+						}
+
+						@Override
 						public FileVisitResult visitFileFailed(
 								Path file, IOException ioe)
 							throws IOException {
@@ -82,17 +93,6 @@ public class FileHelperUtil {
 							}
 
 							throw ioe;
-						}
-
-						@Override
-						public FileVisitResult visitFile(
-								Path file,
-								BasicFileAttributes basicFileAttributes)
-							throws IOException {
-
-							Files.delete(file);
-
-							return FileVisitResult.CONTINUE;
 						}
 
 					});
@@ -145,6 +145,21 @@ public class FileHelperUtil {
 					}
 
 					@Override
+					public FileVisitResult preVisitDirectory(
+							Path dir, BasicFileAttributes basicFileAttributes)
+						throws IOException {
+
+						Files.copy(
+							dir, toPath.resolve(fromPath.relativize(dir)),
+							StandardCopyOption.COPY_ATTRIBUTES,
+							StandardCopyOption.REPLACE_EXISTING);
+
+						fileTimes.put(dir, Files.getLastModifiedTime(dir));
+
+						return FileVisitResult.CONTINUE;
+					}
+
+					@Override
 					public FileVisitResult visitFile(
 							Path file, BasicFileAttributes basicFileAttributes)
 						throws IOException {
@@ -174,30 +189,16 @@ public class FileHelperUtil {
 						return FileVisitResult.CONTINUE;
 					}
 
-				@Override
-				public FileVisitResult preVisitDirectory(
-						Path dir, BasicFileAttributes basicFileAttributes)
-					throws IOException {
-
-					Files.copy(
-						dir, toPath.resolve(fromPath.relativize(dir)),
-						StandardCopyOption.COPY_ATTRIBUTES,
-						StandardCopyOption.REPLACE_EXISTING);
-
-					fileTimes.put(dir, Files.getLastModifiedTime(dir));
-
-					return FileVisitResult.CONTINUE;
-				}
-
-			});
+				});
 		}
 		catch (IOException ioe) {
 			delete(true, toPath);
 
 			if (touched.get()) {
 				throw new IOException(
-					"Source path " + fromPath + " was left in an " +
-						"inconsistent state",
+					StringBundler.concat(
+						"Source path ", String.valueOf(fromPath),
+						" was left in an inconsistent state"),
 					ioe);
 			}
 
@@ -286,9 +287,10 @@ public class FileHelperUtil {
 
 				if (size != length) {
 					throw new IOException(
-						"Zip stream for entry " + zipEntry.getName() +
-							" is " + size + " bytes but should " + length +
-								" bytes");
+						StringBundler.concat(
+							"Zip stream for entry ", zipEntry.getName(), " is ",
+							String.valueOf(size), " bytes but should ",
+							String.valueOf(length), " bytes"));
 				}
 			}
 		}

@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
+import com.liferay.portal.kernel.util.ResourceBundleLoader;
+import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -53,6 +55,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Kamesh Sampath
  */
 public class LanguageResources {
+
+	public static ResourceBundleLoader RESOURCE_BUNDLE_LOADER =
+		new ResourceBundleLoader() {
+
+			@Override
+			public ResourceBundle loadResourceBundle(String languageId) {
+				return LanguageResources.getResourceBundle(
+					LocaleUtil.fromLanguageId(languageId));
+			}
+
+		};
 
 	public static String fixValue(String value) {
 		if (value.endsWith(LangBuilder.AUTOMATIC_COPY)) {
@@ -129,6 +142,23 @@ public class LanguageResources {
 		return superLocale;
 	}
 
+	public void afterPropertiesSet() {
+		Registry registry = RegistryUtil.getRegistry();
+
+		Filter languageResourceFilter = registry.getFilter(
+			"(&(!(javax.portlet.name=*))(language.id=*)(objectClass=" +
+				ResourceBundle.class.getName() + "))");
+
+		_serviceTracker = registry.trackServices(
+			languageResourceFilter,
+			new LanguageResourceServiceTrackerCustomizer());
+
+		_serviceTracker.open();
+
+		ResourceBundleLoaderUtil.setPortalResourceBundleLoader(
+			RESOURCE_BUNDLE_LOADER);
+	}
+
 	public void setConfig(String config) {
 		_configNames = StringUtil.split(
 			config.replace(CharPool.PERIOD, CharPool.SLASH));
@@ -147,7 +177,13 @@ public class LanguageResources {
 			Locale priorityLocale = LanguageUtil.getLocale(
 				locale.getLanguage());
 
-			if ((priorityLocale != null) && !locale.equals(priorityLocale)) {
+			if (priorityLocale != null) {
+				variant = priorityLocale.getVariant();
+			}
+
+			if ((priorityLocale != null) && !locale.equals(priorityLocale) &&
+				(variant.length() <= 0)) {
+
 				return new Locale(
 					priorityLocale.getLanguage(), priorityLocale.getCountry());
 			}
@@ -214,7 +250,9 @@ public class LanguageResources {
 				URL url = enu.nextElement();
 
 				if (_log.isInfoEnabled()) {
-					_log.info("Loading " + name + " from " + url);
+					_log.info(
+						StringBundler.concat(
+							"Loading ", name, " from ", String.valueOf(url)));
 				}
 
 				try (InputStream inputStream = url.openStream()) {
@@ -225,8 +263,10 @@ public class LanguageResources {
 
 					if (_log.isInfoEnabled()) {
 						_log.info(
-							"Loading " + url + " with " +
-								inputStreamProperties.size() + " values");
+							StringBundler.concat(
+								"Loading ", String.valueOf(url), " with ",
+								String.valueOf(inputStreamProperties.size()),
+								" values"));
 					}
 				}
 			}
@@ -257,11 +297,27 @@ public class LanguageResources {
 			newLanguageMap.putAll(oldLanguageMap);
 		}
 
-		newLanguageMap.putAll(languageMap);
+		Map<String, String> diffLanguageMap = new HashMap<>();
+
+		for (Map.Entry<String, String> entry : languageMap.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+
+			String oldValue = null;
+
+			if (value == null) {
+				oldValue = newLanguageMap.remove(key);
+			}
+			else {
+				oldValue = newLanguageMap.put(key, value);
+			}
+
+			diffLanguageMap.put(entry.getKey(), oldValue);
+		}
 
 		_languageMaps.put(locale, newLanguageMap);
 
-		return oldLanguageMap;
+		return diffLanguageMap;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -272,24 +328,10 @@ public class LanguageResources {
 	private static final Map<Locale, Map<String, String>> _languageMaps =
 		new ConcurrentHashMap<>(64);
 	private static final Locale _nullLocale = new Locale(StringPool.BLANK);
-	private static final ServiceTracker<ResourceBundle, ResourceBundle>
-		_serviceTracker;
 	private static final Map<Locale, Locale> _superLocales =
 		new ConcurrentHashMap<>();
 
-	static {
-		Registry registry = RegistryUtil.getRegistry();
-
-		Filter languageResourceFilter = registry.getFilter(
-			"(&(!(javax.portlet.name=*))(language.id=*)(objectClass=" +
-				ResourceBundle.class.getName() + "))");
-
-		_serviceTracker = registry.trackServices(
-			languageResourceFilter,
-			new LanguageResourceServiceTrackerCustomizer());
-
-		_serviceTracker.open();
-	}
+	private ServiceTracker<ResourceBundle, ResourceBundle> _serviceTracker;
 
 	private static class LanguageResourcesBundle extends ResourceBundle {
 
@@ -355,7 +397,7 @@ public class LanguageResources {
 				serviceReference);
 
 			String languageId = GetterUtil.getString(
-				serviceReference.getProperty("language.id"), StringPool.BLANK);
+				serviceReference.getProperty("language.id"));
 			Map<String, String> languageMap = new HashMap<>();
 			Locale locale = null;
 
@@ -377,10 +419,10 @@ public class LanguageResources {
 				languageMap.put(key, value);
 			}
 
-			Map<String, String> oldLanguageMap = _putLanguageMap(
+			Map<String, String> diffLanguageMap = _putLanguageMap(
 				locale, languageMap);
 
-			_oldLanguageMaps.put(serviceReference, oldLanguageMap);
+			_diffLanguageMap.put(serviceReference, diffLanguageMap);
 
 			return resourceBundle;
 		}
@@ -401,7 +443,7 @@ public class LanguageResources {
 			registry.ungetService(serviceReference);
 
 			String languageId = GetterUtil.getString(
-				serviceReference.getProperty("language.id"), StringPool.BLANK);
+				serviceReference.getProperty("language.id"));
 			Locale locale = null;
 
 			if (Validator.isNotNull(languageId)) {
@@ -411,14 +453,14 @@ public class LanguageResources {
 				locale = new Locale(StringPool.BLANK);
 			}
 
-			Map<String, String> languageMap = _oldLanguageMaps.get(
+			Map<String, String> languageMap = _diffLanguageMap.remove(
 				serviceReference);
 
 			_putLanguageMap(locale, languageMap);
 		}
 
 		private final Map<ServiceReference<?>, Map<String, String>>
-			_oldLanguageMaps = new HashMap<>();
+			_diffLanguageMap = new HashMap<>();
 
 	}
 

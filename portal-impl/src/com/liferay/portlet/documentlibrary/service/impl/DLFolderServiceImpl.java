@@ -14,22 +14,18 @@
 
 package com.liferay.portlet.documentlibrary.service.impl;
 
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.lock.ExpiredLockException;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.lock.LockManagerUtil;
-import com.liferay.portal.kernel.lock.NoSuchLockException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portlet.documentlibrary.DLGroupServiceSettings;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.model.impl.DLFolderImpl;
 import com.liferay.portlet.documentlibrary.service.base.DLFolderServiceBaseImpl;
 import com.liferay.portlet.documentlibrary.service.permission.DLFolderPermission;
@@ -260,6 +256,12 @@ public class DLFolderServiceImpl extends DLFolderServiceBaseImpl {
 			boolean includeMountFolders, QueryDefinition<?> queryDefinition)
 		throws PortalException {
 
+		if (queryDefinition.isIncludeOwner() &&
+			(queryDefinition.getOwnerUserId() != 0)) {
+
+			queryDefinition.setOwnerUserId(getUserId());
+		}
+
 		if (!DLFolderPermission.contains(
 				getPermissionChecker(), groupId, folderId, ActionKeys.VIEW)) {
 
@@ -301,6 +303,28 @@ public class DLFolderServiceImpl extends DLFolderServiceBaseImpl {
 		}
 
 		QueryDefinition<?> queryDefinition = new QueryDefinition<>(status);
+
+		return dlFolderFinder.filterCountF_FE_FS_ByG_F_M_M(
+			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition);
+	}
+
+	@Override
+	public int getFoldersAndFileEntriesAndFileShortcutsCount(
+			long groupId, long folderId, String[] mimeTypes,
+			boolean includeMountFolders, QueryDefinition<?> queryDefinition)
+		throws PortalException {
+
+		if (!DLFolderPermission.contains(
+				getPermissionChecker(), groupId, folderId, ActionKeys.VIEW)) {
+
+			return 0;
+		}
+
+		if (queryDefinition.isIncludeOwner() &&
+			(queryDefinition.getOwnerUserId() != 0)) {
+
+			queryDefinition.setOwnerUserId(getUserId());
+		}
 
 		return dlFolderFinder.filterCountF_FE_FS_ByG_F_M_M(
 			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition);
@@ -440,26 +464,7 @@ public class DLFolderServiceImpl extends DLFolderServiceBaseImpl {
 
 	@Override
 	public boolean hasInheritableLock(long folderId) throws PortalException {
-		boolean inheritable = false;
-
-		try {
-			Lock lock = LockManagerUtil.getLock(
-				DLFolder.class.getName(), folderId);
-
-			inheritable = lock.isInheritable();
-		}
-		catch (ExpiredLockException ele) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(ele, ele);
-			}
-		}
-		catch (NoSuchLockException nsle) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(nsle, nsle);
-			}
-		}
-
-		return inheritable;
+		return dlFolderLocalService.hasInheritableLock(folderId);
 	}
 
 	@Override
@@ -606,28 +611,7 @@ public class DLFolderServiceImpl extends DLFolderServiceBaseImpl {
 	public boolean verifyInheritableLock(long folderId, String lockUuid)
 		throws PortalException {
 
-		boolean verified = false;
-
-		try {
-			Lock lock = LockManagerUtil.getLock(
-				DLFolder.class.getName(), folderId);
-
-			if (!lock.isInheritable()) {
-				throw new NoSuchLockException("{folderId=" + folderId + "}");
-			}
-
-			if (lock.getUuid().equals(lockUuid)) {
-				verified = true;
-			}
-		}
-		catch (ExpiredLockException ele) {
-			throw new NoSuchLockException(ele);
-		}
-
-		return verified;
+		return dlFolderLocalService.verifyInheritableLock(folderId, lockUuid);
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		DLFolderServiceImpl.class);
 
 }

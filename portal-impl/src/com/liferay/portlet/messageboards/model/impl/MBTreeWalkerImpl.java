@@ -14,12 +14,13 @@
 
 package com.liferay.portlet.messageboards.model.impl;
 
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.model.MBTreeWalker;
+import com.liferay.message.boards.kernel.service.MBMessageLocalService;
+import com.liferay.message.boards.kernel.util.comparator.MessageThreadComparator;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portlet.messageboards.model.MBMessage;
-import com.liferay.portlet.messageboards.model.MBTreeWalker;
-import com.liferay.portlet.messageboards.service.MBMessageLocalService;
-import com.liferay.portlet.messageboards.util.comparator.MessageThreadComparator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,14 +37,29 @@ public class MBTreeWalkerImpl implements MBTreeWalker {
 		long threadId, int status, MBMessageLocalService messageLocalService,
 		Comparator<MBMessage> comparator) {
 
+		this(0, threadId, status, messageLocalService, comparator);
+	}
+
+	public MBTreeWalkerImpl(
+		long userId, long threadId, int status,
+		MBMessageLocalService messageLocalService,
+		Comparator<MBMessage> comparator) {
+
 		_messageIdsMap = new HashMap<>();
 
 		List<MBMessage> messages = null;
 		MBMessage rootMessage = null;
 
 		try {
-			messages = messageLocalService.getThreadMessages(
-				threadId, status, comparator);
+			if (userId > 0) {
+				messages = messageLocalService.getThreadMessages(
+					userId, threadId, status, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, comparator);
+			}
+			else {
+				messages = messageLocalService.getThreadMessages(
+					threadId, status, comparator);
+			}
 
 			for (int i = 0; i < messages.size(); i++) {
 				MBMessage curMessage = messages.get(i);
@@ -62,7 +78,7 @@ public class MBTreeWalkerImpl implements MBTreeWalker {
 			}
 		}
 		catch (Exception e) {
-			_log.error(e);
+			_log.error("Unable to initialize tree walker", e);
 		}
 
 		_messages = messages;
@@ -107,6 +123,7 @@ public class MBTreeWalkerImpl implements MBTreeWalker {
 		}
 
 		int[] range = new int[2];
+
 		range[0] = pos.intValue();
 
 		for (int i = range[0]; i < _messages.size(); i++) {

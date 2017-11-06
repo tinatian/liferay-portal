@@ -14,26 +14,58 @@
 
 package com.liferay.portlet.documentlibrary.util;
 
+import com.liferay.document.library.kernel.model.DLFileEntryConstants;
+import com.liferay.document.library.kernel.model.DLFileEntryType;
+import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
+import com.liferay.document.library.kernel.model.DLFileShortcut;
+import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.document.library.kernel.util.DL;
+import com.liferay.document.library.kernel.util.ImageProcessorUtil;
+import com.liferay.document.library.kernel.util.PDFProcessorUtil;
+import com.liferay.document.library.kernel.util.VideoProcessorUtil;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelCreateDateComparator;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelModifiedDateComparator;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelReadCountComparator;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelSizeComparator;
+import com.liferay.document.library.kernel.util.comparator.RepositoryModelTitleComparator;
 import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.Subscription;
+import com.liferay.portal.kernel.portlet.PortletLayoutFinder;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.SubscriptionLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -41,39 +73,16 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.model.Subscription;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.SubscriptionLocalServiceUtil;
-import com.liferay.portal.service.WorkflowDefinitionLinkLocalServiceUtil;
-import com.liferay.portal.theme.PortletDisplay;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portlet.PortletURLFactoryUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryConstants;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryType;
-import com.liferay.portlet.documentlibrary.model.DLFileEntryTypeConstants;
-import com.liferay.portlet.documentlibrary.model.DLFileShortcut;
-import com.liferay.portlet.documentlibrary.model.DLFileVersion;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
-import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelCreateDateComparator;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelModifiedDateComparator;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelReadCountComparator;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelSizeComparator;
-import com.liferay.portlet.documentlibrary.util.comparator.RepositoryModelTitleComparator;
 import com.liferay.portlet.documentlibrary.webdav.DLWebDAVUtil;
-import com.liferay.portlet.trash.util.TrashUtil;
+import com.liferay.registry.collections.ServiceTrackerCollections;
+import com.liferay.registry.collections.ServiceTrackerList;
+import com.liferay.trash.kernel.util.TrashUtil;
 
 import java.io.Serializable;
 
@@ -85,6 +94,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -128,6 +138,10 @@ public class DLImpl implements DL {
 		}
 
 		return 0;
+	}
+
+	public void destroy() {
+		_serviceTrackerList.close();
 	}
 
 	@Override
@@ -221,7 +235,7 @@ public class DLImpl implements DL {
 			FileEntry.class.getName(), PortletProvider.Action.MANAGE);
 
 		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
-			portletRequest, portletId, 0, PortletRequest.RENDER_PHASE);
+			portletRequest, portletId, PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter(
 			"mvcRenderCommandName", "/document_library/view_file_entry");
@@ -238,10 +252,17 @@ public class DLImpl implements DL {
 			Folder.class.getName(), PortletProvider.Action.MANAGE);
 
 		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
-			portletRequest, portletId, 0, PortletRequest.RENDER_PHASE);
+			portletRequest, portletId, PortletRequest.RENDER_PHASE);
 
-		portletURL.setParameter(
-			"mvcRenderCommandName", "/document_library/view");
+		if (folderId == DLFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
+			portletURL.setParameter(
+				"mvcRenderCommandName", "/document_library/view");
+		}
+		else {
+			portletURL.setParameter(
+				"mvcRenderCommandName", "/document_library/view_folder");
+		}
+
 		portletURL.setParameter("folderId", String.valueOf(folderId));
 
 		return portletURL.toString();
@@ -467,49 +488,7 @@ public class DLImpl implements DL {
 
 	@Override
 	public String getFileIconCssClass(String extension) {
-		return "icon-file-alt";
-	}
-
-	@Override
-	public String getFileName(
-		long groupId, long folderId, String tempFileName) {
-
-		String extension = FileUtil.getExtension(tempFileName);
-
-		int pos = tempFileName.lastIndexOf(TEMP_RANDOM_SUFFIX);
-
-		if (pos != -1) {
-			tempFileName = tempFileName.substring(0, pos);
-
-			if (Validator.isNotNull(extension)) {
-				tempFileName = tempFileName + StringPool.PERIOD + extension;
-			}
-		}
-
-		while (true) {
-			try {
-				DLAppLocalServiceUtil.getFileEntry(
-					groupId, folderId, tempFileName);
-
-				StringBundler sb = new StringBundler(5);
-
-				sb.append(FileUtil.stripExtension(tempFileName));
-				sb.append(StringPool.DASH);
-				sb.append(StringUtil.randomString());
-
-				if (Validator.isNotNull(extension)) {
-					sb.append(StringPool.PERIOD);
-					sb.append(extension);
-				}
-
-				tempFileName = sb.toString();
-			}
-			catch (Exception e) {
-				break;
-			}
-		}
-
-		return tempFileName;
+		return "documents-and-media";
 	}
 
 	@Override
@@ -531,11 +510,11 @@ public class DLImpl implements DL {
 
 		String previewQueryString = null;
 
-		if (PropsValues.DL_FILE_ENTRY_THUMBNAIL_ENABLED) {
-			if (ImageProcessorUtil.hasImages(fileVersion)) {
-				previewQueryString = "&imagePreview=1";
-			}
-			else if (PDFProcessorUtil.hasImages(fileVersion)) {
+		if (ImageProcessorUtil.isSupported(fileVersion.getMimeType())) {
+			previewQueryString = "&imagePreview=1";
+		}
+		else if (PropsValues.DL_FILE_ENTRY_PREVIEW_ENABLED) {
+			if (PDFProcessorUtil.hasImages(fileVersion)) {
 				previewQueryString = "&previewFileIndex=1";
 			}
 			else if (VideoProcessorUtil.hasVideo(fileVersion)) {
@@ -565,31 +544,15 @@ public class DLImpl implements DL {
 			fileEntry, fileVersion, themeDisplay, queryString, true, true);
 	}
 
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #getPreviewURL(FileEntry,
-	 *             FileVersion, ThemeDisplay, String, boolean, boolean)}
-	 */
-	@Deprecated
-	@Override
-	public String getPreviewURL(
-		FileEntry fileEntry, FileVersion fileVersion, ThemeDisplay themeDisplay,
-		String queryString, boolean appendToken) {
-
-		return getPreviewURL(
-			fileEntry, fileVersion, themeDisplay, queryString, true, true);
-	}
-
 	@Override
 	public String getPreviewURL(
 		FileEntry fileEntry, FileVersion fileVersion, ThemeDisplay themeDisplay,
 		String queryString, boolean appendVersion, boolean absoluteURL) {
 
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
-		if (themeDisplay != null) {
-			if (absoluteURL) {
-				sb.append(themeDisplay.getPortalURL());
-			}
+		if ((themeDisplay != null) && absoluteURL) {
+			sb.append(themeDisplay.getPortalURL());
 		}
 
 		sb.append(PortalUtil.getPathContext());
@@ -605,10 +568,10 @@ public class DLImpl implements DL {
 			fileName = TrashUtil.getOriginalTitle(fileEntry.getFileName());
 		}
 
-		sb.append(HttpUtil.encodeURL(HtmlUtil.unescape(fileName)));
+		sb.append(URLCodec.encodeURL(HtmlUtil.unescape(fileName)));
 
 		sb.append(StringPool.SLASH);
-		sb.append(HttpUtil.encodeURL(fileEntry.getUuid()));
+		sb.append(URLCodec.encodeURL(fileEntry.getUuid()));
 
 		if (appendVersion) {
 			sb.append("?version=");
@@ -687,7 +650,7 @@ public class DLImpl implements DL {
 	@Override
 	public String getSanitizedFileName(String title, String extension) {
 		String fileName = StringUtil.replace(
-			title, StringPool.SLASH, StringPool.UNDERLINE);
+			title, CharPool.SLASH, CharPool.UNDERLINE);
 
 		if (Validator.isNotNull(extension) &&
 			!StringUtil.endsWith(fileName, StringPool.PERIOD + extension)) {
@@ -813,7 +776,7 @@ public class DLImpl implements DL {
 	public String getThumbnailStyle(
 		boolean max, int margin, int height, int width) {
 
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(5);
 
 		if (max) {
 			sb.append("max-height: ");
@@ -864,6 +827,28 @@ public class DLImpl implements DL {
 	}
 
 	@Override
+	public String getUniqueFileName(
+		long groupId, long folderId, String fileName) {
+
+		String uniqueFileName = fileName;
+
+		for (int i = 1;; i++) {
+			try {
+				DLAppLocalServiceUtil.getFileEntry(
+					groupId, folderId, uniqueFileName);
+
+				uniqueFileName = FileUtil.appendParentheticalSuffix(
+					fileName, String.valueOf(i));
+			}
+			catch (Exception e) {
+				break;
+			}
+		}
+
+		return uniqueFileName;
+	}
+
+	@Override
 	public String getWebDavURL(
 			ThemeDisplay themeDisplay, Folder folder, FileEntry fileEntry)
 		throws PortalException {
@@ -887,7 +872,7 @@ public class DLImpl implements DL {
 			boolean manualCheckInRequired, boolean openDocumentUrl)
 		throws PortalException {
 
-		StringBundler webDavURL = new StringBundler(8);
+		StringBundler webDavURL = new StringBundler(7);
 
 		boolean secure = false;
 
@@ -930,7 +915,7 @@ public class DLImpl implements DL {
 			Folder curFolder = folder;
 
 			while (true) {
-				sb.insert(0, HttpUtil.encodeURL(curFolder.getName(), true));
+				sb.insert(0, URLCodec.encodeURL(curFolder.getName(), true));
 				sb.insert(0, StringPool.SLASH);
 
 				if (curFolder.getParentFolderId() ==
@@ -1102,9 +1087,8 @@ public class DLImpl implements DL {
 			DLFileVersion dlFileVersion, ServiceContext serviceContext)
 		throws PortalException {
 
-		if (Validator.equals(
-				serviceContext.getCommand(), Constants.ADD_WEBDAV) ||
-			Validator.equals(
+		if (Objects.equals(serviceContext.getCommand(), Constants.ADD_WEBDAV) ||
+			Objects.equals(
 				serviceContext.getCommand(), Constants.UPDATE_WEBDAV)) {
 
 			return serviceContext.getPortalURL() +
@@ -1119,8 +1103,9 @@ public class DLImpl implements DL {
 		}
 
 		HttpServletRequest request = serviceContext.getRequest();
+		ThemeDisplay themeDisplay = serviceContext.getThemeDisplay();
 
-		if ((request == null) || (serviceContext.getThemeDisplay() == null)) {
+		if ((request == null) || (themeDisplay == null)) {
 			return StringPool.BLANK;
 		}
 
@@ -1132,11 +1117,31 @@ public class DLImpl implements DL {
 		String portletId = PortletProviderUtil.getPortletId(
 			FileEntry.class.getName(), PortletProvider.Action.VIEW);
 
+		for (PortletLayoutFinder portletLayoutFinder : _serviceTrackerList) {
+			try {
+				PortletLayoutFinder.Result result = portletLayoutFinder.find(
+					themeDisplay, themeDisplay.getSiteGroupId());
+
+				portletId = result.getPortletId();
+				plid = result.getPlid();
+
+				break;
+			}
+			catch (PortalException pe) {
+
+				// LPS-52675
+
+				if (_log.isDebugEnabled()) {
+					_log.debug(pe, pe);
+				}
+			}
+		}
+
 		if ((plid == controlPanelPlid) ||
 			(plid == LayoutConstants.DEFAULT_PLID)) {
 
 			portletURL = PortalUtil.getControlPanelPortletURL(
-				request, portletId, 0, PortletRequest.RENDER_PHASE);
+				request, portletId, PortletRequest.RENDER_PHASE);
 		}
 		else {
 			portletURL = PortletURLFactoryUtil.create(
@@ -1156,14 +1161,7 @@ public class DLImpl implements DL {
 			ThemeDisplay themeDisplay, String queryString)
 		throws Exception {
 
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(themeDisplay.getPathThemeImages());
-		sb.append("/file_system/large/");
-		sb.append(getGenericName(fileEntry.getExtension()));
-		sb.append(".png");
-
-		String thumbnailSrc = sb.toString();
+		String thumbnailSrc = StringPool.BLANK;
 
 		if (Validator.isNotNull(queryString)) {
 			thumbnailSrc = getPreviewURL(
@@ -1263,5 +1261,10 @@ public class DLImpl implements DL {
 			_populateGenericNamesMap(genericName);
 		}
 	}
+
+	private final ServiceTrackerList<PortletLayoutFinder> _serviceTrackerList =
+		ServiceTrackerCollections.openList(
+			PortletLayoutFinder.class,
+			"(model.class.name=" + FileEntry.class.getName() + ")");
 
 }

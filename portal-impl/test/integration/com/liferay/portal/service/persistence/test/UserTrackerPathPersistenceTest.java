@@ -14,27 +14,27 @@
 
 package com.liferay.portal.service.persistence.test;
 
-import com.liferay.portal.NoSuchUserTrackerPathException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserTrackerPathException;
+import com.liferay.portal.kernel.model.UserTrackerPath;
+import com.liferay.portal.kernel.service.UserTrackerPathLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.UserTrackerPathPersistence;
+import com.liferay.portal.kernel.service.persistence.UserTrackerPathUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.model.UserTrackerPath;
-import com.liferay.portal.service.UserTrackerPathLocalServiceUtil;
-import com.liferay.portal.service.persistence.UserTrackerPathPersistence;
-import com.liferay.portal.service.persistence.UserTrackerPathUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -117,6 +117,8 @@ public class UserTrackerPathPersistenceTest {
 
 		newUserTrackerPath.setMvccVersion(RandomTestUtil.nextLong());
 
+		newUserTrackerPath.setCompanyId(RandomTestUtil.nextLong());
+
 		newUserTrackerPath.setUserTrackerId(RandomTestUtil.nextLong());
 
 		newUserTrackerPath.setPath(RandomTestUtil.randomString());
@@ -131,6 +133,8 @@ public class UserTrackerPathPersistenceTest {
 			newUserTrackerPath.getMvccVersion());
 		Assert.assertEquals(existingUserTrackerPath.getUserTrackerPathId(),
 			newUserTrackerPath.getUserTrackerPathId());
+		Assert.assertEquals(existingUserTrackerPath.getCompanyId(),
+			newUserTrackerPath.getCompanyId());
 		Assert.assertEquals(existingUserTrackerPath.getUserTrackerId(),
 			newUserTrackerPath.getUserTrackerId());
 		Assert.assertEquals(existingUserTrackerPath.getPath(),
@@ -171,8 +175,8 @@ public class UserTrackerPathPersistenceTest {
 
 	protected OrderByComparator<UserTrackerPath> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("UserTrackerPath",
-			"mvccVersion", true, "userTrackerPathId", true, "userTrackerId",
-			true, "path", true, "pathDate", true);
+			"mvccVersion", true, "userTrackerPathId", true, "companyId", true,
+			"userTrackerId", true, "path", true, "pathDate", true);
 	}
 
 	@Test
@@ -375,6 +379,8 @@ public class UserTrackerPathPersistenceTest {
 		UserTrackerPath userTrackerPath = _persistence.create(pk);
 
 		userTrackerPath.setMvccVersion(RandomTestUtil.nextLong());
+
+		userTrackerPath.setCompanyId(RandomTestUtil.nextLong());
 
 		userTrackerPath.setUserTrackerId(RandomTestUtil.nextLong());
 

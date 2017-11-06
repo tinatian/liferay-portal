@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="build-common-web" xmlns:antelope="antlib:ise.antelope.tasks">
+<project name="build-common-web" xmlns:antelope="antlib:ise.antelope.tasks" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 	<import file="build-common.xml" />
 
 	<macrodef name="manifest-macro">
@@ -16,7 +16,7 @@
 
 	<target name="clean">
 		<delete dir="docroot/WEB-INF/classes" />
-		<delete file="${war.file}.war" failonerror="false" />
+		<delete failonerror="false" file="${war.file}.war" />
 
 		<delete>
 			<fileset dir="docroot" includes="**/.sprite.png" />
@@ -70,14 +70,23 @@
 				<if>
 					<available file="tmp" type="dir" />
 					<then>
-						<copy todir="${war.file.dest}" preservelastmodified="true">
+						<copy preservelastmodified="true" todir="${war.file.dest}">
 							<fileset dir="tmp" />
 						</copy>
 					</then>
 					<elseif>
+						<and>
+							<available file="docroot" type="dir" />
+							<equals arg1="${build.profile}" arg2="slim" />
+						</and>
+						<then>
+							<copy file="docroot/WEB-INF/slim-runtime-web.xml" preservelastmodified="true" tofile="${war.file.dest}/WEB-INF/web.xml" />
+						</then>
+					</elseif>
+					<elseif>
 						<available file="docroot" type="dir" />
 						<then>
-							<copy todir="${war.file.dest}" preservelastmodified="true">
+							<copy preservelastmodified="true" todir="${war.file.dest}">
 								<fileset dir="docroot">
 									<exclude name="**/css/*.scss" />
 								</fileset>
@@ -88,7 +97,7 @@
 						</then>
 					</elseif>
 					<else>
-						<unwar src="${war.file}.war" dest="${war.file.dest}" />
+						<unwar dest="${war.file.dest}" src="${war.file}.war" />
 					</else>
 				</if>
 			</else>
@@ -114,7 +123,7 @@
 			</and>
 			<then>
 				<tstamp>
-					<format property="tstamp.value" pattern="yyyyMMddkkmmssSSS" />
+					<format pattern="yyyyMMddkkmmssSSS" property="tstamp.value" />
 				</tstamp>
 
 				<jar
@@ -144,6 +153,22 @@
 				</replace>
 			</then>
 		</if>
+	</target>
+
+	<target depends="war" name="install-portal-release">
+		<install-portal-artifact packaging="war" />
+	</target>
+
+	<target depends="war" name="install-portal-snapshot">
+		<install-portal-artifact packaging="war" snapshot="true" />
+	</target>
+
+	<target depends="war" name="publish-portal-release">
+		<publish-portal-artifact packaging="war" />
+	</target>
+
+	<target depends="war" name="publish-portal-snapshot">
+		<publish-portal-artifact packaging="war" snapshot="true" />
 	</target>
 
 	<target name="war">

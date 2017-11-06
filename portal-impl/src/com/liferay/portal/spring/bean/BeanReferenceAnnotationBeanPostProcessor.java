@@ -17,10 +17,11 @@ package com.liferay.portal.spring.bean;
 import com.liferay.portal.cluster.ClusterableAdvice;
 import com.liferay.portal.kernel.bean.BeanLocatorException;
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.bean.IdentifiableBean;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
+import com.liferay.portal.kernel.util.StringBundler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -47,7 +48,7 @@ public class BeanReferenceAnnotationBeanPostProcessor
 
 	public BeanReferenceAnnotationBeanPostProcessor() {
 		if (_log.isDebugEnabled()) {
-			_log.debug("Creating instance " + this.hashCode());
+			_log.debug("Creating instance " + hashCode());
 		}
 	}
 
@@ -72,18 +73,14 @@ public class BeanReferenceAnnotationBeanPostProcessor
 	public Object postProcessBeforeInitialization(Object bean, String beanName)
 		throws BeansException {
 
-		if (bean instanceof IdentifiableBean) {
-			IdentifiableBean identifiableBean = (IdentifiableBean)bean;
+		if (!(bean instanceof IdentifiableOSGiService) &&
+			beanName.endsWith("Service") && _log.isWarnEnabled()) {
 
-			identifiableBean.setBeanIdentifier(beanName);
-		}
-		else if (beanName.endsWith("Service")) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					beanName + " should implement " +
-						IdentifiableBean.class.getName() +
-							" for " + ClusterableAdvice.class.getName());
-			}
+			_log.warn(
+				StringBundler.concat(
+					beanName, " should implement ",
+					IdentifiableOSGiService.class.getName(), " for ",
+					ClusterableAdvice.class.getName()));
 		}
 
 		_autoInject(bean, beanName, bean.getClass());

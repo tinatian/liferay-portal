@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
@@ -51,8 +50,7 @@ public class ImageToolImplTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE);
+		new LiferayIntegrationTestRule();
 
 	@Test
 	public void testCropBMP() throws Exception {
@@ -104,6 +102,19 @@ public class ImageToolImplTest {
 		read("liferay.png");
 	}
 
+	@Test
+	public void testRotation90Degrees() throws Exception {
+		ImageBag imageBag = ImageToolUtil.read(
+			getFile("rotation_90_degrees.jpg"));
+
+		RenderedImage originalImage = imageBag.getRenderedImage();
+
+		RenderedImage rotatedImage = ImageToolUtil.rotate(originalImage, 90);
+
+		Assert.assertEquals(originalImage.getHeight(), rotatedImage.getWidth());
+		Assert.assertEquals(originalImage.getWidth(), rotatedImage.getHeight());
+	}
+
 	protected void crop(String fileName) throws Exception {
 
 		// Crop bottom right
@@ -150,8 +161,8 @@ public class ImageToolImplTest {
 
 	protected File getFile(String fileName) {
 		fileName =
-			"portal-impl/test/integration/com/liferay/portal/image/" +
-				"dependencies/" + fileName;
+			"portal-impl/test/integration/com/liferay/portal/image" +
+				"/dependencies/" + fileName;
 
 		return new File(fileName);
 	}
@@ -193,6 +204,7 @@ public class ImageToolImplTest {
 
 		Assert.assertTrue(
 			StringUtil.equalsIgnoreCase(expectedType, resultType));
+
 		Assert.assertTrue(
 			expectedDataBuffer instanceof DataBufferByte ||
 			expectedDataBuffer instanceof DataBufferInt);

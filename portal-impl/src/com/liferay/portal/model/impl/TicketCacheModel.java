@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.Ticket;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.Ticket;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -155,12 +155,17 @@ public class TicketCacheModel implements CacheModel<Ticket>, Externalizable,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		ticketId = objectInput.readLong();
+
 		companyId = objectInput.readLong();
 		createDate = objectInput.readLong();
+
 		classNameId = objectInput.readLong();
+
 		classPK = objectInput.readLong();
 		key = objectInput.readUTF();
+
 		type = objectInput.readInt();
 		extraInfo = objectInput.readUTF();
 		expirationDate = objectInput.readLong();
@@ -170,10 +175,14 @@ public class TicketCacheModel implements CacheModel<Ticket>, Externalizable,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(ticketId);
+
 		objectOutput.writeLong(companyId);
 		objectOutput.writeLong(createDate);
+
 		objectOutput.writeLong(classNameId);
+
 		objectOutput.writeLong(classPK);
 
 		if (key == null) {

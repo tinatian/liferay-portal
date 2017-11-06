@@ -14,15 +14,13 @@
 
 package com.liferay.portal.tools.sample.sql.builder;
 
-import com.liferay.portal.dao.db.MySQLDB;
 import com.liferay.portal.freemarker.FreeMarkerUtil;
 import com.liferay.portal.kernel.dao.db.DB;
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
-import com.liferay.portal.kernel.io.CharPipe;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
+import com.liferay.portal.kernel.dao.db.DBType;
 import com.liferay.portal.kernel.io.OutputStreamWriter;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedReader;
 import com.liferay.portal.kernel.io.unsync.UnsyncBufferedWriter;
-import com.liferay.portal.kernel.io.unsync.UnsyncTeeWriter;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.SortedProperties;
@@ -30,6 +28,8 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.tools.ToolDependencies;
+import com.liferay.portal.tools.sample.sql.builder.io.CharPipe;
+import com.liferay.portal.tools.sample.sql.builder.io.UnsyncTeeWriter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,6 +43,7 @@ import java.io.Writer;
 import java.nio.channels.FileChannel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +89,10 @@ public class SampleSQLBuilder {
 	public SampleSQLBuilder(Properties properties, DataFactory dataFactory)
 		throws Exception {
 
-		_dbType = properties.getProperty("sample.sql.db.type");
+		_dbType = DBType.valueOf(
+			StringUtil.toUpperCase(
+				properties.getProperty("sample.sql.db.type")));
 
-		_csvFileNames = StringUtil.split(
-			properties.getProperty("sample.sql.output.csv.file.names"));
 		_optimizeBufferSize = GetterUtil.getInteger(
 			properties.getProperty("sample.sql.optimize.buffer.size"));
 		_outputDir = properties.getProperty("sample.sql.output.dir");
@@ -205,9 +206,9 @@ public class SampleSQLBuilder {
 	}
 
 	protected void compressSQL(Reader reader, File dir) throws Exception {
-		DB db = DBFactoryUtil.getDB(_dbType, null);
+		DB db = DBManagerUtil.getDB(_dbType, null);
 
-		if (db instanceof MySQLDB) {
+		if ((_dbType == DBType.MARIADB) || (_dbType == DBType.MYSQL)) {
 			db = new SampleMySQLDB(db.getMajorVersion(), db.getMinorVersion());
 		}
 
@@ -264,6 +265,7 @@ public class SampleSQLBuilder {
 				miscSQL = db.buildSQL(miscSQL);
 
 				miscSQLWriter.write(miscSQL);
+
 				miscSQLWriter.write(StringPool.NEW_LINE);
 			}
 		}
@@ -298,31 +300,26 @@ public class SampleSQLBuilder {
 			@Override
 			public void run() {
 				Writer sampleSQLWriter = null;
-				Map<String, Object> context = null;
 
 				try {
 					sampleSQLWriter = new UnsyncTeeWriter(
 						createUnsyncBufferedWriter(charPipe.getWriter()),
 						createFileWriter(new File(_outputDir, "sample.sql")));
 
-					context = getContext();
-
-					FreeMarkerUtil.process(_script, context, sampleSQLWriter);
+					FreeMarkerUtil.process(
+						_script,
+						Collections.singletonMap("dataFactory", _dataFactory),
+						sampleSQLWriter);
 				}
 				catch (Throwable t) {
 					_freeMarkerThrowable = t;
 				}
 				finally {
-					for (String csvFileName : _csvFileNames) {
-						Writer csvWriter = (Writer)context.get(
-							csvFileName + "CSVWriter");
-
-						try {
-							csvWriter.close();
-						}
-						catch (IOException ioe) {
-							ioe.printStackTrace();
-						}
+					try {
+						_dataFactory.closeCSVWriters();
+					}
+					catch (IOException ioe) {
+						ioe.printStackTrace();
 					}
 
 					if (sampleSQLWriter != null) {
@@ -343,45 +340,6 @@ public class SampleSQLBuilder {
 		thread.start();
 
 		return charPipe.getReader();
-	}
-
-	protected Map<String, Object> getContext() throws Exception {
-		Map<String, Object> context = new HashMap<>();
-
-		context.put("dataFactory", _dataFactory);
-
-		for (String csvFileName : _csvFileNames) {
-			Writer csvWriter = createFileWriter(
-				new File(_outputDir, csvFileName + ".csv"));
-
-			context.put(csvFileName + "CSVWriter", csvWriter);
-		}
-
-		return context;
-	}
-
-	protected Properties getProperties(String[] args) throws Exception {
-		Reader reader = null;
-
-		try {
-			Properties properties = new SortedProperties();
-
-			reader = new FileReader(args[0]);
-
-			properties.load(reader);
-
-			return properties;
-		}
-		finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				}
-				catch (IOException ioe) {
-					ioe.printStackTrace();
-				}
-			}
-		}
 	}
 
 	protected void mergeSQL(File inputDir, File outputSQLFile)
@@ -448,9 +406,8 @@ public class SampleSQLBuilder {
 
 	private static final int _WRITER_BUFFER_SIZE = 16 * 1024;
 
-	private final String[] _csvFileNames;
 	private final DataFactory _dataFactory;
-	private final String _dbType;
+	private final DBType _dbType;
 	private volatile Throwable _freeMarkerThrowable;
 	private final int _optimizeBufferSize;
 	private final String _outputDir;

@@ -14,14 +14,13 @@
 
 package com.liferay.portal.util.mail;
 
-import com.liferay.portal.kernel.mail.MailMessage;
+import com.liferay.mail.kernel.model.MailMessage;
+import com.liferay.petra.mail.MailEngine;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.Sync;
+import com.liferay.portal.test.mail.MailServiceTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SynchronousMailTestRule;
-import com.liferay.portal.util.test.MailServiceTestUtil;
-import com.liferay.util.mail.MailEngine;
 
 import java.util.List;
 
@@ -42,8 +41,7 @@ public class MailEngineTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
-			SynchronousMailTestRule.INSTANCE);
+			new LiferayIntegrationTestRule(), SynchronousMailTestRule.INSTANCE);
 
 	@Test
 	public void testSendMail() throws Exception {
@@ -56,19 +54,19 @@ public class MailEngineTest {
 
 		Assert.assertEquals(1, MailServiceTestUtil.getInboxSize());
 
-		List<com.dumbster.smtp.MailMessage> mailMessages =
+		List<com.liferay.portal.test.mail.MailMessage> mailMessages =
 			MailServiceTestUtil.getMailMessages(
 				"Body", "My name is Inigo Montoya.");
 
-		Assert.assertEquals(1, mailMessages.size());
+		Assert.assertEquals(mailMessages.toString(), 1, mailMessages.size());
 
 		mailMessages = MailServiceTestUtil.getMailMessages("Subject", "Hello");
 
-		Assert.assertEquals(1, mailMessages.size());
+		Assert.assertEquals(mailMessages.toString(), 1, mailMessages.size());
 
 		mailMessages = MailServiceTestUtil.getMailMessages("To", "to@test.com");
 
-		Assert.assertEquals(1, mailMessages.size());
+		Assert.assertEquals(mailMessages.toString(), 1, mailMessages.size());
 	}
 
 }

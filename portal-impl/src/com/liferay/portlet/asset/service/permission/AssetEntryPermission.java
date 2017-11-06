@@ -14,14 +14,14 @@
 
 package com.liferay.portlet.asset.service.permission;
 
+import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetRendererFactory;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.asset.AssetRendererFactoryRegistryUtil;
-import com.liferay.portlet.asset.model.AssetEntry;
-import com.liferay.portlet.asset.model.AssetRendererFactory;
-import com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
  * @author Samuel Kong
@@ -78,7 +78,7 @@ public class AssetEntryPermission {
 		}
 		catch (Exception e) {
 			throw new PrincipalException.MustHavePermission(
-				permissionChecker, className, entry.getClassPK(), actionId);
+				permissionChecker, className, entry.getClassPK(), e, actionId);
 		}
 	}
 
@@ -96,10 +96,18 @@ public class AssetEntryPermission {
 			String actionId)
 		throws PortalException {
 
-		AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
-			className, classPK);
+		AssetRendererFactory<?> assetRendererFactory =
+			AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(
+				className);
 
-		return contains(permissionChecker, entry, actionId);
+		try {
+			return assetRendererFactory.hasPermission(
+				permissionChecker, classPK, actionId);
+		}
+		catch (Exception e) {
+			throw new PrincipalException.MustHavePermission(
+				permissionChecker, className, classPK, e, actionId);
+		}
 	}
 
 }

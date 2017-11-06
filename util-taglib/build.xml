@@ -1,87 +1,12 @@
 <?xml version="1.0"?>
 
-<project name="util-taglib" basedir="." default="compile">
+<project basedir="." default="compile" name="util-taglib">
 	<import file="../build-common-java.xml" />
 
 	<property name="deploy.dir" value="${app.server.lib.portal.dir}" />
 	<property name="jar.file" value="${ant.project.name}" />
 	<property name="manifest.bundle.name" value="Liferay Util Taglib" />
-	<property name="manifest.bundle.symbolic.name" value="util-taglib" />
-
-	<macrodef name="clean">
-		<sequential>
-			<clean-cmd>
-				<clean-post>
-					<delete file="${liferay.home}/osgi/portal/${jar.file}.jar" failonerror="false" />
-				</clean-post>
-			</clean-cmd>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="compile-java">
-		<sequential>
-			<compile-java-cmd>
-				<compile-java-post>
-					<copy file="classes/META-INF/liferay-portlet.tld" tofile="classes/META-INF/liferay-portlet_2_0.tld" preservelastmodified="true" />
-
-					<replace file="classes/META-INF/liferay-portlet_2_0.tld">
-						<replacetoken><![CDATA[<uri>http://java.sun.com/portlet</uri>]]></replacetoken>
-						<replacevalue><![CDATA[<uri>http://java.sun.com/portlet_2_0</uri>]]></replacevalue>
-					</replace>
-				</compile-java-post>
-			</compile-java-cmd>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="deploy">
-		<attribute name="deploy.dir" />
-		<attribute name="jar.file" />
-		<attribute name="src.dir" />
-
-		<sequential>
-			<deploy-cmd
-				copy.jar="false"
-				deploy.dir="@{deploy.dir}"
-				jar.file="@{jar.file}"
-				src.dir="@{src.dir}"
-			>
-				<deploy-post>
-					<copy file="@{jar.file}.jar" todir="${liferay.home}/osgi/portal" preservelastmodified="true" />
-
-					<if>
-						<equals arg1="${app.server.type}" arg2="tomcat" />
-						<then>
-							<copy file="@{jar.file}.jar" todir="@{deploy.dir}" preservelastmodified="true" />
-
-							<copy todir="${app.server.portal.dir}/WEB-INF/tld" preservelastmodified="true">
-								<fileset dir="classes/META-INF" includes="*.tld" />
-							</copy>
-						</then>
-					</if>
-				</deploy-post>
-			</deploy-cmd>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="jar-macro">
-		<sequential>
-			<jar-macro-cmd>
-				<jar-post>
-					<copy file="${jar.file}.jar" todir="${portal-impl.classes.dir}/com/liferay/portal/deploy/dependencies" preservelastmodified="true" />
-
-					<copy todir="${portal-impl.classes.dir}/com/liferay/portal/deploy/dependencies" preservelastmodified="true">
-						<fileset dir="classes/META-INF" />
-					</copy>
-
-					<copy file="${jar.file}.jar" todir="${project.dir}/portal-web/docroot/WEB-INF/lib" preservelastmodified="true" />
-
-					<copy overwrite="true" todir="${project.dir}/portal-web/docroot/WEB-INF/tld" preservelastmodified="true">
-						<fileset dir="classes/META-INF" includes="*.tld" />
-					</copy>
-				</jar-post>
-			</jar-macro-cmd>
-		</sequential>
-	</macrodef>
+	<property name="manifest.bundle.symbolic.name" value="com.liferay.util.taglib" />
 
 	<target name="build-taglibs">
 		<java
@@ -103,10 +28,114 @@
 		</java>
 	</target>
 
-	<target name="taglibdoc" depends="validate-tld">
-		<property name="doc.taglibs.dir" value="${doc.dir}/taglibs" />
+	<target depends="build-common-java.clean" name="clean">
+		<delete failonerror="false" file="${liferay.home}/osgi/portal/${jar.file}.jar" />
+	</target>
+
+	<target depends="build-common-java.compile" name="compile">
+		<copy file="classes/META-INF/liferay-portlet.tld" preservelastmodified="true" tofile="classes/META-INF/liferay-portlet_2_0.tld" />
+
+		<replace file="classes/META-INF/liferay-portlet_2_0.tld">
+			<replacetoken><![CDATA[<uri>http://java.sun.com/portlet</uri>]]></replacetoken>
+			<replacevalue><![CDATA[<uri>http://java.sun.com/portlet_2_0</uri>]]></replacevalue>
+		</replace>
+	</target>
+
+	<target depends="build-common-java.deploy" name="deploy">
+		<if>
+			<equals arg1="${build.profile}" arg2="slim" />
+			<then>
+			</then>
+			<elseif>
+				<equals arg1="${app.server.type}" arg2="tomcat" />
+				<then>
+					<copy file="${jar.file}.jar" preservelastmodified="true" todir="${deploy.dir}" />
+
+					<copy preservelastmodified="true" todir="${app.server.portal.dir}/WEB-INF/tld">
+						<fileset dir="classes/META-INF" includes="*.tld" />
+					</copy>
+				</then>
+			</elseif>
+		</if>
+	</target>
+
+	<target depends="build-common-java.init-jar" name="init-jar">
+		<for param="file">
+			<path>
+				<fileset dir="classes/META-INF" includes="*.tld" />
+			</path>
+
+			<sequential>
+				<local name="filename" />
+
+				<basename file="@{file}" property="filename" suffix=".tld" />
+
+				<if>
+					<available file="../modules/core/util-taglib-compat/tld/${filename}-compat" />
+					<then>
+						<local name="content" />
+
+						<loadfile property="content" srcFile="../modules/core/util-taglib-compat/tld/${filename}-compat" />
+
+						<replace file="@{file}" value="${content}">
+							<replacetoken><![CDATA[</taglib>]]></replacetoken>
+						</replace>
+
+						<concat append="true" destfile="@{file}"><![CDATA[</taglib>]]></concat>
+					</then>
+				</if>
+			</sequential>
+		</for>
+	</target>
+
+	<target depends="build-common-java.jar" name="jar">
+		<copy file="${jar.file}.jar" preservelastmodified="true" todir="${portal-impl.classes.dir}/com/liferay/portal/deploy/dependencies" />
+
+		<copy preservelastmodified="true" todir="${portal-impl.classes.dir}/com/liferay/portal/deploy/dependencies">
+			<fileset dir="classes/META-INF" />
+		</copy>
+
+		<copy file="${jar.file}.jar" preservelastmodified="true" todir="${project.dir}/portal-web/docroot/WEB-INF/lib" />
+
+		<copy overwrite="true" preservelastmodified="true" todir="${project.dir}/portal-web/docroot/WEB-INF/tld">
+			<fileset dir="classes/META-INF" includes="*.tld" />
+		</copy>
+	</target>
+
+	<target depends="taglibdoc" name="jar-tlddoc">
+		<zip destfile="util-taglib-tlddoc.jar">
+			<zipfileset dir="${doc.dir}/taglibs/util-taglib" />
+		</zip>
+	</target>
+
+	<target depends="jar,jar-javadoc,jar-sources,jar-tlddoc" name="publish-portal-release">
+		<publish-portal-artifact >
+			<attach classifier="javadoc" file="${artifact.name}-javadoc.jar" />
+			<attach classifier="sources" file="${artifact.name}-sources.jar" />
+			<attach classifier="tlddoc" file="${artifact.name}-tlddoc.jar" />
+		</publish-portal-artifact>
+	</target>
+
+	<target depends="jar,jar-javadoc,jar-sources,jar-tlddoc" name="publish-portal-snapshot">
+		<publish-portal-artifact snapshot="true">
+			<attach classifier="javadoc" file="${artifact.name}-javadoc.jar" />
+			<attach classifier="sources" file="${artifact.name}-sources.jar" />
+			<attach classifier="tlddoc" file="${artifact.name}-tlddoc.jar" />
+		</publish-portal-artifact>
+	</target>
+
+	<target depends="validate-tld" name="taglibdoc">
+		<property name="doc.taglibs.dir" value="${doc.dir}/taglibs/util-taglib" />
 
 		<mkdir dir="${doc.taglibs.dir}" />
+
+		<pathconvert pathsep=" " property="tld.files">
+			<path>
+				<fileset dir="${project.dir}/util-taglib/src/META-INF">
+					<include name="*.tld" />
+				</fileset>
+			</path>
+		</pathconvert>
 
 		<java
 			classname="com.sun.tlddoc.TLDDoc"
@@ -116,22 +145,20 @@
 			maxmemory="256m"
 		>
 			<arg line="-d ${doc.taglibs.dir}" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-aui.tld" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-portlet-ext.tld" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-portlet.tld" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-security.tld" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-theme.tld" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-ui.tld" />
-			<arg value="${project.dir}/util-taglib/src/META-INF/liferay-util.tld" />
+			<arg line="${tld.files}" />
+			<arg line="-xslt ${project.dir}/tools/styles/taglibs" />
 		</java>
+
+		<copy overwrite="true" preservelastmodified="true" todir="${doc.taglibs.dir}/images">
+			<fileset dir="${project.dir}/util-taglib/src/META-INF/images" />
+		</copy>
 	</target>
 
 	<target name="validate-tld">
-		<schemavalidate>
-			<fileset
-				dir="${project.dir}/util-taglib/src/META-INF"
-				includes="*.tld"
-			/>
+		<schemavalidate classname="org.xmlresolver.tools.ResolvingXMLReader" classpathref="lib.classpath">
+			<fileset dir="${project.dir}/util-taglib/src/META-INF">
+				<include name="*.tld" />
+			</fileset>
 		</schemavalidate>
 	</target>
 </project>

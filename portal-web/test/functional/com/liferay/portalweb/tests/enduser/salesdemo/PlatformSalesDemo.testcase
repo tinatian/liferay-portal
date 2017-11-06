@@ -1,27 +1,41 @@
 <definition component-name="portal-portal-services" ignore="true">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
 	<property name="portlet.plugins.includes" value="sample-drools-portlet" />
 	<property name="testray.main.component.name" value="Development Tools" />
 	<property name="web.plugins.includes" value="drools-web" />
 
 	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
 		<execute macro="User#firstLoginPG" />
 	</set-up>
 
 	<tear-down>
-		<execute macro="User#logoutAndLoginPG">
-			<var name="userLoginEmailAddress" value="test@liferay.com" />
-			<var name="userLoginFullName" value="Test Test" />
-		</execute>
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
 
-		<execute macro="Page#tearDownPG" />
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="User#logoutAndLoginPG">
+					<var name="userLoginEmailAddress" value="test@liferay.com" />
+					<var name="userLoginFullName" value="Test Test" />
+				</execute>
 
-		<execute macro="User#tearDownCP" />
+				<execute macro="Page#tearDownPG" />
 
-		<execute macro="WebContent#tearDownCP" />
+				<execute macro="User#tearDownCP" />
 
-		<execute macro="WebContentTemplates#tearDownCP" />
+				<execute macro="WebContent#tearDownCP" />
 
-		<execute macro="WebContentStructures#tearDownCP" />
+				<execute macro="WebContentTemplates#tearDownCP" />
+
+				<execute macro="WebContentStructures#tearDownCP" />
+			</else>
+		</if>
 	</tear-down>
 
 	<command name="SampleDroolsDemo" priority="4">
@@ -46,8 +60,12 @@
 			<var name="userAddressType" value="Business" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContentNavigator#gotoManageStructures" />
@@ -69,20 +87,36 @@
 			<var name="structureName" value="WC Structure Name" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
+		<execute macro="WebContentNavigator#gotoManageTemplates" />
+
 		<execute macro="WebContentTemplates#addCP">
-			<var name="structureName" value="${structureName}" />
 			<var name="templateDescription" value="${templateDescription}" />
-			<var name="templateFieldNames" value="${structureFieldNames}" />
 			<var name="templateLanguage" value="ftl" />
 			<var name="templateName" value="${templateName}" />
 		</execute>
 
-		<execute macro="Page#gotoContentCP">
-			<var name="portletName" value="Web Content" />
+		<execute macro="WebContentTemplates#addStructure">
+			<var name="structureName" value="${structureName}" />
+			<var name="templateFieldNames" value="${structureFieldNames}" />
+			<var name="templateLanguage" value="ftl" />
+		</execute>
+
+		<execute macro="PortletEntry#save" />
+
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Content" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Web Content" />
 		</execute>
 
 		<execute macro="WebContent#addWithStructureCP">
@@ -93,13 +127,13 @@
 			<var name="webContentTitle" value="${webContentTitle}" />
 		</execute>
 
-		<execute macro="WebContent#publish" />
+		<execute macro="PortletEntry#publish" />
 
 		<execute macro="WebContent#viewTitle">
 			<var name="webContentTitle" value="${webContentTitle}" />
 		</execute>
 
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="WC Page" />
 		</execute>
 
@@ -118,7 +152,7 @@
 			<var name="tagName" value="european" />
 		</execute>
 
-		<execute macro="Page#addPG">
+		<execute macro="Page#add">
 			<var name="pageName" value="Drools Page" />
 		</execute>
 
@@ -131,8 +165,10 @@
 			<var name="welcomeMessage" value="Welcome Test Test!" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#addCP">
@@ -142,8 +178,10 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#editPasswordCP">
@@ -152,24 +190,30 @@
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
-		<execute macro="Page#gotoUsersCP">
-			<var name="portletName" value="Site Memberships" />
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Members" />
+			<var name="panel" value="Site Administration" />
+			<var name="portlet" value="Site Memberships" />
 		</execute>
 
-		<execute macro="Site#addMemberCP">
-			<var name="siteName" value="${siteName}" />
-			<var name="siteScopeName" value="${siteName}" />
+		<execute macro="Site#assignUserAsMemberCP">
 			<var name="userFirstName" value="userfn" />
 			<var name="userLastName" value="userln" />
 			<var name="userScreenName" value="usersn" />
 		</execute>
 
-		<execute macro="Page#gotoCP">
-			<var name="portletName" value="Users and Organizations" />
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
 		</execute>
 
 		<execute macro="User#assignSiteRoleCP">
@@ -194,7 +238,7 @@
 			<var name="userAddressType" value="Business" />
 		</execute>
 
-		<execute macro="Page#gotoPG">
+		<execute macro="Navigator#gotoPage">
 			<var name="pageName" value="Drools Page" />
 		</execute>
 

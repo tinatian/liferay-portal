@@ -1,0 +1,49 @@
+<definition default="assertConfirmation" summary="Assert that the confirmation window equals the value '${value1}'">
+	<command name="assertConfirmation">
+		<execute function="Poshi.Confirm#assertConfirmation" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+
+		<execute function="WaitForSPARefresh" />
+	</command>
+
+	<command name="assertConfirmationNoWait">
+		<execute function="Poshi.Confirm#assertConfirmationNoWait" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+	</command>
+
+	<command name="assertPartialConfirmation">
+		<execute function="Poshi.Confirm#assertPartialConfirmation" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+
+		<execute function="WaitForSPARefresh" />
+	</command>
+
+	<command name="assertPrompt" summary="Assert that the confirmation window equals the value '${locator1}' and enter '${value1}' for input">
+		<execute function="Poshi.Confirm#assertPrompt" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+
+		<execute function="WaitForSPARefresh" />
+	</command>
+
+	<command name="waitForConfirmation">
+		<execute function="Poshi.Confirm#waitForConfirmation" />
+
+		<execute selenium="assertJavaScriptErrors" />
+
+		<execute selenium="assertLiferayErrors" />
+
+		<execute function="WaitForSPARefresh" />
+	</command>
+</definition>

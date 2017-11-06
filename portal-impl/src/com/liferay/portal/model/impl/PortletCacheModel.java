@@ -16,12 +16,12 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.Portlet;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -128,10 +128,13 @@ public class PortletCacheModel implements CacheModel<Portlet>, Externalizable,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		mvccVersion = objectInput.readLong();
+
 		id = objectInput.readLong();
+
 		companyId = objectInput.readLong();
 		portletId = objectInput.readUTF();
 		roles = objectInput.readUTF();
+
 		active = objectInput.readBoolean();
 	}
 
@@ -139,7 +142,9 @@ public class PortletCacheModel implements CacheModel<Portlet>, Externalizable,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(mvccVersion);
+
 		objectOutput.writeLong(id);
+
 		objectOutput.writeLong(companyId);
 
 		if (portletId == null) {

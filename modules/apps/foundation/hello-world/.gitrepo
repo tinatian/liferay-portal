@@ -1,0 +1,11 @@
+;
+; Do not manually edit this file.
+;
+[subrepo]
+	autopull = false
+	cmdver = liferay
+	commit = a93310948950db1cd65c7eddfc03aca0db6e332d
+	mergebuttonmergecommits = false
+	mode = push
+	parent = d8f44a7808fb029e7958950d80ab6261f960781a
+	remote = git@github.com:liferay/com-liferay-hello-world.git

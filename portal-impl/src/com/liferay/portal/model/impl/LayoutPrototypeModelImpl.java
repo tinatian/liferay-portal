@@ -16,29 +16,31 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.LocaleException;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.LayoutPrototype;
+import com.liferay.portal.kernel.model.LayoutPrototypeModel;
+import com.liferay.portal.kernel.model.LayoutPrototypeSoap;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.LayoutPrototype;
-import com.liferay.portal.model.LayoutPrototypeModel;
-import com.liferay.portal.model.LayoutPrototypeSoap;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
-import com.liferay.portlet.exportimport.lar.StagedModelType;
 
 import java.io.Serializable;
 
@@ -107,7 +109,7 @@ public class LayoutPrototypeModelImpl extends BaseModelImpl<LayoutPrototype>
 		TABLE_COLUMNS_MAP.put("active_", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LayoutPrototype (mvccVersion LONG default 0,uuid_ VARCHAR(75) null,layoutPrototypeId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name STRING null,description STRING null,settings_ STRING null,active_ BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table LayoutPrototype (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,layoutPrototypeId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name STRING null,description STRING null,settings_ STRING null,active_ BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table LayoutPrototype";
 	public static final String ORDER_BY_JPQL = " ORDER BY layoutPrototype.layoutPrototypeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LayoutPrototype.layoutPrototypeId ASC";
@@ -115,13 +117,13 @@ public class LayoutPrototypeModelImpl extends BaseModelImpl<LayoutPrototype>
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.entity.cache.enabled.com.liferay.portal.model.LayoutPrototype"),
+				"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.LayoutPrototype"),
 			true);
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.com.liferay.portal.model.LayoutPrototype"),
+				"value.object.finder.cache.enabled.com.liferay.portal.kernel.model.LayoutPrototype"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.util.PropsUtil.get(
-				"value.object.column.bitmask.enabled.com.liferay.portal.model.LayoutPrototype"),
+				"value.object.column.bitmask.enabled.com.liferay.portal.kernel.model.LayoutPrototype"),
 			true);
 	public static final long ACTIVE_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
@@ -179,7 +181,7 @@ public class LayoutPrototypeModelImpl extends BaseModelImpl<LayoutPrototype>
 	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.util.PropsUtil.get(
-				"lock.expiration.time.com.liferay.portal.model.LayoutPrototype"));
+				"lock.expiration.time.com.liferay.portal.kernel.model.LayoutPrototype"));
 
 	public LayoutPrototypeModelImpl() {
 	}
@@ -676,6 +678,7 @@ public class LayoutPrototypeModelImpl extends BaseModelImpl<LayoutPrototype>
 		return _active;
 	}
 
+	@JSON
 	@Override
 	public boolean isActive() {
 		return _active;
@@ -1019,7 +1022,7 @@ public class LayoutPrototypeModelImpl extends BaseModelImpl<LayoutPrototype>
 		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
-		sb.append("com.liferay.portal.model.LayoutPrototype");
+		sb.append("com.liferay.portal.kernel.model.LayoutPrototype");
 		sb.append("</model-name>");
 
 		sb.append(

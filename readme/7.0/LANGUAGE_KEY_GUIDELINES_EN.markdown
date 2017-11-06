@@ -8,7 +8,7 @@ Cody Hoag (GitHub handle: codyhoag).
 ## Text Styles
 
 Title, phrase, and sentence are the three types of text styles used in Liferay's
-language keys. They're described described below.
+language keys. They're described below.
 
 ### Title
 
@@ -52,14 +52,15 @@ for the remaining selectors/fields.
 
 **Example 1:**
 
-The *Portal Settings* &rarr; *Authentication* &rarr; *General* page consistently
-uses phrases (in this case, question phrases) for all of its checkboxes:
+The *Instance Settings* &rarr; *Authentication* &rarr; *General* page
+consistently uses phrases (in this case, question phrases) for all of its
+checkboxes:
 
 ![ ](./images/language/authentication_checkboxes.png)
 
 **Example 2:**
 
-The *Portal Settings* &rarr; *Users* &rarr; *Fields* page consistently uses
+The *Instance Settings* &rarr; *Users* &rarr; *Fields* page consistently uses
 concise titles for all of its checkboxes:
 
 ![ ](./images/language/user_fields_checkboxes.png)
@@ -76,9 +77,9 @@ include:
 - *Allow subsites to display content from this site*
 - *Use the default language options*
 
-If a radio or checkbox provides more options on select it, make that obvious by
-starting its label with an action word. For example, a checkbox using one of the
-labels below hints that selecting it brings up more options:
+If a radio or checkbox provides more options when selecting it, make that
+obvious by starting its label with an action word. For example, a checkbox using
+one of the labels below hints that selecting it brings up more options:
 
 - *Define social interactions for users*
 - *Define a custom default language and additional available languages for this
@@ -145,9 +146,9 @@ button, selector, or field.
 **Examples:**
 
 - *Please enter JDBC information for new database.*
-- *Configure the file upload settings.*
+- *Migrate documents from one repository to another.*
 
-    ![ ](./images/language/file_upload_settings.png)
+    ![ ](./images/language/data_migration_instructions.png)
 
 ### 5. UI Component Labels
 
@@ -166,7 +167,7 @@ Use titles to label menus and high level tabs.
 
 ![ ](./images/language/menu_example.png)
 
-![ ](./images/language/control_panel_menu.png)
+![ ](./images/language/server_admin_options.png)
 
 ### 7. Section and Text Area Descriptions
 

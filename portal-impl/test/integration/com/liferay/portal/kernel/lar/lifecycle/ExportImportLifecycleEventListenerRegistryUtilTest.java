@@ -14,14 +14,13 @@
 
 package com.liferay.portal.kernel.lar.lifecycle;
 
+import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleEventListenerRegistryUtil;
+import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleListener;
 import com.liferay.portal.kernel.lar.lifecycle.bundle.exportimportlifecycleeventlistenerregistryutil.TestAsyncExportImportLifecycleListener;
 import com.liferay.portal.kernel.lar.lifecycle.bundle.exportimportlifecycleeventlistenerregistryutil.TestSyncExportImportLifecycleListener;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.MainServletTestRule;
 import com.liferay.portal.test.rule.SyntheticBundleRule;
-import com.liferay.portlet.exportimport.lifecycle.ExportImportLifecycleEventListenerRegistryUtil;
-import com.liferay.portlet.exportimport.lifecycle.ExportImportLifecycleListener;
 
 import java.util.Set;
 
@@ -39,7 +38,7 @@ public class ExportImportLifecycleEventListenerRegistryUtilTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), MainServletTestRule.INSTANCE,
+			new LiferayIntegrationTestRule(),
 			new SyntheticBundleRule(
 				"bundle.exportimportlifecycleeventlistenerregistryutil"));
 

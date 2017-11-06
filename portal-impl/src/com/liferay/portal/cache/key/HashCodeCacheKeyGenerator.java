@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.cache.key.CacheKeyGenerator;
 import com.liferay.portal.kernel.util.StringBundler;
 
 /**
- * @author Michael C. Han
- * @author Shuyang Zhou
+ * @author     Michael C. Han
+ * @author     Shuyang Zhou
+ * @deprecated As of 7.0.0, moved to {@link HashCodeHexStringCacheKeyGenerator}
  */
+@Deprecated
 public class HashCodeCacheKeyGenerator extends BaseCacheKeyGenerator {
 
 	@Override

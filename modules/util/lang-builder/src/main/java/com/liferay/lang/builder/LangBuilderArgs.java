@@ -19,6 +19,9 @@ package com.liferay.lang.builder;
  */
 public class LangBuilderArgs {
 
+	public static final String[] EXCLUDED_LANGUAGE_IDS =
+		{"da", "de", "fi", "ja", "nl", "pt_PT", "sv"};
+
 	public static final String LANG_DIR_NAME = "src/content";
 
 	public static final String LANG_FILE_NAME = "Language";
@@ -26,6 +29,10 @@ public class LangBuilderArgs {
 	public static final boolean PLUGIN = true;
 
 	public static final boolean TRANSLATE = true;
+
+	public String[] getExcludedLanguageIds() {
+		return _excludedLanguageIds;
+	}
 
 	public String getLangDirName() {
 		return _langDirName;
@@ -39,12 +46,8 @@ public class LangBuilderArgs {
 		return _portalLanguagePropertiesFileName;
 	}
 
-	public String getTranslateClientId() {
-		return _translateClientId;
-	}
-
-	public String getTranslateClientSecret() {
-		return _translateClientSecret;
+	public String getTranslateSubscriptionKey() {
+		return _translateSubscriptionKey;
 	}
 
 	public boolean isPlugin() {
@@ -53,6 +56,10 @@ public class LangBuilderArgs {
 
 	public boolean isTranslate() {
 		return _translate;
+	}
+
+	public void setExcludedLanguageIds(String[] excludedLanguageIds) {
+		_excludedLanguageIds = excludedLanguageIds;
 	}
 
 	public void setLangDirName(String langDirName) {
@@ -77,20 +84,16 @@ public class LangBuilderArgs {
 		_translate = translate;
 	}
 
-	public void setTranslateClientId(String translateClientId) {
-		_translateClientId = translateClientId;
+	public void setTranslateSubscriptionKey(String translateSubscriptionKey) {
+		_translateSubscriptionKey = translateSubscriptionKey;
 	}
 
-	public void setTranslateClientSecret(String translateClientSecret) {
-		_translateClientSecret = translateClientSecret;
-	}
-
+	private String[] _excludedLanguageIds = EXCLUDED_LANGUAGE_IDS;
 	private String _langDirName = LANG_DIR_NAME;
 	private String _langFileName = LANG_FILE_NAME;
 	private boolean _plugin = PLUGIN;
 	private String _portalLanguagePropertiesFileName;
 	private boolean _translate = TRANSLATE;
-	private String _translateClientId;
-	private String _translateClientSecret;
+	private String _translateSubscriptionKey;
 
 }

@@ -16,18 +16,18 @@ package com.liferay.taglib.portlet;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.portlet.DummyPortletURL;
 import com.liferay.portal.kernel.portlet.LiferayPortletConfig;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletModeFactory;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryConstants;
 import com.liferay.portal.kernel.portlet.WindowStateFactory;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.PortletPreferencesFactoryConstants;
 import com.liferay.taglib.util.ParamAndPropertyAncestorTagImpl;
 
 import java.util.Map;
@@ -236,8 +236,11 @@ public class ActionURLTag extends ParamAndPropertyAncestorTagImpl {
 		_cacheability = cacheability;
 	}
 
+	@Override
 	public void setCopyCurrentRenderParameters(
 		boolean copyCurrentRenderParameters) {
+
+		super.setCopyCurrentRenderParameters(copyCurrentRenderParameters);
 
 		_copyCurrentRenderParameters = Boolean.valueOf(
 			copyCurrentRenderParameters);

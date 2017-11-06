@@ -14,6 +14,8 @@
 
 package com.liferay.portlet.asset.service.persistence.impl;
 
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.asset.kernel.service.persistence.AssetTagFinder;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -22,12 +24,8 @@ import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portlet.asset.model.AssetTag;
 import com.liferay.portlet.asset.model.impl.AssetTagImpl;
-import com.liferay.portlet.asset.service.persistence.AssetTagFinder;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
 import java.util.ArrayList;
@@ -186,6 +184,7 @@ public class AssetTagFinderImpl
 			session = openSession();
 
 			String sql = CustomSQLUtil.get(FIND_BY_G_N_S_E);
+
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
 			QueryPos qPos = QueryPos.getInstance(q);
@@ -221,28 +220,6 @@ public class AssetTagFinderImpl
 		finally {
 			closeSession(session);
 		}
-	}
-
-	protected String getGroupIds(long[] groupIds) {
-		if (groupIds.length == 0) {
-			return StringPool.BLANK;
-		}
-
-		StringBundler sb = new StringBundler(groupIds.length * 2);
-
-		sb.append(StringPool.OPEN_PARENTHESIS);
-
-		for (int i = 0; i < groupIds.length; i++) {
-			sb.append("groupId = ?");
-
-			if ((i + 1) < groupIds.length) {
-				sb.append(" OR ");
-			}
-		}
-
-		sb.append(") AND");
-
-		return sb.toString();
 	}
 
 }

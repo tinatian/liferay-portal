@@ -14,16 +14,16 @@
 
 package com.liferay.portal.security.membershippolicy.bundle.sitemembershippolicyfactoryimpl;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.LayoutSet;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
@@ -262,6 +262,11 @@ public class TestGroup implements Group {
 
 	@Override
 	public String getLiveParentTypeSettingsProperty(String key) {
+		return null;
+	}
+
+	@Override
+	public String getLogoURL(ThemeDisplay themeDisplay, boolean useDefault) {
 		return null;
 	}
 
@@ -508,15 +513,6 @@ public class TestGroup implements Group {
 	@Deprecated
 	@Override
 	public boolean isChild(long groupId) {
-		return false;
-	}
-
-	/**
-	 * @deprecated As of 7.0.0
-	 */
-	@Deprecated
-	@Override
-	public boolean isCommunity() {
 		return false;
 	}
 

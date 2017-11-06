@@ -14,10 +14,9 @@
 
 package com.liferay.portal.service.impl;
 
-import com.liferay.portal.NoSuchWebDAVPropsException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.WebDAVProps;
 import com.liferay.portal.kernel.webdav.WebDAVException;
-import com.liferay.portal.model.WebDAVProps;
 import com.liferay.portal.service.base.WebDAVPropsLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -32,10 +31,11 @@ public class WebDAVPropsLocalServiceImpl
 	public void deleteWebDAVProps(String className, long classPK) {
 		long classNameId = classNameLocalService.getClassNameId(className);
 
-		try {
-			webDAVPropsPersistence.removeByC_C(classNameId, classPK);
-		}
-		catch (NoSuchWebDAVPropsException nswdavpe) {
+		WebDAVProps webDAVProps = webDAVPropsPersistence.fetchByC_C(
+			classNameId, classPK);
+
+		if (webDAVProps != null) {
+			webDAVPropsPersistence.remove(webDAVProps);
 		}
 	}
 

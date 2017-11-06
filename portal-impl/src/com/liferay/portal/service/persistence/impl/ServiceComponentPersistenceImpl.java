@@ -16,7 +16,6 @@ package com.liferay.portal.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.NoSuchServiceComponentException;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -26,21 +25,23 @@ import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.NoSuchServiceComponentException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ServiceComponent;
+import com.liferay.portal.kernel.service.persistence.ServiceComponentPersistence;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.model.MVCCModel;
-import com.liferay.portal.model.ServiceComponent;
 import com.liferay.portal.model.impl.ServiceComponentImpl;
 import com.liferay.portal.model.impl.ServiceComponentModelImpl;
-import com.liferay.portal.service.persistence.ServiceComponentPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -59,7 +61,7 @@ import java.util.Set;
  *
  * @author Brian Wing Shun Chan
  * @see ServiceComponentPersistence
- * @see com.liferay.portal.service.persistence.ServiceComponentUtil
+ * @see com.liferay.portal.kernel.service.persistence.ServiceComponentUtil
  * @generated
  */
 @ProviderType
@@ -207,7 +209,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ServiceComponent serviceComponent : list) {
-					if (!Validator.equals(buildNamespace,
+					if (!Objects.equals(buildNamespace,
 								serviceComponent.getBuildNamespace())) {
 						list = null;
 
@@ -222,7 +224,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 			if (orderByComparator != null) {
 				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -454,8 +456,9 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
 			query = new StringBundler(3);
@@ -687,8 +690,8 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-			if (_log.isWarnEnabled()) {
-				_log.warn(msg.toString());
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
 			}
 
 			throw new NoSuchServiceComponentException(msg.toString());
@@ -733,7 +736,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		if (result instanceof ServiceComponent) {
 			ServiceComponent serviceComponent = (ServiceComponent)result;
 
-			if (!Validator.equals(buildNamespace,
+			if (!Objects.equals(buildNamespace,
 						serviceComponent.getBuildNamespace()) ||
 					(buildNumber != serviceComponent.getBuildNumber())) {
 				result = null;
@@ -912,6 +915,22 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 	public ServiceComponentPersistenceImpl() {
 		setModelClass(ServiceComponent.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("data", "data_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -985,7 +1004,8 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ServiceComponentModelImpl)serviceComponent);
+		clearUniqueFindersCache((ServiceComponentModelImpl)serviceComponent,
+			true);
 	}
 
 	@Override
@@ -997,52 +1017,40 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 			entityCache.removeResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
 				ServiceComponentImpl.class, serviceComponent.getPrimaryKey());
 
-			clearUniqueFindersCache((ServiceComponentModelImpl)serviceComponent);
+			clearUniqueFindersCache((ServiceComponentModelImpl)serviceComponent,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		ServiceComponentModelImpl serviceComponentModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					serviceComponentModelImpl.getBuildNamespace(),
-					serviceComponentModelImpl.getBuildNumber()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_BNS_BNU, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_BNS_BNU, args,
-				serviceComponentModelImpl);
-		}
-		else {
-			if ((serviceComponentModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_BNS_BNU.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						serviceComponentModelImpl.getBuildNamespace(),
-						serviceComponentModelImpl.getBuildNumber()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_BNS_BNU, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_BNS_BNU, args,
-					serviceComponentModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		ServiceComponentModelImpl serviceComponentModelImpl) {
 		Object[] args = new Object[] {
 				serviceComponentModelImpl.getBuildNamespace(),
 				serviceComponentModelImpl.getBuildNumber()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_BNS_BNU, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_BNS_BNU, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_BNS_BNU, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_BNS_BNU, args,
+			serviceComponentModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ServiceComponentModelImpl serviceComponentModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					serviceComponentModelImpl.getBuildNamespace(),
+					serviceComponentModelImpl.getBuildNumber()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_BNS_BNU, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_BNS_BNU, args);
+		}
 
 		if ((serviceComponentModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_BNS_BNU.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					serviceComponentModelImpl.getOriginalBuildNamespace(),
 					serviceComponentModelImpl.getOriginalBuildNumber()
 				};
@@ -1100,8 +1108,8 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 					primaryKey);
 
 			if (serviceComponent == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				if (_log.isDebugEnabled()) {
+					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
 				throw new NoSuchServiceComponentException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1184,8 +1192,22 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ServiceComponentModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ServiceComponentModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] {
+					serviceComponentModelImpl.getBuildNamespace()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_BUILDNAMESPACE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUILDNAMESPACE,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -1215,8 +1237,8 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 			ServiceComponentImpl.class, serviceComponent.getPrimaryKey(),
 			serviceComponent, false);
 
-		clearUniqueFindersCache(serviceComponentModelImpl);
-		cacheUniqueFindersCache(serviceComponentModelImpl, isNew);
+		clearUniqueFindersCache(serviceComponentModelImpl, false);
+		cacheUniqueFindersCache(serviceComponentModelImpl);
 
 		serviceComponent.resetOriginalValues();
 
@@ -1245,7 +1267,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 	}
 
 	/**
-	 * Returns the service component with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 * Returns the service component with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the service component
 	 * @return the service component
@@ -1257,8 +1279,8 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		ServiceComponent serviceComponent = fetchByPrimaryKey(primaryKey);
 
 		if (serviceComponent == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			if (_log.isDebugEnabled()) {
+				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			throw new NoSuchServiceComponentException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
@@ -1289,12 +1311,14 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 	 */
 	@Override
 	public ServiceComponent fetchByPrimaryKey(Serializable primaryKey) {
-		ServiceComponent serviceComponent = (ServiceComponent)entityCache.getResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
 				ServiceComponentImpl.class, primaryKey);
 
-		if (serviceComponent == _nullServiceComponent) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		ServiceComponent serviceComponent = (ServiceComponent)serializable;
 
 		if (serviceComponent == null) {
 			Session session = null;
@@ -1310,8 +1334,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 				}
 				else {
 					entityCache.putResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
-						ServiceComponentImpl.class, primaryKey,
-						_nullServiceComponent);
+						ServiceComponentImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1365,18 +1388,20 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			ServiceComponent serviceComponent = (ServiceComponent)entityCache.getResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
 					ServiceComponentImpl.class, primaryKey);
 
-			if (serviceComponent == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, serviceComponent);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (ServiceComponent)serializable);
+				}
 			}
 		}
 
@@ -1390,7 +1415,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		query.append(_SQL_SELECT_SERVICECOMPONENT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}
@@ -1418,8 +1443,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(ServiceComponentModelImpl.ENTITY_CACHE_ENABLED,
-					ServiceComponentImpl.class, primaryKey,
-					_nullServiceComponent);
+					ServiceComponentImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1521,7 +1545,7 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 
 			if (orderByComparator != null) {
 				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_SERVICECOMPONENT);
 
@@ -1660,35 +1684,4 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"data"
 			});
-	private static final ServiceComponent _nullServiceComponent = new ServiceComponentImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<ServiceComponent> toCacheModel() {
-				return _nullServiceComponentCacheModel;
-			}
-		};
-
-	private static final CacheModel<ServiceComponent> _nullServiceComponentCacheModel =
-		new NullCacheModel();
-
-	private static class NullCacheModel implements CacheModel<ServiceComponent>,
-		MVCCModel {
-		@Override
-		public long getMvccVersion() {
-			return -1;
-		}
-
-		@Override
-		public void setMvccVersion(long mvccVersion) {
-		}
-
-		@Override
-		public ServiceComponent toEntityModel() {
-			return _nullServiceComponent;
-		}
-	}
 }

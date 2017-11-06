@@ -14,6 +14,12 @@
 
 package com.liferay.portlet.asset.service.persistence.test;
 
+import com.liferay.asset.kernel.exception.NoSuchTagStatsException;
+import com.liferay.asset.kernel.model.AssetTagStats;
+import com.liferay.asset.kernel.service.AssetTagStatsLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetTagStatsPersistence;
+import com.liferay.asset.kernel.service.persistence.AssetTagStatsUtil;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -22,7 +28,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.TransactionalTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
@@ -30,12 +35,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
-
-import com.liferay.portlet.asset.NoSuchTagStatsException;
-import com.liferay.portlet.asset.model.AssetTagStats;
-import com.liferay.portlet.asset.service.AssetTagStatsLocalServiceUtil;
-import com.liferay.portlet.asset.service.persistence.AssetTagStatsPersistence;
-import com.liferay.portlet.asset.service.persistence.AssetTagStatsUtil;
+import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -116,6 +116,8 @@ public class AssetTagStatsPersistenceTest {
 
 		AssetTagStats newAssetTagStats = _persistence.create(pk);
 
+		newAssetTagStats.setCompanyId(RandomTestUtil.nextLong());
+
 		newAssetTagStats.setTagId(RandomTestUtil.nextLong());
 
 		newAssetTagStats.setClassNameId(RandomTestUtil.nextLong());
@@ -128,6 +130,8 @@ public class AssetTagStatsPersistenceTest {
 
 		Assert.assertEquals(existingAssetTagStats.getTagStatsId(),
 			newAssetTagStats.getTagStatsId());
+		Assert.assertEquals(existingAssetTagStats.getCompanyId(),
+			newAssetTagStats.getCompanyId());
 		Assert.assertEquals(existingAssetTagStats.getTagId(),
 			newAssetTagStats.getTagId());
 		Assert.assertEquals(existingAssetTagStats.getClassNameId(),
@@ -182,8 +186,8 @@ public class AssetTagStatsPersistenceTest {
 
 	protected OrderByComparator<AssetTagStats> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("AssetTagStats",
-			"tagStatsId", true, "tagId", true, "classNameId", true,
-			"assetCount", true);
+			"tagStatsId", true, "companyId", true, "tagId", true,
+			"classNameId", true, "assetCount", true);
 	}
 
 	@Test
@@ -398,6 +402,8 @@ public class AssetTagStatsPersistenceTest {
 		long pk = RandomTestUtil.nextLong();
 
 		AssetTagStats assetTagStats = _persistence.create(pk);
+
+		assetTagStats.setCompanyId(RandomTestUtil.nextLong());
 
 		assetTagStats.setTagId(RandomTestUtil.nextLong());
 

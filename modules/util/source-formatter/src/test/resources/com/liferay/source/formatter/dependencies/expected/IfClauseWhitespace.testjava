@@ -16,7 +16,6 @@ package com.liferay.source.formatter.dependencies;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portlet.softwarecatalog.UnavailableProductVersionDirectDownloadURLException;
@@ -29,6 +28,7 @@ public class IfClauseWhitespace {
 	public void method() {
 		String s = "test";
 		String testString = "test";
+		long testLong = 12345678901234;
 
 		if ((s != null) &&
 			(StringUtil.isLowerCase(s) || StringUtil.isUpperCase(s))) {
@@ -36,12 +36,12 @@ public class IfClauseWhitespace {
 			return;
 		}
 		else if (Validator.isNotNull(testString) &&
-				 (testString == "testString")) {
+				 (testLong == 12345678901234)) {
 
 			return;
 		}
 		else if (Validator.isNotNull(testString) &&
-				 (testString == "testString2")) {
+				 (testLong == 12345678901234)) {
 
 			return;
 		}
@@ -61,14 +61,6 @@ public class IfClauseWhitespace {
 
 		if (StringUtil.equalsIgnoreCase(
 				testString,
-				PropsKeys.
-					INDEX_PERMISSION_FILTER_SEARCH_AMPLIFICATION_FACTOR)) {
-
-			return;
-		}
-
-		if (StringUtil.equalsIgnoreCase(
-				testString,
 				"this is a very long string that needs its own line")) {
 
 			return;
@@ -81,8 +73,8 @@ public class IfClauseWhitespace {
 		}
 
 		while ((testString != null) &&
-			   (StringUtil.toLowerCase(testString) !=
-				   "this is a medium long string")) {
+			   (StringUtil.count("hello", "world") !=
+				   StringUtil.count("hello", "w"))) {
 
 			testString = testString + "test";
 		}

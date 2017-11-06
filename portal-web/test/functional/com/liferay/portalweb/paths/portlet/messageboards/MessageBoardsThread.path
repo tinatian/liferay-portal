@@ -18,6 +18,52 @@
 	<td></td>
 	<td></td>
 </tr>
+<!--THREAD-->
+<tr>
+	<td>THREAD_BODY</td>
+	<td>//div[contains(@class,'message-content') and contains(.,'${key_threadBody}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_BODY_2</td>
+	<td>xpath=(//div[contains(@class,'message-content') and contains(.,'${key_threadBody}')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_REPLY_BUTTON</td>
+	<td>//div[@class='thread-container' and contains(.,'${key_threadSubject}')]//span[contains(.,'Reply to Main Thread')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_REPLY_SUBJECT</td>
+	<td>//div[contains(@class,'list-group-card') and contains(.,'${key_threadBody}')]//h4[contains(.,'${key_threadSubject}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_SUBJECT</td>
+	<td>//div[@class='panel-heading' and contains(.,'${key_threadSubject}')]//h4[contains(.,'${key_threadSubject}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_SUBJECT_2</td>
+	<td>xpath=(//div[@class='panel-heading' and contains(.,'${key_threadSubject}')]//h4[contains(.,'${key_threadSubject}')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_USERNAME</td>
+	<td>//div[@class='panel-heading' and contains(.,'${key_threadSubject}')]//h5[contains(.,'${key_userName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>THREAD_USERNAME_2</td>
+	<td>xpath=(//div[@class='panel-heading' and contains(.,'${key_threadSubject}')]//h5[contains(.,'${key_userName}')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
 <!--THREAD_CONTROLS-->
 <tr>
 	<td>THREAD_CONTROLS_BACK</td>
@@ -68,37 +114,37 @@
 <!--THREAD_TABLE-->
 <tr>
 	<td>THREAD_TABLE_SUBJECT_1</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]/a)[1]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]//a)[1]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>THREAD_TABLE_SUBJECT_2</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]/a)[2]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]//a)[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>THREAD_TABLE_SUBJECT_3</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]/a)[3]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]//a)[3]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>THREAD_TABLE_SUBJECT_4</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]/a)[4]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[1]//a)[4]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>THREAD_TABLE_AUTHOR_1</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[2]/a)[1]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[2]//a)[1]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>THREAD_TABLE_AUTHOR_2</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[2]/a)[2]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[2]//a)[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>THREAD_TABLE_AUTHOR_3</td>
-	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[2]/a)[3]</td>
+	<td>xpath=(//div[@id='toggle_id_message_boards_view_message_thread']/table/tbody/tr/td[2]//a)[3]</td>
 	<td></td>
 </tr>
 <tr>
@@ -144,7 +190,7 @@
 </tr>
 <tr>
 	<td>MESSAGE_WORKFLOW_STATUS_1</td>
-	<td>xpath=(//span[@class='taglib-workflow-status']/span/strong)[1]</td>
+	<td>//span[@class='taglib-workflow-status']/span[contains(@class,'workflow-status')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -229,7 +275,7 @@
 </tr>
 <tr>
 	<td>MESSAGE_ANSWER_1</td>
-	<td>xpath=(//span[.='Answer'])[3]</td>
+	<td>//h4[contains(.,'Answer')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -254,7 +300,7 @@
 </tr>
 <tr>
 	<td>MESSAGE_REPLY_1</td>
-	<td>xpath=(//span[.='Reply'])[1]</td>
+	<td>//a/span[contains(.,'Reply to Main Thread')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -374,47 +420,32 @@
 </tr>
 <tr>
 	<td>MESSAGE_EDIT_1</td>
-	<td>xpath=(//td/ul/li[2]/span/a/span)[1]</td>
+	<td>xpath=(//td//ul/li[2]/span/a/span)[1]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>MESSAGE_EDIT_2</td>
-	<td>xpath=(//td/ul/li[2]/span/a/span)[2]</td>
+	<td>xpath=(//td//ul/li[2]/span/a/span)[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>MESSAGE_EDIT_3</td>
-	<td>xpath=(//td/ul/li[2]/span/a/span)[3]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>MESSAGE_REPLY_PERMISSIONS_1</td>
-	<td>xpath=(//table[contains(@class,'thread-message-view')]//td//a/span[contains(.,'Permissions')])[1]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>MESSAGE_REPLY_PERMISSIONS_2</td>
-	<td>xpath=(//table[contains(@class,'thread-message-view')]//td//a/span[contains(.,'Permissions')])[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>MESSAGE_REPLY_PERMISSIONS_3</td>
-	<td>xpath=(//table[contains(@class,'thread-message-view')]//td//a/span[contains(.,'Permissions')])[3]</td>
+	<td>xpath=(//td//ul/li[2]/span/a/span)[3]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>MESSAGE_SPLIT_THREAD</td>
-	<td>//table[contains(.,'${key_threadBody}')]/tbody/tr/td[@class='thread-bottom']/ul//a[contains(.,'Split Thread')]</td>
+	<td>//table[contains(.,'${key_threadBody}')]/tbody/tr/td[@class='thread-bottom']//ul//a[contains(.,'Split Thread')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>MESSAGE_ATTACHMENT_IMAGE</td>
-	<td>//div[@class='message-attachments']/div/img[contains(@src,'${key_mbThreadAttachment}')]</td>
+	<td>//div[contains(@class,'message-attachments')]//img[contains(@src,'${key_mbThreadAttachment}')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>MESSAGE_BODY_ATTACHMENT_1</td>
-	<td>//div[@class='thread-body']/div/ul/li[@class='message-attachment']/span/a/span</td>
+	<td>//li[@class='message-attachment']/span/a</td>
 	<td></td>
 </tr>
 <tr>

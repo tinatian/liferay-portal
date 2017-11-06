@@ -16,14 +16,14 @@ package com.liferay.portlet.documentlibrary.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.document.library.kernel.service.DLFileShortcutServiceUtil;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-import com.liferay.portal.security.auth.HttpPrincipal;
-import com.liferay.portal.service.http.TunnelUtil;
-
-import com.liferay.portlet.documentlibrary.service.DLFileShortcutServiceUtil;
 
 /**
  * Provides the HTTP utility for the
@@ -55,10 +55,10 @@ import com.liferay.portlet.documentlibrary.service.DLFileShortcutServiceUtil;
  */
 @ProviderType
 public class DLFileShortcutServiceHttp {
-	public static com.liferay.portlet.documentlibrary.model.DLFileShortcut addFileShortcut(
+	public static com.liferay.document.library.kernel.model.DLFileShortcut addFileShortcut(
 		HttpPrincipal httpPrincipal, long groupId, long repositoryId,
 		long folderId, long toFileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(DLFileShortcutServiceUtil.class,
@@ -80,7 +80,7 @@ public class DLFileShortcutServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portlet.documentlibrary.model.DLFileShortcut)returnObj;
+			return (com.liferay.document.library.kernel.model.DLFileShortcut)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -117,7 +117,7 @@ public class DLFileShortcutServiceHttp {
 		}
 	}
 
-	public static com.liferay.portlet.documentlibrary.model.DLFileShortcut getFileShortcut(
+	public static com.liferay.document.library.kernel.model.DLFileShortcut getFileShortcut(
 		HttpPrincipal httpPrincipal, long fileShortcutId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -140,7 +140,7 @@ public class DLFileShortcutServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portlet.documentlibrary.model.DLFileShortcut)returnObj;
+			return (com.liferay.document.library.kernel.model.DLFileShortcut)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -149,10 +149,10 @@ public class DLFileShortcutServiceHttp {
 		}
 	}
 
-	public static com.liferay.portlet.documentlibrary.model.DLFileShortcut updateFileShortcut(
+	public static com.liferay.document.library.kernel.model.DLFileShortcut updateFileShortcut(
 		HttpPrincipal httpPrincipal, long fileShortcutId, long repositoryId,
 		long folderId, long toFileEntryId,
-		com.liferay.portal.service.ServiceContext serviceContext)
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(DLFileShortcutServiceUtil.class,
@@ -175,7 +175,7 @@ public class DLFileShortcutServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portlet.documentlibrary.model.DLFileShortcut)returnObj;
+			return (com.liferay.document.library.kernel.model.DLFileShortcut)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -215,7 +215,7 @@ public class DLFileShortcutServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(DLFileShortcutServiceHttp.class);
 	private static final Class<?>[] _addFileShortcutParameterTypes0 = new Class[] {
 			long.class, long.class, long.class, long.class,
-			com.liferay.portal.service.ServiceContext.class
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _deleteFileShortcutParameterTypes1 = new Class[] {
 			long.class
@@ -225,7 +225,7 @@ public class DLFileShortcutServiceHttp {
 		};
 	private static final Class<?>[] _updateFileShortcutParameterTypes3 = new Class[] {
 			long.class, long.class, long.class, long.class,
-			com.liferay.portal.service.ServiceContext.class
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _updateFileShortcutsParameterTypes4 = new Class[] {
 			long.class, long.class

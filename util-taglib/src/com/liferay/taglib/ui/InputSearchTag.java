@@ -18,6 +18,9 @@ import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.BaseValidatorTagSupport;
+import com.liferay.taglib.util.TagResourceBundleUtil;
+
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -90,7 +93,7 @@ public class InputSearchTag extends BaseValidatorTagSupport {
 	@Override
 	protected String getPage() {
 		if (Validator.isNotNull(_markupView)) {
-			return "/html/taglib/ui/input_search/" + _markupView +"/page.jsp";
+			return "/html/taglib/ui/input_search/" + _markupView + "/page.jsp";
 		}
 
 		return "/html/taglib/ui/input_search/page.jsp";
@@ -100,8 +103,11 @@ public class InputSearchTag extends BaseValidatorTagSupport {
 	protected void setAttributes(HttpServletRequest request) {
 		String buttonLabel = _buttonLabel;
 
+		ResourceBundle resourceBundle = TagResourceBundleUtil.getResourceBundle(
+			pageContext);
+
 		if (Validator.isNull(buttonLabel)) {
-			buttonLabel = LanguageUtil.get(request, "search");
+			buttonLabel = LanguageUtil.get(resourceBundle, "search");
 		}
 
 		String cssClass = _cssClass;
@@ -125,7 +131,7 @@ public class InputSearchTag extends BaseValidatorTagSupport {
 		String title = _title;
 
 		if (title == null) {
-			title = LanguageUtil.get(request, "search");
+			title = LanguageUtil.get(resourceBundle, "search");
 		}
 
 		request.setAttribute(

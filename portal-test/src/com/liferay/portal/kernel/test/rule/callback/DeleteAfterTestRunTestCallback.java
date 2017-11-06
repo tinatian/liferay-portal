@@ -14,28 +14,27 @@
 
 package com.liferay.portal.kernel.test.rule.callback;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.LayoutPrototype;
+import com.liferay.portal.kernel.model.LayoutSetPrototype;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistryUtil;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.LayoutPrototype;
-import com.liferay.portal.model.LayoutSetPrototype;
-import com.liferay.portal.model.Organization;
-import com.liferay.portal.model.PersistedModel;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.service.PersistedModelLocalService;
-import com.liferay.portal.service.PersistedModelLocalServiceRegistryUtil;
 
 import java.lang.reflect.Field;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -57,8 +56,9 @@ public class DeleteAfterTestRunTestCallback
 		new DeleteAfterTestRunTestCallback();
 
 	@Override
-	public void doAfterMethod(
-		Description description, Object object, Object target) {
+	public void afterMethod(
+			Description description, Object object, Object target)
+		throws Exception {
 
 		Class<?> testClass = description.getTestClass();
 
@@ -86,9 +86,11 @@ public class DeleteAfterTestRunTestCallback
 							fieldClass.getComponentType())) {
 
 						throw new IllegalArgumentException(
-							"Unable to annotate field " + field +
-								" because it is not an array of type " +
-									PersistedModel.class.getName());
+							StringBundler.concat(
+								"Unable to annotate field ",
+								String.valueOf(field),
+								" because it is not an array of type ",
+								PersistedModel.class.getName()));
 					}
 
 					addField(
@@ -99,32 +101,27 @@ public class DeleteAfterTestRunTestCallback
 				}
 
 				if (Collection.class.isAssignableFrom(fieldClass)) {
-					try {
-						field.setAccessible(true);
+					field.setAccessible(true);
 
-						Collection<?> collection = (Collection<?>)field.get(
-							target);
+					Collection<?> collection = (Collection<?>)field.get(target);
 
-						if ((collection == null) || collection.isEmpty()) {
-							continue;
-						}
-
-						Class<?> collectionType = getCollectionType(collection);
-
-						if (collectionType == null) {
-							throw new IllegalArgumentException(
-								"Unable to annotate field " + field +
-									" because it is not a collection of type " +
-										PersistedModel.class.getName());
-						}
-
-						addField(
-							deleteAfterTestRunFieldBags, collectionType, field);
+					if ((collection == null) || collection.isEmpty()) {
+						continue;
 					}
-					catch (Exception e) {
-						_log.error(
-							"Unable to detect collection element type", e);
+
+					Class<?> collectionType = getCollectionType(collection);
+
+					if (collectionType == null) {
+						throw new IllegalArgumentException(
+							StringBundler.concat(
+								"Unable to annotate field ",
+								String.valueOf(field),
+								" because it is not a collection of type ",
+								PersistedModel.class.getName()));
 					}
+
+					addField(
+						deleteAfterTestRunFieldBags, collectionType, field);
 
 					continue;
 				}
@@ -218,61 +215,57 @@ public class DeleteAfterTestRunTestCallback
 				}
 
 				classes.add(clazz.getSuperclass());
-				classes.addAll(Arrays.asList(clazz.getInterfaces()));
+
+				Collections.addAll(classes, clazz.getInterfaces());
 			}
 		}
 
 		return collectionType;
 	}
 
-	protected void removeField(FieldBag fieldBag, Object instance) {
-		try {
-			Class<?> fieldClass = fieldBag.getFieldClass();
+	protected void removeField(FieldBag fieldBag, Object instance)
+		throws Exception {
 
-			PersistedModelLocalService persistedModelLocalService =
-				PersistedModelLocalServiceRegistryUtil.
-					getPersistedModelLocalService(fieldClass.getName());
+		Class<?> fieldClass = fieldBag.getFieldClass();
 
-			for (Field field : fieldBag.getFields()) {
-				Object object = field.get(instance);
+		PersistedModelLocalService persistedModelLocalService =
+			PersistedModelLocalServiceRegistryUtil.
+				getPersistedModelLocalService(fieldClass.getName());
 
-				if (object == null) {
-					continue;
-				}
+		for (Field field : fieldBag.getFields()) {
+			Object object = field.get(instance);
 
-				Class<?> objectClass = object.getClass();
-
-				if (objectClass.isArray()) {
-					for (PersistedModel persistedModel :
-							(PersistedModel[])object) {
-
-						if (persistedModel == null) {
-							continue;
-						}
-
-						persistedModelLocalService.deletePersistedModel(
-							persistedModel);
-					}
-				}
-				else if (Collection.class.isAssignableFrom(objectClass)) {
-					Collection<? extends PersistedModel> collection =
-						(Collection<? extends PersistedModel>)object;
-
-					for (PersistedModel persistedModel : collection) {
-						persistedModelLocalService.deletePersistedModel(
-							persistedModel);
-					}
-				}
-				else {
-					persistedModelLocalService.deletePersistedModel(
-						(PersistedModel)object);
-				}
-
-				field.set(instance, null);
+			if (object == null) {
+				continue;
 			}
-		}
-		catch (Exception e) {
-			_log.error("Unable to delete", e);
+
+			Class<?> objectClass = object.getClass();
+
+			if (objectClass.isArray()) {
+				for (PersistedModel persistedModel : (PersistedModel[])object) {
+					if (persistedModel == null) {
+						continue;
+					}
+
+					persistedModelLocalService.deletePersistedModel(
+						persistedModel);
+				}
+			}
+			else if (Collection.class.isAssignableFrom(objectClass)) {
+				Collection<? extends PersistedModel> collection =
+					(Collection<? extends PersistedModel>)object;
+
+				for (PersistedModel persistedModel : collection) {
+					persistedModelLocalService.deletePersistedModel(
+						persistedModel);
+				}
+			}
+			else {
+				persistedModelLocalService.deletePersistedModel(
+					(PersistedModel)object);
+			}
+
+			field.set(instance, null);
 		}
 	}
 
@@ -301,9 +294,6 @@ public class DeleteAfterTestRunTestCallback
 
 	private DeleteAfterTestRunTestCallback() {
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		DeleteAfterTestRunTestCallback.class);
 
 	private static final Set<Class<?>> _orderedClasses = new LinkedHashSet<>(
 		Arrays.<Class<?>>asList(

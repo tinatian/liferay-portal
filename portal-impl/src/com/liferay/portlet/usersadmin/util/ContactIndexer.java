@@ -15,25 +15,26 @@
 package com.liferay.portlet.usersadmin.util;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchEngineUtil;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.service.ContactLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.Contact;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ContactLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -156,11 +157,9 @@ public class ContactIndexer extends BaseIndexer<Contact> {
 	protected void doReindex(Contact contact) throws Exception {
 		Document document = getDocument(contact);
 
-		if (document != null) {
-			SearchEngineUtil.updateDocument(
-				getSearchEngineId(), contact.getCompanyId(), document,
-				isCommitImmediately());
-		}
+		IndexWriterHelperUtil.updateDocument(
+			getSearchEngineId(), contact.getCompanyId(), document,
+			isCommitImmediately());
 	}
 
 	@Override
@@ -178,11 +177,11 @@ public class ContactIndexer extends BaseIndexer<Contact> {
 	}
 
 	protected void reindexContacts(long companyId) throws PortalException {
-		final ActionableDynamicQuery actionableDynamicQuery =
-			ContactLocalServiceUtil.getActionableDynamicQuery();
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			ContactLocalServiceUtil.getIndexableActionableDynamicQuery();
 
-		actionableDynamicQuery.setCompanyId(companyId);
-		actionableDynamicQuery.setPerformActionMethod(
+		indexableActionableDynamicQuery.setCompanyId(companyId);
+		indexableActionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<Contact>() {
 
 				@Override
@@ -190,9 +189,7 @@ public class ContactIndexer extends BaseIndexer<Contact> {
 					try {
 						Document document = getDocument(contact);
 
-						if (document != null) {
-							actionableDynamicQuery.addDocument(document);
-						}
+						indexableActionableDynamicQuery.addDocuments(document);
 					}
 					catch (PortalException pe) {
 						if (_log.isWarnEnabled()) {
@@ -205,9 +202,9 @@ public class ContactIndexer extends BaseIndexer<Contact> {
 				}
 
 			});
-		actionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 
-		actionableDynamicQuery.performActions();
+		indexableActionableDynamicQuery.performActions();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(ContactIndexer.class);

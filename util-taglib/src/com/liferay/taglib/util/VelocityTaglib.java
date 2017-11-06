@@ -14,24 +14,20 @@
 
 package com.liferay.taglib.util;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.PortletProvider;
-import com.liferay.portal.kernel.servlet.taglib.ui.Menu;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.Portlet;
-import com.liferay.taglib.aui.ColumnTag;
-import com.liferay.taglib.aui.LayoutTag;
 import com.liferay.taglib.ui.AssetCategoriesSummaryTag;
 import com.liferay.taglib.ui.AssetLinksTag;
 import com.liferay.taglib.ui.AssetTagsSummaryTag;
 import com.liferay.taglib.ui.BreadcrumbTag;
 import com.liferay.taglib.ui.DiscussionTag;
-import com.liferay.taglib.ui.FlagsTag;
 import com.liferay.taglib.ui.IconTag;
 import com.liferay.taglib.ui.JournalArticleTag;
-import com.liferay.taglib.ui.MenuTag;
 import com.liferay.taglib.ui.MySitesTag;
 import com.liferay.taglib.ui.PngImageTag;
-import com.liferay.taglib.ui.QuickAccessTag;
 import com.liferay.taglib.ui.RatingsTag;
 
 import javax.portlet.PortletURL;
@@ -43,26 +39,13 @@ import javax.servlet.jsp.PageContext;
 /**
  * @author Daniel Reuther
  */
+@ProviderType
 public interface VelocityTaglib {
 
 	public String actionURL(long plid, String portletName, String queryString)
 		throws Exception;
 
 	public String actionURL(String portletName, String queryString)
-		throws Exception;
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #actionURL(String, String,
-	 *             Boolean, Boolean, Boolean, String, long, long, String,
-	 *             Boolean, Boolean, long, long, Boolean, String)}
-	 */
-	@Deprecated
-	public String actionURL(
-			String windowState, String portletMode, Boolean secure,
-			Boolean copyCurrentRenderParameters, Boolean escapeXml, String name,
-			long plid, long refererPlid, String portletName, Boolean anchor,
-			Boolean encrypt, long doAsUserId, Boolean portletConfiguration,
-			String queryString)
 		throws Exception;
 
 	public String actionURL(
@@ -104,29 +87,24 @@ public interface VelocityTaglib {
 			boolean showLayout, boolean showPortletBreadcrumb)
 		throws Exception;
 
+	/**
+	 * @deprecated As of 7.0.0, replaced by {@link #breadcrumb(long, String,
+	 *             boolean, boolean, boolean, boolean)}}
+	 */
+	@Deprecated
+	public void breadcrumb(
+			String ddmTemplateKey, boolean showGuestGroup,
+			boolean showParentGroups, boolean showLayout,
+			boolean showPortletBreadcrumb)
+		throws Exception;
+
 	public void discussion(
 			String className, long classPK, String formAction, String formName,
 			boolean hideControls, boolean ratingsEnabled, String redirect,
 			long userId)
 		throws Exception;
 
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #discussion(String, long,
-	 *             String, String, boolean, boolean, String, long)})}
-	 */
-	@Deprecated
-	public void discussion(
-			String className, long classPK, String formAction, String formName,
-			boolean hideControls, boolean ratingsEnabled, String redirect,
-			String subject, long userId)
-		throws Exception;
-
 	public void doAsURL(long doAsUserId) throws Exception;
-
-	public void flags(
-			String className, long classPK, String contentTitle, boolean label,
-			String message, long reportedUserId)
-		throws Exception;
 
 	public AssetCategoriesSummaryTag<?> getAssetCategoriesSummaryTag()
 		throws Exception;
@@ -137,27 +115,17 @@ public interface VelocityTaglib {
 
 	public BreadcrumbTag getBreadcrumbTag() throws Exception;
 
-	public ColumnTag getColumnTag() throws Exception;
-
 	public DiscussionTag getDiscussionTag() throws Exception;
-
-	public FlagsTag getFlagsTag() throws Exception;
 
 	public IconTag getIconTag() throws Exception;
 
 	public JournalArticleTag getJournalArticleTag() throws Exception;
-
-	public LayoutTag getLayoutTag() throws Exception;
-
-	public MenuTag getMenuTag() throws Exception;
 
 	public MySitesTag getMySitesTag() throws Exception;
 
 	public PageContext getPageContext();
 
 	public PngImageTag getPngImageTag() throws Exception;
-
-	public QuickAccessTag getQuickAccessTag() throws Exception;
 
 	public RatingsTag getRatingsTag() throws Exception;
 
@@ -168,31 +136,7 @@ public interface VelocityTaglib {
 	public void icon(String image, boolean label, String message, String url)
 		throws Exception;
 
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #iconBack}
-	 */
-	@Deprecated
-	public void iconBack() throws Exception;
-
 	public void iconHelp(String message) throws Exception;
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #portletIconOptions}
-	 */
-	@Deprecated
-	public void iconOptions() throws Exception;
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #portletIconPortlet}
-	 */
-	@Deprecated
-	public void iconPortlet() throws Exception;
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #portletIconPortlet(Portlet)}
-	 */
-	@Deprecated
-	public void iconPortlet(Portlet portlet) throws Exception;
 
 	public void include(ServletContext servletContext, String page)
 		throws Exception;
@@ -222,21 +166,7 @@ public interface VelocityTaglib {
 
 	public void layoutIcon(Layout layout) throws Exception;
 
-	public void menu(Menu menu) throws Exception;
-
 	public void metaTags() throws Exception;
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #mySites}
-	 */
-	@Deprecated
-	public void myPlaces() throws Exception;
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #mySites(int)}
-	 */
-	@Deprecated
-	public void myPlaces(int max) throws Exception;
 
 	public void mySites() throws Exception;
 
@@ -246,17 +176,6 @@ public interface VelocityTaglib {
 			String redirect, String modelResource,
 			String modelResourceDescription, Object resourceGroupId,
 			String resourcePrimKey, String windowState, int[] roleTypes)
-		throws Exception;
-
-	/**
-	 * @deprecated As of 6.2.0, replaced by {@link #permissionsURL(String,
-	 *             String, String, Object, String, String, int[])}
-	 */
-	@Deprecated
-	public String permissionsURL(
-			String redirect, String modelResource,
-			String modelResourceDescription, String resourcePrimKey,
-			String windowState, int[] roleTypes)
 		throws Exception;
 
 	public void portletIconBack() throws Exception;
@@ -269,10 +188,6 @@ public interface VelocityTaglib {
 	public void portletIconPortlet() throws Exception;
 
 	public void portletIconPortlet(Portlet portlet) throws Exception;
-
-	public void quickAccess() throws Exception;
-
-	public void quickAccess(String contentId) throws Exception;
 
 	public void ratings(
 			String className, long classPK, int numberOfStars, String type,
@@ -291,19 +206,6 @@ public interface VelocityTaglib {
 			long refererPlid, String portletName, Boolean anchor,
 			Boolean encrypt, long doAsGroupId, long doAsUserId,
 			Boolean portletConfiguration, String queryString)
-		throws Exception;
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #renderURL(String, String,
-	 *             Boolean, Boolean, Boolean, long, long, String, Boolean,
-	 *             Boolean, long, long, Boolean, String)}
-	 */
-	@Deprecated
-	public String renderURL(
-			String windowState, String portletMode, Boolean secure,
-			Boolean copyCurrentRenderParameters, Boolean escapeXml, long plid,
-			String portletName, Boolean anchor, Boolean encrypt,
-			long doAsUserId, Boolean portletConfiguration, String queryString)
 		throws Exception;
 
 	public String renderURL(
