@@ -119,8 +119,10 @@ public class ModuleConfigurationLocalizationTest {
 			return sb.toString();
 		}
 
+		Locale defaultLocale = LocaleUtil.getDefault();
+
 		ResourceBundle resourceBundle = resourceBundleLoader.loadResourceBundle(
-			LocaleUtil.getDefault());
+			defaultLocale.getLanguage());
 
 		for (String pid : pids) {
 			String configurationError = _collectConfigurationError(
