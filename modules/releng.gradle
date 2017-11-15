@@ -1,6 +1,9 @@
 import com.liferay.gradle.plugins.defaults.internal.util.GradleUtil
 import com.liferay.gradle.util.FileUtil
 
+import groovy.io.FileType
+import groovy.io.FileVisitResult
+
 import groovy.json.JsonSlurper
 
 import java.nio.file.Path
@@ -11,8 +14,10 @@ import org.ajoberstar.grgit.Commit
 import org.ajoberstar.grgit.CommitDiff
 import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Repository
+import org.ajoberstar.grgit.Status
 import org.ajoberstar.grgit.util.JGitUtil
 
+import org.eclipse.jgit.api.CheckoutCommand
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.ObjectLoader
 import org.eclipse.jgit.revwalk.RevCommit
@@ -59,7 +64,10 @@ cherryPickArtifacts {
 		commits.reverseEach {
 			Commit commit ->
 
-			if (commit.shortMessage.contains("prep next")) {
+			if (commit.shortMessage.endsWith(" apply")) {
+				_cherryPickApply(commit)
+			}
+			else if (commit.shortMessage.contains("prep next")) {
 				_cherryPickPrepNext(commit)
 			}
 		}
@@ -96,11 +104,9 @@ lockDependencyVersion {
 
 		String dependencyReplacement = "provided group: \"${dependencyGroup}\", name: \"${dependencyName}\", version: \"${dependencyVersion}\""
 
-		NestedBuildFactory nestedBuildFactory = gradle.services.get(NestedBuildFactory)
-
 		boolean commitChanges = false
 
-		FileTree buildGradleFileTree = fileTree(dir: projectDir, includes: ["apps/**/build.gradle", "core/**/build.gradle"])
+		FileTree buildGradleFileTree = fileTree(dir: projectDir, excludes: ["**/build/", "**/classes/", "**/node_modules/"], includes: ["apps/**/build.gradle", "core/**/build.gradle"])
 
 		buildGradleFileTree.each {
 			File buildGradleFile ->
@@ -117,33 +123,17 @@ lockDependencyVersion {
 
 			buildGradleFile.text = newBuildGradle
 
-			String moduleTaskPrefix = _getModuleTaskPrefix(moduleDir)
-
-			StartParameter startParameter = gradle.startParameter.newBuild()
-
-			startParameter.taskNames = [moduleTaskPrefix + "compileJava", moduleTaskPrefix + "compileJSP", moduleTaskPrefix + "formatSource"]
-
-			GradleLauncher gradleLauncher = nestedBuildFactory.nestedInstance(startParameter)
-
-			try {
-				gradleLauncher.run()
-			}
-			catch (Exception e) {
-				println "Unable to lock dependency '${dependencyName}' version to ${dependencyVersion} in ${relativePath(moduleDir)}"
-
-				e.printStackTrace()
-
-				buildGradleFile.text = buildGradle
-
-				return
-			}
-			finally {
-				gradleLauncher.stop()
-			}
-
 			String buildGradleRelativePath = String.valueOf(repositoryRootDirPath.relativize(buildGradleFile.toPath()))
 
 			buildGradleRelativePath = buildGradleRelativePath.replace(File.separatorChar, '/' as char)
+
+			if (!_executeGradle(moduleDir, ["classes", "testClasses", "testIntegrationClasses", "compileJSP", "formatSource"], [:], false)) {
+				println "Unable to lock dependency '${dependencyName}' version to ${dependencyVersion} in ${relativePath(moduleDir)}"
+
+				_resetFileChanges buildGradleRelativePath
+
+				return
+			}
 
 			grgit.add patterns: [buildGradleRelativePath]
 
@@ -214,6 +204,60 @@ syncGitRepoReleases {
 				_setSystemProperty "org.gradle.project.syncRelease", syncRelease
 			}
 		}
+	}
+}
+
+private void _cherryPickApply(Commit commit) {
+	int start = commit.shortMessage.indexOf(' ')
+
+	if (start == -1) {
+		return
+	}
+
+	int end = commit.shortMessage.indexOf(' ', start + 1)
+
+	if (end == -1) {
+		return
+	}
+
+	String moduleName = commit.shortMessage[0 .. (start - 1)]
+	String moduleVersion = commit.shortMessage[(start + 1) .. (end - 1)]
+
+	File moduleDir = _getModuleDir(moduleName)
+
+	if (moduleDir == null) {
+		println "Commit ${commit.id} NOT cherry-picked: module '${moduleName}' does not exist"
+
+		return
+	}
+
+	_executeGradle(moduleDir, ["updateFileVersions"], ["forced.update.files.version": moduleVersion], true)
+
+	Status status = grgit.status()
+
+	boolean addedFiles = false
+
+	for (String fileName in status.unstaged.modified) {
+		if (!fileName.endsWith("/build.gradle")) {
+			continue
+		}
+
+		File updatedModuleDir = new File(projectDir.parentFile, fileName[0 .. -14])
+
+		if (_executeGradle(updatedModuleDir, ["classes", "testClasses", "testIntegrationClasses", "compileJSP", "formatSource"], [:], false)) {
+			grgit.add patterns: [fileName]
+
+			addedFiles = true
+		}
+		else {
+			println "Change to ${fileName} by ${commit.id} NOT cherry-picked: compilation failed"
+
+			_resetFileChanges fileName
+		}
+	}
+
+	if (addedFiles) {
+		grgit.commit author: commit.author, message: commit.fullMessage
 	}
 }
 
@@ -387,6 +431,56 @@ private boolean _contains(File dir, String fileName, String s) {
 	return false
 }
 
+private boolean _executeGradle(File moduleDir, List<String> taskNames, Map<String, String> projectProperties, boolean rethrowException) {
+	Map<String, String> oldSystemProperties = projectProperties.collectEntries {
+		String key, String value ->
+
+		key = "org.gradle.project." + key
+
+		[key: _setSystemProperty(key, value)]
+	}
+
+	StartParameter startParameter = gradle.startParameter.newBuild()
+
+	if (projectProperties) {
+		startParameter.projectProperties = projectProperties
+	}
+
+	String moduleTaskPrefix = _getModuleTaskPrefix(moduleDir)
+
+	startParameter.taskNames = taskNames.collect {
+		moduleTaskPrefix + it
+	}
+
+	NestedBuildFactory nestedBuildFactory = gradle.services.get(NestedBuildFactory)
+
+	GradleLauncher gradleLauncher = nestedBuildFactory.nestedInstance(startParameter)
+
+	try {
+		gradleLauncher.run()
+
+		return true
+	}
+	catch (Exception e) {
+		if (rethrowException) {
+			throw e
+		}
+
+		e.printStackTrace()
+
+		return false
+	}
+	finally {
+		gradleLauncher.stop()
+
+		oldSystemProperties.each {
+			String key, String value ->
+
+			_setSystemProperty(key, value)
+		}
+	}
+}
+
 private boolean _exists(File dir, String fileName) {
 	File file = new File(dir, fileName)
 
@@ -421,6 +515,35 @@ private InputStream _getCommitFileStream(String commitId, String fileName) {
 	}
 }
 
+private File _getModuleDir(String name) {
+	File moduleDir = null
+
+	projectDir.traverse(
+		preDir: {
+			if (it.name in [".gradle", ".github", "build", "classes", "node_modules"]) {
+				return FileVisitResult.SKIP_SUBTREE
+			}
+
+			File bndBndFile = new File(it, "bnd.bnd")
+
+			if (!bndBndFile.exists()) {
+				return FileVisitResult.CONTINUE
+			}
+
+			if (it.name == name) {
+				moduleDir = it
+
+				return FileVisitResult.TERMINATE
+			}
+
+			return FileVisitResult.SKIP_SUBTREE
+		},
+		type: FileType.DIRECTORIES
+	)
+
+	moduleDir
+}
+
 private String _getModuleTaskPrefix(File moduleDir) {
 	String moduleTaskPrefix = relativePath(moduleDir)
 
@@ -448,6 +571,14 @@ private boolean _isGitRepoReadOnly(File dir) {
 	}
 
 	return _contains(gitRepoDir, ".gitrepo", "mode = pull")
+}
+
+private void _resetFileChanges(String fileName) {
+	CheckoutCommand checkoutCommand = grgit.repository.jgit.checkout()
+
+	checkoutCommand.addPath fileName
+
+	checkoutCommand.call()
 }
 
 private String _setSystemProperty(String key, String value) {
