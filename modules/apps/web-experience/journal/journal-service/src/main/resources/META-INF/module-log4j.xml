@@ -10,6 +10,10 @@
 		<priority value="WARN" />
 	</category>
 
+	<category name="com.liferay.journal.service.impl.JournalArticleLocalServiceImpl">
+		<priority value="WARN" />
+	</category>
+
 	<category name="com.liferay.journal.service.impl.JournalContentSearchLocalServiceImpl">
 		<priority value="INFO" />
 	</category>
