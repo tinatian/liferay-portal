@@ -21,44 +21,49 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.test.util.DDMFormTestUtil;
 import com.liferay.dynamic.data.mapping.test.util.DDMStructureTestUtil;
 import com.liferay.dynamic.data.mapping.test.util.DDMTemplateTestUtil;
+import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.test.util.JournalTestUtil;
-import com.liferay.journal.transformer.RegexTransformerUtil;
 import com.liferay.journal.util.impl.JournalUtil;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.template.TemplateConstants;
-import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.templateparser.BaseTransformerListener;
+import com.liferay.portal.kernel.templateparser.TransformerListener;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
-import com.liferay.portal.kernel.test.util.TestPropsUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.xml.Attribute;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
-import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Pattern;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceRegistration;
 
 /**
  * @author Marcellus Tavares
@@ -75,6 +80,23 @@ public class JournalTransformerTest {
 	public void setUp() throws Exception {
 		_ddmStructure = DDMStructureTestUtil.addStructure(
 			JournalArticle.class.getName());
+
+		Bundle bundle = FrameworkUtil.getBundle(JournalTransformerTest.class);
+
+		BundleContext bundleContext = bundle.getBundleContext();
+
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+
+		properties.put("javax.portlet.name", JournalPortletKeys.JOURNAL);
+
+		_serviceRegistration = bundleContext.registerService(
+			TransformerListener.class, new TestJournalTransformer(),
+			properties);
+	}
+
+	@After
+	public void tearDown() {
+		_serviceRegistration.unregister();
 	}
 
 	@Test
@@ -227,7 +249,7 @@ public class JournalTransformerTest {
 
 	@Test
 	public void testRegexTransformerListener() throws Exception {
-		initRegexTransformerUtil();
+		CacheRegistryUtil.setActive(true);
 
 		Map<String, String> tokens = getTokens();
 
@@ -351,34 +373,6 @@ public class JournalTransformerTest {
 		return tokens;
 	}
 
-	protected void initRegexTransformerUtil() {
-		Object instance = ReflectionTestUtil.getFieldValue(
-			RegexTransformerUtil.class, "_instance");
-
-		CacheRegistryUtil.setActive(true);
-
-		List<Pattern> patterns = new ArrayList<>();
-		List<String> replacements = new ArrayList<>();
-
-		for (int i = 0; i < 100; i++) {
-			String regex = TestPropsUtil.get(
-				"journal.transformer.regex.pattern." + i);
-			String replacement = TestPropsUtil.get(
-				"journal.transformer.regex.replacement." + i);
-
-			if (Validator.isNull(regex) || Validator.isNull(replacement)) {
-				break;
-			}
-
-			patterns.add(Pattern.compile(regex));
-			replacements.add(replacement);
-		}
-
-		ReflectionTestUtil.setFieldValue(instance, "_patterns", patterns);
-		ReflectionTestUtil.setFieldValue(
-			instance, "_replacements", replacements);
-	}
-
 	@DeleteAfterTestRun
 	private JournalArticle _article;
 
@@ -387,5 +381,32 @@ public class JournalTransformerTest {
 
 	@DeleteAfterTestRun
 	private DDMTemplate _ddmTemplate;
+
+	private ServiceRegistration<TransformerListener> _serviceRegistration;
+
+	private static class TestJournalTransformer
+		extends BaseTransformerListener {
+
+		@Override
+		public String onOutput(
+			String output, String languageId, Map<String, String> tokens) {
+
+			return _replace(output);
+		}
+
+		@Override
+		public String onScript(
+			String script, Document document, String languageId,
+			Map<String, String> tokens) {
+
+			return _replace(script);
+		}
+
+		private String _replace(String s) {
+			return StringUtil.replace(
+				s, "beta.sample.com", "production.sample.com");
+		}
+
+	}
 
 }
