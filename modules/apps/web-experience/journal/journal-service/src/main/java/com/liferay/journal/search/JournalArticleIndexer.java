@@ -108,7 +108,11 @@ import org.osgi.service.component.annotations.Reference;
  * @author Hugo Huijser
  * @author Tibor Lipusz
  */
-@Component(immediate = true, service = Indexer.class)
+@Component(
+	immediate = true,
+	property = "model.class.name=com.liferay.journal.model.JournalArticle",
+	service = Indexer.class
+)
 public class JournalArticleIndexer
 	extends BaseIndexer<JournalArticle> implements DDMStructureIndexer {
 

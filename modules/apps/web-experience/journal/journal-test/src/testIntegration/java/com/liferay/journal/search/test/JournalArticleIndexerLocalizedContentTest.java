@@ -16,7 +16,6 @@ package com.liferay.journal.search.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.search.JournalArticleIndexer;
 import com.liferay.journal.test.util.FieldValuesAssert;
 import com.liferay.journal.test.util.JournalArticleBuilder;
 import com.liferay.journal.test.util.JournalArticleContent;
@@ -38,6 +37,7 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.service.test.ServiceTestUtil;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.Collections;
@@ -78,8 +78,6 @@ public class JournalArticleIndexerLocalizedContentTest {
 		ServiceTestUtil.setUser(TestPropsValues.getUser());
 
 		CompanyThreadLocal.setCompanyId(TestPropsValues.getCompanyId());
-
-		_indexer = new JournalArticleIndexer();
 	}
 
 	@Test
@@ -438,10 +436,14 @@ public class JournalArticleIndexerLocalizedContentTest {
 		}
 	}
 
+	@Inject(
+		filter = "model.class.name=com.liferay.journal.model.JournalArticle"
+	)
+	private static Indexer<?> _indexer;
+
 	@DeleteAfterTestRun
 	private Group _group;
 
-	private Indexer<?> _indexer;
 	private JournalArticleBuilder _journalArticleBuilder;
 
 }
