@@ -74,6 +74,13 @@ public class JournalTestUtilTest {
 	public void setUp() throws Exception {
 		_ddmStructure = DDMStructureTestUtil.addStructure(
 			JournalArticle.class.getName());
+
+		_ddmTemplate = DDMTemplateTestUtil.addTemplate(
+			_ddmStructure.getStructureId(),
+			PortalUtil.getClassNameId(JournalArticle.class),
+			TemplateConstants.LANG_TYPE_VM,
+			JournalTestUtil.getSampleTemplateXSL());
+
 		_group = GroupTestUtil.addGroup();
 	}
 
@@ -83,19 +90,10 @@ public class JournalTestUtilTest {
 
 		String content = DDMStructureTestUtil.getSampleStructuredContent();
 
-		DDMStructure ddmStructure = DDMStructureTestUtil.addStructure(
-			JournalArticle.class.getName());
-
-		DDMTemplate ddmTemplate = DDMTemplateTestUtil.addTemplate(
-			ddmStructure.getStructureId(),
-			PortalUtil.getClassNameId(JournalArticle.class),
-			TemplateConstants.LANG_TYPE_VM,
-			JournalTestUtil.getSampleTemplateXSL());
-
 		Assert.assertNotNull(
 			JournalTestUtil.addArticleWithXMLContent(
-				content, ddmStructure.getStructureKey(),
-				ddmTemplate.getTemplateKey()));
+				content, _ddmStructure.getStructureKey(),
+				_ddmTemplate.getTemplateKey()));
 	}
 
 	@Test
@@ -315,6 +313,9 @@ public class JournalTestUtilTest {
 
 	@DeleteAfterTestRun
 	private DDMStructure _ddmStructure;
+
+	@DeleteAfterTestRun
+	private DDMTemplate _ddmTemplate;
 
 	@DeleteAfterTestRun
 	private Group _group;
