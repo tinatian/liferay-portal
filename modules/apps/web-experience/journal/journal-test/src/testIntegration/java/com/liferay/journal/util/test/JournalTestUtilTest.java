@@ -26,11 +26,9 @@ import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.model.JournalFolderConstants;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.test.util.JournalTestUtil;
-import com.liferay.journal.util.impl.JournalUtil;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
@@ -43,7 +41,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.Arrays;
@@ -197,11 +194,14 @@ public class JournalTestUtilTest {
 		String xml = DDMStructureTestUtil.getSampleStructuredContent(
 			contents, LanguageUtil.getLanguageId(LocaleUtil.US));
 
-		String content = JournalUtil.transform(
-			null, getTokens(), Constants.VIEW, "en_US",
-			UnsecureSAXReaderUtil.read(xml), null,
-			JournalTestUtil.getSampleTemplateXSL(),
-			TemplateConstants.LANG_TYPE_VM);
+		JournalArticle journalArticle =
+			JournalTestUtil.addArticleWithXMLContent(
+				xml, _ddmStructure.getStructureKey(),
+				_ddmTemplate.getTemplateKey());
+
+		String content = JournalArticleLocalServiceUtil.getArticleContent(
+			journalArticle, _ddmTemplate.getTemplateKey(), Constants.VIEW,
+			"en_US", null, null);
 
 		Assert.assertEquals("Joe Bloggs", content);
 	}
@@ -256,11 +256,14 @@ public class JournalTestUtilTest {
 		String xml = DDMStructureTestUtil.getSampleStructuredContent(
 			"name", "Joe Bloggs");
 
-		String content = JournalUtil.transform(
-			null, getTokens(), Constants.VIEW, "en_US",
-			UnsecureSAXReaderUtil.read(xml), null,
-			JournalTestUtil.getSampleTemplateXSL(),
-			TemplateConstants.LANG_TYPE_VM);
+		JournalArticle journalArticle =
+			JournalTestUtil.addArticleWithXMLContent(
+				xml, _ddmStructure.getStructureKey(),
+				_ddmTemplate.getTemplateKey());
+
+		String content = JournalArticleLocalServiceUtil.getArticleContent(
+			journalArticle, _ddmTemplate.getTemplateKey(), Constants.VIEW,
+			"en_US", null, null);
 
 		Assert.assertEquals("Joe Bloggs", content);
 	}
@@ -295,20 +298,6 @@ public class JournalTestUtilTest {
 		Assert.assertNotNull(
 			JournalTestUtil.updateArticle(
 				article, article.getTitle(), localizedContent));
-	}
-
-	protected Map<String, String> getTokens() throws Exception {
-		Map<String, String> tokens = JournalUtil.getTokens(
-			TestPropsValues.getGroupId(), (PortletRequestModel)null, null);
-
-		tokens.put(
-			"article_group_id", String.valueOf(TestPropsValues.getGroupId()));
-		tokens.put(
-			"company_id", String.valueOf(TestPropsValues.getCompanyId()));
-		tokens.put(
-			"ddm_structure_id", String.valueOf(_ddmStructure.getStructureId()));
-
-		return tokens;
 	}
 
 	@DeleteAfterTestRun
