@@ -85,9 +85,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author Juan Fernández
  * @author Eduardo Garcia
  */
-public class JournalTransformer {
+public class JournalTemplateTransformer {
 
-	public JournalTransformer(boolean restricted) {
+	public JournalTemplateTransformer(boolean restricted) {
 		_restricted = restricted;
 	}
 
@@ -674,26 +674,26 @@ public class JournalTransformer {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		JournalTransformer.class);
+		JournalTemplateTransformer.class);
 
 	private static final Log _logOutputAfterListener = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".OutputAfterListener");
+		JournalTemplateTransformer.class.getName() + ".OutputAfterListener");
 	private static final Log _logOutputBeforeListener = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".OutputBeforeListener");
+		JournalTemplateTransformer.class.getName() + ".OutputBeforeListener");
 	private static final Log _logScriptAfterListener = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".ScriptAfterListener");
+		JournalTemplateTransformer.class.getName() + ".ScriptAfterListener");
 	private static final Log _logScriptBeforeListener = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".ScriptBeforeListener");
+		JournalTemplateTransformer.class.getName() + ".ScriptBeforeListener");
 	private static final Log _logTokens = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".Tokens");
+		JournalTemplateTransformer.class.getName() + ".Tokens");
 	private static final Log _logTransformBefore = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".TransformBefore");
+		JournalTemplateTransformer.class.getName() + ".TransformBefore");
 	private static final Log _logTransfromAfter = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".TransformAfter");
+		JournalTemplateTransformer.class.getName() + ".TransformAfter");
 	private static final Log _logXmlAfterListener = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".XmlAfterListener");
+		JournalTemplateTransformer.class.getName() + ".XmlAfterListener");
 	private static final Log _logXmlBeforeListener = LogFactoryUtil.getLog(
-		JournalTransformer.class.getName() + ".XmlBeforeListener");
+		JournalTemplateTransformer.class.getName() + ".XmlBeforeListener");
 
 	private final Map<String, String> _errorTemplateIds = new HashMap<>();
 	private final boolean _restricted;

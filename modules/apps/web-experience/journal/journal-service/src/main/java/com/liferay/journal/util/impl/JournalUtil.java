@@ -19,7 +19,7 @@ import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
 import com.liferay.journal.configuration.JournalServiceConfiguration;
-import com.liferay.journal.internal.transformer.JournalTransformer;
+import com.liferay.journal.internal.transformer.JournalTemplateTransformer;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.model.JournalFolderConstants;
@@ -416,7 +416,7 @@ public class JournalUtil extends com.liferay.journal.util.JournalUtil {
 		templateManager.addContextObjects(
 			contextObjects, templateHandler.getCustomContextObjects());
 
-		return _journalTransformer.transform(
+		return _journalTemplateTransformer.transform(
 			themeDisplay, contextObjects, tokens, viewMode, languageId,
 			document, portletRequestModel, script, langType,
 			propagateException);
@@ -983,7 +983,7 @@ public class JournalUtil extends com.liferay.journal.util.JournalUtil {
 	private static final Log _log = LogFactoryUtil.getLog(JournalUtil.class);
 
 	private static Map<String, String> _customTokens;
-	private static final JournalTransformer _journalTransformer =
-		new JournalTransformer(true);
+	private static final JournalTemplateTransformer
+		_journalTemplateTransformer = new JournalTemplateTransformer(true);
 
 }
