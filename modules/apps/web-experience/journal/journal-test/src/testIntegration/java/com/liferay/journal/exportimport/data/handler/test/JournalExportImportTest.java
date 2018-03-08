@@ -45,7 +45,6 @@ import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleListener;
 import com.liferay.exportimport.kernel.service.StagingLocalServiceUtil;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.journal.constants.JournalPortletKeys;
-import com.liferay.journal.exportimport.data.handler.JournalPortletDataHandler;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleConstants;
 import com.liferay.journal.model.JournalArticleResource;
@@ -125,7 +124,7 @@ public class JournalExportImportTest extends BasePortletExportImportTestCase {
 
 	@Override
 	public String getNamespace() {
-		return JournalPortletDataHandler.NAMESPACE;
+		return "journal";
 	}
 
 	@Override
@@ -284,8 +283,7 @@ public class JournalExportImportTest extends BasePortletExportImportTestCase {
 
 		modifiedParameterMap.put(
 			PortletDataHandlerControl.getNamespacedControlName(
-				JournalPortletDataHandler.NAMESPACE,
-				"referenced-content-behavior"),
+				"journal", "referenced-content-behavior"),
 			new String[] {"include-if-modified"});
 
 		StagingUtil.publishPortlet(
