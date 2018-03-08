@@ -20,7 +20,6 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.test.util.DDMStructureTestUtil;
 import com.liferay.dynamic.data.mapping.test.util.DDMTemplateTestUtil;
 import com.liferay.journal.constants.JournalPortletKeys;
-import com.liferay.journal.exportimport.data.handler.JournalPortletDataHandler;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalFolderLocalServiceUtil;
@@ -138,14 +137,9 @@ public class JournalPortletDataHandlerTest
 
 	@Override
 	protected void addParameters(Map<String, String[]> parameterMap) {
-		addBooleanParameter(
-			parameterMap, JournalPortletDataHandler.NAMESPACE, "feeds", true);
-		addBooleanParameter(
-			parameterMap, JournalPortletDataHandler.NAMESPACE, "structures",
-			true);
-		addBooleanParameter(
-			parameterMap, JournalPortletDataHandler.NAMESPACE, "web-content",
-			true);
+		addBooleanParameter(parameterMap, "journal", "feeds", true);
+		addBooleanParameter(parameterMap, "journal", "structures", true);
+		addBooleanParameter(parameterMap, "journal", "web-content", true);
 	}
 
 	@Override
