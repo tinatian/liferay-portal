@@ -43,23 +43,11 @@ public class JournalServiceConfigurationValues {
 		JournalServiceConfigurationUtil.getArray(
 			JournalServiceConfigurationKeys.JOURNAL_ARTICLE_CUSTOM_TOKENS);
 
-	public static boolean JOURNAL_ARTICLE_DATABASE_KEYWORD_SEARCH_CONTENT =
-		GetterUtil.getBoolean(
-			JournalServiceConfigurationUtil.get(
-				JournalServiceConfigurationKeys.
-					JOURNAL_ARTICLE_DATABASE_KEYWORD_SEARCH_CONTENT));
-
 	public static final boolean JOURNAL_ARTICLE_EXPIRE_ALL_VERSIONS =
 		GetterUtil.getBoolean(
 			JournalServiceConfigurationUtil.get(
 				JournalServiceConfigurationKeys.
 					JOURNAL_ARTICLE_EXPIRE_ALL_VERSIONS));
-
-	public static boolean JOURNAL_ARTICLE_INDEX_ALL_VERSIONS =
-		GetterUtil.getBoolean(
-			JournalServiceConfigurationUtil.get(
-				JournalServiceConfigurationKeys.
-					JOURNAL_ARTICLE_INDEX_ALL_VERSIONS));
 
 	public static final String JOURNAL_ARTICLE_STORAGE_TYPE =
 		JournalServiceConfigurationUtil.get(
@@ -115,5 +103,16 @@ public class JournalServiceConfigurationValues {
 	public static final String TERMS_OF_USE_JOURNAL_ARTICLE_ID =
 		JournalServiceConfigurationUtil.get(
 			JournalServiceConfigurationKeys.TERMS_OF_USE_JOURNAL_ARTICLE_ID);
+
+	public static boolean journalArticleDatabaseKeywordSearchContent =
+		GetterUtil.getBoolean(
+			JournalServiceConfigurationUtil.get(
+				JournalServiceConfigurationKeys.
+					JOURNAL_ARTICLE_DATABASE_KEYWORD_SEARCH_CONTENT));
+	public static boolean journalArticleIndexAllVersions =
+		GetterUtil.getBoolean(
+			JournalServiceConfigurationUtil.get(
+				JournalServiceConfigurationKeys.
+					JOURNAL_ARTICLE_INDEX_ALL_VERSIONS));
 
 }
