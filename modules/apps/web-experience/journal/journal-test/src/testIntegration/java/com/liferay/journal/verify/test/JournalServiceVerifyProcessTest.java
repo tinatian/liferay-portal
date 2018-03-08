@@ -20,13 +20,13 @@ import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.service.JournalFolderLocalServiceUtil;
 import com.liferay.journal.test.util.JournalTestUtil;
-import com.liferay.journal.verify.JournalServiceVerifyProcess;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.verify.VerifyProcess;
 import com.liferay.portal.verify.test.BaseVerifyProcessTestCase;
@@ -58,9 +58,11 @@ public class JournalServiceVerifyProcessTest extends BaseVerifyProcessTestCase {
 	public static void setUpClass() {
 		Registry registry = RegistryUtil.getRegistry();
 
+		Class<?> clazz = _journalServiceVerifyProcess.getClass();
+
 		Filter filter = registry.getFilter(
-			"(&(objectClass=" + JournalServiceVerifyProcess.class.getName() +
-				")(verify.process.name=com.liferay.journal.service))");
+			"(&(objectClass=" + clazz.getName() + ")(verify.process.name=" +
+				"com.liferay.journal.service))");
 
 		_serviceTracker = registry.trackServices(filter);
 
@@ -173,6 +175,9 @@ public class JournalServiceVerifyProcessTest extends BaseVerifyProcessTestCase {
 	protected VerifyProcess getVerifyProcess() {
 		return _serviceTracker.getService();
 	}
+
+	@Inject (filter = "verify.process.name=com.liferay.journal.service")
+	private static VerifyProcess _journalServiceVerifyProcess;
 
 	private static ServiceTracker<VerifyProcess, VerifyProcess> _serviceTracker;
 
