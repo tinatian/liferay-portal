@@ -21,7 +21,6 @@ import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
 import com.liferay.journal.configuration.JournalGroupServiceConfiguration;
 import com.liferay.journal.configuration.JournalServiceConfiguration;
 import com.liferay.journal.internal.transformer.JournalTransformer;
-import com.liferay.journal.internal.transformer.JournalTransformerListenerRegistryUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.model.JournalFolder;
@@ -30,6 +29,7 @@ import com.liferay.journal.model.JournalStructureConstants;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.journal.service.JournalFolderLocalServiceUtil;
+import com.liferay.journal.util.JournalTransformerListenerRegistryUtil;
 import com.liferay.journal.util.comparator.ArticleVersionComparator;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
@@ -57,9 +57,6 @@ import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.portlet.ThemeDisplayModel;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ImageLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -113,7 +110,7 @@ import javax.portlet.PortletURL;
  * @author Angelo Jefferson
  * @author Hugo Huijser
  */
-public class JournalUtil {
+public class JournalUtil extends com.liferay.journal.util.JournalUtil {
 
 	public static final int MAX_STACK_SIZE = 20;
 
@@ -322,64 +319,6 @@ public class JournalUtil {
 		return sb.toString();
 	}
 
-	public static Layout getArticleLayout(String layoutUuid, long groupId) {
-		if (Validator.isNull(layoutUuid)) {
-			return null;
-		}
-
-		// The target page and the article must belong to the same group
-
-		Layout layout = LayoutLocalServiceUtil.fetchLayoutByUuidAndGroupId(
-			layoutUuid, groupId, false);
-
-		if (layout == null) {
-			layout = LayoutLocalServiceUtil.fetchLayoutByUuidAndGroupId(
-				layoutUuid, groupId, true);
-		}
-
-		return layout;
-	}
-
-	/**
-	 * @deprecated As of 4.0.0, with no direct replacement
-	 */
-	@Deprecated
-	public static List<JournalArticle> getArticles(Hits hits)
-		throws PortalException {
-
-		List<com.liferay.portal.kernel.search.Document> documents =
-			hits.toList();
-
-		List<JournalArticle> articles = new ArrayList<>(documents.size());
-
-		for (com.liferay.portal.kernel.search.Document document : documents) {
-			String articleId = document.get(Field.ARTICLE_ID);
-			long groupId = GetterUtil.getLong(
-				document.get(Field.SCOPE_GROUP_ID));
-
-			JournalArticle article =
-				JournalArticleLocalServiceUtil.fetchLatestArticle(
-					groupId, articleId, WorkflowConstants.STATUS_APPROVED);
-
-			if (article == null) {
-				articles = null;
-
-				Indexer<JournalArticle> indexer =
-					IndexerRegistryUtil.getIndexer(JournalArticle.class);
-
-				long companyId = GetterUtil.getLong(
-					document.get(Field.COMPANY_ID));
-
-				indexer.delete(companyId, document.getUID());
-			}
-			else if (articles != null) {
-				articles.add(article);
-			}
-		}
-
-		return articles;
-	}
-
 	public static DiffVersionsInfo getDiffVersionsInfo(
 		long groupId, String articleId, double sourceVersion,
 		double targetVersion) {
@@ -553,28 +492,6 @@ public class JournalUtil {
 		}
 
 		return themeDisplay.getPlid();
-	}
-
-	public static int getRestrictionType(long folderId) {
-		int restrictionType = JournalFolderConstants.RESTRICTION_TYPE_INHERIT;
-
-		JournalFolder folder = JournalFolderLocalServiceUtil.fetchFolder(
-			folderId);
-
-		if (folder != null) {
-			restrictionType = folder.getRestrictionType();
-		}
-
-		return restrictionType;
-	}
-
-	public static String getTemplateScript(
-			long groupId, String ddmTemplateKey, Map<String, String> tokens,
-			String languageId)
-		throws PortalException {
-
-		return _getTemplateScript(
-			groupId, ddmTemplateKey, tokens, languageId, true);
 	}
 
 	public static Map<String, String> getTokens(
