@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropertiesParamUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
@@ -44,6 +46,8 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,12 +175,44 @@ public class SetupWizardUtil {
 			_writePropertiesFile(unicodeProperties));
 	}
 
+	private static String _encode(String value) {
+		String encodedValue = StringUtil.replace(
+			value, StringPool.RETURN_NEW_LINE, _SAFE_NEWLINE_CHARACTER);
+
+		return StringUtil.replace(
+			encodedValue, new char[] {CharPool.NEW_LINE, CharPool.RETURN},
+			new String[] {_SAFE_NEWLINE_CHARACTER, _SAFE_NEWLINE_CHARACTER});
+	}
+
 	private static String _getParameter(
 		HttpServletRequest request, String name, String defaultValue) {
 
 		name = _PROPERTIES_PREFIX.concat(name).concat(StringPool.DOUBLE_DASH);
 
 		return ParamUtil.getString(request, name, defaultValue);
+	}
+
+	private static String _getUnicodePropertiesString(
+		UnicodeProperties unicodeProperties) {
+
+		StringBundler sb = new StringBundler(4 * unicodeProperties.size());
+
+		Map<String, String> treeMap = new TreeMap<>(unicodeProperties);
+
+		for (Map.Entry<String, String> entry : treeMap.entrySet()) {
+			String value = entry.getValue();
+
+			if (unicodeProperties.isSafe()) {
+				value = _encode(value);
+			}
+
+			sb.append(entry.getKey());
+			sb.append(StringPool.EQUAL);
+			sb.append(value);
+			sb.append(StringPool.NEW_LINE);
+		}
+
+		return sb.toString();
 	}
 
 	private static boolean _isDatabaseConfigured(
@@ -358,7 +394,7 @@ public class SetupWizardUtil {
 		try {
 			FileUtil.write(
 				PropsValues.LIFERAY_HOME, PROPERTIES_FILE_NAME,
-				unicodeProperties.toString());
+				_getUnicodePropertiesString(unicodeProperties));
 
 			if (FileUtil.exists(
 					PropsValues.LIFERAY_HOME + StringPool.SLASH +
@@ -375,6 +411,9 @@ public class SetupWizardUtil {
 	}
 
 	private static final String _PROPERTIES_PREFIX = "properties--";
+
+	private static final String _SAFE_NEWLINE_CHARACTER =
+		"_SAFE_NEWLINE_CHARACTER_";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SetupWizardUtil.class);
