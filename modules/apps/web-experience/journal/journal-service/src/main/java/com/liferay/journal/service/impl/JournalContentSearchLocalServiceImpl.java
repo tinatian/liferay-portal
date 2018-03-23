@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.portlet.DisplayInformationProvider;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.util.PortletKeys;
 
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public class JournalContentSearchLocalServiceImpl
 			List<String> portletIds = layoutTypePortlet.getPortletIds();
 
 			for (String portletId : portletIds) {
-				String rootPortletId = PortletConstants.getRootPortletId(
+				String rootPortletId = PortletIdCodec.decodePortletName(
 					portletId);
 
 				DisplayInformationProvider displayInformationProvider =
