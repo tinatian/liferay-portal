@@ -31,7 +31,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.AdvisedSupport;
-import org.springframework.aop.framework.AopProxy;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.util.ClassUtils;
 
@@ -39,7 +38,7 @@ import org.springframework.util.ClassUtils;
  * @author Shuyang Zhou
  */
 public class ServiceBeanAopProxy
-	implements AdvisedSupportProxy, AopProxy, InvocationHandler {
+	implements AdvisedSupportProxy, LiferayAopProxy, InvocationHandler {
 
 	public static AdvisedSupport getAdvisedSupport(Object proxy)
 		throws Exception {
