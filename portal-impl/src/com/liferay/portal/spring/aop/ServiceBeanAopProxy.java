@@ -14,6 +14,7 @@
 
 package com.liferay.portal.spring.aop;
 
+import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -31,7 +32,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.AdvisedSupport;
-import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -132,14 +132,21 @@ public class ServiceBeanAopProxy
 
 	@Override
 	public Object getProxy(ClassLoader classLoader) {
-		Class<?>[] proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(
-			_advisedSupport);
+		TargetSource targetSource = _advisedSupport.getTargetSource();
 
-		InvocationHandler invocationHandler = _pacl.getInvocationHandler(
-			this, _advisedSupport);
+		try {
+			Class<?>[] proxiedInterfaces = ReflectionUtil.getInterfaces(
+				targetSource.getTarget());
 
-		return ProxyUtil.newProxyInstance(
-			classLoader, proxiedInterfaces, invocationHandler);
+			InvocationHandler invocationHandler = _pacl.getInvocationHandler(
+				this, _advisedSupport);
+
+			return ProxyUtil.newProxyInstance(
+				classLoader, proxiedInterfaces, invocationHandler);
+		}
+		catch (Exception e) {
+			return new RuntimeException("Unable to create proxy ", e);
+		}
 	}
 
 	@Override
