@@ -14,6 +14,7 @@
 
 package com.liferay.portal.spring.aop;
 
+import com.liferay.portal.kernel.aop.AopProxy;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -31,9 +32,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.AdvisedSupport;
-import org.springframework.aop.framework.AopProxy;
-import org.springframework.aop.framework.AopProxyUtils;
-import org.springframework.util.ClassUtils;
 
 /**
  * @author Shuyang Zhou
@@ -127,14 +125,8 @@ public class ServiceBeanAopProxy
 	}
 
 	@Override
-	public Object getProxy() {
-		return getProxy(ClassUtils.getDefaultClassLoader());
-	}
-
-	@Override
-	public Object getProxy(ClassLoader classLoader) {
-		Class<?>[] proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(
-			_advisedSupport);
+	public Object getProxy(
+		ClassLoader classLoader, Class<?>[] proxiedInterfaces) {
 
 		InvocationHandler invocationHandler = _pacl.getInvocationHandler(
 			this, _advisedSupport);
