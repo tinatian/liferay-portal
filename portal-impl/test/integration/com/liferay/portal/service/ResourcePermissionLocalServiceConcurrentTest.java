@@ -14,6 +14,7 @@
 
 package com.liferay.portal.service;
 
+import com.liferay.portal.kernel.aop.AdvisedSupport;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.ResourceAction;
@@ -61,9 +62,6 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.springframework.aop.TargetSource;
-import org.springframework.aop.framework.AdvisedSupport;
-
 /**
  * @author Matthew Tambara
  * @author William Newbury
@@ -101,11 +99,9 @@ public class ResourcePermissionLocalServiceConcurrentTest {
 		AdvisedSupport advisedSupport = ServiceBeanAopProxy.getAdvisedSupport(
 			ResourcePermissionLocalServiceUtil.getService());
 
-		TargetSource targetSource = advisedSupport.getTargetSource();
-
 		final ResourcePermissionLocalServiceImpl
 			resourcePermissionLocalServiceImpl =
-				(ResourcePermissionLocalServiceImpl)targetSource.getTarget();
+				(ResourcePermissionLocalServiceImpl)advisedSupport.getTarget();
 
 		final ResourcePermissionPersistence resourcePermissionPersistence =
 			resourcePermissionLocalServiceImpl.
