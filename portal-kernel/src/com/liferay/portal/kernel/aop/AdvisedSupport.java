@@ -12,15 +12,17 @@
  * details.
  */
 
-package com.liferay.portal.spring.aop;
-
-import com.liferay.portal.kernel.aop.AdvisedSupport;
+package com.liferay.portal.kernel.aop;
 
 /**
- * @author Miguel Pastor
+ * @author Tina Tian
  */
-public interface AdvisedSupportProxy {
+public interface AdvisedSupport {
 
-	public AdvisedSupport getAdvisedSupport();
+	public Object getTarget() throws Exception;
+
+	public void setTarget(Object target);
+
+	public void setTarget(Object target, Class<?> targetClass);
 
 }

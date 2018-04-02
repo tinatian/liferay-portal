@@ -114,8 +114,8 @@ public class ServiceBeanAutoProxyCreator
 
 					return new AopProxyAdapter(
 						new ServiceBeanAopProxy(
-							advisedSupport, _methodInterceptor,
-							_serviceBeanAopCacheManager),
+							new AdvisedSupportAdapter(advisedSupport),
+							_methodInterceptor, _serviceBeanAopCacheManager),
 						ClassUtils.getDefaultClassLoader(),
 						AopProxyUtils.completeProxiedInterfaces(
 							advisedSupport));

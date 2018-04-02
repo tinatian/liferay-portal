@@ -14,6 +14,7 @@
 
 package com.liferay.portal.spring.aop;
 
+import com.liferay.portal.kernel.aop.AdvisedSupport;
 import com.liferay.portal.kernel.aop.AopProxy;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -29,9 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.aopalliance.intercept.MethodInterceptor;
-
-import org.springframework.aop.TargetSource;
-import org.springframework.aop.framework.AdvisedSupport;
 
 /**
  * @author Shuyang Zhou
@@ -139,11 +137,9 @@ public class ServiceBeanAopProxy
 	public Object invoke(Object proxy, Method method, Object[] arguments)
 		throws Throwable {
 
-		TargetSource targetSource = _advisedSupport.getTargetSource();
-
 		ServiceBeanMethodInvocation serviceBeanMethodInvocation =
 			new ServiceBeanMethodInvocation(
-				targetSource.getTarget(), method, arguments);
+				_advisedSupport.getTarget(), method, arguments);
 
 		_setMethodInterceptors(serviceBeanMethodInvocation);
 
