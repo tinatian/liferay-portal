@@ -48,6 +48,9 @@
 	<bean class="com.liferay.portal.service.ServiceContextAdvice" id="serviceContextAdvice">
 		<property name="nextMethodInterceptor" ref="retryAdvice" />
 	</bean>
+	<bean class="com.liferay.portal.spring.aop.AopProxyFactoryImpl" id="com.liferay.portal.spring.aop.AopProxyFactory">
+		<property name="methodInterceptor" ref="serviceAdvice" />
+	</bean>
 	<bean class="com.liferay.portal.spring.aop.RetryAdvice" id="retryAdvice">
 		<property name="nextMethodInterceptor" ref="transactionAdvice" />
 	</bean>
@@ -55,7 +58,7 @@
 		<property name="beanMatcher">
 			<bean class="com.liferay.portal.spring.aop.ServiceBeanMatcher" />
 		</property>
-		<property name="methodInterceptor" ref="serviceAdvice" />
+		<property name="aopProxyFactory" ref="com.liferay.portal.spring.aop.AopProxyFactory" />
 	</bean>
 	<bean class="com.liferay.portal.spring.aop.SkipAdvice" id="serviceAdvice">
 		<property name="nextMethodInterceptor" ref="accessControlAdvice" />
