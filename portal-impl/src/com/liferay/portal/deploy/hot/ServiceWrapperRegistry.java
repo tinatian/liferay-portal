@@ -14,6 +14,7 @@
 
 package com.liferay.portal.deploy.hot;
 
+import com.liferay.portal.kernel.aop.AdvisedSupport;
 import com.liferay.portal.kernel.bean.BeanLocatorException;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -29,9 +30,6 @@ import com.liferay.registry.ServiceTracker;
 import com.liferay.registry.ServiceTrackerCustomizer;
 
 import java.lang.reflect.Method;
-
-import org.springframework.aop.TargetSource;
-import org.springframework.aop.framework.AdvisedSupport;
 
 /**
  * @author Raymond Augé
@@ -158,9 +156,7 @@ public class ServiceWrapperRegistry {
 				AdvisedSupport advisedSupport =
 					ServiceBeanAopProxy.getAdvisedSupport(serviceProxy);
 
-				TargetSource targetSource = advisedSupport.getTargetSource();
-
-				serviceWrapper.setWrappedService((T)targetSource.getTarget());
+				serviceWrapper.setWrappedService((T)advisedSupport.getTarget());
 
 				return new ServiceBag<>(
 					classLoader, advisedSupport, serviceTypeClass,

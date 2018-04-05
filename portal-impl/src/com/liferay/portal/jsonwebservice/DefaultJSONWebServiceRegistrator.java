@@ -15,6 +15,7 @@
 package com.liferay.portal.jsonwebservice;
 
 import com.liferay.petra.reflect.AnnotationLocator;
+import com.liferay.portal.kernel.aop.AdvisedSupport;
 import com.liferay.portal.kernel.bean.BeanLocator;
 import com.liferay.portal.kernel.bean.BeanLocatorException;
 import com.liferay.portal.kernel.bean.ClassLoaderBeanHandler;
@@ -39,9 +40,6 @@ import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.aop.TargetSource;
-import org.springframework.aop.framework.AdvisedSupport;
 
 /**
  * @author Igor Spasic
@@ -180,9 +178,7 @@ public class DefaultJSONWebServiceRegistrator
 				AdvisedSupport advisedSupport =
 					ServiceBeanAopProxy.getAdvisedSupport(service);
 
-				TargetSource targetSource = advisedSupport.getTargetSource();
-
-				service = targetSource.getTarget();
+				service = advisedSupport.getTarget();
 			}
 			else if (invocationHandler instanceof ClassLoaderBeanHandler) {
 				ClassLoaderBeanHandler classLoaderBeanHandler =
