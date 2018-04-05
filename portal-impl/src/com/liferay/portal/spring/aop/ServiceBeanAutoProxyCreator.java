@@ -27,6 +27,7 @@ import org.springframework.aop.framework.AopProxyFactory;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Shuyang Zhou
@@ -110,9 +111,11 @@ public class ServiceBeanAutoProxyCreator
 				public AopProxy createAopProxy(AdvisedSupport advisedSupport)
 					throws AopConfigException {
 
-					return new ServiceBeanAopProxy(
-						new AdvisedSupportAdapter(advisedSupport),
-						_methodInterceptor, _serviceBeanAopCacheManager);
+					return new AopProxyAdapter(
+						new ServiceBeanAopProxy(
+							new AdvisedSupportAdapter(advisedSupport),
+							_methodInterceptor, _serviceBeanAopCacheManager),
+						ClassUtils.getDefaultClassLoader());
 				}
 
 			});
