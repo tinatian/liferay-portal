@@ -36,6 +36,7 @@ import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.journal.test.util.JournalTestUtil;
+import com.liferay.portal.kernel.aop.AdvisedSupport;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.model.Group;
@@ -81,9 +82,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.springframework.aop.TargetSource;
-import org.springframework.aop.framework.AdvisedSupport;
-
 /**
  * @author Juan Fernández
  * @author Roberto Díaz
@@ -101,9 +99,7 @@ public class JournalArticleServiceTest {
 		AdvisedSupport advisedSupport = ServiceBeanAopProxy.getAdvisedSupport(
 			_journalArticleLocalService);
 
-		TargetSource targetSource = advisedSupport.getTargetSource();
-
-		_journalArticleLocalServiceImplInstance = targetSource.getTarget();
+		_journalArticleLocalServiceImplInstance = advisedSupport.getTarget();
 	}
 
 	@Before
