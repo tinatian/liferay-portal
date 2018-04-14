@@ -110,6 +110,8 @@ public class PluginContextListener
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
 		ServletContext servletContext = servletContextEvent.getServletContext();
 
+		ServletContextPool.remove(servletContext.getServletContextName());
+
 		ClassLoaderPool.unregister(servletContext.getServletContextName());
 
 		portalDestroy();

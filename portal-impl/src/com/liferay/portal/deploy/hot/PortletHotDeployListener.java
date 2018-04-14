@@ -39,7 +39,6 @@ import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.DirectServletRegistryUtil;
 import com.liferay.portal.kernel.servlet.FileTimestampUtil;
 import com.liferay.portal.kernel.servlet.PortletServlet;
-import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.servlet.ServletContextProvider;
 import com.liferay.portal.kernel.util.ClassUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -334,8 +333,6 @@ public class PortletHotDeployListener extends BaseHotDeployListener {
 		for (Portlet portlet : portlets) {
 			_destroyPortlet(servletContext, portlet, portletIds);
 		}
-
-		ServletContextPool.remove(servletContextName);
 
 		if (!portletIds.isEmpty()) {
 			long[] companyIds = PortalInstances.getCompanyIds();
