@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.servlet.DirectServletRegistryUtil;
 import com.liferay.portal.kernel.servlet.PortletSessionListenerManager;
 import com.liferay.portal.kernel.servlet.SerializableSessionAttributeListener;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.template.TemplateResourceLoaderUtil;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
@@ -287,6 +288,8 @@ public class PortalContextLoaderListener extends ContextLoaderListener {
 		ClassLoader portalClassLoader = ClassLoaderUtil.getPortalClassLoader();
 
 		ClassLoaderPool.register(_portalServletContextName, portalClassLoader);
+		ServletContextClassLoaderPool.register(
+			_portalServletContextName, portalClassLoader);
 
 		PortalContextLoaderLifecycleThreadLocal.setInitializing(true);
 

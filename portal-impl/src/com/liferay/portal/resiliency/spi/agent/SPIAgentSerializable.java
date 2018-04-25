@@ -14,7 +14,6 @@
 
 package com.liferay.portal.resiliency.spi.agent;
 
-import com.liferay.petra.lang.ClassLoaderPool;
 import com.liferay.portal.kernel.io.BigEndianCodec;
 import com.liferay.portal.kernel.io.Deserializer;
 import com.liferay.portal.kernel.io.Serializer;
@@ -27,6 +26,7 @@ import com.liferay.portal.kernel.nio.intraband.mailbox.MailboxUtil;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.Direction;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.DistributedRegistry;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.util.ClassLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -249,8 +249,15 @@ public class SPIAgentSerializable implements Serializable {
 		try {
 			String servletContextName = deserializer.readString();
 
-			ClassLoader classLoader = ClassLoaderPool.getClassLoader(
-				servletContextName);
+			ClassLoader classLoader =
+				ServletContextClassLoaderPool.getClassLoader(
+					servletContextName);
+
+			if (classLoader == null) {
+				Thread currentThread = Thread.currentThread();
+
+				classLoader = currentThread.getContextClassLoader();
+			}
 
 			ClassLoaderUtil.setContextClassLoader(classLoader);
 

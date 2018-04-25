@@ -14,8 +14,6 @@
 
 package com.liferay.portal.kernel.messaging.config;
 
-import com.liferay.petra.lang.ClassLoaderPool;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Destination;
@@ -27,6 +25,7 @@ import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.messaging.MessageBusEventListener;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.security.pacl.permission.PortalMessageBusPermission;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.registry.Filter;
 import com.liferay.registry.Registry;
@@ -159,11 +158,14 @@ public abstract class AbstractMessagingConfigurator
 
 		ClassLoader operatingClassLoader = getOperatingClassloader();
 
-		String servletContextName = ClassLoaderPool.getContextName(
-			operatingClassLoader);
+		String servletContextName =
+			ServletContextClassLoaderPool.getServletContextName(
+				operatingClassLoader);
 
-		MessagingConfiguratorRegistry.unregisterMessagingConfigurator(
-			servletContextName, this);
+		if (servletContextName != null) {
+			MessagingConfiguratorRegistry.unregisterMessagingConfigurator(
+				servletContextName, this);
+		}
 	}
 
 	@Override
@@ -281,12 +283,11 @@ public abstract class AbstractMessagingConfigurator
 
 		connect();
 
-		String servletContextName = ClassLoaderPool.getContextName(
-			operatingClassLoader);
+		String servletContextName =
+			ServletContextClassLoaderPool.getServletContextName(
+				operatingClassLoader);
 
-		if ((servletContextName != null) &&
-			!servletContextName.equals(StringPool.NULL)) {
-
+		if (servletContextName != null) {
 			MessagingConfiguratorRegistry.registerMessagingConfigurator(
 				servletContextName, this);
 		}
