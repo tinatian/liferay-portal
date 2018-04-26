@@ -286,9 +286,14 @@ public class InvokerFilterHelper {
 		ServletContext servletContext, String filterClassName,
 		FilterConfig filterConfig) {
 
-		ClassLoader pluginClassLoader =
-			ServletContextClassLoaderPool.getClassLoader(
-				servletContext.getServletContextName());
+		String servletContextName = servletContext.getServletContextName();
+
+		ClassLoader pluginClassLoader = null;
+
+		if (servletContextName != null) {
+			pluginClassLoader = ServletContextClassLoaderPool.getClassLoader(
+				servletContextName);
+		}
 
 		Thread currentThread = Thread.currentThread();
 
