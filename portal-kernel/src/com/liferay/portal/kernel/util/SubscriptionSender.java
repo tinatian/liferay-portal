@@ -1010,10 +1010,10 @@ public class SubscriptionSender implements Serializable {
 
 		objectInputStream.defaultReadObject();
 
-		String servletContextName = objectInputStream.readUTF();
+		String contextName = objectInputStream.readUTF();
 
-		if (!servletContextName.isEmpty()) {
-			_classLoader = ClassLoaderPool.getClassLoader(servletContextName);
+		if (!contextName.isEmpty()) {
+			_classLoader = ClassLoaderPool.getClassLoader(contextName);
 		}
 	}
 
@@ -1022,13 +1022,13 @@ public class SubscriptionSender implements Serializable {
 
 		objectOutputStream.defaultWriteObject();
 
-		String servletContextName = StringPool.BLANK;
+		String contextName = StringPool.BLANK;
 
 		if (_classLoader != null) {
-			servletContextName = ClassLoaderPool.getContextName(_classLoader);
+			contextName = ClassLoaderPool.getContextName(_classLoader);
 		}
 
-		objectOutputStream.writeUTF(servletContextName);
+		objectOutputStream.writeUTF(contextName);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
