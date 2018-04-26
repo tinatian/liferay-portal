@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.resiliency.spi.agent.annotation.Direction;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.DistributedRegistry;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.MatchType;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
@@ -98,7 +99,10 @@ public class SPIAgentSerializableTest {
 		_classLoader = new URLClassLoader(
 			new URL[0], currentThread.getContextClassLoader());
 
-		ClassLoaderPool.register(_SERVLET_CONTEXT_NAME, _classLoader);
+//		ServletContextClassLoaderPool.register(
+//			_SERVLET_CONTEXT_NAME, _classLoader);
+
+		ClassLoaderPool.register(_CONTEXT_NAME, _classLoader);
 
 		ClassLoaderPool.unregister(ClassLoaderPool.class.getClassLoader());
 	}
@@ -628,9 +632,21 @@ public class SPIAgentSerializableTest {
 		};
 
 		ClassLoader oldClassLoader = ClassLoaderPool.getClassLoader(
-			_SERVLET_CONTEXT_NAME);
+			_CONTEXT_NAME);
 
-		ClassLoaderPool.register(_SERVLET_CONTEXT_NAME, incapableClassLoader);
+		ClassLoaderPool.register(_CONTEXT_NAME, incapableClassLoader);
+
+//		ClassLoader oldServletContextClassLoader =
+//			ServletContextClassLoaderPool.getClassLoader(_SERVLET_CONTEXT_NAME);
+//
+//		ServletContextClassLoaderPool.register(
+//			_SERVLET_CONTEXT_NAME, incapableClassLoader);
+
+		Thread currentThread = Thread.currentThread();
+
+		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+
+		currentThread.setContextClassLoader(incapableClassLoader);
 
 		byte[] receiptData = new byte[8];
 
@@ -649,7 +665,10 @@ public class SPIAgentSerializableTest {
 				ClassNotFoundException.class, throwable.getClass());
 		}
 		finally {
-			ClassLoaderPool.register(_SERVLET_CONTEXT_NAME, oldClassLoader);
+			ClassLoaderPool.register(_CONTEXT_NAME, oldClassLoader);
+			currentThread.setContextClassLoader(contextClassLoader);
+//			ServletContextClassLoaderPool.register(
+//				_SERVLET_CONTEXT_NAME, oldServletContextClassLoader);
 		}
 
 		// Successfully receive
@@ -758,6 +777,8 @@ public class SPIAgentSerializableTest {
 		private static ClassLoader _contextClassLoader;
 
 	}
+
+	private static final String _CONTEXT_NAME = "CONTEXT_NAME";
 
 	private static final String _SERVLET_CONTEXT_NAME = "SERVLET_CONTEXT_NAME";
 
