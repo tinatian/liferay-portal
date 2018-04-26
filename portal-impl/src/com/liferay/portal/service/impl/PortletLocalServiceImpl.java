@@ -17,7 +17,6 @@ package com.liferay.portal.service.impl;
 import com.liferay.admin.kernel.util.PortalMyAccountApplicationType;
 import com.liferay.expando.kernel.model.CustomAttributesDisplay;
 import com.liferay.petra.content.ContentUtil;
-import com.liferay.petra.lang.ClassLoaderPool;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.application.type.ApplicationType;
@@ -65,6 +64,7 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.servlet.ServletContextUtil;
 import com.liferay.portal.kernel.spring.aop.Skip;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -298,9 +298,16 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 
 		PortletBagFactory portletBagFactory = new PortletBagFactory();
 
-		portletBagFactory.setClassLoader(
-			ClassLoaderPool.getClassLoader(
-				servletContext.getServletContextName()));
+		ClassLoader classLoader = ServletContextClassLoaderPool.getClassLoader(
+			servletContext.getServletContextName());
+
+		if (classLoader == null) {
+			Thread currentThread = Thread.currentThread();
+
+			classLoader = currentThread.getContextClassLoader();
+		}
+
+		portletBagFactory.setClassLoader(classLoader);
 		portletBagFactory.setServletContext(servletContext);
 		portletBagFactory.setWARFile(true);
 
@@ -908,8 +915,16 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 
 		PortletBagFactory portletBagFactory = new PortletBagFactory();
 
-		portletBagFactory.setClassLoader(
-			ClassLoaderPool.getClassLoader(servletContextName));
+		ClassLoader classLoader = ServletContextClassLoaderPool.getClassLoader(
+			servletContextName);
+
+		if (classLoader == null) {
+			Thread currentThread = Thread.currentThread();
+
+			classLoader = currentThread.getContextClassLoader();
+		}
+
+		portletBagFactory.setClassLoader(classLoader);
 		portletBagFactory.setServletContext(servletContext);
 		portletBagFactory.setWARFile(true);
 
