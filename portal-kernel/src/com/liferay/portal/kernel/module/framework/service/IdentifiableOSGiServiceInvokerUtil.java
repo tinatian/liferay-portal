@@ -31,20 +31,20 @@ public class IdentifiableOSGiServiceInvokerUtil {
 
 		MethodHandler methodHandler = new MethodHandler(method, args);
 
-		String threadContextServletContextName = ClassLoaderPool.getContextName(
+		String contextName = ClassLoaderPool.getContextName(
 			ClassLoaderUtil.getContextClassLoader());
 
 		IdentifiableOSGiService identifiableOSGiService =
 			(IdentifiableOSGiService)targetObject;
 
 		return new MethodHandler(
-			_invokeMethodKey, methodHandler, threadContextServletContextName,
+			_invokeMethodKey, methodHandler, contextName,
 			identifiableOSGiService.getOSGiServiceIdentifier());
 	}
 
 	@SuppressWarnings("unused")
 	private static Object _invoke(
-			MethodHandler methodHandler, String threadContextServletContextName,
+			MethodHandler methodHandler, String contextName,
 			String osgiServiceIdentifier)
 		throws Exception {
 
@@ -60,8 +60,7 @@ public class IdentifiableOSGiServiceInvokerUtil {
 		ClassLoader contextClassLoader =
 			ClassLoaderUtil.getContextClassLoader();
 
-		ClassLoader classLoader = ClassLoaderPool.getClassLoader(
-			threadContextServletContextName);
+		ClassLoader classLoader = ClassLoaderPool.getClassLoader(contextName);
 
 		ClassLoaderUtil.setContextClassLoader(classLoader);
 

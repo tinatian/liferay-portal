@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.resiliency.spi.agent.annotation.Direction;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.DistributedRegistry;
 import com.liferay.portal.kernel.resiliency.spi.agent.annotation.MatchType;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
@@ -98,7 +99,9 @@ public class SPIAgentSerializableTest {
 		_classLoader = new URLClassLoader(
 			new URL[0], currentThread.getContextClassLoader());
 
-		ClassLoaderPool.register(_SERVLET_CONTEXT_NAME, _classLoader);
+		ClassLoaderPool.register(_CONTEXT_NAME, _classLoader);
+		ServletContextClassLoaderPool.register(
+			_SERVLET_CONTEXT_NAME, _classLoader);
 
 		ClassLoaderPool.unregister(ClassLoaderPool.class.getClassLoader());
 	}
@@ -627,10 +630,21 @@ public class SPIAgentSerializableTest {
 
 		};
 
-		ClassLoader oldClassLoader = ClassLoaderPool.getClassLoader(
-			_SERVLET_CONTEXT_NAME);
+		Thread currentThread = Thread.currentThread();
 
-		ClassLoaderPool.register(_SERVLET_CONTEXT_NAME, incapableClassLoader);
+		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+
+		currentThread.setContextClassLoader(incapableClassLoader);
+
+		ClassLoader oldClassLoader = ClassLoaderPool.getClassLoader(
+			_CONTEXT_NAME);
+
+		ClassLoaderPool.unregister(_CONTEXT_NAME);
+
+		ClassLoader oldServletContextClassLoader =
+			ServletContextClassLoaderPool.getClassLoader(_SERVLET_CONTEXT_NAME);
+
+		ServletContextClassLoaderPool.unregister(_SERVLET_CONTEXT_NAME);
 
 		byte[] receiptData = new byte[8];
 
@@ -649,10 +663,51 @@ public class SPIAgentSerializableTest {
 				ClassNotFoundException.class, throwable.getClass());
 		}
 		finally {
-			ClassLoaderPool.register(_SERVLET_CONTEXT_NAME, oldClassLoader);
+			currentThread.setContextClassLoader(contextClassLoader);
+
+			ClassLoaderPool.register(_CONTEXT_NAME, oldClassLoader);
+
+			ServletContextClassLoaderPool.register(
+				_SERVLET_CONTEXT_NAME, oldServletContextClassLoader);
 		}
 
-		// Successfully receive
+		// Successfully receive 1
+
+		ClassLoaderPool.unregister(_CONTEXT_NAME);
+
+		ServletContextClassLoaderPool.unregister(_SERVLET_CONTEXT_NAME);
+
+		try {
+			unsyncByteArrayOutputStream = new UnsyncByteArrayOutputStream();
+
+			agentSerializable.writeTo(
+				new MockRegistrationReference(mockIntraband),
+				unsyncByteArrayOutputStream);
+
+			actualReceipt = BigEndianCodec.getLong(
+				unsyncByteArrayOutputStream.unsafeGetByteArray(), 0);
+
+			Assert.assertEquals(receiptReference.get(), actualReceipt);
+
+			BigEndianCodec.putLong(receiptData, 0, actualReceipt);
+
+			SPIAgentSerializable receivedAgentSerializable =
+				SPIAgentSerializable.readFrom(
+					new UnsyncByteArrayInputStream(receiptData));
+
+			Assert.assertNotNull(receivedAgentSerializable);
+
+			Assert.assertSame(
+				contextClassLoader, DeserializerAdvice.getContextClassLoader());
+		}
+		finally {
+			ClassLoaderPool.register(_CONTEXT_NAME, oldClassLoader);
+
+			ServletContextClassLoaderPool.register(
+				_SERVLET_CONTEXT_NAME, oldServletContextClassLoader);
+		}
+
+		// Successfully receive 2
 
 		unsyncByteArrayOutputStream = new UnsyncByteArrayOutputStream();
 
@@ -758,6 +813,8 @@ public class SPIAgentSerializableTest {
 		private static ClassLoader _contextClassLoader;
 
 	}
+
+	private static final String _CONTEXT_NAME = "CONTEXT_NAME";
 
 	private static final String _SERVLET_CONTEXT_NAME = "SERVLET_CONTEXT_NAME";
 
