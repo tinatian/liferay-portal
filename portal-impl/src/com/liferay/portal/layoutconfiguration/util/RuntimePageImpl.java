@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.model.LayoutTemplateConstants;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.security.pacl.DoPrivileged;
 import com.liferay.portal.kernel.service.LayoutTemplateLocalServiceUtil;
-import com.liferay.portal.kernel.servlet.PluginContextListener;
+import com.liferay.portal.kernel.servlet.ServletContextClassLoaderPool;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
@@ -312,8 +312,8 @@ public class RuntimePageImpl implements RuntimePage {
 
 			if (pluginServletContext != null) {
 				pluginClassLoader =
-					(ClassLoader)pluginServletContext.getAttribute(
-						PluginContextListener.PLUGIN_CLASS_LOADER);
+					ServletContextClassLoaderPool.getClassLoader(
+						pluginServletContext.getServletContextName());
 			}
 		}
 
