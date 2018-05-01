@@ -18,9 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -33,7 +31,6 @@ import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 
 import org.gradle.BuildAdapter;
-import org.gradle.BuildResult;
 import org.gradle.api.Project;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.api.logging.Logger;
@@ -44,25 +41,6 @@ import org.gradle.util.Clock;
  * @author Andrea Di Giorgi
  */
 public class GitRepositoryBuildAdapter extends BuildAdapter {
-
-	@Override
-	public void buildFinished(BuildResult buildResult) {
-		Set<Map.Entry<File, GitRepositoryBag>> entries =
-			_gitRepositoryBags.entrySet();
-
-		Iterator<Map.Entry<File, GitRepositoryBag>> iterator =
-			entries.iterator();
-
-		while (iterator.hasNext()) {
-			Map.Entry<File, GitRepositoryBag> entry = iterator.next();
-
-			GitRepositoryBag gitRepositoryBag = entry.getValue();
-
-			gitRepositoryBag.repository.close();
-
-			iterator.remove();
-		}
-	}
 
 	public String getBranchName(Project project) {
 		GitRepositoryBag gitRepositoryBag = _getGitRepositoryBag(project);
@@ -119,21 +97,23 @@ public class GitRepositoryBuildAdapter extends BuildAdapter {
 
 				File gitDir = _getGitDir(rootDir);
 
-				Repository repository = RepositoryCache.open(
-					FileKey.exact(gitDir, FS.DETECTED));
+				try (Repository repository = RepositoryCache.open(
+						FileKey.exact(gitDir, FS.DETECTED))) {
 
-				String branchName = repository.getBranch();
-				String hashHead = _getHashHead(repository);
+					String branchName = repository.getBranch();
+					String hashHead = _getHashHead(repository);
 
-				gitRepositoryBag = new GitRepositoryBag(
-					repository, branchName, hashHead);
+					gitRepositoryBag = new GitRepositoryBag(
+						branchName, hashHead);
 
-				_gitRepositoryBags.put(rootDir, gitRepositoryBag);
+					_gitRepositoryBags.put(rootDir, gitRepositoryBag);
 
-				if (_logger.isInfoEnabled()) {
-					_logger.info(
-						"Getting data from Git repository in \"{}\" took {}.",
-						gitDir, clock.getTime());
+					if (_logger.isInfoEnabled()) {
+						_logger.info(
+							"Getting data from Git repository in \"{}\" took " +
+								"{}.",
+							gitDir, clock.getTime());
+					}
 				}
 			}
 
@@ -152,17 +132,13 @@ public class GitRepositoryBuildAdapter extends BuildAdapter {
 
 	private static class GitRepositoryBag {
 
-		public GitRepositoryBag(
-			Repository repository, String branchName, String hashHead) {
-
-			this.repository = repository;
+		public GitRepositoryBag(String branchName, String hashHead) {
 			this.branchName = branchName;
 			this.hashHead = hashHead;
 		}
 
 		public final String branchName;
 		public final String hashHead;
-		public final Repository repository;
 
 	}
 
