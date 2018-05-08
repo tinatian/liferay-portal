@@ -33,17 +33,8 @@ public class SkipAdvice extends AnnotationChainableMethodAdvice<Skip> {
 		Skip skip = findAnnotation(methodInvocation);
 
 		if (skip != _nullSkip) {
-			MethodInterceptorsBag methodInterceptorsBag =
-				serviceBeanAopCacheManager.getMethodInterceptorsBag(
-					methodInvocation);
-
-			MethodInterceptorsBag newMethodInterceptorsBag =
-				new MethodInterceptorsBag(
-					methodInterceptorsBag.getClassLevelMethodInterceptors(),
-					Collections.<MethodInterceptor>emptyList());
-
-			serviceBeanAopCacheManager.putMethodInterceptorsBag(
-				methodInvocation, newMethodInterceptorsBag);
+			serviceBeanAopCacheManager.putMethodInterceptors(
+				methodInvocation, Collections.<MethodInterceptor>emptyList());
 
 			ServiceBeanMethodInvocation serviceBeanMethodInvocation =
 				(ServiceBeanMethodInvocation)methodInvocation;

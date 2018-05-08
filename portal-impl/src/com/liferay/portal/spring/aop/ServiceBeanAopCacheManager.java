@@ -125,24 +125,20 @@ public class ServiceBeanAopCacheManager {
 		_fullMethodInterceptors = fullMethodInterceptors;
 	}
 
-	public MethodInterceptorsBag getMethodInterceptorsBag(
+	public List<MethodInterceptor> getMethodInterceptors(
 		MethodInvocation methodInvocation) {
 
-		MethodInterceptorsBag methodInterceptorsBag =
-			_methodInterceptorBags.get(methodInvocation.getMethod());
+		List<MethodInterceptor> methodInterceptors = _methodInterceptors.get(
+			methodInvocation.getMethod());
 
-		if (methodInterceptorsBag == null) {
-			List<MethodInterceptor> methodInterceptors = new ArrayList<>(
-				_fullMethodInterceptors);
+		if (methodInterceptors == null) {
+			methodInterceptors = new ArrayList<>(_fullMethodInterceptors);
 
-			methodInterceptorsBag = new MethodInterceptorsBag(
-				_classLevelMethodInterceptors, methodInterceptors);
-
-			_methodInterceptorBags.put(
-				methodInvocation.getMethod(), methodInterceptorsBag);
+			_methodInterceptors.put(
+				methodInvocation.getMethod(), methodInterceptors);
 		}
 
-		return methodInterceptorsBag;
+		return methodInterceptors;
 	}
 
 	public Map
@@ -158,12 +154,12 @@ public class ServiceBeanAopCacheManager {
 		return _annotationChainableMethodAdvices.containsKey(annotationClass);
 	}
 
-	public void putMethodInterceptorsBag(
+	public void putMethodInterceptors(
 		MethodInvocation methodInvocation,
-		MethodInterceptorsBag methodInterceptorsBag) {
+		List<MethodInterceptor> methodInterceptors) {
 
-		_methodInterceptorBags.put(
-			methodInvocation.getMethod(), methodInterceptorsBag);
+		_methodInterceptors.put(
+			methodInvocation.getMethod(), methodInterceptors);
 	}
 
 	public void registerAnnotationChainableMethodAdvice(
@@ -196,41 +192,31 @@ public class ServiceBeanAopCacheManager {
 
 		Method method = methodInvocation.getMethod();
 
-		MethodInterceptorsBag methodInterceptorsBag =
-			_methodInterceptorBags.get(method);
+		List<MethodInterceptor> methodInterceptors = _methodInterceptors.get(
+			method);
 
-		if (methodInterceptorsBag == null) {
+		if (methodInterceptors == null) {
 			return;
 		}
 
-		ArrayList<MethodInterceptor> methodInterceptors = new ArrayList<>(
-			methodInterceptorsBag.getMergedMethodInterceptors());
+		ArrayList<MethodInterceptor> newMethodInterceptors = new ArrayList<>(
+			methodInterceptors);
 
-		methodInterceptors.remove(methodInterceptor);
+		newMethodInterceptors.remove(methodInterceptor);
 
-		MethodInterceptorsBag newMethodInterceptorsBag = null;
-
-		if (methodInterceptors.equals(
-				methodInterceptorsBag.getClassLevelMethodInterceptors())) {
-
-			newMethodInterceptorsBag = new MethodInterceptorsBag(
-				methodInterceptorsBag.getClassLevelMethodInterceptors(),
-				methodInterceptorsBag.getClassLevelMethodInterceptors());
+		if (methodInterceptors.equals(_classLevelMethodInterceptors)) {
+			newMethodInterceptors = _classLevelMethodInterceptors;
 		}
 		else {
-			methodInterceptors.trimToSize();
-
-			newMethodInterceptorsBag = new MethodInterceptorsBag(
-				methodInterceptorsBag.getClassLevelMethodInterceptors(),
-				methodInterceptors);
+			newMethodInterceptors.trimToSize();
 		}
 
-		_methodInterceptorBags.put(method, newMethodInterceptorsBag);
+		_methodInterceptors.put(method, newMethodInterceptors);
 	}
 
 	public void reset() {
 		_annotations.clear();
-		_methodInterceptorBags.clear();
+		_methodInterceptors.clear();
 	}
 
 	private static final Map<Method, Annotation[]> _annotations =
@@ -240,9 +226,9 @@ public class ServiceBeanAopCacheManager {
 	private final
 		Map<Class<? extends Annotation>, AnnotationChainableMethodAdvice<?>[]>
 			_annotationChainableMethodAdvices = new HashMap<>();
-	private final List<MethodInterceptor> _classLevelMethodInterceptors;
+	private final ArrayList<MethodInterceptor> _classLevelMethodInterceptors;
 	private final List<MethodInterceptor> _fullMethodInterceptors;
-	private final Map<Method, MethodInterceptorsBag> _methodInterceptorBags =
+	private final Map<Method, List<MethodInterceptor>> _methodInterceptors =
 		new ConcurrentHashMap<>();
 
 }
