@@ -69,24 +69,13 @@ public class ServiceBeanAopCacheManager {
 		_annotations.put(methodInvocation.getMethod(), annotations);
 	}
 
-	public ServiceBeanAopCacheManager(MethodInterceptor methodInterceptor) {
+	public ServiceBeanAopCacheManager(
+		List<MethodInterceptor> fullMethodInterceptors) {
+
 		ArrayList<MethodInterceptor> classLevelMethodInterceptors =
 			new ArrayList<>();
-		ArrayList<MethodInterceptor> fullMethodInterceptors = new ArrayList<>();
 
-		while (true) {
-			if (!(methodInterceptor instanceof ChainableMethodAdvice)) {
-				classLevelMethodInterceptors.add(methodInterceptor);
-				fullMethodInterceptors.add(methodInterceptor);
-
-				break;
-			}
-
-			ChainableMethodAdvice chainableMethodAdvice =
-				(ChainableMethodAdvice)methodInterceptor;
-
-			chainableMethodAdvice.setServiceBeanAopCacheManager(this);
-
+		for (MethodInterceptor methodInterceptor : fullMethodInterceptors) {
 			if (methodInterceptor instanceof AnnotationChainableMethodAdvice) {
 				AnnotationChainableMethodAdvice<?>
 					annotationChainableMethodAdvice =
@@ -113,10 +102,6 @@ public class ServiceBeanAopCacheManager {
 			else {
 				classLevelMethodInterceptors.add(methodInterceptor);
 			}
-
-			fullMethodInterceptors.add(methodInterceptor);
-
-			methodInterceptor = chainableMethodAdvice.nextMethodInterceptor;
 		}
 
 		classLevelMethodInterceptors.trimToSize();

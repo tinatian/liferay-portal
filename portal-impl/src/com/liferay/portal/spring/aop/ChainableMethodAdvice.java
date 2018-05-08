@@ -14,6 +14,8 @@
 
 package com.liferay.portal.spring.aop;
 
+import com.liferay.portal.kernel.spring.aop.AopProxyFactory;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -75,18 +77,12 @@ public abstract class ChainableMethodAdvice implements MethodInterceptor {
 		this.nextMethodInterceptor = nextMethodInterceptor;
 	}
 
-	protected void setServiceBeanAopCacheManager(
-		ServiceBeanAopCacheManager serviceBeanAopCacheManager) {
-
-		if (this.serviceBeanAopCacheManager != null) {
-			return;
-		}
-
-		this.serviceBeanAopCacheManager = serviceBeanAopCacheManager;
+	protected void setAopProxyFactory(AopProxyFactory aopProxyFactory) {
+		this.aopProxyFactory = aopProxyFactory;
 	}
 
+	protected AopProxyFactory aopProxyFactory;
 	protected MethodInterceptor nextMethodInterceptor;
 	protected Object nullResult = new Object();
-	protected ServiceBeanAopCacheManager serviceBeanAopCacheManager;
 
 }

@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.spring.aop.AdvisedSupport;
 import com.liferay.portal.kernel.spring.aop.AopProxy;
 import com.liferay.portal.kernel.spring.aop.AopProxyFactory;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -46,22 +47,41 @@ public class AopProxyFactoryImpl implements AopProxyFactory, BeanFactoryAware {
 			chainableMethodAdviceInjector.inject();
 		}
 
-		_serviceBeanAopCacheManager = new ServiceBeanAopCacheManager(
-			_methodInterceptor);
+		MethodInterceptor methodInterceptor = _methodInterceptor;
+
+		ArrayList<MethodInterceptor> fullMethodInterceptors = new ArrayList<>();
+
+		while (true) {
+			if (!(methodInterceptor instanceof ChainableMethodAdvice)) {
+				fullMethodInterceptors.add(methodInterceptor);
+
+				break;
+			}
+
+			ChainableMethodAdvice chainableMethodAdvice =
+				(ChainableMethodAdvice)methodInterceptor;
+
+			chainableMethodAdvice.setAopProxyFactory(this);
+
+			fullMethodInterceptors.add(methodInterceptor);
+
+			methodInterceptor = chainableMethodAdvice.nextMethodInterceptor;
+		}
+
+		fullMethodInterceptors.trimToSize();
 
 		ServiceBeanAopCacheManagerUtil.registerServiceBeanAopCacheManager(
-			_serviceBeanAopCacheManager);
+			this, new ServiceBeanAopCacheManager(fullMethodInterceptors));
 	}
 
 	public void destroy() {
 		ServiceBeanAopCacheManagerUtil.unregisterServiceBeanAopCacheManager(
-			_serviceBeanAopCacheManager);
+			this);
 	}
 
 	@Override
 	public AopProxy getAopProxy(AdvisedSupport advisedSupport) {
-		return new ServiceBeanAopProxy(
-			advisedSupport, _serviceBeanAopCacheManager);
+		return new ServiceBeanAopProxy(advisedSupport, this);
 	}
 
 	@Override
@@ -75,6 +95,5 @@ public class AopProxyFactoryImpl implements AopProxyFactory, BeanFactoryAware {
 
 	private BeanFactory _beanFactory;
 	private MethodInterceptor _methodInterceptor;
-	private ServiceBeanAopCacheManager _serviceBeanAopCacheManager;
 
 }

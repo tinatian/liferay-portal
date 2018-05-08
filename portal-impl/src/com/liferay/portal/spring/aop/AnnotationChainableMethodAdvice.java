@@ -15,6 +15,7 @@
 package com.liferay.portal.spring.aop;
 
 import com.liferay.petra.reflect.AnnotationLocator;
+import com.liferay.portal.kernel.spring.aop.AopProxyFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -65,6 +66,13 @@ public abstract class AnnotationChainableMethodAdvice<T extends Annotation>
 			method, targetClass);
 
 		Iterator<Annotation> iterator = annotations.iterator();
+
+		ServiceBeanAopCacheManager serviceBeanAopCacheManager =
+			ServiceBeanAopCacheManagerUtil.getServiceBeanAopCacheManager(
+				aopProxyFactory);
+
+		serviceBeanAopCacheManager.registerAnnotationChainableMethodAdvice(
+			_annotationClass, this);
 
 		while (iterator.hasNext()) {
 			Annotation curAnnotation = iterator.next();
@@ -128,14 +136,16 @@ public abstract class AnnotationChainableMethodAdvice<T extends Annotation>
 	}
 
 	@Override
-	protected void setServiceBeanAopCacheManager(
-		ServiceBeanAopCacheManager serviceBeanAopCacheManager) {
-
-		if (this.serviceBeanAopCacheManager != null) {
+	protected void setAopProxyFactory(AopProxyFactory aopProxyFactory) {
+		if (this.aopProxyFactory != null) {
 			return;
 		}
 
-		this.serviceBeanAopCacheManager = serviceBeanAopCacheManager;
+		this.aopProxyFactory = aopProxyFactory;
+
+		ServiceBeanAopCacheManager serviceBeanAopCacheManager =
+			ServiceBeanAopCacheManagerUtil.getServiceBeanAopCacheManager(
+				aopProxyFactory);
 
 		serviceBeanAopCacheManager.registerAnnotationChainableMethodAdvice(
 			_annotationClass, this);

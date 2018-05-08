@@ -33,6 +33,10 @@ public class SkipAdvice extends AnnotationChainableMethodAdvice<Skip> {
 		Skip skip = findAnnotation(methodInvocation);
 
 		if (skip != _nullSkip) {
+			ServiceBeanAopCacheManager serviceBeanAopCacheManager =
+				ServiceBeanAopCacheManagerUtil.getServiceBeanAopCacheManager(
+					aopProxyFactory);
+
 			serviceBeanAopCacheManager.putMethodInterceptors(
 				methodInvocation, Collections.<MethodInterceptor>emptyList());
 

@@ -14,35 +14,45 @@
 
 package com.liferay.portal.spring.aop;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import com.liferay.portal.kernel.spring.aop.AopProxyFactory;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Shuyang Zhou
  */
 public class ServiceBeanAopCacheManagerUtil {
 
+	public static ServiceBeanAopCacheManager getServiceBeanAopCacheManager(
+		AopProxyFactory aopProxyFactory) {
+
+		return _serviceBeanAopCacheManagers.get(aopProxyFactory);
+	}
+
 	public static void registerServiceBeanAopCacheManager(
+		AopProxyFactory aopProxyFactory,
 		ServiceBeanAopCacheManager serviceBeanAopCacheManager) {
 
-		_serviceBeanAopCacheManagers.add(serviceBeanAopCacheManager);
+		_serviceBeanAopCacheManagers.put(
+			aopProxyFactory, serviceBeanAopCacheManager);
 	}
 
 	public static void reset() {
 		for (ServiceBeanAopCacheManager serviceBeanAopCacheManager :
-				_serviceBeanAopCacheManagers) {
+				_serviceBeanAopCacheManagers.values()) {
 
 			serviceBeanAopCacheManager.reset();
 		}
 	}
 
 	public static void unregisterServiceBeanAopCacheManager(
-		ServiceBeanAopCacheManager serviceBeanAopCacheManager) {
+		AopProxyFactory aopProxyFactory) {
 
-		_serviceBeanAopCacheManagers.remove(serviceBeanAopCacheManager);
+		_serviceBeanAopCacheManagers.remove(aopProxyFactory);
 	}
 
-	private static final List<ServiceBeanAopCacheManager>
-		_serviceBeanAopCacheManagers = new CopyOnWriteArrayList<>();
+	private static final Map<AopProxyFactory, ServiceBeanAopCacheManager>
+		_serviceBeanAopCacheManagers = new ConcurrentHashMap<>();
 
 }

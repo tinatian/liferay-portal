@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.spring.aop.AdvisedSupport;
 import com.liferay.portal.kernel.spring.aop.AopProxy;
+import com.liferay.portal.kernel.spring.aop.AopProxyFactory;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.lang.reflect.InvocationHandler;
@@ -46,12 +47,11 @@ public class ServiceBeanAopProxy
 	}
 
 	public ServiceBeanAopProxy(
-		AdvisedSupport advisedSupport,
-		ServiceBeanAopCacheManager serviceBeanAopCacheManager) {
+		AdvisedSupport advisedSupport, AopProxyFactory aopProxyFactory) {
 
 		_advisedSupport = advisedSupport;
 
-		_serviceBeanAopCacheManager = serviceBeanAopCacheManager;
+		_aopProxyFactory = aopProxyFactory;
 	}
 
 	@Override
@@ -77,8 +77,12 @@ public class ServiceBeanAopProxy
 			new ServiceBeanMethodInvocation(
 				_advisedSupport.getTarget(), method, arguments);
 
+		ServiceBeanAopCacheManager serviceBeanAopCacheManager =
+			ServiceBeanAopCacheManagerUtil.getServiceBeanAopCacheManager(
+				_aopProxyFactory);
+
 		serviceBeanMethodInvocation.setMethodInterceptors(
-			_serviceBeanAopCacheManager.getMethodInterceptors(
+			serviceBeanAopCacheManager.getMethodInterceptors(
 				serviceBeanMethodInvocation));
 
 		return serviceBeanMethodInvocation.proceed();
@@ -97,7 +101,7 @@ public class ServiceBeanAopProxy
 	private static final PACL _pacl = new NoPACL();
 
 	private final AdvisedSupport _advisedSupport;
-	private final ServiceBeanAopCacheManager _serviceBeanAopCacheManager;
+	private final AopProxyFactory _aopProxyFactory;
 
 	private static class NoPACL implements PACL {
 
