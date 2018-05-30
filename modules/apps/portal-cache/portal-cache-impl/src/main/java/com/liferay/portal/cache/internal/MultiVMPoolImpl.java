@@ -32,9 +32,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -153,23 +150,6 @@ public class MultiVMPoolImpl implements MultiVMPool {
 			portalCacheManager) {
 
 		_portalCacheManager = portalCacheManager;
-	}
-
-	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
-	protected void setSPIPortalCacheManagerConfigurator(
-		SPIPortalCacheManagerConfigurator spiPortalCacheManagerConfigurator) {
-
-		_spiPortalCacheManagerConfigurator = spiPortalCacheManagerConfigurator;
-	}
-
-	protected void unsetSPIPortalCacheManagerConfigurator(
-		SPIPortalCacheManagerConfigurator spiPortalCacheManagerConfigurator) {
-
-		_spiPortalCacheManagerConfigurator = spiPortalCacheManagerConfigurator;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
