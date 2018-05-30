@@ -409,7 +409,9 @@ public class SolrQuerySuggester implements QuerySuggester {
 	}
 
 	protected void unsetStringDistance(StringDistance stringDistance) {
-		_stringDistance = new LevensteinDistance();
+		if (_stringDistance == stringDistance) {
+			_stringDistance = new LevensteinDistance();
+		}
 	}
 
 	protected Localization localization;
@@ -426,7 +428,7 @@ public class SolrQuerySuggester implements QuerySuggester {
 	private double _distanceThreshold;
 	private NGramQueryBuilder _nGramQueryBuilder;
 	private SolrClientManager _solrClientManager;
-	private StringDistance _stringDistance = new LevensteinDistance();
+	private volatile StringDistance _stringDistance = new LevensteinDistance();
 
 	private static class Suggestion {
 

@@ -193,7 +193,10 @@ public class OutputStreamContainerFactoryTrackerImpl
 	protected void unsetOutputStreamContainerFactory(
 		OutputStreamContainerFactory outputStreamContainerFactory) {
 
-		_outputStreamContainerFactory = _consoleOutputStreamContainerFactory;
+		if (_outputStreamContainerFactory == outputStreamContainerFactory) {
+			_outputStreamContainerFactory =
+				_consoleOutputStreamContainerFactory;
+		}
 	}
 
 	private final OutputStreamContainerFactory
@@ -202,7 +205,7 @@ public class OutputStreamContainerFactoryTrackerImpl
 	private org.apache.felix.utils.log.Logger _logger;
 	private ServiceTrackerMap<String, OutputStreamContainerFactory>
 		_outputStreamContainerFactories;
-	private OutputStreamContainerFactory _outputStreamContainerFactory;
+	private volatile OutputStreamContainerFactory _outputStreamContainerFactory;
 	private WriterAppender _writerAppender;
 	private final ThreadLocal<Writer> _writerThreadLocal = new ThreadLocal<>();
 

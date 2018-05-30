@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.scheduler.SchedulerException;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.TriggerState;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
-import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalRunMode;
 import com.liferay.portal.kernel.util.Props;
@@ -860,29 +859,9 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 		}
 	}
 
-	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
-	protected void setJsonFactory(JSONFactory jsonFactory) {
-		_jsonFactory = jsonFactory;
-	}
-
 	@Reference(unbind = "-")
 	protected void setMessageBus(MessageBus messageBus) {
 		_messageBus = messageBus;
-	}
-
-	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
-	protected void setPortletLocalService(
-		PortletLocalService portletLocalService) {
-
-		_portletLocalService = portletLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -899,29 +878,11 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 			_props.get(PropsKeys.SCHEDULER_JOB_NAME_MAX_LENGTH), 80);
 	}
 
-	@Reference(unbind = "-")
-	protected void setQuartzTriggerFactory(
-		QuartzTriggerFactory quartzTriggerFactory) {
-
-		_quartzTriggerFactory = quartzTriggerFactory;
-	}
-
 	@Reference(
 		target = "(&(release.bundle.symbolic.name=com.liferay.portal.scheduler.quartz)(release.schema.version=1.0.0))",
 		unbind = "-"
 	)
 	protected void setRelease(Release release) {
-	}
-
-	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
-	protected void setSchedulerEngineHelper(
-		SchedulerEngineHelper schedulerEngineHelper) {
-
-		_schedulerEngineHelper = schedulerEngineHelper;
 	}
 
 	protected void unschedule(Scheduler scheduler, JobKey jobKey)
@@ -966,22 +927,6 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 		scheduler.unscheduleJob(triggerKey);
 
 		scheduler.addJob(jobDetail, true);
-	}
-
-	protected void unsetJsonFactory(JSONFactory jsonFactory) {
-		_jsonFactory = null;
-	}
-
-	protected void unsetPortletLocalService(
-		PortletLocalService portletLocalService) {
-
-		_portletLocalService = null;
-	}
-
-	protected void unsetSchedulerEngineHelper(
-		SchedulerEngineHelper schedulerEngineHelper) {
-
-		_schedulerEngineHelper = null;
 	}
 
 	protected void update(
@@ -1055,14 +1000,25 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	private int _descriptionMaxLength;
 	private int _groupNameMaxLength;
 	private int _jobNameMaxLength;
-	private JSONFactory _jsonFactory;
+
+	@Reference(
+		cardinality = ReferenceCardinality.OPTIONAL,
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY
+	)
+	private volatile JSONFactory _jsonFactory;
+
 	private Scheduler _memoryScheduler;
 	private MessageBus _messageBus;
 	private Scheduler _persistedScheduler;
-	private PortletLocalService _portletLocalService;
 	private Props _props;
-	private QuartzTriggerFactory _quartzTriggerFactory;
 	private volatile boolean _schedulerEngineEnabled;
-	private SchedulerEngineHelper _schedulerEngineHelper;
+
+	@Reference(
+		cardinality = ReferenceCardinality.OPTIONAL,
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY
+	)
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 
 }
