@@ -1,0 +1,8 @@
+Bundle-Name: Liferay Tag File
+Bundle-SymbolicName: com.liferay.tag.file
+Bundle-Version: 1.0.0
+Provide-Capability:\
+	osgi.extender;\
+		osgi.extender="jsp.taglib";\
+		uri="/ah-mytab";\
+		version:Version="${Bundle-Version}"

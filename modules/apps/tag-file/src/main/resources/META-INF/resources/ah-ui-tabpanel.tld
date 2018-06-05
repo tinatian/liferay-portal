@@ -1,0 +1,9 @@
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee">
+	<tlib-version>1.0</tlib-version>
+	<short-name>tags</short-name>
+	<uri>/ah-mytab</uri>
+	<tag-file>
+		<name>ah-tab-section</name>
+		<path>/META-INF/tags/ah-tab-section.tag</path>
+	</tag-file>
+</taglib>
