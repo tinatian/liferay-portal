@@ -36,6 +36,21 @@ public abstract class BaseClayTag extends TemplateRendererTag {
 
 	@Override
 	public int doStartTag() {
+		NPMResolver npmResolver = NPMResolverProvider.getNPMResolver();
+
+		String module = null;
+
+		if (npmResolver == null) {
+			module = StringPool.BLANK;
+		}
+		else {
+			module = npmResolver.resolveModuleName(
+				StringBundler.concat(
+					"clay-", _moduleBaseName, "/lib/", _componentBaseName));
+		}
+
+		setModule(module);
+
 		Map<String, Object> context = getContext();
 
 		if (Validator.isNull(context.get("spritemap"))) {
@@ -61,19 +76,6 @@ public abstract class BaseClayTag extends TemplateRendererTag {
 		setTemplateNamespace(_componentBaseName + ".render");
 
 		return super.doStartTag();
-	}
-
-	@Override
-	public String getModule() {
-		NPMResolver npmResolver = NPMResolverProvider.getNPMResolver();
-
-		if (npmResolver == null) {
-			return StringPool.BLANK;
-		}
-
-		return npmResolver.resolveModuleName(
-			StringBundler.concat(
-				"clay-", _moduleBaseName, "/lib/", _componentBaseName));
 	}
 
 	public String getNamespace() {
