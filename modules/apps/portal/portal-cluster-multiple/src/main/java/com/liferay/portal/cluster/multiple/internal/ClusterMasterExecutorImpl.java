@@ -203,7 +203,23 @@ public class ClusterMasterExecutorImpl implements ClusterMasterExecutor {
 					StringBundler.concat(
 						"Unable to get cluster node information for ",
 						"coordinator address ",
-						String.valueOf(coordinatorAddress), ". Trying again."));
+						String.valueOf(coordinatorAddress),
+						". Trying again in 1 second."));
+			}
+
+			try {
+				Object waitObject = new Object();
+
+				synchronized (waitObject) {
+					waitObject.wait(1000);
+				}
+			}
+			catch (InterruptedException ie) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"Ignoring unexpected interruption of 1 second delay",
+						ie);
+				}
 			}
 		}
 
