@@ -574,6 +574,24 @@ public class ClusterSchedulerEngine
 				List<SchedulerResponse> schedulerResponses = future.get(
 					_callMasterTimeout, TimeUnit.SECONDS);
 
+				if (schedulerResponses == null) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							StringBundler.concat(
+								"Missing response, will wait ",
+								String.valueOf(_callMasterTimeout),
+								" seconds before trying again"));
+					}
+
+					Object waitObject = new Object();
+
+					synchronized (waitObject) {
+						waitObject.wait(_callMasterTimeout * 1000);
+					}
+
+					continue;
+				}
+
 				_memoryClusteredJobs.clear();
 
 				for (SchedulerResponse schedulerResponse : schedulerResponses) {
