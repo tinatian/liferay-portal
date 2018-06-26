@@ -103,6 +103,22 @@ public class ClassLoaderPoolTest {
 	}
 
 	@Test
+	public void testGetFallbackClassLoader() {
+		ClassLoader oldClassLoader = new URLClassLoader(new URL[0]);
+		ClassLoader newClassLoader = new URLClassLoader(new URL[0]);
+
+		ClassLoaderPool.register(
+			_CONTEXT_NAME + _OLD_VERSION_NUMBER, oldClassLoader);
+		ClassLoaderPool.register(
+			_CONTEXT_NAME + _NEW_VERSION_NUMBER, newClassLoader);
+
+		Assert.assertSame(
+			newClassLoader,
+			ClassLoaderPool.getClassLoader(
+				_CONTEXT_NAME + _UNIQUE_VERSION_NUMBER));
+	}
+
+	@Test
 	public void testRegister() {
 		ClassLoader classLoader = new URLClassLoader(new URL[0]);
 
@@ -166,6 +182,12 @@ public class ClassLoaderPoolTest {
 	}
 
 	private static final String _CONTEXT_NAME = "contextName";
+
+	private static final String _NEW_VERSION_NUMBER = "_2.0.0.1";
+
+	private static final String _OLD_VERSION_NUMBER = "_1.5.3";
+
+	private static final String _UNIQUE_VERSION_NUMBER = "_1.8.6";
 
 	private static Map<String, ClassLoader> _classLoaders;
 	private static Map<ClassLoader, String> _contextNames;
