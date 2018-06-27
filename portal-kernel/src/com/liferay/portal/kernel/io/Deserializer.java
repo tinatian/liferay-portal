@@ -206,24 +206,7 @@ public class Deserializer {
 		return charBuffer.toString();
 	}
 
-	/**
-	 * Detects a buffer underflow throwing an {@link IllegalStateException} if
-	 * the input data is shorter than the reserved space. This method is final
-	 * so JIT can perform an inline expansion.
-	 *
-	 * @param availableBytes number of bytes available in input buffer
-	 */
-	protected final void detectBufferUnderflow(int availableBytes) {
-		if ((index + availableBytes) > limit) {
-			throw new IllegalStateException("Buffer underflow");
-		}
-	}
-
-	protected byte[] buffer;
-	protected int index;
-	protected int limit;
-
-	protected class BufferInputStream extends InputStream {
+	public class BufferInputStream extends InputStream {
 
 		@Override
 		public int read() {
@@ -251,5 +234,22 @@ public class Deserializer {
 		}
 
 	}
+
+	/**
+	 * Detects a buffer underflow throwing an {@link IllegalStateException} if
+	 * the input data is shorter than the reserved space. This method is final
+	 * so JIT can perform an inline expansion.
+	 *
+	 * @param availableBytes number of bytes available in input buffer
+	 */
+	protected final void detectBufferUnderflow(int availableBytes) {
+		if ((index + availableBytes) > limit) {
+			throw new IllegalStateException("Buffer underflow");
+		}
+	}
+
+	protected byte[] buffer;
+	protected int index;
+	protected int limit;
 
 }
