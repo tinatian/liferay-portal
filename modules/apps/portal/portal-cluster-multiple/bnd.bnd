@@ -33,3 +33,4 @@ Import-Package:\
 	org.postgresql;resolution:=optional,\
 	\
 	*
+Liferay-Require-SchemaVersion: 1.0.0
