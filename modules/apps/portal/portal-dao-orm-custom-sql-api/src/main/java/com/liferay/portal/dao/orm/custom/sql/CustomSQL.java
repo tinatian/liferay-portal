@@ -18,6 +18,10 @@ import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.WildcardMode;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import java.util.Map;
+
+import org.osgi.framework.Bundle;
+
 /**
  * @author Brian Wing Shun Chan
  * @author Bruno Farache
@@ -53,6 +57,8 @@ public interface CustomSQL {
 	public String removeGroupBy(String sql);
 
 	public String removeOrderBy(String sql);
+
+	public Map<String, String> removeSQL(Bundle bundle);
 
 	public String replaceAndOperator(String sql, boolean andOperator);
 
