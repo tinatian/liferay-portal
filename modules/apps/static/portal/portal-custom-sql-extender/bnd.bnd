@@ -1,0 +1,3 @@
+Bundle-Name: Liferay Portal Custom SQL Extender
+Bundle-SymbolicName: com.liferay.portal.custom.sql.extender
+Bundle-Version: 1.0.0
