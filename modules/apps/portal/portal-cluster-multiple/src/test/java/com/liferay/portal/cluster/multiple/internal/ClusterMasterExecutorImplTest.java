@@ -452,7 +452,7 @@ public class ClusterMasterExecutorImplTest extends BaseClusterTestCase {
 					Assert.assertEquals(
 						"Unable to get cluster node information for " +
 							"coordinator address " + _TEST_ADDRESS +
-								". Trying again.",
+								". Trying again in 1 second.",
 						logRecord.getMessage());
 				}
 			}

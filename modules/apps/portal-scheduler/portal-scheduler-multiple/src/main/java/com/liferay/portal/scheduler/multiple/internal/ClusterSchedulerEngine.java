@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.ThreadUtil;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -573,6 +574,20 @@ public class ClusterSchedulerEngine
 
 				List<SchedulerResponse> schedulerResponses = future.get(
 					_callMasterTimeout, TimeUnit.SECONDS);
+
+				if (schedulerResponses == null) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							StringBundler.concat(
+								"Missing response, will wait ",
+								String.valueOf(_callMasterTimeout),
+								" seconds before trying again"));
+					}
+
+					ThreadUtil.sleep(_callMasterTimeout * 1000);
+
+					continue;
+				}
 
 				_memoryClusteredJobs.clear();
 

@@ -57,6 +57,14 @@ public class ThreadUtil {
 		return threads;
 	}
 
+	public static void sleep(long milliseconds) {
+		try {
+			Thread.sleep(milliseconds);
+		}
+		catch (InterruptedException ie) {
+		}
+	}
+
 	public static String threadDump() {
 		String threadDump = _getThreadDumpFromJstack();
 
