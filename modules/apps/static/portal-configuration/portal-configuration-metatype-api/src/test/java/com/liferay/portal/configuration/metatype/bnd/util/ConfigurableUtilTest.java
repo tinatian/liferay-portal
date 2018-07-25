@@ -43,6 +43,12 @@ public class ConfigurableUtilTest {
 		new AggregateTestRule(
 			AspectJNewEnvTestRule.INSTANCE, CodeCoverageAssertor.INSTANCE);
 
+	@Test
+	public void testBigString() {
+		_testBigString(65535);
+		_testBigString(65536);
+	}
+
 	@AdviseWith(adviceClasses = ReflectionUtilAdvice.class)
 	@NewEnv(type = NewEnv.Type.CLASSLOADER)
 	@Test
@@ -152,6 +158,22 @@ public class ConfigurableUtilTest {
 		TestClass testClass = testConfiguration.testClass();
 
 		Assert.assertEquals("test.class", testClass.getName());
+	}
+
+	private void _testBigString(int length) {
+		StringBuilder stringBuilder = new StringBuilder(length);
+
+		for (int i = 0; i < length; i++) {
+			stringBuilder.append(' ');
+		}
+
+		String bigString = stringBuilder.toString();
+
+		_assertTestConfiguration(
+			ConfigurableUtil.createConfigurable(
+				TestConfiguration.class,
+				Collections.singletonMap("testReqiredString", bigString)),
+			bigString);
 	}
 
 	private interface TestConfiguration {
