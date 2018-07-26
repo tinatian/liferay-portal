@@ -43,6 +43,7 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.sharing.constants.SharingEntryActionKey;
+import com.liferay.sharing.model.SharingEntry;
 import com.liferay.sharing.service.SharingEntryLocalService;
 
 import java.util.Arrays;
@@ -96,6 +97,43 @@ public class SharingEntryDLFileEntryModelResourcePermissionRegistrarTest {
 
 		_classNameId = _classNameLocalService.getClassNameId(
 			DLFileEntry.class.getName());
+	}
+
+	@Test
+	public void testUserCanNoLongerViewTheFileEntryWhenTheSharingEntryHasBeenDeleted()
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(
+				_group.getGroupId(), _user.getUserId());
+
+		SharingEntry sharingEntry = _sharingEntryLocalService.addSharingEntry(
+			_user.getUserId(), _groupUser.getUserId(), _classNameId,
+			_fileEntry.getFileEntryId(), _fileEntry.getGroupId(),
+			Arrays.asList(SharingEntryActionKey.VIEW), serviceContext);
+
+		PermissionChecker permissionChecker =
+			PermissionCheckerFactoryUtil.create(_groupUser);
+
+		try (ContextUserReplace contextUserReplace =
+				new ContextUserReplace(_groupUser, permissionChecker)) {
+
+			Assert.assertTrue(
+				_fileEntryModelResourcePermission.contains(
+					permissionChecker, _fileEntry, ActionKeys.VIEW));
+		}
+
+		_sharingEntryLocalService.deleteSharingEntry(sharingEntry);
+
+		permissionChecker = PermissionCheckerFactoryUtil.create(_groupUser);
+
+		try (ContextUserReplace contextUserReplace =
+				new ContextUserReplace(_groupUser, permissionChecker)) {
+
+			Assert.assertFalse(
+				_fileEntryModelResourcePermission.contains(
+					permissionChecker, _fileEntry, ActionKeys.VIEW));
+		}
 	}
 
 	@Test

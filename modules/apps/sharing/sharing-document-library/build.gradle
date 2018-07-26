@@ -8,4 +8,5 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.core", version: "5.0.0"
 	compileOnly project(":apps:sharing:sharing-api")
 	compileOnly project(":core:petra:petra-function")
+	compileOnly project(":core:petra:petra-string")
 }

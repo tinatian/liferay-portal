@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portlet.documentlibrary.constants.DLConstants;
 import com.liferay.sharing.constants.SharingEntryActionKey;
+import com.liferay.sharing.document.library.internal.cache.SharingEntryDLFileEntryModelResourcePermissionCache;
 import com.liferay.sharing.service.SharingEntryLocalService;
 
 import java.util.Dictionary;
@@ -92,6 +93,10 @@ public class SharingEntryDLFileEntryModelResourcePermissionRegistrar {
 	private ServiceRegistration<ModelResourcePermission> _serviceRegistration;
 
 	@Reference
+	private SharingEntryDLFileEntryModelResourcePermissionCache
+		_sharingEntryDLFileEntryModelResourcePermissionCache;
+
+	@Reference
 	private SharingEntryLocalService _sharingEntryLocalService;
 
 	private class SharingDLFileEntryModelPermissionLogic
@@ -103,22 +108,40 @@ public class SharingEntryDLFileEntryModelResourcePermissionRegistrar {
 				DLFileEntry dlFileEntry, String actionId)
 			throws PortalException {
 
+			if (_dlFileEntryModelResourcePermission.contains(
+					permissionChecker, dlFileEntry, actionId)) {
+
+				return true;
+			}
+
 			if (SharingEntryActionKey.isSupportedActionId(actionId)) {
-				SharingEntryActionKey sharingEntryActionKey =
-					SharingEntryActionKey.parseFromActionId(actionId);
+				Boolean contains =
+					_sharingEntryDLFileEntryModelResourcePermissionCache.get(
+						permissionChecker.getUserId(), name,
+						dlFileEntry.getFileEntryId(), actionId);
 
-				long classNameId = _classNameLocalService.getClassNameId(name);
+				if (contains == null) {
+					SharingEntryActionKey sharingEntryActionKey =
+						SharingEntryActionKey.parseFromActionId(actionId);
 
-				if (_sharingEntryLocalService.hasSharingPermission(
+					long classNameId = _classNameLocalService.getClassNameId(
+						name);
+
+					contains = _sharingEntryLocalService.hasSharingPermission(
 						permissionChecker.getUserId(), classNameId,
-						dlFileEntry.getFileEntryId(), sharingEntryActionKey)) {
+						dlFileEntry.getFileEntryId(), sharingEntryActionKey);
 
+					_sharingEntryDLFileEntryModelResourcePermissionCache.put(
+						permissionChecker.getUserId(), name,
+						dlFileEntry.getFileEntryId(), actionId, contains);
+				}
+
+				if (contains) {
 					return true;
 				}
 			}
 
-			return _dlFileEntryModelResourcePermission.contains(
-				permissionChecker, dlFileEntry, actionId);
+			return false;
 		}
 
 		private SharingDLFileEntryModelPermissionLogic(
