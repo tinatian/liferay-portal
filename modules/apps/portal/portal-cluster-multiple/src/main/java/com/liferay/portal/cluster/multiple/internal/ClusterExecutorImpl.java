@@ -62,9 +62,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -366,15 +368,35 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 	}
 
 	protected ClusterNode getClusterNode(Address address) {
-		for (ClusterNodeStatus clusterNodeStatus :
-				_clusterNodeStatuses.values()) {
+		CompletableFuture<ClusterNode> completableFuture;
 
-			if (address.equals(clusterNodeStatus.getAddress())) {
-				return clusterNodeStatus.getClusterNode();
+		synchronized (_clusterNodeCompletableFutures) {
+			for (ClusterNodeStatus clusterNodeStatus :
+					_clusterNodeStatuses.values()) {
+
+				if (address.equals(clusterNodeStatus.getAddress())) {
+					return clusterNodeStatus.getClusterNode();
+				}
+			}
+
+			completableFuture = _clusterNodeCompletableFutures.get(address);
+
+			if (completableFuture == null) {
+				completableFuture = new CompletableFuture<>();
+
+				_clusterNodeCompletableFutures.put(address, completableFuture);
 			}
 		}
 
-		_log.error("Unable to get cluster node with address " + address);
+		try {
+			return completableFuture.get(
+				_GET_CLUSTER_NODE_TIMEOUT, TimeUnit.SECONDS);
+		}
+		catch (Exception e) {
+			_clusterNodeCompletableFutures.remove(address, completableFuture);
+
+			_log.error("Unable to get cluster node with address " + address);
+		}
 
 		return null;
 	}
@@ -552,8 +574,20 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 	}
 
 	protected boolean memberJoined(ClusterNodeStatus clusterNodeStatus) {
-		ClusterNodeStatus oldClusterNodeStatus = _clusterNodeStatuses.put(
-			clusterNodeStatus.getClusterNodeId(), clusterNodeStatus);
+		ClusterNodeStatus oldClusterNodeStatus;
+
+		synchronized (_clusterNodeCompletableFutures) {
+			oldClusterNodeStatus = _clusterNodeStatuses.put(
+				clusterNodeStatus.getClusterNodeId(), clusterNodeStatus);
+
+			CompletableFuture<ClusterNode> completableFuture =
+				_clusterNodeCompletableFutures.remove(
+					clusterNodeStatus.getAddress());
+
+			if (completableFuture != null) {
+				completableFuture.complete(clusterNodeStatus.getClusterNode());
+			}
+		}
 
 		if (oldClusterNodeStatus != null) {
 			if (!oldClusterNodeStatus.equals(clusterNodeStatus)) {
@@ -646,6 +680,8 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 	protected volatile ClusterExecutorConfiguration
 		clusterExecutorConfiguration;
 
+	private static final long _GET_CLUSTER_NODE_TIMEOUT = 1;
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ClusterExecutorImpl.class);
 
@@ -653,6 +689,8 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 	private ClusterChannelFactory _clusterChannelFactory;
 	private final CopyOnWriteArrayList<ClusterEventListener>
 		_clusterEventListeners = new CopyOnWriteArrayList<>();
+	private final Map<Address, CompletableFuture<ClusterNode>>
+		_clusterNodeCompletableFutures = new ConcurrentHashMap<>();
 	private final Map<String, ClusterNodeStatus> _clusterNodeStatuses =
 		new ConcurrentHashMap<>();
 	private ClusterEventListener _debugClusterEventListener;
