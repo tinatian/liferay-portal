@@ -224,7 +224,7 @@ public class CustomSQLImpl implements CustomSQL {
 					return null;
 				}
 
-				_containerPool.put(
+				_customSQLContainerPool.put(
 					classLoader, new CustomSQLContainer(classLoader));
 
 				return classLoader;
@@ -235,7 +235,7 @@ public class CustomSQLImpl implements CustomSQL {
 				Bundle bundle, BundleEvent bundleEvent,
 				ClassLoader classLoader) {
 
-				_containerPool.remove(classLoader);
+				_customSQLContainerPool.remove(classLoader);
 			}
 
 		};
@@ -281,7 +281,7 @@ public class CustomSQLImpl implements CustomSQL {
 
 	@Override
 	public String get(Class<?> clazz, String id) {
-		CustomSQLContainer customSQLContainer = _containerPool.get(
+		CustomSQLContainer customSQLContainer = _customSQLContainerPool.get(
 			clazz.getClassLoader());
 
 		if (customSQLContainer != null) {
@@ -886,7 +886,7 @@ public class CustomSQLImpl implements CustomSQL {
 	private static final Log _log = LogFactoryUtil.getLog(CustomSQLImpl.class);
 
 	private BundleTracker<ClassLoader> _bundleTracker;
-	private final Map<ClassLoader, CustomSQLContainer> _containerPool =
+	private final Map<ClassLoader, CustomSQLContainer> _customSQLContainerPool =
 		new ConcurrentHashMap<>();
 	private String _functionIsNotNull;
 	private String _functionIsNull;
