@@ -56,10 +56,12 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.SynchronousBundleListener;
+import org.osgi.framework.wiring.BundleWiring;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.util.tracker.BundleTracker;
 
 /**
  * @author Brian Wing Shun Chan
@@ -93,7 +95,7 @@ public class CustomSQLImpl implements CustomSQL {
 		"CONVERT(VARCHAR,?) IS NULL";
 
 	@Activate
-	public void activate() throws SQLException {
+	public void activate(BundleContext bundleContext) throws SQLException {
 		_portal.initCustomSQL();
 
 		Connection con = DataAccess.getConnection();
@@ -203,23 +205,44 @@ public class CustomSQLImpl implements CustomSQL {
 			DataAccess.cleanUp(con);
 		}
 
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
+		_bundleTracker = new BundleTracker<ClassLoader>(
+			bundleContext, Bundle.ACTIVE, null) {
 
-		BundleContext bundleContext = bundle.getBundleContext();
+			@Override
+			public ClassLoader addingBundle(
+				Bundle bundle, BundleEvent bundleEvent) {
 
-		bundleContext.addBundleListener(
-			new SynchronousBundleListener() {
+				BundleWiring bundleWiring = bundle.adapt(BundleWiring.class);
 
-				@Override
-				public void bundleChanged(BundleEvent bundleEvent) {
-					if ((bundleEvent.getType() == BundleEvent.UNINSTALLED) ||
-						(bundleEvent.getType() == BundleEvent.UPDATED)) {
+				ClassLoader classLoader = bundleWiring.getClassLoader();
 
-						_sqlPool.remove(bundleEvent.getBundle());
-					}
+				if ((classLoader.getResource("custom-sql/default.xml") ==
+						null) &&
+					(classLoader.getResource(
+						"META-INF/custom-sql/default.xml") == null)) {
+
+					return null;
 				}
 
-			});
+				CustomSQLContainer customSQLContainer = new CustomSQLContainer(
+					classLoader);
+
+				_containerPool.put(classLoader, customSQLContainer);
+
+				return classLoader;
+			}
+
+			@Override
+			public void removedBundle(
+				Bundle bundle, BundleEvent bundleEvent,
+				ClassLoader classLoader) {
+
+				_containerPool.remove(classLoader);
+			}
+
+		};
+
+		_bundleTracker.open();
 	}
 
 	@Override
@@ -253,15 +276,21 @@ public class CustomSQLImpl implements CustomSQL {
 		return sql.concat(criteria);
 	}
 
+	@Deactivate
+	public void deactive() {
+		_bundleTracker.close();
+	}
+
 	@Override
 	public String get(Class<?> clazz, String id) {
-		Map<String, String> sqls = _sqlPool.get(FrameworkUtil.getBundle(clazz));
+		CustomSQLContainer customSQLContainer = _containerPool.get(
+			clazz.getClassLoader());
 
-		if (sqls == null) {
-			sqls = _loadCustomSQL(clazz);
+		if (customSQLContainer != null) {
+			return customSQLContainer.get(id);
 		}
 
-		return sqls.get(id);
+		return null;
 	}
 
 	@Override
@@ -804,37 +833,6 @@ public class CustomSQLImpl implements CustomSQL {
 		}
 	}
 
-	protected String transform(String sql) {
-		sql = _portal.transformCustomSQL(sql);
-
-		StringBundler sb = new StringBundler();
-
-		try (UnsyncBufferedReader unsyncBufferedReader =
-				new UnsyncBufferedReader(new UnsyncStringReader(sql))) {
-
-			String line = null;
-
-			while ((line = unsyncBufferedReader.readLine()) != null) {
-				line = line.trim();
-
-				if (line.startsWith(StringPool.CLOSE_PARENTHESIS)) {
-					sb.setIndex(sb.index() - 1);
-				}
-
-				sb.append(line);
-
-				if (!line.endsWith(StringPool.OPEN_PARENTHESIS)) {
-					sb.append(StringPool.SPACE);
-				}
-			}
-		}
-		catch (IOException ioe) {
-			return sql;
-		}
-
-		return sb.toString();
-	}
-
 	private String _escapeWildCards(String keywords) {
 		if (!isVendorMySQL() && !isVendorOracle()) {
 			return keywords;
@@ -863,59 +861,6 @@ public class CustomSQLImpl implements CustomSQL {
 		return sb.toString();
 	}
 
-	private Map<String, String> _loadCustomSQL(Class<?> clazz) {
-		Map<String, String> sqls = new HashMap<>();
-
-		try {
-			ClassLoader classLoader = clazz.getClassLoader();
-
-			_read(classLoader, "custom-sql/default.xml", sqls);
-			_read(classLoader, "META-INF/custom-sql/default.xml", sqls);
-
-			_sqlPool.put(FrameworkUtil.getBundle(clazz), sqls);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-		}
-
-		return sqls;
-	}
-
-	private void _read(
-			ClassLoader classLoader, String source, Map<String, String> sqls)
-		throws Exception {
-
-		try (InputStream is = classLoader.getResourceAsStream(source)) {
-			if (is == null) {
-				return;
-			}
-
-			if (_log.isDebugEnabled()) {
-				_log.debug("Loading " + source);
-			}
-
-			Document document = UnsecureSAXReaderUtil.read(is);
-
-			Element rootElement = document.getRootElement();
-
-			for (Element sqlElement : rootElement.elements("sql")) {
-				String file = sqlElement.attributeValue("file");
-
-				if (Validator.isNotNull(file)) {
-					_read(classLoader, file, sqls);
-				}
-				else {
-					String id = sqlElement.attributeValue("id");
-					String content = transform(sqlElement.getText());
-
-					content = replaceIsNull(content);
-
-					sqls.put(id, content);
-				}
-			}
-		}
-	}
-
 	private static final boolean _CUSTOM_SQL_AUTO_ESCAPE_WILDCARDS_ENABLED =
 		GetterUtil.getBoolean(
 			PropsUtil.get(PropsKeys.CUSTOM_SQL_AUTO_ESCAPE_WILDCARDS_ENABLED));
@@ -942,6 +887,9 @@ public class CustomSQLImpl implements CustomSQL {
 
 	private static final Log _log = LogFactoryUtil.getLog(CustomSQLImpl.class);
 
+	private BundleTracker<ClassLoader> _bundleTracker;
+	private final Map<ClassLoader, CustomSQLContainer> _containerPool =
+		new ConcurrentHashMap<>();
 	private String _functionIsNotNull;
 	private String _functionIsNull;
 
@@ -951,8 +899,6 @@ public class CustomSQLImpl implements CustomSQL {
 	@Reference
 	private Portal _portal;
 
-	private final Map<Bundle, Map<String, String>> _sqlPool =
-		new ConcurrentHashMap<>();
 	private boolean _vendorDB2;
 	private boolean _vendorHSQL;
 	private boolean _vendorInformix;
@@ -960,5 +906,121 @@ public class CustomSQLImpl implements CustomSQL {
 	private boolean _vendorOracle;
 	private boolean _vendorPostgreSQL;
 	private boolean _vendorSybase;
+
+	private class CustomSQLContainer {
+
+		public String get(String id) {
+			Map<String, String> tempSqlPool = _sqlPool;
+
+			boolean tempSqlLoadError = _sqlLoadError;
+
+			if (tempSqlPool == null) {
+				tempSqlPool = new HashMap<>();
+
+				try {
+					_read(_classLoader, "custom-sql/default.xml", tempSqlPool);
+					_read(
+						_classLoader, "META-INF/custom-sql/default.xml",
+						tempSqlPool);
+				}
+				catch (Exception e) {
+					tempSqlLoadError = true;
+					_log.error(e, e);
+				}
+
+				_sqlLoadError = tempSqlLoadError;
+				_sqlPool = tempSqlPool;
+			}
+
+			if (tempSqlLoadError && _log.isWarnEnabled()) {
+				Bundle bundle = FrameworkUtil.getBundle(
+					_classLoader.getClass());
+
+				_log.warn(
+					bundle.getSymbolicName() + " sql loaded with exception" +
+						", please check default.xml files");
+			}
+
+			return tempSqlPool.get(id);
+		}
+
+		private CustomSQLContainer(ClassLoader classLoader) {
+			_classLoader = classLoader;
+
+			_sqlLoadError = false;
+		}
+
+		private void _read(
+				ClassLoader classLoader, String source,
+				Map<String, String> sqls)
+			throws Exception {
+
+			try (InputStream is = classLoader.getResourceAsStream(source)) {
+				if (is == null) {
+					return;
+				}
+
+				if (_log.isDebugEnabled()) {
+					_log.debug("Loading " + source);
+				}
+
+				Document document = UnsecureSAXReaderUtil.read(is);
+
+				Element rootElement = document.getRootElement();
+
+				for (Element sqlElement : rootElement.elements("sql")) {
+					String file = sqlElement.attributeValue("file");
+
+					if (Validator.isNotNull(file)) {
+						_read(classLoader, file, sqls);
+					}
+					else {
+						String id = sqlElement.attributeValue("id");
+						String content = _transform(sqlElement.getText());
+
+						content = replaceIsNull(content);
+
+						sqls.put(id, content);
+					}
+				}
+			}
+		}
+
+		private String _transform(String sql) {
+			sql = _portal.transformCustomSQL(sql);
+
+			StringBundler sb = new StringBundler();
+
+			try (UnsyncBufferedReader unsyncBufferedReader =
+					new UnsyncBufferedReader(new UnsyncStringReader(sql))) {
+
+				String line = null;
+
+				while ((line = unsyncBufferedReader.readLine()) != null) {
+					line = line.trim();
+
+					if (line.startsWith(StringPool.CLOSE_PARENTHESIS)) {
+						sb.setIndex(sb.index() - 1);
+					}
+
+					sb.append(line);
+
+					if (!line.endsWith(StringPool.OPEN_PARENTHESIS)) {
+						sb.append(StringPool.SPACE);
+					}
+				}
+			}
+			catch (IOException ioe) {
+				return sql;
+			}
+
+			return sb.toString();
+		}
+
+		private final ClassLoader _classLoader;
+		private volatile boolean _sqlLoadError;
+		private volatile Map<String, String> _sqlPool;
+
+	}
 
 }
