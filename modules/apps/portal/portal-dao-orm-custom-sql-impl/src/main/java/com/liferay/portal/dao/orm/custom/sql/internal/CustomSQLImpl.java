@@ -908,29 +908,29 @@ public class CustomSQLImpl implements CustomSQL {
 	private class CustomSQLContainer {
 
 		public String get(String id) {
-			Map<String, String> tempSqlPool = _sqlPool;
+			Map<String, String> sqlPool = _sqlPool;
 
-			boolean tempSqlLoadError = _sqlLoadError;
+			boolean sqlLoadError = _sqlLoadError;
 
-			if (tempSqlPool == null) {
-				tempSqlPool = new HashMap<>();
+			if (sqlPool == null) {
+				sqlPool = new HashMap<>();
 
 				try {
-					_read(_classLoader, "custom-sql/default.xml", tempSqlPool);
+					_read(_classLoader, "custom-sql/default.xml", sqlPool);
 					_read(
 						_classLoader, "META-INF/custom-sql/default.xml",
-						tempSqlPool);
+						sqlPool);
 				}
 				catch (Exception e) {
-					tempSqlLoadError = true;
+					sqlLoadError = true;
 					_log.error(e, e);
 				}
 
-				_sqlLoadError = tempSqlLoadError;
-				_sqlPool = tempSqlPool;
+				_sqlLoadError = sqlLoadError;
+				_sqlPool = sqlPool;
 			}
 
-			if (tempSqlLoadError && _log.isWarnEnabled()) {
+			if (sqlLoadError && _log.isWarnEnabled()) {
 				Bundle bundle = FrameworkUtil.getBundle(
 					_classLoader.getClass());
 
@@ -939,7 +939,7 @@ public class CustomSQLImpl implements CustomSQL {
 						", please check default.xml files");
 			}
 
-			return tempSqlPool.get(id);
+			return sqlPool.get(id);
 		}
 
 		private CustomSQLContainer(ClassLoader classLoader) {
