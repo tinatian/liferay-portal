@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -393,9 +394,11 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 				_GET_CLUSTER_NODE_TIMEOUT, TimeUnit.SECONDS);
 		}
 		catch (Exception e) {
-			_clusterNodeCompletableFutures.remove(address, completableFuture);
-
 			_log.error("Unable to get cluster node with address " + address);
+
+			synchronized (_clusterNodeCompletableFutures) {
+				_clusterNodeCompletableFutures.remove(address);
+			}
 		}
 
 		return null;
@@ -690,7 +693,7 @@ public class ClusterExecutorImpl implements ClusterExecutor {
 	private final CopyOnWriteArrayList<ClusterEventListener>
 		_clusterEventListeners = new CopyOnWriteArrayList<>();
 	private final Map<Address, CompletableFuture<ClusterNode>>
-		_clusterNodeCompletableFutures = new ConcurrentHashMap<>();
+		_clusterNodeCompletableFutures = new HashMap<>();
 	private final Map<String, ClusterNodeStatus> _clusterNodeStatuses =
 		new ConcurrentHashMap<>();
 	private ClusterEventListener _debugClusterEventListener;
