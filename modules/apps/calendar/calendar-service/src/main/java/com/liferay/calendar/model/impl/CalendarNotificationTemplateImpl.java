@@ -14,11 +14,15 @@
 
 package com.liferay.calendar.model.impl;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.PropertiesEncoderUtil;
 
 import java.io.IOException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Adam Brandizzi
@@ -37,12 +41,16 @@ public class CalendarNotificationTemplateImpl
 	}
 
 	@Override
-	public UnicodeProperties getNotificationTypeSettingsProperties() {
+	public Map<String, String> getNotificationTypeSettingsProperties() {
 		if (_notificationTypeSettingsProperties == null) {
-			_notificationTypeSettingsProperties = new UnicodeProperties(true);
+			_notificationTypeSettingsProperties = new HashMap<>();
+
+			_notificationTypeSettingsProperties.put(
+				PropertiesEncoderUtil.SAFE_ENCODER_HOLDER, StringPool.TRUE);
 
 			try {
-				_notificationTypeSettingsProperties.load(
+				PropertiesEncoderUtil.load(
+					_notificationTypeSettingsProperties,
 					super.getNotificationTypeSettings());
 			}
 			catch (IOException ioe) {
@@ -62,18 +70,19 @@ public class CalendarNotificationTemplateImpl
 
 	@Override
 	public void setTypeSettingsProperties(
-		UnicodeProperties notificationTypeSettingsProperties) {
+		Map<String, String> notificationTypeSettingsProperties) {
 
 		_notificationTypeSettingsProperties =
 			notificationTypeSettingsProperties;
 
 		super.setNotificationTypeSettings(
-			_notificationTypeSettingsProperties.toString());
+			PropertiesEncoderUtil.getPropertiesString(
+				_notificationTypeSettingsProperties));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CalendarNotificationTemplateImpl.class);
 
-	private UnicodeProperties _notificationTypeSettingsProperties;
+	private Map<String, String> _notificationTypeSettingsProperties;
 
 }

@@ -305,7 +305,7 @@ public class CalendarNotificationTemplateWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.util.UnicodeProperties getNotificationTypeSettingsProperties() {
+	public Map<String, String> getNotificationTypeSettingsProperties() {
 		return _calendarNotificationTemplate.getNotificationTypeSettingsProperties();
 	}
 
@@ -563,7 +563,7 @@ public class CalendarNotificationTemplateWrapper
 
 	@Override
 	public void setTypeSettingsProperties(
-		com.liferay.portal.kernel.util.UnicodeProperties notificationTypeSettingsProperties) {
+		Map<String, String> notificationTypeSettingsProperties) {
 		_calendarNotificationTemplate.setTypeSettingsProperties(notificationTypeSettingsProperties);
 	}
 

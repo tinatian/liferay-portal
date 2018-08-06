@@ -20,11 +20,15 @@ import com.liferay.calendar.model.CalendarNotificationTemplateConstants;
 import com.liferay.calendar.notification.NotificationTemplateType;
 import com.liferay.calendar.notification.NotificationType;
 import com.liferay.calendar.service.CalendarNotificationTemplateLocalServiceUtil;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.PropertiesEncoderUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Adam Brandizzi
@@ -37,8 +41,11 @@ public class CalendarNotificationTemplateTestUtil {
 			String fromAddress, String fromName, String subject, String body)
 		throws PortalException {
 
-		UnicodeProperties notificationTypeSettingsProperties =
-			new UnicodeProperties(true);
+		Map<String, String> notificationTypeSettingsProperties =
+			new HashMap<>();
+
+		notificationTypeSettingsProperties.put(
+			PropertiesEncoderUtil.SAFE_ENCODER_HOLDER, StringPool.TRUE);
 
 		notificationTypeSettingsProperties.put(
 			CalendarNotificationTemplateConstants.PROPERTY_FROM_ADDRESS,
@@ -52,7 +59,8 @@ public class CalendarNotificationTemplateTestUtil {
 			addCalendarNotificationTemplate(
 				calendar.getUserId(), calendar.getCalendarId(),
 				NotificationType.EMAIL,
-				notificationTypeSettingsProperties.toString(),
+				PropertiesEncoderUtil.getPropertiesString(
+					notificationTypeSettingsProperties),
 				notificationTemplateType, subject, body,
 				createServiceContext(user));
 	}
