@@ -138,6 +138,11 @@ public class ClusterExecutorImplTest extends BaseClusterTestCase {
 			new ClusterExecutorConfiguration() {
 
 				@Override
+				public long clusterNodeAddressTimeout() {
+					return 1;
+				}
+
+				@Override
 				public boolean debugEnabled() {
 					return true;
 				}
