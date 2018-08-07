@@ -19,12 +19,13 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
 import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.PropertiesEncoderUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -52,10 +53,12 @@ public class LayoutTypeSettingsUtil {
 				long plid = rs.getLong(1);
 				String typeSettings = rs.getString(2);
 
-				UnicodeProperties unicodeProperties = new UnicodeProperties(
-					true);
+				Map<String, String> unicodeProperties = new HashMap<>();
 
-				unicodeProperties.fastLoad(typeSettings);
+				unicodeProperties.put(
+					PropertiesEncoderUtil.SAFE_ENCODER_HOLDER, StringPool.TRUE);
+
+				PropertiesEncoderUtil.fastLoad(unicodeProperties, typeSettings);
 
 				Set<Map.Entry<String, String>> entrySet =
 					unicodeProperties.entrySet();
@@ -101,7 +104,10 @@ public class LayoutTypeSettingsUtil {
 					entry.setValue(sb.toString());
 				}
 
-				updatePS.setString(1, unicodeProperties.toString());
+				updatePS.setString(
+					1,
+					PropertiesEncoderUtil.getPropertiesString(
+						unicodeProperties));
 
 				updatePS.setLong(2, plid);
 

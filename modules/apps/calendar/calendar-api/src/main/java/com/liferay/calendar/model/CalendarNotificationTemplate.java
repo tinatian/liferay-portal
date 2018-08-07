@@ -57,8 +57,8 @@ public interface CalendarNotificationTemplate
 			}
 		};
 
-	public com.liferay.portal.kernel.util.UnicodeProperties getNotificationTypeSettingsProperties();
+	public java.util.Map<String, String> getNotificationTypeSettingsProperties();
 
 	public void setTypeSettingsProperties(
-		com.liferay.portal.kernel.util.UnicodeProperties notificationTypeSettingsProperties);
+		java.util.Map<String, String> notificationTypeSettingsProperties);
 }

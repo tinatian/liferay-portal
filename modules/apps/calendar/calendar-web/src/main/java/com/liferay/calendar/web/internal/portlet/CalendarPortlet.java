@@ -102,11 +102,11 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropertiesEncoderUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.TimeZoneUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.util.comparator.UserFirstNameComparator;
@@ -928,8 +928,11 @@ public class CalendarPortlet extends MVCPortlet {
 	protected String getNotificationTypeSettings(
 		ActionRequest actionRequest, NotificationType notificationType) {
 
-		UnicodeProperties notificationTypeSettingsProperties =
-			new UnicodeProperties(true);
+		Map<String, String> notificationTypeSettingsProperties =
+			new HashMap<>();
+
+		notificationTypeSettingsProperties.put(
+			PropertiesEncoderUtil.SAFE_ENCODER_HOLDER, StringPool.TRUE);
 
 		if (notificationType == NotificationType.EMAIL) {
 			String fromAddress = ParamUtil.getString(
@@ -944,7 +947,8 @@ public class CalendarPortlet extends MVCPortlet {
 				fromName);
 		}
 
-		return notificationTypeSettingsProperties.toString();
+		return PropertiesEncoderUtil.getPropertiesString(
+			notificationTypeSettingsProperties);
 	}
 
 	protected long getOffset(
