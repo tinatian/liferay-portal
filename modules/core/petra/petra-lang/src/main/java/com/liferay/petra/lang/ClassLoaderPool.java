@@ -14,6 +14,8 @@
 
 package com.liferay.petra.lang;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -83,11 +85,11 @@ public class ClassLoaderPool {
 	}
 
 	public static void unregister(ClassLoader classLoader) {
-		String contextName = _contextNames.remove(classLoader);
+		_contextNames.remove(classLoader);
 
-		if (contextName != null) {
-			_classLoaders.remove(contextName);
-		}
+		Collection<ClassLoader> classLoaders = _classLoaders.values();
+
+		classLoaders.removeAll(Collections.singleton(classLoader));
 	}
 
 	public static void unregister(String contextName) {
