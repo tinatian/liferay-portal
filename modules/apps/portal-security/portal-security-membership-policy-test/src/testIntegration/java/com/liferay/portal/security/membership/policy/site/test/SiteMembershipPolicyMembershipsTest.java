@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.security.membership.policy.site.BaseSiteMembershipPolicyTestCase;
 import com.liferay.portal.security.membership.policy.test.util.MembershipPolicyTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -317,11 +317,12 @@ public class SiteMembershipPolicyMembershipsTest
 	public void testVerifyWhenUpdatingGroupTypeSettings() throws Exception {
 		Group group = MembershipPolicyTestUtil.addGroup();
 
-		UnicodeProperties unicodeProperties =
+		Map<String, String> unicodeProperties =
 			RandomTestUtil.randomUnicodeProperties(10, 2, 2);
 
 		GroupServiceUtil.updateGroup(
-			group.getGroupId(), unicodeProperties.toString());
+			group.getGroupId(),
+			UnicodePropertiesUtil.toString(unicodeProperties));
 
 		Assert.assertTrue(isVerify());
 	}

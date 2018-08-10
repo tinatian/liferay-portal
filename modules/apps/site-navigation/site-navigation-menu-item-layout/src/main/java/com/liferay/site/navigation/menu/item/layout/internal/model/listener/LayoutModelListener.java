@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.site.navigation.menu.item.layout.constants.SiteNavigationMenuItemTypeConstants;
 import com.liferay.site.navigation.model.SiteNavigationMenu;
 import com.liferay.site.navigation.model.SiteNavigationMenuItem;
@@ -34,7 +35,9 @@ import com.liferay.site.navigation.service.SiteNavigationMenuLocalService;
 import com.liferay.site.navigation.type.SiteNavigationMenuItemType;
 import com.liferay.site.navigation.type.SiteNavigationMenuItemTypeRegistry;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
@@ -130,12 +133,12 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		for (SiteNavigationMenuItem siteNavigationMenuItem :
 				siteNavigationMenuItems) {
 
-			UnicodeProperties unicodeProperties = new UnicodeProperties();
+			Map<String, String> unicodeProperties = new HashMap<>();
 
-			unicodeProperties.fastLoad(
-				siteNavigationMenuItem.getTypeSettings());
+			UnicodePropertiesUtil.fastLoad(
+				unicodeProperties, siteNavigationMenuItem.getTypeSettings());
 
-			String layoutUuid = unicodeProperties.getProperty("layoutUuid");
+			String layoutUuid = unicodeProperties.get("layoutUuid");
 
 			if (Objects.equals(layout.getUuid(), layoutUuid)) {
 				_siteNavigationMenuItemLocalService.
@@ -160,12 +163,12 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		for (SiteNavigationMenuItem siteNavigationMenuItem :
 				siteNavigationMenuItems) {
 
-			UnicodeProperties unicodeProperties = new UnicodeProperties();
+			Map<String, String> unicodeProperties = new HashMap<>();
 
-			unicodeProperties.fastLoad(
-				siteNavigationMenuItem.getTypeSettings());
+			UnicodePropertiesUtil.fastLoad(
+				unicodeProperties, siteNavigationMenuItem.getTypeSettings());
 
-			String layoutUuid = unicodeProperties.getProperty("layoutUuid");
+			String layoutUuid = unicodeProperties.get("layoutUuid");
 
 			if (Objects.equals(parentLayout.getUuid(), layoutUuid)) {
 				return siteNavigationMenuItem.getSiteNavigationMenuItemId();
@@ -185,12 +188,12 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		for (SiteNavigationMenuItem siteNavigationMenuItem :
 				siteNavigationMenuItems) {
 
-			UnicodeProperties unicodeProperties = new UnicodeProperties();
+			Map<String, String> unicodeProperties = new HashMap<>();
 
-			unicodeProperties.fastLoad(
-				siteNavigationMenuItem.getTypeSettings());
+			UnicodePropertiesUtil.fastLoad(
+				unicodeProperties, siteNavigationMenuItem.getTypeSettings());
 
-			String layoutUuid = unicodeProperties.getProperty("layoutUuid");
+			String layoutUuid = unicodeProperties.get("layoutUuid");
 
 			if (Objects.equals(layout.getUuid(), layoutUuid)) {
 				return true;

@@ -35,7 +35,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
@@ -48,6 +48,7 @@ import com.liferay.site.navigation.type.SiteNavigationMenuItemType;
 
 import java.io.IOException;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -216,15 +217,14 @@ public class LayoutSiteNavigationMenuItemType
 
 	@Override
 	public String getTypeSettingsFromLayout(Layout layout) {
-		UnicodeProperties unicodeProperties = new UnicodeProperties();
+		Map<String, String> unicodeProperties = new HashMap<>();
 
-		unicodeProperties.setProperty(
-			"groupId", String.valueOf(layout.getGroupId()));
-		unicodeProperties.setProperty("layoutUuid", layout.getUuid());
-		unicodeProperties.setProperty(
+		unicodeProperties.put("groupId", String.valueOf(layout.getGroupId()));
+		unicodeProperties.put("layoutUuid", layout.getUuid());
+		unicodeProperties.put(
 			"privateLayout", String.valueOf(layout.isPrivateLayout()));
 
-		return unicodeProperties.toString();
+		return UnicodePropertiesUtil.toString(unicodeProperties);
 	}
 
 	@Override
@@ -307,20 +307,21 @@ public class LayoutSiteNavigationMenuItemType
 		Layout importedLayout = _layoutLocalService.fetchLayout(plid);
 
 		if (importedLayout != null) {
-			UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+			Map<String, String> typeSettingsProperties = new HashMap<>();
 
-			typeSettingsProperties.fastLoad(
+			UnicodePropertiesUtil.fastLoad(
+				typeSettingsProperties,
 				siteNavigationMenuItem.getTypeSettings());
 
-			typeSettingsProperties.put("layoutUuid", importedLayout.getUuid());
 			typeSettingsProperties.put(
 				"groupId", String.valueOf(importedLayout.getGroupId()));
+			typeSettingsProperties.put("layoutUuid", importedLayout.getUuid());
 			typeSettingsProperties.put(
 				"privateLayout",
 				String.valueOf(importedLayout.isPrivateLayout()));
 
 			importedSiteNavigationMenuItem.setTypeSettings(
-				typeSettingsProperties.toString());
+				UnicodePropertiesUtil.toString(typeSettingsProperties));
 		}
 
 		return true;
@@ -395,10 +396,10 @@ public class LayoutSiteNavigationMenuItemType
 	}
 
 	private Layout _getLayout(SiteNavigationMenuItem siteNavigationMenuItem) {
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.fastLoad(
-			siteNavigationMenuItem.getTypeSettings());
+		UnicodePropertiesUtil.fastLoad(
+			typeSettingsProperties, siteNavigationMenuItem.getTypeSettings());
 
 		String layoutUuid = typeSettingsProperties.get("layoutUuid");
 

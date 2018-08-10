@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.NavItem;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.display.template.PortletDisplayTemplate;
@@ -339,12 +339,12 @@ public class NavigationMenuTag extends IncludeTag {
 		for (SiteNavigationMenuItem siteNavigationMenuItem :
 				siteNavigationMenuItems) {
 
-			UnicodeProperties unicodeProperties = new UnicodeProperties();
+			Map<String, String> unicodeProperties = new HashMap<>();
 
-			unicodeProperties.fastLoad(
-				siteNavigationMenuItem.getTypeSettings());
+			UnicodePropertiesUtil.fastLoad(
+				unicodeProperties, siteNavigationMenuItem.getTypeSettings());
 
-			String itemLayoutUuid = unicodeProperties.getProperty("layoutUuid");
+			String itemLayoutUuid = unicodeProperties.get("layoutUuid");
 
 			if (Objects.equals(layout.getUuid(), itemLayoutUuid)) {
 				return siteNavigationMenuItem.getSiteNavigationMenuItemId();

@@ -23,9 +23,9 @@ String name = StringPool.BLANK;
 String url = StringPool.BLANK;
 
 if (siteNavigationMenuItem != null) {
-	UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+	Map<String, String> typeSettingsProperties = new HashMap<>();
 
-	typeSettingsProperties.fastLoad(siteNavigationMenuItem.getTypeSettings());
+	UnicodePropertiesUtil.fastLoad(typeSettingsProperties, siteNavigationMenuItem.getTypeSettings());
 
 	name = typeSettingsProperties.get("name");
 

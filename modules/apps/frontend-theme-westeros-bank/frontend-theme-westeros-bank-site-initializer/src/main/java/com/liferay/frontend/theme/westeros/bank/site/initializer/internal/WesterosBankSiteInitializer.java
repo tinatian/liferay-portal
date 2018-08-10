@@ -64,7 +64,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portlet.PortletPreferencesImpl;
 import com.liferay.site.exception.InitializationException;
@@ -441,7 +441,7 @@ public class WesterosBankSiteInitializer implements SiteInitializer {
 
 		nameMap.put(LocaleUtil.getSiteDefault(), name);
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
 		typeSettingsProperties.put(
 			"layoutPageTemplateEntryId",
@@ -451,8 +451,8 @@ public class WesterosBankSiteInitializer implements SiteInitializer {
 			serviceContext.getUserId(), serviceContext.getScopeGroupId(), false,
 			LayoutConstants.DEFAULT_PARENT_LAYOUT_ID, nameMap, new HashMap<>(),
 			new HashMap<>(), new HashMap<>(), new HashMap<>(), "content",
-			typeSettingsProperties.toString(), false, new HashMap<>(),
-			serviceContext);
+			UnicodePropertiesUtil.toString(typeSettingsProperties), false,
+			new HashMap<>(), serviceContext);
 	}
 
 	private void _configureFragmentEntryLink(

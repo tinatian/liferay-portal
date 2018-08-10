@@ -19,9 +19,13 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutSetLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Alec Shay
@@ -66,12 +70,13 @@ public class UpgradeLayoutSetTypeSettings extends UpgradeProcess {
 					long groupId = rs.getLong("groupId");
 					String typeSettings = rs.getString("typeSettings");
 
-					UnicodeProperties typeSettingsProperties =
-						new UnicodeProperties();
+					Map<String, String> typeSettingsProperties =
+						new HashMap<>();
 
-					typeSettingsProperties.load(typeSettings);
+					UnicodePropertiesUtil.load(
+						typeSettingsProperties, typeSettings);
 
-					String privateRobots = typeSettingsProperties.getProperty(
+					String privateRobots = typeSettingsProperties.get(
 						"true-robots.txt");
 
 					if (privateRobots != null) {
@@ -81,7 +86,7 @@ public class UpgradeLayoutSetTypeSettings extends UpgradeProcess {
 						typeSettingsProperties.remove("true-robots.txt");
 					}
 
-					String publicRobots = typeSettingsProperties.getProperty(
+					String publicRobots = typeSettingsProperties.get(
 						"false-robots.txt");
 
 					if (publicRobots != null) {
@@ -92,7 +97,8 @@ public class UpgradeLayoutSetTypeSettings extends UpgradeProcess {
 					}
 
 					_groupLocalService.updateGroup(
-						groupId, typeSettingsProperties.toString());
+						groupId,
+						UnicodePropertiesUtil.toString(typeSettingsProperties));
 				}
 			}
 		}

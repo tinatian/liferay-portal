@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 
 import java.io.Serializable;
 
@@ -202,7 +202,7 @@ public class GroupTestUtil {
 			Locale defaultLocale)
 		throws Exception {
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
 		boolean inheritLocales = false;
 
@@ -226,7 +226,7 @@ public class GroupTestUtil {
 		}
 
 		Group group = GroupLocalServiceUtil.updateGroup(
-			groupId, typeSettingsProperties.toString());
+			groupId, UnicodePropertiesUtil.toString(typeSettingsProperties));
 
 		ThreadLocalCacheManager.clearAll(Lifecycle.REQUEST);
 

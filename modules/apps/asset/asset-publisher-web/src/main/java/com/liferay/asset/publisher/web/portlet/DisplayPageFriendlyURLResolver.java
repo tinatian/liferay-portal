@@ -60,6 +60,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -232,9 +233,9 @@ public class DisplayPageFriendlyURLResolver implements FriendlyURLResolver {
 
 		nameMap.put(locale, "Asset Display Page");
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.put("visible", Boolean.FALSE.toString());
+		typeSettingsProperties.put("visible", StringPool.FALSE);
 
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
@@ -244,7 +245,8 @@ public class DisplayPageFriendlyURLResolver implements FriendlyURLResolver {
 
 		return _layoutLocalService.addLayout(
 			defaultUserId, groupId, false, 0, nameMap, null, null, null, null,
-			"asset_display", typeSettingsProperties.toString(), true,
+			"asset_display",
+			UnicodePropertiesUtil.toString(typeSettingsProperties), true,
 			new HashMap<>(), serviceContext);
 	}
 

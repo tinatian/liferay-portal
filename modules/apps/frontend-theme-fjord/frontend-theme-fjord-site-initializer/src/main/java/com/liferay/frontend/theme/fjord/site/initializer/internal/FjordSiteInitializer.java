@@ -48,7 +48,7 @@ import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.site.exception.InitializationException;
 import com.liferay.site.initializer.SiteInitializer;
@@ -274,7 +274,7 @@ public class FjordSiteInitializer implements SiteInitializer {
 
 		nameMap.put(LocaleUtil.getSiteDefault(), name);
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
 		typeSettingsProperties.put(
 			"layoutPageTemplateEntryId",
@@ -285,8 +285,8 @@ public class FjordSiteInitializer implements SiteInitializer {
 			serviceContext.getUserId(), serviceContext.getScopeGroupId(), false,
 			LayoutConstants.DEFAULT_PARENT_LAYOUT_ID, nameMap, new HashMap<>(),
 			new HashMap<>(), new HashMap<>(), new HashMap<>(), "content",
-			typeSettingsProperties.toString(), false, new HashMap<>(),
-			serviceContext);
+			UnicodePropertiesUtil.toString(typeSettingsProperties), false,
+			new HashMap<>(), serviceContext);
 	}
 
 	private LayoutPageTemplateCollection _addLayoutPageTemplateCollection(

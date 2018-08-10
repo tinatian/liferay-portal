@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.test.randomizerbumpers.RandomizerBumper;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PwdGenerator;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.UnicodeProperties;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -161,10 +160,10 @@ public class RandomTestUtil {
 		return strings;
 	}
 
-	public static UnicodeProperties randomUnicodeProperties(
+	public static Map<String, String> randomUnicodeProperties(
 		int propertyCount, int keyLength, int valueLength) {
 
-		UnicodeProperties unicodeProperties = new UnicodeProperties();
+		Map<String, String> unicodeProperties = new HashMap<>();
 
 		for (int i = 0; i < propertyCount; i++) {
 			unicodeProperties.put(

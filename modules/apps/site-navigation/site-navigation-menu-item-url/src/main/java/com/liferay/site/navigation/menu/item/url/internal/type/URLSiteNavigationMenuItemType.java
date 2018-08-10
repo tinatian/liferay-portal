@@ -16,7 +16,7 @@ package com.liferay.site.navigation.menu.item.url.internal.type;
 
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.site.navigation.constants.SiteNavigationWebKeys;
 import com.liferay.site.navigation.menu.item.layout.constants.SiteNavigationMenuItemTypeConstants;
 import com.liferay.site.navigation.model.SiteNavigationMenuItem;
@@ -24,7 +24,9 @@ import com.liferay.site.navigation.type.SiteNavigationMenuItemType;
 
 import java.io.IOException;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -59,10 +61,10 @@ public class URLSiteNavigationMenuItemType
 		HttpServletRequest request,
 		SiteNavigationMenuItem siteNavigationMenuItem) {
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.fastLoad(
-			siteNavigationMenuItem.getTypeSettings());
+		UnicodePropertiesUtil.fastLoad(
+			typeSettingsProperties, siteNavigationMenuItem.getTypeSettings());
 
 		return typeSettingsProperties.get("url");
 	}

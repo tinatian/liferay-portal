@@ -15,6 +15,7 @@
 package com.liferay.site.navigation.menu.item.layout.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -26,7 +27,7 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.site.navigation.constants.SiteNavigationConstants;
@@ -76,15 +77,16 @@ public class SiteNavigationMenuItemLayoutTest {
 
 		nameMap.put(LocaleUtil.getSiteDefault(), "welcome");
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.put("addToAutoMenus", Boolean.FALSE.toString());
+		typeSettingsProperties.put("addToAutoMenus", StringPool.FALSE);
 
 		LayoutServiceUtil.addLayout(
 			_group.getGroupId(), false, 0, nameMap, new HashMap<>(),
 			new HashMap<>(), new HashMap<>(), new HashMap<>(),
-			LayoutConstants.TYPE_PORTLET, typeSettingsProperties.toString(),
-			false, new HashMap<>(), serviceContext);
+			LayoutConstants.TYPE_PORTLET,
+			UnicodePropertiesUtil.toString(typeSettingsProperties), false,
+			new HashMap<>(), serviceContext);
 
 		Assert.assertEquals(
 			0,
@@ -106,15 +108,16 @@ public class SiteNavigationMenuItemLayoutTest {
 
 		nameMap.put(LocaleUtil.getSiteDefault(), "welcome");
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.put("addToAutoMenus", Boolean.FALSE.toString());
+		typeSettingsProperties.put("addToAutoMenus", StringPool.FALSE);
 
 		LayoutServiceUtil.addLayout(
 			_group.getGroupId(), false, 0, nameMap, new HashMap<>(),
 			new HashMap<>(), new HashMap<>(), new HashMap<>(),
-			LayoutConstants.TYPE_PORTLET, typeSettingsProperties.toString(),
-			false, new HashMap<>(), serviceContext);
+			LayoutConstants.TYPE_PORTLET,
+			UnicodePropertiesUtil.toString(typeSettingsProperties), false,
+			new HashMap<>(), serviceContext);
 
 		Assert.assertEquals(
 			0,
@@ -140,15 +143,16 @@ public class SiteNavigationMenuItemLayoutTest {
 
 		nameMap.put(LocaleUtil.getSiteDefault(), "welcome");
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.put("addToAutoMenus", Boolean.TRUE.toString());
+		typeSettingsProperties.put("addToAutoMenus", StringPool.TRUE);
 
 		LayoutServiceUtil.addLayout(
 			_group.getGroupId(), false, 0, nameMap, new HashMap<>(),
 			new HashMap<>(), new HashMap<>(), new HashMap<>(),
-			LayoutConstants.TYPE_PORTLET, typeSettingsProperties.toString(),
-			false, new HashMap<>(), serviceContext);
+			LayoutConstants.TYPE_PORTLET,
+			UnicodePropertiesUtil.toString(typeSettingsProperties), false,
+			new HashMap<>(), serviceContext);
 
 		Assert.assertEquals(
 			2,
@@ -170,15 +174,16 @@ public class SiteNavigationMenuItemLayoutTest {
 
 		nameMap.put(LocaleUtil.getSiteDefault(), "welcome");
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.put("addToAutoMenus", Boolean.TRUE.toString());
+		typeSettingsProperties.put("addToAutoMenus", StringPool.TRUE);
 
 		LayoutServiceUtil.addLayout(
 			_group.getGroupId(), false, 0, nameMap, new HashMap<>(),
 			new HashMap<>(), new HashMap<>(), new HashMap<>(),
-			LayoutConstants.TYPE_PORTLET, typeSettingsProperties.toString(),
-			false, new HashMap<>(), serviceContext);
+			LayoutConstants.TYPE_PORTLET,
+			UnicodePropertiesUtil.toString(typeSettingsProperties), false,
+			new HashMap<>(), serviceContext);
 
 		Assert.assertEquals(
 			1,

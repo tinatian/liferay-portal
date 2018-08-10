@@ -18,6 +18,7 @@ import com.liferay.fragment.constants.FragmentPortletKeys;
 import com.liferay.fragment.web.internal.configuration.FragmentPortletConfiguration;
 import com.liferay.fragment.web.internal.constants.FragmentWebKeys;
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -30,7 +31,7 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.UnicodePropertiesUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
@@ -128,9 +129,9 @@ public class FragmentPortlet extends MVCPortlet {
 
 		nameMap.put(locale, "Asset Display Page");
 
-		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
+		Map<String, String> typeSettingsProperties = new HashMap<>();
 
-		typeSettingsProperties.put("visible", Boolean.FALSE.toString());
+		typeSettingsProperties.put("visible", StringPool.FALSE);
 
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
@@ -140,8 +141,9 @@ public class FragmentPortlet extends MVCPortlet {
 
 		_layoutLocalService.addLayout(
 			defaultUserId, group.getGroupId(), false, 0, nameMap, null, null,
-			null, null, "asset_display", typeSettingsProperties.toString(),
-			true, new HashMap<>(), serviceContext);
+			null, null, "asset_display",
+			UnicodePropertiesUtil.toString(typeSettingsProperties), true,
+			new HashMap<>(), serviceContext);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
