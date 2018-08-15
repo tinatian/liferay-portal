@@ -16,6 +16,7 @@ package com.liferay.portal.template.freemarker.internal;
 
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cache.MultiVMPool;
+import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
 import com.liferay.portal.kernel.template.StringTemplateResource;
@@ -23,11 +24,11 @@ import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.template.TemplateContextHelper;
 import com.liferay.portal.template.freemarker.configuration.FreeMarkerEngineConfiguration;
 import com.liferay.portal.tools.ToolDependencies;
-import com.liferay.registry.Registry;
-import com.liferay.registry.RegistryUtil;
 
 import freemarker.cache.TemplateCache;
 
@@ -40,6 +41,9 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Reader;
 import java.io.StringReader;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,12 +74,16 @@ public class FreeMarkerTemplateTest {
 		FreeMarkerTemplateResourceLoader freeMarkerTemplateResourceLoader =
 			new FreeMarkerTemplateResourceLoader();
 
-		Registry registry = RegistryUtil.getRegistry();
-
 		freeMarkerTemplateResourceLoader.setMultiVMPool(
-			registry.getService(MultiVMPool.class));
+			(MultiVMPool)ProxyUtil.newProxyInstance(
+				FreeMarkerTemplateTest.class.getClassLoader(),
+				new Class<?>[] {MultiVMPool.class},
+				new PortalCacheInvocationHandler()));
 		freeMarkerTemplateResourceLoader.setSingleVMPool(
-			registry.getService(SingleVMPool.class));
+			(SingleVMPool)ProxyUtil.newProxyInstance(
+				FreeMarkerTemplateTest.class.getClassLoader(),
+				new Class<?>[] {SingleVMPool.class},
+				new PortalCacheInvocationHandler()));
 
 		freeMarkerTemplateResourceLoader.activate(
 			Collections.<String, Object>emptyMap());
@@ -83,7 +91,10 @@ public class FreeMarkerTemplateTest {
 		TemplateCache templateCache = new LiferayTemplateCache(
 			_configuration, _freeMarkerEngineConfiguration,
 			freeMarkerTemplateResourceLoader,
-			registry.getService(SingleVMPool.class));
+			(SingleVMPool)ProxyUtil.newProxyInstance(
+				FreeMarkerTemplateTest.class.getClassLoader(),
+				new Class<?>[] {SingleVMPool.class},
+				new PortalCacheInvocationHandler()));
 
 		ReflectionTestUtil.setFieldValue(
 			_configuration, "cache", templateCache);
@@ -394,6 +405,24 @@ public class FreeMarkerTemplateTest {
 
 		private long _lastModified = System.currentTimeMillis();
 		private String _templateId;
+
+	}
+
+	private static class PortalCacheInvocationHandler
+		implements InvocationHandler {
+
+		@Override
+		public Object invoke(Object proxy, Method method, Object[] args)
+			throws Throwable {
+
+			String methodName = method.getName();
+
+			if (methodName.equals("getPortalCache")) {
+				return ProxyFactory.newDummyInstance(PortalCache.class);
+			}
+
+			return null;
+		}
 
 	}
 
