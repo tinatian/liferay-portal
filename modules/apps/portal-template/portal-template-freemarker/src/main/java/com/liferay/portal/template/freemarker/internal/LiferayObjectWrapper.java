@@ -36,10 +36,12 @@ import freemarker.template.TemplateModelException;
 import java.lang.reflect.Field;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.w3c.dom.Node;
 
@@ -102,20 +104,18 @@ public class LiferayObjectWrapper extends DefaultObjectWrapper {
 			}
 
 			if (object instanceof Collection) {
-				return _COLLECTION_MODEL_FACTORY.create(object, this);
+				return new SimpleSequence((Collection)object, this);
 			}
 
 			if (object instanceof Map) {
-				return _MAP_MODEL_FACTORY.create(object, this);
+				return new MapModel((Map)object, this);
 			}
 
 			return _STRING_MODEL_FACTORY.create(object, this);
 		}
 
-		ModelFactory modelFactory = _modelFactories.get(object.getClass());
-
-		if (modelFactory != null) {
-			return modelFactory.create(object, this);
+		if (_handledClasses.contains(object.getClass())) {
+			return _STRING_MODEL_FACTORY.create(object, this);
 		}
 
 		return super.wrap(object);
@@ -127,79 +127,18 @@ public class LiferayObjectWrapper extends DefaultObjectWrapper {
 			return wrapDomNode(object);
 		}
 
-		if (object instanceof TemplateNode) {
-			return new LiferayTemplateModel((TemplateNode)object, this);
-		}
-
 		if (object instanceof ResourceBundle) {
-			return _RESOURCE_BUNDLE_MODEL_FACTORY.create(object, this);
+			return new ResourceBundleModel((ResourceBundle)object, this);
 		}
 
 		if (object instanceof Enumeration) {
-			return _ENUMERATION_MODEL_FACTORY.create(object, this);
+			return new EnumerationModel((Enumeration)object, this);
 		}
 
-		if (object instanceof Collection) {
-			return _COLLECTION_MODEL_FACTORY.create(object, this);
-		}
-
-		if (object instanceof Map) {
-			return _MAP_MODEL_FACTORY.create(object, this);
-		}
-
-		_modelFactories.put(object.getClass(), _STRING_MODEL_FACTORY);
+		_handledClasses.add(object.getClass());
 
 		return _STRING_MODEL_FACTORY.create(object, this);
 	}
-
-	private static final ModelFactory _COLLECTION_MODEL_FACTORY =
-		new ModelFactory() {
-
-			@Override
-			public TemplateModel create(
-				Object object, ObjectWrapper objectWrapper) {
-
-				return new SimpleSequence((Collection)object, objectWrapper);
-			}
-
-		};
-
-	private static final ModelFactory _ENUMERATION_MODEL_FACTORY =
-		new ModelFactory() {
-
-			@Override
-			public TemplateModel create(
-				Object object, ObjectWrapper objectWrapper) {
-
-				return new EnumerationModel(
-					(Enumeration)object, (BeansWrapper)objectWrapper);
-			}
-
-		};
-
-	private static final ModelFactory _MAP_MODEL_FACTORY = new ModelFactory() {
-
-		@Override
-		public TemplateModel create(
-			Object object, ObjectWrapper objectWrapper) {
-
-			return new MapModel((Map)object, (BeansWrapper)objectWrapper);
-		}
-
-	};
-
-	private static final ModelFactory _RESOURCE_BUNDLE_MODEL_FACTORY =
-		new ModelFactory() {
-
-			@Override
-			public TemplateModel create(
-				Object object, ObjectWrapper objectWrapper) {
-
-				return new ResourceBundleModel(
-					(ResourceBundle)object, (BeansWrapper)objectWrapper);
-			}
-
-		};
 
 	private static final ModelFactory _STRING_MODEL_FACTORY =
 		new ModelFactory() {
@@ -215,9 +154,10 @@ public class LiferayObjectWrapper extends DefaultObjectWrapper {
 
 	private static final Field _cacheClassNamesField;
 	private static final Field _classIntrospectorField;
-	private static final Map<Class<?>, ModelFactory> _modelFactories =
-		new ConcurrentReferenceKeyHashMap<>(
-			FinalizeManager.SOFT_REFERENCE_FACTORY);
+	private static final Set<Class<?>> _handledClasses =
+		Collections.newSetFromMap(
+			new ConcurrentReferenceKeyHashMap<>(
+				FinalizeManager.SOFT_REFERENCE_FACTORY));
 
 	static {
 		try {
