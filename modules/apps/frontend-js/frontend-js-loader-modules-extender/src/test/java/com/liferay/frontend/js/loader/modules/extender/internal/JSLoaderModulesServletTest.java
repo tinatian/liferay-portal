@@ -499,7 +499,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 		Bundle bundle, String bsn, Version version, URL url,
 		boolean capability) {
 
-		doReturn(
+		Mockito.doReturn(
 			url
 		).when(
 			bundle
@@ -507,7 +507,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 			Details.CONFIG_JSON
 		);
 
-		doReturn(
+		Mockito.doReturn(
 			new Hashtable<String, String>()
 		).when(
 			bundle
@@ -515,19 +515,19 @@ public class JSLoaderModulesServletTest extends Mockito {
 			StringPool.BLANK
 		);
 
-		doReturn(
+		Mockito.doReturn(
 			bsn
 		).when(
 			bundle
 		).getSymbolicName();
 
-		doReturn(
+		Mockito.doReturn(
 			version
 		).when(
 			bundle
 		).getVersion();
 
-		doReturn(
+		Mockito.doReturn(
 			mockBundleWiring(bsn, capability)
 		).when(
 			bundle
@@ -539,7 +539,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 	protected BundleCapability mockBundleCapability(String bsn) {
 		BundleCapability bundleCapability = mock(BundleCapability.class);
 
-		doReturn(
+		Mockito.doReturn(
 			Collections.<String, Object>singletonMap(
 				Details.OSGI_WEBRESOURCE, bsn)
 		).when(
@@ -552,7 +552,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 	protected BundleWire mockBundleWire() {
 		BundleWire bundleWire = mock(BundleWire.class);
 
-		doReturn(
+		Mockito.doReturn(
 			mockJQueryBundleCapability()
 		).when(
 			bundleWire
@@ -570,7 +570,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 			bundleCapabilities = Arrays.asList(mockBundleCapability(bsn));
 		}
 
-		doReturn(
+		Mockito.doReturn(
 			bundleCapabilities
 		).when(
 			bundleWiring
@@ -584,7 +584,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 			bundleWires = Arrays.asList(mockBundleWire());
 		}
 
-		doReturn(
+		Mockito.doReturn(
 			bundleWires
 		).when(
 			bundleWiring
@@ -603,7 +603,7 @@ public class JSLoaderModulesServletTest extends Mockito {
 		properties.put(Details.OSGI_WEBRESOURCE, "jquery");
 		properties.put(Constants.VERSION_ATTRIBUTE, new Version("2.15.3"));
 
-		doReturn(
+		Mockito.doReturn(
 			properties
 		).when(
 			bundleCapability
