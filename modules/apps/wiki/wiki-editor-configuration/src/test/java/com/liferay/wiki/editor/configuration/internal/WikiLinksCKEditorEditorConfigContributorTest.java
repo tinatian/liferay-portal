@@ -219,10 +219,7 @@ public class WikiLinksCKEditorEditorConfigContributorTest extends PowerMockito {
 	private ItemSelector _itemSelector;
 
 	private RequestBackedPortletURLFactory _requestBackedPortletURLFactory;
-
-	@Mock
 	private ThemeDisplay _themeDisplay;
-
 	private WikiLinksCKEditorConfigContributor
 		_wikiLinksCKEditorEditorConfigContributor;
 

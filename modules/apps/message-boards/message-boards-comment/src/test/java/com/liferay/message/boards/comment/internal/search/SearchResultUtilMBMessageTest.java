@@ -220,7 +220,6 @@ public class SearchResultUtilMBMessageTest
 	@Mock
 	private CommentManager _commentManager;
 
-	@Mock
 	private IndexerRegistry _indexerRegistry;
 
 	@Mock

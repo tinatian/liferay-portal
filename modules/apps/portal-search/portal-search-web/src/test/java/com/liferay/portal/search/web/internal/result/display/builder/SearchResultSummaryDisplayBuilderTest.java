@@ -550,8 +550,6 @@ public class SearchResultSummaryDisplayBuilderTest {
 	protected IndexerRegistry indexerRegistry;
 
 	protected Locale locale = Locale.US;
-
-	@Mock
 	protected PermissionChecker permissionChecker;
 
 	@Mock

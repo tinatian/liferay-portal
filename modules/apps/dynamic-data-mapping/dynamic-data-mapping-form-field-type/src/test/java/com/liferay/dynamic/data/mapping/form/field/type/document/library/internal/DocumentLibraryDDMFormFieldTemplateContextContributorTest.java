@@ -245,8 +245,6 @@ public class DocumentLibraryDDMFormFieldTemplateContextContributorTest
 
 	private final Html _html = new HtmlImpl();
 	private final JSONFactory _jsonFactory = new JSONFactoryImpl();
-
-	@Mock
 	private ResourceBundle _resourceBundle;
 
 }

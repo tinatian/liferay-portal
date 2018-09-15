@@ -594,10 +594,7 @@ public class AMJournalEditorConfigContributorTest extends PowerMockito {
 	@Mock
 	private ItemSelector _itemSelector;
 
-	@Mock
 	private RequestBackedPortletURLFactory _requestBackedPortletURLFactory;
-
-	@Mock
 	private ThemeDisplay _themeDisplay;
 
 }

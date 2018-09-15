@@ -137,10 +137,7 @@ public class BundleResolverClassLoaderTest extends PowerMockito {
 	@Mock
 	private Bundle _bundle2;
 
-	@Mock
 	private Enumeration<URL> _enumeration;
-
-	@Mock
 	private URL _url;
 
 }
