@@ -45,13 +45,11 @@ import org.junit.Test;
 
 import org.mockito.Mockito;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Iván Zaera
  * @author Roberto Díaz
  */
-public class ItemSelectorImplTest extends PowerMockito {
+public class ItemSelectorImplTest extends Mockito {
 
 	@Before
 	public void setUp() {

@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 
 /**
  * @author Roberto Díaz
@@ -138,9 +138,9 @@ public class SearchContainerTest {
 	}
 
 	protected void buildSearchContainer(int cur) {
-		PortletRequest portletRequest = PowerMockito.mock(PortletRequest.class);
+		PortletRequest portletRequest = Mockito.mock(PortletRequest.class);
 
-		PortletURL portletURL = PowerMockito.mock(PortletURL.class);
+		PortletURL portletURL = Mockito.mock(PortletURL.class);
 
 		_searchContainer = new SearchContainer<>(
 			portletRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, cur,

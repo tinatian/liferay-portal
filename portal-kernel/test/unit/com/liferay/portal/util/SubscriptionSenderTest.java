@@ -40,18 +40,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import org.mockito.Mockito;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Mika Koivisto
  */
-@RunWith(PowerMockRunner.class)
-public class SubscriptionSenderTest extends PowerMockito {
+public class SubscriptionSenderTest extends Mockito {
 
 	@Before
 	public void setUp() throws Exception {

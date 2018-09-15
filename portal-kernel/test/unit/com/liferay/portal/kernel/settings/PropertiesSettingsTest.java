@@ -23,12 +23,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 
 /**
  * @author Iván Zaera
  */
-public class PropertiesSettingsTest extends PowerMockito {
+public class PropertiesSettingsTest extends Mockito {
 
 	@Before
 	public void setUp() {

@@ -45,7 +45,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.mockito.Mockito;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
@@ -55,9 +56,6 @@ import org.osgi.framework.wiring.BundleWire;
 import org.osgi.framework.wiring.BundleWiring;
 import org.osgi.service.component.ComponentContext;
 
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -66,8 +64,7 @@ import org.springframework.mock.web.MockServletContext;
 /**
  * @author Raymond Augé
  */
-@RunWith(PowerMockRunner.class)
-public class JSLoaderModulesServletTest extends PowerMockito {
+public class JSLoaderModulesServletTest extends Mockito {
 
 	@Before
 	public void setUp() {
@@ -502,7 +499,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 		Bundle bundle, String bsn, Version version, URL url,
 		boolean capability) {
 
-		doReturn(
+		Mockito.doReturn(
 			url
 		).when(
 			bundle
@@ -510,7 +507,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 			Details.CONFIG_JSON
 		);
 
-		doReturn(
+		Mockito.doReturn(
 			new Hashtable<String, String>()
 		).when(
 			bundle
@@ -518,19 +515,19 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 			StringPool.BLANK
 		);
 
-		doReturn(
+		Mockito.doReturn(
 			bsn
 		).when(
 			bundle
 		).getSymbolicName();
 
-		doReturn(
+		Mockito.doReturn(
 			version
 		).when(
 			bundle
 		).getVersion();
 
-		doReturn(
+		Mockito.doReturn(
 			mockBundleWiring(bsn, capability)
 		).when(
 			bundle
@@ -542,7 +539,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 	protected BundleCapability mockBundleCapability(String bsn) {
 		BundleCapability bundleCapability = mock(BundleCapability.class);
 
-		doReturn(
+		Mockito.doReturn(
 			Collections.<String, Object>singletonMap(
 				Details.OSGI_WEBRESOURCE, bsn)
 		).when(
@@ -555,7 +552,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 	protected BundleWire mockBundleWire() {
 		BundleWire bundleWire = mock(BundleWire.class);
 
-		doReturn(
+		Mockito.doReturn(
 			mockJQueryBundleCapability()
 		).when(
 			bundleWire
@@ -573,7 +570,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 			bundleCapabilities = Arrays.asList(mockBundleCapability(bsn));
 		}
 
-		doReturn(
+		Mockito.doReturn(
 			bundleCapabilities
 		).when(
 			bundleWiring
@@ -587,7 +584,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 			bundleWires = Arrays.asList(mockBundleWire());
 		}
 
-		doReturn(
+		Mockito.doReturn(
 			bundleWires
 		).when(
 			bundleWiring
@@ -606,7 +603,7 @@ public class JSLoaderModulesServletTest extends PowerMockito {
 		properties.put(Details.OSGI_WEBRESOURCE, "jquery");
 		properties.put(Constants.VERSION_ATTRIBUTE, new Version("2.15.3"));
 
-		doReturn(
+		Mockito.doReturn(
 			properties
 		).when(
 			bundleCapability

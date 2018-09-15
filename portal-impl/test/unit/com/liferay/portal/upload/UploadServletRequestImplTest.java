@@ -26,14 +26,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  * @author Roberto Díaz
  */
-public class UploadServletRequestImplTest extends PowerMockito {
+public class UploadServletRequestImplTest extends Mockito {
 
 	@Before
 	public void setUp() {

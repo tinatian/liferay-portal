@@ -28,12 +28,13 @@ import org.junit.Test;
 
 import org.mockito.Matchers;
 
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
 /**
  * @author Iván Zaera
  */
-public class LocationVariableResolverTest extends PowerMockito {
+public class LocationVariableResolverTest extends Mockito {
 
 	@Before
 	public void setUp() throws Exception {

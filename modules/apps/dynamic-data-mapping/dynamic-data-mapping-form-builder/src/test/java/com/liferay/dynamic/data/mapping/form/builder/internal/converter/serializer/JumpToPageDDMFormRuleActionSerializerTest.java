@@ -21,15 +21,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Leonardo Barros
  */
-@RunWith(PowerMockRunner.class)
-public class JumpToPageDDMFormRuleActionSerializerTest extends PowerMockito {
+@RunWith(MockitoJUnitRunner.class)
+public class JumpToPageDDMFormRuleActionSerializerTest extends Mockito {
 
 	@Test
 	public void testSerialize() {

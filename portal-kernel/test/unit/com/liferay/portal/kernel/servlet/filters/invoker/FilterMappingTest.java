@@ -26,18 +26,15 @@ import javax.servlet.FilterConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mockito;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  * @author Mika Koivisto
  */
-@RunWith(PowerMockRunner.class)
-public class FilterMappingTest extends PowerMockito {
+public class FilterMappingTest extends Mockito {
 
 	@Before
 	public void setUp() {

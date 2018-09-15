@@ -41,15 +41,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import org.powermock.api.mockito.PowerMockito;
-
 import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author Roberto Díaz
  */
 public class WikiAttachmentImageCreoleEditorConfigContributorTest
-	extends PowerMockito {
+	extends Mockito {
 
 	@Before
 	public void setUp() {

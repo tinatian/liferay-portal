@@ -32,15 +32,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.powermock.api.mockito.PowerMockito;
 
 /**
  * @author Leonardo Barros
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DDMStorageTypesDataProviderTest extends PowerMockito {
+public class DDMStorageTypesDataProviderTest extends Mockito {
 
 	@Before
 	public void setUp() {

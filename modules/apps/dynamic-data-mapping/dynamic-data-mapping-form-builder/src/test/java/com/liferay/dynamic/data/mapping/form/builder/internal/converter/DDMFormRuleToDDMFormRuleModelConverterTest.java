@@ -26,7 +26,6 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -46,18 +45,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author Marcellus Tavares
  */
-@PrepareForTest(ServiceContextThreadLocal.class)
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class DDMFormRuleToDDMFormRuleModelConverterTest
 	extends BaseDDMConverterTest {
 
@@ -210,7 +206,7 @@ public class DDMFormRuleToDDMFormRuleModelConverterTest
 		ddmForm.setDDMFormFields(
 			Arrays.asList(ddmFormField0, ddmFormField1, ddmFormField2));
 
-		PowerMockito.when(
+		Mockito.when(
 			_ddmFormRuleSerializerContext.getAttribute("form")
 		).thenReturn(
 			ddmForm

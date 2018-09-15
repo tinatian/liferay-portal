@@ -34,12 +34,10 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Leonardo Barros
  */
-public class DDMDataProviderInvokerImplTest extends PowerMockito {
+public class DDMDataProviderInvokerImplTest extends Mockito {
 
 	@Test
 	public void testDDMDataProviderInvokeCommand() throws Exception {
