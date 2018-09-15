@@ -23,15 +23,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.powermock.api.mockito.PowerMockito;
 
 /**
  * @author Leonardo Barros
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AllFunctionTest extends PowerMockito {
+public class AllFunctionTest extends Mockito {
 
 	@Test
 	public void testEvaluateFalse() throws Exception {

@@ -19,12 +19,12 @@ import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 
 /**
  * @author Iván Zaera
  */
-public class CMISRepositoryDetectorTest extends PowerMockito {
+public class CMISRepositoryDetectorTest extends Mockito {
 
 	@Test
 	public void testCMISDetectorWhenNuxeo5_4() {

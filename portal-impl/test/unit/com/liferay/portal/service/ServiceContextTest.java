@@ -27,12 +27,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 
 /**
  * @author Michael C. Han
  */
-public class ServiceContextTest extends PowerMockito {
+public class ServiceContextTest extends Mockito {
 
 	@BeforeClass
 	public static void setUpClass() {

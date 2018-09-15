@@ -27,12 +27,10 @@ import org.junit.Test;
 
 import org.mockito.Mockito;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Alejandro Tardín
  */
-public class HTMLImageAttachmentElementReplacerTest extends PowerMockito {
+public class HTMLImageAttachmentElementReplacerTest extends Mockito {
 
 	@Before
 	public void setUp() {

@@ -45,7 +45,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.mockito.Mockito;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
@@ -55,9 +56,6 @@ import org.osgi.framework.wiring.BundleWire;
 import org.osgi.framework.wiring.BundleWiring;
 import org.osgi.service.component.ComponentContext;
 
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -66,8 +64,7 @@ import org.springframework.mock.web.MockServletContext;
 /**
  * @author Raymond Augé
  */
-@RunWith(PowerMockRunner.class)
-public class JSLoaderModulesServletTest extends PowerMockito {
+public class JSLoaderModulesServletTest extends Mockito {
 
 	@Before
 	public void setUp() {

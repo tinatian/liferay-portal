@@ -36,13 +36,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Leonardo Barros
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DDMDataProviderInstanceSettingsImplTest extends PowerMockito {
+public class DDMDataProviderInstanceSettingsImplTest extends Mockito {
 
 	@Before
 	public void setUp() throws Exception {

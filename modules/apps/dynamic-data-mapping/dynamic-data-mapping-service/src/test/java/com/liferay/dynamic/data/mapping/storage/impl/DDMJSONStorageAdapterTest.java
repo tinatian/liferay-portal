@@ -47,13 +47,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Leonardo Barros
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DDMJSONStorageAdapterTest extends PowerMockito {
+public class DDMJSONStorageAdapterTest extends Mockito {
 
 	@Before
 	public void setUp() {

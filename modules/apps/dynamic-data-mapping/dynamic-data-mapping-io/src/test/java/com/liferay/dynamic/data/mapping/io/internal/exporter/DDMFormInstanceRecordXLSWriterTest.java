@@ -43,13 +43,11 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Leonardo Barros
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DDMFormInstanceRecordXLSWriterTest extends PowerMockito {
+public class DDMFormInstanceRecordXLSWriterTest extends Mockito {
 
 	@Test
 	public void testCreateCellStyle() {

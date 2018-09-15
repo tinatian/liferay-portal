@@ -20,12 +20,10 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Iván Zaera
  */
-public class FallbackSettingsTest extends PowerMockito {
+public class FallbackSettingsTest extends Mockito {
 
 	public FallbackSettingsTest() {
 		_settings = mock(Settings.class);

@@ -43,21 +43,16 @@ import java.util.stream.Stream;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 
 import org.osgi.framework.ServiceReference;
 
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-
 /**
  * @author Stian Sigvartsen
  */
-@RunWith(PowerMockRunner.class)
-public class ScopeLocatorImplTest extends PowerMockito {
+public class ScopeLocatorImplTest extends Mockito {
 
 	@Test
 	public void testPrefixHandlerFactoryByNameAndCompany() throws Exception {

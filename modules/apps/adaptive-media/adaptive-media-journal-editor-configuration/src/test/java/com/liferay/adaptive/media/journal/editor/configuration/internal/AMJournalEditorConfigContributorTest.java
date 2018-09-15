@@ -45,14 +45,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import org.powermock.api.mockito.PowerMockito;
-
 import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author Sergio González
  */
-public class AMJournalEditorConfigContributorTest extends PowerMockito {
+public class AMJournalEditorConfigContributorTest extends Mockito {
 
 	@Before
 	public void setUp() {
