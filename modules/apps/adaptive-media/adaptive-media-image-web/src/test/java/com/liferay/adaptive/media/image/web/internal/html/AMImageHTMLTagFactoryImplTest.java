@@ -19,8 +19,8 @@ import com.liferay.adaptive.media.image.media.query.MediaQuery;
 import com.liferay.adaptive.media.image.media.query.MediaQueryProvider;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.util.Arrays;
@@ -42,14 +42,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class AMImageHTMLTagFactoryImplTest {
 
 	@Before
-	public void setUp() throws PortalException {
+	public void setUp() throws Exception {
 		_amImageHTMLTagFactory.setMediaQueryProvider(_mediaQueryProvider);
 
-		Mockito.when(
-			_fileEntry.getFileEntryId()
-		).thenReturn(
-			1234L
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileEntry, "getFileEntryId", 1234L);
 	}
 
 	@Test
@@ -198,9 +195,8 @@ public class AMImageHTMLTagFactoryImplTest {
 
 	private final AMImageHTMLTagFactoryImpl _amImageHTMLTagFactory =
 		new AMImageHTMLTagFactoryImpl();
-
-	@Mock
-	private FileEntry _fileEntry;
+	private final FileEntry _fileEntry = MockHelperUtil.initMock(
+		FileEntry.class);
 
 	@Mock
 	private MediaQueryProvider _mediaQueryProvider;

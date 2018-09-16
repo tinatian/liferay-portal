@@ -43,6 +43,7 @@ import com.liferay.apio.architect.pagination.Page;
 import com.liferay.apio.architect.pagination.PageItems;
 import com.liferay.apio.architect.pagination.Pagination;
 import com.liferay.apio.architect.uri.Path;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -51,8 +52,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author Alejandro Hernández
@@ -98,20 +97,12 @@ public class URLCreatorTest {
 	}
 
 	@Test
-	public void testCreateCollectionPageURL() {
-		Pagination pagination = Mockito.mock(Pagination.class);
+	public void testCreateCollectionPageURL() throws Exception {
+		Pagination pagination = MockHelperUtil.setMethodAlwaysReturnExpected(
+			Pagination.class, "getItemsPerPage", 30);
 
-		Mockito.when(
-			pagination.getItemsPerPage()
-		).thenReturn(
-			30
-		);
-
-		Mockito.when(
-			pagination.getPageNumber()
-		).thenReturn(
-			1
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			Pagination.class, "getPageNumber", 1);
 
 		PageItems<String> pageItems = new PageItems<>(emptyList(), 0);
 

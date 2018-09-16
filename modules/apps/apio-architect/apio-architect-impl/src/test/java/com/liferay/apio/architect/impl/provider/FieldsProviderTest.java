@@ -18,6 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.liferay.apio.architect.impl.response.control.Fields;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.util.Collections;
 import java.util.Map;
@@ -27,15 +28,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author Alejandro Hernández
  */
 public class FieldsProviderTest {
 
 	@Test
-	public void testFieldsProviderReturnsAlwaysTrueIfEmptyFields() {
+	public void testFieldsProviderReturnsAlwaysTrueIfEmptyFields()
+		throws Exception {
+
 		Predicate<String> predicate = _getPredicate("");
 
 		assertThat(predicate.test("alternateName"), is(true));
@@ -44,7 +45,9 @@ public class FieldsProviderTest {
 	}
 
 	@Test
-	public void testFieldsProviderReturnsAlwaysTrueIfInvalidParam() {
+	public void testFieldsProviderReturnsAlwaysTrueIfInvalidParam()
+		throws Exception {
+
 		Predicate<String> predicate = _getPredicate(
 			"description", "familyName", "givenName");
 
@@ -54,27 +57,26 @@ public class FieldsProviderTest {
 	}
 
 	@Test
-	public void testFieldsProviderReturnValidFields() {
+	public void testFieldsProviderReturnValidFields() throws Exception {
 		Predicate<String> predicate = _getPredicate("familyName,givenName");
 
 		assertThat(predicate.test("alternateName"), is(false));
 		assertThat(predicate.test("givenName"), is(true));
 	}
 
-	private Predicate<String> _getPredicate(String... personFields) {
+	private Predicate<String> _getPredicate(String... personFields)
+		throws Exception {
+
 		FieldsProvider fieldsProvider = new FieldsProvider();
 
-		HttpServletRequest httpServletRequest = Mockito.mock(
+		HttpServletRequest httpServletRequest = MockHelperUtil.initMock(
 			HttpServletRequest.class);
 
 		Map<String, String[]> parameterMap = Collections.singletonMap(
 			"fields[Person]", personFields);
 
-		Mockito.when(
-			httpServletRequest.getParameterMap()
-		).thenReturn(
-			parameterMap
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			httpServletRequest, "getParameterMap", parameterMap);
 
 		Fields fields = fieldsProvider.createContext(httpServletRequest);
 

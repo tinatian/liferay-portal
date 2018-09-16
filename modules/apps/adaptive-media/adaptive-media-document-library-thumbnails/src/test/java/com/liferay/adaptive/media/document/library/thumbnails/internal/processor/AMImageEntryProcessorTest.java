@@ -21,6 +21,7 @@ import com.liferay.adaptive.media.image.validator.AMImageValidator;
 import com.liferay.adaptive.media.processor.AMAsyncProcessor;
 import com.liferay.adaptive.media.processor.AMAsyncProcessorLocator;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -86,11 +87,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -117,11 +116,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", false,
+			String.class);
 
 		_amImageEntryProcessor.getPreviewAsStream(_fileVersion);
 
@@ -142,11 +139,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -198,11 +193,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -229,11 +222,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", false,
+			String.class);
 
 		_amImageEntryProcessor.getPreviewFileSize(_fileVersion);
 
@@ -254,11 +245,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -304,11 +293,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -335,11 +322,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", false,
+			String.class);
 
 		_amImageEntryProcessor.getThumbnailAsStream(_fileVersion, 0);
 
@@ -360,11 +345,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -416,11 +399,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -447,11 +428,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", false,
+			String.class);
 
 		_amImageEntryProcessor.getThumbnailFileSize(_fileVersion, 0);
 
@@ -472,11 +451,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -522,11 +499,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -553,11 +528,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", false,
+			String.class);
 
 		_amImageEntryProcessor.hasImages(_fileVersion);
 
@@ -578,11 +551,9 @@ public class AMImageEntryProcessorTest {
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Mockito.when(
 			_amImageValidator.isValid(_fileVersion)
@@ -610,9 +581,10 @@ public class AMImageEntryProcessorTest {
 	private final AMImageFinder _amImageFinder = Mockito.mock(
 		AMImageFinder.class);
 	private final AMImageMimeTypeProvider _amImageMimeTypeProvider =
-		Mockito.mock(AMImageMimeTypeProvider.class);
+		MockHelperUtil.initMock(AMImageMimeTypeProvider.class);
 	private final AMImageValidator _amImageValidator = Mockito.mock(
 		AMImageValidator.class);
-	private final FileVersion _fileVersion = Mockito.mock(FileVersion.class);
+	private final FileVersion _fileVersion = MockHelperUtil.initMock(
+		FileVersion.class);
 
 }

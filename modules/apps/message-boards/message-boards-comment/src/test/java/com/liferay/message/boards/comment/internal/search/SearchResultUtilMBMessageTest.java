@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.SearchResultManager;
 import com.liferay.portal.kernel.search.SummaryFactory;
 import com.liferay.portal.kernel.search.result.SearchResultContributor;
 import com.liferay.portal.kernel.search.result.SearchResultTranslator;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.search.internal.result.SearchResultManagerImpl;
 import com.liferay.portal.search.internal.result.SearchResultTranslatorImpl;
 import com.liferay.portal.search.internal.result.SummaryFactoryImpl;
@@ -41,7 +42,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -59,23 +59,14 @@ public class SearchResultUtilMBMessageTest
 	public void setUp() throws Exception {
 		super.setUp();
 
-		when(
-			_commentManager.fetchComment(Mockito.anyLong())
-		).thenReturn(
-			_comment
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_commentManager, "fetchComment", _comment, long.class);
 
-		when(
-			_comment.getCommentId()
-		).thenReturn(
-			SearchTestUtil.ENTRY_CLASS_PK
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_comment, "getCommentId", SearchTestUtil.ENTRY_CLASS_PK);
 
-		when(
-			_mbMessage.getMessageId()
-		).thenReturn(
-			SearchTestUtil.ENTRY_CLASS_PK
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_mbMessage, "getMessageId", SearchTestUtil.ENTRY_CLASS_PK);
 
 		when(
 			_mbMessageLocalService.getMessage(SearchTestUtil.ENTRY_CLASS_PK)
@@ -214,16 +205,12 @@ public class SearchResultUtilMBMessageTest
 	private static final String _MB_MESSAGE_CLASS_NAME =
 		MBMessage.class.getName();
 
-	@Mock
-	private Comment _comment;
-
-	@Mock
-	private CommentManager _commentManager;
-
+	private final Comment _comment = MockHelperUtil.initMock(Comment.class);
+	private final CommentManager _commentManager = MockHelperUtil.initMock(
+		CommentManager.class);
 	private IndexerRegistry _indexerRegistry;
-
-	@Mock
-	private MBMessage _mbMessage;
+	private final MBMessage _mbMessage = MockHelperUtil.initMock(
+		MBMessage.class);
 
 	@Mock
 	private MBMessageLocalService _mbMessageLocalService;

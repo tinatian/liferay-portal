@@ -19,34 +19,22 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
 
 import com.liferay.apio.architect.pagination.Page;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Alejandro Hernández
  */
-@RunWith(MockitoJUnitRunner.class)
 public class PageTypeTest {
 
 	@Before
-	public void setUp() {
-		Mockito.when(
-			_page.getPageNumber()
-		).thenReturn(
-			3
-		);
+	public void setUp() throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(_page, "getPageNumber", 3);
 
-		Mockito.when(
-			_page.getLastPageNumber()
-		).thenReturn(
-			5
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_page, "getLastPageNumber", 5);
 	}
 
 	@Test
@@ -78,12 +66,11 @@ public class PageTypeTest {
 	}
 
 	@Test
-	public void testCallingPageNumberOnNextWithLastPageReturnsLast() {
-		Mockito.when(
-			_page.getLastPageNumber()
-		).thenReturn(
-			3
-		);
+	public void testCallingPageNumberOnNextWithLastPageReturnsLast()
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_page, "getLastPageNumber", 3);
 
 		Integer pageNumber = PageType.NEXT.getPageNumber(_page);
 
@@ -98,19 +85,16 @@ public class PageTypeTest {
 	}
 
 	@Test
-	public void testCallingPageNumberOnPreviousWithPageOneReturnsOne() {
-		Mockito.when(
-			_page.getPageNumber()
-		).thenReturn(
-			1
-		);
+	public void testCallingPageNumberOnPreviousWithPageOneReturnsOne()
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(_page, "getPageNumber", 1);
 
 		Integer pageNumber = PageType.PREVIOUS.getPageNumber(_page);
 
 		assertThat(pageNumber, is(1));
 	}
 
-	@Mock
-	private final Page _page = Mockito.mock(Page.class);
+	private final Page _page = MockHelperUtil.initMock(Page.class);
 
 }

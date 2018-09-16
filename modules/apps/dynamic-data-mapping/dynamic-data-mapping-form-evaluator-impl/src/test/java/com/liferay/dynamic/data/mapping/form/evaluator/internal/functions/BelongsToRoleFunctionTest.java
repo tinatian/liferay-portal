@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -129,11 +130,8 @@ public class BelongsToRoleFunctionTest {
 	}
 
 	protected void mockHasRegularRole() throws Exception {
-		Mockito.when(
-			_role.getType()
-		).thenReturn(
-			RoleConstants.TYPE_REGULAR
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_role, "getType", RoleConstants.TYPE_REGULAR);
 
 		Mockito.when(
 			_userLocalService.hasRoleUser(
@@ -145,11 +143,8 @@ public class BelongsToRoleFunctionTest {
 	}
 
 	protected void mockHasSiteRole() throws Exception {
-		Mockito.when(
-			_role.getType()
-		).thenReturn(
-			RoleConstants.TYPE_SITE
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_role, "getType", RoleConstants.TYPE_SITE);
 
 		Mockito.when(
 			_userGroupRoleLocalService.hasUserGroupRole(
@@ -181,28 +176,17 @@ public class BelongsToRoleFunctionTest {
 	}
 
 	protected void setRole() throws Exception {
-		Mockito.when(
-			_roleLocalService.fetchRole(
-				Matchers.anyLong(), Matchers.anyString())
-		).thenReturn(
-			_role
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_roleLocalService, "fetchRole", _role, long.class, String.class);
 	}
 
-	@Mock
-	private Company _company;
-
-	@Mock
-	private HttpServletRequest _request;
-
-	@Mock
-	private Role _role;
-
-	@Mock
-	private RoleLocalService _roleLocalService;
-
-	@Mock
-	private User _user;
+	private final Company _company = MockHelperUtil.initMock(Company.class);
+	private final HttpServletRequest _request = MockHelperUtil.initMock(
+		HttpServletRequest.class);
+	private final Role _role = MockHelperUtil.initMock(Role.class);
+	private final RoleLocalService _roleLocalService = MockHelperUtil.initMock(
+		RoleLocalService.class);
+	private final User _user = MockHelperUtil.initMock(User.class);
 
 	@Mock
 	private UserGroupRoleLocalService _userGroupRoleLocalService;

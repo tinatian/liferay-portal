@@ -22,6 +22,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.comment.DuplicateCommentException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.Function;
 import com.liferay.portal.kernel.util.Portal;
@@ -80,11 +81,8 @@ public class MBCommentManagerImplTest extends Mockito {
 
 	@Test
 	public void testAddCommentWithUserNameAndSubject() throws Exception {
-		when(
-			_mbMessage.getMessageId()
-		).thenReturn(
-			_MBMESSAGE_ID
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_mbMessage, "getMessageId", _MBMESSAGE_ID);
 
 		Assert.assertEquals(
 			_MBMESSAGE_ID,
@@ -207,12 +205,9 @@ public class MBCommentManagerImplTest extends Mockito {
 			_mbCommentManagerImpl.getCommentsCount(_CLASS_NAME, classPK));
 	}
 
-	protected void setUpExistingComment(String body) {
-		when(
-			_mbMessage.getBody()
-		).thenReturn(
-			body
-		);
+	protected void setUpExistingComment(String body) throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_mbMessage, "getBody", body);
 
 		List<MBMessage> messages = Collections.singletonList(_mbMessage);
 
@@ -227,11 +222,8 @@ public class MBCommentManagerImplTest extends Mockito {
 	protected void setUpMBCommentManagerImpl() throws Exception {
 		_mbCommentManagerImpl.setMBMessageLocalService(_mbMessageLocalService);
 
-		when(
-			_mbMessageDisplay.getThread()
-		).thenReturn(
-			_mbThread
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_mbMessageDisplay, "getThread", _mbThread);
 
 		when(
 			_mbMessageLocalService.addDiscussionMessage(
@@ -251,17 +243,11 @@ public class MBCommentManagerImplTest extends Mockito {
 			_mbMessageDisplay
 		);
 
-		when(
-			_mbThread.getRootMessageId()
-		).thenReturn(
-			_ROOT_MESSAGE_ID
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_mbThread, "getRootMessageId", _ROOT_MESSAGE_ID);
 
-		when(
-			_mbThread.getThreadId()
-		).thenReturn(
-			_THREAD_ID
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_mbThread, "getThreadId", _THREAD_ID);
 	}
 
 	protected void setUpPortalUtil() {
@@ -300,18 +286,15 @@ public class MBCommentManagerImplTest extends Mockito {
 
 	private final MBCommentManagerImpl _mbCommentManagerImpl =
 		new MBCommentManagerImpl();
-
-	@Mock
-	private MBMessage _mbMessage;
-
-	@Mock
-	private MBMessageDisplay _mbMessageDisplay;
+	private final MBMessage _mbMessage = MockHelperUtil.initMock(
+		MBMessage.class);
+	private final MBMessageDisplay _mbMessageDisplay = MockHelperUtil.initMock(
+		MBMessageDisplay.class);
 
 	@Mock
 	private MBMessageLocalService _mbMessageLocalService;
 
-	@Mock
-	private MBThread _mbThread;
+	private final MBThread _mbThread = MockHelperUtil.initMock(MBThread.class);
 
 	@Mock
 	private Portal _portal;

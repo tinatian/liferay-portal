@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.image.ImageTool;
 import com.liferay.portal.kernel.image.ImageToolUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.io.InputStream;
@@ -163,17 +164,11 @@ public class AMImageProcessorImplTest {
 			Mockito.mock(AMImageEntry.class)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileEntry()
-		).thenReturn(
-			_fileEntry
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileEntry", _fileEntry);
 
-		Mockito.when(
-			_fileEntry.isCheckedOut()
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileEntry, "isCheckedOut", false);
 
 		_amImageProcessorImpl.process(
 			_fileVersion, RandomTestUtil.randomString());
@@ -213,17 +208,11 @@ public class AMImageProcessorImplTest {
 			Mockito.mock(AMImageEntry.class)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileEntry()
-		).thenReturn(
-			_fileEntry
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileEntry", _fileEntry);
 
-		Mockito.when(
-			_fileEntry.isCheckedOut()
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileEntry, "isCheckedOut", true);
 
 		Mockito.when(
 			_amImageScalerTracker.getAMImageScaler(Mockito.anyString())
@@ -635,8 +624,10 @@ public class AMImageProcessorImplTest {
 		AMImageScalerTracker.class);
 	private final AMImageValidator _amImageValidator = Mockito.mock(
 		AMImageValidator.class);
-	private final FileEntry _fileEntry = Mockito.mock(FileEntry.class);
-	private final FileVersion _fileVersion = Mockito.mock(FileVersion.class);
+	private final FileEntry _fileEntry = MockHelperUtil.initMock(
+		FileEntry.class);
+	private final FileVersion _fileVersion = MockHelperUtil.initMock(
+		FileVersion.class);
 	private ImageTool _imageTool;
 
 }

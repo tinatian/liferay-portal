@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.search.result.SearchResultContributor;
 import com.liferay.portal.kernel.search.result.SearchResultTranslator;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.internal.result.SearchResultManagerImpl;
@@ -406,8 +407,8 @@ public class SearchResultUtilDLFileEntryTest
 	@Mock
 	private DLAppLocalService _dlAppLocalService;
 
-	@Mock
-	private FileEntry _fileEntry;
+	private final FileEntry _fileEntry = MockHelperUtil.initMock(
+		FileEntry.class);
 
 	@Mock
 	private Indexer<Object> _indexer;

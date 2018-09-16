@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageConstants;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -69,7 +70,7 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	@Test
-	public void testFieldValueChangedPropertyIsFalse() {
+	public void testFieldValueChangedPropertyIsFalse() throws Exception {
 		DDMForm ddmForm = DDMFormTestUtil.createDDMForm();
 
 		DDMFormField ddmFormField = DDMFormTestUtil.createTextDDMFormField(
@@ -115,7 +116,7 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	@Test
-	public void testFieldValueChangedPropertyIsNull() {
+	public void testFieldValueChangedPropertyIsNull() throws Exception {
 		DDMForm ddmForm = DDMFormTestUtil.createDDMForm();
 
 		DDMFormField ddmFormField = DDMFormTestUtil.createTextDDMFormField(
@@ -159,7 +160,7 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	@Test
-	public void testFieldValueChangedPropertyIsTrue() {
+	public void testFieldValueChangedPropertyIsTrue() throws Exception {
 		DDMForm ddmForm = DDMFormTestUtil.createDDMForm();
 
 		DDMFormField ddmFormField = DDMFormTestUtil.createTextDDMFormField(
@@ -205,7 +206,7 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	@Test
-	public void testNotReadOnlyTextFieldAndReadOnlyForm() {
+	public void testNotReadOnlyTextFieldAndReadOnlyForm() throws Exception {
 
 		// Dynamic data mapping form
 
@@ -263,7 +264,7 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	@Test
-	public void testReadOnlyTextFieldAndNotReadOnlyForm() {
+	public void testReadOnlyTextFieldAndNotReadOnlyForm() throws Exception {
 
 		// Dynamic data mapping form
 
@@ -321,7 +322,7 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	@Test
-	public void testTextField() {
+	public void testTextField() throws Exception {
 
 		// Dynamic data mapping form
 
@@ -413,12 +414,14 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	protected DDMFormFieldTemplateContextFactory
-		createDDMFormFieldTemplateContextFactory(
-			DDMForm ddmForm, DDMFormEvaluationResult ddmFormEvaluationResult,
-			List<DDMFormFieldValue> ddmFormFieldValues, boolean ddmFormReadOnly,
-			DDMFormFieldRenderer ddmFormFieldRenderer,
-			DDMFormFieldTemplateContextContributor
-				ddmFormFieldTemplateContextContributor) {
+			createDDMFormFieldTemplateContextFactory(
+				DDMForm ddmForm,
+				DDMFormEvaluationResult ddmFormEvaluationResult,
+				List<DDMFormFieldValue> ddmFormFieldValues,
+				boolean ddmFormReadOnly,
+				DDMFormFieldRenderer ddmFormFieldRenderer,
+				DDMFormFieldTemplateContextContributor
+					ddmFormFieldTemplateContextContributor) throws Exception {
 
 		DDMFormRenderingContext ddmFormRenderingContext =
 			new DDMFormRenderingContext();
@@ -495,27 +498,20 @@ public class DDMFormFieldTemplateContextFactoryTest {
 	}
 
 	protected DDMFormFieldTypeServicesTracker
-		mockDDMFormFieldTypeServicesTracker(
-			DDMFormFieldRenderer ddmFormFieldRenderer,
-			DDMFormFieldTemplateContextContributor
-				ddmFormFieldTemplateContextContributor) {
+			mockDDMFormFieldTypeServicesTracker(
+				DDMFormFieldRenderer ddmFormFieldRenderer,
+				DDMFormFieldTemplateContextContributor
+					ddmFormFieldTemplateContextContributor) throws Exception {
 
 		DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker =
-			Mockito.mock(DDMFormFieldTypeServicesTracker.class);
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				DDMFormFieldTypeServicesTracker.class,
+				"getDDMFormFieldRenderer", ddmFormFieldRenderer, String.class);
 
-		Mockito.when(
-			ddmFormFieldTypeServicesTracker.getDDMFormFieldRenderer(
-				Matchers.anyString())
-		).thenReturn(
-			ddmFormFieldRenderer
-		);
-
-		Mockito.when(
-			ddmFormFieldTypeServicesTracker.
-				getDDMFormFieldTemplateContextContributor(Matchers.anyString())
-		).thenReturn(
-			ddmFormFieldTemplateContextContributor
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			ddmFormFieldTypeServicesTracker,
+			"getDDMFormFieldTemplateContextContributor",
+			ddmFormFieldTemplateContextContributor, String.class);
 
 		return ddmFormFieldTypeServicesTracker;
 	}

@@ -27,6 +27,7 @@ import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.util.ArrayList;
@@ -70,13 +71,9 @@ public class AMJournalEditorConfigContributorTest extends PowerMockito {
 	public void testAdaptiveMediaFileEntryAttributeNameIsAdded()
 		throws Exception {
 
-		PortletURL itemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			itemSelectorPortletURL.toString()
-		).thenReturn(
-			"itemSelectorPortletURL"
-		);
+		PortletURL itemSelectorPortletURL =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				PortletURL.class, "toString", "itemSelectorPortletURL");
 
 		when(
 			_itemSelector.getItemSelectorURL(
@@ -124,13 +121,9 @@ public class AMJournalEditorConfigContributorTest extends PowerMockito {
 
 	@Test
 	public void testAdaptiveMediaIsAddedToExtraPlugins() throws Exception {
-		PortletURL itemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			itemSelectorPortletURL.toString()
-		).thenReturn(
-			"itemSelectorPortletURL"
-		);
+		PortletURL itemSelectorPortletURL =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				PortletURL.class, "toString", "itemSelectorPortletURL");
 
 		when(
 			_itemSelector.getItemSelectorURL(
@@ -177,13 +170,9 @@ public class AMJournalEditorConfigContributorTest extends PowerMockito {
 
 	@Test
 	public void testAdaptiveMediaIsExtraPlugins() throws Exception {
-		PortletURL itemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			itemSelectorPortletURL.toString()
-		).thenReturn(
-			"itemSelectorPortletURL"
-		);
+		PortletURL itemSelectorPortletURL =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				PortletURL.class, "toString", "itemSelectorPortletURL");
 
 		when(
 			_itemSelector.getItemSelectorURL(
@@ -423,13 +412,9 @@ public class AMJournalEditorConfigContributorTest extends PowerMockito {
 	public void testItemSelectorURLWithBlogsItemSelectorCriterion()
 		throws Exception {
 
-		PortletURL itemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			itemSelectorPortletURL.toString()
-		).thenReturn(
-			"itemSelectorPortletURL"
-		);
+		PortletURL itemSelectorPortletURL =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				PortletURL.class, "toString", "itemSelectorPortletURL");
 
 		when(
 			_itemSelector.getItemSelectorURL(
@@ -482,13 +467,9 @@ public class AMJournalEditorConfigContributorTest extends PowerMockito {
 	public void testItemSelectorURLWithFileItemSelectorCriterion()
 		throws Exception {
 
-		PortletURL itemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			itemSelectorPortletURL.toString()
-		).thenReturn(
-			"itemSelectorPortletURL"
-		);
+		PortletURL itemSelectorPortletURL =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				PortletURL.class, "toString", "itemSelectorPortletURL");
 
 		when(
 			_itemSelector.getItemSelectorURL(

@@ -31,6 +31,7 @@ import com.liferay.adaptive.media.image.url.AMImageURLFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 
@@ -90,11 +91,9 @@ public class AMImageFinderImplTest {
 			PortalException.class
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -129,17 +128,11 @@ public class AMImageFinderImplTest {
 			_fileVersion
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry = _mockImage(800, 900, 1000L);
 
@@ -151,11 +144,9 @@ public class AMImageFinderImplTest {
 			amImageEntry
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -184,17 +175,11 @@ public class AMImageFinderImplTest {
 			Collections.singleton(amImageConfigurationEntry)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry = _mockImage(99, 199, 1000L);
 
@@ -206,11 +191,9 @@ public class AMImageFinderImplTest {
 			amImageEntry
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -269,17 +252,11 @@ public class AMImageFinderImplTest {
 			amImageConfigurationEntries
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -311,11 +288,9 @@ public class AMImageFinderImplTest {
 			amImageEntry3
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -388,17 +363,11 @@ public class AMImageFinderImplTest {
 			amImageConfigurationEntries
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -430,11 +399,9 @@ public class AMImageFinderImplTest {
 			amImageEntry3
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -498,11 +465,9 @@ public class AMImageFinderImplTest {
 			AMRuntimeException.InvalidConfiguration.class
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		_amImageFinderImpl.getAdaptiveMediaStream(
 			amImageQueryBuilder -> amImageQueryBuilder.forFileVersion(
@@ -528,17 +493,11 @@ public class AMImageFinderImplTest {
 			Collections.singleton(amImageConfigurationEntry)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry = _mockImage(800, 900, 1000L);
 
@@ -550,11 +509,9 @@ public class AMImageFinderImplTest {
 			amImageEntry
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		InputStream inputStream = Mockito.mock(InputStream.class);
 
@@ -601,17 +558,11 @@ public class AMImageFinderImplTest {
 			Collections.singleton(amImageConfigurationEntry)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry = _mockImage(99, 1000, 1000L);
 
@@ -623,11 +574,9 @@ public class AMImageFinderImplTest {
 			amImageEntry
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -679,17 +628,11 @@ public class AMImageFinderImplTest {
 				amImageConfigurationEntry1, amImageConfigurationEntry2)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -711,11 +654,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -771,17 +712,11 @@ public class AMImageFinderImplTest {
 				amImageConfigurationEntry1, amImageConfigurationEntry2)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -803,11 +738,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -863,17 +796,11 @@ public class AMImageFinderImplTest {
 				amImageConfigurationEntry1, amImageConfigurationEntry2)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -895,11 +822,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -955,17 +880,11 @@ public class AMImageFinderImplTest {
 				amImageConfigurationEntry1, amImageConfigurationEntry2)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -987,11 +906,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -1058,17 +975,11 @@ public class AMImageFinderImplTest {
 			Arrays.asList(amImageConfigurationEntry1)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 199, 1000L);
 
@@ -1090,11 +1001,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -1205,17 +1114,11 @@ public class AMImageFinderImplTest {
 				amImageConfigurationEntry1, amImageConfigurationEntry2)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(100, 1000, 1000L);
 
@@ -1237,11 +1140,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -1337,17 +1238,11 @@ public class AMImageFinderImplTest {
 				amImageConfigurationEntry1, amImageConfigurationEntry2)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry1 = _mockImage(99, 1000, 1000L);
 
@@ -1369,11 +1264,9 @@ public class AMImageFinderImplTest {
 			amImageEntry2
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -1407,11 +1300,9 @@ public class AMImageFinderImplTest {
 
 	@Test
 	public void testGetMediaWhenNotSupported() throws Exception {
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			false
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", false,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -1450,17 +1341,11 @@ public class AMImageFinderImplTest {
 			Collections.singleton(amImageConfigurationEntry)
 		);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", RandomTestUtil.randomString());
 
-		Mockito.when(
-			_fileVersion.getMimeType()
-		).thenReturn(
-			"image/jpeg"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getMimeType", "image/jpeg");
 
 		AMImageEntry amImageEntry = _mockImage(99, 99, 1000L);
 
@@ -1472,11 +1357,9 @@ public class AMImageFinderImplTest {
 			amImageEntry
 		);
 
-		Mockito.when(
-			_amImageMimeTypeProvider.isMimeTypeSupported(Mockito.anyString())
-		).thenReturn(
-			true
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageMimeTypeProvider, "isMimeTypeSupported", true,
+			String.class);
 
 		Stream<AdaptiveMedia<AMImageProcessor>> adaptiveMediaStream =
 			_amImageFinderImpl.getAdaptiveMediaStream(
@@ -1499,26 +1382,19 @@ public class AMImageFinderImplTest {
 		);
 	}
 
-	private AMImageEntry _mockImage(int height, int width, long size) {
-		AMImageEntry amImageEntry = Mockito.mock(AMImageEntry.class);
+	private AMImageEntry _mockImage(int height, int width, long size)
+		throws Exception {
 
-		Mockito.when(
-			amImageEntry.getHeight()
-		).thenReturn(
-			height
-		);
+		AMImageEntry amImageEntry = MockHelperUtil.initMock(AMImageEntry.class);
 
-		Mockito.when(
-			amImageEntry.getWidth()
-		).thenReturn(
-			width
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			amImageEntry, "getHeight", height);
 
-		Mockito.when(
-			amImageEntry.getSize()
-		).thenReturn(
-			size
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			amImageEntry, "getWidth", width);
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			amImageEntry, "getSize", size);
 
 		return amImageEntry;
 	}
@@ -1530,10 +1406,11 @@ public class AMImageFinderImplTest {
 	private final AMImageFinderImpl _amImageFinderImpl =
 		new AMImageFinderImpl();
 	private final AMImageMimeTypeProvider _amImageMimeTypeProvider =
-		Mockito.mock(AMImageMimeTypeProvider.class);
-	private final AMImageURLFactory _amImageURLFactory = Mockito.mock(
-		AMImageURLFactory.class);
+		MockHelperUtil.initMock(AMImageMimeTypeProvider.class);
+	private final AMImageURLFactory _amImageURLFactory =
+		MockHelperUtil.initMock(AMImageURLFactory.class);
 	private final FileEntry _fileEntry = Mockito.mock(FileEntry.class);
-	private final FileVersion _fileVersion = Mockito.mock(FileVersion.class);
+	private final FileVersion _fileVersion = MockHelperUtil.initMock(
+		FileVersion.class);
 
 }

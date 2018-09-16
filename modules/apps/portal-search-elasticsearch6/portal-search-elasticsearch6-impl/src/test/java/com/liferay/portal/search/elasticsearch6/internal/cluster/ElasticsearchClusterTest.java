@@ -16,6 +16,7 @@ package com.liferay.portal.search.elasticsearch6.internal.cluster;
 
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.search.elasticsearch6.internal.index.IndexNameBuilder;
 
 import java.util.ArrayList;
@@ -27,10 +28,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 /**
  * @author Artur Aquino
  */
@@ -39,13 +36,11 @@ public class ElasticsearchClusterTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-
 		_replicasClusterContext = createReplicasClusterContext();
 	}
 
 	@Test
-	public void testReplicaIndexNamesIncludeSystemCompanyId() {
+	public void testReplicaIndexNamesIncludeSystemCompanyId() throws Exception {
 		long[] companyIds = {42, 142857};
 
 		setUpCompanyLocalService(getCompanies(companyIds));
@@ -76,7 +71,7 @@ public class ElasticsearchClusterTest {
 		return elasticsearchCluster.new ReplicasClusterContextImpl();
 	}
 
-	protected List<Company> getCompanies(long[] companyIds) {
+	protected List<Company> getCompanies(long[] companyIds) throws Exception {
 		List<Company> companies = new ArrayList<>(companyIds.length);
 
 		for (long companyId : companyIds) {
@@ -86,14 +81,9 @@ public class ElasticsearchClusterTest {
 		return companies;
 	}
 
-	protected Company getCompany(long companyId) {
-		Company company = Mockito.mock(Company.class);
-
-		Mockito.when(
-			company.getCompanyId()
-		).thenReturn(
-			companyId
-		);
+	protected Company getCompany(long companyId) throws Exception {
+		Company company = MockHelperUtil.setMethodAlwaysReturnExpected(
+			Company.class, "getCompanyId", companyId);
 
 		return company;
 	}
@@ -102,17 +92,15 @@ public class ElasticsearchClusterTest {
 		return "cid-" + companyId;
 	}
 
-	protected void setUpCompanyLocalService(List<Company> companies) {
-		Mockito.when(
-			_companyLocalService.getCompanies()
-		).thenReturn(
-			companies
-		);
+	protected void setUpCompanyLocalService(List<Company> companies)
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_companyLocalService, "getCompanies", companies);
 	}
 
-	@Mock
-	private CompanyLocalService _companyLocalService;
-
+	private final CompanyLocalService _companyLocalService =
+		MockHelperUtil.initMock(CompanyLocalService.class);
 	private ReplicasClusterContext _replicasClusterContext;
 
 }

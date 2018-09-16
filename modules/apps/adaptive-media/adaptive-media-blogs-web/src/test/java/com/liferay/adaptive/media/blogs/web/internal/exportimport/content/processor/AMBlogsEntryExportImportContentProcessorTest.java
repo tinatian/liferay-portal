@@ -18,6 +18,7 @@ import com.liferay.blogs.model.BlogsEntry;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import org.junit.Assert;
@@ -155,14 +156,15 @@ public class AMBlogsEntryExportImportContentProcessorTest {
 	private final AMBlogsEntryExportImportContentProcessor
 		_amBlogsEntryExportImportContentProcessor =
 			new AMBlogsEntryExportImportContentProcessor();
-	private final BlogsEntry _blogsEntry = Mockito.mock(BlogsEntry.class);
+	private final BlogsEntry _blogsEntry = MockHelperUtil.initMock(
+		BlogsEntry.class);
 	private final ExportImportContentProcessor<String>
 		_blogsEntryExportImportContentProcessor = Mockito.mock(
 			ExportImportContentProcessor.class);
 	private final ExportImportContentProcessor<String>
 		_htmlExportImportContentProcessor = Mockito.mock(
 			ExportImportContentProcessor.class);
-	private final PortletDataContext _portletDataContext = Mockito.mock(
-		PortletDataContext.class);
+	private final PortletDataContext _portletDataContext =
+		MockHelperUtil.initMock(PortletDataContext.class);
 
 }

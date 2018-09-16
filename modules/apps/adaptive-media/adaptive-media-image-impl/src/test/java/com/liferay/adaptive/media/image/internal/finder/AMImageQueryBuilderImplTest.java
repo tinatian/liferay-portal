@@ -22,6 +22,7 @@ import com.liferay.adaptive.media.image.processor.AMImageAttribute;
 import com.liferay.adaptive.media.image.processor.AMImageProcessor;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.util.Collections;
@@ -32,8 +33,6 @@ import java.util.function.Predicate;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author Adolfo Pérez
  */
@@ -41,7 +40,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test
 	public void testFileEntryQueryReturnsLatestFileVersion() throws Exception {
-		FileEntry fileEntry = Mockito.mock(FileEntry.class);
+		FileEntry fileEntry = MockHelperUtil.initMock(FileEntry.class);
 
 		_amImageQueryBuilderImpl.forFileEntry(fileEntry);
 
@@ -54,7 +53,7 @@ public class AMImageQueryBuilderImplTest {
 	public void testFileEntryWithAttributesQueryReturnsLatestFileVersion()
 		throws Exception {
 
-		FileEntry fileEntry = Mockito.mock(FileEntry.class);
+		FileEntry fileEntry = MockHelperUtil.initMock(FileEntry.class);
 
 		_amImageQueryBuilderImpl.forFileEntry(
 			fileEntry
@@ -67,7 +66,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test
 	public void testMatchingConfigurationAttributeQuery() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion
@@ -88,7 +87,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test
 	public void testNonmatchingConfigurationAttributeQuery() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion
@@ -109,7 +108,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test
 	public void testNonnullOptionalAttributeQuery() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion
@@ -126,7 +125,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullAttributeFailsWhenOrderingByIt() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion
@@ -137,7 +136,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullAttributeValueFailsWhenQueryingAttributes() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion
@@ -153,7 +152,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullConfigurationUUIDFailsWhenQueryingAttributes() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion
@@ -184,7 +183,7 @@ public class AMImageQueryBuilderImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullOptionalAttributeValueFailsWhenQueryingAttributes() {
-		FileVersion fileVersion = Mockito.mock(FileVersion.class);
+		FileVersion fileVersion = MockHelperUtil.initMock(FileVersion.class);
 
 		_amImageQueryBuilderImpl.forFileVersion(
 			fileVersion

@@ -18,6 +18,7 @@ import com.liferay.adaptive.media.AMURIResolver;
 import com.liferay.adaptive.media.web.internal.constants.AMWebConstants;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -27,8 +28,6 @@ import java.net.URI;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author Adolfo Pérez
@@ -45,14 +44,11 @@ public class DefaultAMURIResolverTest {
 	}
 
 	@Test
-	public void testMediaURIWhenPathDoesNotEndInSlash() {
+	public void testMediaURIWhenPathDoesNotEndInSlash() throws Exception {
 		String pathModule = StringPool.SLASH + RandomTestUtil.randomString();
 
-		Mockito.when(
-			_portal.getPathModule()
-		).thenReturn(
-			pathModule
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_portal, "getPathModule", pathModule);
 
 		URI relativeURI = URI.create(RandomTestUtil.randomString());
 
@@ -68,15 +64,12 @@ public class DefaultAMURIResolverTest {
 	}
 
 	@Test
-	public void testMediaURIWhenPathEndsInSlash() {
+	public void testMediaURIWhenPathEndsInSlash() throws Exception {
 		String pathModule =
 			StringPool.SLASH + RandomTestUtil.randomString() + StringPool.SLASH;
 
-		Mockito.when(
-			_portal.getPathModule()
-		).thenReturn(
-			pathModule
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_portal, "getPathModule", pathModule);
 
 		URI relativeURI = URI.create(RandomTestUtil.randomString());
 
@@ -92,6 +85,6 @@ public class DefaultAMURIResolverTest {
 	}
 
 	private final AMURIResolver _amURIResolver = new DefaultAMURIResolver();
-	private final Portal _portal = Mockito.mock(Portal.class);
+	private final Portal _portal = MockHelperUtil.initMock(Portal.class);
 
 }

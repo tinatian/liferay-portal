@@ -20,6 +20,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.web.internal.facet.display.builder.AssetCategoriesSearchFacetDisplayBuilder;
@@ -43,14 +44,11 @@ import org.mockito.MockitoAnnotations;
 public class AssetCategoriesSearchFacetDisplayContextTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		Mockito.doReturn(
-			_facetCollector
-		).when(
-			_facet
-		).getFacetCollector();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetCollector", _facetCollector);
 	}
 
 	@Test
@@ -293,22 +291,16 @@ public class AssetCategoriesSearchFacetDisplayContextTest {
 			assetCategoriesSearchFacetDisplayContext.isRenderNothing());
 	}
 
-	protected AssetCategory createAssetCategory(long assetCategoryId) {
-		AssetCategory assetCategory = Mockito.mock(AssetCategory.class);
+	protected AssetCategory createAssetCategory(long assetCategoryId)
+		throws Exception {
 
-		Mockito.doReturn(
-			assetCategoryId
-		).when(
-			assetCategory
-		).getCategoryId();
+		AssetCategory assetCategory =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				AssetCategory.class, "getCategoryId", assetCategoryId);
 
-		Mockito.doReturn(
-			String.valueOf(assetCategoryId)
-		).when(
-			assetCategory
-		).getTitle(
-			(Locale)Mockito.any()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			assetCategory, "getTitle", String.valueOf(assetCategoryId),
+			Locale.class);
 
 		Mockito.doReturn(
 			assetCategory
@@ -350,26 +342,20 @@ public class AssetCategoriesSearchFacetDisplayContextTest {
 	}
 
 	protected TermCollector createTermCollector(
-		long assetCategoryId, int frequency) {
+			long assetCategoryId, int frequency)
+		throws Exception {
 
-		TermCollector termCollector = Mockito.mock(TermCollector.class);
+		TermCollector termCollector =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				TermCollector.class, "getFrequency", frequency);
 
-		Mockito.doReturn(
-			frequency
-		).when(
-			termCollector
-		).getFrequency();
-
-		Mockito.doReturn(
-			String.valueOf(assetCategoryId)
-		).when(
-			termCollector
-		).getTerm();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			termCollector, "getTerm", String.valueOf(assetCategoryId));
 
 		return termCollector;
 	}
 
-	protected void setUpAssetCategory(long assetCategoryId) {
+	protected void setUpAssetCategory(long assetCategoryId) throws Exception {
 		AssetCategory assetCategory = createAssetCategory(assetCategoryId);
 
 		Mockito.doReturn(
@@ -381,7 +367,9 @@ public class AssetCategoriesSearchFacetDisplayContextTest {
 		);
 	}
 
-	protected void setUpAssetCategoryUnauthorized(long assetCategoryId) {
+	protected void setUpAssetCategoryUnauthorized(long assetCategoryId)
+		throws Exception {
+
 		AssetCategory assetCategory = createAssetCategory(assetCategoryId);
 
 		Mockito.doReturn(
@@ -393,13 +381,13 @@ public class AssetCategoriesSearchFacetDisplayContextTest {
 		);
 	}
 
-	protected void setUpOneTermCollector(long assetCategoryId, int frequency) {
-		Mockito.doReturn(
+	protected void setUpOneTermCollector(long assetCategoryId, int frequency)
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facetCollector, "getTermCollectors",
 			Collections.singletonList(
-				createTermCollector(assetCategoryId, frequency))
-		).when(
-			_facetCollector
-		).getTermCollectors();
+				createTermCollector(assetCategoryId, frequency)));
 	}
 
 	@Mock
@@ -408,10 +396,8 @@ public class AssetCategoriesSearchFacetDisplayContextTest {
 	@Mock
 	private AssetCategoryPermissionChecker _assetCategoryPermissionChecker;
 
-	@Mock
-	private Facet _facet;
-
-	@Mock
-	private FacetCollector _facetCollector;
+	private final Facet _facet = MockHelperUtil.initMock(Facet.class);
+	private final FacetCollector _facetCollector = MockHelperUtil.initMock(
+		FacetCollector.class);
 
 }

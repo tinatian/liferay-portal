@@ -15,6 +15,7 @@
 package com.liferay.configuration.admin.web.internal.util;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.util.Arrays;
@@ -26,10 +27,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.metatype.AttributeDefinition;
 
@@ -39,24 +36,16 @@ import org.osgi.service.metatype.AttributeDefinition;
 public class AttributeDefinitionUtilTest {
 
 	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+	public void setUp() throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_attributeDefinition, "getID", _ID);
 
-		Mockito.doReturn(
-			_ID
-		).when(
-			_attributeDefinition
-		).getID();
-
-		Mockito.doReturn(
-			_properties
-		).when(
-			_configuration
-		).getProperties();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_configuration, "getProperties", _properties);
 	}
 
 	@Test
-	public void testDefaultValueArray() {
+	public void testDefaultValueArray() throws Exception {
 		mockCardinality(Integer.MAX_VALUE);
 
 		mockDefaultValue("A", "B", "C");
@@ -65,25 +54,22 @@ public class AttributeDefinitionUtilTest {
 	}
 
 	@Test
-	public void testDefaultValueBlankString() {
+	public void testDefaultValueBlankString() throws Exception {
 		mockDefaultValue(StringPool.BLANK);
 
 		assertDefaultValue(StringPool.BLANK);
 	}
 
 	@Test
-	public void testDefaultValueEmpty() {
-		Mockito.doReturn(
-			new String[0]
-		).when(
-			_attributeDefinition
-		).getDefaultValue();
+	public void testDefaultValueEmpty() throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_attributeDefinition, "getDefaultValue", new String[0]);
 
 		assertDefaultValue(StringPool.BLANK);
 	}
 
 	@Test
-	public void testDefaultValueWithPipesArray() {
+	public void testDefaultValueWithPipesArray() throws Exception {
 		mockCardinality(42);
 
 		mockDefaultValue("A|B|C");
@@ -92,14 +78,14 @@ public class AttributeDefinitionUtilTest {
 	}
 
 	@Test
-	public void testDefaultValueWithPipesString() {
+	public void testDefaultValueWithPipesString() throws Exception {
 		mockDefaultValue("A|B|C");
 
 		assertDefaultValue("A|B|C");
 	}
 
 	@Test
-	public void testPropertyArray() {
+	public void testPropertyArray() throws Exception {
 		mockCardinality(2);
 
 		mockProperty(new Object[] {false, true});
@@ -120,7 +106,7 @@ public class AttributeDefinitionUtilTest {
 	}
 
 	@Test
-	public void testPropertyVector() {
+	public void testPropertyVector() throws Exception {
 		mockCardinality(-3);
 
 		mockProperty(new Vector<Integer>(Arrays.asList(1, 2, 3)));
@@ -141,20 +127,14 @@ public class AttributeDefinitionUtilTest {
 				_attributeDefinition, _configuration));
 	}
 
-	protected void mockCardinality(int value) {
-		Mockito.doReturn(
-			value
-		).when(
-			_attributeDefinition
-		).getCardinality();
+	protected void mockCardinality(int value) throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_attributeDefinition, "getCardinality", value);
 	}
 
-	protected void mockDefaultValue(String... value) {
-		Mockito.doReturn(
-			value
-		).when(
-			_attributeDefinition
-		).getDefaultValue();
+	protected void mockDefaultValue(String... value) throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_attributeDefinition, "getDefaultValue", value);
 	}
 
 	protected void mockProperty(Object value) {
@@ -163,12 +143,10 @@ public class AttributeDefinitionUtilTest {
 
 	private static final String _ID = RandomTestUtil.randomString();
 
-	@Mock
-	private AttributeDefinition _attributeDefinition;
-
-	@Mock
-	private Configuration _configuration;
-
+	private final AttributeDefinition _attributeDefinition =
+		MockHelperUtil.initMock(AttributeDefinition.class);
+	private final Configuration _configuration = MockHelperUtil.initMock(
+		Configuration.class);
 	private final Dictionary<String, Object> _properties = new Hashtable<>();
 
 }

@@ -19,6 +19,7 @@ import com.liferay.adaptive.media.image.html.AMImageHTMLTagFactory;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import org.junit.Assert;
@@ -34,12 +35,9 @@ public class AMBackwardsCompatibilityHtmlContentTransformerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Mockito.when(
-			_amImageHTMLTagFactory.create(
-				Mockito.anyString(), Mockito.any(FileEntry.class))
-		).thenReturn(
-			"[REPLACED]"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_amImageHTMLTagFactory, "create", "[REPLACED]", String.class,
+			FileEntry.class);
 
 		_contentTransformer.setAMImageHTMLTagFactory(_amImageHTMLTagFactory);
 
@@ -138,13 +136,14 @@ public class AMBackwardsCompatibilityHtmlContentTransformerTest {
 		_CONTENT_PREFIX + "<img src='/documents/20138/0/sample.jpg?t=" +
 			"1506075653544' />" + _CONTENT_SUFFIX;
 
-	private final AMImageHTMLTagFactory _amImageHTMLTagFactory = Mockito.mock(
-		AMImageHTMLTagFactory.class);
+	private final AMImageHTMLTagFactory _amImageHTMLTagFactory =
+		MockHelperUtil.initMock(AMImageHTMLTagFactory.class);
 	private final AMBackwardsCompatibilityHtmlContentTransformer
 		_contentTransformer =
 			new AMBackwardsCompatibilityHtmlContentTransformer();
 	private final DLAppLocalService _dlAppLocalService = Mockito.mock(
 		DLAppLocalService.class);
-	private final FileEntry _fileEntry = Mockito.mock(FileEntry.class);
+	private final FileEntry _fileEntry = MockHelperUtil.initMock(
+		FileEntry.class);
 
 }

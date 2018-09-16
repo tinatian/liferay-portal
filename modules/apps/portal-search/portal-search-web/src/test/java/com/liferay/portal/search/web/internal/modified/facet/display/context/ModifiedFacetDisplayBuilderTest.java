@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.CalendarFactory;
 import com.liferay.portal.kernel.util.DateFormatFactory;
@@ -68,21 +69,15 @@ public class ModifiedFacetDisplayBuilderTest {
 		setUpHtmlUtil();
 		setUpPortalUtil();
 
-		Mockito.doReturn(
-			_facetCollector
-		).when(
-			_facet
-		).getFacetCollector();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetCollector", _facetCollector);
 
-		Mockito.doReturn(
-			getFacetConfiguration()
-		).when(
-			_facet
-		).getFacetConfiguration();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetConfiguration", getFacetConfiguration());
 	}
 
 	@Test
-	public void testCustomRangeHasFrequency() {
+	public void testCustomRangeHasFrequency() throws Exception {
 		String from = "2018-01-01";
 		String to = "2018-01-31";
 
@@ -111,7 +106,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testCustomRangeHasTermCollectorFrequency() {
+	public void testCustomRangeHasTermCollectorFrequency() throws Exception {
 		int frequency = RandomTestUtil.randomInt();
 		TermCollector termCollector = mockTermCollector();
 
@@ -135,7 +130,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsNothingSelected() {
+	public void testIsNothingSelected() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -146,7 +141,9 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsNothingSelectedWithFromAndToAttributes() {
+	public void testIsNothingSelectedWithFromAndToAttributes()
+		throws Exception {
+
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -160,7 +157,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsNothingSelectedWithSelectedRange() {
+	public void testIsNothingSelectedWithSelectedRange() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -173,7 +170,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsRenderNothingFalseWithFromAndTo() {
+	public void testIsRenderNothingFalseWithFromAndTo() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -188,7 +185,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsRenderNothingFalseWithHits() {
+	public void testIsRenderNothingFalseWithHits() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -201,7 +198,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsRenderNothingFalseWithSelectedRange() {
+	public void testIsRenderNothingFalseWithSelectedRange() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -215,7 +212,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testIsRenderNothingTrueWithNoHits() {
+	public void testIsRenderNothingTrueWithNoHits() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -228,7 +225,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testMissingFromAndToParameters() {
+	public void testMissingFromAndToParameters() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -243,7 +240,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	}
 
 	@Test
-	public void testModifiedFacetTermDisplayContexts() {
+	public void testModifiedFacetTermDisplayContexts() throws Exception {
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			createDisplayBuilder();
 
@@ -329,7 +326,9 @@ public class ModifiedFacetDisplayBuilderTest {
 		return dataJSONObject;
 	}
 
-	protected ModifiedFacetDisplayBuilder createDisplayBuilder() {
+	protected ModifiedFacetDisplayBuilder createDisplayBuilder()
+		throws Exception {
+
 		ModifiedFacetDisplayBuilder modifiedFacetDisplayBuilder =
 			new ModifiedFacetDisplayBuilder(
 				_calendarFactory, _dateFormatFactory, _http);
@@ -372,12 +371,12 @@ public class ModifiedFacetDisplayBuilderTest {
 		return facetConfiguration;
 	}
 
-	protected void mockFacetConfiguration(String... labelsAndRanges) {
-		Mockito.doReturn(
-			getFacetConfiguration(createDataJSONObject(labelsAndRanges))
-		).when(
-			_facet
-		).getFacetConfiguration();
+	protected void mockFacetConfiguration(String... labelsAndRanges)
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetConfiguration",
+			getFacetConfiguration(createDataJSONObject(labelsAndRanges)));
 	}
 
 	protected TermCollector mockTermCollector() {
@@ -446,9 +445,7 @@ public class ModifiedFacetDisplayBuilderTest {
 	private CalendarFactory _calendarFactory;
 	private DateFormatFactory _dateFormatFactory;
 	private DateRangeFactory _dateRangeFactory;
-
-	@Mock
-	private Facet _facet;
+	private final Facet _facet = MockHelperUtil.initMock(Facet.class);
 
 	@Mock
 	private FacetCollector _facetCollector;

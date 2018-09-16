@@ -18,6 +18,7 @@ import com.liferay.adaptive.media.AMURIResolver;
 import com.liferay.adaptive.media.image.configuration.AMImageConfigurationEntry;
 import com.liferay.adaptive.media.image.internal.configuration.AMImageConfigurationEntryImpl;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.net.URI;
 
@@ -40,23 +41,14 @@ public class AMImageURLFactoryImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Mockito.when(
-			_fileVersion.getFileEntryId()
-		).thenReturn(
-			1L
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileEntryId", 1L);
 
-		Mockito.when(
-			_fileVersion.getFileName()
-		).thenReturn(
-			"fileName"
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileName", "fileName");
 
-		Mockito.when(
-			_fileVersion.getFileVersionId()
-		).thenReturn(
-			2L
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileVersion, "getFileVersionId", 2L);
 
 		Mockito.when(
 			_amURIResolver.resolveURI(Mockito.any(URI.class))
@@ -94,7 +86,7 @@ public class AMImageURLFactoryImplTest {
 	@Mock
 	private AMURIResolver _amURIResolver;
 
-	@Mock
-	private FileVersion _fileVersion;
+	private final FileVersion _fileVersion = MockHelperUtil.initMock(
+		FileVersion.class);
 
 }
