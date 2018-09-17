@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.search.query.FieldQueryFactory;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.search.analysis.FieldQueryBuilderFactory;
@@ -157,28 +158,25 @@ public abstract class BaseExpandoTestCase extends BaseIndexingTestCase {
 	}
 
 	protected ExpandoBridge createExpandoBridge(
-		String attributeName, int indexType) {
+			String attributeName, int indexType)
+		throws Exception {
 
-		ExpandoBridge expandoBridge = Mockito.mock(ExpandoBridge.class);
+		ExpandoBridge expandoBridge =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				ExpandoBridge.class, "getAttributeNames",
+				Collections.enumeration(
+					Collections.singletonList(attributeName)));
 
-		Mockito.doReturn(
-			Collections.enumeration(Collections.singletonList(attributeName))
-		).when(
-			expandoBridge
-		).getAttributeNames();
-
-		Mockito.doReturn(
-			createUnicodeProperties(indexType)
-		).when(
-			expandoBridge
-		).getAttributeProperties(
-			Mockito.anyString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			expandoBridge, "getAttributeProperties",
+			createUnicodeProperties(indexType), String.class);
 
 		return expandoBridge;
 	}
 
-	protected ExpandoBridgeFactory createExpandoBridgeFactory() {
+	protected ExpandoBridgeFactory createExpandoBridgeFactory()
+		throws Exception {
+
 		ExpandoBridgeFactory expandoBridgeFactory = Mockito.mock(
 			ExpandoBridgeFactory.class);
 
@@ -228,25 +226,23 @@ public abstract class BaseExpandoTestCase extends BaseIndexingTestCase {
 		return expandoBridgeIndexer;
 	}
 
-	protected ExpandoColumn createExpandoColumn(int indexType) {
-		ExpandoColumn expandoColumn = Mockito.mock(ExpandoColumn.class);
+	protected ExpandoColumn createExpandoColumn(int indexType)
+		throws Exception {
 
-		Mockito.doReturn(
-			createUnicodeProperties(indexType)
-		).when(
-			expandoColumn
-		).getTypeSettingsProperties();
+		ExpandoColumn expandoColumn =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				ExpandoColumn.class, "getTypeSettingsProperties",
+				createUnicodeProperties(indexType));
 
-		Mockito.doReturn(
-			ExpandoColumnConstants.STRING
-		).when(
-			expandoColumn
-		).getType();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			expandoColumn, "getType", ExpandoColumnConstants.STRING);
 
 		return expandoColumn;
 	}
 
-	protected ExpandoColumnLocalService createExpandoColumnLocalService() {
+	protected ExpandoColumnLocalService createExpandoColumnLocalService()
+		throws Exception {
+
 		ExpandoColumnLocalService expandoColumnLocalService = Mockito.mock(
 			ExpandoColumnLocalService.class);
 
@@ -271,7 +267,7 @@ public abstract class BaseExpandoTestCase extends BaseIndexingTestCase {
 	}
 
 	protected ExpandoQueryContributorHelper
-		createExpandoQueryContributorHelper() {
+		createExpandoQueryContributorHelper() throws Exception {
 
 		return new ExpandoQueryContributorHelper(
 			createExpandoBridgeFactory(), createExpandoBridgeIndexer(),

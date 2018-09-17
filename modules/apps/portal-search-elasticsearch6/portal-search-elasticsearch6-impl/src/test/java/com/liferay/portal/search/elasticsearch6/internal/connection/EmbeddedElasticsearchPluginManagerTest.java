@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.elasticsearch6.internal.connection;
 
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.io.IOException;
@@ -200,19 +201,12 @@ public class EmbeddedElasticsearchPluginManagerTest {
 			_pluginManager
 		).getInstalledPluginsPaths();
 
-		Mockito.doReturn(
-			_pluginManager
-		).when(
-			_pluginManagerFactory
-		).createPluginManager();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_pluginManagerFactory, "createPluginManager", _pluginManager);
 
-		Mockito.doReturn(
-			_pluginManager
-		).when(
-			_pluginManagerFactory
-		).createPluginManager(
-			Mockito.<PluginZip>any()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_pluginManagerFactory, "createPluginManager", _pluginManager,
+			PluginZip.class);
 	}
 
 	protected void setUpPluginZipFactory() throws Exception {
@@ -232,8 +226,8 @@ public class EmbeddedElasticsearchPluginManagerTest {
 	@Mock
 	private PluginManager _pluginManager;
 
-	@Mock
-	private PluginManagerFactory _pluginManagerFactory;
+	private final PluginManagerFactory _pluginManagerFactory =
+		MockHelperUtil.initMock(PluginManagerFactory.class);
 
 	@Mock
 	private PluginZip _pluginZip;

@@ -284,7 +284,6 @@ public class AddFormInstanceRecordMVCCommandHelperTest extends PowerMockito {
 	@Mock
 	private Portal _portal;
 
-	@Mock
 	private HttpServletRequest _request;
 
 }

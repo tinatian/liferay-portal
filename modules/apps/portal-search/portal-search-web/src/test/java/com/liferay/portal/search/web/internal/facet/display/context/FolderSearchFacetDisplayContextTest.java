@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.DefaultTermCollector;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.web.internal.facet.display.builder.FolderSearchFacetDisplayBuilder;
 
@@ -40,14 +41,11 @@ import org.mockito.MockitoAnnotations;
 public class FolderSearchFacetDisplayContextTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		Mockito.doReturn(
-			_facetCollector
-		).when(
-			_facet
-		).getFacetCollector();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetCollector", _facetCollector);
 	}
 
 	@Test
@@ -77,11 +75,8 @@ public class FolderSearchFacetDisplayContextTest {
 	public void testEmptySearchResultsWithEmptyTermCollectors()
 		throws Exception {
 
-		Mockito.when(
-			_facetCollector.getTermCollectors()
-		).thenReturn(
-			Collections.emptyList()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facetCollector, "getTermCollectors", Collections.emptyList());
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null);
@@ -134,11 +129,9 @@ public class FolderSearchFacetDisplayContextTest {
 	public void testEmptySearchResultsWithUnmatchedTermCollector()
 		throws Exception {
 
-		Mockito.when(
-			_facetCollector.getTermCollectors()
-		).thenReturn(
-			Arrays.asList(new DefaultTermCollector("0", 200))
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facetCollector, "getTermCollectors",
+			Arrays.asList(new DefaultTermCollector("0", 200)));
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null);
@@ -268,37 +261,30 @@ public class FolderSearchFacetDisplayContextTest {
 		return folderSearchFacetDisplayContext;
 	}
 
-	protected TermCollector createTermCollector(long folderId, int count) {
-		TermCollector termCollector = Mockito.mock(TermCollector.class);
+	protected TermCollector createTermCollector(long folderId, int count)
+		throws Exception {
 
-		Mockito.doReturn(
-			count
-		).when(
-			termCollector
-		).getFrequency();
+		TermCollector termCollector =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				TermCollector.class, "getFrequency", count);
 
-		Mockito.doReturn(
-			String.valueOf(folderId)
-		).when(
-			termCollector
-		).getTerm();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			termCollector, "getTerm", String.valueOf(folderId));
 
 		return termCollector;
 	}
 
-	protected void setUpOneTermCollector(long folderId, int count) {
-		Mockito.doReturn(
-			Collections.singletonList(createTermCollector(folderId, count))
-		).when(
-			_facetCollector
-		).getTermCollectors();
+	protected void setUpOneTermCollector(long folderId, int count)
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facetCollector, "getTermCollectors",
+			Collections.singletonList(createTermCollector(folderId, count)));
 	}
 
-	@Mock
-	private Facet _facet;
-
-	@Mock
-	private FacetCollector _facetCollector;
+	private final Facet _facet = MockHelperUtil.initMock(Facet.class);
+	private final FacetCollector _facetCollector = MockHelperUtil.initMock(
+		FacetCollector.class);
 
 	@Mock
 	private FolderTitleLookup _folderTitleLookup;

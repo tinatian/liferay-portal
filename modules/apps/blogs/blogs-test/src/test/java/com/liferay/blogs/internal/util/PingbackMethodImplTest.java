@@ -762,7 +762,6 @@ public class PingbackMethodImplTest extends PowerMockito {
 	@Mock
 	private PortletLocalService _portletLocalService;
 
-	@Mock
 	private ServiceTrackerMap<String, PortletProvider> _serviceTrackerMap;
 
 	@Mock

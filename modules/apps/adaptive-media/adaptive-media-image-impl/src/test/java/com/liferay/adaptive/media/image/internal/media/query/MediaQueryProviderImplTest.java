@@ -33,6 +33,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.net.URI;
 
@@ -61,24 +62,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class MediaQueryProviderImplTest {
 
 	@Before
-	public void setUp() throws PortalException {
+	public void setUp() throws Exception {
 		Mockito.when(
 			_amImageFinder.getAdaptiveMediaStream(Mockito.any(Function.class))
 		).thenAnswer(
 			invocation -> Stream.empty()
 		);
 
-		Mockito.when(
-			_fileEntry.getCompanyId()
-		).thenReturn(
-			_COMPANY_ID
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileEntry, "getCompanyId", _COMPANY_ID);
 
-		Mockito.when(
-			_fileEntry.getFileVersion()
-		).thenReturn(
-			_fileVersion
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_fileEntry, "getFileVersion", _fileVersion);
 
 		_mediaQueryProvider.setAMImageConfigurationHelper(
 			_amImageConfigurationHelper);
@@ -806,12 +801,9 @@ public class MediaQueryProviderImplTest {
 	@Mock
 	private AMImageURLFactory _amImageURLFactory;
 
-	@Mock
-	private FileEntry _fileEntry;
-
-	@Mock
+	private final FileEntry _fileEntry = MockHelperUtil.initMock(
+		FileEntry.class);
 	private FileVersion _fileVersion;
-
 	private final MediaQueryProviderImpl _mediaQueryProvider =
 		new MediaQueryProviderImpl();
 

@@ -1264,7 +1264,6 @@ public class DDMFormEvaluatorHelperTest {
 	@Mock
 	private User _user;
 
-	@Mock
 	private UserGroupRoleLocalService _userGroupRoleLocalService;
 
 	@Mock

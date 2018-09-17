@@ -227,9 +227,7 @@ public class HtmlContentTransformerImplTest {
 	@Mock
 	private DLAppLocalService _dlAppLocalService;
 
-	@Mock
 	private FileEntry _fileEntry;
-
 	private final HtmlContentTransformerImpl _htmlContentTransformer =
 		new HtmlContentTransformerImpl();
 

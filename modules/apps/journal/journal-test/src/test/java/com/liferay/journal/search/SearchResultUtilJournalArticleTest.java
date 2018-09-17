@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.search.SummaryFactory;
 import com.liferay.portal.kernel.search.result.SearchResultTranslator;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.internal.result.SearchResultManagerImpl;
 import com.liferay.portal.search.internal.result.SearchResultTranslatorImpl;
@@ -73,11 +74,8 @@ public class SearchResultUtilJournalArticleTest
 			(PortletRequest)Matchers.any(), (PortletResponse)Matchers.any()
 		);
 
-		Mockito.when(
-			_indexerRegistry.getIndexer(Mockito.anyString())
-		).thenReturn(
-			_indexer
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_indexerRegistry, "getIndexer", _indexer, String.class);
 
 		Document document = createDocument();
 
@@ -172,7 +170,7 @@ public class SearchResultUtilJournalArticleTest
 	@Mock
 	private Indexer<Object> _indexer;
 
-	@Mock
-	private IndexerRegistry _indexerRegistry;
+	private final IndexerRegistry _indexerRegistry = MockHelperUtil.initMock(
+		IndexerRegistry.class);
 
 }

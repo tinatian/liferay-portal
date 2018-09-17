@@ -30,6 +30,7 @@ import com.liferay.oauth2.provider.scope.spi.scope.mapper.ScopeMapper;
 import com.liferay.oauth2.provider.scope.spi.scope.matcher.ScopeMatcherFactory;
 import com.liferay.osgi.service.tracker.collections.ServiceReferenceServiceTuple;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.lang.reflect.Field;
 
@@ -448,8 +449,8 @@ public class ScopeLocatorImplTest extends PowerMockito {
 
 			configurator.configure(
 				(companyId, applicationName, service) -> {
-					ServiceReference<?> serviceReference = Mockito.mock(
-						ServiceReference.class);
+					ServiceReference<?> serviceReference =
+						MockHelperUtil.initMock(ServiceReference.class);
 
 					when(
 						scopeFinderByNameServiceTrackerMap.getService(

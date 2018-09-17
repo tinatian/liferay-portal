@@ -17,6 +17,7 @@ package com.liferay.portal.search.elasticsearch6.internal.cluster;
 import com.liferay.portal.kernel.cluster.ClusterEvent;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.util.List;
@@ -39,29 +40,20 @@ import org.mockito.MockitoAnnotations;
 public class ReplicasClusterListenerTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
 		setEmbeddedCluster(true);
 		setMasterExecutor(true);
 
-		Mockito.when(
-			_replicasClusterContext.getClusterSize()
-		).thenReturn(
-			_REPLICAS + 1
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_replicasClusterContext, "getClusterSize", _REPLICAS + 1);
 
-		Mockito.when(
-			_replicasClusterContext.getReplicasManager()
-		).thenReturn(
-			_replicasManager
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_replicasClusterContext, "getReplicasManager", _replicasManager);
 
-		Mockito.when(
-			_replicasClusterContext.getTargetIndexNames()
-		).thenReturn(
-			_INDICES
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_replicasClusterContext, "getTargetIndexNames", _INDICES);
 
 		_replicasClusterListener = new ReplicasClusterListener(
 			_replicasClusterContext);
@@ -74,12 +66,9 @@ public class ReplicasClusterListenerTest {
 	}
 
 	@Test
-	public void testLiferayClusterReportsEmpty() {
-		Mockito.when(
-			_replicasClusterContext.getClusterSize()
-		).thenReturn(
-			0
-		);
+	public void testLiferayClusterReportsEmpty() throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_replicasClusterContext, "getClusterSize", 0);
 
 		processClusterEvent();
 
@@ -105,7 +94,7 @@ public class ReplicasClusterListenerTest {
 	}
 
 	@Test
-	public void testNonmasterLiferayNodeDoesNothing() {
+	public void testNonmasterLiferayNodeDoesNothing() throws Exception {
 		setMasterExecutor(false);
 
 		processClusterEvent();
@@ -114,7 +103,7 @@ public class ReplicasClusterListenerTest {
 	}
 
 	@Test
-	public void testRemoteElasticsearchClusterIsLeftAlone() {
+	public void testRemoteElasticsearchClusterIsLeftAlone() throws Exception {
 		setEmbeddedCluster(false);
 
 		processClusterEvent();
@@ -180,20 +169,14 @@ public class ReplicasClusterListenerTest {
 		_replicasClusterListener.processClusterEvent(ClusterEvent.join());
 	}
 
-	protected void setEmbeddedCluster(boolean value) {
-		Mockito.when(
-			_replicasClusterContext.isEmbeddedOperationMode()
-		).thenReturn(
-			value
-		);
+	protected void setEmbeddedCluster(boolean value) throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_replicasClusterContext, "isEmbeddedOperationMode", value);
 	}
 
-	protected void setMasterExecutor(boolean value) {
-		Mockito.when(
-			_replicasClusterContext.isMaster()
-		).thenReturn(
-			value
-		);
+	protected void setMasterExecutor(boolean value) throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_replicasClusterContext, "isMaster", value);
 	}
 
 	private static final String[] _INDICES =
@@ -201,9 +184,8 @@ public class ReplicasClusterListenerTest {
 
 	private static final int _REPLICAS = RandomTestUtil.randomInt() - 1;
 
-	@Mock
-	private ReplicasClusterContext _replicasClusterContext;
-
+	private final ReplicasClusterContext _replicasClusterContext =
+		MockHelperUtil.initMock(ReplicasClusterContext.class);
 	private ReplicasClusterListener _replicasClusterListener;
 
 	@Mock

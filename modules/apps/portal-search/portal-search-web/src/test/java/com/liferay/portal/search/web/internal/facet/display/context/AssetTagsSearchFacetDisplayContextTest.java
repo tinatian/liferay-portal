@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.web.internal.facet.display.builder.AssetTagsSearchFacetDisplayBuilder;
 
@@ -28,24 +29,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 /**
  * @author André de Oliveira
  */
 public class AssetTagsSearchFacetDisplayContextTest {
 
 	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-
-		Mockito.doReturn(
-			_facetCollector
-		).when(
-			_facet
-		).getFacetCollector();
+	public void setUp() throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetCollector", _facetCollector);
 	}
 
 	@Test
@@ -214,37 +206,30 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		return assetTagsSearchFacetDisplayContext;
 	}
 
-	protected TermCollector createTermCollector(String term, int frequency) {
-		TermCollector termCollector = Mockito.mock(TermCollector.class);
+	protected TermCollector createTermCollector(String term, int frequency)
+		throws Exception {
 
-		Mockito.doReturn(
-			frequency
-		).when(
-			termCollector
-		).getFrequency();
+		TermCollector termCollector =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				TermCollector.class, "getFrequency", frequency);
 
-		Mockito.doReturn(
-			term
-		).when(
-			termCollector
-		).getTerm();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			termCollector, "getTerm", term);
 
 		return termCollector;
 	}
 
-	protected void setUpOneTermCollector(String facetParam, int frequency) {
-		Mockito.doReturn(
+	protected void setUpOneTermCollector(String facetParam, int frequency)
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facetCollector, "getTermCollectors",
 			Collections.singletonList(
-				createTermCollector(facetParam, frequency))
-		).when(
-			_facetCollector
-		).getTermCollectors();
+				createTermCollector(facetParam, frequency)));
 	}
 
-	@Mock
-	private Facet _facet;
-
-	@Mock
-	private FacetCollector _facetCollector;
+	private final Facet _facet = MockHelperUtil.initMock(Facet.class);
+	private final FacetCollector _facetCollector = MockHelperUtil.initMock(
+		FacetCollector.class);
 
 }

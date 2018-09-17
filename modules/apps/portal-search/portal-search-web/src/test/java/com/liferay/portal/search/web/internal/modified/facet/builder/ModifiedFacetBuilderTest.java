@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
 import com.liferay.portal.kernel.search.facet.util.RangeParserUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.util.CalendarFactory;
 import com.liferay.portal.kernel.util.DateFormatFactory;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -40,15 +41,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author Adam Brandizzi
  */
 public class ModifiedFacetBuilderTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		calendarFactory = createCalendarFactory();
 		dateFormatFactory = new DateFormatFactoryImpl();
 		filterBuilders = new FilterBuildersImpl();
@@ -68,12 +67,10 @@ public class ModifiedFacetBuilderTest {
 	}
 
 	@Test
-	public void testBuiltInNamedRange() {
-		Mockito.doReturn(
-			new GregorianCalendar(2018, Calendar.MARCH, 1, 15, 19, 23)
-		).when(
-			calendarFactory
-		).getCalendar();
+	public void testBuiltInNamedRange() throws Exception {
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			calendarFactory, "getCalendar",
+			new GregorianCalendar(2018, Calendar.MARCH, 1, 15, 19, 23));
 
 		ModifiedFacetBuilder modifiedFacetBuilder =
 			createModifiedFacetBuilder();
@@ -163,14 +160,10 @@ public class ModifiedFacetBuilderTest {
 		}
 	}
 
-	protected CalendarFactory createCalendarFactory() {
-		CalendarFactory calendarFactory = Mockito.mock(CalendarFactory.class);
-
-		Mockito.doReturn(
-			Calendar.getInstance()
-		).when(
-			calendarFactory
-		).getCalendar();
+	protected CalendarFactory createCalendarFactory() throws Exception {
+		CalendarFactory calendarFactory =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				CalendarFactory.class, "getCalendar", Calendar.getInstance());
 
 		return calendarFactory;
 	}

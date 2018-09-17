@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMStructureVersionLocalService;
 import com.liferay.dynamic.data.mapping.test.util.DDMFormTestUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.lang.reflect.Field;
@@ -31,9 +32,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -119,11 +117,9 @@ public class DDMFormTaglibUtilTest {
 		Field field = ReflectionUtil.getDeclaredField(
 			DDMFormTaglibUtil.class, "_ddmStructureLocalService");
 
-		Mockito.when(
-			_ddmStructureLocalService.fetchDDMStructure(Mockito.anyLong())
-		).thenReturn(
-			_ddmStructure
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_ddmStructureLocalService, "fetchDDMStructure", _ddmStructure,
+			long.class);
 
 		field.set(_ddmFormTaglibUtil, _ddmStructureLocalService);
 	}
@@ -135,12 +131,9 @@ public class DDMFormTaglibUtilTest {
 		Field field = ReflectionUtil.getDeclaredField(
 			DDMFormTaglibUtil.class, "_ddmStructureVersionLocalService");
 
-		Mockito.when(
-			_ddmStructureVersionLocalService.fetchDDMStructureVersion(
-				Mockito.anyLong())
-		).thenReturn(
-			_ddmStructureVersion
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_ddmStructureVersionLocalService, "fetchDDMStructureVersion",
+			_ddmStructureVersion, long.class);
 
 		field.set(_ddmFormTaglibUtil, _ddmStructureVersionLocalService);
 	}
@@ -148,13 +141,11 @@ public class DDMFormTaglibUtilTest {
 	private final DDMFormTaglibUtil _ddmFormTaglibUtil =
 		new DDMFormTaglibUtil();
 	private DDMStructure _ddmStructure;
-
-	@Mock
-	private DDMStructureLocalService _ddmStructureLocalService;
-
+	private final DDMStructureLocalService _ddmStructureLocalService =
+		MockHelperUtil.initMock(DDMStructureLocalService.class);
 	private DDMStructureVersion _ddmStructureVersion;
-
-	@Mock
-	private DDMStructureVersionLocalService _ddmStructureVersionLocalService;
+	private final DDMStructureVersionLocalService
+		_ddmStructureVersionLocalService = MockHelperUtil.initMock(
+			DDMStructureVersionLocalService.class);
 
 }

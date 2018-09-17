@@ -15,6 +15,7 @@
 package com.liferay.adaptive.media.upload.web.internal.attachment;
 
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.upload.AttachmentElementReplacer;
 
@@ -32,14 +33,9 @@ import org.powermock.api.mockito.PowerMockito;
 public class AMHTMLImageAttachmentElementHandlerTest extends PowerMockito {
 
 	@Before
-	public void setUp() {
-		_fileEntry = mock(FileEntry.class);
-
-		when(
-			_fileEntry.getFileEntryId()
-		).thenReturn(
-			_IMAGE_FILE_ENTRY_ID
-		);
+	public void setUp() throws Exception {
+		_fileEntry = MockHelperUtil.setMethodAlwaysReturnExpected(
+			FileEntry.class, "getFileEntryId", _IMAGE_FILE_ENTRY_ID);
 
 		_defaultAttachmentElementReplacer = mock(
 			AttachmentElementReplacer.class);

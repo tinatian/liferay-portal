@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -40,8 +41,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
-import org.mockito.Mockito;
-
 /**
  * @author Michael C. Han
  */
@@ -52,41 +51,32 @@ public abstract class BaseBackgroundTaskTestCase {
 		backgroundTaskThreadLocalManagerImpl =
 			new BackgroundTaskThreadLocalManagerImpl();
 
-		CompanyLocalService companyLocalService = Mockito.mock(
-			CompanyLocalService.class);
+		Company company = MockHelperUtil.initMock(Company.class);
 
-		Mockito.when(
-			companyLocalService.fetchCompany(Mockito.anyLong())
-		).thenReturn(
-			Mockito.mock(Company.class)
-		);
+		CompanyLocalService companyLocalService =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				CompanyLocalService.class, "fetchCompany", company, long.class);
 
 		backgroundTaskThreadLocalManagerImpl.companyLocalService =
 			companyLocalService;
 
-		PermissionCheckerFactory permissionCheckerFactory = Mockito.mock(
-			PermissionCheckerFactory.class);
+		PermissionCheckerFactory permissionCheckerFactory =
+			MockHelperUtil.initMock(PermissionCheckerFactory.class);
 
-		PermissionChecker permissionChecker = Mockito.mock(
+		PermissionChecker permissionChecker = MockHelperUtil.initMock(
 			PermissionChecker.class);
 
-		Mockito.when(
-			permissionCheckerFactory.create(Mockito.any(User.class))
-		).thenReturn(
-			permissionChecker
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			permissionCheckerFactory, "create", permissionChecker, User.class);
 
 		backgroundTaskThreadLocalManagerImpl.setPermissionCheckerFactory(
 			permissionCheckerFactory);
 
-		UserLocalService userLocalService = Mockito.mock(
-			UserLocalService.class);
+		User user = MockHelperUtil.initMock(User.class);
 
-		Mockito.when(
-			userLocalService.fetchUser(Mockito.anyLong())
-		).thenReturn(
-			Mockito.mock(User.class)
-		);
+		UserLocalService userLocalService =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				UserLocalService.class, "fetchUser", user, long.class);
 
 		backgroundTaskThreadLocalManagerImpl.setUserLocalService(
 			userLocalService);

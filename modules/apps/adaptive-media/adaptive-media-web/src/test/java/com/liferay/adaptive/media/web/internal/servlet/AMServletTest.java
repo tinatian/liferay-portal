@@ -17,6 +17,7 @@ package com.liferay.adaptive.media.web.internal.servlet;
 import com.liferay.adaptive.media.exception.AMException;
 import com.liferay.adaptive.media.handler.AMRequestHandler;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
 import java.util.Optional;
@@ -42,11 +43,8 @@ public class AMServletTest {
 
 	@Test
 	public void testMiscellaneousError() throws Exception {
-		Mockito.when(
-			_request.getPathInfo()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_request, "getPathInfo", RandomTestUtil.randomString());
 
 		Mockito.when(
 			_amRequestHandlerLocator.locateForPattern(Mockito.anyString())
@@ -71,11 +69,8 @@ public class AMServletTest {
 
 	@Test
 	public void testNoMediaFound() throws Exception {
-		Mockito.when(
-			_request.getPathInfo()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_request, "getPathInfo", RandomTestUtil.randomString());
 
 		Mockito.when(
 			_amRequestHandlerLocator.locateForPattern(Mockito.anyString())
@@ -100,11 +95,8 @@ public class AMServletTest {
 
 	@Test
 	public void testNoMediaFoundWithException() throws Exception {
-		Mockito.when(
-			_request.getPathInfo()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_request, "getPathInfo", RandomTestUtil.randomString());
 
 		Mockito.when(
 			_amRequestHandlerLocator.locateForPattern(Mockito.anyString())
@@ -129,11 +121,8 @@ public class AMServletTest {
 
 	@Test
 	public void testNoPermissionError() throws Exception {
-		Mockito.when(
-			_request.getPathInfo()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_request, "getPathInfo", RandomTestUtil.randomString());
 
 		Mockito.when(
 			_amRequestHandlerLocator.locateForPattern(Mockito.anyString())
@@ -158,11 +147,8 @@ public class AMServletTest {
 
 	@Test
 	public void testNoRequestHandlerFound() throws Exception {
-		Mockito.when(
-			_request.getPathInfo()
-		).thenReturn(
-			RandomTestUtil.randomString()
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_request, "getPathInfo", RandomTestUtil.randomString());
 
 		Mockito.when(
 			_amRequestHandlerLocator.locateForPattern(Mockito.anyString())
@@ -184,7 +170,7 @@ public class AMServletTest {
 	private final AMRequestHandlerLocator _amRequestHandlerLocator =
 		Mockito.mock(AMRequestHandlerLocator.class);
 	private final AMServlet _amServlet = new AMServlet();
-	private final HttpServletRequest _request = Mockito.mock(
+	private final HttpServletRequest _request = MockHelperUtil.initMock(
 		HttpServletRequest.class);
 	private final HttpServletResponse _response = Mockito.mock(
 		HttpServletResponse.class);

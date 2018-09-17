@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.web.internal.facet.display.builder.ScopeSearchFacetDisplayBuilder;
 
@@ -40,14 +41,11 @@ import org.mockito.MockitoAnnotations;
 public class ScopeSearchFacetDisplayContextTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		Mockito.doReturn(
-			_facetCollector
-		).when(
-			_facet
-		).getFacetCollector();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facet, "getFacetCollector", _facetCollector);
 	}
 
 	@Test
@@ -217,56 +215,39 @@ public class ScopeSearchFacetDisplayContextTest {
 	}
 
 	protected Group createGroup(long groupId, String name) throws Exception {
-		Group group = Mockito.mock(Group.class);
+		Group group = MockHelperUtil.setMethodAlwaysReturnExpected(
+			Group.class, "getDescriptiveName", name, Locale.class);
 
-		Mockito.doReturn(
-			name
-		).when(
-			group
-		).getDescriptiveName(
-			Mockito.<Locale>any()
-		);
-
-		Mockito.doReturn(
-			groupId
-		).when(
-			group
-		).getGroupId();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			group, "getGroupId", groupId);
 
 		return group;
 	}
 
-	protected TermCollector createTermCollector(long groupId, int count) {
-		TermCollector termCollector = Mockito.mock(TermCollector.class);
+	protected TermCollector createTermCollector(long groupId, int count)
+		throws Exception {
 
-		Mockito.doReturn(
-			count
-		).when(
-			termCollector
-		).getFrequency();
+		TermCollector termCollector =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				TermCollector.class, "getFrequency", count);
 
-		Mockito.doReturn(
-			String.valueOf(groupId)
-		).when(
-			termCollector
-		).getTerm();
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			termCollector, "getTerm", String.valueOf(groupId));
 
 		return termCollector;
 	}
 
-	protected void setUpOneTermCollector(long groupId, int count) {
-		Mockito.doReturn(
-			Collections.singletonList(createTermCollector(groupId, count))
-		).when(
-			_facetCollector
-		).getTermCollectors();
+	protected void setUpOneTermCollector(long groupId, int count)
+		throws Exception {
+
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_facetCollector, "getTermCollectors",
+			Collections.singletonList(createTermCollector(groupId, count)));
 	}
 
-	@Mock
-	private Facet _facet;
-
-	@Mock
-	private FacetCollector _facetCollector;
+	private final Facet _facet = MockHelperUtil.initMock(Facet.class);
+	private final FacetCollector _facetCollector = MockHelperUtil.initMock(
+		FacetCollector.class);
 
 	@Mock
 	private GroupLocalService _groupLocalService;

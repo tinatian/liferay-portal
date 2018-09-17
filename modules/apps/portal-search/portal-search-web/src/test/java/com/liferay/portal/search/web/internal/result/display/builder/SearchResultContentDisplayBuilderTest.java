@@ -305,7 +305,6 @@ public class SearchResultContentDisplayBuilderTest {
 	@Mock
 	private PortletURL _editPortletURL;
 
-	@Mock
 	private PermissionChecker _permissionChecker;
 
 	@Mock
@@ -314,7 +313,6 @@ public class SearchResultContentDisplayBuilderTest {
 	@Mock
 	private PortletURL _renderPortletURL;
 
-	@Mock
 	private RenderRequest _renderRequest;
 
 	@Mock

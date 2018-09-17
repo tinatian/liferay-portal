@@ -17,6 +17,7 @@ package com.liferay.portal.search.elasticsearch6.internal.cluster;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.elasticsearch6.internal.connection.ElasticsearchFixture;
 import com.liferay.portal.search.elasticsearch6.internal.connection.IndexCreator;
@@ -32,10 +33,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 /**
  * @author Artur Aquino
  */
@@ -44,8 +41,6 @@ public class ReplicasManagerImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-
 		_replicasClusterContext = createReplicasClusterContext();
 	}
 
@@ -125,25 +120,17 @@ public class ReplicasManagerImplTest {
 		return new IndexName(testName.getMethodName() + "-" + companyId);
 	}
 
-	protected void setUpCompanyLocalService(long companyId) {
-		Company company = Mockito.mock(Company.class);
+	protected void setUpCompanyLocalService(long companyId) throws Exception {
+		Company company = MockHelperUtil.setMethodAlwaysReturnExpected(
+			Company.class, "getCompanyId", companyId);
 
-		Mockito.when(
-			company.getCompanyId()
-		).thenReturn(
-			companyId
-		);
-
-		Mockito.when(
-			_companyLocalService.getCompanies()
-		).thenReturn(
-			Collections.singletonList(company)
-		);
+		MockHelperUtil.setMethodAlwaysReturnExpected(
+			_companyLocalService, "getCompanies",
+			Collections.singletonList(company));
 	}
 
-	@Mock
-	private CompanyLocalService _companyLocalService;
-
+	private final CompanyLocalService _companyLocalService =
+		MockHelperUtil.initMock(CompanyLocalService.class);
 	private ReplicasClusterContext _replicasClusterContext;
 	private final TestCluster _testCluster = new TestCluster(2, this);
 

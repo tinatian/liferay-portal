@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
 import com.liferay.portal.kernel.service.RepositoryEntryLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.DateFormatFactory;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
@@ -61,7 +62,7 @@ public class BaseCmisSearchQueryBuilderTest {
 
 		_cmisSearchQueryBuilder = new BaseCmisSearchQueryBuilder(
 			createRepositoryEntryLocalService(),
-			Mockito.mock(UserLocalService.class));
+			MockHelperUtil.initMock(UserLocalService.class));
 	}
 
 	@Test
@@ -383,29 +384,21 @@ public class BaseCmisSearchQueryBuilderTest {
 		return dateFormatFactory;
 	}
 
-	protected RepositoryEntry createRepositoryEntry() {
-		RepositoryEntry repositoryEntry = Mockito.mock(RepositoryEntry.class);
-
-		Mockito.doReturn(
-			_MAPPED_ID
-		).when(
-			repositoryEntry
-		).getMappedId();
+	protected RepositoryEntry createRepositoryEntry() throws Exception {
+		RepositoryEntry repositoryEntry =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				RepositoryEntry.class, "getMappedId", _MAPPED_ID);
 
 		return repositoryEntry;
 	}
 
-	protected RepositoryEntryLocalService createRepositoryEntryLocalService() {
-		RepositoryEntryLocalService repositoryEntryLocalService = Mockito.mock(
-			RepositoryEntryLocalService.class);
+	protected RepositoryEntryLocalService createRepositoryEntryLocalService()
+		throws Exception {
 
-		Mockito.doReturn(
-			createRepositoryEntry()
-		).when(
-			repositoryEntryLocalService
-		).fetchRepositoryEntry(
-			Mockito.anyLong()
-		);
+		RepositoryEntryLocalService repositoryEntryLocalService =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				RepositoryEntryLocalService.class, "fetchRepositoryEntry",
+				createRepositoryEntry(), long.class);
 
 		return repositoryEntryLocalService;
 	}
@@ -415,7 +408,7 @@ public class BaseCmisSearchQueryBuilderTest {
 
 		return new RepositorySearchQueryBuilderImpl() {
 			{
-				setDLAppService(Mockito.mock(DLAppService.class));
+				setDLAppService(MockHelperUtil.initMock(DLAppService.class));
 
 				setRepositorySearchQueryTermBuilder(
 					createRepositorySearchQueryTermBuilder());
