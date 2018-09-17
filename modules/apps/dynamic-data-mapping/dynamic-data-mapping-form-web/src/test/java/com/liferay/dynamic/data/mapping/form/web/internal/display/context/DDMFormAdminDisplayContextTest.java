@@ -69,7 +69,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.mockito.Matchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import org.powermock.api.mockito.PowerMockito;
@@ -396,8 +395,6 @@ public class DDMFormAdminDisplayContextTest extends PowerMockito {
 
 	private DDMFormAdminDisplayContext _ddmFormAdminDisplayContext;
 	private RenderRequest _renderRequest;
-
-	@Mock
 	private ServiceTrackerMap<String, ResourceBundleLoader> _serviceTrackerMap;
 
 }

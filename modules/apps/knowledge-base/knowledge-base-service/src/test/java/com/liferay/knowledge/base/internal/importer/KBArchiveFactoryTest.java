@@ -231,8 +231,7 @@ public class KBArchiveFactoryTest {
 
 	private final ConfigurationProvider _configurationProvider = Mockito.mock(
 		ConfigurationProvider.class);
-	private final GroupServiceSettingsLocator _groupServiceSettingsLocator =
-		Mockito.mock(GroupServiceSettingsLocator.class);
+	private GroupServiceSettingsLocator _groupServiceSettingsLocator;
 	private final KBArchiveFactory _kbArchiveFactory = new KBArchiveFactory();
 	private final KBGroupServiceConfiguration _kbGroupServiceConfiguration =
 		Mockito.mock(KBGroupServiceConfiguration.class);

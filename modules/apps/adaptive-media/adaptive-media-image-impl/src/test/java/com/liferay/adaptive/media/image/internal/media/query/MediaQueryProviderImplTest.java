@@ -809,9 +809,7 @@ public class MediaQueryProviderImplTest {
 	@Mock
 	private FileEntry _fileEntry;
 
-	@Mock
 	private FileVersion _fileVersion;
-
 	private final MediaQueryProviderImpl _mediaQueryProvider =
 		new MediaQueryProviderImpl();
 

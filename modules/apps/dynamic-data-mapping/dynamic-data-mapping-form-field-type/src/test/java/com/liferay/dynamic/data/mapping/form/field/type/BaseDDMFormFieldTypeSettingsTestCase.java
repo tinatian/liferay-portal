@@ -95,10 +95,7 @@ public abstract class BaseDDMFormFieldTypeSettingsTestCase
 	@Mock
 	protected Language language;
 
-	@Mock
 	private ClassLoader _classLoader;
-
-	@Mock
 	private ResourceBundle _resourceBundle;
 
 }

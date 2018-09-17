@@ -136,9 +136,7 @@ public class FacetedSearcherImplTest {
 			preFilterContributorHelper, searchEngineHelper);
 	}
 
-	@Mock
 	protected ExpandoQueryContributorHelper expandoQueryContributorHelper;
-
 	protected FacetedSearcher facetedSearcher;
 
 	@Mock

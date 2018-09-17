@@ -637,6 +637,6 @@ public class AMImageProcessorImplTest {
 		AMImageValidator.class);
 	private final FileEntry _fileEntry = Mockito.mock(FileEntry.class);
 	private final FileVersion _fileVersion = Mockito.mock(FileVersion.class);
-	private final ImageTool _imageTool = Mockito.mock(ImageTool.class);
+	private ImageTool _imageTool;
 
 }

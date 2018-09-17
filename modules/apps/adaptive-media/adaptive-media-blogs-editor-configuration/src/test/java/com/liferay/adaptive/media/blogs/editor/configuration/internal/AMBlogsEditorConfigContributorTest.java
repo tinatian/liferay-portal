@@ -700,10 +700,7 @@ public class AMBlogsEditorConfigContributorTest extends PowerMockito {
 	@Mock
 	private PortletURL _portletURL;
 
-	@Mock
 	private RequestBackedPortletURLFactory _requestBackedPortletURLFactory;
-
-	@Mock
 	private ThemeDisplay _themeDisplay;
 
 }

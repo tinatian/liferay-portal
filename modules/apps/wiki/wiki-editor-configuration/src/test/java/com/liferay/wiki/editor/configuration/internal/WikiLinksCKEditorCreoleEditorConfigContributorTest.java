@@ -223,10 +223,7 @@ public class WikiLinksCKEditorCreoleEditorConfigContributorTest
 	private ItemSelector _itemSelector;
 
 	private RequestBackedPortletURLFactory _requestBackedPortletURLFactory;
-
-	@Mock
 	private ThemeDisplay _themeDisplay;
-
 	private WikiLinksCKEditorCreoleEditorConfigContributor
 		_wikiLinksCKEditorCreoleEditorConfigContributor;
 

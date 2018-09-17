@@ -331,7 +331,6 @@ public class ServletResponseUtilRangeTest extends PowerMockito {
 	@Mock
 	private HttpServletRequest _request;
 
-	@Mock
 	private HttpServletResponse _response;
 
 }
