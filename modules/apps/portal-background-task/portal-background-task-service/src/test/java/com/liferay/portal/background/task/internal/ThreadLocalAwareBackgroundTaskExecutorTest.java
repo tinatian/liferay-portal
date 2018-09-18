@@ -18,16 +18,16 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.test.util.MockHelperUtil;
 
 import java.io.Serializable;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author André de Oliveira
@@ -37,19 +37,15 @@ public class ThreadLocalAwareBackgroundTaskExecutorTest
 
 	@Test
 	public void testStaleBackgroundTaskIsSkipped() throws Exception {
-		CompanyLocalService companyLocalService = Mockito.mock(
-			CompanyLocalService.class);
-
-		Mockito.when(
-			companyLocalService.fetchCompany(Mockito.anyLong())
-		).thenReturn(
-			null
-		);
+		CompanyLocalService companyLocalService =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				CompanyLocalService.class, null, "fetchCompany",
+				MockHelperUtil.ANY_LONG);
 
 		backgroundTaskThreadLocalManagerImpl.companyLocalService =
 			companyLocalService;
 
-		BackgroundTaskExecutor backgroundTaskExecutor = Mockito.mock(
+		BackgroundTaskExecutor backgroundTaskExecutor = MockHelperUtil.initMock(
 			BackgroundTaskExecutor.class);
 
 		ThreadLocalAwareBackgroundTaskExecutor
@@ -58,23 +54,22 @@ public class ThreadLocalAwareBackgroundTaskExecutorTest
 					backgroundTaskExecutor,
 					backgroundTaskThreadLocalManagerImpl);
 
-		BackgroundTask backgroundTask = Mockito.mock(BackgroundTask.class);
+		Map<String, Serializable> taskContextMap = Collections.singletonMap(
+			BackgroundTaskThreadLocalManagerImpl.KEY_THREAD_LOCAL_VALUES,
+			(Serializable)new HashMap<>(
+				Collections.singletonMap("companyId", 1)));
 
-		Mockito.when(
-			backgroundTask.getTaskContextMap()
-		).thenReturn(
-			Collections.singletonMap(
-				BackgroundTaskThreadLocalManagerImpl.KEY_THREAD_LOCAL_VALUES,
-				(Serializable)new HashMap<>(
-					Collections.singletonMap("companyId", 1)))
-		);
+		BackgroundTask backgroundTask =
+			MockHelperUtil.setMethodAlwaysReturnExpected(
+				BackgroundTask.class, taskContextMap, "getTaskContextMap");
 
 		BackgroundTaskResult backgroundTaskResult =
 			threadLocalAwareBackgroundTaskExecutor.execute(backgroundTask);
 
 		Assert.assertTrue(backgroundTaskResult.isSuccessful());
 
-		Mockito.verifyZeroInteractions(backgroundTaskExecutor);
+		Assert.assertEquals(
+			0, MockHelperUtil.getInteractionTimes(backgroundTaskExecutor));
 	}
 
 }
