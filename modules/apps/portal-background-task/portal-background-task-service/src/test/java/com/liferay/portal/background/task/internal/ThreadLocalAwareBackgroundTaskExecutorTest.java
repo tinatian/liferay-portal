@@ -17,64 +17,42 @@ package com.liferay.portal.background.task.internal;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
-import com.liferay.portal.kernel.service.CompanyLocalService;
-
-import java.io.Serializable;
-
-import java.util.Collections;
-import java.util.HashMap;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskThreadLocalManager;
+import com.liferay.portal.kernel.test.util.ProxyTestUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author André de Oliveira
  */
-public class ThreadLocalAwareBackgroundTaskExecutorTest
-	extends BaseBackgroundTaskTestCase {
+public class ThreadLocalAwareBackgroundTaskExecutorTest {
 
 	@Test
 	public void testStaleBackgroundTaskIsSkipped() throws Exception {
-		CompanyLocalService companyLocalService = Mockito.mock(
-			CompanyLocalService.class);
+		BackgroundTaskThreadLocalManager backgroundTaskThreadLocalManager =
+			ProxyTestUtil.setMethodDoExpected(
+				BackgroundTaskThreadLocalManager.class,
+				new StaleBackgroundTaskException("Unable to find company"),
+				"deserializeThreadLocals");
 
-		Mockito.when(
-			companyLocalService.fetchCompany(Mockito.anyLong())
-		).thenReturn(
-			null
-		);
-
-		backgroundTaskThreadLocalManagerImpl.companyLocalService =
-			companyLocalService;
-
-		BackgroundTaskExecutor backgroundTaskExecutor = Mockito.mock(
-			BackgroundTaskExecutor.class);
+		BackgroundTaskExecutor backgroundTaskExecutor =
+			ProxyFactory.newDummyInstance(BackgroundTaskExecutor.class);
 
 		ThreadLocalAwareBackgroundTaskExecutor
 			threadLocalAwareBackgroundTaskExecutor =
 				new ThreadLocalAwareBackgroundTaskExecutor(
-					backgroundTaskExecutor,
-					backgroundTaskThreadLocalManagerImpl);
+					backgroundTaskExecutor, backgroundTaskThreadLocalManager);
 
-		BackgroundTask backgroundTask = Mockito.mock(BackgroundTask.class);
-
-		Mockito.when(
-			backgroundTask.getTaskContextMap()
-		).thenReturn(
-			Collections.singletonMap(
-				BackgroundTaskThreadLocalManagerImpl.KEY_THREAD_LOCAL_VALUES,
-				(Serializable)new HashMap<>(
-					Collections.singletonMap("companyId", 1)))
-		);
+		BackgroundTask backgroundTask = ProxyFactory.newDummyInstance(
+			BackgroundTask.class);
 
 		BackgroundTaskResult backgroundTaskResult =
 			threadLocalAwareBackgroundTaskExecutor.execute(backgroundTask);
 
+		Assert.assertNotNull(backgroundTaskResult);
 		Assert.assertTrue(backgroundTaskResult.isSuccessful());
-
-		Mockito.verifyZeroInteractions(backgroundTaskExecutor);
 	}
 
 }
