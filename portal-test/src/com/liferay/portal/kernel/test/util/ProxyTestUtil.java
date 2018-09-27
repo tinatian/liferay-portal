@@ -20,8 +20,9 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +31,12 @@ import java.util.Set;
  * @author Lance Ji
  */
 public class ProxyTestUtil {
+
+	public static <T> T getProxy(Class<T> clazz) {
+		return (T)ProxyUtil.newProxyInstance(
+			clazz.getClassLoader(), new Class<?>[] {clazz},
+			new ProxyTestInvocationHandler(clazz));
+	}
 
 	public static <T> T getProxy(
 			Class<T> clazz, String methodName, Object expectedResult)
@@ -43,6 +50,23 @@ public class ProxyTestUtil {
 		return (T)ProxyUtil.newProxyInstance(
 			clazz.getClassLoader(), new Class<?>[] {clazz},
 			proxyTestInvocationHandler);
+	}
+
+	public static <T> void updateProxy(
+			T proxy, String methodName, Object expectedResult)
+		throws Exception {
+
+		InvocationHandler invocationHandler = ProxyUtil.getInvocationHandler(
+			proxy);
+
+		if (invocationHandler instanceof ProxyTestInvocationHandler) {
+			((ProxyTestInvocationHandler)invocationHandler).registerMethod(
+				methodName, expectedResult);
+
+			return;
+		}
+
+		throw new UnsupportedOperationException("Not a valid proxy instance");
 	}
 
 	private static class ProxyTestInvocationHandler
@@ -106,13 +130,13 @@ public class ProxyTestUtil {
 				return GetterUtil.DEFAULT_STRING;
 			}
 			else if (List.class.isAssignableFrom(returnType)) {
-				return Collections.emptyList();
+				return new LinkedList();
 			}
 			else if (Map.class.isAssignableFrom(returnType)) {
-				return Collections.emptyMap();
+				return new HashMap();
 			}
 			else if (Set.class.isAssignableFrom(returnType)) {
-				return Collections.emptySet();
+				return new HashSet();
 			}
 
 			return method.getDefaultValue();
