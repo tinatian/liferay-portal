@@ -14,11 +14,15 @@
 
 package com.liferay.portal.background.task.internal;
 
+import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.test.util.ProxyTestUtil;
+
 import java.io.Serializable;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -79,6 +83,28 @@ public class BackgroundTaskThreadLocalManagerImplTest
 			threadLocalValues);
 
 		assertThreadLocalValues();
+	}
+
+	@Test
+	public void testSetThreadLocalValuesWithInvalidData() throws Exception {
+		backgroundTaskThreadLocalManagerImpl.companyLocalService =
+			ProxyTestUtil.getProxy(
+				CompanyLocalService.class, "fetchCompany", null);
+
+		Map<String, Serializable> threadLocalValues =
+			initializeThreadLocalValues();
+
+		try {
+			backgroundTaskThreadLocalManagerImpl.setThreadLocalValues(
+				threadLocalValues);
+
+			Assert.fail("Should throw StaleBackgroundTaskException");
+		}
+		catch (StaleBackgroundTaskException sbte) {
+			Assert.assertEquals(
+				"Unable to find company " + threadLocalValues.get("companyId"),
+				sbte.getMessage());
+		}
 	}
 
 }

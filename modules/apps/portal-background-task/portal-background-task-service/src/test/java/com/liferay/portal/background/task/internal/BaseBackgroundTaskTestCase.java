@@ -19,16 +19,16 @@ import com.liferay.portal.kernel.cache.thread.local.Lifecycle;
 import com.liferay.portal.kernel.cache.thread.local.ThreadLocalCacheManager;
 import com.liferay.portal.kernel.cluster.ClusterInvokeThreadLocal;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.test.util.ProxyTestUtil;
 import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 
 import java.io.Serializable;
 
@@ -40,8 +40,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
-import org.mockito.Mockito;
-
 /**
  * @author Michael C. Han
  */
@@ -52,44 +50,16 @@ public abstract class BaseBackgroundTaskTestCase {
 		backgroundTaskThreadLocalManagerImpl =
 			new BackgroundTaskThreadLocalManagerImpl();
 
-		CompanyLocalService companyLocalService = Mockito.mock(
-			CompanyLocalService.class);
-
-		Mockito.when(
-			companyLocalService.fetchCompany(Mockito.anyLong())
-		).thenReturn(
-			Mockito.mock(Company.class)
-		);
-
 		backgroundTaskThreadLocalManagerImpl.companyLocalService =
-			companyLocalService;
-
-		PermissionCheckerFactory permissionCheckerFactory = Mockito.mock(
-			PermissionCheckerFactory.class);
-
-		PermissionChecker permissionChecker = Mockito.mock(
-			PermissionChecker.class);
-
-		Mockito.when(
-			permissionCheckerFactory.create(Mockito.any(User.class))
-		).thenReturn(
-			permissionChecker
-		);
+			ProxyTestUtil.getProxy(
+				CompanyLocalService.class, "fetchCompany",
+				ProxyFactory.newDummyInstance(Company.class));
 
 		backgroundTaskThreadLocalManagerImpl.setPermissionCheckerFactory(
-			permissionCheckerFactory);
-
-		UserLocalService userLocalService = Mockito.mock(
-			UserLocalService.class);
-
-		Mockito.when(
-			userLocalService.fetchUser(Mockito.anyLong())
-		).thenReturn(
-			Mockito.mock(User.class)
-		);
+			ProxyFactory.newDummyInstance(PermissionCheckerFactory.class));
 
 		backgroundTaskThreadLocalManagerImpl.setUserLocalService(
-			userLocalService);
+			ProxyFactory.newDummyInstance(UserLocalService.class));
 
 		_companyId = 1234L;
 		_clusterInvokeEnabled = true;
