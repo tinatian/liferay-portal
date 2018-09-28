@@ -66,6 +66,11 @@ public class SchedulerEngineProxyBean
 	}
 
 	@Override
+	public boolean isSchedulerEnabled() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void pause(String groupName, StorageType storageType) {
 		throw new UnsupportedOperationException();
 	}

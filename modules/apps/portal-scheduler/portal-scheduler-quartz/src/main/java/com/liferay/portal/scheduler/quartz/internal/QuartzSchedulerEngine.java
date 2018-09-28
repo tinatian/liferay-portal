@@ -242,6 +242,11 @@ public class QuartzSchedulerEngine implements SchedulerEngine {
 	}
 
 	@Override
+	public boolean isSchedulerEnabled() {
+		return _schedulerEngineEnabled;
+	}
+
+	@Override
 	public void pause(String groupName, StorageType storageType)
 		throws SchedulerException {
 

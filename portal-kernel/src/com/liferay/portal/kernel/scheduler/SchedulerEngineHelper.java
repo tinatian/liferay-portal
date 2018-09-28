@@ -110,6 +110,8 @@ public interface SchedulerEngineHelper {
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	public boolean isSchedulerEnabled();
+
 	public void pause(String groupName, StorageType storageType)
 		throws SchedulerException;
 

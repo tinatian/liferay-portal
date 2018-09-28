@@ -546,6 +546,11 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 	}
 
 	@Override
+	public boolean isSchedulerEnabled() {
+		return _schedulerEngine.isSchedulerEnabled();
+	}
+
+	@Override
 	public void pause(String groupName, StorageType storageType)
 		throws SchedulerException {
 

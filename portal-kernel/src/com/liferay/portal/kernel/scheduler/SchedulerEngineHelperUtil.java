@@ -212,6 +212,10 @@ public class SchedulerEngineHelperUtil {
 			jobName, groupName, storageType);
 	}
 
+	public static boolean isSchedulerEnabled() {
+		return _getSchedulerEngineHelper().isSchedulerEnabled();
+	}
+
 	public static void pause(String groupName, StorageType storageType)
 		throws SchedulerException {
 

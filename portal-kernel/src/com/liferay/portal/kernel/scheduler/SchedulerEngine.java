@@ -118,6 +118,11 @@ public interface SchedulerEngine {
 			String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@MessagingProxy(mode = ProxyMode.SYNC)
+	public default boolean isSchedulerEnabled() {
+		return false;
+	}
+
 	public void pause(String groupName, StorageType storageType)
 		throws SchedulerException;
 
