@@ -34,7 +34,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 /**
  * @author Roberto Díaz
  */
-public class WikiLinksCKEditorEditorConfigContributorTest {
+public class WikiLinksCKEditorConfigContributorTest {
 
 	@Before
 	public void setUp() throws Exception {
