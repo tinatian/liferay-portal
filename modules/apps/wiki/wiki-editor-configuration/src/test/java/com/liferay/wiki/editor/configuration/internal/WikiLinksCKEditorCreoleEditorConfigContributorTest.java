@@ -15,14 +15,11 @@
 package com.liferay.wiki.editor.configuration.internal;
 
 import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.portlet.LiferayPortletURL;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.wiki.constants.WikiPortletKeys;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.ProxyTestUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,83 +28,35 @@ import javax.portlet.PortletURL;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author Roberto Díaz
  */
-@RunWith(PowerMockRunner.class)
-public class WikiLinksCKEditorCreoleEditorConfigContributorTest
-	extends PowerMockito {
+public class WikiLinksCKEditorCreoleEditorConfigContributorTest {
 
 	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+	public void setUp() throws Exception {
+		_itemSelector = ProxyTestUtil.getProxy(ItemSelector.class);
+
+		_inputEditorTaglibAttributes.put(
+			"liferay-ui:input-editor:name", "testEditor");
 
 		JSONFactoryUtil jsonFactoryUtil = new JSONFactoryUtil();
 
 		jsonFactoryUtil.setJSONFactory(new JSONFactoryImpl());
 
-		_requestBackedPortletURLFactory = mock(
-			RequestBackedPortletURLFactory.class);
+		JSONObject originalJSONObject =
+			getJSONObjectWithDefaultItemSelectorURL();
 
-		when(
-			_requestBackedPortletURLFactory.createActionURL(
-				WikiPortletKeys.WIKI)
-		).thenReturn(
-			mock(LiferayPortletURL.class)
-		);
-
-		_inputEditorTaglibAttributes.put(
-			"liferay-ui:input-editor:name", "testEditor");
-
-		PortletURL oneTabItemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			oneTabItemSelectorPortletURL.toString()
-		).thenReturn(
-			"oneTabItemSelectorPortletURL"
-		);
-
-		when(
-			_itemSelector.getItemSelectorURL(
-				Matchers.any(RequestBackedPortletURLFactory.class),
-				Matchers.anyString(), Matchers.any(ItemSelectorCriterion.class))
-		).thenReturn(
-			oneTabItemSelectorPortletURL
-		);
-
-		PortletURL twoTabsItemSelectorPortletURL = mock(PortletURL.class);
-
-		when(
-			twoTabsItemSelectorPortletURL.toString()
-		).thenReturn(
-			"twoTabsItemSelectorPortletURL"
-		);
-
-		when(
-			_itemSelector.getItemSelectorURL(
-				Matchers.any(RequestBackedPortletURLFactory.class),
-				Matchers.anyString(), Matchers.any(ItemSelectorCriterion.class),
-				Matchers.any(ItemSelectorCriterion.class))
-		).thenReturn(
-			twoTabsItemSelectorPortletURL
-		);
+		_jsonObject = JSONFactoryUtil.createJSONObject(
+			originalJSONObject.toJSONString());
 
 		_wikiLinksCKEditorCreoleEditorConfigContributor =
 			new WikiLinksCKEditorCreoleEditorConfigContributor();
 
-		Whitebox.setInternalState(
+		ReflectionTestUtil.setFieldValue(
 			_wikiLinksCKEditorCreoleEditorConfigContributor, "itemSelector",
 			_itemSelector);
 	}
@@ -118,50 +67,50 @@ public class WikiLinksCKEditorCreoleEditorConfigContributorTest
 
 		populateInputEditorWikiPageAttributes(0, 1);
 
-		JSONObject originalJSONObject =
-			getJSONObjectWithDefaultItemSelectorURL();
+		String portletURLString = "oneTabItemSelectorPortletURL";
 
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-			originalJSONObject.toJSONString());
+		ProxyTestUtil.updateProxy(
+			_itemSelector, "getItemSelectorURL",
+			ProxyTestUtil.getProxy(
+				PortletURL.class, "toString", portletURLString));
 
 		_wikiLinksCKEditorCreoleEditorConfigContributor.
 			populateConfigJSONObject(
-				jsonObject, _inputEditorTaglibAttributes, _themeDisplay,
-				_requestBackedPortletURLFactory);
+				_jsonObject, _inputEditorTaglibAttributes, null, null);
 
 		JSONObject expectedJSONObject = JSONFactoryUtil.createJSONObject();
 
-		expectedJSONObject.put(
-			"filebrowserBrowseUrl", "oneTabItemSelectorPortletURL");
+		expectedJSONObject.put("filebrowserBrowseUrl", portletURLString);
 		expectedJSONObject.put("removePlugins", "plugin1");
 
 		JSONAssert.assertEquals(
-			expectedJSONObject.toJSONString(), jsonObject.toJSONString(), true);
+			expectedJSONObject.toJSONString(), _jsonObject.toJSONString(),
+			true);
 	}
 
 	@Test
 	public void testItemSelectorURLWhenValidWikiPageAndNode() throws Exception {
 		populateInputEditorWikiPageAttributes(1, 1);
 
-		JSONObject originalJSONObject =
-			getJSONObjectWithDefaultItemSelectorURL();
+		String portletURLString = "twoTabsItemSelectorPortletURL";
 
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-			originalJSONObject.toJSONString());
+		ProxyTestUtil.updateProxy(
+			_itemSelector, "getItemSelectorURL",
+			ProxyTestUtil.getProxy(
+				PortletURL.class, "toString", portletURLString));
 
 		_wikiLinksCKEditorCreoleEditorConfigContributor.
 			populateConfigJSONObject(
-				jsonObject, _inputEditorTaglibAttributes, _themeDisplay,
-				_requestBackedPortletURLFactory);
+				_jsonObject, _inputEditorTaglibAttributes, null, null);
 
 		JSONObject expectedJSONObject = JSONFactoryUtil.createJSONObject();
 
-		expectedJSONObject.put(
-			"filebrowserBrowseUrl", "twoTabsItemSelectorPortletURL");
+		expectedJSONObject.put("filebrowserBrowseUrl", portletURLString);
 		expectedJSONObject.put("removePlugins", "plugin1");
 
 		JSONAssert.assertEquals(
-			expectedJSONObject.toJSONString(), jsonObject.toJSONString(), true);
+			expectedJSONObject.toJSONString(), _jsonObject.toJSONString(),
+			true);
 	}
 
 	@Test
@@ -170,25 +119,25 @@ public class WikiLinksCKEditorCreoleEditorConfigContributorTest
 
 		populateInputEditorWikiPageAttributes(1, 0);
 
-		JSONObject originalJSONObject =
-			getJSONObjectWithDefaultItemSelectorURL();
+		String portletURLString = "oneTabItemSelectorPortletURL";
 
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-			originalJSONObject.toJSONString());
+		ProxyTestUtil.updateProxy(
+			_itemSelector, "getItemSelectorURL",
+			ProxyTestUtil.getProxy(
+				PortletURL.class, "toString", portletURLString));
 
 		_wikiLinksCKEditorCreoleEditorConfigContributor.
 			populateConfigJSONObject(
-				jsonObject, _inputEditorTaglibAttributes, _themeDisplay,
-				_requestBackedPortletURLFactory);
+				_jsonObject, _inputEditorTaglibAttributes, null, null);
 
 		JSONObject expectedJSONObject = JSONFactoryUtil.createJSONObject();
 
-		expectedJSONObject.put(
-			"filebrowserBrowseUrl", "oneTabItemSelectorPortletURL");
+		expectedJSONObject.put("filebrowserBrowseUrl", portletURLString);
 		expectedJSONObject.put("removePlugins", "plugin1");
 
 		JSONAssert.assertEquals(
-			expectedJSONObject.toJSONString(), jsonObject.toJSONString(), true);
+			expectedJSONObject.toJSONString(), _jsonObject.toJSONString(),
+			true);
 	}
 
 	protected JSONObject getJSONObjectWithDefaultItemSelectorURL()
@@ -218,15 +167,8 @@ public class WikiLinksCKEditorCreoleEditorConfigContributorTest
 
 	private final Map<String, Object> _inputEditorTaglibAttributes =
 		new HashMap<>();
-
-	@Mock
 	private ItemSelector _itemSelector;
-
-	private RequestBackedPortletURLFactory _requestBackedPortletURLFactory;
-
-	@Mock
-	private ThemeDisplay _themeDisplay;
-
+	private JSONObject _jsonObject;
 	private WikiLinksCKEditorCreoleEditorConfigContributor
 		_wikiLinksCKEditorCreoleEditorConfigContributor;
 
