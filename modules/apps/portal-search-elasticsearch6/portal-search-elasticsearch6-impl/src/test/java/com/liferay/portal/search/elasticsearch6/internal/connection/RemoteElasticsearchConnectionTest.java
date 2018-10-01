@@ -17,7 +17,6 @@ package com.liferay.portal.search.elasticsearch6.internal.connection;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.search.elasticsearch6.configuration.OperationMode;
 
 import java.net.InetSocketAddress;
@@ -32,9 +31,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 /**
  * @author André de Oliveira
  */
@@ -42,11 +38,7 @@ public class RemoteElasticsearchConnectionTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-
 		_remoteElasticsearchConnection = new RemoteElasticsearchConnection();
-
-		_remoteElasticsearchConnection.props = _props;
 	}
 
 	@Test
@@ -137,9 +129,6 @@ public class RemoteElasticsearchConnectionTest {
 		Assert.assertEquals(hostString, inetSocketAddress.getHostString());
 		Assert.assertEquals(port, inetSocketAddress.getPort());
 	}
-
-	@Mock
-	private Props _props;
 
 	private RemoteElasticsearchConnection _remoteElasticsearchConnection;
 
