@@ -16,17 +16,24 @@ package com.liferay.deprecated.modules.upgrade.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.configuration.test.util.ConfigurationTemporarySwapper;
+import com.liferay.portal.kernel.cache.CacheRegistryItem;
+import com.liferay.portal.kernel.cache.CacheRegistryUtil;
+import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
+import com.liferay.portal.kernel.dao.orm.FinderCache;
+import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ReleaseLocalService;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapDictionary;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.test.rule.Inject;
@@ -34,8 +41,11 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.test.LayoutTestUtil;
 
 import java.io.InputStream;
+import java.io.Serializable;
 
 import java.util.Dictionary;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -149,7 +159,7 @@ public class DeprecatedModulesUpgradeTest {
 					currentServletContextName);
 
 				if (servletContextName.equals(currentServletContextName)) {
-					Assert.assertNull(release);
+					Assert.assertNull(_getDebugLog(), release);
 				}
 				else {
 					Assert.assertNotNull(release);
@@ -176,6 +186,38 @@ public class DeprecatedModulesUpgradeTest {
 		}
 	}
 
+	private static String _getDebugLog() {
+		StringBundler sb = new StringBundler();
+		
+		Map<String, CacheRegistryItem> cacheRegistryItems = 
+			ReflectionTestUtil.getFieldValue(
+				(Object)ReflectionTestUtil.getFieldValue(
+					CacheRegistryUtil.class, "_instance"),  
+				"_cacheRegistryItems");
+
+		for (Map.Entry entry : cacheRegistryItems.entrySet()) {
+			sb.append("######Entry : " + entry.getKey() + ", " + entry.getValue());
+			sb.append("\n");
+		}
+
+		Map<String, PortalCache> portalCaches = 
+			ReflectionTestUtil.getFieldValue(
+				FinderCacheUtil.getFinderCache(), "_portalCaches");
+
+		for (Map.Entry entry : portalCaches.entrySet()) {
+			PortalCache portalCache = (PortalCache)entry.getValue();
+
+			List<Serializable> keys = portalCache.getKeys();
+		
+			for (Serializable key : keys) {
+				sb.append("######Cache : " + entry.getKey() + ", key: " + key + ", value: " + portalCache.get(key));
+				sb.append("\n");
+			}
+		}
+		
+		return sb.toString();
+	}
+	
 	private static final String _CONFIGURATION_PID =
 		"com.liferay.deprecated.modules.upgrade.internal." +
 			"DeprecatedModulesUpgradeConfiguration";
