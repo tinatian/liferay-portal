@@ -14,21 +14,18 @@
 
 package com.liferay.apio.architect.internal.request;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 import com.liferay.apio.architect.internal.response.control.Embedded;
 import com.liferay.apio.architect.internal.response.control.Fields;
 import com.liferay.apio.architect.internal.url.ApplicationURL;
 import com.liferay.apio.architect.internal.url.ServerURL;
 import com.liferay.apio.architect.language.AcceptLanguage;
+import com.liferay.portal.kernel.util.ProxyFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author Alejandro Hernández
@@ -37,12 +34,13 @@ public class RequestInfoTest {
 
 	@Before
 	public void setUp() {
-		_httpServletRequest = Mockito.mock(HttpServletRequest.class);
-		_serverURL = Mockito.mock(ServerURL.class);
-		_applicationURL = Mockito.mock(ApplicationURL.class);
-		_embedded = Mockito.mock(Embedded.class);
-		_fields = Mockito.mock(Fields.class);
-		_acceptLanguage = Mockito.mock(AcceptLanguage.class);
+		_httpServletRequest = ProxyFactory.newDummyInstance(
+			HttpServletRequest.class);
+		_serverURL = () -> null;
+		_applicationURL = () -> null;
+		_embedded = s -> false;
+		_fields = strings -> null;
+		_acceptLanguage = () -> null;
 	}
 
 	@Test
@@ -62,13 +60,13 @@ public class RequestInfoTest {
 				_acceptLanguage
 			).build());
 
-		assertThat(requestInfo.getEmbedded(), is(_embedded));
-		assertThat(requestInfo.getFields(), is(_fields));
-		assertThat(
-			requestInfo.getHttpServletRequest(), is(_httpServletRequest));
-		assertThat(requestInfo.getAcceptLanguage(), is(_acceptLanguage));
-		assertThat(requestInfo.getServerURL(), is(_serverURL));
-		assertThat(requestInfo.getApplicationURL(), is(_applicationURL));
+		Assert.assertSame(requestInfo.getEmbedded(), _embedded);
+		Assert.assertSame(requestInfo.getFields(), _fields);
+		Assert.assertSame(
+			requestInfo.getHttpServletRequest(), _httpServletRequest);
+		Assert.assertSame(requestInfo.getAcceptLanguage(), _acceptLanguage);
+		Assert.assertSame(requestInfo.getServerURL(), _serverURL);
+		Assert.assertSame(requestInfo.getApplicationURL(), _applicationURL);
 	}
 
 	private AcceptLanguage _acceptLanguage;

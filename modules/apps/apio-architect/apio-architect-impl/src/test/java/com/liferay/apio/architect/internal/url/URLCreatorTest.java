@@ -52,8 +52,6 @@ import java.util.Optional;
 
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author Alejandro Hernández
  */
@@ -99,19 +97,29 @@ public class URLCreatorTest {
 
 	@Test
 	public void testCreateCollectionPageURL() {
-		Pagination pagination = Mockito.mock(Pagination.class);
+		Pagination pagination = new Pagination() {
 
-		Mockito.when(
-			pagination.getItemsPerPage()
-		).thenReturn(
-			30
-		);
+			@Override
+			public int getEndPosition() {
+				return 0;
+			}
 
-		Mockito.when(
-			pagination.getPageNumber()
-		).thenReturn(
-			1
-		);
+			@Override
+			public int getItemsPerPage() {
+				return 30;
+			}
+
+			@Override
+			public int getPageNumber() {
+				return 1;
+			}
+
+			@Override
+			public int getStartPosition() {
+				return 0;
+			}
+
+		};
 
 		PageItems<String> pageItems = new PageItems<>(emptyList(), 0);
 
