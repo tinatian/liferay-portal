@@ -15,66 +15,69 @@
 package com.liferay.portal.background.task.internal;
 
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
-import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskThreadLocalManager;
+import com.liferay.portal.kernel.test.CaptureHandler;
+import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
+import com.liferay.portal.kernel.test.util.ProxyTestUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 
-import java.io.Serializable;
-
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author André de Oliveira
  */
-public class ThreadLocalAwareBackgroundTaskExecutorTest
-	extends BaseBackgroundTaskTestCase {
+public class ThreadLocalAwareBackgroundTaskExecutorTest {
 
 	@Test
 	public void testStaleBackgroundTaskIsSkipped() throws Exception {
-		CompanyLocalService companyLocalService = Mockito.mock(
-			CompanyLocalService.class);
-
-		Mockito.when(
-			companyLocalService.fetchCompany(Mockito.anyLong())
-		).thenReturn(
-			null
-		);
-
-		backgroundTaskThreadLocalManagerImpl.companyLocalService =
-			companyLocalService;
-
-		BackgroundTaskExecutor backgroundTaskExecutor = Mockito.mock(
-			BackgroundTaskExecutor.class);
+		BackgroundTaskThreadLocalManager backgroundTaskThreadLocalManager =
+			ProxyTestUtil.getProxy(
+				BackgroundTaskThreadLocalManager.class,
+				"deserializeThreadLocals",
+				new StaleBackgroundTaskException("Unable to find company"));
 
 		ThreadLocalAwareBackgroundTaskExecutor
 			threadLocalAwareBackgroundTaskExecutor =
 				new ThreadLocalAwareBackgroundTaskExecutor(
-					backgroundTaskExecutor,
-					backgroundTaskThreadLocalManagerImpl);
+					ProxyTestUtil.getProxy(
+						BackgroundTaskExecutor.class, "execute",
+						new BackgroundTaskResult(
+							BackgroundTaskConstants.STATUS_FAILED)),
+					backgroundTaskThreadLocalManager);
 
-		BackgroundTask backgroundTask = Mockito.mock(BackgroundTask.class);
+		try (CaptureHandler captureHandler =
+				JDKLoggerTestUtil.configureJDKLogger(
+					ThreadLocalAwareBackgroundTaskExecutor.class.getName(),
+					Level.INFO)) {
 
-		Mockito.when(
-			backgroundTask.getTaskContextMap()
-		).thenReturn(
-			Collections.singletonMap(
-				BackgroundTaskThreadLocalManagerImpl.KEY_THREAD_LOCAL_VALUES,
-				(Serializable)new HashMap<>(
-					Collections.singletonMap("companyId", 1)))
-		);
+			BackgroundTask backgroundTask = ProxyFactory.newDummyInstance(
+				BackgroundTask.class);
 
-		BackgroundTaskResult backgroundTaskResult =
-			threadLocalAwareBackgroundTaskExecutor.execute(backgroundTask);
+			BackgroundTaskResult backgroundTaskResult =
+				threadLocalAwareBackgroundTaskExecutor.execute(backgroundTask);
 
-		Assert.assertTrue(backgroundTaskResult.isSuccessful());
+			List<LogRecord> logRecords = captureHandler.getLogRecords();
 
-		Mockito.verifyZeroInteractions(backgroundTaskExecutor);
+			Assert.assertEquals(logRecords.toString(), 1, logRecords.size());
+
+			LogRecord logRecord = logRecords.get(0);
+
+			Assert.assertEquals(
+				"Skipped stale background task " + backgroundTask,
+				logRecord.getMessage());
+
+			Assert.assertTrue(
+				backgroundTaskResult.getStatusMessage(),
+				backgroundTaskResult.isSuccessful());
+		}
 	}
 
 }
