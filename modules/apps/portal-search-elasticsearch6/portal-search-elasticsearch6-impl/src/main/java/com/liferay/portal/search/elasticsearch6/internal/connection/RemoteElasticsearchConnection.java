@@ -19,7 +19,6 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.elasticsearch6.configuration.ElasticsearchConfiguration;
@@ -204,9 +203,6 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 
 		setTransportAddresses(SetUtil.fromArray(transportAddresses));
 	}
-
-	@Reference
-	protected Props props;
 
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
 	protected volatile XPackSecuritySettings xPackSecuritySettings;
