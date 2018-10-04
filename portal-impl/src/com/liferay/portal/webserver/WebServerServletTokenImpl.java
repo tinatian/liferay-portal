@@ -31,6 +31,11 @@ public class WebServerServletTokenImpl implements WebServerServletToken {
 			PortalCacheManagerNames.MULTI_VM, _CACHE_NAME);
 	}
 
+	public void destroy() {
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.MULTI_VM, _CACHE_NAME);
+	}
+
 	@Override
 	public String getToken(long imageId) {
 		Long key = imageId;
