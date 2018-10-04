@@ -14,13 +14,13 @@
 
 package com.liferay.portal.search.elasticsearch6.internal.connection;
 
+import com.liferay.portal.kernel.util.ProxyFactory;
+
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
 import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.common.settings.Settings;
-
-import org.mockito.Mockito;
 
 /**
  * @author André de Oliveira
@@ -50,7 +50,8 @@ public class IndexCreator {
 		IndexCreationHelper indexCreationHelper = _indexCreationHelper;
 
 		if (indexCreationHelper == null) {
-			indexCreationHelper = Mockito.mock(IndexCreationHelper.class);
+			indexCreationHelper = ProxyFactory.newDummyInstance(
+				IndexCreationHelper.class);
 		}
 
 		indexCreationHelper.contribute(createIndexRequestBuilder);

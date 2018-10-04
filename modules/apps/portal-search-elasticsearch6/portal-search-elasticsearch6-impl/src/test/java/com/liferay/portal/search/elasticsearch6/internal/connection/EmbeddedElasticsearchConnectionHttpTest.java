@@ -41,8 +41,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.MockitoAnnotations;
-
 /**
  * @author André de Oliveira
  */
@@ -50,8 +48,6 @@ public class EmbeddedElasticsearchConnectionHttpTest {
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-
 		_clusterName = RandomTestUtil.randomString();
 
 		Map<String, Object> properties = new HashMap<String, Object>() {

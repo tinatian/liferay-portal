@@ -14,6 +14,7 @@
 
 package com.liferay.wiki.engine.creole.util.test;
 
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.wiki.configuration.WikiGroupServiceConfiguration;
 import com.liferay.wiki.engine.creole.internal.parser.ast.WikiPageNode;
 import com.liferay.wiki.engine.creole.internal.parser.parser.Creole10Lexer;
@@ -26,8 +27,6 @@ import java.io.InputStream;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-
-import org.mockito.Mockito;
 
 /**
  * @author Roberto Díaz
@@ -43,13 +42,7 @@ public class CreoleTestUtil {
 		wikiEngineCreoleComponentProvider.activate();
 
 		WikiGroupServiceConfiguration wikiGroupServiceConfiguration =
-			Mockito.mock(WikiGroupServiceConfiguration.class);
-
-		Mockito.when(
-			wikiGroupServiceConfiguration.parsersCreoleSupportedProtocols()
-		).thenReturn(
-			new String[] {"ftp://", "http://", "https://", "mailto", "mms://"}
-		);
+			ProxyFactory.newDummyInstance(WikiGroupServiceConfiguration.class);
 
 		wikiEngineCreoleComponentProvider.setWikiGroupServiceConfiguration(
 			wikiGroupServiceConfiguration);

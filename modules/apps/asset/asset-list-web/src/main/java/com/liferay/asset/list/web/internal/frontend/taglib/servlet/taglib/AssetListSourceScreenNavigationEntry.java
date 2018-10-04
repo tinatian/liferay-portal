@@ -36,8 +36,8 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {
-		"screen.navigation.category.order:Integer=15",
-		"screen.navigation.entry.order:Integer=15"
+		"screen.navigation.category.order:Integer=10",
+		"screen.navigation.entry.order:Integer=10"
 	},
 	service = {ScreenNavigationCategory.class, ScreenNavigationEntry.class}
 )

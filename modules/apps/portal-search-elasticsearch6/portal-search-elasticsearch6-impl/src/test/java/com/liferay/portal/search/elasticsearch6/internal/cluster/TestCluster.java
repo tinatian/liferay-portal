@@ -22,8 +22,6 @@ import java.net.NetworkInterface;
 
 import java.util.HashMap;
 
-import org.mockito.Mockito;
-
 /**
  * @author André de Oliveira
  */
@@ -133,7 +131,7 @@ public class TestCluster {
 
 		@Override
 		public NetworkInterface getLocalBindNetworkInterface() {
-			return Mockito.mock(NetworkInterface.class);
+			return null;
 		}
 
 		@Override
