@@ -44,6 +44,14 @@ public class SocialActivitySettingLocalServiceImpl
 	extends SocialActivitySettingLocalServiceBaseImpl {
 
 	@Override
+	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
+
+		_activityDefinitions = PortalCacheHelperUtil.getPortalCache(
+			PortalCacheManagerNames.MULTI_VM, _CACHE_NAME);
+	}
+
+	@Override
 	public void deleteActivitySetting(
 		long groupId, String className, long classPK) {
 
@@ -62,6 +70,14 @@ public class SocialActivitySettingLocalServiceImpl
 	@Override
 	public void deleteActivitySettings(long groupId) {
 		socialActivitySettingPersistence.removeByGroupId(groupId);
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.MULTI_VM, _CACHE_NAME);
 	}
 
 	@Override
@@ -412,14 +428,14 @@ public class SocialActivitySettingLocalServiceImpl
 		return jsonObject.toString();
 	}
 
+	private static final String _CACHE_NAME =
+		SocialActivitySettingLocalServiceImpl.class.getName();
+
 	private static final String _PREFIX_CLASS_PK = "_LFR_CLASS_PK_";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SocialActivitySettingLocalServiceImpl.class);
 
-	private static final PortalCache<String, SocialActivityDefinition>
-		_activityDefinitions = PortalCacheHelperUtil.getPortalCache(
-			PortalCacheManagerNames.MULTI_VM,
-			SocialActivitySettingLocalServiceImpl.class.getName());
+	private PortalCache<String, SocialActivityDefinition> _activityDefinitions;
 
 }

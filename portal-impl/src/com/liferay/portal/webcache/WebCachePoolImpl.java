@@ -39,6 +39,11 @@ public class WebCachePoolImpl implements WebCachePool {
 		_portalCache.removeAll();
 	}
 
+	public void destroy() {
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.SINGLE_VM, _CACHE_NAME);
+	}
+
 	@Override
 	public Object get(String key, WebCacheItem wci) {
 		Object obj = _portalCache.get(key);

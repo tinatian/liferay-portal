@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -77,6 +78,13 @@ public class PortalCacheIndexerTest {
 				ClassLoader.getSystemClassLoader(),
 				new Class<?>[] {ConcurrentMap.class},
 				_mappedMethodCallableInvocationHandler));
+	}
+
+	@After
+	public void tearDown() {
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.MULTI_VM,
+			_portalCache.getPortalCacheName());
 	}
 
 	@Test
@@ -128,9 +136,6 @@ public class PortalCacheIndexerTest {
 
 	@Test
 	public void testConstructor() {
-		_portalCache = PortalCacheHelperUtil.getPortalCache(
-			PortalCacheManagerNames.MULTI_VM, RandomTestUtil.randomString());
-
 		_portalCache.put(_INDEX_1_KEY_1, _VALUE);
 
 		_portalCacheIndexer = new PortalCacheIndexer<>(

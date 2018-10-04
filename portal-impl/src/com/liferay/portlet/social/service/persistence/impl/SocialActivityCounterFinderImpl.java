@@ -64,6 +64,11 @@ public class SocialActivityCounterFinderImpl
 	public static final String FIND_U_BY_G_C_N_S_E =
 		SocialActivityCounterFinder.class.getName() + ".findU_ByG_C_N_S_E";
 
+	public void afterPropertiesSet() {
+		_activityCounters = PortalCacheHelperUtil.getPortalCache(
+			PortalCacheManagerNames.MULTI_VM, _CACHE_NAME);
+	}
+
 	@Override
 	public int countU_ByG_N(long groupId, String[] names) {
 		Session session = null;
@@ -107,6 +112,11 @@ public class SocialActivityCounterFinderImpl
 		finally {
 			closeSession(session);
 		}
+	}
+
+	public void destroy() {
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.MULTI_VM, _CACHE_NAME);
 	}
 
 	@Override
@@ -354,9 +364,9 @@ public class SocialActivityCounterFinderImpl
 		}
 	}
 
-	private static final PortalCache<String, Serializable> _activityCounters =
-		PortalCacheHelperUtil.getPortalCache(
-			PortalCacheManagerNames.MULTI_VM,
-			SocialActivityCounterFinder.class.getName());
+	private static final String _CACHE_NAME =
+		SocialActivityCounterFinder.class.getName();
+
+	private PortalCache<String, Serializable> _activityCounters;
 
 }

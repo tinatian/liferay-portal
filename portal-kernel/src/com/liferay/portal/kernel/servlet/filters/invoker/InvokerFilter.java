@@ -150,6 +150,12 @@ public class InvokerFilter extends BasePortalLifecycle implements Filter {
 
 			invokerFilterHelper.destroy();
 		}
+
+		if (_filterChains != null) {
+			PortalCacheHelperUtil.removePortalCache(
+				PortalCacheManagerNames.SINGLE_VM,
+				_filterConfig.getFilterName());
+		}
 	}
 
 	@Override

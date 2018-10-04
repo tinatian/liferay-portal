@@ -67,11 +67,19 @@ public class StripFilter extends BasePortalFilter {
 	public StripFilter() {
 		if (PropsValues.MINIFIER_INLINE_CONTENT_CACHE_ENABLED) {
 			_minifierCache = PortalCacheHelperUtil.getPortalCache(
-				PortalCacheManagerNames.SINGLE_VM, StripFilter.class.getName());
+				PortalCacheManagerNames.SINGLE_VM, _CACHE_NAME);
 		}
 		else {
 			_minifierCache = null;
 		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.SINGLE_VM, _CACHE_NAME);
 	}
 
 	@Override
@@ -702,6 +710,8 @@ public class StripFilter extends BasePortalFilter {
 
 		writer.flush();
 	}
+
+	private static final String _CACHE_NAME = StripFilter.class.getName();
 
 	private static final String _ENSURE_CONTENT_LENGTH = "ensureContentLength";
 

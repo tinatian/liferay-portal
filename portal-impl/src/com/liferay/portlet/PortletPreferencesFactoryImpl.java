@@ -141,6 +141,11 @@ public class PortletPreferencesFactoryImpl
 		return preferencesMap;
 	}
 
+	public void afterPropertiesSet() {
+		_preferencesMapPortalCache = PortalCacheHelperUtil.getPortalCache(
+			PortalCacheManagerNames.SINGLE_VM, _CACHE_NAME);
+	}
+
 	@Override
 	public void checkControlPanelPortletPreferences(
 			ThemeDisplay themeDisplay, Portlet portlet)
@@ -182,6 +187,11 @@ public class PortletPreferencesFactoryImpl
 
 		PortletPreferencesLocalServiceUtil.getPreferences(
 			portletPreferencesIds);
+	}
+
+	public void destroy() {
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.SINGLE_VM, _CACHE_NAME);
 	}
 
 	@Override
@@ -954,13 +964,14 @@ public class PortletPreferencesFactoryImpl
 			layout.getCompanyId(), ownerId, ownerType, plid, portletId);
 	}
 
+	private static final String _CACHE_NAME =
+		PortletPreferencesFactoryImpl.class.getName();
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletPreferencesFactoryImpl.class);
 
 	private Map<String, Preference> _defaultPreferencesMap;
-	private final PortalCache<String, Map<String, Preference>>
-		_preferencesMapPortalCache = PortalCacheHelperUtil.getPortalCache(
-			PortalCacheManagerNames.SINGLE_VM,
-			PortletPreferencesFactoryImpl.class.getName());
+	private PortalCache<String, Map<String, Preference>>
+		_preferencesMapPortalCache;
 
 }

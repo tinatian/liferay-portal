@@ -129,6 +129,15 @@ public class LanguageImpl implements Language, Serializable {
 			_removeSynchronizer);
 	}
 
+	public void destroy() {
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.MULTI_VM,
+			_COMPANY_LOCALES_PORTAL_CACHE_NAME);
+
+		PortalCacheHelperUtil.removePortalCache(
+			PortalCacheManagerNames.MULTI_VM, _GROUP_LOCALES_PORTAL_CACHE_NAME);
+	}
+
 	/**
 	 * Returns the translated pattern using the current request's locale or, if
 	 * the current request locale is not available, the server's default locale.
