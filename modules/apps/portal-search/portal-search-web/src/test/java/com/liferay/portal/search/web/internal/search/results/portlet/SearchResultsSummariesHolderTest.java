@@ -15,6 +15,7 @@
 package com.liferay.portal.search.web.internal.search.results.portlet;
 
 import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.portal.search.web.internal.result.display.context.SearchResultSummaryDisplayContext;
 
 import java.util.ArrayList;
@@ -22,8 +23,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author André de Oliveira
@@ -40,7 +39,7 @@ public class SearchResultsSummariesHolderTest {
 			new SearchResultsSummariesHolder(capacity);
 
 		for (int i = 0; i < capacity; i++) {
-			Document document = Mockito.mock(Document.class);
+			Document document = ProxyFactory.newDummyInstance(Document.class);
 
 			expectedDocuments.add(document);
 

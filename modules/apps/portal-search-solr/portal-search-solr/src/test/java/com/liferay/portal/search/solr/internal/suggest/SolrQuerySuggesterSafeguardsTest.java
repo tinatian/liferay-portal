@@ -24,8 +24,6 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author André de Oliveira
  */
@@ -53,7 +51,7 @@ public class SolrQuerySuggesterSafeguardsTest {
 	protected SolrQuerySuggester createSolrQuerySuggester() {
 		return new SolrQuerySuggester() {
 			{
-				setSolrClientManager(Mockito.mock(SolrClientManager.class));
+				setSolrClientManager(new SolrClientManager());
 			}
 		};
 	}
