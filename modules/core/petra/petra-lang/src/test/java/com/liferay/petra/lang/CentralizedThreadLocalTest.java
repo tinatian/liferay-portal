@@ -225,11 +225,20 @@ public class CentralizedThreadLocalTest {
 
 		// By null Supplier
 
+		CentralizedThreadLocal.clearShortLivedThreadLocals();
+
 		centralizedThreadLocal = new CentralizedThreadLocal<>(null, null);
 
+		Assert.assertNull(centralizedThreadLocal.initialValue());
 		Assert.assertNull(centralizedThreadLocal.get());
 
-		centralizedThreadLocal.remove();
+		Assert.assertEquals(
+			0,
+			(int)ReflectionTestUtil.getFieldValue(
+				(Object)ReflectionTestUtil.invoke(
+					centralizedThreadLocal, "_getThreadLocalMap",
+					new Class<?>[0]),
+				"_size"));
 	}
 
 	@Test

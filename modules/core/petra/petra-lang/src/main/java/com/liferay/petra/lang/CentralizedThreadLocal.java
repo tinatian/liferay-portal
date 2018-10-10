@@ -106,12 +106,7 @@ public class CentralizedThreadLocal<T> extends ThreadLocal<T> {
 			_name = name;
 		}
 
-		if (supplier == null) {
-			_supplier = () -> null;
-		}
-		else {
-			_supplier = supplier;
-		}
+		_supplier = supplier;
 
 		if (copyFunction == null) {
 			_copyFunction = this::_copy;
@@ -139,6 +134,10 @@ public class CentralizedThreadLocal<T> extends ThreadLocal<T> {
 		Entry entry = threadLocalMap.getEntry(this);
 
 		if (entry == null) {
+			if (_supplier == null) {
+				return null;
+			}
+
 			T value = initialValue();
 
 			threadLocalMap.putEntry(this, value);
@@ -175,7 +174,11 @@ public class CentralizedThreadLocal<T> extends ThreadLocal<T> {
 
 	@Override
 	protected T initialValue() {
-		return _supplier.get();
+		if (_supplier != null) {
+			return _supplier.get();
+		}
+
+		return null;
 	}
 
 	private static Map<CentralizedThreadLocal<?>, Object> _toMap(
