@@ -46,6 +46,10 @@ public class FinderCacheUtil {
 		return _finderCache.getResult(finderPath, args, basePersistenceImpl);
 	}
 
+	public static void initializeLocalCache() {
+		_finderCache.initializeLocalCache();
+	}
+
 	public static void invalidate() {
 		getFinderCache().invalidate();
 	}

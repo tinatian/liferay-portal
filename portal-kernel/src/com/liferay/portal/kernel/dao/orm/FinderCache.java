@@ -32,6 +32,8 @@ public interface FinderCache {
 		FinderPath finderPath, Object[] args,
 		BasePersistenceImpl<? extends BaseModel<?>> basePersistenceImpl);
 
+	public void initializeLocalCache();
+
 	public void invalidate();
 
 	public void putResult(FinderPath finderPath, Object[] args, Object result);

@@ -52,6 +52,10 @@ public class EntityCacheUtil {
 		return _entityCache.getResult(entityCacheEnabled, clazz, primaryKey);
 	}
 
+	public static void initializeLocalCache() {
+		_entityCache.initializeLocalCache();
+	}
+
 	public static void invalidate() {
 		_entityCache.invalidate();
 	}

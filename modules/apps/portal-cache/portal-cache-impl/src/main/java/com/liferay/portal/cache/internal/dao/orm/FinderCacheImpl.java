@@ -148,6 +148,13 @@ public class FinderCacheImpl
 	}
 
 	@Override
+	public void initializeLocalCache() {
+		if (_objectValueLocalCache != null) {
+			_objectValueLocalCache.initialize();
+		}
+	}
+
+	@Override
 	public void invalidate() {
 		clearCache();
 	}

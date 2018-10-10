@@ -35,6 +35,8 @@ public interface EntityCache {
 	public Serializable getResult(
 		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey);
 
+	public void initializeLocalCache();
+
 	public void invalidate();
 
 	public Serializable loadResult(
