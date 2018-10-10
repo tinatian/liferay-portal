@@ -14,7 +14,6 @@
 
 package com.liferay.portal.cache.internal.dao.orm;
 
-import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.cache.CacheRegistryItem;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
@@ -50,8 +49,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.commons.collections.map.LRUMap;
-
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -86,8 +83,8 @@ public class FinderCacheImpl
 
 	@Override
 	public void clearLocalCache() {
-		if (_localCache != null) {
-			_localCache.remove();
+		if (_objectValueLocalCache != null) {
+			_objectValueLocalCache.clear();
 		}
 	}
 
@@ -118,12 +115,10 @@ public class FinderCacheImpl
 		Serializable localCacheKey = null;
 		Serializable primaryKey = null;
 
-		if (_localCache != null) {
-			localCache = _localCache.get();
-
+		if (_objectValueLocalCache != null) {
 			localCacheKey = finderPath.encodeLocalCacheKey(encodedArguments);
 
-			primaryKey = localCache.get(localCacheKey);
+			primaryKey = _objectValueLocalCache.get(localCacheKey);
 		}
 
 		if (primaryKey == null) {
@@ -196,10 +191,8 @@ public class FinderCacheImpl
 		Serializable cacheKey = finderPath.encodeCacheKey(encodedArguments);
 
 		if (primaryKey == null) {
-			if (_localCache != null) {
-				Map<Serializable, Serializable> localCache = _localCache.get();
-
-				localCache.remove(
+			if (_objectValueLocalCache != null) {
+				_objectValueLocalCache.remove(
 					finderPath.encodeLocalCacheKey(encodedArguments));
 			}
 
@@ -212,10 +205,8 @@ public class FinderCacheImpl
 			}
 		}
 		else {
-			if (_localCache != null) {
-				Map<Serializable, Serializable> localCache = _localCache.get();
-
-				localCache.put(
+			if (_objectValueLocalCache != null) {
+				_objectValueLocalCache.put(
 					finderPath.encodeLocalCacheKey(encodedArguments),
 					primaryKey);
 			}
@@ -250,10 +241,9 @@ public class FinderCacheImpl
 
 		String encodedArguments = finderPath.encodeArguments(args);
 
-		if (_localCache != null) {
-			Map<Serializable, Serializable> localCache = _localCache.get();
-
-			localCache.remove(finderPath.encodeLocalCacheKey(encodedArguments));
+		if (_objectValueLocalCache != null) {
+			_objectValueLocalCache.remove(
+				finderPath.encodeLocalCacheKey(encodedArguments));
 		}
 
 		PortalCache<Serializable, Serializable> portalCache = _getPortalCache(
@@ -278,9 +268,8 @@ public class FinderCacheImpl
 				PropsKeys.VALUE_OBJECT_FINDER_THREAD_LOCAL_CACHE_MAX_SIZE));
 
 		if (localCacheMaxSize > 0) {
-			_localCache = new CentralizedThreadLocal<>(
-				FinderCacheImpl.class + "._localCache",
-				() -> new LRUMap(localCacheMaxSize));
+			_objectValueLocalCache = new ObjectValueLocalCache(
+				FinderCacheImpl.class + "._localCache", localCacheMaxSize);
 		}
 
 		PortalCacheManager<? extends Serializable, ? extends Serializable>
@@ -437,8 +426,8 @@ public class FinderCacheImpl
 	}
 
 	private EntityCache _entityCache;
-	private ThreadLocal<LRUMap> _localCache;
 	private MultiVMPool _multiVMPool;
+	private ObjectValueLocalCache _objectValueLocalCache;
 	private final ConcurrentMap<String, PortalCache<Serializable, Serializable>>
 		_portalCaches = new ConcurrentHashMap<>();
 	private Props _props;
