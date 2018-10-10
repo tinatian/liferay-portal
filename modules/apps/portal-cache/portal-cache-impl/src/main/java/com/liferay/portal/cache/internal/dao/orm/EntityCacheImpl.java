@@ -46,7 +46,6 @@ import org.apache.commons.collections.map.LRUMap;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -355,7 +354,6 @@ public class EntityCacheImpl
 	}
 
 	@Activate
-	@Modified
 	protected void activate() {
 		_valueObjectEntityBlockingCacheEnabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.VALUE_OBJECT_ENTITY_BLOCKING_CACHE));
@@ -372,9 +370,6 @@ public class EntityCacheImpl
 			_localCache = new CentralizedThreadLocal<>(
 				EntityCacheImpl.class + "._localCache",
 				() -> new LRUMap(localCacheMaxSize));
-		}
-		else {
-			_localCache = null;
 		}
 
 		PortalCacheManager<? extends Serializable, ? extends Serializable>

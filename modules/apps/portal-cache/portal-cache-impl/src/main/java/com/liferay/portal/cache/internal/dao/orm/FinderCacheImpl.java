@@ -54,7 +54,6 @@ import org.apache.commons.collections.map.LRUMap;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -264,7 +263,6 @@ public class FinderCacheImpl
 	}
 
 	@Activate
-	@Modified
 	protected void activate() {
 		_valueObjectFinderCacheEnabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_ENABLED));
@@ -283,9 +281,6 @@ public class FinderCacheImpl
 			_localCache = new CentralizedThreadLocal<>(
 				FinderCacheImpl.class + "._localCache",
 				() -> new LRUMap(localCacheMaxSize));
-		}
-		else {
-			_localCache = null;
 		}
 
 		PortalCacheManager<? extends Serializable, ? extends Serializable>
