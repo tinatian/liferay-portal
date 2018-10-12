@@ -16,8 +16,6 @@ package com.liferay.portlet;
 
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
-import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
-import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.exception.NoSuchPreferencesException;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
@@ -411,9 +409,6 @@ public class PortalPreferencesImplTest {
 		futureTask1.get();
 
 		futureTask2.get();
-
-		EntityCacheUtil.clearLocalCache();
-		FinderCacheUtil.clearLocalCache();
 	}
 
 	protected static class SynchronizedTransactionExecutor

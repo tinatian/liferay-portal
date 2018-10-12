@@ -18,8 +18,6 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.configuration.test.util.ConfigurationTemporarySwapper;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
-import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
-import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.service.LayoutLocalService;
@@ -157,8 +155,6 @@ public class DeprecatedModulesUpgradeTest {
 				new ConfigurationTemporarySwapper(
 					_CONFIGURATION_PID, properties)) {
 
-			FinderCacheUtil.clearLocalCache();
-
 			for (String currentServletContextName : _SERVLET_CONTEXT_NAMES) {
 				Release release = _releaseLocalService.fetchRelease(
 					currentServletContextName);
@@ -173,8 +169,6 @@ public class DeprecatedModulesUpgradeTest {
 		}
 
 		if (portletPreferencePortletId != null) {
-			EntityCacheUtil.clearLocalCache();
-
 			_layout = _layoutLocalService.getLayout(_layout.getPlid());
 
 			UnicodeProperties unicodeProperties =
