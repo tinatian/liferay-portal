@@ -14,7 +14,6 @@
 
 package com.liferay.portal.service;
 
-import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
@@ -69,8 +68,6 @@ public class UserGroupRoleLocalServiceTest {
 
 		Assert.assertEquals(
 			userGroupRoles.toString(), 1, userGroupRoles.size());
-
-		EntityCacheUtil.clearLocalCache();
 
 		Assert.assertEquals(
 			userGroupRoles.get(0),
