@@ -16,63 +16,39 @@ package com.liferay.portal.kernel.servlet.filters.invoker;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.servlet.HttpMethods;
+import com.liferay.portal.kernel.test.ProxyTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  * @author Mika Koivisto
  */
-@RunWith(PowerMockRunner.class)
-public class FilterMappingTest extends PowerMockito {
-
-	@Before
-	public void setUp() {
-		_dispatchers = new ArrayList<>();
-
-		for (Dispatcher dispatcher : Dispatcher.values()) {
-			_dispatchers.add(dispatcher.name());
-		}
-
-		_filter = mock(Filter.class);
-
-		_filterConfig = mock(FilterConfig.class);
-
-		when(
-			_filterConfig.getInitParameter("url-regex-pattern")
-		).thenReturn(
-			StringPool.BLANK
-		);
-
-		when(
-			_filterConfig.getInitParameter("url-regex-ignore-pattern")
-		).thenReturn(
-			StringPool.BLANK
-		);
-	}
+public class FilterMappingTest {
 
 	@Test
 	public void testIsMatchURLPattern() {
+		List<String> dispatchers = new ArrayList<>();
+
+		for (Dispatcher dispatcher : Dispatcher.values()) {
+			dispatchers.add(dispatcher.name());
+		}
+
 		List<String> urlPatterns = new ArrayList<>();
 
 		urlPatterns.add("/c/portal/login");
 
 		FilterMapping filterMapping = new FilterMapping(
-			StringPool.BLANK, _filter, _filterConfig, urlPatterns,
-			_dispatchers);
+			StringPool.BLANK, null,
+			ProxyTestUtil.getDummyProxy(FilterConfig.class), urlPatterns,
+			dispatchers);
 
 		String uri = "/c/portal/login";
 
@@ -84,9 +60,5 @@ public class FilterMappingTest extends PowerMockito {
 			filterMapping.isMatch(
 				mockHttpServletRequest, Dispatcher.REQUEST, uri));
 	}
-
-	private List<String> _dispatchers;
-	private Filter _filter;
-	private FilterConfig _filterConfig;
 
 }

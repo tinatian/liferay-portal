@@ -14,9 +14,8 @@
 
 package com.liferay.portal.kernel.dao.db;
 
+import com.liferay.portal.kernel.test.ProxyTestUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-
-import com.mysql.jdbc.ResultSetMetaData;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -26,40 +25,35 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Mariano Alvaro Saiz
  */
-@RunWith(MockitoJUnitRunner.class)
 public class DBInspectorUnitTest {
 
 	@Test
 	public void testArgumentMetaDataIsUsedToNormalizeName() throws Exception {
+		_connection = ProxyTestUtil.getProxy(Connection.class);
+
 		DBInspector dbInspector = new DBInspector(_connection);
 
-		DatabaseMetaData databaseMetaData = Mockito.mock(
-			DatabaseMetaData.class);
-
-		Mockito.when(
-			databaseMetaData.storesLowerCaseIdentifiers()
-		).thenReturn(
-			true
-		);
+		DatabaseMetaData databaseMetaData = ProxyTestUtil.getProxy(
+			DatabaseMetaData.class,
+			ProxyTestUtil.getProxyMethod(
+				"storesLowerCaseIdentifiers", (Object[] args) -> true));
 
 		dbInspector.normalizeName(_TABLE_NAME, databaseMetaData);
 
-		Mockito.verify(
-			_connection, Mockito.never()
-		).getMetaData();
+		ProxyTestUtil.assertAction(
+			_connection,
+			ProxyTestUtil.getProxyAction("getMetaData", new Object[0]),
+			times -> times == 0);
 
-		Mockito.verify(
-			databaseMetaData, Mockito.times(1)
-		).storesLowerCaseIdentifiers();
+		ProxyTestUtil.assertAction(
+			databaseMetaData,
+			ProxyTestUtil.getProxyAction(
+				"storesLowerCaseIdentifiers", new Object[0]),
+			times -> times == 1);
 	}
 
 	@Test
@@ -101,9 +95,10 @@ public class DBInspectorUnitTest {
 
 		dbInspector.hasColumn(_TABLE_NAME, _COLUMN_NAME);
 
-		Mockito.verify(
-			_preparedStatement, Mockito.never()
-		).executeQuery();
+		ProxyTestUtil.assertAction(
+			_preparedStatement,
+			ProxyTestUtil.getProxyAction("executeQuery", new Object[0]),
+			times -> times == 0);
 	}
 
 	private void _mockTableWithColumn(String tableName, String columnName)
@@ -116,50 +111,37 @@ public class DBInspectorUnitTest {
 			String tableName, String columnName, boolean hasColumn)
 		throws SQLException {
 
-		Mockito.when(
-			_connection.getMetaData()
-		).thenReturn(
-			_databaseMetaData
-		);
+		ResultSet resultSet = ProxyTestUtil.getProxy(
+			ResultSet.class,
+			ProxyTestUtil.getProxyMethod("next", (Object[] args) -> hasColumn));
 
-		Mockito.when(
-			_connection.prepareStatement(Mockito.anyString())
-		).thenReturn(
-			_preparedStatement
-		);
+		DatabaseMetaData databaseMetaData = ProxyTestUtil.getProxy(
+			DatabaseMetaData.class,
+			ProxyTestUtil.getProxyMethod(
+				"storesLowerCaseIdentifiers", (Object[] args) -> true),
+			ProxyTestUtil.getProxyMethod(
+				"getColumns",
+				(Object[] args) -> {
+					if (args[2].equals(StringUtil.toLowerCase(tableName)) &&
+						args[3].equals(columnName)) {
 
-		Mockito.when(
-			_preparedStatement.executeQuery()
-		).thenReturn(
-			_resultSet
-		);
+						return resultSet;
+					}
 
-		Mockito.when(
-			_databaseMetaData.getColumns(
-				Mockito.anyString(), Mockito.anyString(),
-				Mockito.eq(StringUtil.toLowerCase(tableName)),
-				Mockito.eq(columnName))
-		).thenReturn(
-			_resultSet
-		);
+					return null;
+				}));
 
-		Mockito.when(
-			_databaseMetaData.storesLowerCaseIdentifiers()
-		).thenReturn(
-			true
-		);
+		_preparedStatement = ProxyTestUtil.getProxy(
+			PreparedStatement.class,
+			ProxyTestUtil.getProxyMethod(
+				"executeQuery", (Object[] args) -> resultSet));
 
-		Mockito.when(
-			_resultSet.getMetaData()
-		).thenReturn(
-			_resultSetMetaData
-		);
-
-		Mockito.when(
-			_resultSet.next()
-		).thenReturn(
-			hasColumn
-		);
+		_connection = ProxyTestUtil.getProxy(
+			Connection.class,
+			ProxyTestUtil.getProxyMethod(
+				"getMetaData", (Object[] args) -> databaseMetaData),
+			ProxyTestUtil.getProxyMethod(
+				"prepareStatement", (Object[] args) -> _preparedStatement));
 	}
 
 	private void _mockTableWithoutColumn(String tableName, String columnName)
@@ -172,19 +154,7 @@ public class DBInspectorUnitTest {
 
 	private static final String _TABLE_NAME = "table_name";
 
-	@Mock
 	private Connection _connection;
-
-	@Mock
-	private DatabaseMetaData _databaseMetaData;
-
-	@Mock
 	private PreparedStatement _preparedStatement;
-
-	@Mock
-	private ResultSet _resultSet;
-
-	@Mock
-	private ResultSetMetaData _resultSetMetaData;
 
 }

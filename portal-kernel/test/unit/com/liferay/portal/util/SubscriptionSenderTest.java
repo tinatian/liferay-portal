@@ -14,8 +14,6 @@
 
 package com.liferay.portal.util;
 
-import com.liferay.portal.kernel.bean.BeanLocator;
-import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.CompanyLocalService;
@@ -23,112 +21,69 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.test.ProxyTestUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Props;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SubscriptionSender;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
-import java.lang.reflect.Field;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.mockito.Mockito;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Mika Koivisto
  */
-@RunWith(PowerMockRunner.class)
-public class SubscriptionSenderTest extends PowerMockito {
+public class SubscriptionSenderTest {
 
 	@Before
 	public void setUp() throws Exception {
-		CompanyLocalService companyLocalService = getMockService(
-			CompanyLocalServiceUtil.class, CompanyLocalService.class);
+		ReflectionTestUtil.setFieldValue(
+			CompanyLocalServiceUtil.class, "_service",
+			ProxyTestUtil.getProxy(
+				CompanyLocalService.class,
+				ProxyTestUtil.getProxyMethod(
+					"getCompany",
+					(Object[] arguments) -> ProxyTestUtil.getProxy(
+						Company.class,
+						ProxyTestUtil.getProxyMethod(
+							"getPortalURL",
+							(Object[] args) -> {
+								if (args[0].equals(0L)) {
+									return "http://www.portal.com";
+								}
+								else if (args[0].equals(100L)) {
+									return "http://www.virtual.com";
+								}
 
-		Company company = mock(Company.class);
+								return null;
+							})))));
 
-		when(
-			companyLocalService.getCompany(Mockito.anyLong())
-		).thenReturn(
-			company
-		);
+		ReflectionTestUtil.setFieldValue(
+			GroupLocalServiceUtil.class, "_service",
+			ProxyTestUtil.getProxy(
+				GroupLocalService.class,
+				ProxyTestUtil.getProxyMethod(
+					"getGroup",
+					(Object[] arguments) -> {
+						if ((arguments.length == 1) &&
+							arguments[0].equals(100L)) {
 
-		when(
-			company.getPortalURL(Mockito.eq(0L))
-		).thenReturn(
-			"http://www.portal.com"
-		);
+							return ProxyTestUtil.getProxy(Group.class);
+						}
 
-		when(
-			company.getPortalURL(Mockito.eq(100L))
-		).thenReturn(
-			"http://www.virtual.com"
-		);
+						return null;
+					})));
 
-		GroupLocalService groupLocalService = getMockService(
-			GroupLocalServiceUtil.class, GroupLocalService.class);
+		ReflectionTestUtil.setFieldValue(
+			PortalUUIDUtil.class, "_portalUUID",
+			ProxyTestUtil.getDummyProxy(PortalUUID.class));
 
-		Group group = mock(Group.class);
-
-		when(
-			groupLocalService.getGroup(Mockito.eq(100L))
-		).thenReturn(
-			group
-		);
-
-		when(
-			group.isLayout()
-		).thenReturn(
-			false
-		);
-
-		PortalBeanLocatorUtil.setBeanLocator(_beanLocator);
-
-		PortalUUIDUtil portalUUIDUtil = new PortalUUIDUtil();
-
-		PortalUUID portalUUID = mock(PortalUUID.class);
-
-		portalUUIDUtil.setPortalUUID(portalUUID);
-
-		PortalUtil portalUtil = new PortalUtil();
-
-		Portal portal = mock(Portal.class);
-
-		portalUtil.setPortal(portal);
-
-		Props props = mock(Props.class);
-
-		PropsUtil.setProps(props);
-	}
-
-	@After
-	public void tearDown() {
-		for (Class<?> serviceUtilClass : _serviceUtilClasses) {
-			try {
-				Field field = serviceUtilClass.getDeclaredField("_service");
-
-				field.setAccessible(true);
-
-				field.set(serviceUtilClass, null);
-			}
-			catch (Exception e) {
-			}
-		}
-
-		PortalBeanLocatorUtil.reset();
+		ReflectionTestUtil.setFieldValue(
+			PortalUtil.class, "_portal",
+			ProxyTestUtil.getDummyProxy(Portal.class));
 	}
 
 	@Test
@@ -179,24 +134,5 @@ public class SubscriptionSenderTest extends PowerMockito {
 
 		Assert.assertEquals("http://www.virtual.com", portalURL);
 	}
-
-	protected <T> T getMockService(
-		Class<?> serviceUtilClass, Class<T> serviceClass) {
-
-		_serviceUtilClasses.add(serviceUtilClass);
-
-		T service = mock(serviceClass);
-
-		when(
-			_beanLocator.locate(Mockito.eq(serviceClass.getName()))
-		).thenReturn(
-			service
-		);
-
-		return service;
-	}
-
-	private final BeanLocator _beanLocator = mock(BeanLocator.class);
-	private final List<Class<?>> _serviceUtilClasses = new ArrayList<>();
 
 }

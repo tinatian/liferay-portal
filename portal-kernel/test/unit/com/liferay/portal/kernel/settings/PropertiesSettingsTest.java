@@ -14,6 +14,10 @@
 
 package com.liferay.portal.kernel.settings;
 
+import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
+import com.liferay.portal.kernel.resource.ResourceRetriever;
+import com.liferay.portal.kernel.resource.manager.ResourceManager;
+import com.liferay.portal.kernel.test.ProxyTestUtil;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 
 import java.util.Map;
@@ -23,12 +27,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.powermock.api.mockito.PowerMockito;
-
 /**
  * @author Iván Zaera
  */
-public class PropertiesSettingsTest extends PowerMockito {
+public class PropertiesSettingsTest {
 
 	@Before
 	public void setUp() {
@@ -37,7 +39,8 @@ public class PropertiesSettingsTest extends PowerMockito {
 		properties.put(_SINGLE_KEY, _SINGLE_VALUE);
 		properties.put(_MULTIPLE_KEY, _MULTIPLE_VALUES);
 
-		_mockLocationVariableResolver = mock(LocationVariableResolver.class);
+		_mockLocationVariableResolver = new LocationVariableResolver(
+			null, (SettingsLocatorHelper)null);
 
 		_propertiesSettings = new PropertiesSettings(
 			_mockLocationVariableResolver, properties);
@@ -72,21 +75,29 @@ public class PropertiesSettingsTest extends PowerMockito {
 	public void testGetValuesWithResourceValue() {
 		_properties.put(_MULTIPLE_KEY, _RESOURCE_MULTIPLE_VALUES);
 
-		when(
-			_mockLocationVariableResolver.isLocationVariable(
-				_RESOURCE_MULTIPLE_VALUES)
-		).thenReturn(
-			true
-		);
-
 		final String expectedValue =
 			"resourceValue0,resourceValue1,resourceValue2";
 
-		when(
-			_mockLocationVariableResolver.resolve(_RESOURCE_MULTIPLE_VALUES)
-		).thenReturn(
-			expectedValue
-		);
+		ResourceRetriever resourceRetriever = ProxyTestUtil.getProxy(
+			ResourceRetriever.class,
+			ProxyTestUtil.getProxyMethod(
+				"getInputStream",
+				(Object[] args) -> new UnsyncByteArrayInputStream(
+					expectedValue.getBytes())));
+
+		ReflectionTestUtil.setFieldValue(
+			_mockLocationVariableResolver, "_resourceManager",
+			ProxyTestUtil.getProxy(
+				ResourceManager.class,
+				ProxyTestUtil.getProxyMethod(
+					"getResourceRetriever",
+					(Object[] args) -> {
+						if ("multiple.txt".equals(args[0])) {
+							return resourceRetriever;
+						}
+
+						return null;
+					})));
 
 		Assert.assertArrayEquals(
 			expectedValue.split(","),
@@ -115,20 +126,28 @@ public class PropertiesSettingsTest extends PowerMockito {
 	public void testGetValueWithResourceValue() {
 		_properties.put(_SINGLE_KEY, _RESOURCE_SINGLE_VALUE);
 
-		when(
-			_mockLocationVariableResolver.isLocationVariable(
-				_RESOURCE_SINGLE_VALUE)
-		).thenReturn(
-			true
-		);
-
 		final String expectedValue = "resourceValue";
 
-		when(
-			_mockLocationVariableResolver.resolve(_RESOURCE_SINGLE_VALUE)
-		).thenReturn(
-			expectedValue
-		);
+		ResourceRetriever resourceRetriever = ProxyTestUtil.getProxy(
+			ResourceRetriever.class,
+			ProxyTestUtil.getProxyMethod(
+				"getInputStream",
+				(Object[] args) -> new UnsyncByteArrayInputStream(
+					expectedValue.getBytes())));
+
+		ReflectionTestUtil.setFieldValue(
+			_mockLocationVariableResolver, "_resourceManager",
+			ProxyTestUtil.getProxy(
+				ResourceManager.class,
+				ProxyTestUtil.getProxyMethod(
+					"getResourceRetriever",
+					(Object[] args) -> {
+						if ("single.txt".equals(args[0])) {
+							return resourceRetriever;
+						}
+
+						return null;
+					})));
 
 		Assert.assertEquals(
 			expectedValue, _propertiesSettings.getValue(_SINGLE_KEY, null));

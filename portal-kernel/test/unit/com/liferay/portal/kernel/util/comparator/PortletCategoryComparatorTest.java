@@ -17,46 +17,45 @@ package com.liferay.portal.kernel.util.comparator;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.PortletCategory;
+import com.liferay.portal.kernel.test.ProxyTestUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsUtil;
 
-import java.util.Locale;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.mockito.Matchers;
-import org.mockito.Mock;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Eduardo Garcia
  */
-@PrepareForTest(LanguageUtil.class)
-@RunWith(PowerMockRunner.class)
-public class PortletCategoryComparatorTest extends PowerMockito {
-
-	@Before
-	public void setUp() {
-		when(
-			_props.get(Matchers.anyString())
-		).thenReturn(
-			null
-		);
-
-		PropsUtil.setProps(_props);
-
-		setUpLanguageUtil();
-	}
+public class PortletCategoryComparatorTest {
 
 	@Test
 	public void testCompareLocalized() {
+		PropsUtil.setProps(ProxyTestUtil.getDummyProxy(Props.class));
+
+		ReflectionTestUtil.setFieldValue(
+			LanguageUtil.class, "_language",
+			ProxyTestUtil.getProxy(
+				Language.class,
+				ProxyTestUtil.getProxyMethod(
+					"get",
+					(Object[] args) -> {
+						if ((args.length == 2) &&
+							LocaleUtil.SPAIN.equals(args[0])) {
+
+							if ("area".equals(args[1])) {
+								return "Area";
+							}
+							else if ("zone".equals(args[1])) {
+								return "Zona";
+							}
+						}
+
+						return null;
+					})));
+
 		PortletCategory portletCategory1 = new PortletCategory("area");
 		PortletCategory portletCategory2 = new PortletCategory("zone");
 
@@ -68,28 +67,5 @@ public class PortletCategoryComparatorTest extends PowerMockito {
 
 		Assert.assertTrue(value < 0);
 	}
-
-	protected void setUpLanguageUtil() {
-		LanguageUtil languageUtil = new LanguageUtil();
-
-		languageUtil.setLanguage(_language);
-
-		whenLanguageGet(LocaleUtil.SPAIN, "area", "Área");
-		whenLanguageGet(LocaleUtil.SPAIN, "zone", "Zona");
-	}
-
-	protected void whenLanguageGet(Locale locale, String key, String value) {
-		when(
-			_language.get(Matchers.eq(locale), Matchers.eq(key))
-		).thenReturn(
-			value
-		);
-	}
-
-	@Mock
-	private Language _language;
-
-	@Mock
-	private Props _props;
 
 }

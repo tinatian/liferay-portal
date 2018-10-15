@@ -14,21 +14,21 @@
 
 package com.liferay.portal.kernel.settings;
 
+import com.liferay.portal.kernel.test.ProxyTestUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.mockito.InOrder;
-import org.mockito.Mockito;
-
-import org.powermock.api.mockito.PowerMockito;
 
 /**
  * @author Iván Zaera
  */
-public class FallbackSettingsTest extends PowerMockito {
+public class FallbackSettingsTest {
 
 	public FallbackSettingsTest() {
-		_settings = mock(Settings.class);
+		_settings = ProxyTestUtil.getProxy(Settings.class);
 
 		_fallbackKeys = new FallbackKeys();
 
@@ -45,17 +45,23 @@ public class FallbackSettingsTest extends PowerMockito {
 
 		String[] mockValues = {"value"};
 
-		when(
-			_settings.getValues("key2", null)
-		).thenReturn(
-			mockValues
-		);
+		ProxyTestUtil.updateProxy(
+			_settings,
+			ProxyTestUtil.getProxyMethod(
+				"getValues",
+				(Object[] args) -> {
+					if ("key2".equals(args[0]) && (null == args[1])) {
+						return mockValues;
+					}
+
+					return null;
+				}));
 
 		String[] values = _fallbackSettings.getValues("key1", defaultValues);
 
 		Assert.assertArrayEquals(mockValues, values);
 
-		verifyGetValues("key1", "key2");
+		verifyMethods("getValues", "key1", "key2");
 	}
 
 	@Test
@@ -66,22 +72,28 @@ public class FallbackSettingsTest extends PowerMockito {
 
 		Assert.assertArrayEquals(defaultValues, values);
 
-		verifyGetValues("key1", "key2", "key3");
+		verifyMethods("getValues", "key1", "key2", "key3");
 	}
 
 	@Test
 	public void testGetValueWhenConfigured() {
-		when(
-			_settings.getValue("key2", null)
-		).thenReturn(
-			"value"
-		);
+		ProxyTestUtil.updateProxy(
+			_settings,
+			ProxyTestUtil.getProxyMethod(
+				"getValue",
+				(Object[] args) -> {
+					if ("key2".equals(args[0]) && (null == args[1])) {
+						return "value";
+					}
+
+					return null;
+				}));
 
 		String value = _fallbackSettings.getValue("key1", "default");
 
 		Assert.assertEquals("value", value);
 
-		verifyGetValue("key1", "key2");
+		verifyMethods("getValue", "key1", "key2");
 	}
 
 	@Test
@@ -90,27 +102,19 @@ public class FallbackSettingsTest extends PowerMockito {
 
 		Assert.assertEquals("default", value);
 
-		verifyGetValue("key1", "key2", "key3");
+		verifyMethods("getValue", "key1", "key2", "key3");
 	}
 
-	protected void verifyGetValue(String... keys) {
-		InOrder inOrder = Mockito.inOrder(_settings);
+	protected void verifyMethods(String methodName, String... keys) {
+		List<ProxyTestUtil.ProxyAction> proxyActions = new ArrayList<>();
 
 		for (String key : keys) {
-			inOrder.verify(_settings);
-
-			_settings.getValue(key, null);
+			proxyActions.add(
+				ProxyTestUtil.getProxyAction(
+					methodName, new Object[] {key, null}));
 		}
-	}
 
-	protected void verifyGetValues(String... keys) {
-		InOrder inOrder = Mockito.inOrder(_settings);
-
-		for (String key : keys) {
-			inOrder.verify(_settings);
-
-			_settings.getValues(key, null);
-		}
+		ProxyTestUtil.assertAction(_settings, proxyActions);
 	}
 
 	private final FallbackKeys _fallbackKeys;

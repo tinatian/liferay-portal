@@ -14,45 +14,41 @@
 
 package com.liferay.portal.kernel.util;
 
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
+import com.liferay.portal.kernel.test.ProxyTestUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Wesley Gong
  */
-@PrepareForTest(LanguageUtil.class)
-@RunWith(PowerMockRunner.class)
-public class LocaleUtilTest extends PowerMockito {
-
-	@After
-	public void tearDown() {
-		verifyStatic();
-	}
+public class LocaleUtilTest {
 
 	@Test
 	public void testFromLanguageId() {
-		mockStatic(LanguageUtil.class);
+		ReflectionTestUtil.setFieldValue(
+			LanguageUtil.class, "_language",
+			ProxyTestUtil.getProxy(
+				Language.class,
+				ProxyTestUtil.getProxyMethod(
+					"isAvailableLocale",
+					(Object[] args) -> {
+						if (Locale.US.equals(args[0])) {
+							return true;
+						}
 
-		when(
-			LanguageUtil.isAvailableLocale(Locale.US)
-		).thenReturn(
-			true
-		);
+						return false;
+					})));
 
 		try (CaptureHandler captureHandler =
 				JDKLoggerTestUtil.configureJDKLogger(

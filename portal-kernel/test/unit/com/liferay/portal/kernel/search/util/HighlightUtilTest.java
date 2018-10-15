@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.search.util;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.highlight.HighlightUtil;
+import com.liferay.portal.kernel.test.ProxyTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -28,8 +29,6 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.mockito.Mockito;
-
 /**
  * @author Tibor Lipusz
  * @author André de Oliveira
@@ -39,7 +38,26 @@ public class HighlightUtilTest {
 
 	@Test
 	public void testAddSnippet() {
-		assertAddSnippet("<liferay-hl>Hello World</liferay-hl>", "Hello World");
+		String fieldValue = "Hello World";
+
+		Document document = ProxyTestUtil.getProxy(Document.class);
+
+		Set<String> queryTerms = new HashSet<>();
+
+		String snippetFieldName = RandomTestUtil.randomString();
+
+		HighlightUtil.addSnippet(
+			document, queryTerms, "<liferay-hl>Hello World</liferay-hl>",
+			snippetFieldName);
+
+		Assert.assertEquals(Collections.singleton(fieldValue), queryTerms);
+
+		ProxyTestUtil.assertAction(
+			document,
+			ProxyTestUtil.getProxyAction(
+				"addText",
+				new Object[] {"snippet_".concat(snippetFieldName), fieldValue}),
+			times -> times == 1);
 	}
 
 	@Test
@@ -127,25 +145,6 @@ public class HighlightUtilTest {
 
 		assertHighlight("Hello   ", "Hello   ");
 		assertHighlight("   Hello", "   Hello");
-	}
-
-	protected void assertAddSnippet(String snippet, String fieldValue) {
-		Document document = Mockito.mock(Document.class);
-
-		Set<String> queryTerms = new HashSet<>();
-
-		String snippetFieldName = RandomTestUtil.randomString();
-
-		HighlightUtil.addSnippet(
-			document, queryTerms, snippet, snippetFieldName);
-
-		Assert.assertEquals(Collections.singleton(fieldValue), queryTerms);
-
-		Mockito.verify(
-			document
-		).addText(
-			"snippet_".concat(snippetFieldName), fieldValue
-		);
 	}
 
 	protected void assertHighlight(
