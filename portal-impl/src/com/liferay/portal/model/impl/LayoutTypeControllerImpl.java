@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.struts.StrutsUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.taglib.servlet.PipingServletResponse;
+import java.io.IOException;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -164,7 +165,11 @@ public class LayoutTypeControllerImpl implements LayoutTypeController {
 		UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
 
 		PipingServletResponse pipingServletResponse = new PipingServletResponse(
-			response, unsyncStringWriter);
+			response, unsyncStringWriter) {
+			@Override
+			public void flushBuffer() throws IOException {
+			}
+			};
 
 		String contentType = pipingServletResponse.getContentType();
 
