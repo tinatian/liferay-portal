@@ -16,7 +16,11 @@ package com.liferay.taglib.servlet;
 
 import com.liferay.portal.kernel.util.ServerDetector;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.jsp.JspFactory;
+import javax.servlet.jsp.PageContext;
 
 /**
  * @author Shuyang Zhou
@@ -24,7 +28,7 @@ import javax.servlet.jsp.JspFactory;
 public class JspFactorySwapper {
 
 	public static void swap() {
-		if (!ServerDetector.isTomcat()) {
+		if (!ServerDetector.isTomcat() || !ServerDetector.isWebSphere()) {
 			return;
 		}
 
@@ -36,7 +40,12 @@ public class JspFactorySwapper {
 
 		synchronized (JspFactorySwapper.class) {
 			if (_jspFactoryWrapper == null) {
-				_jspFactoryWrapper = new JspFactoryWrapper(jspFactory);
+				if (ServerDetector.isWebSphere()) {
+					_jspFactoryWrapper = new WebsphereJspFactory(jspFactory);
+				}
+				else {
+					_jspFactoryWrapper = new JspFactoryWrapper(jspFactory);
+				}
 			}
 
 			JspFactory.setDefaultFactory(_jspFactoryWrapper);
@@ -44,5 +53,33 @@ public class JspFactorySwapper {
 	}
 
 	private static JspFactoryWrapper _jspFactoryWrapper;
+
+	private static class WebsphereJspFactory extends JspFactoryWrapper {
+
+		@Override
+		public PageContext getPageContext(
+			Servlet servlet, ServletRequest servletRequest,
+			ServletResponse servletResponse, String errorPageURL,
+			boolean needsSession, int buffer, boolean autoflush) {
+
+			return _jspFactory.getPageContext(
+				servlet, servletRequest, servletResponse, errorPageURL,
+				needsSession, buffer, autoflush);
+		}
+
+		@Override
+		public void releasePageContext(PageContext pageContext) {
+			_jspFactory.releasePageContext(pageContext);
+		}
+
+		private WebsphereJspFactory(JspFactory jspFactory) {
+			super(jspFactory);
+
+			_jspFactory = jspFactory;
+		}
+
+		private final JspFactory _jspFactory;
+
+	}
 
 }
