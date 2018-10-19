@@ -28,7 +28,7 @@ import javax.servlet.jsp.PageContext;
 public class JspFactorySwapper {
 
 	public static void swap() {
-		if (!ServerDetector.isTomcat() || !ServerDetector.isWebSphere()) {
+		if (!ServerDetector.isTomcat() || ServerDetector.isWebSphere()) {
 			return;
 		}
 
