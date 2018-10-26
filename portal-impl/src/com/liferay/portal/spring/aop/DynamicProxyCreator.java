@@ -15,7 +15,6 @@
 package com.liferay.portal.spring.aop;
 
 import com.liferay.portal.kernel.spring.aop.InvocationHandlerFactory;
-import com.liferay.portal.kernel.util.ClassLoaderUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -65,8 +64,10 @@ public class DynamicProxyCreator
 				InvocationHandler invocationHandler =
 					invocationHandlerFactory.createInvocationHandler(bean);
 
+				Thread currentThread = Thread.currentThread();
+
 				bean = ProxyUtil.newProxyInstance(
-					ClassLoaderUtil.getContextClassLoader(),
+					currentThread.getContextClassLoader(),
 					beanClass.getInterfaces(), invocationHandler);
 			}
 		}
