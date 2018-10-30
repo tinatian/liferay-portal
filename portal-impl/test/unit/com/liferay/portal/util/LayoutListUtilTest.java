@@ -38,18 +38,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author László Csontos
  */
-@PrepareForTest(LocalizationUtil.class)
-@RunWith(PowerMockRunner.class)
-public class LayoutListUtilTest extends PowerMockito {
+public class LayoutListUtilTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -68,13 +61,9 @@ public class LayoutListUtilTest extends PowerMockito {
 
 			});
 
-		mockStatic(LocalizationUtil.class);
+		LocalizationUtil localizationUtil = new LocalizationUtil();
 
-		when(
-			LocalizationUtil.getLocalization()
-		).thenReturn(
-			new LocalizationImpl()
-		);
+		localizationUtil.setLocalization(new LocalizationImpl());
 
 		Class<?> clazz = getClass();
 
