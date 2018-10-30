@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -47,9 +48,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 /**
  * @author László Csontos
  */
-@PrepareForTest(
-	{LayoutLocalServiceUtil.class, LocalizationUtil.class, PropsUtil.class}
-)
+@PrepareForTest({LayoutLocalServiceUtil.class, PropsUtil.class})
 @RunWith(PowerMockRunner.class)
 public class LayoutListUtilTest extends PowerMockito {
 
@@ -66,13 +65,8 @@ public class LayoutListUtilTest extends PowerMockito {
 			_layouts
 		);
 
-		mockStatic(LocalizationUtil.class);
-
-		when(
-			LocalizationUtil.getLocalization()
-		).thenReturn(
-			new LocalizationImpl()
-		);
+		ReflectionTestUtil.setFieldValue(
+			LocalizationUtil.class, "_localization", new LocalizationImpl());
 
 		mockStatic(PropsUtil.class);
 
