@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.util.PropsValues;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -31,14 +30,11 @@ import org.springframework.mock.web.MockHttpServletRequest;
  */
 public class JSONWebServiceStrictTest extends BaseJSONWebServiceTestCase {
 
-	@Before
-	public void setUp() throws Exception {
-		ReflectionTestUtil.setFieldValue(
-			PropsValues.class, "JSONWS_WEB_SERVICE_STRICT_HTTP_METHOD", true);
-	}
-
 	@Test
 	public void testStrictHttpMethod() throws Exception {
+		ReflectionTestUtil.setFieldValue(
+			PropsValues.class, "JSONWS_WEB_SERVICE_STRICT_HTTP_METHOD", true);
+
 		initPortalServices();
 
 		registerActionClass(CamelFooService.class);
