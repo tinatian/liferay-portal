@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebServiceAction;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -36,10 +35,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +48,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 /**
  * @author Igor Spasic
  */
-@PrepareForTest({ServiceContextFactory.class, PropsUtil.class})
+@PrepareForTest(PropsUtil.class)
 @RunWith(PowerMockRunner.class)
 public class JSONWebServiceInvokerTest extends BaseJSONWebServiceTestCase {
 
@@ -93,15 +89,6 @@ public class JSONWebServiceInvokerTest extends BaseJSONWebServiceTestCase {
 		initPortalServices();
 
 		registerActionClass(FooService.class);
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		Method method = method(
-			ServiceContextFactory.class, "getInstance",
-			HttpServletRequest.class);
-
-		stub(method).toReturn(new ServiceContext());
 	}
 
 	@Test
