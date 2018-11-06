@@ -21,8 +21,6 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.transaction.Isolation;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.lang.reflect.InvocationHandler;
@@ -31,18 +29,12 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  * @author Igor Spasic
  */
-@PrepareForTest(PropsUtil.class)
-@RunWith(PowerMockRunner.class)
 public class JSONWebServiceTest extends BaseJSONWebServiceTestCase {
 
 	@BeforeClass
@@ -69,15 +61,6 @@ public class JSONWebServiceTest extends BaseJSONWebServiceTestCase {
 					}
 
 				}));
-
-		mockStatic(PropsUtil.class);
-
-		when(
-			PropsUtil.getArray(
-				PropsKeys.JSONWS_WEB_SERVICE_INVALID_HTTP_METHODS)
-		).thenReturn(
-			null
-		);
 
 		initPortalServices();
 
