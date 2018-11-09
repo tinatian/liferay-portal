@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.search;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupWrapper;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -34,22 +35,17 @@ import javax.portlet.PortletResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareOnlyThisForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Miguel Angelo Caldas Gallindo
  * @author André de Oliveira
  */
-@PrepareOnlyThisForTest(GroupLocalServiceUtil.class)
-@RunWith(PowerMockRunner.class)
 public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 
 	@Before
@@ -122,19 +118,24 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 	protected Group setUpGroup(long groupId, boolean stagingGroup)
 		throws Exception {
 
-		Group group = Mockito.mock(Group.class);
+		Group group = new GroupWrapper(null) {
 
-		Mockito.when(
-			group.getGroupId()
-		).thenReturn(
-			groupId
-		);
+			@Override
+			public long getGroupId() {
+				return groupId;
+			}
 
-		Mockito.when(
-			group.isStagingGroup()
-		).thenReturn(
-			stagingGroup
-		);
+			@Override
+			public boolean isLayout() {
+				return false;
+			}
+
+			@Override
+			public boolean isStagingGroup() {
+				return stagingGroup;
+			}
+
+		};
 
 		Mockito.when(
 			_groupLocalService.getGroup(groupId)
@@ -159,39 +160,43 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 			long groupId, long parentGroupId, boolean stagingGroup)
 		throws PortalException {
 
-		Group group = Mockito.mock(Group.class);
+		Group parentGroup = new GroupWrapper(null) {
 
-		Group parentGroup = Mockito.mock(Group.class);
+			@Override
+			public long getGroupId() {
+				return parentGroupId;
+			}
 
-		Mockito.when(
-			parentGroup.getGroupId()
-		).thenReturn(
-			parentGroupId
-		);
+			@Override
+			public boolean isStagingGroup() {
+				return stagingGroup;
+			}
 
-		Mockito.when(
-			parentGroup.isStagingGroup()
-		).thenReturn(
-			stagingGroup
-		);
+		};
 
-		Mockito.when(
-			group.getParentGroup()
-		).thenReturn(
-			parentGroup
-		);
+		Group group = new GroupWrapper(null) {
 
-		Mockito.when(
-			group.getParentGroupId()
-		).thenReturn(
-			parentGroupId
-		);
+			@Override
+			public long getGroupId() {
+				return groupId;
+			}
 
-		Mockito.when(
-			group.isLayout()
-		).thenReturn(
-			true
-		);
+			@Override
+			public Group getParentGroup() {
+				return parentGroup;
+			}
+
+			@Override
+			public long getParentGroupId() {
+				return parentGroupId;
+			}
+
+			@Override
+			public boolean isLayout() {
+				return true;
+			}
+
+		};
 
 		Mockito.when(
 			_groupLocalService.getGroup(groupId)
