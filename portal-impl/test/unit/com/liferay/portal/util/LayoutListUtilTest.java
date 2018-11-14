@@ -14,14 +14,14 @@
 
 package com.liferay.portal.util;
 
-import com.germinus.easyconf.ConfigurationSerializer;
-
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONArrayImpl;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceWrapper;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -49,43 +49,30 @@ import org.powermock.modules.junit4.PowerMockRunner;
 /**
  * @author László Csontos
  */
-@PrepareForTest(
-	{
-		ConfigurationSerializer.class, LayoutLocalServiceUtil.class,
-		LocalizationUtil.class, PropsUtil.class
-	}
-)
+@PrepareForTest(PropsUtil.class)
 @RunWith(PowerMockRunner.class)
 public class LayoutListUtilTest extends PowerMockito {
 
 	@Before
 	public void setUp() throws Exception {
-		mockStatic(ConfigurationSerializer.class);
-
-		when(
-			ConfigurationSerializer.getSerializer()
-		).thenReturn(
-			null
-		);
-
-		mockStatic(LayoutLocalServiceUtil.class);
-
 		addLayouts(0, 0);
 
-		when(
-			LayoutLocalServiceUtil.getLayouts(
-				Mockito.anyLong(), Mockito.anyBoolean())
-		).thenReturn(
-			_layouts
-		);
+		ReflectionTestUtil.setFieldValue(
+			LayoutLocalServiceUtil.class, "_service",
+			new LayoutLocalServiceWrapper(null) {
 
-		mockStatic(LocalizationUtil.class);
+				@Override
+				public List<Layout> getLayouts(
+					long groupId, boolean privateLayout) {
 
-		when(
-			LocalizationUtil.getLocalization()
-		).thenReturn(
-			new LocalizationImpl()
-		);
+					return _layouts;
+				}
+
+			});
+
+		LocalizationUtil localizationUtil = new LocalizationUtil();
+
+		localizationUtil.setLocalization(new LocalizationImpl());
 
 		mockStatic(PropsUtil.class);
 

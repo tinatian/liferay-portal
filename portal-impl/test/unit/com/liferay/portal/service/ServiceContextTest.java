@@ -17,6 +17,7 @@ package com.liferay.portal.service;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.ProxyFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,25 +25,19 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import org.powermock.api.mockito.PowerMockito;
 
 /**
  * @author Michael C. Han
  */
-public class ServiceContextTest extends PowerMockito {
-
-	@BeforeClass
-	public static void setUpClass() {
-		JSONFactoryUtil jsonFactoryUtil = new JSONFactoryUtil();
-
-		jsonFactoryUtil.setJSONFactory(new JSONFactoryImpl());
-	}
+public class ServiceContextTest {
 
 	@Test
 	public void testJSONSerialization() {
+		JSONFactoryUtil jsonFactoryUtil = new JSONFactoryUtil();
+
+		jsonFactoryUtil.setJSONFactory(new JSONFactoryImpl());
+
 		ServiceContext serviceContext = new ServiceContext();
 
 		serviceContext.setAttribute("TestName", "TestValue");
@@ -53,7 +48,8 @@ public class ServiceContextTest extends PowerMockito {
 
 		serviceContext.setHeaders(headers);
 
-		serviceContext.setRequest(mock(HttpServletRequest.class));
+		serviceContext.setRequest(
+			ProxyFactory.newDummyInstance(HttpServletRequest.class));
 
 		String json = JSONFactoryUtil.serialize(serviceContext);
 
