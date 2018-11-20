@@ -15,11 +15,10 @@
 package com.liferay.portal.dao.sql.transformer;
 
 import com.liferay.portal.dao.db.MySQLDB;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author Manuel de la Peña
@@ -72,7 +71,7 @@ public class MySQLSQLTransformerLogicTest
 	public void testReplaceSupportsStringCaseSensitiveQuery() {
 		String sql = "select * from foo";
 
-		MySQLDB mySQLDB = _getCaseSensitiveMySQLDB();
+		MySQLDB mySQLDB = new MySQLDB(5, 7);
 
 		SQLTransformer sqlTransformer = SQLTransformerFactory.getSQLTransformer(
 			mySQLDB);
@@ -120,25 +119,10 @@ public class MySQLSQLTransformerLogicTest
 	}
 
 	private static MySQLDB _getCaseInsensitiveMySQLDB() {
-		MySQLDB mySQLDB = Mockito.spy(new MySQLDB(5, 7));
+		MySQLDB mySQLDB = new MySQLDB(5, 7);
 
-		Mockito.when(
-			mySQLDB.isSupportsStringCaseSensitiveQuery()
-		).thenReturn(
-			false
-		);
-
-		return mySQLDB;
-	}
-
-	private static MySQLDB _getCaseSensitiveMySQLDB() {
-		MySQLDB mySQLDB = Mockito.spy(new MySQLDB(5, 7));
-
-		Mockito.when(
-			mySQLDB.isSupportsStringCaseSensitiveQuery()
-		).thenReturn(
-			true
-		);
+		ReflectionTestUtil.setFieldValue(
+			mySQLDB, "_supportsStringCaseSensitiveQuery", false);
 
 		return mySQLDB;
 	}

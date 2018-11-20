@@ -17,11 +17,14 @@ package com.liferay.portal.kernel.search;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupWrapper;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
@@ -34,31 +37,31 @@ import javax.portlet.PortletResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareOnlyThisForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Miguel Angelo Caldas Gallindo
  * @author André de Oliveira
  */
-@PrepareOnlyThisForTest(GroupLocalServiceUtil.class)
-@RunWith(PowerMockRunner.class)
 public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		setUpGroupLocalServiceUtil();
-		setUpPropsUtil();
-		setUpRegistryUtil();
+		ReflectionTestUtil.setFieldValue(
+			GroupLocalServiceUtil.class, "_service", _groupLocalService);
+
+		PropsUtil.setProps(ProxyFactory.newDummyInstance(Props.class));
+
+		Registry registry = new BasicRegistryImpl();
+
+		RegistryUtil.setRegistry(registry);
 
 		_indexer = new TestIndexer();
 	}
@@ -67,7 +70,7 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 	public void testGetSiteGroupId() throws Exception {
 		long groupId = RandomTestUtil.randomLong();
 
-		setUpGroup(groupId);
+		setUpGroup(groupId, false);
 
 		Assert.assertEquals(groupId, _indexer.getSiteGroupId(groupId));
 	}
@@ -77,7 +80,7 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 		long groupId = RandomTestUtil.randomLong();
 		long parentGroupId = RandomTestUtil.randomLong();
 
-		setUpLayoutGroup(groupId, parentGroupId);
+		setUpLayoutGroup(groupId, parentGroupId, false);
 
 		Assert.assertEquals(parentGroupId, _indexer.getSiteGroupId(groupId));
 	}
@@ -95,13 +98,7 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 	public void testIsStagingGroup() throws Exception {
 		long groupId = RandomTestUtil.randomLong();
 
-		Group group = setUpGroup(groupId);
-
-		Mockito.when(
-			group.isStagingGroup()
-		).thenReturn(
-			true
-		);
+		setUpGroup(groupId, true);
 
 		Assert.assertEquals(true, _indexer.isStagingGroup(groupId));
 	}
@@ -111,13 +108,7 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 		long groupId = RandomTestUtil.randomLong();
 		long parentGroupId = RandomTestUtil.randomLong();
 
-		Group parentGroup = setUpLayoutGroup(groupId, parentGroupId);
-
-		Mockito.when(
-			parentGroup.isStagingGroup()
-		).thenReturn(
-			true
-		);
+		setUpLayoutGroup(groupId, parentGroupId, true);
 
 		Assert.assertEquals(true, _indexer.isStagingGroup(groupId));
 	}
@@ -131,14 +122,27 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 		Assert.assertEquals(false, _indexer.isStagingGroup(groupId));
 	}
 
-	protected Group setUpGroup(long groupId) throws Exception {
-		Group group = Mockito.mock(Group.class);
+	protected Group setUpGroup(long groupId, boolean stagingGroup)
+		throws Exception {
 
-		Mockito.when(
-			group.getGroupId()
-		).thenReturn(
-			groupId
-		);
+		Group group = new GroupWrapper(null) {
+
+			@Override
+			public long getGroupId() {
+				return groupId;
+			}
+
+			@Override
+			public boolean isLayout() {
+				return false;
+			}
+
+			@Override
+			public boolean isStagingGroup() {
+				return stagingGroup;
+			}
+
+		};
 
 		Mockito.when(
 			_groupLocalService.getGroup(groupId)
@@ -149,46 +153,47 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 		return group;
 	}
 
-	protected void setUpGroupLocalServiceUtil() {
-		mockStatic(GroupLocalServiceUtil.class, Mockito.CALLS_REAL_METHODS);
-
-		stub(
-			method(GroupLocalServiceUtil.class, "getService")
-		).toReturn(
-			_groupLocalService
-		);
-	}
-
-	protected Group setUpLayoutGroup(long groupId, long parentGroupId)
+	protected Group setUpLayoutGroup(
+			long groupId, long parentGroupId, boolean stagingGroup)
 		throws PortalException {
 
-		Group group = Mockito.mock(Group.class);
+		Group parentGroup = new GroupWrapper(null) {
 
-		Group parentGroup = Mockito.mock(Group.class);
+			@Override
+			public long getGroupId() {
+				return parentGroupId;
+			}
 
-		Mockito.when(
-			parentGroup.getGroupId()
-		).thenReturn(
-			parentGroupId
-		);
+			@Override
+			public boolean isStagingGroup() {
+				return stagingGroup;
+			}
 
-		Mockito.when(
-			group.getParentGroup()
-		).thenReturn(
-			parentGroup
-		);
+		};
 
-		Mockito.when(
-			group.getParentGroupId()
-		).thenReturn(
-			parentGroupId
-		);
+		Group group = new GroupWrapper(null) {
 
-		Mockito.when(
-			group.isLayout()
-		).thenReturn(
-			true
-		);
+			@Override
+			public long getGroupId() {
+				return groupId;
+			}
+
+			@Override
+			public Group getParentGroup() {
+				return parentGroup;
+			}
+
+			@Override
+			public long getParentGroupId() {
+				return parentGroupId;
+			}
+
+			@Override
+			public boolean isLayout() {
+				return true;
+			}
+
+		};
 
 		Mockito.when(
 			_groupLocalService.getGroup(groupId)
@@ -213,18 +218,6 @@ public class BaseIndexerGetSiteGroupIdTest extends PowerMockito {
 		).getGroup(
 			groupId
 		);
-	}
-
-	protected void setUpPropsUtil() {
-		Props props = mock(Props.class);
-
-		PropsUtil.setProps(props);
-	}
-
-	protected void setUpRegistryUtil() throws Exception {
-		Registry registry = new BasicRegistryImpl();
-
-		RegistryUtil.setRegistry(registry);
 	}
 
 	@Mock
