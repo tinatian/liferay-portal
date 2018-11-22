@@ -14,38 +14,26 @@
 
 package com.liferay.portlet.social.util;
 
+import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.social.kernel.util.SocialCounterPeriodUtil;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Zsolt Berentey
  */
-@PrepareForTest(PropsUtil.class)
-@RunWith(PowerMockRunner.class)
-public class SocialCounterPeriodUtilTest extends PowerMockito {
+public class SocialCounterPeriodUtilTest {
 
-	@Before
-	public void setUp() throws Exception {
-		mockStatic(PropsUtil.class);
-
-		when(
-			PropsUtil.get(PropsKeys.SOCIAL_ACTIVITY_COUNTER_PERIOD_LENGTH)
-		).thenReturn(
-			"1"
-		);
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		PropsTestUtil.setProps(
+			PropsKeys.SOCIAL_ACTIVITY_COUNTER_PERIOD_LENGTH, "1");
 	}
 
 	@Test

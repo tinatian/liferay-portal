@@ -15,44 +15,43 @@
 package com.liferay.portal.internal.increment;
 
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.configuration.Filter;
+import com.liferay.portal.configuration.ConfigurationImpl;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
-import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.test.rule.AdviseWith;
-import com.liferay.portal.test.rule.AspectJNewEnvTestRule;
+import com.liferay.portal.util.PropsFiles;
+import com.liferay.portal.util.PropsUtil;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * @author Shuyang Zhou
  */
-@NewEnv(type = NewEnv.Type.CLASSLOADER)
 public class BufferedIncrementConfigurationTest {
 
 	@ClassRule
-	@Rule
-	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			AspectJNewEnvTestRule.INSTANCE, CodeCoverageAssertor.INSTANCE);
+	public static final CodeCoverageAssertor codeCoverageAssertor =
+		CodeCoverageAssertor.INSTANCE;
 
-	@AdviseWith(adviceClasses = PropsUtilAdvice.class)
+	@Before
+	public void setUp() {
+		ReflectionTestUtil.setFieldValue(
+			PropsUtil.class, "_configuration",
+			new ConfigurationImpl(
+				PropsUtil.class.getClassLoader(), PropsFiles.PORTAL,
+				CompanyConstants.SYSTEM, null));
+	}
+
 	@Test
 	public void testInvalidSettingWithLog() {
 		try (CaptureHandler captureHandler =
@@ -78,7 +77,6 @@ public class BufferedIncrementConfigurationTest {
 		}
 	}
 
-	@AdviseWith(adviceClasses = PropsUtilAdvice.class)
 	@Test
 	public void testInvalidSettingWithoutLog() {
 		try (CaptureHandler captureHandler = _testInvalidSetting(Level.OFF)) {
@@ -88,19 +86,16 @@ public class BufferedIncrementConfigurationTest {
 		}
 	}
 
-	@AdviseWith(adviceClasses = PropsUtilAdvice.class)
 	@Test
 	public void testValidSetting() {
-		Map<String, String> props = new HashMap<>();
-
-		props.put(PropsKeys.BUFFERED_INCREMENT_ENABLED, "false");
-		props.put(PropsKeys.BUFFERED_INCREMENT_STANDBY_QUEUE_THRESHOLD, "10");
-		props.put(PropsKeys.BUFFERED_INCREMENT_STANDBY_TIME_UPPER_LIMIT, "20");
-		props.put(
+		PropsUtil.set(PropsKeys.BUFFERED_INCREMENT_ENABLED, "false");
+		PropsUtil.set(
+			PropsKeys.BUFFERED_INCREMENT_STANDBY_QUEUE_THRESHOLD, "10");
+		PropsUtil.set(
+			PropsKeys.BUFFERED_INCREMENT_STANDBY_TIME_UPPER_LIMIT, "20");
+		PropsUtil.set(
 			PropsKeys.BUFFERED_INCREMENT_THREADPOOL_KEEP_ALIVE_TIME, "30");
-		props.put(PropsKeys.BUFFERED_INCREMENT_THREADPOOL_MAX_SIZE, "40");
-
-		PropsUtilAdvice.setProps(props);
+		PropsUtil.set(PropsKeys.BUFFERED_INCREMENT_THREADPOOL_MAX_SIZE, "40");
 
 		BufferedIncrementConfiguration bufferedIncrementConfiguration =
 			new BufferedIncrementConfiguration(StringPool.BLANK);
@@ -154,49 +149,25 @@ public class BufferedIncrementConfigurationTest {
 		Assert.assertEquals(0, standbyTime);
 	}
 
-	@Aspect
-	public static class PropsUtilAdvice {
-
-		public static void setProps(Map<String, String> props) {
-			_props = props;
-		}
-
-		@Around(
-			"execution(public static String com.liferay.portal.util." +
-				"PropsUtil.get(String, com.liferay.portal.kernel." +
-					"configuration.Filter)) && args(key, filter)"
-		)
-		public Object get(String key, Filter filter) {
-			return _props.get(key);
-		}
-
-		private static Map<String, String> _props = Collections.emptyMap();
-
-	}
-
 	private CaptureHandler _testInvalidSetting(Level level) {
-		Map<String, String> props = new HashMap<>();
-
-		props.put(PropsKeys.BUFFERED_INCREMENT_ENABLED, "false");
+		PropsUtil.set(PropsKeys.BUFFERED_INCREMENT_ENABLED, "false");
 
 		if (level == Level.OFF) {
-			props.put(
+			PropsUtil.set(
 				PropsKeys.BUFFERED_INCREMENT_STANDBY_QUEUE_THRESHOLD, "1");
-			props.put(
+			PropsUtil.set(
 				PropsKeys.BUFFERED_INCREMENT_STANDBY_TIME_UPPER_LIMIT, "-1");
 		}
 		else {
-			props.put(
+			PropsUtil.set(
 				PropsKeys.BUFFERED_INCREMENT_STANDBY_QUEUE_THRESHOLD, "-1");
-			props.put(
+			PropsUtil.set(
 				PropsKeys.BUFFERED_INCREMENT_STANDBY_TIME_UPPER_LIMIT, "1");
 		}
 
-		props.put(
+		PropsUtil.set(
 			PropsKeys.BUFFERED_INCREMENT_THREADPOOL_KEEP_ALIVE_TIME, "-3");
-		props.put(PropsKeys.BUFFERED_INCREMENT_THREADPOOL_MAX_SIZE, "-4");
-
-		PropsUtilAdvice.setProps(props);
+		PropsUtil.set(PropsKeys.BUFFERED_INCREMENT_THREADPOOL_MAX_SIZE, "-4");
 
 		CaptureHandler captureHandler = JDKLoggerTestUtil.configureJDKLogger(
 			BufferedIncrementConfiguration.class.getName(), level);

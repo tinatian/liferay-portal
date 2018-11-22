@@ -16,11 +16,10 @@ package com.liferay.portal.kernel.servlet;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -64,7 +63,9 @@ public class ServletResponseUtilRangeTest extends PowerMockito {
 		MockitoAnnotations.initMocks(this);
 
 		setUpFileUtil();
-		setUpPropsUtil();
+
+		PropsTestUtil.setProps(
+			PropsKeys.WEB_SERVER_SERVLET_MAX_RANGE_FIELDS, "10");
 	}
 
 	@Test
@@ -241,16 +242,6 @@ public class ServletResponseUtilRangeTest extends PowerMockito {
 		);
 	}
 
-	protected void setUpPropsUtil() {
-		PropsUtil.setProps(_props);
-
-		when(
-			_props.get(PropsKeys.WEB_SERVER_SERVLET_MAX_RANGE_FIELDS)
-		).thenReturn(
-			"10"
-		);
-	}
-
 	protected void setUpRange(HttpServletRequest request, String rangeHeader) {
 		when(
 			request.getHeader(HttpHeaders.RANGE)
@@ -331,9 +322,6 @@ public class ServletResponseUtilRangeTest extends PowerMockito {
 
 	@Mock
 	private com.liferay.portal.kernel.util.File _file;
-
-	@Mock
-	private Props _props;
 
 	@Mock
 	private HttpServletRequest _request;

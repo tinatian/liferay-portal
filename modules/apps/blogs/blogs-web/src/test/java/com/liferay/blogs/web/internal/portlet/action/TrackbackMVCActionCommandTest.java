@@ -22,14 +22,15 @@ import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Function;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Props;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+
+import java.util.Collections;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -73,7 +74,8 @@ public class TrackbackMVCActionCommandTest extends PowerMockito {
 		setUpBlogsEntry();
 		setUpPortalUtil();
 		setUpPortletPreferencesFactoryUtil();
-		setUpPropsUtil();
+
+		PropsTestUtil.setProps(Collections.emptyMap());
 	}
 
 	@Test
@@ -294,10 +296,6 @@ public class TrackbackMVCActionCommandTest extends PowerMockito {
 
 		portletPreferencesFactoryUtil.setPortletPreferencesFactory(
 			portletPreferencesFactory);
-	}
-
-	protected void setUpPropsUtil() throws Exception {
-		PropsUtil.setProps(mock(Props.class));
 	}
 
 	protected void whenGetEntryThenReturn(BlogsEntry blogsEntry) {

@@ -24,13 +24,12 @@ import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.security.permission.ResourceActions;
+import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Http;
-import com.liferay.portal.kernel.util.Props;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.search.summary.Summary;
 import com.liferay.portal.search.summary.SummaryBuilder;
@@ -45,6 +44,7 @@ import com.liferay.portal.search.web.search.request.SearchSettings;
 import java.io.IOException;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import javax.portlet.PortletException;
@@ -72,11 +72,12 @@ public class SearchResultsPortletTest {
 
 	@Before
 	public void setUp() throws Exception {
+		PropsTestUtil.setProps(Collections.emptyMap());
+
 		MockitoAnnotations.initMocks(this);
 
 		setUpHtmlUtil();
 		setUpPortletSharedSearchResponse();
-		setUpProps();
 		setUpSearchSettings();
 
 		_portletURLFactory = createPortletURLFactory();
@@ -300,10 +301,6 @@ public class SearchResultsPortletTest {
 		).getThemeDisplay(
 			Mockito.any()
 		);
-	}
-
-	protected void setUpProps() {
-		PropsUtil.setProps(Mockito.mock(Props.class));
 	}
 
 	protected void setUpSearchResponseDocuments(Document... documents) {
