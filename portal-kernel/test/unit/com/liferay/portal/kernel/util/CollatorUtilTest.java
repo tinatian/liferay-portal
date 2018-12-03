@@ -16,7 +16,7 @@ package com.liferay.portal.kernel.util;
 
 import com.liferay.portal.kernel.test.CaptureHandler;
 import com.liferay.portal.kernel.test.JDKLoggerTestUtil;
-import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.PropsTestUtil;
 import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.test.rule.NewEnvTestRule;
 
@@ -47,11 +47,7 @@ public class CollatorUtilTest {
 
 	@Test
 	public void testGetInstanceWithInvalidProperty() {
-		ReflectionTestUtil.setFieldValue(
-			PropsUtil.class, "_props",
-			ProxyUtil.newProxyInstance(
-				CollatorUtilTest.class.getClassLoader(),
-				new Class<?>[] {Props.class}, (proxy, method, args) -> "<<<"));
+		PropsTestUtil.set("collator.rules", "<<<");
 
 		try (CaptureHandler captureHandler =
 				JDKLoggerTestUtil.configureJDKLogger(
@@ -75,11 +71,7 @@ public class CollatorUtilTest {
 
 	@Test
 	public void testGetInstanceWithoutProperty() {
-		ReflectionTestUtil.setFieldValue(
-			PropsUtil.class, "_props",
-			ProxyUtil.newProxyInstance(
-				CollatorUtilTest.class.getClassLoader(),
-				new Class<?>[] {Props.class}, (proxy, method, args) -> null));
+		PropsUtil.setProps(ProxyFactory.newDummyInstance(Props.class));
 
 		Collator collator = CollatorUtil.getInstance(Locale.US);
 
@@ -102,11 +94,7 @@ public class CollatorUtilTest {
 
 	@Test
 	public void testGetInstanceWithProperty() {
-		ReflectionTestUtil.setFieldValue(
-			PropsUtil.class, "_props",
-			ProxyUtil.newProxyInstance(
-				CollatorUtilTest.class.getClassLoader(),
-				new Class<?>[] {Props.class}, (proxy, method, args) -> _RULES));
+		PropsTestUtil.set("collator.rules", _RULES);
 
 		Collator collator = CollatorUtil.getInstance(LocaleUtil.getDefault());
 

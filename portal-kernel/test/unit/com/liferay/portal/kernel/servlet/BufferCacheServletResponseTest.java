@@ -15,7 +15,6 @@
 package com.liferay.portal.kernel.servlet;
 
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.io.DummyOutputStream;
 import com.liferay.portal.kernel.io.DummyWriter;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
@@ -25,6 +24,7 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.portal.kernel.util.StringBundler;
 
 import java.io.IOException;
@@ -33,8 +33,6 @@ import java.io.PrintWriter;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-
-import java.util.Properties;
 
 import javax.servlet.ServletOutputStream;
 
@@ -698,47 +696,7 @@ public class BufferCacheServletResponseTest {
 
 			};
 
-		PropsUtil.setProps(
-			new Props() {
-
-				@Override
-				public boolean contains(String key) {
-					return false;
-				}
-
-				@Override
-				public String get(String key) {
-					return null;
-				}
-
-				@Override
-				public String get(String key, Filter filter) {
-					return null;
-				}
-
-				@Override
-				public String[] getArray(String key) {
-					return null;
-				}
-
-				@Override
-				public String[] getArray(String key, Filter filter) {
-					return null;
-				}
-
-				@Override
-				public Properties getProperties() {
-					return null;
-				}
-
-				@Override
-				public Properties getProperties(
-					String prefix, boolean removePrefix) {
-
-					return null;
-				}
-
-			});
+		PropsUtil.setProps(ProxyFactory.newDummyInstance(Props.class));
 
 		// Clean
 
