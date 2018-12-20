@@ -1652,7 +1652,9 @@ public class CompanyLocalServiceImpl extends CompanyLocalServiceBaseImpl {
 
 			throw new CompanyVirtualHostException();
 		}
-		else if (!Validator.isDomain(virtualHostname)) {
+		else if (!Validator.isDomain(virtualHostname) &&
+				 !Validator.isIPv6Address(virtualHostname)) {
+
 			throw new CompanyVirtualHostException();
 		}
 		else {
