@@ -15,9 +15,9 @@
 package com.liferay.portal.cache.ehcache.internal.extender;
 
 import com.liferay.osgi.felix.util.AbstractExtender;
+import com.liferay.portal.cache.ehcache.internal.PortalCacheConfiguratorSettings;
 import com.liferay.portal.kernel.cache.PortalCacheManager;
 import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
-import com.liferay.portal.kernel.cache.configurator.PortalCacheConfiguratorSettings;
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
