@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.net.URL;
+
 import java.util.Dictionary;
 
 import org.apache.felix.utils.extender.Extension;
@@ -90,15 +92,20 @@ public class EhcachePortalCacheExtender extends AbstractExtender {
 			singleVMConfigurationFile = "/META-INF/module-single-vm.xml";
 		}
 
-		if ((classLoader.getResource(multiVMConfigurationFile) == null) &&
-			(classLoader.getResource(singleVMConfigurationFile) == null)) {
+		URL multiVMConfigurationURL = classLoader.getResource(
+			multiVMConfigurationFile);
+		URL singleVMConfigurationURL = classLoader.getResource(
+			singleVMConfigurationFile);
+
+		if ((multiVMConfigurationURL == null) &&
+			(singleVMConfigurationURL == null)) {
 
 			return null;
 		}
 
 		return new EhcachePortalCacheExtension(
-			bundle.getBundleContext(), classLoader, multiVMConfigurationFile,
-			singleVMConfigurationFile);
+			bundle.getBundleContext(), classLoader, multiVMConfigurationURL,
+			singleVMConfigurationURL);
 	}
 
 	@Override
@@ -134,32 +141,29 @@ public class EhcachePortalCacheExtender extends AbstractExtender {
 			_multiVMServiceRegistration =
 				_registerPortalCacheConfiguratorSettings(
 					_bundleContext, PortalCacheManagerNames.MULTI_VM,
-					_classLoader, _multiVMConfigurationFile);
+					_classLoader, _multiVMConfigurationURL);
 			_singleVMServiceRegistration =
 				_registerPortalCacheConfiguratorSettings(
 					_bundleContext, PortalCacheManagerNames.SINGLE_VM,
-					_classLoader, _singleVMConfigurationFile);
+					_classLoader, _singleVMConfigurationURL);
 		}
 
 		private EhcachePortalCacheExtension(
 			BundleContext bundleContext, ClassLoader classLoader,
-			String multiVMConfigurationFile, String singleVMConfigurationFile) {
+			URL multiVMConfigurationURL, URL singleVMConfigurationURL) {
 
 			_bundleContext = bundleContext;
 			_classLoader = classLoader;
-			_multiVMConfigurationFile = multiVMConfigurationFile;
-			_singleVMConfigurationFile = singleVMConfigurationFile;
+			_multiVMConfigurationURL = multiVMConfigurationURL;
+			_singleVMConfigurationURL = singleVMConfigurationURL;
 		}
 
 		private ServiceRegistration<PortalCacheConfiguratorSettings>
 			_registerPortalCacheConfiguratorSettings(
 				BundleContext bundleContext, String portalCacheManagerName,
-				ClassLoader classLoader,
-				String portalCacheConfigrationLocation) {
+				ClassLoader classLoader, URL configurationURL) {
 
-			if (classLoader.getResource(portalCacheConfigrationLocation) ==
-					null) {
-
+			if (configurationURL == null) {
 				return null;
 			}
 
@@ -172,16 +176,16 @@ public class EhcachePortalCacheExtender extends AbstractExtender {
 			return bundleContext.registerService(
 				PortalCacheConfiguratorSettings.class,
 				new PortalCacheConfiguratorSettings(
-					classLoader, portalCacheConfigrationLocation),
+					classLoader, configurationURL),
 				properties);
 		}
 
 		private final BundleContext _bundleContext;
 		private final ClassLoader _classLoader;
-		private final String _multiVMConfigurationFile;
+		private final URL _multiVMConfigurationURL;
 		private ServiceRegistration<PortalCacheConfiguratorSettings>
 			_multiVMServiceRegistration;
-		private final String _singleVMConfigurationFile;
+		private final URL _singleVMConfigurationURL;
 		private ServiceRegistration<PortalCacheConfiguratorSettings>
 			_singleVMServiceRegistration;
 

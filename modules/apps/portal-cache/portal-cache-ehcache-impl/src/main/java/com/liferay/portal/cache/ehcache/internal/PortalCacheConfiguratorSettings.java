@@ -14,27 +14,29 @@
 
 package com.liferay.portal.cache.ehcache.internal;
 
+import java.net.URL;
+
 /**
  * @author Tina Tian
  */
 public class PortalCacheConfiguratorSettings {
 
 	public PortalCacheConfiguratorSettings(
-		ClassLoader classLoader, String portalCacheConfigrationLocation) {
+		ClassLoader classLoader, URL configurationURL) {
 
 		_classLoader = classLoader;
-		_portalCacheConfigrationLocation = portalCacheConfigrationLocation;
+		_configurationURL = configurationURL;
 	}
 
 	public ClassLoader getClassLoader() {
 		return _classLoader;
 	}
 
-	public String getPortalCacheConfigrationLocation() {
-		return _portalCacheConfigrationLocation;
+	public URL getConfigurationURL() {
+		return _configurationURL;
 	}
 
 	private final ClassLoader _classLoader;
-	private final String _portalCacheConfigrationLocation;
+	private final URL _configurationURL;
 
 }
