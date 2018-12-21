@@ -325,18 +325,7 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 	protected boolean reconfigure(
 		PortalCacheConfiguratorSettings portalCacheConfiguratorSettings) {
 
-		String portalCacheConfigurationLocation =
-			portalCacheConfiguratorSettings.
-				getPortalCacheConfigrationLocation();
-
-		if (Validator.isNull(portalCacheConfigurationLocation)) {
-			return false;
-		}
-
-		ClassLoader classLoader =
-			portalCacheConfiguratorSettings.getClassLoader();
-
-		URL url = classLoader.getResource(portalCacheConfigurationLocation);
+		URL url = portalCacheConfiguratorSettings.getConfigurationURL();
 
 		if (url == null) {
 			return false;
