@@ -12,13 +12,11 @@
  * details.
  */
 
-package com.liferay.portal.kernel.cache.configurator;
+package com.liferay.portal.cache.ehcache.internal;
 
 /**
  * @author Tina Tian
- * @deprecated As of Mueller (7.2.x), with no direct replacement
  */
-@Deprecated
 public class PortalCacheConfiguratorSettings {
 
 	public PortalCacheConfiguratorSettings(
