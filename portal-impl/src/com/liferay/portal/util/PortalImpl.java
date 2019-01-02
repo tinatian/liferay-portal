@@ -2661,7 +2661,7 @@ public class PortalImpl implements Portal {
 		if (host != null) {
 			host = StringUtil.toLowerCase(host.trim());
 
-			int pos = host.indexOf(':');
+			int pos = host.lastIndexOf(':');
 
 			if (pos >= 0) {
 				host = host.substring(0, pos);
