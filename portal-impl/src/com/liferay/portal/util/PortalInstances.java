@@ -45,6 +45,10 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -437,6 +441,20 @@ public class PortalInstances {
 		HttpServletRequest httpServletRequest) {
 
 		String host = PortalUtil.getHost(httpServletRequest);
+
+		if (Validator.isIPv6Address(host)) {
+			try {
+				Inet6Address address = (Inet6Address)InetAddress.getByName(
+					host);
+
+				host = address.getHostAddress();
+			}
+			catch (UnknownHostException unknownHostException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(unknownHostException, unknownHostException);
+				}
+			}
+		}
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Host " + host);
