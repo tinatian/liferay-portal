@@ -42,19 +42,27 @@ public class IntegrationPointTest {
 
 	@Test
 	public void testIntegrationPoint() {
-		Registry registry = RegistryUtil.getRegistry();
+		_testIntegrationPoint(null);
 
-		_testIntegrationPoint(
-			registry.trackServices(IntegrationPoint.class));
-
-		_testIntegrationPoint(
-			registry.trackServices(
-				IntegrationPoint.class,
-				new IntegrationPointTrackerCustomizer()));
+		_testIntegrationPoint(new IntegrationPointTrackerCustomizer());
 	}
 
 	private void _testIntegrationPoint(
-		ServiceTracker<IntegrationPoint, IntegrationPoint> serviceTracker) {
+		ServiceTrackerCustomizer<IntegrationPoint, IntegrationPoint>
+			serviceTrackerCustomizer) {
+
+		Registry registry = RegistryUtil.getRegistry();
+
+		ServiceTracker<IntegrationPoint, IntegrationPoint> serviceTracker =
+			null;
+
+		if (serviceTrackerCustomizer == null) {
+			serviceTracker = registry.trackServices(IntegrationPoint.class)
+		}
+		else {
+			serviceTracker = registry.trackServices(
+				IntegrationPoint.class, serviceTrackerCustomizer);
+		}
 
 		serviceTracker.open();
 
