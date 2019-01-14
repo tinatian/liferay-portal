@@ -44,16 +44,16 @@ public class IntegrationPointTest {
 	public void testIntegrationPoint() {
 		Registry registry = RegistryUtil.getRegistry();
 
-		_testIntegrationPointWithServiceTracker(
+		_testIntegrationPoint(
 			registry.trackServices(IntegrationPoint.class));
 
-		_testIntegrationPointWithServiceTracker(
+		_testIntegrationPoint(
 			registry.trackServices(
 				IntegrationPoint.class,
 				new IntegrationPointTrackerCustomizer()));
 	}
 
-	private void _testIntegrationPointWithServiceTracker(
+	private void _testIntegrationPoint(
 		ServiceTracker<IntegrationPoint, IntegrationPoint> serviceTracker) {
 
 		serviceTracker.open();
