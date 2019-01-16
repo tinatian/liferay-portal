@@ -16,7 +16,6 @@ package com.liferay.portal.spring.aop;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.ExceptionRetryAcceptor;
 import com.liferay.portal.kernel.spring.aop.ExceptionRetry;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
@@ -119,11 +118,6 @@ public class ExceptionRetryAdvice extends ChainableMethodAdvice {
 	}
 
 	private boolean _acceptException(Throwable t, String exceptionName) {
-		if (exceptionName == null) {
-			throw new IllegalArgumentException(
-				"Missing property " + ExceptionRetryAcceptor.EXCEPTION_NAME);
-		}
-
 		while (true) {
 			Class<?> clazz = t.getClass();
 
