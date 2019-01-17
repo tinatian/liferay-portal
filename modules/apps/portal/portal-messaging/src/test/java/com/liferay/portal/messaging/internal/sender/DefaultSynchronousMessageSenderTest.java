@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.SerialDestination;
 import com.liferay.portal.kernel.messaging.SynchronousDestination;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.portal.messaging.internal.DefaultMessageBus;
 import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.Registry;
@@ -36,8 +37,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.mockito.Mockito;
 
 /**
  * @author Shuyang Zhou
@@ -66,10 +65,10 @@ public class DefaultSynchronousMessageSenderTest {
 
 		ReflectionTestUtil.setFieldValue(
 			_defaultSynchronousMessageSender, "_entityCache",
-			Mockito.mock(EntityCache.class));
+			ProxyFactory.newDummyInstance(EntityCache.class));
 		ReflectionTestUtil.setFieldValue(
 			_defaultSynchronousMessageSender, "_finderCache",
-			Mockito.mock(FinderCache.class));
+			ProxyFactory.newDummyInstance(FinderCache.class));
 		ReflectionTestUtil.setFieldValue(
 			_defaultSynchronousMessageSender, "_messageBus", _messageBus);
 		ReflectionTestUtil.setFieldValue(
