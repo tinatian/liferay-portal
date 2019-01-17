@@ -28,17 +28,16 @@ import com.liferay.portal.kernel.messaging.SerialDestination;
 import com.liferay.portal.kernel.messaging.SynchronousDestination;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.messaging.internal.DefaultMessageBus;
+import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceTracker;
-import com.liferay.registry.ServiceTrackerCustomizer;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 /**
@@ -48,30 +47,10 @@ public class DefaultSynchronousMessageSenderTest {
 
 	@Before
 	public void setUp() {
-		Registry registry = Mockito.mock(Registry.class);
-
-		Mockito.when(
-			registry.getRegistry()
-		).thenReturn(
-			registry
-		);
-
-		Mockito.when(
-			registry.setRegistry(registry)
-		).thenReturn(
-			registry
-		);
+		Registry registry = new BasicRegistryImpl();
 
 		ServiceTracker<Object, Object> serviceTracker = Mockito.mock(
 			ServiceTracker.class);
-
-		Mockito.when(
-			registry.trackServices(
-				(Class<Object>)Matchers.any(),
-				(ServiceTrackerCustomizer<Object, Object>)Matchers.any())
-		).thenReturn(
-			serviceTracker
-		);
 
 		RegistryUtil.setRegistry(null);
 		RegistryUtil.setRegistry(registry);
@@ -100,13 +79,36 @@ public class DefaultSynchronousMessageSenderTest {
 		ReflectionTestUtil.setFieldValue(
 			_defaultSynchronousMessageSender, "_timeout", 10000);
 
-		_portalExecutorManager = Mockito.mock(PortalExecutorManager.class);
+		_portalExecutorManager = new PortalExecutorManager() {
 
-		Mockito.when(
-			_portalExecutorManager.getPortalExecutor(Mockito.anyString())
-		).thenReturn(
-			new ThreadPoolExecutor(1, 1)
-		);
+			@Override
+			public ThreadPoolExecutor getPortalExecutor(String name) {
+				return new ThreadPoolExecutor(1, 1);
+			}
+
+			@Override
+			public ThreadPoolExecutor getPortalExecutor(
+				String name, boolean createIfAbsent) {
+
+				return null;
+			}
+
+			@Override
+			public ThreadPoolExecutor registerPortalExecutor(
+				String name, ThreadPoolExecutor threadPoolExecutor) {
+
+				return null;
+			}
+
+			@Override
+			public void shutdown() {
+			}
+
+			@Override
+			public void shutdown(boolean interrupt) {
+			}
+
+		};
 
 		Mockito.when(
 			serviceTracker.getService()
