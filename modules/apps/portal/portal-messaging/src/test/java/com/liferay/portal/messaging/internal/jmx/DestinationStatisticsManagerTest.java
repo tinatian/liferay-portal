@@ -23,7 +23,6 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -31,14 +30,11 @@ import org.junit.Test;
  */
 public class DestinationStatisticsManagerTest {
 
-	@Before
-	public void setUp() throws Exception {
-		_mBeanServer = ManagementFactory.getPlatformMBeanServer();
-	}
-
 	@Test
 	public void testRegisterMBean() throws Exception {
-		_destination = new DestinationWrapper(null) {
+		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+
+		Destination destination = new DestinationWrapper(null) {
 
 			@Override
 			public String getName() {
@@ -50,15 +46,12 @@ public class DestinationStatisticsManagerTest {
 		ObjectName objectName = new ObjectName(
 			"com.liferay.portal.messaging:classification=" +
 				"messaging_destination,name=MessagingDestinationStatistics-" +
-					_destination.getName());
+					destination.getName());
 
-		_mBeanServer.registerMBean(
-			new DestinationStatisticsManager(_destination), objectName);
+		mBeanServer.registerMBean(
+			new DestinationStatisticsManager(destination), objectName);
 
-		Assert.assertTrue(_mBeanServer.isRegistered(objectName));
+		Assert.assertTrue(mBeanServer.isRegistered(objectName));
 	}
-
-	private Destination _destination;
-	private MBeanServer _mBeanServer;
 
 }

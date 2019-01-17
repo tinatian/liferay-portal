@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.util.ProxyFactory;
 import com.liferay.portal.messaging.internal.DefaultMessageBus;
 import com.liferay.registry.BasicRegistryImpl;
-import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 
 import org.junit.After;
@@ -45,10 +44,8 @@ public class DefaultSynchronousMessageSenderTest {
 
 	@Before
 	public void setUp() {
-		Registry registry = new BasicRegistryImpl();
-
 		RegistryUtil.setRegistry(null);
-		RegistryUtil.setRegistry(registry);
+		RegistryUtil.setRegistry(new BasicRegistryImpl());
 
 		_messageBus = new DefaultMessageBus();
 
@@ -74,37 +71,6 @@ public class DefaultSynchronousMessageSenderTest {
 		ReflectionTestUtil.setFieldValue(
 			_defaultSynchronousMessageSender, "_timeout", 10000);
 
-		_portalExecutorManager = new PortalExecutorManager() {
-
-			@Override
-			public ThreadPoolExecutor getPortalExecutor(String name) {
-				return new ThreadPoolExecutor(1, 1);
-			}
-
-			@Override
-			public ThreadPoolExecutor getPortalExecutor(
-				String name, boolean createIfAbsent) {
-
-				return null;
-			}
-
-			@Override
-			public ThreadPoolExecutor registerPortalExecutor(
-				String name, ThreadPoolExecutor threadPoolExecutor) {
-
-				return null;
-			}
-
-			@Override
-			public void shutdown() {
-			}
-
-			@Override
-			public void shutdown(boolean interrupt) {
-			}
-
-		};
-
 		synchronousDestination.open();
 	}
 
@@ -119,7 +85,36 @@ public class DefaultSynchronousMessageSenderTest {
 
 			@Override
 			public void open() {
-				portalExecutorManager = _portalExecutorManager;
+				portalExecutorManager = new PortalExecutorManager() {
+
+					@Override
+					public ThreadPoolExecutor getPortalExecutor(String name) {
+						return new ThreadPoolExecutor(1, 1);
+					}
+
+					@Override
+					public ThreadPoolExecutor getPortalExecutor(
+						String name, boolean createIfAbsent) {
+
+						return null;
+					}
+
+					@Override
+					public ThreadPoolExecutor registerPortalExecutor(
+						String name, ThreadPoolExecutor threadPoolExecutor) {
+
+						return null;
+					}
+
+					@Override
+					public void shutdown() {
+					}
+
+					@Override
+					public void shutdown(boolean interrupt) {
+					}
+
+				};
 
 				super.open();
 			}
@@ -173,7 +168,6 @@ public class DefaultSynchronousMessageSenderTest {
 
 	private DefaultSynchronousMessageSender _defaultSynchronousMessageSender;
 	private MessageBus _messageBus;
-	private PortalExecutorManager _portalExecutorManager;
 
 	private class ReplayMessageListener implements MessageListener {
 
