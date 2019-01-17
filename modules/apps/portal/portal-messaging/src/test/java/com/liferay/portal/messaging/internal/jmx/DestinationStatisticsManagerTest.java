@@ -15,6 +15,7 @@
 package com.liferay.portal.messaging.internal.jmx;
 
 import com.liferay.portal.kernel.messaging.Destination;
+import com.liferay.portal.kernel.messaging.DestinationWrapper;
 
 import java.lang.management.ManagementFactory;
 
@@ -24,19 +25,10 @@ import javax.management.ObjectName;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.mockito.Mock;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Michael C. Han
  */
-@PowerMockIgnore("javax.management.*")
-@RunWith(PowerMockRunner.class)
 public class DestinationStatisticsManagerTest {
 
 	@Before
@@ -46,7 +38,14 @@ public class DestinationStatisticsManagerTest {
 
 	@Test
 	public void testRegisterMBean() throws Exception {
-		PowerMockito.when(_destination.getName()).thenReturn("test");
+		_destination = new DestinationWrapper(null) {
+
+			@Override
+			public String getName() {
+				return "test";
+			}
+
+		};
 
 		ObjectName objectName = new ObjectName(
 			"com.liferay.portal.messaging:classification=" +
@@ -59,9 +58,7 @@ public class DestinationStatisticsManagerTest {
 		Assert.assertTrue(_mBeanServer.isRegistered(objectName));
 	}
 
-	@Mock
 	private Destination _destination;
-
 	private MBeanServer _mBeanServer;
 
 }
