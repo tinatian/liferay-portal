@@ -111,6 +111,10 @@ public class XSLErrorListener implements ErrorListener {
 			}
 		}
 
+		if (rootCause == null) {
+			rootCause = exception;
+		}
+
 		_message = rootCause.getMessage();
 
 		if (locator != null) {
