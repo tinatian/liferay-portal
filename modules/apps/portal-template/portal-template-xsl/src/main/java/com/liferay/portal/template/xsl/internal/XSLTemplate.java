@@ -142,7 +142,7 @@ public class XSLTemplate implements Template {
 
 		_transformerFactory.setURIResolver(xslURIResolver);
 
-		_xmlStreamSource = new StreamSource(
+		StreamSource xmlStreamSource = new StreamSource(
 			_xslTemplateResource.getXMLReader());
 
 		Transformer transformer = null;
@@ -153,7 +153,7 @@ public class XSLTemplate implements Template {
 					_xslTemplateResource, _transformerFactory);
 
 				transformer.transform(
-					_xmlStreamSource, new StreamResult(writer));
+					xmlStreamSource, new StreamResult(writer));
 
 				return;
 			}
@@ -173,7 +173,7 @@ public class XSLTemplate implements Template {
 		transformer.setParameter(TemplateConstants.WRITER, unsyncStringWriter);
 
 		transformer.transform(
-			_xmlStreamSource, new StreamResult(unsyncStringWriter));
+			xmlStreamSource, new StreamResult(unsyncStringWriter));
 
 		StringBundler sb = unsyncStringWriter.getStringBundler();
 
@@ -338,7 +338,6 @@ public class XSLTemplate implements Template {
 	private final boolean _preventLocalConnections;
 	private final TemplateContextHelper _templateContextHelper;
 	private final TransformerFactory _transformerFactory;
-	private StreamSource _xmlStreamSource;
 	private final XSLTemplateResource _xslTemplateResource;
 
 }
