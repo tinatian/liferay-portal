@@ -14,10 +14,10 @@
 
 package com.liferay.portal.template.xsl.internal;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.template.StringTemplateResource;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateException;
@@ -30,6 +30,8 @@ import com.liferay.portal.template.xsl.configuration.XSLEngineConfiguration;
 import com.liferay.portal.xsl.XSLTemplateResource;
 import com.liferay.portal.xsl.XSLURIResolver;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Writer;
 
 import java.util.Collection;
@@ -37,6 +39,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -72,6 +76,7 @@ public class XSLTemplate implements Template {
 		_errorTemplateResource = errorTemplateResource;
 		_templateContextHelper = templateContextHelper;
 
+		_displayXSLErrors = xslEngineConfiguration.displayXSLErrors();
 		_preventLocalConnections =
 			xslEngineConfiguration.preventLocalConnections();
 
@@ -229,6 +234,22 @@ public class XSLTemplate implements Template {
 			doProcessTemplate(writer);
 		}
 		catch (Exception e1) {
+			if (!_displayXSLErrors) {
+				String message = StringBundler.concat(
+					"Unable to process XSL template ",
+					_xslTemplateResource.getTemplateId(), ": ",
+					e1.getMessage());
+
+				if (_log.isDebugEnabled()) {
+					_log.debug(message, e1);
+				}
+				else {
+					_log.error(message);
+				}
+
+				return;
+			}
+
 			Transformer errorTransformer = _getTransformer(
 				_errorTemplateResource, _errorTransformerFactory);
 
@@ -240,12 +261,17 @@ public class XSLTemplate implements Template {
 			errorTransformer.setParameter(
 				"exception", xslErrorListener.getMessageAndLocation());
 
-			if (_errorTemplateResource instanceof StringTemplateResource) {
-				StringTemplateResource stringTemplateResource =
-					(StringTemplateResource)_errorTemplateResource;
+			try (BufferedReader br = new BufferedReader(
+					_xslTemplateResource.getReader())) {
 
-				errorTransformer.setParameter(
-					"script", stringTemplateResource.getContent());
+				Stream<String> stream = br.lines();
+
+				String script = stream.collect(
+					Collectors.joining(StringPool.NEW_LINE));
+
+				errorTransformer.setParameter("script", script);
+			}
+			catch (IOException ioe) {
 			}
 
 			if (xslErrorListener.getLocation() != null) {
@@ -333,6 +359,7 @@ public class XSLTemplate implements Template {
 	private static final Log _log = LogFactoryUtil.getLog(XSLTemplate.class);
 
 	private final Map<String, Object> _context;
+	private final boolean _displayXSLErrors;
 	private TemplateResource _errorTemplateResource;
 	private final TransformerFactory _errorTransformerFactory;
 	private final boolean _preventLocalConnections;

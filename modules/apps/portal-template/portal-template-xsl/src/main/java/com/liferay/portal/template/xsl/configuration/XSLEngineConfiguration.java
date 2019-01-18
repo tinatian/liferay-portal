@@ -28,6 +28,9 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface XSLEngineConfiguration {
 
+	@Meta.AD(deflt = "false", name = "display-xsl-errors", required = false)
+	public boolean displayXSLErrors();
+
 	@Meta.AD(
 		deflt = "true", name = "prevent-local-connections", required = false
 	)
