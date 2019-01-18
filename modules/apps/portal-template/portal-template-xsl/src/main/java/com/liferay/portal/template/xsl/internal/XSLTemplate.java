@@ -258,7 +258,8 @@ public class XSLTemplate implements Template {
 
 			try {
 				errorTransformer.transform(
-					_xmlStreamSource, new StreamResult(writer));
+					new StreamSource(_xslTemplateResource.getXMLReader()),
+					new StreamResult(writer));
 			}
 			catch (Exception e2) {
 				throw new TemplateException(
