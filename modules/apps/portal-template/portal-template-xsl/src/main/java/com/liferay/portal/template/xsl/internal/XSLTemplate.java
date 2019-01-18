@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.template.TemplateContextHelper;
 import com.liferay.portal.template.xsl.configuration.XSLEngineConfiguration;
@@ -74,8 +75,19 @@ public class XSLTemplate implements Template {
 		_preventLocalConnections =
 			xslEngineConfiguration.preventLocalConnections();
 
-		_errorTransformerFactory = TransformerFactory.newInstance();
-		_transformerFactory = TransformerFactory.newInstance();
+		Thread thread = Thread.currentThread();
+
+		ClassLoader contextClassLoader = thread.getContextClassLoader();
+
+		thread.setContextClassLoader(PortalClassLoaderUtil.getClassLoader());
+
+		try {
+			_errorTransformerFactory = TransformerFactory.newInstance();
+			_transformerFactory = TransformerFactory.newInstance();
+		}
+		finally {
+			thread.setContextClassLoader(contextClassLoader);
+		}
 
 		try {
 			_transformerFactory.setFeature(
@@ -207,6 +219,12 @@ public class XSLTemplate implements Template {
 
 	@Override
 	public void processTemplate(Writer writer) throws TemplateException {
+		Thread thread = Thread.currentThread();
+
+		ClassLoader contextClassLoader = thread.getContextClassLoader();
+
+		thread.setContextClassLoader(PortalClassLoaderUtil.getClassLoader());
+
 		try {
 			doProcessTemplate(writer);
 		}
@@ -248,6 +266,9 @@ public class XSLTemplate implements Template {
 						_errorTemplateResource.getTemplateId(),
 					e2);
 			}
+		}
+		finally {
+			thread.setContextClassLoader(contextClassLoader);
 		}
 	}
 
