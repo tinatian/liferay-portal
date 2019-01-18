@@ -15,6 +15,8 @@
 package com.liferay.portal.template.xsl.internal;
 
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.template.StringTemplateResource;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
@@ -72,6 +74,7 @@ public class XSLTemplate implements Template {
 		_preventLocalConnections =
 			xslEngineConfiguration.preventLocalConnections();
 
+		_errorTransformerFactory = TransformerFactory.newInstance();
 		_transformerFactory = TransformerFactory.newInstance();
 
 		try {
@@ -80,6 +83,9 @@ public class XSLTemplate implements Template {
 				xslEngineConfiguration.secureProcessingEnabled());
 		}
 		catch (TransformerConfigurationException tce) {
+			_log.error(
+				"Unable to configure secure processing: " + tce.getMessage(),
+				tce);
 		}
 
 		_context = new HashMap<>();
@@ -115,6 +121,7 @@ public class XSLTemplate implements Template {
 
 		XSLErrorListener xslErrorListener = new XSLErrorListener(locale);
 
+		_errorTransformerFactory.setErrorListener(xslErrorListener);
 		_transformerFactory.setErrorListener(xslErrorListener);
 
 		if (_preventLocalConnections) {
@@ -130,7 +137,8 @@ public class XSLTemplate implements Template {
 
 		if (_errorTemplateResource == null) {
 			try {
-				transformer = _getTransformer(_xslTemplateResource);
+				transformer = _getTransformer(
+					_xslTemplateResource, _transformerFactory);
 
 				transformer.transform(
 					_xmlStreamSource, new StreamResult(writer));
@@ -147,7 +155,8 @@ public class XSLTemplate implements Template {
 
 		UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
 
-		transformer = _getTransformer(_xslTemplateResource);
+		transformer = _getTransformer(
+			_xslTemplateResource, _transformerFactory);
 
 		transformer.setParameter(TemplateConstants.WRITER, unsyncStringWriter);
 
@@ -203,7 +212,7 @@ public class XSLTemplate implements Template {
 		}
 		catch (Exception e1) {
 			Transformer errorTransformer = _getTransformer(
-				_errorTemplateResource);
+				_errorTemplateResource, _errorTransformerFactory);
 
 			errorTransformer.setParameter(TemplateConstants.WRITER, writer);
 
@@ -271,14 +280,16 @@ public class XSLTemplate implements Template {
 		return _context.values();
 	}
 
-	private Transformer _getTransformer(TemplateResource templateResource)
+	private Transformer _getTransformer(
+			TemplateResource templateResource,
+			TransformerFactory transformerFactory)
 		throws TemplateException {
 
 		try {
 			StreamSource scriptSource = new StreamSource(
 				templateResource.getReader());
 
-			Transformer transformer = _transformerFactory.newTransformer(
+			Transformer transformer = transformerFactory.newTransformer(
 				scriptSource);
 
 			for (Map.Entry<String, Object> entry : _context.entrySet()) {
@@ -295,8 +306,11 @@ public class XSLTemplate implements Template {
 		}
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(XSLTemplate.class);
+
 	private final Map<String, Object> _context;
 	private TemplateResource _errorTemplateResource;
+	private final TransformerFactory _errorTransformerFactory;
 	private final boolean _preventLocalConnections;
 	private final TemplateContextHelper _templateContextHelper;
 	private final TransformerFactory _transformerFactory;
