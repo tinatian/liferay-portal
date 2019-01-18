@@ -313,6 +313,8 @@ public class XSLTemplate implements Template {
 			Transformer transformer = transformerFactory.newTransformer(
 				scriptSource);
 
+			transformer.setErrorListener(transformerFactory.getErrorListener());
+
 			for (Map.Entry<String, Object> entry : _context.entrySet()) {
 				transformer.setParameter(entry.getKey(), entry.getValue());
 			}
