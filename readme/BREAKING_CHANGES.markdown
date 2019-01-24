@@ -226,3 +226,28 @@ It's one of several steps to clean up kernel provider interfaces to reduce the
 chance of package version lock down.
 
 ---------------------------------------
+
+### Remove HibernateConfigurationConverter and Converter
+- **Date:** 2019-Jan-07
+- **JIRA Ticket:** [LPS-88870](https://issues.liferay.com/browse/LPS-88870)
+
+#### What changed?
+
+HibernateConfigurationConverter in package com.liferay.portal.spring.hibernate
+and Converter in package com.liferay.portal.kernel.util were removed.
+
+#### Who is affected?
+
+This affects anyone who used HibernateConfigurationConverter to convert
+configuration.
+
+#### How should I update my code?
+
+Remove usages of HibernateConfigurationConverter
+
+#### Why was this change made?
+
+It's one of several steps to clean up kernel provider interfaces to reduce the
+chance of package version lock down.
+
+---------------------------------------
