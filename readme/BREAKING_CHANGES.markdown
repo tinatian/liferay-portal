@@ -354,3 +354,30 @@ It's one of several steps to clean up kernel provider interfaces to reduce the
 chance of package version lock down.
 
 ---------------------------------------
+
+### Remove unsafe functional interfaces in package com.liferay.portal.kernel.util
+- **Date:** 2019-Jan-15
+- **JIRA Ticket:** [LPS-89223](https://issues.liferay.com/browse/LPS-89223)
+
+#### What changed?
+
+OSGiServiceUtil in package com.liferay.portal.osgi.util.test was removed. UnsafeConsumer,
+UnsafeFunction and UnsafeRunnable in package com.liferay.portal.kernel.util were removed.
+
+#### Who is affected?
+
+This affects anyone who used OSGiServiceUtil, UnsafeConsumer, UnsafeFunction and
+UnsafeRunnable.
+
+#### How should I update my code?
+
+Replace usages of OSGIServiceUtil with com.liferay.osgi.util.service.OSGiServiceUtil.
+Replace usages of UnsafeConsumer, UnsafeFunction and UnsafeRunnable with corresponding
+class in package com.liferay.petra.function
+
+#### Why was this change made?
+
+It's one of several steps to clean up kernel provider interfaces to reduce the
+chance of package version lock down.
+
+---------------------------------------
