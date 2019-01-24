@@ -325,3 +325,32 @@ It's one of several steps to clean up kernel provider interfaces to reduce the
 chance of package version lock down.
 
 ---------------------------------------
+
+### Switch to use JDK Predicate
+- **Date:** 2019-Jan-14
+- **JIRA Ticket:** [LPS-89139](https://issues.liferay.com/browse/LPS-89139)
+
+#### What changed?
+
+Interface PredicateFilter was removed. Impls of the interface: AggregatePredicateFilter,
+PrefixPredicateFilter, JavaScriptPortletResourcePredicaeFilter and
+DDMFormFieldValuePredicateFilter were removed along with their usages.
+
+#### Who is affected?
+
+This affects anyone who used PredicateFilter, includes usages of ListUtil, MapUtil,
+ArrayUtil, ComboServletStaticURLGenerator, AggregatePredicateFilter, PrefixPredicateFilter,
+JavaScriptPortletResourcePredicaeFilter and DDMFormFieldValuePredicateFilter.
+
+#### How should I update my code?
+
+Replace usages of ListUtil, MapUtil, ArrayUtil, ComboServletStaticURLGenerator,
+AggregatePredicateFilter, PrefixPredicateFilter, JavaScriptPortletResourcePredicaeFilter
+and DDMFormFieldValuePredicateFilter with Predicate in JDK
+
+#### Why was this change made?
+
+It's one of several steps to clean up kernel provider interfaces to reduce the
+chance of package version lock down.
+
+---------------------------------------
