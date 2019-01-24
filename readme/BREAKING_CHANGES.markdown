@@ -197,3 +197,32 @@ A limited number of portlets use this property; there are better ways to achieve
 the same results.
 
 ---------------------------------------
+
+### Move TermsOfUseContentProvider out of kernel.util
+- **Date:** 2019-Jan-07
+- **JIRA Ticket:** [LPS-88869](https://issues.liferay.com/browse/LPS-88869)
+
+#### What changed?
+
+TermsOfUseContentProvider was moved out from com.liferay.kernel.util package to
+com.liferay.portal.kernel.term.of.use. TermsOfUseContentProviderRegistryUtil was
+renamed to TermsOfUseContentProviderUtil.
+
+#### Who is affected?
+
+This affects anyone who used TermsOfUseContentProviderRegistryUtil to lookup
+TermsOfUseContentProvider service.
+
+#### How should I update my code?
+
+You should update any portlets leveraging this feature. Two examples are
+TermsOfUseContentProviderUtil in package com.liferay.portal.internal.terms.of.use
+and CompanySettingsTermsOfUseFormNavigatorEntry in com.liferay.portal.settings.
+web.internal.servlet.taglib.ui
+
+#### Why was this change made?
+
+It's one of several steps to clean up kernel provider interfaces to reduce the
+chance of package version lock down.
+
+---------------------------------------
