@@ -60,10 +60,12 @@ dec
 decimal
 declare
 default
+definition
 delayed
 delete
 desc
 describe
+description
 deterministic
 distinct
 distinctrow
@@ -104,6 +106,7 @@ group
 having
 hidden
 high_priority
+history
 hour_microsecond
 hour_minute
 hour_second
@@ -247,6 +250,7 @@ strictfp
 super
 switch
 synchronized
+system
 table
 terminated
 text
@@ -285,6 +289,7 @@ varbinary
 varchar
 varcharacter
 varying
+visible
 void
 volatile
 when
