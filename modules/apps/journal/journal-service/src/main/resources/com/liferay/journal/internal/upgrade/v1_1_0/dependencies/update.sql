@@ -3,7 +3,7 @@ create table JournalArticleLocalization (
 	companyId LONG,
 	articlePK LONG,
 	title VARCHAR(400) null,
-	description STRING null,
+	description_ STRING null,
 	languageId VARCHAR(75) null
 );
 
