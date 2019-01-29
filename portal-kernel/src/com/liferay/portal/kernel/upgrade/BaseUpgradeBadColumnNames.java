@@ -16,9 +16,6 @@ package com.liferay.portal.kernel.upgrade;
 
 import com.liferay.petra.string.StringPool;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 /**
  * @author Tina Tian
  */
@@ -28,15 +25,17 @@ public abstract class BaseUpgradeBadColumnNames extends UpgradeProcess {
 			Class<?> tableClass, String... badColumnNames)
 		throws Exception {
 
-		Stream<String> badColumnNamesStream = Arrays.stream(badColumnNames);
+		AlterColumnName[] alterColumnNames =
+			new AlterColumnName[badColumnNames.length];
 
-		Stream<AlterColumnName> alterColumnNamesStream =
-			badColumnNamesStream.map(
-				columnName ->
-					new AlterColumnName(
-						columnName, columnName.concat(StringPool.UNDERLINE)));
+		for (int i = 0; i < badColumnNames.length; i++) {
+			String columnName = badColumnNames[i];
 
-		alter(tableClass, (AlterColumnName[])alterColumnNamesStream.toArray());
+			alterColumnNames[i] = new AlterColumnName(
+				columnName, columnName.concat(StringPool.UNDERLINE));
+		}
+
+		alter(tableClass, alterColumnNames);
 	}
 
 }
