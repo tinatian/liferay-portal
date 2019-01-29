@@ -28,6 +28,7 @@ import com.liferay.calendar.internal.upgrade.v4_0_0.util.CalendarBookingTable;
 import com.liferay.calendar.internal.upgrade.v4_0_0.util.CalendarNotificationTemplateTable;
 import com.liferay.calendar.internal.upgrade.v4_0_0.util.CalendarResourceTable;
 import com.liferay.calendar.internal.upgrade.v4_0_0.util.CalendarTable;
+import com.liferay.calendar.internal.upgrade.v4_0_2.UpgradeBadColumnNames;
 import com.liferay.calendar.model.CalendarBooking;
 import com.liferay.comment.upgrade.UpgradeDiscussionSubscriptionClassName;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
@@ -115,6 +116,8 @@ public class CalendarServiceUpgrade implements UpgradeStepRegistrator {
 				_subscriptionLocalService, CalendarBooking.class.getName(),
 				UpgradeDiscussionSubscriptionClassName.DeletionMode.
 					DELETE_OLD));
+
+		registry.register("4.0.1", "4.0.2", new UpgradeBadColumnNames());
 	}
 
 	@Reference
