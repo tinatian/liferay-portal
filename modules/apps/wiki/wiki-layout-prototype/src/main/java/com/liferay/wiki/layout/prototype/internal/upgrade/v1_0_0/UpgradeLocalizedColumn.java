@@ -32,17 +32,7 @@ public class UpgradeLocalizedColumn extends BaseUpgradeLocalizedColumn {
 			LanguageResources.RESOURCE_BUNDLE_LOADER,
 			LayoutPrototypeTable.class, "name", _NAME,
 			"layout-prototype-wiki-title", "Name", companyIds);
-
-		upgradeLocalizedColumn(
-			LanguageResources.RESOURCE_BUNDLE_LOADER,
-			LayoutPrototypeTable.class, "description", _DESCRIPTION,
-			"layout-prototype-wiki-description", "Description", companyIds);
 	}
-
-	private static final String _DESCRIPTION =
-		"Collaborate with members through the wiki on this page. Discover " +
-			"related content through tags, and navigate quickly and easily " +
-				"with categories.";
 
 	private static final String _NAME =
 		"<?xml version='1.0' encoding='UTF-8'?><root available-locales=" +
