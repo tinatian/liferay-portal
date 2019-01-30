@@ -90,7 +90,7 @@ public class EhcachePortalCacheManager<K extends Serializable, V>
 				baseEhcachePortalCacheManagerConfigurator.
 					getConfigurationObjectValuePair(
 						getPortalCacheManagerName(), configurationURL,
-						classLoader, _usingDefault);
+						classLoader, false);
 
 		reconfigEhcache(configurationObjectValuePair.getKey());
 
