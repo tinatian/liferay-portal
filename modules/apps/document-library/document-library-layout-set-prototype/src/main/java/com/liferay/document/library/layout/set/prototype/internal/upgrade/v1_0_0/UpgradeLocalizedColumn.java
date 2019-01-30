@@ -32,15 +32,7 @@ public class UpgradeLocalizedColumn extends BaseUpgradeLocalizedColumn {
 			LanguageResources.RESOURCE_BUNDLE_LOADER,
 			LayoutSetPrototypeTable.class, "name", _NAME,
 			"layout-set-prototype-intranet-site-title", "Name", companyIds);
-
-		upgradeLocalizedColumn(
-			LanguageResources.RESOURCE_BUNDLE_LOADER,
-			LayoutSetPrototypeTable.class, "description", _DESCRIPTION,
-			"layout-set-prototype-intranet-site-description", "Description",
-			companyIds);
 	}
-
-	private static final String _DESCRIPTION = "Site with Documents and News";
 
 	private static final String _NAME =
 		"<?xml version='1.0' encoding='UTF-8'?><root available-locales=" +
