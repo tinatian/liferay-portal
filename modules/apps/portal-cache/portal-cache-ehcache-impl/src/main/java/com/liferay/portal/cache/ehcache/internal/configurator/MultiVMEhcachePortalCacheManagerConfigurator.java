@@ -195,6 +195,18 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 					bootstrapLoaderPropertiesString, StringPool.COMMA));
 		}
 
+		Set<Properties> portalCacheListenerPropertiesSet =
+			portalCacheConfiguration.getPortalCacheListenerPropertiesSet();
+
+		for (Properties properties : portalCacheListenerPropertiesSet) {
+			boolean replicator = GetterUtil.getBoolean(
+				properties.get(PortalCacheReplicator.REPLICATOR));
+
+			if (replicator) {
+				return portalCacheConfiguration;
+			}
+		}
+
 		String replicatorPropertiesString =
 			(String)_replicatorProperties.remove(cacheName);
 
@@ -206,9 +218,6 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 			replicatorPropertiesString, StringPool.COMMA);
 
 		replicatorProperties.put(PortalCacheReplicator.REPLICATOR, true);
-
-		Set<Properties> portalCacheListenerPropertiesSet =
-			portalCacheConfiguration.getPortalCacheListenerPropertiesSet();
 
 		portalCacheListenerPropertiesSet.add(replicatorProperties);
 
