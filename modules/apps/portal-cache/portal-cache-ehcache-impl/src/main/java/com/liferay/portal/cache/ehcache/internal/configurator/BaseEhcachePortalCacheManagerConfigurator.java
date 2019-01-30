@@ -15,12 +15,14 @@
 package com.liferay.portal.cache.ehcache.internal.configurator;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.cache.PortalCacheReplicator;
 import com.liferay.portal.cache.configuration.PortalCacheConfiguration;
 import com.liferay.portal.cache.configuration.PortalCacheManagerConfiguration;
 import com.liferay.portal.cache.ehcache.internal.EhcacheConstants;
 import com.liferay.portal.cache.ehcache.internal.EhcachePortalCacheConfiguration;
 import com.liferay.portal.kernel.cache.PortalCacheListenerScope;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -171,6 +173,15 @@ public abstract class BaseEhcachePortalCacheManagerConfigurator {
 			Properties properties = parseProperties(
 				cacheEventListenerFactoryConfiguration.getProperties(),
 				cacheEventListenerFactoryConfiguration.getPropertySeparator());
+
+			boolean replicator = GetterUtil.getBoolean(
+				properties.get(PortalCacheReplicator.REPLICATOR));
+
+			if (replicator) {
+				portalCacheListenerPropertiesSet.add(properties);
+
+				continue;
+			}
 
 			String factoryClassName =
 				cacheEventListenerFactoryConfiguration.
