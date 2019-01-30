@@ -13,5 +13,6 @@
 		overflowToDisk="false"
 		timeToIdleSeconds="600"
 	>
+		<cacheEventListenerFactory properties="replicator=true,replicatePuts=false" propertySeparator="," />
 	</cache>
 </ehcache>
