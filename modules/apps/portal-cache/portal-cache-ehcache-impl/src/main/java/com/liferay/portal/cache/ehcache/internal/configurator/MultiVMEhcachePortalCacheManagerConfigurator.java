@@ -154,8 +154,8 @@ public class MultiVMEhcachePortalCacheManagerConfigurator
 				while (itr.hasNext()) {
 					Properties properties = itr.next();
 
-					if ((Boolean)properties.get(
-							PortalCacheReplicator.REPLICATOR)) {
+					if (GetterUtil.getBoolean(properties.get(
+							PortalCacheReplicator.REPLICATOR))) {
 
 						itr.remove();
 					}
