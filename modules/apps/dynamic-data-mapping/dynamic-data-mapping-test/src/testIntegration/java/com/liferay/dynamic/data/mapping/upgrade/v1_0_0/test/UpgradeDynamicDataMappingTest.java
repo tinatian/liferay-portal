@@ -1231,7 +1231,8 @@ public class UpgradeDynamicDataMappingTest {
 
 		sb.append("insert into DDMContent (uuid_, contentId, groupId, ");
 		sb.append("companyId, userId, userName, createDate, modifiedDate, ");
-		sb.append("name, description, data_) values (?, ?, ?, ?, ?, ?, ?, ?, ");
+		sb.append(
+			"name, description_, data_) values (?, ?, ?, ?, ?, ?, ?, ?, ");
 		sb.append("?, ?, ?)");
 
 		String sql = sb.toString();
@@ -1301,7 +1302,7 @@ public class UpgradeDynamicDataMappingTest {
 
 		sb.append("insert into DDLRecordSet (uuid_, recordSetId, groupId, ");
 		sb.append("companyId, userId, userName, createDate, modifiedDate, ");
-		sb.append("DDMStructureId, recordSetKey, name, description, ");
+		sb.append("DDMStructureId, recordSetKey, name, description_, ");
 		sb.append("minDisplayRows, scope) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ");
 		sb.append("?, ?, ?, ?, ?) ");
 
@@ -1433,7 +1434,8 @@ public class UpgradeDynamicDataMappingTest {
 		sb.append("companyId, userId, userName, versionUserId, ");
 		sb.append("versionUserName, createDate, modifiedDate, ");
 		sb.append("parentStructureId, classNameId, structureKey, version, ");
-		sb.append("name, description, definition, storageType, type_) values ");
+		sb.append(
+			"name, description_, definition_, storageType, type_) values ");
 		sb.append("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		String sql = sb.toString();

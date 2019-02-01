@@ -137,7 +137,7 @@ public class UpgradeKaleoDefinitionVersionTest {
 
 		sb.append("insert into KaleoDefinition (kaleoDefinitionId, groupId, ");
 		sb.append("companyId, userId, userName, createDate, modifiedDate, ");
-		sb.append("name, title, description, content, version, active_, ");
+		sb.append("name, title, description_, content, version, active_, ");
 		sb.append("startKaleoNodeId) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ");
 		sb.append("?, ?, ?, ?)");
 
