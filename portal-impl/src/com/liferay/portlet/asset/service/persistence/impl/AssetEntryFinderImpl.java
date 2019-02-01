@@ -425,7 +425,7 @@ public class AssetEntryFinderImpl
 
 		if (Validator.isNotNull(entryQuery.getKeywords())) {
 			sb.append(" AND ((AssetEntry.userName LIKE ?) OR ");
-			sb.append("(AssetEntry.title LIKE ?) OR (AssetEntry.description_");
+			sb.append("(AssetEntry.title LIKE ?) OR (AssetEntry.description_ ");
 			sb.append("LIKE ?))");
 		}
 		else if (Validator.isNotNull(entryQuery.getUserName()) ||
