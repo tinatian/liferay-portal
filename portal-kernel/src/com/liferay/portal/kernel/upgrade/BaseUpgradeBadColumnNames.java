@@ -61,7 +61,7 @@ public abstract class BaseUpgradeBadColumnNames extends UpgradeProcess {
 					tableName,
 					dbInspector.normalizeName(columnName, databaseMetaData))) {
 
-				if (columnResultSet.next()) {
+				if (!columnResultSet.next()) {
 					if (_log.isWarnEnabled()) {
 						_log.warn(
 							StringBundler.concat(
