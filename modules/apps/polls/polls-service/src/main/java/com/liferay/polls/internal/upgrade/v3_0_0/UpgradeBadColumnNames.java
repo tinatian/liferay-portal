@@ -15,6 +15,7 @@
 package com.liferay.polls.internal.upgrade.v3_0_0;
 
 import com.liferay.polls.internal.upgrade.v3_0_0.util.PollsChoiceTable;
+import com.liferay.polls.internal.upgrade.v3_0_0.util.PollsQuestionTable;
 import com.liferay.portal.kernel.upgrade.BaseUpgradeBadColumnNames;
 
 /**
@@ -25,6 +26,7 @@ public class UpgradeBadColumnNames extends BaseUpgradeBadColumnNames {
 	@Override
 	protected void doUpgrade() throws Exception {
 		upgradeBadColumnNames(PollsChoiceTable.class, "description");
+		upgradeBadColumnNames(PollsQuestionTable.class, "description");
 	}
 
 }
