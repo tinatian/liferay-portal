@@ -4401,9 +4401,11 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2_SQL = "backgroundTask.taskExecutorClassName = ? AND ";
 	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3_SQL = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
 	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2) + ")";
+		removeConjunction(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2_SQL) +
+		")";
 	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3) + ")";
+		removeConjunction(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3_SQL) +
+		")";
 	private static final String _FINDER_COLUMN_T_S_STATUS_2_SQL = "backgroundTask.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_T;
@@ -6470,10 +6472,12 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3_SQL =
 		"(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
 	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5_SQL =
-		"(" + removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2) +
+		"(" +
+		removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2_SQL) +
 		")";
 	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6_SQL =
-		"(" + removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3) +
+		"(" +
+		removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3_SQL) +
 		")";
 	private static final String _FINDER_COLUMN_G_T_C_COMPLETED_2_SQL = "backgroundTask.completed = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T_S;
@@ -7437,10 +7441,12 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3_SQL =
 		"(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
 	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5_SQL =
-		"(" + removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2) +
+		"(" +
+		removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2_SQL) +
 		")";
 	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6_SQL =
-		"(" + removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3) +
+		"(" +
+		removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3_SQL) +
 		")";
 	private static final String _FINDER_COLUMN_G_T_S_STATUS_2_SQL = "backgroundTask.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_T_C;

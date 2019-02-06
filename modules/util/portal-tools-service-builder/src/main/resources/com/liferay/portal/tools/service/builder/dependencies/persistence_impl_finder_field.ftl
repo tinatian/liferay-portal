@@ -46,12 +46,12 @@ private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${ent
 
 <#if entityColumn.hasArrayableOperator() && validator.isNotNull(finderColConjunction) && stringUtil.equals(entityColumn.type, "String")>
 	<#if !entityColumn.isConvertNull()>
-		private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_4${finderFieldSuffix} = "(" + removeConjunction(_FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_1) + ")";
+		private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_4${finderFieldSuffix} = "(" + removeConjunction(_FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_1${finderFieldSuffix}) + ")";
 	</#if>
 
-	private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_5${finderFieldSuffix} = "(" + removeConjunction(_FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_2) + ")";
+	private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_5${finderFieldSuffix} = "(" + removeConjunction(_FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_2${finderFieldSuffix}) + ")";
 
-	private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_6${finderFieldSuffix} = "(" + removeConjunction(_FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_3) + ")";
+	private static final String _FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_6${finderFieldSuffix} = "(" + removeConjunction(_FINDER_COLUMN_${entityFinder.name?upper_case}_${entityColumn.name?upper_case}_3${finderFieldSuffix}) + ")";
 </#if>
 
 <#if entityColumn.hasArrayableOperator() && !stringUtil.equals(entityColumn.type, "String")>

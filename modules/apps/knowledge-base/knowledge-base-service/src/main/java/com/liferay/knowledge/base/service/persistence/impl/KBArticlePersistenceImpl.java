@@ -26014,9 +26014,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_2_SQL = "kbArticle.sections LIKE ? AND ";
 	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_3_SQL = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_5_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_G_S_L_SECTIONS_2) + ")";
+		removeConjunction(_FINDER_COLUMN_G_S_L_SECTIONS_2_SQL) + ")";
 	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_6_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_G_S_L_SECTIONS_3) + ")";
+		removeConjunction(_FINDER_COLUMN_G_S_L_SECTIONS_3_SQL) + ")";
 	private static final String _FINDER_COLUMN_G_S_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S_M;
 	private FinderPath _finderPathWithPaginationCountByG_S_M;
@@ -27658,9 +27658,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_2_SQL = "kbArticle.sections LIKE ? AND ";
 	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_3_SQL = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_5_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_G_S_M_SECTIONS_2) + ")";
+		removeConjunction(_FINDER_COLUMN_G_S_M_SECTIONS_2_SQL) + ")";
 	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_6_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_G_S_M_SECTIONS_3) + ")";
+		removeConjunction(_FINDER_COLUMN_G_S_M_SECTIONS_3_SQL) + ")";
 	private static final String _FINDER_COLUMN_G_S_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S_S;
 	private FinderPath _finderPathWithPaginationCountByG_S_S;
@@ -29301,9 +29301,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_2_SQL = "kbArticle.sections LIKE ? AND ";
 	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_3_SQL = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_5_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_G_S_S_SECTIONS_2) + ")";
+		removeConjunction(_FINDER_COLUMN_G_S_S_SECTIONS_2_SQL) + ")";
 	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_6_SQL = "(" +
-		removeConjunction(_FINDER_COLUMN_G_S_S_SECTIONS_3) + ")";
+		removeConjunction(_FINDER_COLUMN_G_S_S_SECTIONS_3_SQL) + ")";
 	private static final String _FINDER_COLUMN_G_S_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_L_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_L_S;
