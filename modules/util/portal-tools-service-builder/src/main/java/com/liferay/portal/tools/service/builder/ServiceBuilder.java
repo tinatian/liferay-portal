@@ -5837,7 +5837,7 @@ public class ServiceBuilder {
 					String name = column.getName();
 
 					finderWhere = StringUtil.replace(
-						finderWhere, name, alias + "." + name);
+						finderWhere, name, alias + "." + column.getDBName());
 				}
 			}
 

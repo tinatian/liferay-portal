@@ -744,11 +744,7 @@ that may or may not be enforced with a unique index at the database level. Case
 					query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_1);
 				}
 
-				<#assign sqlQuery = true />
-
 				<#include "persistence_impl_finder_cols.ftl">
-
-				<#assign sqlQuery = false />
 
 				if (!getDB().isSupportsInlineDistinct()) {
 					query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_2);
@@ -940,11 +936,7 @@ that may or may not be enforced with a unique index at the database level. Case
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_1);
 					}
 
-					<#assign sqlQuery = true />
-
 					<#include "persistence_impl_finder_cols.ftl">
-
-					<#assign sqlQuery = false />
 
 					if (!getDB().isSupportsInlineDistinct()) {
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_2);
@@ -1279,11 +1271,7 @@ that may or may not be enforced with a unique index at the database level. Case
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_1);
 					}
 
-					<#assign sqlQuery = true />
-
 					<#include "persistence_impl_finder_arrayable_cols.ftl">
-
-					<#assign sqlQuery = false />
 
 					if (!getDB().isSupportsInlineDistinct()) {
 						query.append(_FILTER_SQL_SELECT_${entity.alias?upper_case}_NO_INLINE_DISTINCT_WHERE_2);
