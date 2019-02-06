@@ -192,7 +192,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 
 			query.append(_SQL_SELECT_USERTRACKER_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -410,7 +410,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 
 		query.append(_SQL_SELECT_USERTRACKER_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -532,7 +532,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 
 			query.append(_SQL_COUNT_USERTRACKER_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -679,7 +679,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 
 			query.append(_SQL_SELECT_USERTRACKER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -894,7 +894,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 
 		query.append(_SQL_SELECT_USERTRACKER_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1016,7 +1016,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 
 			query.append(_SQL_COUNT_USERTRACKER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1170,12 +1170,12 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 			boolean bindSessionId = false;
 
 			if (sessionId.isEmpty()) {
-				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_3);
+				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_3_SQL);
 			}
 			else {
 				bindSessionId = true;
 
-				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2);
+				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1401,12 +1401,12 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 		boolean bindSessionId = false;
 
 		if (sessionId.isEmpty()) {
-			query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_3);
+			query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_3_SQL);
 		}
 		else {
 			bindSessionId = true;
 
-			query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2);
+			query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1536,12 +1536,12 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 			boolean bindSessionId = false;
 
 			if (sessionId.isEmpty()) {
-				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_3);
+				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_3_SQL);
 			}
 			else {
 				bindSessionId = true;
 
-				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2);
+				query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2_SQL);
 			}
 
 			String sql = query.toString();

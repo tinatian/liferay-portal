@@ -199,7 +199,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -420,7 +420,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -542,7 +542,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_COUNT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -709,11 +709,11 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -965,11 +965,11 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_G_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1100,11 +1100,11 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_COUNT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1287,20 +1287,20 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_W_W_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_W_W_COMPANYID_2_SQL);
 
 			boolean bindWorkflowDefinitionName = false;
 
 			if (workflowDefinitionName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3);
+				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3_SQL);
 			}
 			else {
 				bindWorkflowDefinitionName = true;
 
-				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2);
+				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2);
+			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1563,20 +1563,20 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_C_W_W_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_W_W_COMPANYID_2_SQL);
 
 		boolean bindWorkflowDefinitionName = false;
 
 		if (workflowDefinitionName.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3);
+			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3_SQL);
 		}
 		else {
 			bindWorkflowDefinitionName = true;
 
-			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2);
+			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2);
+		query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1715,20 +1715,20 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_COUNT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_W_W_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_W_W_COMPANYID_2_SQL);
 
 			boolean bindWorkflowDefinitionName = false;
 
 			if (workflowDefinitionName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3);
+				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3_SQL);
 			}
 			else {
 				bindWorkflowDefinitionName = true;
 
-				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2);
+				query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2);
+			query.append(_FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -1913,13 +1913,13 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2186,13 +2186,13 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 		query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_G_C_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2331,13 +2331,13 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_COUNT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -2492,15 +2492,15 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_SELECT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_TYPEPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_TYPEPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -2614,15 +2614,15 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 
 			query.append(_SQL_COUNT_WORKFLOWDEFINITIONLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_C_T_TYPEPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_C_T_TYPEPK_2_SQL);
 
 			String sql = query.toString();
 

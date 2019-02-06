@@ -705,7 +705,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -804,7 +804,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -981,7 +981,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1227,7 +1227,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1367,7 +1367,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1521,7 +1521,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 			query.append(_SQL_SELECT_POLLSVOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1739,7 +1739,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 		query.append(_SQL_SELECT_POLLSVOTE_WHERE);
 
-		query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2);
+		query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1860,7 +1860,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 			query.append(_SQL_COUNT_POLLSVOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2008,7 +2008,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 			query.append(_SQL_SELECT_POLLSVOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_CHOICEID_CHOICEID_2);
+			query.append(_FINDER_COLUMN_CHOICEID_CHOICEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2223,7 +2223,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 		query.append(_SQL_SELECT_POLLSVOTE_WHERE);
 
-		query.append(_FINDER_COLUMN_CHOICEID_CHOICEID_2);
+		query.append(_FINDER_COLUMN_CHOICEID_CHOICEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2344,7 +2344,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 			query.append(_SQL_COUNT_POLLSVOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_CHOICEID_CHOICEID_2);
+			query.append(_FINDER_COLUMN_CHOICEID_CHOICEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2502,9 +2502,9 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 			query.append(_SQL_SELECT_POLLSVOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_Q_U_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_Q_U_QUESTIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_Q_U_USERID_2);
+			query.append(_FINDER_COLUMN_Q_U_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2735,9 +2735,9 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 		query.append(_SQL_SELECT_POLLSVOTE_WHERE);
 
-		query.append(_FINDER_COLUMN_Q_U_QUESTIONID_2);
+		query.append(_FINDER_COLUMN_Q_U_QUESTIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_Q_U_USERID_2);
+		query.append(_FINDER_COLUMN_Q_U_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2862,9 +2862,9 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 
 			query.append(_SQL_COUNT_POLLSVOTE_WHERE);
 
-			query.append(_FINDER_COLUMN_Q_U_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_Q_U_QUESTIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_Q_U_USERID_2);
+			query.append(_FINDER_COLUMN_Q_U_USERID_2_SQL);
 
 			String sql = query.toString();
 

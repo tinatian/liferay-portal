@@ -705,7 +705,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -804,7 +804,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -981,7 +981,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1227,7 +1227,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1367,7 +1367,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1522,7 +1522,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 
 			query.append(_SQL_SELECT_POLLSCHOICE_WHERE);
 
-			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1740,7 +1740,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 
 		query.append(_SQL_SELECT_POLLSCHOICE_WHERE);
 
-		query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2);
+		query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1861,7 +1861,7 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 
 			query.append(_SQL_COUNT_POLLSCHOICE_WHERE);
 
-			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1981,17 +1981,17 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 
 			query.append(_SQL_SELECT_POLLSCHOICE_WHERE);
 
-			query.append(_FINDER_COLUMN_Q_N_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_Q_N_QUESTIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_Q_N_NAME_3);
+				query.append(_FINDER_COLUMN_Q_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_Q_N_NAME_2);
+				query.append(_FINDER_COLUMN_Q_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2080,17 +2080,17 @@ public class PollsChoicePersistenceImpl extends BasePersistenceImpl<PollsChoice>
 
 			query.append(_SQL_COUNT_POLLSCHOICE_WHERE);
 
-			query.append(_FINDER_COLUMN_Q_N_QUESTIONID_2);
+			query.append(_FINDER_COLUMN_Q_N_QUESTIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_Q_N_NAME_3);
+				query.append(_FINDER_COLUMN_Q_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_Q_N_NAME_2);
+				query.append(_FINDER_COLUMN_Q_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();

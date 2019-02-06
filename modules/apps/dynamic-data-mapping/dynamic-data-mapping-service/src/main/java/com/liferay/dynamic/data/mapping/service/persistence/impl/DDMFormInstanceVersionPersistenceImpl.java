@@ -203,7 +203,7 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCEVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -430,7 +430,7 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCEVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -551,7 +551,7 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCEVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -673,17 +673,17 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCEVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_V_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_V_FORMINSTANCEID_2_SQL);
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_V_VERSION_3);
+				query.append(_FINDER_COLUMN_F_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_F_V_VERSION_2);
+				query.append(_FINDER_COLUMN_F_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -773,17 +773,17 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCEVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_V_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_V_FORMINSTANCEID_2_SQL);
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_V_VERSION_3);
+				query.append(_FINDER_COLUMN_F_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_F_V_VERSION_2);
+				query.append(_FINDER_COLUMN_F_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -952,9 +952,9 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCEVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_S_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_S_FORMINSTANCEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_F_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1188,9 +1188,9 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCEVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_F_S_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_F_S_FORMINSTANCEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_F_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1316,9 +1316,9 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCEVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_S_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_S_FORMINSTANCEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_F_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

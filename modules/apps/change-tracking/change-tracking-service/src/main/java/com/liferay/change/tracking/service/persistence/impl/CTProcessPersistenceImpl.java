@@ -191,7 +191,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 			query.append(_SQL_SELECT_CTPROCESS_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -408,7 +408,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 		query.append(_SQL_SELECT_CTPROCESS_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -529,7 +529,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 			query.append(_SQL_COUNT_CTPROCESS_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -676,7 +676,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 			query.append(_SQL_SELECT_CTPROCESS_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -891,7 +891,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 		query.append(_SQL_SELECT_CTPROCESS_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1012,7 +1012,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 			query.append(_SQL_COUNT_CTPROCESS_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1166,7 +1166,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 			query.append(_SQL_SELECT_CTPROCESS_WHERE);
 
-			query.append(_FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1384,7 +1384,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 		query.append(_SQL_SELECT_CTPROCESS_WHERE);
 
-		query.append(_FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1505,7 +1505,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 
 			query.append(_SQL_COUNT_CTPROCESS_WHERE);
 
-			query.append(_FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2_SQL);
 
 			String sql = query.toString();
 

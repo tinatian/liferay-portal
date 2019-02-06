@@ -203,7 +203,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -422,7 +422,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -543,7 +543,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -690,7 +690,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -908,7 +908,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1029,7 +1029,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1187,7 +1187,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 
@@ -1421,7 +1421,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_U_T_USERID_2);
+		query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 
@@ -1548,7 +1548,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 
@@ -1717,9 +1717,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1956,9 +1956,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2);
+		query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2185,12 +2185,12 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -2291,9 +2291,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -2357,12 +2357,12 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -2538,7 +2538,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_CCNI_T_TYPE_2_SQL);
 
@@ -2772,7 +2772,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2_SQL);
 
 		query.append(_FINDER_COLUMN_CCNI_T_TYPE_2_SQL);
 
@@ -2900,7 +2900,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_CCNI_T_TYPE_2_SQL);
 
@@ -3069,7 +3069,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_T_P_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2);
+			query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3308,7 +3308,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_FINDER_COLUMN_T_P_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2);
+		query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3436,7 +3436,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_T_P_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2);
+			query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3611,11 +3611,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3870,11 +3870,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4110,14 +4110,14 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -4226,11 +4226,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4298,14 +4298,14 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -4491,9 +4491,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL);
 
@@ -4746,9 +4746,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_CCNI_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_CCNI_T_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL);
 
@@ -4881,9 +4881,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL);
 
@@ -5061,9 +5061,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
@@ -5317,9 +5317,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2);
+		query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
@@ -5555,12 +5555,12 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -5673,9 +5673,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
@@ -5745,12 +5745,12 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -5949,11 +5949,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
@@ -6224,11 +6224,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
@@ -6474,14 +6474,14 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -6598,11 +6598,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
@@ -6676,14 +6676,14 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL);
 
 			if (creatorClassPKs.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_7);
+				query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_7_SQL);
 
 				query.append(StringUtil.merge(creatorClassPKs));
 
@@ -6886,22 +6886,22 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_T_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_USERID_2_SQL);
 
 			boolean bindCreateDate = false;
 
 			if (createDate == null) {
-				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_1);
+				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_1_SQL);
 			}
 			else {
 				bindCreateDate = true;
 
-				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2);
+				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7168,22 +7168,22 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_U_C_T_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_C_T_S_USERID_2_SQL);
 
 		boolean bindCreateDate = false;
 
 		if (createDate == null) {
-			query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_1);
+			query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_1_SQL);
 		}
 		else {
 			bindCreateDate = true;
 
-			query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2);
+		query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7323,22 +7323,22 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_T_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_USERID_2_SQL);
 
 			boolean bindCreateDate = false;
 
 			if (createDate == null) {
-				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_1);
+				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_1_SQL);
 			}
 			else {
 				bindCreateDate = true;
 
-				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2);
+				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2_SQL);
 
 			String sql = query.toString();
 

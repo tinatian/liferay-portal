@@ -193,7 +193,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 		query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -533,7 +533,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_COUNT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -680,7 +680,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -899,7 +899,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 		query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1021,7 +1021,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_COUNT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1168,7 +1168,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1386,7 +1386,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 		query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+		query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1508,7 +1508,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_COUNT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1666,9 +1666,9 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_G_USERID_2);
+			query.append(_FINDER_COLUMN_U_G_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_U_G_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1900,9 +1900,9 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 		query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_U_G_USERID_2);
+		query.append(_FINDER_COLUMN_U_G_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_G_GROUPID_2);
+		query.append(_FINDER_COLUMN_U_G_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2028,9 +2028,9 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_COUNT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_G_USERID_2);
+			query.append(_FINDER_COLUMN_U_G_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_U_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2191,9 +2191,9 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_G_R_ROLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2425,9 +2425,9 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 		query.append(_SQL_SELECT_USERGROUPROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_R_ROLEID_2);
+		query.append(_FINDER_COLUMN_G_R_ROLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2553,9 +2553,9 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 
 			query.append(_SQL_COUNT_USERGROUPROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_G_R_ROLEID_2_SQL);
 
 			String sql = query.toString();
 

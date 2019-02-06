@@ -708,7 +708,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -807,7 +807,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -986,7 +986,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1234,7 +1234,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1374,7 +1374,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1491,7 +1491,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 
 			query.append(_SQL_SELECT_DDMSTRUCTURELAYOUT_WHERE);
 
-			query.append(_FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_2);
+			query.append(_FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1572,7 +1572,7 @@ public class DDMStructureLayoutPersistenceImpl extends BasePersistenceImpl<DDMSt
 
 			query.append(_SQL_COUNT_DDMSTRUCTURELAYOUT_WHERE);
 
-			query.append(_FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_2);
+			query.append(_FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_2_SQL);
 
 			String sql = query.toString();
 

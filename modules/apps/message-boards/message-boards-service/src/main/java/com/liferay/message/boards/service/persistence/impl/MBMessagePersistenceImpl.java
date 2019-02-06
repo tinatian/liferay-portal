@@ -717,7 +717,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -816,7 +816,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -993,7 +993,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1239,7 +1239,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1379,7 +1379,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1532,7 +1532,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1747,7 +1747,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1902,7 +1902,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -2025,7 +2025,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -2176,7 +2176,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2224,7 +2224,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -2372,7 +2372,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2589,7 +2589,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2710,7 +2710,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2857,7 +2857,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3072,7 +3072,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3193,7 +3193,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3341,7 +3341,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_THREADID_THREADID_2);
+			query.append(_FINDER_COLUMN_THREADID_THREADID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3556,7 +3556,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_THREADID_THREADID_2);
+		query.append(_FINDER_COLUMN_THREADID_THREADID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3677,7 +3677,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_THREADID_THREADID_2);
+			query.append(_FINDER_COLUMN_THREADID_THREADID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3825,7 +3825,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_THREADREPLIES_THREADID_2);
+			query.append(_FINDER_COLUMN_THREADREPLIES_THREADID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4043,7 +4043,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_THREADREPLIES_THREADID_2);
+		query.append(_FINDER_COLUMN_THREADREPLIES_THREADID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4164,7 +4164,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_THREADREPLIES_THREADID_2);
+			query.append(_FINDER_COLUMN_THREADREPLIES_THREADID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4322,9 +4322,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4554,9 +4554,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4717,9 +4717,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -4846,9 +4846,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -5003,9 +5003,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5056,9 +5056,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -5220,9 +5220,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5453,9 +5453,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5616,9 +5616,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -5745,9 +5745,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -5902,9 +5902,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5955,9 +5955,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -6118,9 +6118,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6350,9 +6350,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6513,9 +6513,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -6641,9 +6641,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -6798,9 +6798,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -6851,9 +6851,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -7014,9 +7014,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7247,9 +7247,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7374,9 +7374,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7539,9 +7539,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7772,9 +7772,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_U_C_USERID_2);
+		query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7995,12 +7995,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
 			if (classNameIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_7);
+				query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_7_SQL);
 
 				query.append(StringUtil.merge(classNameIds));
 
@@ -8100,9 +8100,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -8166,12 +8166,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
 			if (classNameIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_7);
+				query.append(_FINDER_COLUMN_U_C_CLASSNAMEID_7_SQL);
 
 				query.append(StringUtil.merge(classNameIds));
 
@@ -8344,9 +8344,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8577,9 +8577,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8704,9 +8704,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -8868,9 +8868,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_P_THREADID_2);
+			query.append(_FINDER_COLUMN_T_P_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_P_PARENTMESSAGEID_2);
+			query.append(_FINDER_COLUMN_T_P_PARENTMESSAGEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9101,9 +9101,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_P_THREADID_2);
+		query.append(_FINDER_COLUMN_T_P_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_P_PARENTMESSAGEID_2);
+		query.append(_FINDER_COLUMN_T_P_PARENTMESSAGEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9228,9 +9228,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_P_THREADID_2);
+			query.append(_FINDER_COLUMN_T_P_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_P_PARENTMESSAGEID_2);
+			query.append(_FINDER_COLUMN_T_P_PARENTMESSAGEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -9391,9 +9391,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_A_THREADID_2);
+			query.append(_FINDER_COLUMN_T_A_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_A_ANSWER_2);
+			query.append(_FINDER_COLUMN_T_A_ANSWER_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9624,9 +9624,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_A_THREADID_2);
+		query.append(_FINDER_COLUMN_T_A_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_A_ANSWER_2);
+		query.append(_FINDER_COLUMN_T_A_ANSWER_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9751,9 +9751,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_A_THREADID_2);
+			query.append(_FINDER_COLUMN_T_A_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_A_ANSWER_2);
+			query.append(_FINDER_COLUMN_T_A_ANSWER_2_SQL);
 
 			String sql = query.toString();
 
@@ -9914,9 +9914,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_S_THREADID_2);
+			query.append(_FINDER_COLUMN_T_S_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -10147,9 +10147,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_S_THREADID_2);
+		query.append(_FINDER_COLUMN_T_S_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -10274,9 +10274,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_S_THREADID_2);
+			query.append(_FINDER_COLUMN_T_S_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10429,9 +10429,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_NOTS_THREADID_2);
+			query.append(_FINDER_COLUMN_T_NOTS_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_T_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -10662,9 +10662,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_NOTS_THREADID_2);
+		query.append(_FINDER_COLUMN_T_NOTS_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_T_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -10789,9 +10789,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_NOTS_THREADID_2);
+			query.append(_FINDER_COLUMN_T_NOTS_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_T_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10952,9 +10952,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_TR_S_THREADID_2);
+			query.append(_FINDER_COLUMN_TR_S_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_TR_S_STATUS_2);
+			query.append(_FINDER_COLUMN_TR_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -11185,9 +11185,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_TR_S_THREADID_2);
+		query.append(_FINDER_COLUMN_TR_S_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_TR_S_STATUS_2);
+		query.append(_FINDER_COLUMN_TR_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -11312,9 +11312,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_TR_S_THREADID_2);
+			query.append(_FINDER_COLUMN_TR_S_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_TR_S_STATUS_2);
+			query.append(_FINDER_COLUMN_TR_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -11476,9 +11476,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_P_S_PARENTMESSAGEID_2);
+			query.append(_FINDER_COLUMN_P_S_PARENTMESSAGEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_P_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -11710,9 +11710,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_P_S_PARENTMESSAGEID_2);
+		query.append(_FINDER_COLUMN_P_S_PARENTMESSAGEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_P_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -11837,9 +11837,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_P_S_PARENTMESSAGEID_2);
+			query.append(_FINDER_COLUMN_P_S_PARENTMESSAGEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_P_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -12006,11 +12006,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -12254,11 +12254,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -12427,11 +12427,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -12561,11 +12561,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -12724,11 +12724,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -12782,11 +12782,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -12959,11 +12959,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_T_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_THREADID_2);
+			query.append(_FINDER_COLUMN_G_C_T_THREADID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -13208,11 +13208,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_THREADID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -13381,11 +13381,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_THREADID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -13515,11 +13515,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_THREADID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -13678,11 +13678,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_T_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_THREADID_2);
+			query.append(_FINDER_COLUMN_G_C_T_THREADID_2_SQL);
 
 			String sql = query.toString();
 
@@ -13736,11 +13736,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_THREADID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -13912,11 +13912,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -14161,11 +14161,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -14334,11 +14334,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -14468,11 +14468,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -14631,11 +14631,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -14689,11 +14689,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -14866,11 +14866,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -15115,11 +15115,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_U_C_C_USERID_2);
+		query.append(_FINDER_COLUMN_U_C_C_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -15248,11 +15248,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -15425,11 +15425,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -15674,11 +15674,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_U_C_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_C_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_U_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -15911,12 +15911,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_S_USERID_2_SQL);
 
 			if (classNameIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_7);
+				query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_7_SQL);
 
 				query.append(StringUtil.merge(classNameIds));
 
@@ -15927,7 +15927,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_U_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_C_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -16024,11 +16024,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -16095,12 +16095,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_S_USERID_2_SQL);
 
 			if (classNameIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_7);
+				query.append(_FINDER_COLUMN_U_C_S_CLASSNAMEID_7_SQL);
 
 				query.append(StringUtil.merge(classNameIds));
 
@@ -16111,7 +16111,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_U_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_C_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -16288,11 +16288,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -16537,11 +16537,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -16670,11 +16670,11 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -16853,13 +16853,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -17122,13 +17122,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -17303,13 +17303,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -17445,13 +17445,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -17616,13 +17616,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2);
+			query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL);
 
 			String sql = query.toString();
 
@@ -17680,13 +17680,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2);
+		query.append(_FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -17868,13 +17868,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -18137,13 +18137,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -18318,13 +18318,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -18460,13 +18460,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBMESSAGE_NO_INLINE_DISTINCT_WHERE_2);
@@ -18631,13 +18631,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -18695,13 +18695,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_FILTER_SQL_COUNT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_THREADID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_T_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBMessage.class.getName(),
@@ -18883,13 +18883,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -19148,13 +19148,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 		query.append(_SQL_SELECT_MBMESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_U_C_C_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_C_C_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_S_CLASSPK_2);
+		query.append(_FINDER_COLUMN_U_C_C_S_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_U_C_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -19289,13 +19289,13 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 
 			query.append(_SQL_COUNT_MBMESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_C_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

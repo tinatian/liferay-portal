@@ -203,7 +203,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2);
+			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -430,7 +430,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2);
+		query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -552,7 +552,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2);
+			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -675,9 +675,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_LVENTRYLOCALIZATIONID_2);
+			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_LVENTRYLOCALIZATIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -765,9 +765,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_LVENTRYLOCALIZATIONID_2);
+			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_LVENTRYLOCALIZATIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -923,7 +923,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1146,7 +1146,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2);
+		query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1267,7 +1267,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1429,9 +1429,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1671,9 +1671,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2);
+		query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2);
+		query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1798,9 +1798,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -1970,17 +1970,17 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2225,17 +2225,17 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2);
+		query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2_SQL);
 
 		boolean bindLanguageId = false;
 
 		if (languageId.isEmpty()) {
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 		}
 		else {
 			bindLanguageId = true;
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2366,17 +2366,17 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2519,20 +2519,20 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LVENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -2628,20 +2628,20 @@ public class LVEntryLocalizationVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_LVENTRYLOCALIZATIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LVENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 

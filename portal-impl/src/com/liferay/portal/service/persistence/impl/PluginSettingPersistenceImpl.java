@@ -195,7 +195,7 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 
 			query.append(_SQL_SELECT_PLUGINSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -413,7 +413,7 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 
 		query.append(_SQL_SELECT_PLUGINSETTING_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -535,7 +535,7 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 
 			query.append(_SQL_COUNT_PLUGINSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -665,28 +665,28 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 
 			query.append(_SQL_SELECT_PLUGINSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_I_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_I_T_COMPANYID_2_SQL);
 
 			boolean bindPluginId = false;
 
 			if (pluginId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_3);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_3_SQL);
 			}
 			else {
 				bindPluginId = true;
 
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_2);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_2_SQL);
 			}
 
 			boolean bindPluginType = false;
 
 			if (pluginType.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_3);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_3_SQL);
 			}
 			else {
 				bindPluginType = true;
 
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_2);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -784,28 +784,28 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 
 			query.append(_SQL_COUNT_PLUGINSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_I_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_I_T_COMPANYID_2_SQL);
 
 			boolean bindPluginId = false;
 
 			if (pluginId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_3);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_3_SQL);
 			}
 			else {
 				bindPluginId = true;
 
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_2);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINID_2_SQL);
 			}
 
 			boolean bindPluginType = false;
 
 			if (pluginType.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_3);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_3_SQL);
 			}
 			else {
 				bindPluginType = true;
 
-				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_2);
+				query.append(_FINDER_COLUMN_C_I_T_PLUGINTYPE_2_SQL);
 			}
 
 			String sql = query.toString();

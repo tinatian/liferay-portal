@@ -202,7 +202,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2);
+			query.append(_FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -430,7 +430,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2);
+		query.append(_FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -551,7 +551,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2);
+			query.append(_FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2_SQL);
 
 			String sql = query.toString();
 
@@ -717,17 +717,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL);
 
 			boolean bindFormInstanceVersion = false;
 
 			if (formInstanceVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL);
 			}
 			else {
 				bindFormInstanceVersion = true;
 
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -974,17 +974,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL);
 
 		boolean bindFormInstanceVersion = false;
 
 		if (formInstanceVersion.isEmpty()) {
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL);
 		}
 		else {
 			bindFormInstanceVersion = true;
 
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1115,17 +1115,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL);
 
 			boolean bindFormInstanceVersion = false;
 
 			if (formInstanceVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL);
 			}
 			else {
 				bindFormInstanceVersion = true;
 
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1255,17 +1255,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_V_FORMINSTANCERECORDID_2);
+			query.append(_FINDER_COLUMN_F_V_FORMINSTANCERECORDID_2_SQL);
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_V_VERSION_3);
+				query.append(_FINDER_COLUMN_F_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_F_V_VERSION_2);
+				query.append(_FINDER_COLUMN_F_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1355,17 +1355,17 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_V_FORMINSTANCERECORDID_2);
+			query.append(_FINDER_COLUMN_F_V_FORMINSTANCERECORDID_2_SQL);
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_V_VERSION_3);
+				query.append(_FINDER_COLUMN_F_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_F_V_VERSION_2);
+				query.append(_FINDER_COLUMN_F_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1534,9 +1534,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2);
+			query.append(_FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_F_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1778,9 +1778,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2);
+		query.append(_FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2_SQL);
 
-		query.append(_FINDER_COLUMN_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_F_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1906,9 +1906,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2);
+			query.append(_FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_F_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -2092,22 +2092,22 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_U_F_F_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2_SQL);
 
 			boolean bindFormInstanceVersion = false;
 
 			if (formInstanceVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3);
+				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3_SQL);
 			}
 			else {
 				bindFormInstanceVersion = true;
 
-				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2);
+				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_F_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2382,22 +2382,22 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_U_F_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_F_F_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2_SQL);
 
 		boolean bindFormInstanceVersion = false;
 
 		if (formInstanceVersion.isEmpty()) {
-			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3);
+			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3_SQL);
 		}
 		else {
 			bindFormInstanceVersion = true;
 
-			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_U_F_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_U_F_F_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2539,22 +2539,22 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_U_F_F_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2_SQL);
 
 			boolean bindFormInstanceVersion = false;
 
 			if (formInstanceVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3);
+				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3_SQL);
 			}
 			else {
 				bindFormInstanceVersion = true;
 
-				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2);
+				query.append(_FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_F_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_F_F_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

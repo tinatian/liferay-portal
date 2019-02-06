@@ -205,12 +205,12 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 			boolean bindBuildNamespace = false;
 
 			if (buildNamespace.isEmpty()) {
-				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3);
+				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3_SQL);
 			}
 			else {
 				bindBuildNamespace = true;
 
-				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2);
+				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -438,12 +438,12 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		boolean bindBuildNamespace = false;
 
 		if (buildNamespace.isEmpty()) {
-			query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3);
+			query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3_SQL);
 		}
 		else {
 			bindBuildNamespace = true;
 
-			query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2);
+			query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -573,12 +573,12 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 			boolean bindBuildNamespace = false;
 
 			if (buildNamespace.isEmpty()) {
-				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3);
+				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3_SQL);
 			}
 			else {
 				bindBuildNamespace = true;
 
-				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2);
+				query.append(_FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -710,15 +710,15 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 			boolean bindBuildNamespace = false;
 
 			if (buildNamespace.isEmpty()) {
-				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_3);
+				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_3_SQL);
 			}
 			else {
 				bindBuildNamespace = true;
 
-				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_2);
+				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_BNS_BNU_BUILDNUMBER_2);
+			query.append(_FINDER_COLUMN_BNS_BNU_BUILDNUMBER_2_SQL);
 
 			String sql = query.toString();
 
@@ -812,15 +812,15 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 			boolean bindBuildNamespace = false;
 
 			if (buildNamespace.isEmpty()) {
-				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_3);
+				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_3_SQL);
 			}
 			else {
 				bindBuildNamespace = true;
 
-				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_2);
+				query.append(_FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_BNS_BNU_BUILDNUMBER_2);
+			query.append(_FINDER_COLUMN_BNS_BNU_BUILDNUMBER_2_SQL);
 
 			String sql = query.toString();
 

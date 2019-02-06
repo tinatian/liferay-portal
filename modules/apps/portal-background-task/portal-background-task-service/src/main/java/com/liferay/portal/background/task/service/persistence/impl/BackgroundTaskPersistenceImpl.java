@@ -196,7 +196,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -414,7 +414,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -535,7 +535,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -684,7 +684,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -902,7 +902,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1023,7 +1023,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1172,7 +1172,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPLETED_COMPLETED_2);
+			query.append(_FINDER_COLUMN_COMPLETED_COMPLETED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1390,7 +1390,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPLETED_COMPLETED_2);
+		query.append(_FINDER_COLUMN_COMPLETED_COMPLETED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1511,7 +1511,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPLETED_COMPLETED_2);
+			query.append(_FINDER_COLUMN_COMPLETED_COMPLETED_2_SQL);
 
 			String sql = query.toString();
 
@@ -1658,7 +1658,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1875,7 +1875,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+		query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1996,7 +1996,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -2162,17 +2162,17 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_GROUPID_2_SQL);
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2414,17 +2414,17 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_T_GROUPID_2_SQL);
 
 		boolean bindTaskExecutorClassName = false;
 
 		if (taskExecutorClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3);
+			query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3_SQL);
 		}
 		else {
 			bindTaskExecutorClassName = true;
 
-			query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2);
+			query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2673,7 +2673,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_T_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_T_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -2691,10 +2691,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3);
+						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2);
+						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -2804,17 +2804,17 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_GROUPID_2_SQL);
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2899,7 +2899,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_T_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_T_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -2917,10 +2917,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3);
+						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2);
+						query.append(_FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -3100,9 +3100,9 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3334,9 +3334,9 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3461,9 +3461,9 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -3635,15 +3635,15 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3883,15 +3883,15 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		boolean bindTaskExecutorClassName = false;
 
 		if (taskExecutorClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3);
+			query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3_SQL);
 		}
 		else {
 			bindTaskExecutorClassName = true;
 
-			query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2);
+			query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4131,10 +4131,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6);
+						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5);
+						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -4147,7 +4147,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -4252,15 +4252,15 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4338,10 +4338,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6);
+						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5);
+						query.append(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -4354,7 +4354,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_T_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -4545,28 +4545,28 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_N_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_N_T_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_2_SQL);
 			}
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4824,28 +4824,28 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_N_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_N_T_GROUPID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_N_T_NAME_3);
+			query.append(_FINDER_COLUMN_G_N_T_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_N_T_NAME_2);
+			query.append(_FINDER_COLUMN_G_N_T_NAME_2_SQL);
 		}
 
 		boolean bindTaskExecutorClassName = false;
 
 		if (taskExecutorClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3);
+			query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3_SQL);
 		}
 		else {
 			bindTaskExecutorClassName = true;
 
-			query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2);
+			query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -5106,7 +5106,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_N_T_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_N_T_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -5120,12 +5120,12 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_2_SQL);
 			}
 
 			if (taskExecutorClassNames.length > 0) {
@@ -5135,10 +5135,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3);
+						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2);
+						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -5257,28 +5257,28 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_N_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_N_T_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_2_SQL);
 			}
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5371,7 +5371,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_N_T_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_N_T_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -5385,12 +5385,12 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_NAME_2_SQL);
 			}
 
 			if (taskExecutorClassNames.length > 0) {
@@ -5400,10 +5400,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3);
+						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2);
+						query.append(_FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -5605,20 +5605,20 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_C_GROUPID_2_SQL);
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5872,20 +5872,20 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_T_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_T_C_GROUPID_2_SQL);
 
 		boolean bindTaskExecutorClassName = false;
 
 		if (taskExecutorClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3);
+			query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 		}
 		else {
 			bindTaskExecutorClassName = true;
 
-			query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2);
+			query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2);
+		query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6141,7 +6141,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_T_C_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_T_C_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -6159,10 +6159,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6);
+						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5);
+						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -6175,7 +6175,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -6284,20 +6284,20 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_C_GROUPID_2_SQL);
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2_SQL);
 
 			String sql = query.toString();
 
@@ -6385,7 +6385,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_T_C_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_T_C_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -6403,10 +6403,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6);
+						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5);
+						query.append(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -6419,7 +6419,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_T_C_COMPLETED_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -6615,20 +6615,20 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6882,20 +6882,20 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 		boolean bindTaskExecutorClassName = false;
 
 		if (taskExecutorClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3);
+			query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3_SQL);
 		}
 		else {
 			bindTaskExecutorClassName = true;
 
-			query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2);
+			query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7136,7 +7136,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 			if (taskExecutorClassNames.length > 0) {
 				query.append("(");
@@ -7145,10 +7145,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6);
+						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5);
+						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -7161,7 +7161,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -7272,20 +7272,20 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7360,7 +7360,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 			if (taskExecutorClassNames.length > 0) {
 				query.append("(");
@@ -7369,10 +7369,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 					String taskExecutorClassName = taskExecutorClassNames[i];
 
 					if (taskExecutorClassName.isEmpty()) {
-						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6);
+						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5);
+						query.append(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5_SQL);
 					}
 
 					if ((i + 1) < taskExecutorClassNames.length) {
@@ -7385,7 +7385,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -7590,31 +7590,31 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2_SQL);
 			}
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7888,31 +7888,31 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 		query.append(_SQL_SELECT_BACKGROUNDTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_N_T_C_NAME_3);
+			query.append(_FINDER_COLUMN_G_N_T_C_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_N_T_C_NAME_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_NAME_2_SQL);
 		}
 
 		boolean bindTaskExecutorClassName = false;
 
 		if (taskExecutorClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3);
+			query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 		}
 		else {
 			bindTaskExecutorClassName = true;
 
-			query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2);
+		query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8166,7 +8166,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -8180,26 +8180,26 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2_SQL);
 			}
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -8312,31 +8312,31 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 
 			query.append(_SQL_COUNT_BACKGROUNDTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2_SQL);
 			}
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2_SQL);
 
 			String sql = query.toString();
 
@@ -8418,7 +8418,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			if (groupIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_7);
+				query.append(_FINDER_COLUMN_G_N_T_C_GROUPID_7_SQL);
 
 				query.append(StringUtil.merge(groupIds));
 
@@ -8432,26 +8432,26 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_NAME_2_SQL);
 			}
 
 			boolean bindTaskExecutorClassName = false;
 
 			if (taskExecutorClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3_SQL);
 			}
 			else {
 				bindTaskExecutorClassName = true;
 
-				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2);
+				query.append(_FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_G_N_T_C_COMPLETED_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);

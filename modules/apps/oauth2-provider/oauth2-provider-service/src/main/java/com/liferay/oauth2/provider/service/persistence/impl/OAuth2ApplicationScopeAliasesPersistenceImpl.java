@@ -196,7 +196,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 			query.append(_SQL_SELECT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-			query.append(_FINDER_COLUMN_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -420,7 +420,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 		query.append(_SQL_SELECT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-		query.append(_FINDER_COLUMN_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -541,7 +541,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 			query.append(_SQL_COUNT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-			query.append(_FINDER_COLUMN_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -698,7 +698,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 			query.append(_SQL_SELECT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2);
+			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -926,7 +926,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 		query.append(_SQL_SELECT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-		query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2);
+		query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1047,7 +1047,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 			query.append(_SQL_COUNT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2);
+			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1210,9 +1210,9 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 			query.append(_SQL_SELECT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2);
+			query.append(_FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_S_SCOPEALIASESHASH_2);
+			query.append(_FINDER_COLUMN_O_S_SCOPEALIASESHASH_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1454,9 +1454,9 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 		query.append(_SQL_SELECT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-		query.append(_FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2);
+		query.append(_FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_S_SCOPEALIASESHASH_2);
+		query.append(_FINDER_COLUMN_O_S_SCOPEALIASESHASH_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1582,9 +1582,9 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 
 			query.append(_SQL_COUNT_OAUTH2APPLICATIONSCOPEALIASES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2);
+			query.append(_FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_S_SCOPEALIASESHASH_2);
+			query.append(_FINDER_COLUMN_O_S_SCOPEALIASESHASH_2_SQL);
 
 			String sql = query.toString();
 

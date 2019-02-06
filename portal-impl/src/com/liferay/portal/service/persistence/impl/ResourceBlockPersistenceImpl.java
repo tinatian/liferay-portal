@@ -206,17 +206,17 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 			query.append(_SQL_SELECT_RESOURCEBLOCK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -453,17 +453,17 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 		query.append(_SQL_SELECT_RESOURCEBLOCK_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -594,17 +594,17 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 			query.append(_SQL_COUNT_RESOURCEBLOCK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -780,19 +780,19 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 			query.append(_SQL_SELECT_RESOURCEBLOCK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_N_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_N_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_G_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_G_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_G_N_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1042,19 +1042,19 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 		query.append(_SQL_SELECT_RESOURCEBLOCK_WHERE);
 
-		query.append(_FINDER_COLUMN_C_G_N_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_G_N_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_G_N_GROUPID_2);
+		query.append(_FINDER_COLUMN_C_G_N_GROUPID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_G_N_NAME_3);
+			query.append(_FINDER_COLUMN_C_G_N_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_G_N_NAME_2);
+			query.append(_FINDER_COLUMN_C_G_N_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1189,19 +1189,19 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 			query.append(_SQL_COUNT_RESOURCEBLOCK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_N_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_N_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_G_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_G_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_G_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1352,30 +1352,30 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 			query.append(_SQL_SELECT_RESOURCEBLOCK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_N_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_N_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_N_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_N_P_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_N_P_NAME_3);
+				query.append(_FINDER_COLUMN_C_G_N_P_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_G_N_P_NAME_2);
+				query.append(_FINDER_COLUMN_C_G_N_P_NAME_2_SQL);
 			}
 
 			boolean bindPermissionsHash = false;
 
 			if (permissionsHash.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_3);
+				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_3_SQL);
 			}
 			else {
 				bindPermissionsHash = true;
 
-				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_2);
+				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1482,30 +1482,30 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 
 			query.append(_SQL_COUNT_RESOURCEBLOCK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_N_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_N_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_N_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_N_P_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_N_P_NAME_3);
+				query.append(_FINDER_COLUMN_C_G_N_P_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_G_N_P_NAME_2);
+				query.append(_FINDER_COLUMN_C_G_N_P_NAME_2_SQL);
 			}
 
 			boolean bindPermissionsHash = false;
 
 			if (permissionsHash.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_3);
+				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_3_SQL);
 			}
 			else {
 				bindPermissionsHash = true;
 
-				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_2);
+				query.append(_FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_2_SQL);
 			}
 
 			String sql = query.toString();

@@ -214,23 +214,23 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 			boolean bindGadgetKey = false;
 
 			if (gadgetKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_S_GADGETKEY_3);
+				query.append(_FINDER_COLUMN_G_S_GADGETKEY_3_SQL);
 			}
 			else {
 				bindGadgetKey = true;
 
-				query.append(_FINDER_COLUMN_G_S_GADGETKEY_2);
+				query.append(_FINDER_COLUMN_G_S_GADGETKEY_2_SQL);
 			}
 
 			boolean bindServiceName = false;
 
 			if (serviceName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_S_SERVICENAME_3);
+				query.append(_FINDER_COLUMN_G_S_SERVICENAME_3_SQL);
 			}
 			else {
 				bindServiceName = true;
 
-				query.append(_FINDER_COLUMN_G_S_SERVICENAME_2);
+				query.append(_FINDER_COLUMN_G_S_SERVICENAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -473,23 +473,23 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 		boolean bindGadgetKey = false;
 
 		if (gadgetKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_S_GADGETKEY_3);
+			query.append(_FINDER_COLUMN_G_S_GADGETKEY_3_SQL);
 		}
 		else {
 			bindGadgetKey = true;
 
-			query.append(_FINDER_COLUMN_G_S_GADGETKEY_2);
+			query.append(_FINDER_COLUMN_G_S_GADGETKEY_2_SQL);
 		}
 
 		boolean bindServiceName = false;
 
 		if (serviceName.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_S_SERVICENAME_3);
+			query.append(_FINDER_COLUMN_G_S_SERVICENAME_3_SQL);
 		}
 		else {
 			bindServiceName = true;
 
-			query.append(_FINDER_COLUMN_G_S_SERVICENAME_2);
+			query.append(_FINDER_COLUMN_G_S_SERVICENAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -626,23 +626,23 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 			boolean bindGadgetKey = false;
 
 			if (gadgetKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_S_GADGETKEY_3);
+				query.append(_FINDER_COLUMN_G_S_GADGETKEY_3_SQL);
 			}
 			else {
 				bindGadgetKey = true;
 
-				query.append(_FINDER_COLUMN_G_S_GADGETKEY_2);
+				query.append(_FINDER_COLUMN_G_S_GADGETKEY_2_SQL);
 			}
 
 			boolean bindServiceName = false;
 
 			if (serviceName.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_S_SERVICENAME_3);
+				query.append(_FINDER_COLUMN_G_S_SERVICENAME_3_SQL);
 			}
 			else {
 				bindServiceName = true;
 
-				query.append(_FINDER_COLUMN_G_S_SERVICENAME_2);
+				query.append(_FINDER_COLUMN_G_S_SERVICENAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -802,41 +802,41 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 
 			query.append(_SQL_SELECT_OAUTHTOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_U_G_S_M_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_G_S_M_T_USERID_2_SQL);
 
 			boolean bindGadgetKey = false;
 
 			if (gadgetKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_3);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_3_SQL);
 			}
 			else {
 				bindGadgetKey = true;
 
-				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_2);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_2_SQL);
 			}
 
 			boolean bindServiceName = false;
 
 			if (serviceName.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_3);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_3_SQL);
 			}
 			else {
 				bindServiceName = true;
 
-				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_2);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_G_S_M_T_MODULEID_2);
+			query.append(_FINDER_COLUMN_U_G_S_M_T_MODULEID_2_SQL);
 
 			boolean bindTokenName = false;
 
 			if (tokenName.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_3);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_3_SQL);
 			}
 			else {
 				bindTokenName = true;
 
-				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_2);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -961,41 +961,41 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 
 			query.append(_SQL_COUNT_OAUTHTOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_U_G_S_M_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_G_S_M_T_USERID_2_SQL);
 
 			boolean bindGadgetKey = false;
 
 			if (gadgetKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_3);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_3_SQL);
 			}
 			else {
 				bindGadgetKey = true;
 
-				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_2);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_GADGETKEY_2_SQL);
 			}
 
 			boolean bindServiceName = false;
 
 			if (serviceName.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_3);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_3_SQL);
 			}
 			else {
 				bindServiceName = true;
 
-				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_2);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_SERVICENAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_G_S_M_T_MODULEID_2);
+			query.append(_FINDER_COLUMN_U_G_S_M_T_MODULEID_2_SQL);
 
 			boolean bindTokenName = false;
 
 			if (tokenName.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_3);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_3_SQL);
 			}
 			else {
 				bindTokenName = true;
 
-				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_2);
+				query.append(_FINDER_COLUMN_U_G_S_M_T_TOKENNAME_2_SQL);
 			}
 
 			String sql = query.toString();

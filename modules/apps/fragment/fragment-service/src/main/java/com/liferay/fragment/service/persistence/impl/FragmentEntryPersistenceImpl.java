@@ -708,7 +708,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -807,7 +807,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -984,7 +984,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1231,7 +1231,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1371,7 +1371,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1524,7 +1524,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1742,7 +1742,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1898,7 +1898,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2023,7 +2023,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2174,7 +2174,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2222,7 +2222,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				FragmentEntry.class.getName(),
@@ -2379,7 +2379,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_FRAGMENTCOLLECTIONID_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_FRAGMENTCOLLECTIONID_FRAGMENTCOLLECTIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2604,7 +2604,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_FRAGMENTCOLLECTIONID_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_FRAGMENTCOLLECTIONID_FRAGMENTCOLLECTIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2725,7 +2725,7 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_FRAGMENTCOLLECTIONID_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_FRAGMENTCOLLECTIONID_FRAGMENTCOLLECTIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2888,9 +2888,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3126,9 +3126,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3292,9 +3292,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3422,9 +3422,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3579,9 +3579,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3632,9 +3632,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_FRAGMENTCOLLECTIONID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				FragmentEntry.class.getName(),
@@ -3758,17 +3758,17 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FEK_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FEK_GROUPID_2_SQL);
 
 			boolean bindFragmentEntryKey = false;
 
 			if (fragmentEntryKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_3);
+				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_3_SQL);
 			}
 			else {
 				bindFragmentEntryKey = true;
 
-				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_2);
+				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3857,17 +3857,17 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FEK_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FEK_GROUPID_2_SQL);
 
 			boolean bindFragmentEntryKey = false;
 
 			if (fragmentEntryKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_3);
+				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_3_SQL);
 			}
 			else {
 				bindFragmentEntryKey = true;
 
-				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_2);
+				query.append(_FINDER_COLUMN_G_FEK_FRAGMENTENTRYKEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4037,19 +4037,19 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4305,19 +4305,19 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4492,19 +4492,19 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -4643,19 +4643,19 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -4822,19 +4822,19 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4894,19 +4894,19 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_NAME_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -5085,9 +5085,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_FCI_T_TYPE_2_SQL);
 
@@ -5340,9 +5340,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_TYPE_2_SQL);
 
@@ -5514,9 +5514,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_TYPE_2_SQL);
 
@@ -5651,9 +5651,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_TYPE_2_SQL);
 
@@ -5816,9 +5816,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_FCI_T_TYPE_2_SQL);
 
@@ -5875,9 +5875,9 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_TYPE_2_SQL);
 
@@ -6054,11 +6054,11 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6310,11 +6310,11 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6484,11 +6484,11 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6622,11 +6622,11 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6788,11 +6788,11 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -6847,11 +6847,11 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_FRAGMENTCOLLECTIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				FragmentEntry.class.getName(),
@@ -7025,22 +7025,22 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7312,22 +7312,22 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7506,22 +7506,22 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7663,22 +7663,22 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7850,22 +7850,22 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2);
+				query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7928,22 +7928,22 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2);
+			query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_LIKEN_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				FragmentEntry.class.getName(),
@@ -8131,13 +8131,13 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_FCI_T_S_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8403,13 +8403,13 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_SQL_SELECT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_S_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8584,13 +8584,13 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_S_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8727,13 +8727,13 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_S_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_FRAGMENTENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8901,13 +8901,13 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 			query.append(_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_FCI_T_S_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -8965,13 +8965,13 @@ public class FragmentEntryPersistenceImpl extends BasePersistenceImpl<FragmentEn
 
 		query.append(_FILTER_SQL_COUNT_FRAGMENTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_FRAGMENTCOLLECTIONID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_FCI_T_S_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_FCI_T_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				FragmentEntry.class.getName(),

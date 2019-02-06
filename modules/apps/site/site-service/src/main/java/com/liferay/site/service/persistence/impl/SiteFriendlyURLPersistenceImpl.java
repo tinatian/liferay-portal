@@ -707,7 +707,7 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -806,7 +806,7 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -984,7 +984,7 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1231,7 +1231,7 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1371,7 +1371,7 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1536,9 +1536,9 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_SELECT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1770,9 +1770,9 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 		query.append(_SQL_SELECT_SITEFRIENDLYURL_WHERE);
 
-		query.append(_FINDER_COLUMN_C_G_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_G_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_G_GROUPID_2);
+		query.append(_FINDER_COLUMN_C_G_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1897,9 +1897,9 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_COUNT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2023,17 +2023,17 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_SELECT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_F_COMPANYID_2_SQL);
 
 			boolean bindFriendlyURL = false;
 
 			if (friendlyURL.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_3);
+				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_3_SQL);
 			}
 			else {
 				bindFriendlyURL = true;
 
-				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_2);
+				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2122,17 +2122,17 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_COUNT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_F_COMPANYID_2_SQL);
 
 			boolean bindFriendlyURL = false;
 
 			if (friendlyURL.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_3);
+				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_3_SQL);
 			}
 			else {
 				bindFriendlyURL = true;
 
-				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_2);
+				query.append(_FINDER_COLUMN_C_F_FRIENDLYURL_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2268,19 +2268,19 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_SELECT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_L_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_L_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_L_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_L_GROUPID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2374,19 +2374,19 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_COUNT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_L_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_G_L_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_G_L_GROUPID_2);
+			query.append(_FINDER_COLUMN_C_G_L_GROUPID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_C_G_L_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2527,28 +2527,28 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_SELECT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_L_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_F_L_COMPANYID_2_SQL);
 
 			boolean bindFriendlyURL = false;
 
 			if (friendlyURL.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_3);
+				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_3_SQL);
 			}
 			else {
 				bindFriendlyURL = true;
 
-				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_2);
+				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_2_SQL);
 			}
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2646,28 +2646,28 @@ public class SiteFriendlyURLPersistenceImpl extends BasePersistenceImpl<SiteFrie
 
 			query.append(_SQL_COUNT_SITEFRIENDLYURL_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_L_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_F_L_COMPANYID_2_SQL);
 
 			boolean bindFriendlyURL = false;
 
 			if (friendlyURL.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_3);
+				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_3_SQL);
 			}
 			else {
 				bindFriendlyURL = true;
 
-				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_2);
+				query.append(_FINDER_COLUMN_C_F_L_FRIENDLYURL_2_SQL);
 			}
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_C_F_L_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();

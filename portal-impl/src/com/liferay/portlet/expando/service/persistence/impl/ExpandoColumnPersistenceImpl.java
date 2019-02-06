@@ -201,7 +201,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 			query.append(_SQL_SELECT_EXPANDOCOLUMN_WHERE);
 
-			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -419,7 +419,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 		query.append(_SQL_SELECT_EXPANDOCOLUMN_WHERE);
 
-		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -575,7 +575,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 			query.append(_FILTER_SQL_SELECT_EXPANDOCOLUMN_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_EXPANDOCOLUMN_NO_INLINE_DISTINCT_WHERE_2);
@@ -699,7 +699,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 			query.append(_FILTER_SQL_SELECT_EXPANDOCOLUMN_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_EXPANDOCOLUMN_NO_INLINE_DISTINCT_WHERE_2);
@@ -851,7 +851,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 			query.append(_SQL_COUNT_EXPANDOCOLUMN_WHERE);
 
-			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -899,7 +899,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 		query.append(_FILTER_SQL_COUNT_EXPANDOCOLUMN_WHERE);
 
-		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				ExpandoColumn.class.getName(),
@@ -1080,7 +1080,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 			query.append(_SQL_SELECT_EXPANDOCOLUMN_WHERE);
 
-			query.append(_FINDER_COLUMN_T_N_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_N_TABLEID_2_SQL);
 
 			if (names.length > 0) {
 				query.append("(");
@@ -1089,10 +1089,10 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 					String name = names[i];
 
 					if (name.isEmpty()) {
-						query.append(_FINDER_COLUMN_T_N_NAME_3);
+						query.append(_FINDER_COLUMN_T_N_NAME_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_T_N_NAME_2);
+						query.append(_FINDER_COLUMN_T_N_NAME_2_SQL);
 					}
 
 					if ((i + 1) < names.length) {
@@ -1250,17 +1250,17 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 			query.append(_SQL_SELECT_EXPANDOCOLUMN_WHERE);
 
-			query.append(_FINDER_COLUMN_T_N_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_N_TABLEID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_N_NAME_3);
+				query.append(_FINDER_COLUMN_T_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_T_N_NAME_2);
+				query.append(_FINDER_COLUMN_T_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1350,17 +1350,17 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 			query.append(_SQL_COUNT_EXPANDOCOLUMN_WHERE);
 
-			query.append(_FINDER_COLUMN_T_N_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_N_TABLEID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_N_NAME_3);
+				query.append(_FINDER_COLUMN_T_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_T_N_NAME_2);
+				query.append(_FINDER_COLUMN_T_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1429,7 +1429,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 			query.append(_SQL_COUNT_EXPANDOCOLUMN_WHERE);
 
-			query.append(_FINDER_COLUMN_T_N_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_N_TABLEID_2_SQL);
 
 			if (names.length > 0) {
 				query.append("(");
@@ -1438,10 +1438,10 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 					String name = names[i];
 
 					if (name.isEmpty()) {
-						query.append(_FINDER_COLUMN_T_N_NAME_3);
+						query.append(_FINDER_COLUMN_T_N_NAME_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_T_N_NAME_2);
+						query.append(_FINDER_COLUMN_T_N_NAME_2_SQL);
 					}
 
 					if ((i + 1) < names.length) {
@@ -1512,17 +1512,17 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 		query.append(_FILTER_SQL_COUNT_EXPANDOCOLUMN_WHERE);
 
-		query.append(_FINDER_COLUMN_T_N_TABLEID_2);
+		query.append(_FINDER_COLUMN_T_N_TABLEID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_T_N_NAME_3);
+			query.append(_FINDER_COLUMN_T_N_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_T_N_NAME_2);
+			query.append(_FINDER_COLUMN_T_N_NAME_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -1589,7 +1589,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 
 		query.append(_FILTER_SQL_COUNT_EXPANDOCOLUMN_WHERE);
 
-		query.append(_FINDER_COLUMN_T_N_TABLEID_2);
+		query.append(_FINDER_COLUMN_T_N_TABLEID_2_SQL);
 
 		if (names.length > 0) {
 			query.append("(");
@@ -1598,10 +1598,10 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 				String name = names[i];
 
 				if (name.isEmpty()) {
-					query.append(_FINDER_COLUMN_T_N_NAME_3);
+					query.append(_FINDER_COLUMN_T_N_NAME_3_SQL);
 				}
 				else {
-					query.append(_FINDER_COLUMN_T_N_NAME_2);
+					query.append(_FINDER_COLUMN_T_N_NAME_2_SQL);
 				}
 
 				if ((i + 1) < names.length) {

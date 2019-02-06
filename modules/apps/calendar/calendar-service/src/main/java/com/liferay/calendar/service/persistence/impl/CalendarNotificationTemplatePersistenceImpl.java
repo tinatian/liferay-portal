@@ -717,7 +717,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -817,7 +817,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -997,7 +997,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1253,7 +1253,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1393,7 +1393,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1550,7 +1550,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 			query.append(_SQL_SELECT_CALENDARNOTIFICATIONTEMPLATE_WHERE);
 
-			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2);
+			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1777,7 +1777,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 		query.append(_SQL_SELECT_CALENDARNOTIFICATIONTEMPLATE_WHERE);
 
-		query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2);
+		query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1898,7 +1898,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 			query.append(_SQL_COUNT_CALENDARNOTIFICATIONTEMPLATE_WHERE);
 
-			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2);
+			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2035,28 +2035,28 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 			query.append(_SQL_SELECT_CALENDARNOTIFICATIONTEMPLATE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NT_NTT_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_NT_NTT_CALENDARID_2_SQL);
 
 			boolean bindNotificationType = false;
 
 			if (notificationType.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_3);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_3_SQL);
 			}
 			else {
 				bindNotificationType = true;
 
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_2);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_2_SQL);
 			}
 
 			boolean bindNotificationTemplateType = false;
 
 			if (notificationTemplateType.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_3);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_3_SQL);
 			}
 			else {
 				bindNotificationTemplateType = true;
 
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_2);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2168,28 +2168,28 @@ public class CalendarNotificationTemplatePersistenceImpl
 
 			query.append(_SQL_COUNT_CALENDARNOTIFICATIONTEMPLATE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NT_NTT_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_NT_NTT_CALENDARID_2_SQL);
 
 			boolean bindNotificationType = false;
 
 			if (notificationType.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_3);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_3_SQL);
 			}
 			else {
 				bindNotificationType = true;
 
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_2);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_2_SQL);
 			}
 
 			boolean bindNotificationTemplateType = false;
 
 			if (notificationTemplateType.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_3);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_3_SQL);
 			}
 			else {
 				bindNotificationTemplateType = true;
 
-				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_2);
+				query.append(_FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_2_SQL);
 			}
 
 			String sql = query.toString();

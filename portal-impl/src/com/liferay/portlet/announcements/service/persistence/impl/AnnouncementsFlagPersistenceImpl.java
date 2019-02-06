@@ -193,7 +193,7 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSFLAG_WHERE);
 
-			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2);
+			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSFLAG_WHERE);
 
-		query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2);
+		query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -533,7 +533,7 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSFLAG_WHERE);
 
-			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2);
+			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -659,11 +659,11 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSFLAG_WHERE);
 
-			query.append(_FINDER_COLUMN_U_E_V_USERID_2);
+			query.append(_FINDER_COLUMN_U_E_V_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_E_V_ENTRYID_2);
+			query.append(_FINDER_COLUMN_U_E_V_ENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_E_V_VALUE_2);
+			query.append(_FINDER_COLUMN_U_E_V_VALUE_2_SQL);
 
 			String sql = query.toString();
 
@@ -752,11 +752,11 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSFLAG_WHERE);
 
-			query.append(_FINDER_COLUMN_U_E_V_USERID_2);
+			query.append(_FINDER_COLUMN_U_E_V_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_E_V_ENTRYID_2);
+			query.append(_FINDER_COLUMN_U_E_V_ENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_E_V_VALUE_2);
+			query.append(_FINDER_COLUMN_U_E_V_VALUE_2_SQL);
 
 			String sql = query.toString();
 

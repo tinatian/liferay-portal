@@ -716,7 +716,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -816,7 +816,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -996,7 +996,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1252,7 +1252,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1392,7 +1392,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1555,7 +1555,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETLISTENTRYID_ASSETLISTENTRYID_2);
+			query.append(_FINDER_COLUMN_ASSETLISTENTRYID_ASSETLISTENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1783,7 +1783,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 		query.append(_SQL_SELECT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-		query.append(_FINDER_COLUMN_ASSETLISTENTRYID_ASSETLISTENTRYID_2);
+		query.append(_FINDER_COLUMN_ASSETLISTENTRYID_ASSETLISTENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1904,7 +1904,7 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETLISTENTRYID_ASSETLISTENTRYID_2);
+			query.append(_FINDER_COLUMN_ASSETLISTENTRYID_ASSETLISTENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2025,9 +2025,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_P_ASSETLISTENTRYID_2);
+			query.append(_FINDER_COLUMN_A_P_ASSETLISTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_P_POSITION_2);
+			query.append(_FINDER_COLUMN_A_P_POSITION_2_SQL);
 
 			String sql = query.toString();
 
@@ -2112,9 +2112,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_P_ASSETLISTENTRYID_2);
+			query.append(_FINDER_COLUMN_A_P_ASSETLISTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_P_POSITION_2);
+			query.append(_FINDER_COLUMN_A_P_POSITION_2_SQL);
 
 			String sql = query.toString();
 
@@ -2270,9 +2270,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_GTP_ASSETLISTENTRYID_2);
+			query.append(_FINDER_COLUMN_A_GTP_ASSETLISTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_GTP_POSITION_2);
+			query.append(_FINDER_COLUMN_A_GTP_POSITION_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2514,9 +2514,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 		query.append(_SQL_SELECT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-		query.append(_FINDER_COLUMN_A_GTP_ASSETLISTENTRYID_2);
+		query.append(_FINDER_COLUMN_A_GTP_ASSETLISTENTRYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_A_GTP_POSITION_2);
+		query.append(_FINDER_COLUMN_A_GTP_POSITION_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2642,9 +2642,9 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ASSETLISTENTRYASSETENTRYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_GTP_ASSETLISTENTRYID_2);
+			query.append(_FINDER_COLUMN_A_GTP_ASSETLISTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_GTP_POSITION_2);
+			query.append(_FINDER_COLUMN_A_GTP_POSITION_2_SQL);
 
 			String sql = query.toString();
 

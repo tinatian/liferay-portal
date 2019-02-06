@@ -194,7 +194,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -412,7 +412,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 		query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -533,7 +533,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_COUNT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -680,7 +680,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -897,7 +897,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 		query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1018,7 +1018,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_COUNT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1136,9 +1136,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1222,9 +1222,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_COUNT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1378,9 +1378,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTE_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTE_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2);
+			query.append(_FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1612,9 +1612,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 		query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTE_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTE_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2);
+		query.append(_FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1739,9 +1739,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_COUNT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTE_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTE_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2);
+			query.append(_FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2_SQL);
 
 			String sql = query.toString();
 
@@ -1895,9 +1895,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTE_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTE_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2);
+			query.append(_FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2129,9 +2129,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 		query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_NOTE_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_NOTE_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2);
+		query.append(_FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2256,9 +2256,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_COUNT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTE_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTE_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2);
+			query.append(_FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2_SQL);
 
 			String sql = query.toString();
 
@@ -2422,17 +2422,17 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_U_L_USERID_2);
+			query.append(_FINDER_COLUMN_U_L_USERID_2_SQL);
 
 			boolean bindLastPostDate = false;
 
 			if (lastPostDate == null) {
-				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_1);
+				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_1_SQL);
 			}
 			else {
 				bindLastPostDate = true;
 
-				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_2);
+				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2667,17 +2667,17 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 		query.append(_SQL_SELECT_BLOGSSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_U_L_USERID_2);
+		query.append(_FINDER_COLUMN_U_L_USERID_2_SQL);
 
 		boolean bindLastPostDate = false;
 
 		if (lastPostDate == null) {
-			query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_1);
+			query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_1_SQL);
 		}
 		else {
 			bindLastPostDate = true;
 
-			query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_2);
+			query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2805,17 +2805,17 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 
 			query.append(_SQL_COUNT_BLOGSSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_U_L_USERID_2);
+			query.append(_FINDER_COLUMN_U_L_USERID_2_SQL);
 
 			boolean bindLastPostDate = false;
 
 			if (lastPostDate == null) {
-				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_1);
+				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_1_SQL);
 			}
 			else {
 				bindLastPostDate = true;
 
-				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_2);
+				query.append(_FINDER_COLUMN_U_L_LASTPOSTDATE_2_SQL);
 			}
 
 			String sql = query.toString();

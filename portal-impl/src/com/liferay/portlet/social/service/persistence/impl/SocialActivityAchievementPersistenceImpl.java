@@ -197,7 +197,7 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -418,7 +418,7 @@ public class SocialActivityAchievementPersistenceImpl
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -540,7 +540,7 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -700,9 +700,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -937,9 +937,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1065,9 +1065,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1232,17 +1232,17 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_N_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1482,17 +1482,17 @@ public class SocialActivityAchievementPersistenceImpl
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_G_N_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_N_GROUPID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_N_NAME_3);
+			query.append(_FINDER_COLUMN_G_N_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_G_N_NAME_2);
+			query.append(_FINDER_COLUMN_G_N_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1623,17 +1623,17 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_N_GROUPID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1802,9 +1802,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_FIRSTINGROUP_2);
+			query.append(_FINDER_COLUMN_G_F_FIRSTINGROUP_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2042,9 +2042,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_FIRSTINGROUP_2);
+		query.append(_FINDER_COLUMN_G_F_FIRSTINGROUP_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2171,9 +2171,9 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_FIRSTINGROUP_2);
+			query.append(_FINDER_COLUMN_G_F_FIRSTINGROUP_2_SQL);
 
 			String sql = query.toString();
 
@@ -2305,19 +2305,19 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_N_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_N_USERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_U_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_U_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_U_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_U_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2412,19 +2412,19 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_N_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_N_USERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_U_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_U_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_U_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_U_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2601,11 +2601,11 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_FIRSTINGROUP_2);
+			query.append(_FINDER_COLUMN_G_U_F_FIRSTINGROUP_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2859,11 +2859,11 @@ public class SocialActivityAchievementPersistenceImpl
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_FIRSTINGROUP_2);
+		query.append(_FINDER_COLUMN_G_U_F_FIRSTINGROUP_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2994,11 +2994,11 @@ public class SocialActivityAchievementPersistenceImpl
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYACHIEVEMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_FIRSTINGROUP_2);
+			query.append(_FINDER_COLUMN_G_U_F_FIRSTINGROUP_2_SQL);
 
 			String sql = query.toString();
 

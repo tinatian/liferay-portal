@@ -193,7 +193,7 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 
 			query.append(_SQL_SELECT_PORTLET_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -408,7 +408,7 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 
 		query.append(_SQL_SELECT_PORTLET_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -530,7 +530,7 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 
 			query.append(_SQL_COUNT_PORTLET_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -650,17 +650,17 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 
 			query.append(_SQL_SELECT_PORTLET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_C_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_C_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_C_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -750,17 +750,17 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 
 			query.append(_SQL_COUNT_PORTLET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_C_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_C_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_C_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();

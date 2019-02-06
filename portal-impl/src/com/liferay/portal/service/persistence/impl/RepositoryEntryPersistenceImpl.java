@@ -708,7 +708,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -809,7 +809,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -987,7 +987,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1234,7 +1234,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1375,7 +1375,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1536,7 +1536,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 
 			query.append(_SQL_SELECT_REPOSITORYENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1755,7 +1755,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 
 		query.append(_SQL_SELECT_REPOSITORYENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1877,7 +1877,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 
 			query.append(_SQL_COUNT_REPOSITORYENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1997,17 +1997,17 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 
 			query.append(_SQL_SELECT_REPOSITORYENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2_SQL);
 
 			boolean bindMappedId = false;
 
 			if (mappedId.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_M_MAPPEDID_3);
+				query.append(_FINDER_COLUMN_R_M_MAPPEDID_3_SQL);
 			}
 			else {
 				bindMappedId = true;
 
-				query.append(_FINDER_COLUMN_R_M_MAPPEDID_2);
+				query.append(_FINDER_COLUMN_R_M_MAPPEDID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2097,17 +2097,17 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 
 			query.append(_SQL_COUNT_REPOSITORYENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2_SQL);
 
 			boolean bindMappedId = false;
 
 			if (mappedId.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_M_MAPPEDID_3);
+				query.append(_FINDER_COLUMN_R_M_MAPPEDID_3_SQL);
 			}
 			else {
 				bindMappedId = true;
 
-				query.append(_FINDER_COLUMN_R_M_MAPPEDID_2);
+				query.append(_FINDER_COLUMN_R_M_MAPPEDID_2_SQL);
 			}
 
 			String sql = query.toString();

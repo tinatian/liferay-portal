@@ -198,7 +198,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -416,7 +416,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 		query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -572,7 +572,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 			query.append(_FILTER_SQL_SELECT_POWWOWMEETING_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_POWWOWMEETING_NO_INLINE_DISTINCT_WHERE_2);
@@ -697,7 +697,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 			query.append(_FILTER_SQL_SELECT_POWWOWMEETING_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_POWWOWMEETING_NO_INLINE_DISTINCT_WHERE_2);
@@ -849,7 +849,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_COUNT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -897,7 +897,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 		query.append(_FILTER_SQL_COUNT_POWWOWMEETING_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				PowwowMeeting.class.getName(),
@@ -1051,7 +1051,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2);
+			query.append(_FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1270,7 +1270,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 		query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-		query.append(_FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2);
+		query.append(_FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1392,7 +1392,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_COUNT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2);
+			query.append(_FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1540,7 +1540,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1757,7 +1757,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 		query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-		query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+		query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1879,7 +1879,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_COUNT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -2037,9 +2037,9 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2271,9 +2271,9 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 		query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-		query.append(_FINDER_COLUMN_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2399,9 +2399,9 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_COUNT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -2563,9 +2563,9 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_PSI_S_POWWOWSERVERID_2);
+			query.append(_FINDER_COLUMN_PSI_S_POWWOWSERVERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_PSI_S_STATUS_2);
+			query.append(_FINDER_COLUMN_PSI_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2797,9 +2797,9 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 		query.append(_SQL_SELECT_POWWOWMEETING_WHERE);
 
-		query.append(_FINDER_COLUMN_PSI_S_POWWOWSERVERID_2);
+		query.append(_FINDER_COLUMN_PSI_S_POWWOWSERVERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_PSI_S_STATUS_2);
+		query.append(_FINDER_COLUMN_PSI_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2925,9 +2925,9 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 
 			query.append(_SQL_COUNT_POWWOWMEETING_WHERE);
 
-			query.append(_FINDER_COLUMN_PSI_S_POWWOWSERVERID_2);
+			query.append(_FINDER_COLUMN_PSI_S_POWWOWSERVERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_PSI_S_STATUS_2);
+			query.append(_FINDER_COLUMN_PSI_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

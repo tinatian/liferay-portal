@@ -741,7 +741,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -985,7 +985,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1125,7 +1125,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1277,7 +1277,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 			query.append(_SQL_SELECT_MODULE_WHERE);
 
-			query.append(_FINDER_COLUMN_APPID_APPID_2);
+			query.append(_FINDER_COLUMN_APPID_APPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1492,7 +1492,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 		query.append(_SQL_SELECT_MODULE_WHERE);
 
-		query.append(_FINDER_COLUMN_APPID_APPID_2);
+		query.append(_FINDER_COLUMN_APPID_APPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1613,7 +1613,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 			query.append(_SQL_COUNT_MODULE_WHERE);
 
-			query.append(_FINDER_COLUMN_APPID_APPID_2);
+			query.append(_FINDER_COLUMN_APPID_APPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1773,12 +1773,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindBundleSymbolicName = false;
 
 			if (bundleSymbolicName.isEmpty()) {
-				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3);
+				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3_SQL);
 			}
 			else {
 				bindBundleSymbolicName = true;
 
-				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2);
+				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2004,12 +2004,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		boolean bindBundleSymbolicName = false;
 
 		if (bundleSymbolicName.isEmpty()) {
-			query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3);
+			query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3_SQL);
 		}
 		else {
 			bindBundleSymbolicName = true;
 
-			query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2);
+			query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2138,12 +2138,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindBundleSymbolicName = false;
 
 			if (bundleSymbolicName.isEmpty()) {
-				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3);
+				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3_SQL);
 			}
 			else {
 				bindBundleSymbolicName = true;
 
-				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2);
+				query.append(_FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2303,12 +2303,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindContextName = false;
 
 			if (contextName.isEmpty()) {
-				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3);
+				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3_SQL);
 			}
 			else {
 				bindContextName = true;
 
-				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2);
+				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2532,12 +2532,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		boolean bindContextName = false;
 
 		if (contextName.isEmpty()) {
-			query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3);
+			query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3_SQL);
 		}
 		else {
 			bindContextName = true;
 
-			query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2);
+			query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2666,12 +2666,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindContextName = false;
 
 			if (contextName.isEmpty()) {
-				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3);
+				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3_SQL);
 			}
 			else {
 				bindContextName = true;
 
-				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2);
+				query.append(_FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2795,17 +2795,17 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 			query.append(_SQL_SELECT_MODULE_WHERE);
 
-			query.append(_FINDER_COLUMN_A_CN_APPID_2);
+			query.append(_FINDER_COLUMN_A_CN_APPID_2_SQL);
 
 			boolean bindContextName = false;
 
 			if (contextName.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_3);
+				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_3_SQL);
 			}
 			else {
 				bindContextName = true;
 
-				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_2);
+				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2905,17 +2905,17 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 			query.append(_SQL_COUNT_MODULE_WHERE);
 
-			query.append(_FINDER_COLUMN_A_CN_APPID_2);
+			query.append(_FINDER_COLUMN_A_CN_APPID_2_SQL);
 
 			boolean bindContextName = false;
 
 			if (contextName.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_3);
+				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_3_SQL);
 			}
 			else {
 				bindContextName = true;
 
-				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_2);
+				query.append(_FINDER_COLUMN_A_CN_CONTEXTNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3054,28 +3054,28 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 			query.append(_SQL_SELECT_MODULE_WHERE);
 
-			query.append(_FINDER_COLUMN_A_BSN_BV_APPID_2);
+			query.append(_FINDER_COLUMN_A_BSN_BV_APPID_2_SQL);
 
 			boolean bindBundleSymbolicName = false;
 
 			if (bundleSymbolicName.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_3);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_3_SQL);
 			}
 			else {
 				bindBundleSymbolicName = true;
 
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_2);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_2_SQL);
 			}
 
 			boolean bindBundleVersion = false;
 
 			if (bundleVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_3);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_3_SQL);
 			}
 			else {
 				bindBundleVersion = true;
 
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_2);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3185,28 +3185,28 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 
 			query.append(_SQL_COUNT_MODULE_WHERE);
 
-			query.append(_FINDER_COLUMN_A_BSN_BV_APPID_2);
+			query.append(_FINDER_COLUMN_A_BSN_BV_APPID_2_SQL);
 
 			boolean bindBundleSymbolicName = false;
 
 			if (bundleSymbolicName.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_3);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_3_SQL);
 			}
 			else {
 				bindBundleSymbolicName = true;
 
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_2);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_2_SQL);
 			}
 
 			boolean bindBundleVersion = false;
 
 			if (bundleVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_3);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_3_SQL);
 			}
 			else {
 				bindBundleVersion = true;
 
-				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_2);
+				query.append(_FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_2_SQL);
 			}
 
 			String sql = query.toString();

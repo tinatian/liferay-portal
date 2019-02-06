@@ -195,7 +195,7 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -415,7 +415,7 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -537,7 +537,7 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -698,9 +698,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -937,9 +937,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1065,9 +1065,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1231,9 +1231,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_ACTIVITYTYPE_2);
+			query.append(_FINDER_COLUMN_G_A_ACTIVITYTYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1470,9 +1470,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_ACTIVITYTYPE_2);
+		query.append(_FINDER_COLUMN_G_A_ACTIVITYTYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1598,9 +1598,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_ACTIVITYTYPE_2);
+			query.append(_FINDER_COLUMN_G_A_ACTIVITYTYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1770,11 +1770,11 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_A_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2);
+			query.append(_FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2026,11 +2026,11 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 		query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2);
+		query.append(_FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2161,11 +2161,11 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_A_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2);
+			query.append(_FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2309,21 +2309,21 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_SELECT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_A_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_A_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_N_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_A_N_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_N_ACTIVITYTYPE_2);
+			query.append(_FINDER_COLUMN_G_C_A_N_ACTIVITYTYPE_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_C_A_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_C_A_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_C_A_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_C_A_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2438,21 +2438,21 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 
 			query.append(_SQL_COUNT_SOCIALACTIVITYSETTING_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_A_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_A_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_N_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_A_N_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_A_N_ACTIVITYTYPE_2);
+			query.append(_FINDER_COLUMN_G_C_A_N_ACTIVITYTYPE_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_C_A_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_C_A_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_C_A_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_C_A_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();

@@ -193,7 +193,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_OWNERID_OWNERID_2);
+			query.append(_FINDER_COLUMN_OWNERID_OWNERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -413,7 +413,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_OWNERID_OWNERID_2);
+		query.append(_FINDER_COLUMN_OWNERID_OWNERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -535,7 +535,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_OWNERID_OWNERID_2);
+			query.append(_FINDER_COLUMN_OWNERID_OWNERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -682,7 +682,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_PLID_PLID_2);
+			query.append(_FINDER_COLUMN_PLID_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -901,7 +901,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_PLID_PLID_2);
+		query.append(_FINDER_COLUMN_PLID_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1023,7 +1023,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_PLID_PLID_2);
+			query.append(_FINDER_COLUMN_PLID_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1179,12 +1179,12 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1412,12 +1412,12 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3);
+			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2);
+			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1547,12 +1547,12 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1719,17 +1719,17 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_P_OWNERTYPE_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_P_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1967,17 +1967,17 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_O_P_OWNERTYPE_2);
+		query.append(_FINDER_COLUMN_O_P_OWNERTYPE_2_SQL);
 
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_O_P_PORTLETID_3);
+			query.append(_FINDER_COLUMN_O_P_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_O_P_PORTLETID_2);
+			query.append(_FINDER_COLUMN_O_P_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2108,17 +2108,17 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_P_OWNERTYPE_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2287,17 +2287,17 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_P_P_PLID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_P_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_P_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_P_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_P_P_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2535,17 +2535,17 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_P_P_PLID_2);
+		query.append(_FINDER_COLUMN_P_P_PLID_2_SQL);
 
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_P_P_PORTLETID_3);
+			query.append(_FINDER_COLUMN_P_P_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_P_P_PORTLETID_2);
+			query.append(_FINDER_COLUMN_P_P_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2676,17 +2676,17 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_P_P_PLID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_P_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_P_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_P_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_P_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2860,11 +2860,11 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_P_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_P_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_P_OWNERTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_PLID_2);
+			query.append(_FINDER_COLUMN_O_O_P_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3110,11 +3110,11 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_O_O_P_OWNERID_2);
+		query.append(_FINDER_COLUMN_O_O_P_OWNERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_O_P_OWNERTYPE_2);
+		query.append(_FINDER_COLUMN_O_O_P_OWNERTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_O_P_PLID_2);
+		query.append(_FINDER_COLUMN_O_O_P_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3244,11 +3244,11 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_P_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_P_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_P_OWNERTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_PLID_2);
+			query.append(_FINDER_COLUMN_O_O_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3423,19 +3423,19 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_PI_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_PI_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_PI_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_PI_OWNERTYPE_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3692,19 +3692,19 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_O_O_PI_OWNERID_2);
+		query.append(_FINDER_COLUMN_O_O_PI_OWNERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_O_PI_OWNERTYPE_2);
+		query.append(_FINDER_COLUMN_O_O_PI_OWNERTYPE_2_SQL);
 
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_3);
+			query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_2);
+			query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3839,19 +3839,19 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_PI_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_PI_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_PI_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_PI_OWNERTYPE_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_O_PI_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4030,19 +4030,19 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_P_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_P_P_OWNERTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_O_P_P_PLID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4298,19 +4298,19 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_O_P_P_OWNERTYPE_2);
+		query.append(_FINDER_COLUMN_O_P_P_OWNERTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_P_P_PLID_2);
+		query.append(_FINDER_COLUMN_O_P_P_PLID_2_SQL);
 
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_O_P_P_PORTLETID_3);
+			query.append(_FINDER_COLUMN_O_P_P_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_O_P_P_PORTLETID_2);
+			query.append(_FINDER_COLUMN_O_P_P_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4445,19 +4445,19 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_P_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_P_P_OWNERTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_O_P_P_PLID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_P_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4635,21 +4635,21 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3);
+				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2);
+				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4921,21 +4921,21 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 		query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-		query.append(_FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2);
+		query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2);
+		query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2_SQL);
 
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -5079,21 +5079,21 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3);
+				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2);
+				query.append(_FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5242,21 +5242,21 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_SELECT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_P_P_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_P_P_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_P_P_OWNERTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_O_O_P_P_PLID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5357,21 +5357,21 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 
 			query.append(_SQL_COUNT_PORTLETPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_P_P_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_P_P_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_P_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_P_P_OWNERTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_O_O_P_P_PLID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_O_O_P_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();

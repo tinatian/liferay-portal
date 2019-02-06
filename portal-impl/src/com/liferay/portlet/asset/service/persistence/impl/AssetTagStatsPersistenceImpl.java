@@ -195,7 +195,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			query.append(_SQL_SELECT_ASSETTAGSTATS_WHERE);
 
-			query.append(_FINDER_COLUMN_TAGID_TAGID_2);
+			query.append(_FINDER_COLUMN_TAGID_TAGID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 		query.append(_SQL_SELECT_ASSETTAGSTATS_WHERE);
 
-		query.append(_FINDER_COLUMN_TAGID_TAGID_2);
+		query.append(_FINDER_COLUMN_TAGID_TAGID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -533,7 +533,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			query.append(_SQL_COUNT_ASSETTAGSTATS_WHERE);
 
-			query.append(_FINDER_COLUMN_TAGID_TAGID_2);
+			query.append(_FINDER_COLUMN_TAGID_TAGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -683,7 +683,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			query.append(_SQL_SELECT_ASSETTAGSTATS_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -901,7 +901,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 		query.append(_SQL_SELECT_ASSETTAGSTATS_WHERE);
 
-		query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1023,7 +1023,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			query.append(_SQL_COUNT_ASSETTAGSTATS_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1141,9 +1141,9 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			query.append(_SQL_SELECT_ASSETTAGSTATS_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_TAGID_2);
+			query.append(_FINDER_COLUMN_T_C_TAGID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_T_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1228,9 +1228,9 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 
 			query.append(_SQL_COUNT_ASSETTAGSTATS_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_TAGID_2);
+			query.append(_FINDER_COLUMN_T_C_TAGID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_T_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 

@@ -186,7 +186,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 
 			query.append(_SQL_SELECT_DLSYNCEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -404,7 +404,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 
 		query.append(_SQL_SELECT_DLSYNCEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2);
+		query.append(_FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -525,7 +525,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 
 			query.append(_SQL_COUNT_DLSYNCEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2_SQL);
 
 			String sql = query.toString();
 
@@ -634,7 +634,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 
 			query.append(_SQL_SELECT_DLSYNCEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPEPK_TYPEPK_2);
+			query.append(_FINDER_COLUMN_TYPEPK_TYPEPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -713,7 +713,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 
 			query.append(_SQL_COUNT_DLSYNCEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPEPK_TYPEPK_2);
+			query.append(_FINDER_COLUMN_TYPEPK_TYPEPK_2_SQL);
 
 			String sql = query.toString();
 

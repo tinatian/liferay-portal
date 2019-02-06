@@ -745,7 +745,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -989,7 +989,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1130,7 +1130,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1283,7 +1283,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1498,7 +1498,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 		query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1620,7 +1620,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_COUNT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1766,7 +1766,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1981,7 +1981,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 		query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2103,7 +2103,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_COUNT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2262,9 +2262,9 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2495,9 +2495,9 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 		query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2623,9 +2623,9 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_COUNT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2794,11 +2794,11 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3043,11 +3043,11 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 		query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3177,11 +3177,11 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_COUNT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3359,11 +3359,11 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL);
 
@@ -3628,11 +3628,11 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 		query.append(_SQL_SELECT_WEBSITE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL);
 
@@ -3772,11 +3772,11 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_SQL_COUNT_WEBSITE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL);
 

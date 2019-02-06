@@ -189,7 +189,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CREATEDATE_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_CREATEDATE_CREATEDATE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -401,7 +401,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_CREATEDATE_CREATEDATE_2);
+		query.append(_FINDER_COLUMN_CREATEDATE_CREATEDATE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -522,7 +522,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_CREATEDATE_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_CREATEDATE_CREATEDATE_2_SQL);
 
 			String sql = query.toString();
 
@@ -669,7 +669,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_FROMUSERID_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_FROMUSERID_FROMUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -881,7 +881,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_FROMUSERID_FROMUSERID_2);
+		query.append(_FINDER_COLUMN_FROMUSERID_FROMUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1002,7 +1002,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_FROMUSERID_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_FROMUSERID_FROMUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1149,7 +1149,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_TOUSERID_TOUSERID_2);
+			query.append(_FINDER_COLUMN_TOUSERID_TOUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1361,7 +1361,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_TOUSERID_TOUSERID_2);
+		query.append(_FINDER_COLUMN_TOUSERID_TOUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1482,7 +1482,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_TOUSERID_TOUSERID_2);
+			query.append(_FINDER_COLUMN_TOUSERID_TOUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1641,9 +1641,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_F_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_F_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_C_F_FROMUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1870,9 +1870,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_F_CREATEDATE_2);
+		query.append(_FINDER_COLUMN_C_F_CREATEDATE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_F_FROMUSERID_2);
+		query.append(_FINDER_COLUMN_C_F_FROMUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1997,9 +1997,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_F_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_F_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_C_F_FROMUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2161,9 +2161,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_T_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_T_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_T_TOUSERID_2);
+			query.append(_FINDER_COLUMN_C_T_TOUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2390,9 +2390,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_T_CREATEDATE_2);
+		query.append(_FINDER_COLUMN_C_T_CREATEDATE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_T_TOUSERID_2);
+		query.append(_FINDER_COLUMN_C_T_TOUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2517,9 +2517,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_T_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_T_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_T_TOUSERID_2);
+			query.append(_FINDER_COLUMN_C_T_TOUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2681,9 +2681,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_F_T_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_FROMUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_T_TOUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_TOUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2910,9 +2910,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_F_T_FROMUSERID_2);
+		query.append(_FINDER_COLUMN_F_T_FROMUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_F_T_TOUSERID_2);
+		query.append(_FINDER_COLUMN_F_T_TOUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3037,9 +3037,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_F_T_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_FROMUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_T_TOUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_TOUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3208,11 +3208,11 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_T_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_F_T_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_F_T_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_C_F_T_FROMUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_F_T_TOUSERID_2);
+			query.append(_FINDER_COLUMN_C_F_T_TOUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3456,11 +3456,11 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_F_T_CREATEDATE_2);
+		query.append(_FINDER_COLUMN_C_F_T_CREATEDATE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_F_T_FROMUSERID_2);
+		query.append(_FINDER_COLUMN_C_F_T_FROMUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_F_T_TOUSERID_2);
+		query.append(_FINDER_COLUMN_C_F_T_TOUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3589,11 +3589,11 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_F_T_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_F_T_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_F_T_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_C_F_T_FROMUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_F_T_TOUSERID_2);
+			query.append(_FINDER_COLUMN_C_F_T_TOUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3767,19 +3767,19 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_F_T_C_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_C_FROMUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_T_C_TOUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_C_TOUSERID_2_SQL);
 
 			boolean bindContent = false;
 
 			if (content.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_T_C_CONTENT_3);
+				query.append(_FINDER_COLUMN_F_T_C_CONTENT_3_SQL);
 			}
 			else {
 				bindContent = true;
 
-				query.append(_FINDER_COLUMN_F_T_C_CONTENT_2);
+				query.append(_FINDER_COLUMN_F_T_C_CONTENT_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4028,19 +4028,19 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_F_T_C_FROMUSERID_2);
+		query.append(_FINDER_COLUMN_F_T_C_FROMUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_F_T_C_TOUSERID_2);
+		query.append(_FINDER_COLUMN_F_T_C_TOUSERID_2_SQL);
 
 		boolean bindContent = false;
 
 		if (content.isEmpty()) {
-			query.append(_FINDER_COLUMN_F_T_C_CONTENT_3);
+			query.append(_FINDER_COLUMN_F_T_C_CONTENT_3_SQL);
 		}
 		else {
 			bindContent = true;
 
-			query.append(_FINDER_COLUMN_F_T_C_CONTENT_2);
+			query.append(_FINDER_COLUMN_F_T_C_CONTENT_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4174,19 +4174,19 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_F_T_C_FROMUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_C_FROMUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_T_C_TOUSERID_2);
+			query.append(_FINDER_COLUMN_F_T_C_TOUSERID_2_SQL);
 
 			boolean bindContent = false;
 
 			if (content.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_T_C_CONTENT_3);
+				query.append(_FINDER_COLUMN_F_T_C_CONTENT_3_SQL);
 			}
 			else {
 				bindContent = true;
 
-				query.append(_FINDER_COLUMN_F_T_C_CONTENT_2);
+				query.append(_FINDER_COLUMN_F_T_C_CONTENT_2_SQL);
 			}
 
 			String sql = query.toString();

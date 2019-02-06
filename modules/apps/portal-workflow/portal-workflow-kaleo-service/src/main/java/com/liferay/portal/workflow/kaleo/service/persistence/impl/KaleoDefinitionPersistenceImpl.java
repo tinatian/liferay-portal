@@ -198,7 +198,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -417,7 +417,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 		query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -538,7 +538,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_COUNT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -658,17 +658,17 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -768,17 +768,17 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_COUNT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -944,7 +944,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_A_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_A_COMPANYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
@@ -1178,7 +1178,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 		query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_A_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_A_COMPANYID_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
@@ -1305,7 +1305,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_COUNT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_A_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_A_COMPANYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
@@ -1437,20 +1437,20 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_V_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_V_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_V_VERSION_2);
+			query.append(_FINDER_COLUMN_C_N_V_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -1553,20 +1553,20 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_COUNT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_V_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_V_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_V_VERSION_2);
+			query.append(_FINDER_COLUMN_C_N_V_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -1703,17 +1703,17 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_SELECT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_A_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_A_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_A_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_A_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_A_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_A_NAME_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_C_N_A_ACTIVE_2_SQL);
@@ -1819,17 +1819,17 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_SQL_COUNT_KALEODEFINITION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_A_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_A_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_A_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_A_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_A_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_A_NAME_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_C_N_A_ACTIVE_2_SQL);

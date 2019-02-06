@@ -711,7 +711,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -810,7 +810,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -988,7 +988,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1234,7 +1234,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1374,7 +1374,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1529,7 +1529,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1747,7 +1747,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1868,7 +1868,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2028,9 +2028,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_F_FOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2261,9 +2261,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_FOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2424,9 +2424,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_FOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2554,9 +2554,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_FOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2748,12 +2748,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_F_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_F_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -2951,12 +2951,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_F_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_F_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -3056,9 +3056,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_F_FOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3120,12 +3120,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_F_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_F_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -3186,9 +3186,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_FOLDERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -3248,12 +3248,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_F_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_F_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -3423,9 +3423,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3656,9 +3656,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3819,9 +3819,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3949,9 +3949,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4106,9 +4106,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4159,9 +4159,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -4310,9 +4310,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4544,9 +4544,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4707,9 +4707,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4837,9 +4837,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4994,9 +4994,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5047,9 +5047,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -5203,9 +5203,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5437,9 +5437,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5564,9 +5564,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5736,11 +5736,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5985,11 +5985,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6158,11 +6158,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6293,11 +6293,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6456,11 +6456,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -6514,11 +6514,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -6682,11 +6682,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6931,11 +6931,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7104,11 +7104,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7239,11 +7239,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7402,11 +7402,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7460,11 +7460,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -7638,11 +7638,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7887,11 +7887,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8060,11 +8060,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8195,11 +8195,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8399,12 +8399,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -8415,7 +8415,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -8618,12 +8618,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -8634,7 +8634,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -8731,11 +8731,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -8802,12 +8802,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -8818,7 +8818,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -8875,11 +8875,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -8942,12 +8942,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_S_GROUPID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_F_S_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -8958,7 +8958,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -9124,11 +9124,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9373,11 +9373,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9546,11 +9546,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -9681,11 +9681,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -9885,12 +9885,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -9901,7 +9901,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -10104,12 +10104,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -10120,7 +10120,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -10217,11 +10217,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10288,12 +10288,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -10304,7 +10304,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -10361,11 +10361,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -10428,12 +10428,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_F_NOTS_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -10444,7 +10444,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -10625,13 +10625,13 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -10894,13 +10894,13 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -11075,13 +11075,13 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -11216,13 +11216,13 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -11428,14 +11428,14 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(_FILTER_SQL_SELECT_BOOKMARKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -11446,7 +11446,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -11657,14 +11657,14 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_SELECT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -11675,7 +11675,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -11778,13 +11778,13 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -11855,14 +11855,14 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 			query.append(_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
 			if (folderIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7);
+				query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7_SQL);
 
 				query.append(StringUtil.merge(folderIds));
 
@@ -11873,7 +11873,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -11934,13 +11934,13 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BookmarksEntry.class.getName(),
@@ -12007,14 +12007,14 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 
 		query.append(_FILTER_SQL_COUNT_BOOKMARKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_USERID_2_SQL);
 
 		if (folderIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7);
+			query.append(_FINDER_COLUMN_G_U_F_S_FOLDERID_7_SQL);
 
 			query.append(StringUtil.merge(folderIds));
 
@@ -12025,7 +12025,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_F_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);

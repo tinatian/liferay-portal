@@ -708,7 +708,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -807,7 +807,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -984,7 +984,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1230,7 +1230,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1370,7 +1370,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1523,7 +1523,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1738,7 +1738,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 		query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1859,7 +1859,7 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2018,9 +2018,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2251,9 +2251,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 		query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2378,9 +2378,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2541,9 +2541,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2773,9 +2773,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 		query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2900,9 +2900,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -3064,9 +3064,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3298,9 +3298,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 		query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3425,9 +3425,9 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3597,11 +3597,11 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3846,11 +3846,11 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 		query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_C_C_USERID_2);
+		query.append(_FINDER_COLUMN_U_C_C_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3979,11 +3979,11 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_U_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4157,11 +4157,11 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4406,11 +4406,11 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 		query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4642,14 +4642,14 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_SELECT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_C_S_STATUS_7);
+				query.append(_FINDER_COLUMN_C_C_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -4753,11 +4753,11 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4824,14 +4824,14 @@ public class KBCommentPersistenceImpl extends BasePersistenceImpl<KBComment>
 
 			query.append(_SQL_COUNT_KBCOMMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_C_S_STATUS_7);
+				query.append(_FINDER_COLUMN_C_C_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 

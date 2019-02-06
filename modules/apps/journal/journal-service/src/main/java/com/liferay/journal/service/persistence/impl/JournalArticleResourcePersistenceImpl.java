@@ -709,7 +709,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -809,7 +809,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -988,7 +988,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1241,7 +1241,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1381,7 +1381,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1535,7 +1535,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 
 			query.append(_SQL_SELECT_JOURNALARTICLERESOURCE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1755,7 +1755,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 
 		query.append(_SQL_SELECT_JOURNALARTICLERESOURCE_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1876,7 +1876,7 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 
 			query.append(_SQL_COUNT_JOURNALARTICLERESOURCE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1998,17 +1998,17 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 
 			query.append(_SQL_SELECT_JOURNALARTICLERESOURCE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2098,17 +2098,17 @@ public class JournalArticleResourcePersistenceImpl extends BasePersistenceImpl<J
 
 			query.append(_SQL_COUNT_JOURNALARTICLERESOURCE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();

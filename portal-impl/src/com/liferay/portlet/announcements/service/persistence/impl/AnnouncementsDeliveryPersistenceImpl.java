@@ -196,7 +196,7 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -415,7 +415,7 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSDELIVERY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -537,7 +537,7 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -657,7 +657,7 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -757,7 +757,7 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 			boolean bindType = false;
 

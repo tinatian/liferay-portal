@@ -751,7 +751,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1003,7 +1003,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1144,7 +1144,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1298,7 +1298,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1518,7 +1518,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1640,7 +1640,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2331,9 +2331,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_DELIVERYTYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2570,9 +2570,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_DT_USERID_2);
+		query.append(_FINDER_COLUMN_U_DT_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_DELIVERYTYPE_2);
+		query.append(_FINDER_COLUMN_U_DT_DELIVERYTYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2698,9 +2698,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_DELIVERYTYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2863,9 +2863,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_D_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_D_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_D_DELIVERED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3102,9 +3102,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_D_USERID_2);
+		query.append(_FINDER_COLUMN_U_D_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_D_DELIVERED_2);
+		query.append(_FINDER_COLUMN_U_D_DELIVERED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3230,9 +3230,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_D_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_D_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_D_DELIVERED_2_SQL);
 
 			String sql = query.toString();
 
@@ -3395,9 +3395,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_A_ARCHIVED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3632,9 +3632,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_A_USERID_2);
+		query.append(_FINDER_COLUMN_U_A_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_A_ARCHIVED_2);
+		query.append(_FINDER_COLUMN_U_A_ARCHIVED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3760,9 +3760,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_A_ARCHIVED_2_SQL);
 
 			String sql = query.toString();
 
@@ -3932,11 +3932,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_D_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_DT_D_DELIVERED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4188,11 +4188,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_DT_D_USERID_2);
+		query.append(_FINDER_COLUMN_U_DT_D_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2);
+		query.append(_FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_D_DELIVERED_2);
+		query.append(_FINDER_COLUMN_U_DT_D_DELIVERED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4323,11 +4323,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_D_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_DT_D_DELIVERED_2_SQL);
 
 			String sql = query.toString();
 
@@ -4500,11 +4500,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_DT_A_ARCHIVED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4756,11 +4756,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_DT_A_USERID_2);
+		query.append(_FINDER_COLUMN_U_DT_A_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2);
+		query.append(_FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_A_ARCHIVED_2);
+		query.append(_FINDER_COLUMN_U_DT_A_ARCHIVED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4891,11 +4891,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_DT_A_ARCHIVED_2_SQL);
 
 			String sql = query.toString();
 
@@ -5068,11 +5068,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_D_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_D_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_D_A_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_D_A_DELIVERED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5324,11 +5324,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_D_A_USERID_2);
+		query.append(_FINDER_COLUMN_U_D_A_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_D_A_DELIVERED_2);
+		query.append(_FINDER_COLUMN_U_D_A_DELIVERED_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2);
+		query.append(_FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5461,11 +5461,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_D_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_D_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_D_A_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_D_A_DELIVERED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2_SQL);
 
 			String sql = query.toString();
 
@@ -5638,11 +5638,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_A_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_A_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_A_A_ARCHIVED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5894,11 +5894,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_A_A_USERID_2);
+		query.append(_FINDER_COLUMN_U_A_A_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2);
+		query.append(_FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_A_A_ARCHIVED_2);
+		query.append(_FINDER_COLUMN_U_A_A_ARCHIVED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6031,11 +6031,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_A_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_A_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_A_A_ARCHIVED_2_SQL);
 
 			String sql = query.toString();
 
@@ -6216,7 +6216,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_USERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -6229,9 +6229,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6502,7 +6502,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_T_DT_D_USERID_2);
+		query.append(_FINDER_COLUMN_U_T_DT_D_USERID_2_SQL);
 
 		boolean bindType = false;
 
@@ -6515,9 +6515,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2);
+		query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERED_2);
+		query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6658,7 +6658,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_USERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -6671,9 +6671,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERED_2_SQL);
 
 			String sql = query.toString();
 
@@ -6861,13 +6861,13 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7135,13 +7135,13 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_DT_D_A_USERID_2);
+		query.append(_FINDER_COLUMN_U_DT_D_A_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2);
+		query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERED_2);
+		query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERED_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2);
+		query.append(_FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7280,13 +7280,13 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERED_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_DELIVERED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2_SQL);
 
 			String sql = query.toString();
 
@@ -7471,13 +7471,13 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_ARCHIVED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7745,13 +7745,13 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONEVENT_WHERE);
 
-		query.append(_FINDER_COLUMN_U_DT_A_A_USERID_2);
+		query.append(_FINDER_COLUMN_U_DT_A_A_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2);
+		query.append(_FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2);
+		query.append(_FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_DT_A_A_ARCHIVED_2);
+		query.append(_FINDER_COLUMN_U_DT_A_A_ARCHIVED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7890,13 +7890,13 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONEVENT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_DT_A_A_ARCHIVED_2);
+			query.append(_FINDER_COLUMN_U_DT_A_A_ARCHIVED_2_SQL);
 
 			String sql = query.toString();
 

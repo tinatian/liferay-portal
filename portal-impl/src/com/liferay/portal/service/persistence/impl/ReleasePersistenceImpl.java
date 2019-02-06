@@ -164,12 +164,12 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 			boolean bindServletContextName = false;
 
 			if (servletContextName.isEmpty()) {
-				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_3);
+				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_3_SQL);
 			}
 			else {
 				bindServletContextName = true;
 
-				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_2);
+				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -259,12 +259,12 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 			boolean bindServletContextName = false;
 
 			if (servletContextName.isEmpty()) {
-				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_3);
+				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_3_SQL);
 			}
 			else {
 				bindServletContextName = true;
 
-				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_2);
+				query.append(_FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_2_SQL);
 			}
 
 			String sql = query.toString();

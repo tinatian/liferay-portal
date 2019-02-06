@@ -203,7 +203,7 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2);
+			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -430,7 +430,7 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2);
+		query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -551,7 +551,7 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2);
+			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -672,9 +672,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KITI_KTI_KALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_KITI_KTI_KALEOINSTANCETOKENID_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_KTI_KALEOTIMERID_2);
+			query.append(_FINDER_COLUMN_KITI_KTI_KALEOTIMERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -770,9 +770,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KITI_KTI_KALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_KITI_KTI_KALEOINSTANCETOKENID_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_KTI_KALEOTIMERID_2);
+			query.append(_FINDER_COLUMN_KITI_KTI_KALEOTIMERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -938,9 +938,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_KITI_C_COMPLETED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1181,9 +1181,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2);
+		query.append(_FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2_SQL);
 
-		query.append(_FINDER_COLUMN_KITI_C_COMPLETED_2);
+		query.append(_FINDER_COLUMN_KITI_C_COMPLETED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1309,9 +1309,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_KITI_C_COMPLETED_2_SQL);
 
 			String sql = query.toString();
 
@@ -1486,11 +1486,11 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_B_C_BLOCKING_2);
+			query.append(_FINDER_COLUMN_KITI_B_C_BLOCKING_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_B_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_KITI_B_C_COMPLETED_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1744,11 +1744,11 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2);
+		query.append(_FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2_SQL);
 
-		query.append(_FINDER_COLUMN_KITI_B_C_BLOCKING_2);
+		query.append(_FINDER_COLUMN_KITI_B_C_BLOCKING_2_SQL);
 
-		query.append(_FINDER_COLUMN_KITI_B_C_COMPLETED_2);
+		query.append(_FINDER_COLUMN_KITI_B_C_COMPLETED_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1882,11 +1882,11 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_KALEOTIMERINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_B_C_BLOCKING_2);
+			query.append(_FINDER_COLUMN_KITI_B_C_BLOCKING_2_SQL);
 
-			query.append(_FINDER_COLUMN_KITI_B_C_COMPLETED_2);
+			query.append(_FINDER_COLUMN_KITI_B_C_COMPLETED_2_SQL);
 
 			String sql = query.toString();
 

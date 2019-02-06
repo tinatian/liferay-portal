@@ -163,12 +163,12 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 			boolean bindToken = false;
 
 			if (token.isEmpty()) {
-				query.append(_FINDER_COLUMN_TOKEN_TOKEN_3);
+				query.append(_FINDER_COLUMN_TOKEN_TOKEN_3_SQL);
 			}
 			else {
 				bindToken = true;
 
-				query.append(_FINDER_COLUMN_TOKEN_TOKEN_2);
+				query.append(_FINDER_COLUMN_TOKEN_TOKEN_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -256,12 +256,12 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 			boolean bindToken = false;
 
 			if (token.isEmpty()) {
-				query.append(_FINDER_COLUMN_TOKEN_TOKEN_3);
+				query.append(_FINDER_COLUMN_TOKEN_TOKEN_3_SQL);
 			}
 			else {
 				bindToken = true;
 
-				query.append(_FINDER_COLUMN_TOKEN_TOKEN_2);
+				query.append(_FINDER_COLUMN_TOKEN_TOKEN_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -429,17 +429,17 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_PUSHNOTIFICATIONSDEVICE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_P_USERID_2);
+			query.append(_FINDER_COLUMN_U_P_USERID_2_SQL);
 
 			boolean bindPlatform = false;
 
 			if (platform.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_3);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_3_SQL);
 			}
 			else {
 				bindPlatform = true;
 
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_2);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -681,17 +681,17 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_PUSHNOTIFICATIONSDEVICE_WHERE);
 
-		query.append(_FINDER_COLUMN_U_P_USERID_2);
+		query.append(_FINDER_COLUMN_U_P_USERID_2_SQL);
 
 		boolean bindPlatform = false;
 
 		if (platform.isEmpty()) {
-			query.append(_FINDER_COLUMN_U_P_PLATFORM_3);
+			query.append(_FINDER_COLUMN_U_P_PLATFORM_3_SQL);
 		}
 		else {
 			bindPlatform = true;
 
-			query.append(_FINDER_COLUMN_U_P_PLATFORM_2);
+			query.append(_FINDER_COLUMN_U_P_PLATFORM_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -922,7 +922,7 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 			if (userIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_P_USERID_7);
+				query.append(_FINDER_COLUMN_U_P_USERID_7_SQL);
 
 				query.append(StringUtil.merge(userIds));
 
@@ -936,12 +936,12 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 			boolean bindPlatform = false;
 
 			if (platform.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_3);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_3_SQL);
 			}
 			else {
 				bindPlatform = true;
 
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_2);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_2_SQL);
 			}
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
@@ -1039,17 +1039,17 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_PUSHNOTIFICATIONSDEVICE_WHERE);
 
-			query.append(_FINDER_COLUMN_U_P_USERID_2);
+			query.append(_FINDER_COLUMN_U_P_USERID_2_SQL);
 
 			boolean bindPlatform = false;
 
 			if (platform.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_3);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_3_SQL);
 			}
 			else {
 				bindPlatform = true;
 
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_2);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1119,7 +1119,7 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 			if (userIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_P_USERID_7);
+				query.append(_FINDER_COLUMN_U_P_USERID_7_SQL);
 
 				query.append(StringUtil.merge(userIds));
 
@@ -1133,12 +1133,12 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 			boolean bindPlatform = false;
 
 			if (platform.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_3);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_3_SQL);
 			}
 			else {
 				bindPlatform = true;
 
-				query.append(_FINDER_COLUMN_U_P_PLATFORM_2);
+				query.append(_FINDER_COLUMN_U_P_PLATFORM_2_SQL);
 			}
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -

@@ -193,7 +193,7 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 
 			query.append(_SQL_SELECT_USERIDMAPPER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -409,7 +409,7 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 
 		query.append(_SQL_SELECT_USERIDMAPPER_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -531,7 +531,7 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 
 			query.append(_SQL_COUNT_USERIDMAPPER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -651,7 +651,7 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 
 			query.append(_SQL_SELECT_USERIDMAPPER_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -751,7 +751,7 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 
 			query.append(_SQL_COUNT_USERIDMAPPER_WHERE);
 
-			query.append(_FINDER_COLUMN_U_T_USERID_2);
+			query.append(_FINDER_COLUMN_U_T_USERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -904,12 +904,12 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 			boolean bindExternalUserId = false;
 
 			if (externalUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_3);
+				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_3_SQL);
 			}
 			else {
 				bindExternalUserId = true;
 
-				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_2);
+				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1016,12 +1016,12 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 			boolean bindExternalUserId = false;
 
 			if (externalUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_3);
+				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_3_SQL);
 			}
 			else {
 				bindExternalUserId = true;
 
-				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_2);
+				query.append(_FINDER_COLUMN_T_E_EXTERNALUSERID_2_SQL);
 			}
 
 			String sql = query.toString();

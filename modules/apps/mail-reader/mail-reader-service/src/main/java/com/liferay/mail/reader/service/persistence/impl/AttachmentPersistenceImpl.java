@@ -193,7 +193,7 @@ public class AttachmentPersistenceImpl extends BasePersistenceImpl<Attachment>
 
 			query.append(_SQL_SELECT_ATTACHMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_MESSAGEID_MESSAGEID_2);
+			query.append(_FINDER_COLUMN_MESSAGEID_MESSAGEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class AttachmentPersistenceImpl extends BasePersistenceImpl<Attachment>
 
 		query.append(_SQL_SELECT_ATTACHMENT_WHERE);
 
-		query.append(_FINDER_COLUMN_MESSAGEID_MESSAGEID_2);
+		query.append(_FINDER_COLUMN_MESSAGEID_MESSAGEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -532,7 +532,7 @@ public class AttachmentPersistenceImpl extends BasePersistenceImpl<Attachment>
 
 			query.append(_SQL_COUNT_ATTACHMENT_WHERE);
 
-			query.append(_FINDER_COLUMN_MESSAGEID_MESSAGEID_2);
+			query.append(_FINDER_COLUMN_MESSAGEID_MESSAGEID_2_SQL);
 
 			String sql = query.toString();
 

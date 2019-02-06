@@ -192,7 +192,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -413,7 +413,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONDELIVERY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -535,7 +535,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -685,24 +685,24 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_USERID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_3);
+				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_2);
+				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_NOTIFICATIONTYPE_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_NOTIFICATIONTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_DELIVERYTYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -809,24 +809,24 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONDELIVERY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_USERID_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_USERID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_3);
+				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_2);
+				query.append(_FINDER_COLUMN_U_P_C_N_D_PORTLETID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_NOTIFICATIONTYPE_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_NOTIFICATIONTYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_P_C_N_D_DELIVERYTYPE_2);
+			query.append(_FINDER_COLUMN_U_P_C_N_D_DELIVERYTYPE_2_SQL);
 
 			String sql = query.toString();
 

@@ -1136,7 +1136,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1382,7 +1382,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1558,7 +1558,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -1699,7 +1699,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -1868,7 +1868,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1934,7 +1934,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				SAPEntry.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
@@ -2086,7 +2086,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 			query.append(_SQL_SELECT_SAPENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2301,7 +2301,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 		query.append(_SQL_SELECT_SAPENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2457,7 +2457,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2579,7 +2579,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2729,7 +2729,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 			query.append(_SQL_COUNT_SAPENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2777,7 +2777,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 		query.append(_FILTER_SQL_COUNT_SAPENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				SAPEntry.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
@@ -2935,9 +2935,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 			query.append(_SQL_SELECT_SAPENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_D_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_D_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2);
+			query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3168,9 +3168,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 		query.append(_SQL_SELECT_SAPENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_D_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_D_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2);
+		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3334,9 +3334,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_D_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_D_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2);
+		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3462,9 +3462,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_D_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_D_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2);
+		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_SAPENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3618,9 +3618,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 			query.append(_SQL_COUNT_SAPENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_D_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_D_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2);
+			query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL);
 
 			String sql = query.toString();
 
@@ -3671,9 +3671,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 		query.append(_FILTER_SQL_COUNT_SAPENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_D_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_D_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2);
+		query.append(_FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				SAPEntry.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
@@ -3795,17 +3795,17 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 			query.append(_SQL_SELECT_SAPENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3905,17 +3905,17 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 
 			query.append(_SQL_COUNT_SAPENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();

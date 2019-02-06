@@ -202,7 +202,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_LOCALIZEDENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2);
+			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -429,7 +429,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 		query.append(_SQL_SELECT_LOCALIZEDENTRYLOCALIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2);
+		query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -550,7 +550,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_LOCALIZEDENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2);
+			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -676,17 +676,17 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_LOCALIZEDENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LOCALIZEDENTRYID_2);
+			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LOCALIZEDENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -779,17 +779,17 @@ public class LocalizedEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_LOCALIZEDENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LOCALIZEDENTRYID_2);
+			query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LOCALIZEDENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();

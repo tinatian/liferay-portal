@@ -215,15 +215,15 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -462,15 +462,15 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 		boolean bindKaleoClassName = false;
 
 		if (kaleoClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL);
 		}
 		else {
 			bindKaleoClassName = true;
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2);
+		query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -602,15 +602,15 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -789,17 +789,17 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1059,17 +1059,17 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 		boolean bindKaleoClassName = false;
 
 		if (kaleoClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3);
+			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3_SQL);
 		}
 		else {
 			bindKaleoClassName = true;
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2);
+		query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2);
+		query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1210,17 +1210,17 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2_SQL);
 
 			String sql = query.toString();
 

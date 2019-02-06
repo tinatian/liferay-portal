@@ -752,7 +752,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1000,7 +1000,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1141,7 +1141,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1299,7 +1299,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 			query.append(_SQL_SELECT_DLFILEENTRYMETADATA_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1520,7 +1520,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 		query.append(_SQL_SELECT_DLFILEENTRYMETADATA_WHERE);
 
-		query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+		query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1642,7 +1642,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 			query.append(_SQL_COUNT_DLFILEENTRYMETADATA_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1798,7 +1798,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 			query.append(_SQL_SELECT_DLFILEENTRYMETADATA_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2019,7 +2019,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 		query.append(_SQL_SELECT_DLFILEENTRYMETADATA_WHERE);
 
-		query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2);
+		query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2141,7 +2141,7 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 			query.append(_SQL_COUNT_DLFILEENTRYMETADATA_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2262,9 +2262,9 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 			query.append(_SQL_SELECT_DLFILEENTRYMETADATA_WHERE);
 
-			query.append(_FINDER_COLUMN_D_F_DDMSTRUCTUREID_2);
+			query.append(_FINDER_COLUMN_D_F_DDMSTRUCTUREID_2_SQL);
 
-			query.append(_FINDER_COLUMN_D_F_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_D_F_FILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2350,9 +2350,9 @@ public class DLFileEntryMetadataPersistenceImpl extends BasePersistenceImpl<DLFi
 
 			query.append(_SQL_COUNT_DLFILEENTRYMETADATA_WHERE);
 
-			query.append(_FINDER_COLUMN_D_F_DDMSTRUCTUREID_2);
+			query.append(_FINDER_COLUMN_D_F_DDMSTRUCTUREID_2_SQL);
 
-			query.append(_FINDER_COLUMN_D_F_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_D_F_FILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 

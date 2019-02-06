@@ -194,7 +194,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E1_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E1_ENTRYID1_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -409,7 +409,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_E1_ENTRYID1_2);
+		query.append(_FINDER_COLUMN_E1_ENTRYID1_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -531,7 +531,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_COUNT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E1_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E1_ENTRYID1_2_SQL);
 
 			String sql = query.toString();
 
@@ -678,7 +678,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E2_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E2_ENTRYID2_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -893,7 +893,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_E2_ENTRYID2_2);
+		query.append(_FINDER_COLUMN_E2_ENTRYID2_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1015,7 +1015,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_COUNT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E2_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E2_ENTRYID2_2_SQL);
 
 			String sql = query.toString();
 
@@ -1173,9 +1173,9 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E_E_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E_E_ENTRYID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_E_E_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E_E_ENTRYID2_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1406,9 +1406,9 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_E_E_ENTRYID1_2);
+		query.append(_FINDER_COLUMN_E_E_ENTRYID1_2_SQL);
 
-		query.append(_FINDER_COLUMN_E_E_ENTRYID2_2);
+		query.append(_FINDER_COLUMN_E_E_ENTRYID2_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1534,9 +1534,9 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_COUNT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E_E_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E_E_ENTRYID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_E_E_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E_E_ENTRYID2_2_SQL);
 
 			String sql = query.toString();
 
@@ -1697,7 +1697,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2_SQL);
 
 			query.append(_FINDER_COLUMN_E1_T_TYPE_2_SQL);
 
@@ -1929,7 +1929,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2);
+		query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2_SQL);
 
 		query.append(_FINDER_COLUMN_E1_T_TYPE_2_SQL);
 
@@ -2057,7 +2057,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_COUNT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2_SQL);
 
 			query.append(_FINDER_COLUMN_E1_T_TYPE_2_SQL);
 
@@ -2220,7 +2220,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_E2_T_TYPE_2_SQL);
 
@@ -2452,7 +2452,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2);
+		query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2_SQL);
 
 		query.append(_FINDER_COLUMN_E2_T_TYPE_2_SQL);
 
@@ -2580,7 +2580,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_COUNT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_E2_T_TYPE_2_SQL);
 
@@ -2710,9 +2710,9 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_SELECT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E_E_T_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E_E_T_ENTRYID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_E_E_T_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E_E_T_ENTRYID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_E_E_T_TYPE_2_SQL);
 
@@ -2803,9 +2803,9 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_SQL_COUNT_ASSETLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_E_E_T_ENTRYID1_2);
+			query.append(_FINDER_COLUMN_E_E_T_ENTRYID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_E_E_T_ENTRYID2_2);
+			query.append(_FINDER_COLUMN_E_E_T_ENTRYID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_E_E_T_TYPE_2_SQL);
 

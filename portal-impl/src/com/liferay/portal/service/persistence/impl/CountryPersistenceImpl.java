@@ -157,12 +157,12 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
+				query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
+				query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -250,12 +250,12 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
+				query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
+				query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -373,12 +373,12 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 			boolean bindA2 = false;
 
 			if (a2.isEmpty()) {
-				query.append(_FINDER_COLUMN_A2_A2_3);
+				query.append(_FINDER_COLUMN_A2_A2_3_SQL);
 			}
 			else {
 				bindA2 = true;
 
-				query.append(_FINDER_COLUMN_A2_A2_2);
+				query.append(_FINDER_COLUMN_A2_A2_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -466,12 +466,12 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 			boolean bindA2 = false;
 
 			if (a2.isEmpty()) {
-				query.append(_FINDER_COLUMN_A2_A2_3);
+				query.append(_FINDER_COLUMN_A2_A2_3_SQL);
 			}
 			else {
 				bindA2 = true;
 
-				query.append(_FINDER_COLUMN_A2_A2_2);
+				query.append(_FINDER_COLUMN_A2_A2_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -589,12 +589,12 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 			boolean bindA3 = false;
 
 			if (a3.isEmpty()) {
-				query.append(_FINDER_COLUMN_A3_A3_3);
+				query.append(_FINDER_COLUMN_A3_A3_3_SQL);
 			}
 			else {
 				bindA3 = true;
 
-				query.append(_FINDER_COLUMN_A3_A3_2);
+				query.append(_FINDER_COLUMN_A3_A3_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -682,12 +682,12 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 			boolean bindA3 = false;
 
 			if (a3.isEmpty()) {
-				query.append(_FINDER_COLUMN_A3_A3_3);
+				query.append(_FINDER_COLUMN_A3_A3_3_SQL);
 			}
 			else {
 				bindA3 = true;
 
-				query.append(_FINDER_COLUMN_A3_A3_2);
+				query.append(_FINDER_COLUMN_A3_A3_2_SQL);
 			}
 
 			String sql = query.toString();

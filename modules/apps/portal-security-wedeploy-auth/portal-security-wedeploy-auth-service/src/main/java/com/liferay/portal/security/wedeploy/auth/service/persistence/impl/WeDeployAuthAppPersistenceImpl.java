@@ -171,23 +171,23 @@ public class WeDeployAuthAppPersistenceImpl extends BasePersistenceImpl<WeDeploy
 			boolean bindRedirectURI = false;
 
 			if (redirectURI.isEmpty()) {
-				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_3);
+				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_3_SQL);
 			}
 			else {
 				bindRedirectURI = true;
 
-				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_2);
+				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_2_SQL);
 			}
 
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_3);
+				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_2);
+				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -293,23 +293,23 @@ public class WeDeployAuthAppPersistenceImpl extends BasePersistenceImpl<WeDeploy
 			boolean bindRedirectURI = false;
 
 			if (redirectURI.isEmpty()) {
-				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_3);
+				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_3_SQL);
 			}
 			else {
 				bindRedirectURI = true;
 
-				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_2);
+				query.append(_FINDER_COLUMN_RU_CI_REDIRECTURI_2_SQL);
 			}
 
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_3);
+				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_2);
+				query.append(_FINDER_COLUMN_RU_CI_CLIENTID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -444,23 +444,23 @@ public class WeDeployAuthAppPersistenceImpl extends BasePersistenceImpl<WeDeploy
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_3);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_2);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_2_SQL);
 			}
 
 			boolean bindClientSecret = false;
 
 			if (clientSecret.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_3);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_3_SQL);
 			}
 			else {
 				bindClientSecret = true;
 
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_2);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -566,23 +566,23 @@ public class WeDeployAuthAppPersistenceImpl extends BasePersistenceImpl<WeDeploy
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_3);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_2);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTID_2_SQL);
 			}
 
 			boolean bindClientSecret = false;
 
 			if (clientSecret.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_3);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_3_SQL);
 			}
 			else {
 				bindClientSecret = true;
 
-				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_2);
+				query.append(_FINDER_COLUMN_CI_CS_CLIENTSECRET_2_SQL);
 			}
 
 			String sql = query.toString();

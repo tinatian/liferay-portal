@@ -195,7 +195,7 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 
 			query.append(_SQL_SELECT_FOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2);
+			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -410,7 +410,7 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 
 		query.append(_SQL_SELECT_FOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2);
+		query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -531,7 +531,7 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 
 			query.append(_SQL_COUNT_FOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2);
+			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL);
 
 			String sql = query.toString();
 
@@ -651,17 +651,17 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 
 			query.append(_SQL_SELECT_FOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_A_F_ACCOUNTID_2);
+			query.append(_FINDER_COLUMN_A_F_ACCOUNTID_2_SQL);
 
 			boolean bindFullName = false;
 
 			if (fullName.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_F_FULLNAME_3);
+				query.append(_FINDER_COLUMN_A_F_FULLNAME_3_SQL);
 			}
 			else {
 				bindFullName = true;
 
-				query.append(_FINDER_COLUMN_A_F_FULLNAME_2);
+				query.append(_FINDER_COLUMN_A_F_FULLNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -761,17 +761,17 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 
 			query.append(_SQL_COUNT_FOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_A_F_ACCOUNTID_2);
+			query.append(_FINDER_COLUMN_A_F_ACCOUNTID_2_SQL);
 
 			boolean bindFullName = false;
 
 			if (fullName.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_F_FULLNAME_3);
+				query.append(_FINDER_COLUMN_A_F_FULLNAME_3_SQL);
 			}
 			else {
 				bindFullName = true;
 
-				query.append(_FINDER_COLUMN_A_F_FULLNAME_2);
+				query.append(_FINDER_COLUMN_A_F_FULLNAME_2_SQL);
 			}
 
 			String sql = query.toString();

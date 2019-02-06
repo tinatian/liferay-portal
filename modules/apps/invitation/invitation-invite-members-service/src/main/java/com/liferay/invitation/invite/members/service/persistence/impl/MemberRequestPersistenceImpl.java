@@ -432,7 +432,7 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 			query.append(_SQL_SELECT_MEMBERREQUEST_WHERE);
 
-			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -651,7 +651,7 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 		query.append(_SQL_SELECT_MEMBERREQUEST_WHERE);
 
-		query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2);
+		query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -772,7 +772,7 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 			query.append(_SQL_COUNT_MEMBERREQUEST_WHERE);
 
-			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -932,9 +932,9 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 			query.append(_SQL_SELECT_MEMBERREQUEST_WHERE);
 
-			query.append(_FINDER_COLUMN_R_S_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_R_S_RECEIVERUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_R_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1166,9 +1166,9 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 		query.append(_SQL_SELECT_MEMBERREQUEST_WHERE);
 
-		query.append(_FINDER_COLUMN_R_S_RECEIVERUSERID_2);
+		query.append(_FINDER_COLUMN_R_S_RECEIVERUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_R_S_STATUS_2);
+		query.append(_FINDER_COLUMN_R_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1293,9 +1293,9 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 			query.append(_SQL_COUNT_MEMBERREQUEST_WHERE);
 
-			query.append(_FINDER_COLUMN_R_S_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_R_S_RECEIVERUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_R_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -1425,11 +1425,11 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 			query.append(_SQL_SELECT_MEMBERREQUEST_WHERE);
 
-			query.append(_FINDER_COLUMN_G_R_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_R_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_S_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_R_S_RECEIVERUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_R_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -1529,11 +1529,11 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 
 			query.append(_SQL_COUNT_MEMBERREQUEST_WHERE);
 
-			query.append(_FINDER_COLUMN_G_R_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_R_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_S_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_R_S_RECEIVERUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_R_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

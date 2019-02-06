@@ -202,7 +202,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2);
+			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -430,7 +430,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 		query.append(_SQL_SELECT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2);
+		query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -551,7 +551,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2);
+			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -677,17 +677,17 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_FRIENDLYURLENTRYID_2);
+			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_FRIENDLYURLENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -780,17 +780,17 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_FRIENDLYURLENTRYID_2);
+			query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_FRIENDLYURLENTRYID_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -931,19 +931,19 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_U_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_U_CLASSNAMEID_2_SQL);
 
 			boolean bindUrlTitle = false;
 
 			if (urlTitle.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_3);
+				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_3_SQL);
 			}
 			else {
 				bindUrlTitle = true;
 
-				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_2);
+				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1038,19 +1038,19 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_FRIENDLYURLENTRYLOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_U_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_U_CLASSNAMEID_2_SQL);
 
 			boolean bindUrlTitle = false;
 
 			if (urlTitle.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_3);
+				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_3_SQL);
 			}
 			else {
 				bindUrlTitle = true;
 
-				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_2);
+				query.append(_FINDER_COLUMN_G_C_U_URLTITLE_2_SQL);
 			}
 
 			String sql = query.toString();

@@ -199,7 +199,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -414,7 +414,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -569,7 +569,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -692,7 +692,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -844,7 +844,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -892,7 +892,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				TasksEntry.class.getName(),
@@ -1039,7 +1039,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1254,7 +1254,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1376,7 +1376,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1530,7 +1530,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1748,7 +1748,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1870,7 +1870,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2025,7 +2025,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2);
+			query.append(_FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2243,7 +2243,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2);
+		query.append(_FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2365,7 +2365,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2);
+			query.append(_FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2524,9 +2524,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2757,9 +2757,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2920,9 +2920,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3049,9 +3049,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3207,9 +3207,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3260,9 +3260,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				TasksEntry.class.getName(),
@@ -3424,9 +3424,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3657,9 +3657,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3821,9 +3821,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3950,9 +3950,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4108,9 +4108,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4161,9 +4161,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				TasksEntry.class.getName(),
@@ -4325,9 +4325,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4558,9 +4558,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2);
+		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4722,9 +4722,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2);
+		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4851,9 +4851,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2);
+		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -5009,9 +5009,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5062,9 +5062,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_R_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_R_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2);
+		query.append(_FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				TasksEntry.class.getName(),
@@ -5226,9 +5226,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5459,9 +5459,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5679,12 +5679,12 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_S_STATUS_7);
+				query.append(_FINDER_COLUMN_U_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -5785,9 +5785,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5849,12 +5849,12 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_S_USERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_U_S_STATUS_7);
+				query.append(_FINDER_COLUMN_U_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -6028,9 +6028,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_S_STATUS_2);
+			query.append(_FINDER_COLUMN_A_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6262,9 +6262,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_A_S_STATUS_2);
+		query.append(_FINDER_COLUMN_A_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6484,12 +6484,12 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_A_S_STATUS_7);
+				query.append(_FINDER_COLUMN_A_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -6590,9 +6590,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_S_STATUS_2);
+			query.append(_FINDER_COLUMN_A_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -6656,12 +6656,12 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_A_S_ASSIGNEEUSERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_A_S_STATUS_7);
+				query.append(_FINDER_COLUMN_A_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -6840,11 +6840,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7089,11 +7089,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7262,11 +7262,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7396,11 +7396,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7600,14 +7600,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 		if (statuses.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 			query.append(StringUtil.merge(statuses));
 
@@ -7815,14 +7815,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+				query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -7927,11 +7927,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7998,14 +7998,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+				query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -8069,11 +8069,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				TasksEntry.class.getName(),
@@ -8136,14 +8136,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 		if (statuses.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 			query.append(StringUtil.merge(statuses));
 
@@ -8326,11 +8326,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_A_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8575,11 +8575,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_A_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8749,11 +8749,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_A_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8883,11 +8883,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_A_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -9088,14 +9088,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 			query.append(_FILTER_SQL_SELECT_TASKSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
 		if (statuses.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_A_S_STATUS_7);
+			query.append(_FINDER_COLUMN_G_A_S_STATUS_7_SQL);
 
 			query.append(StringUtil.merge(statuses));
 
@@ -9303,14 +9303,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_SELECT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_A_S_STATUS_7);
+				query.append(_FINDER_COLUMN_G_A_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -9415,11 +9415,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_A_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -9486,14 +9486,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 			query.append(_SQL_COUNT_TASKSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+			query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_A_S_STATUS_7);
+				query.append(_FINDER_COLUMN_G_A_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -9557,11 +9557,11 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_A_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				TasksEntry.class.getName(),
@@ -9625,14 +9625,14 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 
 		query.append(_FILTER_SQL_COUNT_TASKSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2);
+		query.append(_FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL);
 
 		if (statuses.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_A_S_STATUS_7);
+			query.append(_FINDER_COLUMN_G_A_S_STATUS_7_SQL);
 
 			query.append(StringUtil.merge(statuses));
 

@@ -158,12 +158,12 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 			boolean bindWebId = false;
 
 			if (webId.isEmpty()) {
-				query.append(_FINDER_COLUMN_WEBID_WEBID_3);
+				query.append(_FINDER_COLUMN_WEBID_WEBID_3_SQL);
 			}
 			else {
 				bindWebId = true;
 
-				query.append(_FINDER_COLUMN_WEBID_WEBID_2);
+				query.append(_FINDER_COLUMN_WEBID_WEBID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -251,12 +251,12 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 			boolean bindWebId = false;
 
 			if (webId.isEmpty()) {
-				query.append(_FINDER_COLUMN_WEBID_WEBID_3);
+				query.append(_FINDER_COLUMN_WEBID_WEBID_3_SQL);
 			}
 			else {
 				bindWebId = true;
 
-				query.append(_FINDER_COLUMN_WEBID_WEBID_2);
+				query.append(_FINDER_COLUMN_WEBID_WEBID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -374,12 +374,12 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 			boolean bindMx = false;
 
 			if (mx.isEmpty()) {
-				query.append(_FINDER_COLUMN_MX_MX_3);
+				query.append(_FINDER_COLUMN_MX_MX_3_SQL);
 			}
 			else {
 				bindMx = true;
 
-				query.append(_FINDER_COLUMN_MX_MX_2);
+				query.append(_FINDER_COLUMN_MX_MX_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -478,12 +478,12 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 			boolean bindMx = false;
 
 			if (mx.isEmpty()) {
-				query.append(_FINDER_COLUMN_MX_MX_3);
+				query.append(_FINDER_COLUMN_MX_MX_3_SQL);
 			}
 			else {
 				bindMx = true;
 
-				query.append(_FINDER_COLUMN_MX_MX_2);
+				query.append(_FINDER_COLUMN_MX_MX_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -596,7 +596,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 
 			query.append(_SQL_SELECT_COMPANY_WHERE);
 
-			query.append(_FINDER_COLUMN_LOGOID_LOGOID_2);
+			query.append(_FINDER_COLUMN_LOGOID_LOGOID_2_SQL);
 
 			String sql = query.toString();
 
@@ -688,7 +688,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 
 			query.append(_SQL_COUNT_COMPANY_WHERE);
 
-			query.append(_FINDER_COLUMN_LOGOID_LOGOID_2);
+			query.append(_FINDER_COLUMN_LOGOID_LOGOID_2_SQL);
 
 			String sql = query.toString();
 

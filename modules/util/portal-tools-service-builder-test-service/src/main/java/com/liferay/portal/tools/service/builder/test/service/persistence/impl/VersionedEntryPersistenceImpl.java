@@ -190,7 +190,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 
 			query.append(_SQL_SELECT_VERSIONEDENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -408,7 +408,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 
 		query.append(_SQL_SELECT_VERSIONEDENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -529,7 +529,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 
 			query.append(_SQL_COUNT_VERSIONEDENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -639,7 +639,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 
 			query.append(_SQL_SELECT_VERSIONEDENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_HEADID_HEADID_2);
+			query.append(_FINDER_COLUMN_HEADID_HEADID_2_SQL);
 
 			String sql = query.toString();
 
@@ -719,7 +719,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 
 			query.append(_SQL_COUNT_VERSIONEDENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_HEADID_HEADID_2);
+			query.append(_FINDER_COLUMN_HEADID_HEADID_2_SQL);
 
 			String sql = query.toString();
 

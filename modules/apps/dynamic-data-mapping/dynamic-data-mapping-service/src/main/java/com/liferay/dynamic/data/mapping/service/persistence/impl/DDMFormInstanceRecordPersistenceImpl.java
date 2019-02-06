@@ -712,7 +712,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -811,7 +811,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -990,7 +990,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1242,7 +1242,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1382,7 +1382,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1539,7 +1539,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1760,7 +1760,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1881,7 +1881,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2037,7 +2037,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2264,7 +2264,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-		query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2385,7 +2385,7 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2548,9 +2548,9 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_U_F_USERID_2);
+			query.append(_FINDER_COLUMN_U_F_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_F_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_U_F_FORMINSTANCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2788,9 +2788,9 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-		query.append(_FINDER_COLUMN_U_F_USERID_2);
+		query.append(_FINDER_COLUMN_U_F_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_F_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_U_F_FORMINSTANCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2915,9 +2915,9 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_U_F_USERID_2);
+			query.append(_FINDER_COLUMN_U_F_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_F_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_U_F_FORMINSTANCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3085,17 +3085,17 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL);
 
 			boolean bindFormInstanceVersion = false;
 
 			if (formInstanceVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL);
 			}
 			else {
 				bindFormInstanceVersion = true;
 
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3340,17 +3340,17 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 		query.append(_SQL_SELECT_DDMFORMINSTANCERECORD_WHERE);
 
-		query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2);
+		query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL);
 
 		boolean bindFormInstanceVersion = false;
 
 		if (formInstanceVersion.isEmpty()) {
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL);
 		}
 		else {
 			bindFormInstanceVersion = true;
 
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3481,17 +3481,17 @@ public class DDMFormInstanceRecordPersistenceImpl extends BasePersistenceImpl<DD
 
 			query.append(_SQL_COUNT_DDMFORMINSTANCERECORD_WHERE);
 
-			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2);
+			query.append(_FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL);
 
 			boolean bindFormInstanceVersion = false;
 
 			if (formInstanceVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL);
 			}
 			else {
 				bindFormInstanceVersion = true;
 
-				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2);
+				query.append(_FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL);
 			}
 
 			String sql = query.toString();

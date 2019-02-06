@@ -202,7 +202,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_RESOURCEBLOCKPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2);
+			query.append(_FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -429,7 +429,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_RESOURCEBLOCKPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2);
+		query.append(_FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -551,7 +551,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_RESOURCEBLOCKPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2);
+			query.append(_FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2_SQL);
 
 			String sql = query.toString();
 
@@ -700,7 +700,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_RESOURCEBLOCKPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -920,7 +920,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_RESOURCEBLOCKPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+		query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1042,7 +1042,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_RESOURCEBLOCKPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1161,9 +1161,9 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_RESOURCEBLOCKPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_R_RESOURCEBLOCKID_2);
+			query.append(_FINDER_COLUMN_R_R_RESOURCEBLOCKID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_R_R_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1249,9 +1249,9 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_RESOURCEBLOCKPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_R_RESOURCEBLOCKID_2);
+			query.append(_FINDER_COLUMN_R_R_RESOURCEBLOCKID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_R_R_ROLEID_2_SQL);
 
 			String sql = query.toString();
 

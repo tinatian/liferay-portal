@@ -155,12 +155,12 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 			boolean bindValue = false;
 
 			if (value.isEmpty()) {
-				query.append(_FINDER_COLUMN_VALUE_VALUE_3);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_3_SQL);
 			}
 			else {
 				bindValue = true;
 
-				query.append(_FINDER_COLUMN_VALUE_VALUE_2);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -249,12 +249,12 @@ public class ClassNamePersistenceImpl extends BasePersistenceImpl<ClassName>
 			boolean bindValue = false;
 
 			if (value.isEmpty()) {
-				query.append(_FINDER_COLUMN_VALUE_VALUE_3);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_3_SQL);
 			}
 			else {
 				bindValue = true;
 
-				query.append(_FINDER_COLUMN_VALUE_VALUE_2);
+				query.append(_FINDER_COLUMN_VALUE_VALUE_2_SQL);
 			}
 
 			String sql = query.toString();

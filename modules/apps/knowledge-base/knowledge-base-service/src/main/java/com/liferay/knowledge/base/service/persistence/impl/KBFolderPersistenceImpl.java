@@ -707,7 +707,7 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -806,7 +806,7 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -983,7 +983,7 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1229,7 +1229,7 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1369,7 +1369,7 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1534,9 +1534,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 			query.append(_SQL_SELECT_KBFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1767,9 +1767,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 		query.append(_SQL_SELECT_KBFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1931,9 +1931,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			query.append(_FILTER_SQL_SELECT_KBFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_KBFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -2060,9 +2060,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			query.append(_FILTER_SQL_SELECT_KBFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_KBFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -2217,9 +2217,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 			query.append(_SQL_COUNT_KBFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2270,9 +2270,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 		query.append(_FILTER_SQL_COUNT_KBFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				KBFolder.class.getName(),
@@ -2403,19 +2403,19 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 			query.append(_SQL_SELECT_KBFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_N_PARENTKBFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_N_PARENTKBFOLDERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2519,19 +2519,19 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 			query.append(_SQL_COUNT_KBFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_N_PARENTKBFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_N_PARENTKBFOLDERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2669,19 +2669,19 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 			query.append(_SQL_SELECT_KBFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_UT_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_UT_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_UT_PARENTKBFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_UT_PARENTKBFOLDERID_2_SQL);
 
 			boolean bindUrlTitle = false;
 
 			if (urlTitle.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_3);
+				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_3_SQL);
 			}
 			else {
 				bindUrlTitle = true;
 
-				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_2);
+				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2786,19 +2786,19 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 
 			query.append(_SQL_COUNT_KBFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_UT_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_UT_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_UT_PARENTKBFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_UT_PARENTKBFOLDERID_2_SQL);
 
 			boolean bindUrlTitle = false;
 
 			if (urlTitle.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_3);
+				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_3_SQL);
 			}
 			else {
 				bindUrlTitle = true;
 
-				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_2);
+				query.append(_FINDER_COLUMN_G_P_UT_URLTITLE_2_SQL);
 			}
 
 			String sql = query.toString();

@@ -195,7 +195,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -413,7 +413,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 		query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2);
+		query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -534,7 +534,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_COUNT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -653,9 +653,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -741,9 +741,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_COUNT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -1444,7 +1444,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1691,7 +1691,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2);
+		query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1831,7 +1831,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -2009,7 +2009,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2256,7 +2256,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+		query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2396,7 +2396,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2542,9 +2542,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_VERSION_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_UUID_G_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_UUID_G_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -2649,9 +2649,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_VERSION_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_UUID_G_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_UUID_G_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -2807,7 +2807,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3025,7 +3025,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 		query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3146,7 +3146,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_COUNT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3307,9 +3307,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3541,9 +3541,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 		query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2);
+		query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3668,9 +3668,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_COUNT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -3837,17 +3837,17 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_UGK_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_UGK_GROUPID_2_SQL);
 
 			boolean bindUniqueGroupKey = false;
 
 			if (uniqueGroupKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3);
+				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3_SQL);
 			}
 			else {
 				bindUniqueGroupKey = true;
 
-				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2);
+				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4087,17 +4087,17 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 		query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_G_UGK_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_UGK_GROUPID_2_SQL);
 
 		boolean bindUniqueGroupKey = false;
 
 		if (uniqueGroupKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3);
+			query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3_SQL);
 		}
 		else {
 			bindUniqueGroupKey = true;
 
-			query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2);
+			query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4227,17 +4227,17 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_COUNT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_UGK_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_UGK_GROUPID_2_SQL);
 
 			boolean bindUniqueGroupKey = false;
 
 			if (uniqueGroupKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3);
+				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3_SQL);
 			}
 			else {
 				bindUniqueGroupKey = true;
 
-				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2);
+				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4375,20 +4375,20 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_SELECT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_UGK_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_UGK_VERSION_GROUPID_2_SQL);
 
 			boolean bindUniqueGroupKey = false;
 
 			if (uniqueGroupKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_3);
+				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_3_SQL);
 			}
 			else {
 				bindUniqueGroupKey = true;
 
-				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_2);
+				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_UGK_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_G_UGK_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -4484,20 +4484,20 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 
 			query.append(_SQL_COUNT_LVENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_UGK_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_UGK_VERSION_GROUPID_2_SQL);
 
 			boolean bindUniqueGroupKey = false;
 
 			if (uniqueGroupKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_3);
+				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_3_SQL);
 			}
 			else {
 				bindUniqueGroupKey = true;
 
-				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_2);
+				query.append(_FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_UGK_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_G_UGK_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 

@@ -710,7 +710,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -809,7 +809,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -986,7 +986,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1232,7 +1232,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1372,7 +1372,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1525,7 +1525,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1740,7 +1740,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1895,7 +1895,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2018,7 +2018,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2169,7 +2169,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2217,7 +2217,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -2365,7 +2365,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2583,7 +2583,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2704,7 +2704,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2864,9 +2864,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3097,9 +3097,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3262,9 +3262,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3391,9 +3391,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3588,12 +3588,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -3792,12 +3792,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -3897,9 +3897,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3963,12 +3963,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -4029,9 +4029,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -4091,12 +4091,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_P_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -4266,9 +4266,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4499,9 +4499,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4662,9 +4662,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4791,9 +4791,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4948,9 +4948,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5001,9 +5001,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -5164,9 +5164,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5397,9 +5397,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5524,9 +5524,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5688,11 +5688,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5955,11 +5955,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6110,7 +6110,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -6121,12 +6121,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -6349,7 +6349,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -6360,12 +6360,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -6469,11 +6469,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -6554,7 +6554,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -6565,12 +6565,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -6633,11 +6633,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -6713,7 +6713,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -6724,12 +6724,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -6911,11 +6911,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7160,11 +7160,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7334,11 +7334,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7468,11 +7468,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7673,12 +7673,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -7689,7 +7689,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -7891,12 +7891,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -7907,7 +7907,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -8004,11 +8004,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -8075,12 +8075,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -8091,7 +8091,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -8149,11 +8149,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -8217,12 +8217,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_S_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -8233,7 +8233,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -8400,11 +8400,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8650,11 +8650,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8824,11 +8824,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8958,11 +8958,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -9163,12 +9163,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -9179,7 +9179,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -9382,12 +9382,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -9398,7 +9398,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -9495,11 +9495,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -9567,12 +9567,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -9583,7 +9583,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -9641,11 +9641,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -9709,12 +9709,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -9725,7 +9725,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -9897,13 +9897,13 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_SELECT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -10186,13 +10186,13 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBCATEGORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -10348,7 +10348,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -10359,12 +10359,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -10375,7 +10375,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -10598,7 +10598,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -10609,12 +10609,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -10625,7 +10625,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -10729,13 +10729,13 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 			query.append(_SQL_COUNT_MBCATEGORY_WHERE);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10819,7 +10819,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -10830,12 +10830,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
 			if (parentCategoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7);
+				query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(parentCategoryIds));
 
@@ -10846,7 +10846,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -10906,13 +10906,13 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 
 		query.append(_FILTER_SQL_COUNT_MBCATEGORY_WHERE);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBCategory.class.getName(),
@@ -10992,7 +10992,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -11003,12 +11003,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL);
 
 		if (parentCategoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7);
+			query.append(_FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(parentCategoryIds));
 
@@ -11019,7 +11019,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);

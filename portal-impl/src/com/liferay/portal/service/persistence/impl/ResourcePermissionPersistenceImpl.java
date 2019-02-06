@@ -200,12 +200,12 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
+				query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
+				query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -432,12 +432,12 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_NAME_NAME_3);
+			query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_NAME_NAME_2);
+			query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -567,12 +567,12 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
+				query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
+				query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -724,7 +724,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_SCOPE_SCOPE_2);
+			query.append(_FINDER_COLUMN_SCOPE_SCOPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -944,7 +944,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_SCOPE_SCOPE_2);
+		query.append(_FINDER_COLUMN_SCOPE_SCOPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1157,7 +1157,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 			if (scopes.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_SCOPE_SCOPE_7);
+				query.append(_FINDER_COLUMN_SCOPE_SCOPE_7_SQL);
 
 				query.append(StringUtil.merge(scopes));
 
@@ -1252,7 +1252,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_SCOPE_SCOPE_2);
+			query.append(_FINDER_COLUMN_SCOPE_SCOPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1314,7 +1314,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 			if (scopes.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_SCOPE_SCOPE_7);
+				query.append(_FINDER_COLUMN_SCOPE_SCOPE_7_SQL);
 
 				query.append(StringUtil.merge(scopes));
 
@@ -1470,7 +1470,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1690,7 +1690,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+		query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1812,7 +1812,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2);
+			query.append(_FINDER_COLUMN_ROLEID_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1968,17 +1968,17 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LIKEP_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LIKEP_COMPANYID_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2216,17 +2216,17 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_LIKEP_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LIKEP_COMPANYID_2_SQL);
 
 		boolean bindPrimKey = false;
 
 		if (primKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_3);
+			query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_3_SQL);
 		}
 		else {
 			bindPrimKey = true;
 
-			query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_2);
+			query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2357,17 +2357,17 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LIKEP_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LIKEP_COMPANYID_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_LIKEP_PRIMKEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2543,19 +2543,19 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_P_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_S_P_SCOPE_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2807,19 +2807,19 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_S_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_S_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_S_P_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_S_P_SCOPE_2_SQL);
 
 		boolean bindPrimKey = false;
 
 		if (primKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_3);
+			query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_3_SQL);
 		}
 		else {
 			bindPrimKey = true;
 
-			query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_2);
+			query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2954,19 +2954,19 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_P_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_S_P_SCOPE_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_S_P_PRIMKEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3151,30 +3151,30 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_SCOPE_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3446,30 +3446,30 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_SCOPE_2_SQL);
 
 		boolean bindPrimKey = false;
 
 		if (primKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_3_SQL);
 		}
 		else {
 			bindPrimKey = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3613,30 +3613,30 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_SCOPE_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_PRIMKEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3826,22 +3826,22 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_R_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_R_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_R_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_R_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_R_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_R_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_SCOPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_ROLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4109,22 +4109,22 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_R_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_R_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_R_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_R_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_R_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_R_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_R_SCOPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_N_S_R_ROLEID_2);
+		query.append(_FINDER_COLUMN_C_N_S_R_ROLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4264,22 +4264,22 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_R_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_R_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_R_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_R_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_R_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_R_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_SCOPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_C_N_S_R_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4538,36 +4538,36 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2_SQL);
 
 		boolean bindPrimKey = false;
 
 		if (primKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3_SQL);
 		}
 		else {
 			bindPrimKey = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2_SQL);
 		}
 
 		if (roleIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_7);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_7_SQL);
 
 			query.append(StringUtil.merge(roleIds));
 
@@ -4745,33 +4745,33 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4881,33 +4881,33 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2_SQL);
 
 			boolean bindPrimKey = false;
 
 			if (primKey.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3_SQL);
 			}
 			else {
 				bindPrimKey = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5024,36 +5024,36 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_SCOPE_2_SQL);
 
 		boolean bindPrimKey = false;
 
 		if (primKey.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3_SQL);
 		}
 		else {
 			bindPrimKey = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2_SQL);
 		}
 
 		if (roleIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_7);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_ROLEID_7_SQL);
 
 			query.append(StringUtil.merge(roleIds));
 
@@ -5267,26 +5267,26 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5589,26 +5589,26 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5921,27 +5921,27 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_SELECT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2_SQL);
 
 		if (roleIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_7);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_7_SQL);
 
 			query.append(StringUtil.merge(roleIds));
 
@@ -5952,7 +5952,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -6062,26 +6062,26 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 			query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -6200,27 +6200,27 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 
 		query.append(_SQL_COUNT_RESOURCEPERMISSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_NAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2_SQL);
 
 		if (roleIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_7);
+			query.append(_FINDER_COLUMN_C_N_S_P_R_V_ROLEID_7_SQL);
 
 			query.append(StringUtil.merge(roleIds));
 
@@ -6231,7 +6231,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2);
+		query.append(_FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);

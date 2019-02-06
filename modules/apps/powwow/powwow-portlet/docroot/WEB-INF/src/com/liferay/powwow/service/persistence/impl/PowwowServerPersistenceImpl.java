@@ -214,12 +214,12 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 			boolean bindProviderType = false;
 
 			if (providerType.isEmpty()) {
-				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_3);
+				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_3_SQL);
 			}
 			else {
 				bindProviderType = true;
 
-				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2);
+				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_PT_A_ACTIVE_2_SQL);
@@ -461,12 +461,12 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 		boolean bindProviderType = false;
 
 		if (providerType.isEmpty()) {
-			query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_3);
+			query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_3_SQL);
 		}
 		else {
 			bindProviderType = true;
 
-			query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2);
+			query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_PT_A_ACTIVE_2_SQL);
@@ -602,12 +602,12 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 			boolean bindProviderType = false;
 
 			if (providerType.isEmpty()) {
-				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_3);
+				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_3_SQL);
 			}
 			else {
 				bindProviderType = true;
 
-				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2);
+				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_PT_A_ACTIVE_2_SQL);

@@ -160,9 +160,9 @@ public class FriendlyURLEntryMappingPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_FRIENDLYURLENTRYMAPPING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -247,9 +247,9 @@ public class FriendlyURLEntryMappingPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_FRIENDLYURLENTRYMAPPING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

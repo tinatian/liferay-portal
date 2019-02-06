@@ -194,7 +194,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 			query.append(_SQL_SELECT_EXPANDOROW_WHERE);
 
-			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -409,7 +409,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 		query.append(_SQL_SELECT_EXPANDOROW_WHERE);
 
-		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -531,7 +531,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 			query.append(_SQL_COUNT_EXPANDOROW_WHERE);
 
-			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -678,7 +678,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 			query.append(_SQL_SELECT_EXPANDOROW_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSPK_CLASSPK_2);
+			query.append(_FINDER_COLUMN_CLASSPK_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -893,7 +893,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 		query.append(_SQL_SELECT_EXPANDOROW_WHERE);
 
-		query.append(_FINDER_COLUMN_CLASSPK_CLASSPK_2);
+		query.append(_FINDER_COLUMN_CLASSPK_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1015,7 +1015,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 			query.append(_SQL_COUNT_EXPANDOROW_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSPK_CLASSPK_2);
+			query.append(_FINDER_COLUMN_CLASSPK_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -1133,9 +1133,9 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 			query.append(_SQL_SELECT_EXPANDOROW_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_T_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -1220,9 +1220,9 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 
 			query.append(_SQL_COUNT_EXPANDOROW_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_T_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

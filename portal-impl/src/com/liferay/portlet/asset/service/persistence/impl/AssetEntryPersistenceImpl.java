@@ -208,7 +208,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -423,7 +423,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 		query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -545,7 +545,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -693,7 +693,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -911,7 +911,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 		query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1033,7 +1033,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1674,12 +1674,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 			boolean bindPublishDate = false;
 
 			if (publishDate == null) {
-				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1);
+				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1_SQL);
 			}
 			else {
 				bindPublishDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2);
+				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1903,12 +1903,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		boolean bindPublishDate = false;
 
 		if (publishDate == null) {
-			query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1);
+			query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1_SQL);
 		}
 		else {
 			bindPublishDate = true;
 
-			query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2);
+			query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2036,12 +2036,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 			boolean bindPublishDate = false;
 
 			if (publishDate == null) {
-				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1);
+				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1_SQL);
 			}
 			else {
 				bindPublishDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2);
+				query.append(_FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2203,12 +2203,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2432,12 +2432,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		boolean bindExpirationDate = false;
 
 		if (expirationDate == null) {
-			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1);
+			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 		}
 		else {
 			bindExpirationDate = true;
 
-			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2);
+			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2565,12 +2565,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2730,12 +2730,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 			boolean bindLayoutUuid = false;
 
 			if (layoutUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3);
+				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3_SQL);
 			}
 			else {
 				bindLayoutUuid = true;
 
-				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2);
+				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2961,12 +2961,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		boolean bindLayoutUuid = false;
 
 		if (layoutUuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3);
+			query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3_SQL);
 		}
 		else {
 			bindLayoutUuid = true;
 
-			query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2);
+			query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3096,12 +3096,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 			boolean bindLayoutUuid = false;
 
 			if (layoutUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3);
+				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3_SQL);
 			}
 			else {
 				bindLayoutUuid = true;
 
-				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2);
+				query.append(_FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3225,17 +3225,17 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_CU_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_CU_GROUPID_2_SQL);
 
 			boolean bindClassUuid = false;
 
 			if (classUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_3);
+				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_3_SQL);
 			}
 			else {
 				bindClassUuid = true;
 
-				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_2);
+				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3336,17 +3336,17 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_CU_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_CU_GROUPID_2_SQL);
 
 			boolean bindClassUuid = false;
 
 			if (classUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_3);
+				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_3_SQL);
 			}
 			else {
 				bindClassUuid = true;
 
-				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_2);
+				query.append(_FINDER_COLUMN_G_CU_CLASSUUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3471,9 +3471,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3558,9 +3558,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3730,9 +3730,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_V_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_V_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2_SQL);
 
@@ -3979,9 +3979,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 		query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_V_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_V_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2_SQL);
 
@@ -4113,9 +4113,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_V_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_V_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2_SQL);
 
@@ -4302,30 +4302,30 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_P_E_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_P_E_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2_SQL);
 
 			boolean bindPublishDate = false;
 
 			if (publishDate == null) {
-				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1);
+				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1_SQL);
 			}
 			else {
 				bindPublishDate = true;
 
-				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2);
+				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2_SQL);
 			}
 
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4596,30 +4596,30 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 		query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_P_E_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_P_E_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2_SQL);
 
 		boolean bindPublishDate = false;
 
 		if (publishDate == null) {
-			query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1);
+			query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1_SQL);
 		}
 		else {
 			bindPublishDate = true;
 
-			query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2);
+			query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2_SQL);
 		}
 
 		boolean bindExpirationDate = false;
 
 		if (expirationDate == null) {
-			query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1);
+			query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1_SQL);
 		}
 		else {
 			bindExpirationDate = true;
 
-			query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2);
+			query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4764,30 +4764,30 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_P_E_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_P_E_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2_SQL);
 
 			boolean bindPublishDate = false;
 
 			if (publishDate == null) {
-				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1);
+				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1_SQL);
 			}
 			else {
 				bindPublishDate = true;
 
-				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2);
+				query.append(_FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2_SQL);
 			}
 
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2_SQL);
 			}
 
 			String sql = query.toString();

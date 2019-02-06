@@ -202,7 +202,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 			query.append(_SQL_SELECT_ASSETAUTOTAGGERENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -423,7 +423,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 		query.append(_SQL_SELECT_ASSETAUTOTAGGERENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2);
+		query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -544,7 +544,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 			query.append(_SQL_COUNT_ASSETAUTOTAGGERENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -695,7 +695,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 			query.append(_SQL_SELECT_ASSETAUTOTAGGERENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2);
+			query.append(_FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -916,7 +916,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 		query.append(_SQL_SELECT_ASSETAUTOTAGGERENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2);
+		query.append(_FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1037,7 +1037,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 			query.append(_SQL_COUNT_ASSETAUTOTAGGERENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2);
+			query.append(_FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1156,9 +1156,9 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 			query.append(_SQL_SELECT_ASSETAUTOTAGGERENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETTAGID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETTAGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1243,9 +1243,9 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 
 			query.append(_SQL_COUNT_ASSETAUTOTAGGERENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETTAGID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETTAGID_2_SQL);
 
 			String sql = query.toString();
 

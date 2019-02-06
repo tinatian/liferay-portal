@@ -1158,7 +1158,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1406,7 +1406,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1584,7 +1584,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -1730,7 +1730,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -1901,7 +1901,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1967,7 +1967,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				AnnouncementsEntry.class.getName(),
@@ -2120,7 +2120,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2339,7 +2339,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2495,7 +2495,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2619,7 +2619,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2771,7 +2771,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2819,7 +2819,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_FILTER_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				AnnouncementsEntry.class.getName(),
@@ -2980,9 +2980,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3215,9 +3215,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3380,9 +3380,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3511,9 +3511,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -3669,9 +3669,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3722,9 +3722,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_FILTER_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				AnnouncementsEntry.class.getName(),
@@ -3894,11 +3894,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4149,11 +4149,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4323,11 +4323,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4462,11 +4462,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4626,11 +4626,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4684,11 +4684,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_FILTER_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_CLASSPK_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				AnnouncementsEntry.class.getName(),
@@ -4861,11 +4861,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_A_ALERT_2);
+			query.append(_FINDER_COLUMN_C_C_A_ALERT_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5112,11 +5112,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_A_ALERT_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5285,11 +5285,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_A_ALERT_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -5423,11 +5423,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_A_ALERT_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -5587,11 +5587,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_A_ALERT_2);
+			query.append(_FINDER_COLUMN_C_C_A_ALERT_2_SQL);
 
 			String sql = query.toString();
 
@@ -5645,11 +5645,11 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_FILTER_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_A_ALERT_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				AnnouncementsEntry.class.getName(),
@@ -5828,13 +5828,13 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6100,13 +6100,13 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_SQL_SELECT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6281,13 +6281,13 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6425,13 +6425,13 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ANNOUNCEMENTSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -6600,13 +6600,13 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 			query.append(_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2);
+			query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2_SQL);
 
 			String sql = query.toString();
 
@@ -6664,13 +6664,13 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 
 		query.append(_FILTER_SQL_COUNT_ANNOUNCEMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2);
+		query.append(_FINDER_COLUMN_C_C_C_A_ALERT_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				AnnouncementsEntry.class.getName(),

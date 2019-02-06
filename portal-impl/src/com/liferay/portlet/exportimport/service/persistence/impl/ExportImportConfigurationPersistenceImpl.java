@@ -201,7 +201,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -422,7 +422,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -544,7 +544,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_COUNT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -695,7 +695,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -918,7 +918,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1040,7 +1040,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_COUNT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1200,7 +1200,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_GROUPID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
@@ -1436,7 +1436,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_G_T_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_T_GROUPID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
@@ -1564,7 +1564,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_COUNT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_GROUPID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
@@ -1729,9 +1729,9 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1965,9 +1965,9 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2093,9 +2093,9 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_COUNT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -2265,11 +2265,11 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2522,11 +2522,11 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_SQL_SELECT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2657,11 +2657,11 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_SQL_COUNT_EXPORTIMPORTCONFIGURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_T_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

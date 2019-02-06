@@ -198,7 +198,7 @@ public class JournalArticleLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_JOURNALARTICLELOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2);
+			query.append(_FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -421,7 +421,7 @@ public class JournalArticleLocalizationPersistenceImpl
 
 		query.append(_SQL_SELECT_JOURNALARTICLELOCALIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2);
+		query.append(_FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -542,7 +542,7 @@ public class JournalArticleLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_JOURNALARTICLELOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2);
+			query.append(_FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -665,17 +665,17 @@ public class JournalArticleLocalizationPersistenceImpl
 
 			query.append(_SQL_SELECT_JOURNALARTICLELOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_A_L_ARTICLEPK_2);
+			query.append(_FINDER_COLUMN_A_L_ARTICLEPK_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -765,17 +765,17 @@ public class JournalArticleLocalizationPersistenceImpl
 
 			query.append(_SQL_COUNT_JOURNALARTICLELOCALIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_A_L_ARTICLEPK_2);
+			query.append(_FINDER_COLUMN_A_L_ARTICLEPK_2_SQL);
 
 			boolean bindLanguageId = false;
 
 			if (languageId.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_3);
+				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_3_SQL);
 			}
 			else {
 				bindLanguageId = true;
 
-				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_2);
+				query.append(_FINDER_COLUMN_A_L_LANGUAGEID_2_SQL);
 			}
 
 			String sql = query.toString();

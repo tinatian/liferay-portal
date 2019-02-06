@@ -196,7 +196,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			query.append(_SQL_SELECT_MESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 		query.append(_SQL_SELECT_MESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -532,7 +532,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			query.append(_SQL_COUNT_MESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -679,7 +679,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			query.append(_SQL_SELECT_MESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_FOLDERID_FOLDERID_2);
+			query.append(_FINDER_COLUMN_FOLDERID_FOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -894,7 +894,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 		query.append(_SQL_SELECT_MESSAGE_WHERE);
 
-		query.append(_FINDER_COLUMN_FOLDERID_FOLDERID_2);
+		query.append(_FINDER_COLUMN_FOLDERID_FOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1015,7 +1015,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			query.append(_SQL_COUNT_MESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_FOLDERID_FOLDERID_2);
+			query.append(_FINDER_COLUMN_FOLDERID_FOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1133,9 +1133,9 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			query.append(_SQL_SELECT_MESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_F_R_FOLDERID_2);
+			query.append(_FINDER_COLUMN_F_R_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_R_REMOTEMESSAGEID_2);
+			query.append(_FINDER_COLUMN_F_R_REMOTEMESSAGEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1230,9 +1230,9 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 			query.append(_SQL_COUNT_MESSAGE_WHERE);
 
-			query.append(_FINDER_COLUMN_F_R_FOLDERID_2);
+			query.append(_FINDER_COLUMN_F_R_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_R_REMOTEMESSAGEID_2);
+			query.append(_FINDER_COLUMN_F_R_REMOTEMESSAGEID_2_SQL);
 
 			String sql = query.toString();
 

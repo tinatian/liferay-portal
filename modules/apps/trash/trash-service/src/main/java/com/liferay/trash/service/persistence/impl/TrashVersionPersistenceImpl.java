@@ -190,7 +190,7 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 			query.append(_SQL_SELECT_TRASHVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2);
+			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -407,7 +407,7 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 		query.append(_SQL_SELECT_TRASHVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2);
+		query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -528,7 +528,7 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 			query.append(_SQL_COUNT_TRASHVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2);
+			query.append(_FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -687,9 +687,9 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 			query.append(_SQL_SELECT_TRASHVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_E_C_ENTRYID_2);
+			query.append(_FINDER_COLUMN_E_C_ENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_E_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_E_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -920,9 +920,9 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 		query.append(_SQL_SELECT_TRASHVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_E_C_ENTRYID_2);
+		query.append(_FINDER_COLUMN_E_C_ENTRYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_E_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_E_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1047,9 +1047,9 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 			query.append(_SQL_COUNT_TRASHVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_E_C_ENTRYID_2);
+			query.append(_FINDER_COLUMN_E_C_ENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_E_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_E_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1170,9 +1170,9 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 			query.append(_SQL_SELECT_TRASHVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -1256,9 +1256,9 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 
 			query.append(_SQL_COUNT_TRASHVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

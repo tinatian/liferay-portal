@@ -196,7 +196,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 			query.append(_SQL_SELECT_ACCOUNT_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 		query.append(_SQL_SELECT_ACCOUNT_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -532,7 +532,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 			query.append(_SQL_COUNT_ACCOUNT_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -652,17 +652,17 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 			query.append(_SQL_SELECT_ACCOUNT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_USERID_2_SQL);
 
 			boolean bindAddress = false;
 
 			if (address.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_A_ADDRESS_3);
+				query.append(_FINDER_COLUMN_U_A_ADDRESS_3_SQL);
 			}
 			else {
 				bindAddress = true;
 
-				query.append(_FINDER_COLUMN_U_A_ADDRESS_2);
+				query.append(_FINDER_COLUMN_U_A_ADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -762,17 +762,17 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 
 			query.append(_SQL_COUNT_ACCOUNT_WHERE);
 
-			query.append(_FINDER_COLUMN_U_A_USERID_2);
+			query.append(_FINDER_COLUMN_U_A_USERID_2_SQL);
 
 			boolean bindAddress = false;
 
 			if (address.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_A_ADDRESS_3);
+				query.append(_FINDER_COLUMN_U_A_ADDRESS_3_SQL);
 			}
 			else {
 				bindAddress = true;
 
-				query.append(_FINDER_COLUMN_U_A_ADDRESS_2);
+				query.append(_FINDER_COLUMN_U_A_ADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();

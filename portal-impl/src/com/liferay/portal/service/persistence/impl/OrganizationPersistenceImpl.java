@@ -1151,7 +1151,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1398,7 +1398,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1574,7 +1574,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -1717,7 +1717,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -1888,7 +1888,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1954,7 +1954,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Organization.class.getName(),
@@ -2108,7 +2108,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2326,7 +2326,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2482,7 +2482,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -2607,7 +2607,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -2759,7 +2759,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2807,7 +2807,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Organization.class.getName(),
@@ -2955,7 +2955,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3173,7 +3173,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3329,7 +3329,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -3454,7 +3454,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -3606,7 +3606,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3654,7 +3654,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Organization.class.getName(),
@@ -3816,9 +3816,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4054,9 +4054,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4220,9 +4220,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -4350,9 +4350,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -4508,9 +4508,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4561,9 +4561,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Organization.class.getName(),
@@ -4720,17 +4720,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_T_TREEPATH_3);
+				query.append(_FINDER_COLUMN_C_T_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_C_T_TREEPATH_2);
+				query.append(_FINDER_COLUMN_C_T_TREEPATH_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4967,17 +4967,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_3);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_2);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -5143,17 +5143,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_3);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_2);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -5286,17 +5286,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_3);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_2);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -5457,17 +5457,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_T_TREEPATH_3);
+				query.append(_FINDER_COLUMN_C_T_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_C_T_TREEPATH_2);
+				query.append(_FINDER_COLUMN_C_T_TREEPATH_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5523,17 +5523,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_3);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_C_T_TREEPATH_2);
+			query.append(_FINDER_COLUMN_C_T_TREEPATH_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -5660,17 +5660,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5760,17 +5760,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5927,17 +5927,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_LIKEN_NAME_3);
+				query.append(_FINDER_COLUMN_C_LIKEN_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_LIKEN_NAME_2);
+				query.append(_FINDER_COLUMN_C_LIKEN_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -6174,17 +6174,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -6350,17 +6350,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -6493,17 +6493,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -6664,17 +6664,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_LIKEN_NAME_3);
+				query.append(_FINDER_COLUMN_C_LIKEN_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_LIKEN_NAME_2);
+				query.append(_FINDER_COLUMN_C_LIKEN_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -6730,17 +6730,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_LIKEN_NAME_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -6906,11 +6906,11 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7177,11 +7177,11 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -7284,11 +7284,11 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -7343,11 +7343,11 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_O_C_P_ORGANIZATIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_O_C_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Organization.class.getName(),
@@ -7516,19 +7516,19 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3);
+				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2);
+				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -7785,19 +7785,19 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -7972,19 +7972,19 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -8123,19 +8123,19 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			query.append(_FILTER_SQL_SELECT_ORGANIZATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -8303,19 +8303,19 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3);
+				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2);
+				query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -8375,19 +8375,19 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 		query.append(_FILTER_SQL_COUNT_ORGANIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2);
+		query.append(_FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2);
+			query.append(_FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -8521,17 +8521,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_SELECT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2_SQL);
 
 			boolean bindExternalReferenceCode = false;
 
 			if (externalReferenceCode.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL);
 			}
 			else {
 				bindExternalReferenceCode = true;
 
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -8632,17 +8632,17 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 
 			query.append(_SQL_COUNT_ORGANIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2_SQL);
 
 			boolean bindExternalReferenceCode = false;
 
 			if (externalReferenceCode.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL);
 			}
 			else {
 				bindExternalReferenceCode = true;
 
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL);
 			}
 
 			String sql = query.toString();

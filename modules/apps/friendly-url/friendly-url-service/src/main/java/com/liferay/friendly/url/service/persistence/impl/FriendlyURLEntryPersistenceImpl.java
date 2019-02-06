@@ -707,7 +707,7 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -806,7 +806,7 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -985,7 +985,7 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1232,7 +1232,7 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1372,7 +1372,7 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1545,11 +1545,11 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 
 			query.append(_SQL_SELECT_FRIENDLYURLENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1795,11 +1795,11 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 
 		query.append(_SQL_SELECT_FRIENDLYURLENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1928,11 +1928,11 @@ public class FriendlyURLEntryPersistenceImpl extends BasePersistenceImpl<Friendl
 
 			query.append(_SQL_COUNT_FRIENDLYURLENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

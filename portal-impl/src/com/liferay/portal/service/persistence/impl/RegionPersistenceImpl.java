@@ -190,7 +190,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_SELECT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_COUNTRYID_COUNTRYID_2);
+			query.append(_FINDER_COLUMN_COUNTRYID_COUNTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -405,7 +405,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 		query.append(_SQL_SELECT_REGION_WHERE);
 
-		query.append(_FINDER_COLUMN_COUNTRYID_COUNTRYID_2);
+		query.append(_FINDER_COLUMN_COUNTRYID_COUNTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -527,7 +527,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_COUNT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_COUNTRYID_COUNTRYID_2);
+			query.append(_FINDER_COLUMN_COUNTRYID_COUNTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1130,17 +1130,17 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_SELECT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_COUNTRYID_2);
+			query.append(_FINDER_COLUMN_C_R_COUNTRYID_2_SQL);
 
 			boolean bindRegionCode = false;
 
 			if (regionCode.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_R_REGIONCODE_3);
+				query.append(_FINDER_COLUMN_C_R_REGIONCODE_3_SQL);
 			}
 			else {
 				bindRegionCode = true;
 
-				query.append(_FINDER_COLUMN_C_R_REGIONCODE_2);
+				query.append(_FINDER_COLUMN_C_R_REGIONCODE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1230,17 +1230,17 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_COUNT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_COUNTRYID_2);
+			query.append(_FINDER_COLUMN_C_R_COUNTRYID_2_SQL);
 
 			boolean bindRegionCode = false;
 
 			if (regionCode.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_R_REGIONCODE_3);
+				query.append(_FINDER_COLUMN_C_R_REGIONCODE_3_SQL);
 			}
 			else {
 				bindRegionCode = true;
 
-				query.append(_FINDER_COLUMN_C_R_REGIONCODE_2);
+				query.append(_FINDER_COLUMN_C_R_REGIONCODE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1405,7 +1405,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_SELECT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_A_COUNTRYID_2);
+			query.append(_FINDER_COLUMN_C_A_COUNTRYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
@@ -1635,7 +1635,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 		query.append(_SQL_SELECT_REGION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_A_COUNTRYID_2);
+		query.append(_FINDER_COLUMN_C_A_COUNTRYID_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
@@ -1763,7 +1763,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_COUNT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_A_COUNTRYID_2);
+			query.append(_FINDER_COLUMN_C_A_COUNTRYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 

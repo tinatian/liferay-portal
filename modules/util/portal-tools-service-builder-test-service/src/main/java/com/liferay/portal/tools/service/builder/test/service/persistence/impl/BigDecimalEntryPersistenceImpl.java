@@ -207,12 +207,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 			boolean bindBigDecimalValue = false;
 
 			if (bigDecimalValue == null) {
-				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1);
+				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 			}
 			else {
 				bindBigDecimalValue = true;
 
-				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2);
+				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -442,12 +442,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 		boolean bindBigDecimalValue = false;
 
 		if (bigDecimalValue == null) {
-			query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1);
+			query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 		}
 		else {
 			bindBigDecimalValue = true;
 
-			query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2);
+			query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -574,12 +574,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 			boolean bindBigDecimalValue = false;
 
 			if (bigDecimalValue == null) {
-				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1);
+				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 			}
 			else {
 				bindBigDecimalValue = true;
 
-				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2);
+				query.append(_FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -733,12 +733,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 			boolean bindBigDecimalValue = false;
 
 			if (bigDecimalValue == null) {
-				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1);
+				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 			}
 			else {
 				bindBigDecimalValue = true;
 
-				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2);
+				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -968,12 +968,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 		boolean bindBigDecimalValue = false;
 
 		if (bigDecimalValue == null) {
-			query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1);
+			query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 		}
 		else {
 			bindBigDecimalValue = true;
 
-			query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2);
+			query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1100,12 +1100,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 			boolean bindBigDecimalValue = false;
 
 			if (bigDecimalValue == null) {
-				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1);
+				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 			}
 			else {
 				bindBigDecimalValue = true;
 
-				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2);
+				query.append(_FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1259,12 +1259,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 			boolean bindBigDecimalValue = false;
 
 			if (bigDecimalValue == null) {
-				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1);
+				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 			}
 			else {
 				bindBigDecimalValue = true;
 
-				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2);
+				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1494,12 +1494,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 		boolean bindBigDecimalValue = false;
 
 		if (bigDecimalValue == null) {
-			query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1);
+			query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 		}
 		else {
 			bindBigDecimalValue = true;
 
-			query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2);
+			query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1626,12 +1626,12 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 			boolean bindBigDecimalValue = false;
 
 			if (bigDecimalValue == null) {
-				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1);
+				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL);
 			}
 			else {
 				bindBigDecimalValue = true;
 
-				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2);
+				query.append(_FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL);
 			}
 
 			String sql = query.toString();

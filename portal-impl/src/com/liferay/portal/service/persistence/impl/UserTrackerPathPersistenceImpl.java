@@ -200,7 +200,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 			query.append(_SQL_SELECT_USERTRACKERPATH_WHERE);
 
-			query.append(_FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2);
+			query.append(_FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -419,7 +419,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 		query.append(_SQL_SELECT_USERTRACKERPATH_WHERE);
 
-		query.append(_FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2);
+		query.append(_FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -541,7 +541,7 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 
 			query.append(_SQL_COUNT_USERTRACKERPATH_WHERE);
 
-			query.append(_FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2);
+			query.append(_FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2_SQL);
 
 			String sql = query.toString();
 

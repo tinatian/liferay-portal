@@ -206,9 +206,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_REPOSITORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -439,9 +439,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 		query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-		query.append(_FINDER_COLUMN_C_R_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_R_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_R_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_C_R_REPOSITORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -566,9 +566,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_COUNT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_REPOSITORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -740,9 +740,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_P_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_REPOSITORYID_2_SQL);
 
 			boolean bindPath = false;
 
@@ -1002,9 +1002,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 		query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-		query.append(_FINDER_COLUMN_C_R_P_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_R_P_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_R_P_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_C_R_P_REPOSITORYID_2_SQL);
 
 		boolean bindPath = false;
 
@@ -1148,9 +1148,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_COUNT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_P_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_P_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_REPOSITORYID_2_SQL);
 
 			boolean bindPath = false;
 
@@ -1331,9 +1331,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_LIKEP_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_LIKEP_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_LIKEP_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_LIKEP_REPOSITORYID_2_SQL);
 
 			boolean bindPath = false;
 
@@ -1593,9 +1593,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 		query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-		query.append(_FINDER_COLUMN_C_R_LIKEP_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_R_LIKEP_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_R_LIKEP_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_C_R_LIKEP_REPOSITORYID_2_SQL);
 
 		boolean bindPath = false;
 
@@ -1739,9 +1739,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_COUNT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_LIKEP_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_LIKEP_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_LIKEP_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_LIKEP_REPOSITORYID_2_SQL);
 
 			boolean bindPath = false;
 
@@ -1900,9 +1900,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_SELECT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_P_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_V_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_P_V_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_V_REPOSITORYID_2_SQL);
 
 			boolean bindPath = false;
 
@@ -1918,12 +1918,12 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_3);
+				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_2);
+				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2027,9 +2027,9 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 
 			query.append(_SQL_COUNT_DLCONTENT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_P_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_V_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_R_P_V_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_C_R_P_V_REPOSITORYID_2_SQL);
 
 			boolean bindPath = false;
 
@@ -2045,12 +2045,12 @@ public class DLContentPersistenceImpl extends BasePersistenceImpl<DLContent>
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_3);
+				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_2);
+				query.append(_FINDER_COLUMN_C_R_P_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();

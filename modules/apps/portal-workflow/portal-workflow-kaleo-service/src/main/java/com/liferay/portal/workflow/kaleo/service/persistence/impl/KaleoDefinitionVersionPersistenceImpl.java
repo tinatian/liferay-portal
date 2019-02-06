@@ -199,7 +199,7 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 			query.append(_SQL_SELECT_KALEODEFINITIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -420,7 +420,7 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 		query.append(_SQL_SELECT_KALEODEFINITIONVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -541,7 +541,7 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 			query.append(_SQL_COUNT_KALEODEFINITIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -703,17 +703,17 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 			query.append(_SQL_SELECT_KALEODEFINITIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -952,17 +952,17 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 		query.append(_SQL_SELECT_KALEODEFINITIONVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_N_NAME_3);
+			query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_C_N_NAME_2);
+			query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1092,17 +1092,17 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 			query.append(_SQL_COUNT_KALEODEFINITIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1239,28 +1239,28 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 			query.append(_SQL_SELECT_KALEODEFINITIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_V_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_V_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_2_SQL);
 			}
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_V_VERSION_3);
+				query.append(_FINDER_COLUMN_C_N_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_C_N_V_VERSION_2);
+				query.append(_FINDER_COLUMN_C_N_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1357,28 +1357,28 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 
 			query.append(_SQL_COUNT_KALEODEFINITIONVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_N_V_COMPANYID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_V_NAME_3);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_C_N_V_NAME_2);
+				query.append(_FINDER_COLUMN_C_N_V_NAME_2_SQL);
 			}
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_N_V_VERSION_3);
+				query.append(_FINDER_COLUMN_C_N_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_C_N_V_VERSION_2);
+				query.append(_FINDER_COLUMN_C_N_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();

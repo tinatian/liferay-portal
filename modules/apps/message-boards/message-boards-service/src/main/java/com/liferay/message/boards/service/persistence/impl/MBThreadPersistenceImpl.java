@@ -718,7 +718,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -817,7 +817,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -994,7 +994,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1240,7 +1240,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1380,7 +1380,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1532,7 +1532,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1747,7 +1747,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1902,7 +1902,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -2025,7 +2025,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -2176,7 +2176,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2224,7 +2224,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -2335,7 +2335,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_ROOTMESSAGEID_ROOTMESSAGEID_2);
+			query.append(_FINDER_COLUMN_ROOTMESSAGEID_ROOTMESSAGEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2427,7 +2427,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_ROOTMESSAGEID_ROOTMESSAGEID_2);
+			query.append(_FINDER_COLUMN_ROOTMESSAGEID_ROOTMESSAGEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2588,9 +2588,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2821,9 +2821,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2984,9 +2984,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -3112,9 +3112,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -3306,12 +3306,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_C_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_C_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -3508,12 +3508,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_C_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_C_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -3613,9 +3613,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3679,12 +3679,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_C_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_C_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -3745,9 +3745,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_CATEGORYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -3807,12 +3807,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_GROUPID_2_SQL);
 
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_C_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_C_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -3974,9 +3974,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4207,9 +4207,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4371,9 +4371,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -4500,9 +4500,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -4657,9 +4657,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4710,9 +4710,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -4872,9 +4872,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5102,9 +5102,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5265,9 +5265,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -5393,9 +5393,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -5550,9 +5550,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5603,9 +5603,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -5767,9 +5767,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_C_P_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_PRIORITY_2);
+			query.append(_FINDER_COLUMN_C_P_PRIORITY_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6000,9 +6000,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_C_P_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_C_P_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_P_PRIORITY_2);
+		query.append(_FINDER_COLUMN_C_P_PRIORITY_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6127,9 +6127,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_C_P_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_PRIORITY_2);
+			query.append(_FINDER_COLUMN_C_P_PRIORITY_2_SQL);
 
 			String sql = query.toString();
 
@@ -6294,15 +6294,15 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindLastPostDate = false;
 
 			if (lastPostDate == null) {
-				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_1);
+				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_1_SQL);
 			}
 			else {
 				bindLastPostDate = true;
 
-				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_2);
+				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_L_P_PRIORITY_2);
+			query.append(_FINDER_COLUMN_L_P_PRIORITY_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6538,15 +6538,15 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		boolean bindLastPostDate = false;
 
 		if (lastPostDate == null) {
-			query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_1);
+			query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_1_SQL);
 		}
 		else {
 			bindLastPostDate = true;
 
-			query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_2);
+			query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_L_P_PRIORITY_2);
+		query.append(_FINDER_COLUMN_L_P_PRIORITY_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6676,15 +6676,15 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindLastPostDate = false;
 
 			if (lastPostDate == null) {
-				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_1);
+				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_1_SQL);
 			}
 			else {
 				bindLastPostDate = true;
 
-				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_2);
+				query.append(_FINDER_COLUMN_L_P_LASTPOSTDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_L_P_PRIORITY_2);
+			query.append(_FINDER_COLUMN_L_P_PRIORITY_2_SQL);
 
 			String sql = query.toString();
 
@@ -6859,19 +6859,19 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_L_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_L_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL);
 
 			boolean bindLastPostDate = false;
 
 			if (lastPostDate == null) {
-				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1);
+				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL);
 			}
 			else {
 				bindLastPostDate = true;
 
-				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2);
+				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -7119,19 +7119,19 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL);
 
 		boolean bindLastPostDate = false;
 
 		if (lastPostDate == null) {
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL);
 		}
 		else {
 			bindLastPostDate = true;
 
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -7304,19 +7304,19 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL);
 
 		boolean bindLastPostDate = false;
 
 		if (lastPostDate == null) {
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL);
 		}
 		else {
 			bindLastPostDate = true;
 
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -7449,19 +7449,19 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL);
 
 		boolean bindLastPostDate = false;
 
 		if (lastPostDate == null) {
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL);
 		}
 		else {
 			bindLastPostDate = true;
 
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -7625,19 +7625,19 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_L_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_L_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL);
 
 			boolean bindLastPostDate = false;
 
 			if (lastPostDate == null) {
-				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1);
+				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL);
 			}
 			else {
 				bindLastPostDate = true;
 
-				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2);
+				query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -7695,19 +7695,19 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_L_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL);
 
 		boolean bindLastPostDate = false;
 
 		if (lastPostDate == null) {
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL);
 		}
 		else {
 			bindLastPostDate = true;
 
-			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2);
+			query.append(_FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -7883,11 +7883,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8132,11 +8132,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8305,11 +8305,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -8439,11 +8439,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -8643,12 +8643,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -8659,7 +8659,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -8860,12 +8860,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -8876,7 +8876,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -8973,11 +8973,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -9044,12 +9044,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -9060,7 +9060,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -9117,11 +9117,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -9184,12 +9184,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_S_GROUPID_2_SQL);
 
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_C_S_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -9200,7 +9200,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_S_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -9365,11 +9365,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9614,11 +9614,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9788,11 +9788,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -9922,11 +9922,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -10127,12 +10127,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -10143,7 +10143,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -10344,12 +10344,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -10360,7 +10360,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -10457,11 +10457,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10528,12 +10528,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
 			if (categoryIds.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7);
+				query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7_SQL);
 
 				query.append(StringUtil.merge(categoryIds));
 
@@ -10544,7 +10544,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -10601,11 +10601,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -10669,12 +10669,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL);
 
 		if (categoryIds.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7);
+			query.append(_FINDER_COLUMN_G_C_NOTS_CATEGORYID_7_SQL);
 
 			query.append(StringUtil.merge(categoryIds));
 
@@ -10685,7 +10685,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(WHERE_AND);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL);
 
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
@@ -10850,11 +10850,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -11099,11 +11099,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -11273,11 +11273,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -11407,11 +11407,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -11570,11 +11570,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -11628,11 +11628,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),
@@ -11795,11 +11795,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -12044,11 +12044,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_SQL_SELECT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -12218,11 +12218,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -12352,11 +12352,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MBTHREAD_NO_INLINE_DISTINCT_WHERE_2);
@@ -12515,11 +12515,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 			query.append(_SQL_COUNT_MBTHREAD_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -12574,11 +12574,11 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 
 		query.append(_FILTER_SQL_COUNT_MBTHREAD_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MBThread.class.getName(),

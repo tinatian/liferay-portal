@@ -197,7 +197,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -417,7 +417,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 		query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -538,7 +538,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_COUNT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -696,7 +696,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -923,7 +923,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 		query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+		query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1045,7 +1045,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_COUNT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1202,7 +1202,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2);
+			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1427,7 +1427,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 		query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2);
+		query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1548,7 +1548,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_COUNT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2);
+			query.append(_FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1712,9 +1712,9 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_C_PKITI_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1955,9 +1955,9 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 		query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_C_PKITI_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_PKITI_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2);
+		query.append(_FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2083,9 +2083,9 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_COUNT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_C_PKITI_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2262,19 +2262,19 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2_SQL);
 
 			boolean bindCompletionDate = false;
 
 			if (completionDate == null) {
-				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1);
+				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1_SQL);
 			}
 			else {
 				bindCompletionDate = true;
 
-				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2);
+				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2534,19 +2534,19 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 		query.append(_SQL_SELECT_KALEOINSTANCETOKEN_WHERE);
 
-		query.append(_FINDER_COLUMN_C_PKITI_CD_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_PKITI_CD_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2);
+		query.append(_FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2_SQL);
 
 		boolean bindCompletionDate = false;
 
 		if (completionDate == null) {
-			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1);
+			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1_SQL);
 		}
 		else {
 			bindCompletionDate = true;
 
-			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2);
+			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2683,19 +2683,19 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 
 			query.append(_SQL_COUNT_KALEOINSTANCETOKEN_WHERE);
 
-			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_CD_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2);
+			query.append(_FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2_SQL);
 
 			boolean bindCompletionDate = false;
 
 			if (completionDate == null) {
-				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1);
+				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1_SQL);
 			}
 			else {
 				bindCompletionDate = true;
 
-				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2);
+				query.append(_FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2_SQL);
 			}
 
 			String sql = query.toString();

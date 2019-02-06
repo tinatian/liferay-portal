@@ -192,7 +192,7 @@ public class PasswordTrackerPersistenceImpl extends BasePersistenceImpl<Password
 
 			query.append(_SQL_SELECT_PASSWORDTRACKER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -410,7 +410,7 @@ public class PasswordTrackerPersistenceImpl extends BasePersistenceImpl<Password
 
 		query.append(_SQL_SELECT_PASSWORDTRACKER_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -532,7 +532,7 @@ public class PasswordTrackerPersistenceImpl extends BasePersistenceImpl<Password
 
 			query.append(_SQL_COUNT_PASSWORDTRACKER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 

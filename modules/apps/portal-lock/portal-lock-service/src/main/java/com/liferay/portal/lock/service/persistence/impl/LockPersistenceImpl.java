@@ -738,7 +738,7 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -979,7 +979,7 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1119,7 +1119,7 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1274,12 +1274,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1501,12 +1501,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		boolean bindExpirationDate = false;
 
 		if (expirationDate == null) {
-			query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1);
+			query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 		}
 		else {
 			bindExpirationDate = true;
 
-			query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2);
+			query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1633,12 +1633,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1768,12 +1768,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindClassName = false;
 
 			if (className.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_K_CLASSNAME_3);
+				query.append(_FINDER_COLUMN_C_K_CLASSNAME_3_SQL);
 			}
 			else {
 				bindClassName = true;
 
-				query.append(_FINDER_COLUMN_C_K_CLASSNAME_2);
+				query.append(_FINDER_COLUMN_C_K_CLASSNAME_2_SQL);
 			}
 
 			boolean bindKey = false;
@@ -1879,12 +1879,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindClassName = false;
 
 			if (className.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_K_CLASSNAME_3);
+				query.append(_FINDER_COLUMN_C_K_CLASSNAME_3_SQL);
 			}
 			else {
 				bindClassName = true;
 
-				query.append(_FINDER_COLUMN_C_K_CLASSNAME_2);
+				query.append(_FINDER_COLUMN_C_K_CLASSNAME_2_SQL);
 			}
 
 			boolean bindKey = false;

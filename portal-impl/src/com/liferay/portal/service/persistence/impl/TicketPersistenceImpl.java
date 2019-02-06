@@ -438,9 +438,9 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_SQL_SELECT_TICKET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
@@ -686,9 +686,9 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		query.append(_SQL_SELECT_TICKET_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
@@ -820,9 +820,9 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_SQL_COUNT_TICKET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
@@ -1002,11 +1002,11 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_SQL_SELECT_TICKET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2_SQL);
 
@@ -1266,11 +1266,11 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		query.append(_SQL_SELECT_TICKET_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_C_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_C_T_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2_SQL);
 
@@ -1408,11 +1408,11 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_SQL_COUNT_TICKET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2_SQL);
 

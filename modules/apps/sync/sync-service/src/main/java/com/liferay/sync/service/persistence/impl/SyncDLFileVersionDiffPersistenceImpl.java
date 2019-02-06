@@ -198,7 +198,7 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 
 			query.append(_SQL_SELECT_SYNCDLFILEVERSIONDIFF_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -419,7 +419,7 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 
 		query.append(_SQL_SELECT_SYNCDLFILEVERSIONDIFF_WHERE);
 
-		query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+		query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -540,7 +540,7 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 
 			query.append(_SQL_COUNT_SYNCDLFILEVERSIONDIFF_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -691,12 +691,12 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -929,12 +929,12 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 		boolean bindExpirationDate = false;
 
 		if (expirationDate == null) {
-			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1);
+			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 		}
 		else {
 			bindExpirationDate = true;
 
-			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2);
+			query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1061,12 +1061,12 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2);
+				query.append(_FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1204,11 +1204,11 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 
 			query.append(_SQL_SELECT_SYNCDLFILEVERSIONDIFF_WHERE);
 
-			query.append(_FINDER_COLUMN_F_S_T_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_F_S_T_FILEENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_T_SOURCEFILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_F_S_T_SOURCEFILEVERSIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_T_TARGETFILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_F_S_T_TARGETFILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1301,11 +1301,11 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 
 			query.append(_SQL_COUNT_SYNCDLFILEVERSIONDIFF_WHERE);
 
-			query.append(_FINDER_COLUMN_F_S_T_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_F_S_T_FILEENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_T_SOURCEFILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_F_S_T_SOURCEFILEVERSIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_S_T_TARGETFILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_F_S_T_TARGETFILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 

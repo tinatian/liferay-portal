@@ -172,12 +172,12 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 			boolean bindToken = false;
 
 			if (token.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_T_TOKEN_3);
+				query.append(_FINDER_COLUMN_T_T_TOKEN_3_SQL);
 			}
 			else {
 				bindToken = true;
 
-				query.append(_FINDER_COLUMN_T_T_TOKEN_2);
+				query.append(_FINDER_COLUMN_T_T_TOKEN_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
@@ -282,12 +282,12 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 			boolean bindToken = false;
 
 			if (token.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_T_TOKEN_3);
+				query.append(_FINDER_COLUMN_T_T_TOKEN_3_SQL);
 			}
 			else {
 				bindToken = true;
 
-				query.append(_FINDER_COLUMN_T_T_TOKEN_2);
+				query.append(_FINDER_COLUMN_T_T_TOKEN_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
@@ -429,23 +429,23 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_3);
+				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_2);
+				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_2_SQL);
 			}
 
 			boolean bindToken = false;
 
 			if (token.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_3);
+				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_3_SQL);
 			}
 			else {
 				bindToken = true;
 
-				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_2);
+				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_CI_T_T_TYPE_2_SQL);
@@ -557,23 +557,23 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_3);
+				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_2);
+				query.append(_FINDER_COLUMN_CI_T_T_CLIENTID_2_SQL);
 			}
 
 			boolean bindToken = false;
 
 			if (token.isEmpty()) {
-				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_3);
+				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_3_SQL);
 			}
 			else {
 				bindToken = true;
 
-				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_2);
+				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_CI_T_T_TYPE_2_SQL);

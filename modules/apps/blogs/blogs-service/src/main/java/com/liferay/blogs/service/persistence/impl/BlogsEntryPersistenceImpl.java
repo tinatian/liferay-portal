@@ -719,7 +719,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -818,7 +818,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -995,7 +995,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1241,7 +1241,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1381,7 +1381,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1534,7 +1534,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1749,7 +1749,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1904,7 +1904,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2026,7 +2026,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -2177,7 +2177,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2225,7 +2225,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -2373,7 +2373,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2591,7 +2591,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2712,7 +2712,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2832,17 +2832,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_UT_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_UT_GROUPID_2_SQL);
 
 			boolean bindUrlTitle = false;
 
 			if (urlTitle.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_UT_URLTITLE_3);
+				query.append(_FINDER_COLUMN_G_UT_URLTITLE_3_SQL);
 			}
 			else {
 				bindUrlTitle = true;
 
-				query.append(_FINDER_COLUMN_G_UT_URLTITLE_2);
+				query.append(_FINDER_COLUMN_G_UT_URLTITLE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2931,17 +2931,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_UT_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_UT_GROUPID_2_SQL);
 
 			boolean bindUrlTitle = false;
 
 			if (urlTitle.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_UT_URLTITLE_3);
+				query.append(_FINDER_COLUMN_G_UT_URLTITLE_3_SQL);
 			}
 			else {
 				bindUrlTitle = true;
 
-				query.append(_FINDER_COLUMN_G_UT_URLTITLE_2);
+				query.append(_FINDER_COLUMN_G_UT_URLTITLE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3099,17 +3099,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_LTD_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_LTD_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3343,17 +3343,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3518,17 +3518,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -3658,17 +3658,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -3826,17 +3826,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_LTD_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_LTD_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3890,17 +3890,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -4065,9 +4065,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4298,9 +4298,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4461,9 +4461,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4589,9 +4589,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -4746,9 +4746,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4799,9 +4799,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -4949,9 +4949,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5182,9 +5182,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5345,9 +5345,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -5474,9 +5474,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -5631,9 +5631,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -5684,9 +5684,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -5847,9 +5847,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6080,9 +6080,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_U_USERID_2);
+		query.append(_FINDER_COLUMN_C_U_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6207,9 +6207,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -6363,17 +6363,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LTD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LTD_COMPANYID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -6607,17 +6607,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_LTD_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LTD_COMPANYID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -6745,17 +6745,17 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LTD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LTD_COMPANYID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_C_LTD_DISPLAYDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -6920,9 +6920,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7153,9 +7153,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7280,9 +7280,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7435,9 +7435,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7668,9 +7668,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7795,9 +7795,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7954,15 +7954,15 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_LTD_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8198,15 +8198,15 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_LTD_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8336,15 +8336,15 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_LTD_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -8509,19 +8509,19 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_USERID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -8769,19 +8769,19 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -8954,19 +8954,19 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -9099,19 +9099,19 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -9275,19 +9275,19 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_USERID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -9344,19 +9344,19 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
@@ -9531,11 +9531,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9779,11 +9779,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9952,11 +9952,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -10086,11 +10086,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -10290,14 +10290,14 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 		if (statuses.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 			query.append(StringUtil.merge(statuses));
 
@@ -10505,14 +10505,14 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+				query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -10616,11 +10616,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10687,14 +10687,14 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+				query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -10758,11 +10758,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -10825,14 +10825,14 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_S_USERID_2_SQL);
 
 		if (statuses.length > 0) {
 			query.append("(");
 
-			query.append(_FINDER_COLUMN_G_U_S_STATUS_7);
+			query.append(_FINDER_COLUMN_G_U_S_STATUS_7_SQL);
 
 			query.append(StringUtil.merge(statuses));
 
@@ -11004,11 +11004,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -11252,11 +11252,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -11425,11 +11425,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -11559,11 +11559,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -11722,11 +11722,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -11780,11 +11780,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -11958,20 +11958,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_D_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_D_S_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_D_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_D_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -12218,20 +12218,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_D_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_D_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -12402,20 +12402,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_D_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_D_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -12547,20 +12547,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_D_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_D_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -12723,20 +12723,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_D_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_D_S_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_D_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_D_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -12792,20 +12792,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_D_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_D_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_D_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -12973,20 +12973,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -13233,20 +13233,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -13418,20 +13418,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -13563,20 +13563,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -13739,20 +13739,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -13808,20 +13808,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_GTD_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -13989,20 +13989,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -14249,20 +14249,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -14434,20 +14434,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -14579,20 +14579,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -14755,20 +14755,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -14824,20 +14824,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -15005,20 +15005,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -15265,20 +15265,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -15450,20 +15450,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -15595,20 +15595,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -15771,20 +15771,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -15841,20 +15841,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -16029,11 +16029,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_U_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -16277,11 +16277,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_U_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_U_S_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_U_S_USERID_2);
+		query.append(_FINDER_COLUMN_C_U_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_U_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_U_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -16410,11 +16410,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_S_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_U_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -16578,11 +16578,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_NOTS_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_U_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -16827,11 +16827,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_U_NOTS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_U_NOTS_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_U_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_C_U_NOTS_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_U_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_C_U_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -16960,11 +16960,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_NOTS_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_U_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -17129,20 +17129,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LTD_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LTD_S_COMPANYID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_LTD_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -17389,20 +17389,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_LTD_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LTD_S_COMPANYID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_LTD_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -17535,20 +17535,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LTD_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LTD_S_COMPANYID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_LTD_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -17716,20 +17716,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_LTD_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_LTD_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -17976,20 +17976,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_C_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_C_LTD_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -18122,20 +18122,20 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_LTD_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_LTD_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -18309,22 +18309,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -18589,22 +18589,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -18781,22 +18781,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -18934,22 +18934,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -19118,22 +19118,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -19193,22 +19193,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),
@@ -19385,22 +19385,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -19667,22 +19667,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_SQL_SELECT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -19859,22 +19859,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -20012,22 +20012,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_BLOGSENTRY_NO_INLINE_DISTINCT_WHERE_2);
@@ -20196,22 +20196,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 			query.append(_SQL_COUNT_BLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL);
 
 			boolean bindDisplayDate = false;
 
 			if (displayDate == null) {
-				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1);
+				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL);
 			}
 			else {
 				bindDisplayDate = true;
 
-				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2);
+				query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -20271,22 +20271,22 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 
 		query.append(_FILTER_SQL_COUNT_BLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL);
 
 		boolean bindDisplayDate = false;
 
 		if (displayDate == null) {
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL);
 		}
 		else {
 			bindDisplayDate = true;
 
-			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2);
+			query.append(_FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				BlogsEntry.class.getName(),

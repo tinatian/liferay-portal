@@ -195,7 +195,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -413,7 +413,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -535,7 +535,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -684,7 +684,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -902,7 +902,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1024,7 +1024,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1171,7 +1171,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1388,7 +1388,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1510,7 +1510,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1665,7 +1665,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2);
+			query.append(_FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1883,7 +1883,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2);
+		query.append(_FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2005,7 +2005,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2);
+			query.append(_FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2117,7 +2117,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_MIRRORACTIVITYID_MIRRORACTIVITYID_2);
+			query.append(_FINDER_COLUMN_MIRRORACTIVITYID_MIRRORACTIVITYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2210,7 +2210,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_MIRRORACTIVITYID_MIRRORACTIVITYID_2);
+			query.append(_FINDER_COLUMN_MIRRORACTIVITYID_MIRRORACTIVITYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2361,7 +2361,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2579,7 +2579,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2701,7 +2701,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2856,7 +2856,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3074,7 +3074,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2);
+		query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3196,7 +3196,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3357,9 +3357,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3591,9 +3591,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3719,9 +3719,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3892,11 +3892,11 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2);
+			query.append(_FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_M_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_M_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4148,11 +4148,11 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2);
+		query.append(_FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_M_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_M_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_M_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_M_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4286,11 +4286,11 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2);
+			query.append(_FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_M_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_M_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4463,9 +4463,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
@@ -4713,9 +4713,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
@@ -4847,9 +4847,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
@@ -5044,17 +5044,17 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5350,17 +5350,17 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-		query.append(_FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_C_C_T_R_USERID_2);
+		query.append(_FINDER_COLUMN_G_U_C_C_T_R_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2);
+		query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5507,17 +5507,17 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5694,19 +5694,19 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_SELECT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5819,19 +5819,19 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_SQL_COUNT_SOCIALACTIVITY_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CREATEDATE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2_SQL);
 
 			String sql = query.toString();
 

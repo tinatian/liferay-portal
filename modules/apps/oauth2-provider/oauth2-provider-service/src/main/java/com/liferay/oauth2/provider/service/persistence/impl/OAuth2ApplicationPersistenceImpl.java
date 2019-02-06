@@ -199,7 +199,7 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 
 			query.append(_SQL_SELECT_OAUTH2APPLICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -417,7 +417,7 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 
 		query.append(_SQL_SELECT_OAUTH2APPLICATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -573,7 +573,7 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 			query.append(_FILTER_SQL_SELECT_OAUTH2APPLICATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_OAUTH2APPLICATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -698,7 +698,7 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 			query.append(_FILTER_SQL_SELECT_OAUTH2APPLICATION_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_OAUTH2APPLICATION_NO_INLINE_DISTINCT_WHERE_2);
@@ -849,7 +849,7 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 
 			query.append(_SQL_COUNT_OAUTH2APPLICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -897,7 +897,7 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 
 		query.append(_FILTER_SQL_COUNT_OAUTH2APPLICATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				OAuth2Application.class.getName(),
@@ -1017,17 +1017,17 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 
 			query.append(_SQL_SELECT_OAUTH2APPLICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_C_CLIENTID_3);
+				query.append(_FINDER_COLUMN_C_C_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_C_C_CLIENTID_2);
+				query.append(_FINDER_COLUMN_C_C_CLIENTID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1127,17 +1127,17 @@ public class OAuth2ApplicationPersistenceImpl extends BasePersistenceImpl<OAuth2
 
 			query.append(_SQL_COUNT_OAUTH2APPLICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
 			boolean bindClientId = false;
 
 			if (clientId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_C_CLIENTID_3);
+				query.append(_FINDER_COLUMN_C_C_CLIENTID_3_SQL);
 			}
 			else {
 				bindClientId = true;
 
-				query.append(_FINDER_COLUMN_C_C_CLIENTID_2);
+				query.append(_FINDER_COLUMN_C_C_CLIENTID_2_SQL);
 			}
 
 			String sql = query.toString();

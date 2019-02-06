@@ -704,7 +704,7 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -803,7 +803,7 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -982,7 +982,7 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1229,7 +1229,7 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1369,7 +1369,7 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1495,17 +1495,17 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 
 			query.append(_SQL_SELECT_WIKIPAGERESOURCE_WHERE);
 
-			query.append(_FINDER_COLUMN_N_T_NODEID_2);
+			query.append(_FINDER_COLUMN_N_T_NODEID_2_SQL);
 
 			boolean bindTitle = false;
 
 			if (title.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_T_TITLE_3);
+				query.append(_FINDER_COLUMN_N_T_TITLE_3_SQL);
 			}
 			else {
 				bindTitle = true;
 
-				query.append(_FINDER_COLUMN_N_T_TITLE_2);
+				query.append(_FINDER_COLUMN_N_T_TITLE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1594,17 +1594,17 @@ public class WikiPageResourcePersistenceImpl extends BasePersistenceImpl<WikiPag
 
 			query.append(_SQL_COUNT_WIKIPAGERESOURCE_WHERE);
 
-			query.append(_FINDER_COLUMN_N_T_NODEID_2);
+			query.append(_FINDER_COLUMN_N_T_NODEID_2_SQL);
 
 			boolean bindTitle = false;
 
 			if (title.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_T_TITLE_3);
+				query.append(_FINDER_COLUMN_N_T_TITLE_3_SQL);
 			}
 			else {
 				bindTitle = true;
 
-				query.append(_FINDER_COLUMN_N_T_TITLE_2);
+				query.append(_FINDER_COLUMN_N_T_TITLE_2_SQL);
 			}
 
 			String sql = query.toString();

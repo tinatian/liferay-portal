@@ -712,7 +712,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -811,7 +811,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -990,7 +990,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1239,7 +1239,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1379,7 +1379,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1533,7 +1533,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1753,7 +1753,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 		query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1910,7 +1910,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_2);
@@ -2037,7 +2037,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_2);
@@ -2188,7 +2188,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2236,7 +2236,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 		query.append(_FILTER_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MDRRuleGroupInstance.class.getName(),
@@ -2388,7 +2388,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2);
+			query.append(_FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2609,7 +2609,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 		query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-		query.append(_FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2);
+		query.append(_FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2730,7 +2730,7 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2);
+			query.append(_FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2891,9 +2891,9 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3127,9 +3127,9 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 		query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3254,9 +3254,9 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3426,11 +3426,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3681,11 +3681,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 		query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3854,11 +3854,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_2);
@@ -3993,11 +3993,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_MDRRULEGROUPINSTANCE_NO_INLINE_DISTINCT_WHERE_2);
@@ -4156,11 +4156,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4214,11 +4214,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 		query.append(_FILTER_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				MDRRuleGroupInstance.class.getName(),
@@ -4351,11 +4351,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_SELECT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_R_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_R_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_R_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_R_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_R_RULEGROUPID_2);
+			query.append(_FINDER_COLUMN_C_C_R_RULEGROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4444,11 +4444,11 @@ public class MDRRuleGroupInstancePersistenceImpl extends BasePersistenceImpl<MDR
 
 			query.append(_SQL_COUNT_MDRRULEGROUPINSTANCE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_R_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_R_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_R_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_R_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_R_RULEGROUPID_2);
+			query.append(_FINDER_COLUMN_C_C_R_RULEGROUPID_2_SQL);
 
 			String sql = query.toString();
 

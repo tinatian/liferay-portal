@@ -1137,7 +1137,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1381,7 +1381,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1557,7 +1557,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_GADGET_NO_INLINE_DISTINCT_WHERE_2);
@@ -1697,7 +1697,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_GADGET_NO_INLINE_DISTINCT_WHERE_2);
@@ -1867,7 +1867,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1933,7 +1933,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Gadget.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
@@ -2085,7 +2085,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 
 			query.append(_SQL_SELECT_GADGET_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2300,7 +2300,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 
 		query.append(_SQL_SELECT_GADGET_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2455,7 +2455,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			query.append(_FILTER_SQL_SELECT_GADGET_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_GADGET_NO_INLINE_DISTINCT_WHERE_2);
@@ -2577,7 +2577,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			query.append(_FILTER_SQL_SELECT_GADGET_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_GADGET_NO_INLINE_DISTINCT_WHERE_2);
@@ -2728,7 +2728,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 
 			query.append(_SQL_COUNT_GADGET_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2776,7 +2776,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 
 		query.append(_FILTER_SQL_COUNT_GADGET_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Gadget.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
@@ -2895,17 +2895,17 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 
 			query.append(_SQL_SELECT_GADGET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
 			boolean bindUrl = false;
 
 			if (url.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_U_URL_3);
+				query.append(_FINDER_COLUMN_C_U_URL_3_SQL);
 			}
 			else {
 				bindUrl = true;
 
-				query.append(_FINDER_COLUMN_C_U_URL_2);
+				query.append(_FINDER_COLUMN_C_U_URL_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2995,17 +2995,17 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 
 			query.append(_SQL_COUNT_GADGET_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
 			boolean bindUrl = false;
 
 			if (url.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_U_URL_3);
+				query.append(_FINDER_COLUMN_C_U_URL_3_SQL);
 			}
 			else {
 				bindUrl = true;
 
-				query.append(_FINDER_COLUMN_C_U_URL_2);
+				query.append(_FINDER_COLUMN_C_U_URL_2_SQL);
 			}
 
 			String sql = query.toString();

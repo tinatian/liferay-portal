@@ -194,7 +194,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -406,7 +406,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 		query.append(_SQL_SELECT_ENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -527,7 +527,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -647,17 +647,17 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_SELECT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_EA_USERID_2);
+			query.append(_FINDER_COLUMN_U_EA_USERID_2_SQL);
 
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -757,17 +757,17 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 
 			query.append(_SQL_COUNT_ENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_U_EA_USERID_2);
+			query.append(_FINDER_COLUMN_U_EA_USERID_2_SQL);
 
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_U_EA_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();

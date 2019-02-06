@@ -702,7 +702,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -801,7 +801,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -978,7 +978,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1225,7 +1225,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1365,7 +1365,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1518,7 +1518,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1735,7 +1735,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 		query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1856,7 +1856,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_COUNT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2004,7 +2004,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2222,7 +2222,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 		query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2343,7 +2343,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_COUNT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2505,12 +2505,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindConfigurationUuid = false;
 
 			if (configurationUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3);
+				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3_SQL);
 			}
 			else {
 				bindConfigurationUuid = true;
 
-				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2);
+				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2740,12 +2740,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		boolean bindConfigurationUuid = false;
 
 		if (configurationUuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3);
+			query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3_SQL);
 		}
 		else {
 			bindConfigurationUuid = true;
 
-			query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2);
+			query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2874,12 +2874,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindConfigurationUuid = false;
 
 			if (configurationUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3);
+				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3_SQL);
 			}
 			else {
 				bindConfigurationUuid = true;
 
-				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2);
+				query.append(_FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3039,7 +3039,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3257,7 +3257,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 		query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2);
+		query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3378,7 +3378,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_COUNT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3543,17 +3543,17 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
 			boolean bindConfigurationUuid = false;
 
 			if (configurationUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_3);
+				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_3_SQL);
 			}
 			else {
 				bindConfigurationUuid = true;
 
-				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_2);
+				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3794,17 +3794,17 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 		query.append(_SQL_SELECT_AMIMAGEENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
 		boolean bindConfigurationUuid = false;
 
 		if (configurationUuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_3);
+			query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_3_SQL);
 		}
 		else {
 			bindConfigurationUuid = true;
 
-			query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_2);
+			query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3934,17 +3934,17 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 
 			query.append(_SQL_COUNT_AMIMAGEENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_C_COMPANYID_2_SQL);
 
 			boolean bindConfigurationUuid = false;
 
 			if (configurationUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_3);
+				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_3_SQL);
 			}
 			else {
 				bindConfigurationUuid = true;
 
-				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_2);
+				query.append(_FINDER_COLUMN_C_C_CONFIGURATIONUUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4075,15 +4075,15 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindConfigurationUuid = false;
 
 			if (configurationUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_3);
+				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_3_SQL);
 			}
 			else {
 				bindConfigurationUuid = true;
 
-				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_2);
+				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_F_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_C_F_FILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4174,15 +4174,15 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindConfigurationUuid = false;
 
 			if (configurationUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_3);
+				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_3_SQL);
 			}
 			else {
 				bindConfigurationUuid = true;
 
-				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_2);
+				query.append(_FINDER_COLUMN_C_F_CONFIGURATIONUUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_C_F_FILEVERSIONID_2);
+			query.append(_FINDER_COLUMN_C_F_FILEVERSIONID_2_SQL);
 
 			String sql = query.toString();
 

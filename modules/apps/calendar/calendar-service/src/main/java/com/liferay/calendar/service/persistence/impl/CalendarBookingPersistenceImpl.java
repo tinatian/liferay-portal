@@ -710,7 +710,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -809,7 +809,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -987,7 +987,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1234,7 +1234,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1374,7 +1374,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1529,7 +1529,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2);
+			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1748,7 +1748,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 		query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-		query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2);
+		query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1869,7 +1869,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2);
+			query.append(_FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2026,7 +2026,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2);
+			query.append(_FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2251,7 +2251,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 		query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-		query.append(_FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2);
+		query.append(_FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2372,7 +2372,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2);
+			query.append(_FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2531,7 +2531,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2757,7 +2757,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 		query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-		query.append(_FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2);
+		query.append(_FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2879,7 +2879,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3038,7 +3038,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3264,7 +3264,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 		query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-		query.append(_FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2);
+		query.append(_FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3388,7 +3388,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3509,9 +3509,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_P_CALENDARID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_PARENTCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_C_P_PARENTCALENDARBOOKINGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3596,9 +3596,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_P_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_P_CALENDARID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_P_PARENTCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_C_P_PARENTCALENDARBOOKINGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3722,17 +3722,17 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_V_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_V_CALENDARID_2_SQL);
 
 			boolean bindVEventUid = false;
 
 			if (vEventUid.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_V_VEVENTUID_3);
+				query.append(_FINDER_COLUMN_C_V_VEVENTUID_3_SQL);
 			}
 			else {
 				bindVEventUid = true;
 
-				query.append(_FINDER_COLUMN_C_V_VEVENTUID_2);
+				query.append(_FINDER_COLUMN_C_V_VEVENTUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3821,17 +3821,17 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_V_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_V_CALENDARID_2_SQL);
 
 			boolean bindVEventUid = false;
 
 			if (vEventUid.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_V_VEVENTUID_3);
+				query.append(_FINDER_COLUMN_C_V_VEVENTUID_3_SQL);
 			}
 			else {
 				bindVEventUid = true;
 
-				query.append(_FINDER_COLUMN_C_V_VEVENTUID_2);
+				query.append(_FINDER_COLUMN_C_V_VEVENTUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3998,9 +3998,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_S_CALENDARID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4232,9 +4232,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 		query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-		query.append(_FINDER_COLUMN_C_S_CALENDARID_2);
+		query.append(_FINDER_COLUMN_C_S_CALENDARID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4456,12 +4456,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_S_CALENDARID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_S_STATUS_7);
+				query.append(_FINDER_COLUMN_C_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -4561,9 +4561,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_S_CALENDARID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4627,12 +4627,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_CALENDARID_2);
+			query.append(_FINDER_COLUMN_C_S_CALENDARID_2_SQL);
 
 			if (statuses.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_S_STATUS_7);
+				query.append(_FINDER_COLUMN_C_S_STATUS_7_SQL);
 
 				query.append(StringUtil.merge(statuses));
 
@@ -4808,9 +4808,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_P_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5043,9 +5043,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 		query.append(_SQL_SELECT_CALENDARBOOKING_WHERE);
 
-		query.append(_FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2);
+		query.append(_FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2_SQL);
 
-		query.append(_FINDER_COLUMN_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_P_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5171,9 +5171,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 
 			query.append(_SQL_COUNT_CALENDARBOOKING_WHERE);
 
-			query.append(_FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2);
+			query.append(_FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_P_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

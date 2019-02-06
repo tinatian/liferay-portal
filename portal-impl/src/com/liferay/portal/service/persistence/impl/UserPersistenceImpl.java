@@ -753,7 +753,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -994,7 +994,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1135,7 +1135,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1288,7 +1288,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1500,7 +1500,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		query.append(_SQL_SELECT_USER_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1622,7 +1622,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1731,7 +1731,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_CONTACTID_CONTACTID_2);
+			query.append(_FINDER_COLUMN_CONTACTID_CONTACTID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1812,7 +1812,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_CONTACTID_CONTACTID_2);
+			query.append(_FINDER_COLUMN_CONTACTID_CONTACTID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1970,12 +1970,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2197,12 +2197,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		boolean bindEmailAddress = false;
 
 		if (emailAddress.isEmpty()) {
-			query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3);
+			query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3_SQL);
 		}
 		else {
 			bindEmailAddress = true;
 
-			query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2);
+			query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2332,12 +2332,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2450,7 +2450,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_PORTRAITID_PORTRAITID_2);
+			query.append(_FINDER_COLUMN_PORTRAITID_PORTRAITID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2542,7 +2542,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_PORTRAITID_PORTRAITID_2);
+			query.append(_FINDER_COLUMN_PORTRAITID_PORTRAITID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2690,9 +2690,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_U_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2896,9 +2896,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_U_C_USERID_2);
+			query.append(_FINDER_COLUMN_U_C_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_U_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3019,9 +3019,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3106,9 +3106,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_U_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_U_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_U_USERID_2);
+			query.append(_FINDER_COLUMN_C_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3270,17 +3270,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CD_COMPANYID_2_SQL);
 
 			boolean bindCreateDate = false;
 
 			if (createDate == null) {
-				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_1);
+				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_1_SQL);
 			}
 			else {
 				bindCreateDate = true;
 
-				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_2);
+				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3510,17 +3510,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		query.append(_SQL_SELECT_USER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_CD_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_CD_COMPANYID_2_SQL);
 
 		boolean bindCreateDate = false;
 
 		if (createDate == null) {
-			query.append(_FINDER_COLUMN_C_CD_CREATEDATE_1);
+			query.append(_FINDER_COLUMN_C_CD_CREATEDATE_1_SQL);
 		}
 		else {
 			bindCreateDate = true;
 
-			query.append(_FINDER_COLUMN_C_CD_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_CD_CREATEDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3649,17 +3649,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CD_COMPANYID_2_SQL);
 
 			boolean bindCreateDate = false;
 
 			if (createDate == null) {
-				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_1);
+				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_1_SQL);
 			}
 			else {
 				bindCreateDate = true;
 
-				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_2);
+				query.append(_FINDER_COLUMN_C_CD_CREATEDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3825,17 +3825,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_MD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_MD_COMPANYID_2_SQL);
 
 			boolean bindModifiedDate = false;
 
 			if (modifiedDate == null) {
-				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_1);
+				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_1_SQL);
 			}
 			else {
 				bindModifiedDate = true;
 
-				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_2);
+				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4065,17 +4065,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		query.append(_SQL_SELECT_USER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_MD_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_MD_COMPANYID_2_SQL);
 
 		boolean bindModifiedDate = false;
 
 		if (modifiedDate == null) {
-			query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_1);
+			query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_1_SQL);
 		}
 		else {
 			bindModifiedDate = true;
 
-			query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_2);
+			query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4204,17 +4204,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_MD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_MD_COMPANYID_2_SQL);
 
 			boolean bindModifiedDate = false;
 
 			if (modifiedDate == null) {
-				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_1);
+				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_1_SQL);
 			}
 			else {
 				bindModifiedDate = true;
 
-				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_2);
+				query.append(_FINDER_COLUMN_C_MD_MODIFIEDDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4339,9 +4339,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_DU_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_DU_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_DU_DEFAULTUSER_2);
+			query.append(_FINDER_COLUMN_C_DU_DEFAULTUSER_2_SQL);
 
 			String sql = query.toString();
 
@@ -4437,9 +4437,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_DU_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_DU_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_DU_DEFAULTUSER_2);
+			query.append(_FINDER_COLUMN_C_DU_DEFAULTUSER_2_SQL);
 
 			String sql = query.toString();
 
@@ -4562,17 +4562,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_SN_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_SN_COMPANYID_2_SQL);
 
 			boolean bindScreenName = false;
 
 			if (screenName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_3);
+				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_3_SQL);
 			}
 			else {
 				bindScreenName = true;
 
-				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_2);
+				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4662,17 +4662,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_SN_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_SN_COMPANYID_2_SQL);
 
 			boolean bindScreenName = false;
 
 			if (screenName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_3);
+				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_3_SQL);
 			}
 			else {
 				bindScreenName = true;
 
-				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_2);
+				query.append(_FINDER_COLUMN_C_SN_SCREENNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4799,17 +4799,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_EA_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_EA_COMPANYID_2_SQL);
 
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4899,17 +4899,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_EA_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_EA_COMPANYID_2_SQL);
 
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_C_EA_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5034,9 +5034,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_FID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_FID_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_FID_FACEBOOKID_2);
+			query.append(_FINDER_COLUMN_C_FID_FACEBOOKID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5132,9 +5132,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_FID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_FID_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_FID_FACEBOOKID_2);
+			query.append(_FINDER_COLUMN_C_FID_FACEBOOKID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5257,17 +5257,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_GUID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_GUID_COMPANYID_2_SQL);
 
 			boolean bindGoogleUserId = false;
 
 			if (googleUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_3);
+				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_3_SQL);
 			}
 			else {
 				bindGoogleUserId = true;
 
-				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_2);
+				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5369,17 +5369,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_GUID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_GUID_COMPANYID_2_SQL);
 
 			boolean bindGoogleUserId = false;
 
 			if (googleUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_3);
+				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_3_SQL);
 			}
 			else {
 				bindGoogleUserId = true;
 
-				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_2);
+				query.append(_FINDER_COLUMN_C_GUID_GOOGLEUSERID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5506,17 +5506,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_O_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_O_COMPANYID_2_SQL);
 
 			boolean bindOpenId = false;
 
 			if (openId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_OPENID_3);
+				query.append(_FINDER_COLUMN_C_O_OPENID_3_SQL);
 			}
 			else {
 				bindOpenId = true;
 
-				query.append(_FINDER_COLUMN_C_O_OPENID_2);
+				query.append(_FINDER_COLUMN_C_O_OPENID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5617,17 +5617,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_O_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_O_COMPANYID_2_SQL);
 
 			boolean bindOpenId = false;
 
 			if (openId.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_OPENID_3);
+				query.append(_FINDER_COLUMN_C_O_OPENID_3_SQL);
 			}
 			else {
 				bindOpenId = true;
 
-				query.append(_FINDER_COLUMN_C_O_OPENID_2);
+				query.append(_FINDER_COLUMN_C_O_OPENID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5790,9 +5790,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6018,9 +6018,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		query.append(_SQL_SELECT_USER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6146,9 +6146,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -6320,28 +6320,28 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CD_MD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CD_MD_COMPANYID_2_SQL);
 
 			boolean bindCreateDate = false;
 
 			if (createDate == null) {
-				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_1);
+				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_1_SQL);
 			}
 			else {
 				bindCreateDate = true;
 
-				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_2);
+				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_2_SQL);
 			}
 
 			boolean bindModifiedDate = false;
 
 			if (modifiedDate == null) {
-				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1);
+				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1_SQL);
 			}
 			else {
 				bindModifiedDate = true;
 
-				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2);
+				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -6590,28 +6590,28 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		query.append(_SQL_SELECT_USER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_CD_MD_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_CD_MD_COMPANYID_2_SQL);
 
 		boolean bindCreateDate = false;
 
 		if (createDate == null) {
-			query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_1);
+			query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_1_SQL);
 		}
 		else {
 			bindCreateDate = true;
 
-			query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_2);
+			query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_2_SQL);
 		}
 
 		boolean bindModifiedDate = false;
 
 		if (modifiedDate == null) {
-			query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1);
+			query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1_SQL);
 		}
 		else {
 			bindModifiedDate = true;
 
-			query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2);
+			query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -6749,28 +6749,28 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_CD_MD_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_CD_MD_COMPANYID_2_SQL);
 
 			boolean bindCreateDate = false;
 
 			if (createDate == null) {
-				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_1);
+				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_1_SQL);
 			}
 			else {
 				bindCreateDate = true;
 
-				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_2);
+				query.append(_FINDER_COLUMN_C_CD_MD_CREATEDATE_2_SQL);
 			}
 
 			boolean bindModifiedDate = false;
 
 			if (modifiedDate == null) {
-				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1);
+				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1_SQL);
 			}
 			else {
 				bindModifiedDate = true;
 
-				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2);
+				query.append(_FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -6949,11 +6949,11 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_DU_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_DU_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_DU_S_DEFAULTUSER_2);
+			query.append(_FINDER_COLUMN_C_DU_S_DEFAULTUSER_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_DU_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_DU_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7197,11 +7197,11 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 		query.append(_SQL_SELECT_USER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_DU_S_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_DU_S_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_DU_S_DEFAULTUSER_2);
+		query.append(_FINDER_COLUMN_C_DU_S_DEFAULTUSER_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_DU_S_STATUS_2);
+		query.append(_FINDER_COLUMN_C_DU_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7331,11 +7331,11 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_DU_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_DU_S_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_DU_S_DEFAULTUSER_2);
+			query.append(_FINDER_COLUMN_C_DU_S_DEFAULTUSER_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_DU_S_STATUS_2);
+			query.append(_FINDER_COLUMN_C_DU_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7462,17 +7462,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_SELECT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2_SQL);
 
 			boolean bindExternalReferenceCode = false;
 
 			if (externalReferenceCode.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL);
 			}
 			else {
 				bindExternalReferenceCode = true;
 
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -7573,17 +7573,17 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 
 			query.append(_SQL_COUNT_USER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_ERC_COMPANYID_2_SQL);
 
 			boolean bindExternalReferenceCode = false;
 
 			if (externalReferenceCode.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL);
 			}
 			else {
 				bindExternalReferenceCode = true;
 
-				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2);
+				query.append(_FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL);
 			}
 
 			String sql = query.toString();

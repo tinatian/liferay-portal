@@ -747,7 +747,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -994,7 +994,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1135,7 +1135,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1290,7 +1290,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1508,7 +1508,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1630,7 +1630,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1777,7 +1777,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID1_USERID1_2);
+			query.append(_FINDER_COLUMN_USERID1_USERID1_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1995,7 +1995,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID1_USERID1_2);
+		query.append(_FINDER_COLUMN_USERID1_USERID1_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2117,7 +2117,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID1_USERID1_2);
+			query.append(_FINDER_COLUMN_USERID1_USERID1_2_SQL);
 
 			String sql = query.toString();
 
@@ -2264,7 +2264,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID2_USERID2_2);
+			query.append(_FINDER_COLUMN_USERID2_USERID2_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2482,7 +2482,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID2_USERID2_2);
+		query.append(_FINDER_COLUMN_USERID2_USERID2_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2604,7 +2604,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID2_USERID2_2);
+			query.append(_FINDER_COLUMN_USERID2_USERID2_2_SQL);
 
 			String sql = query.toString();
 
@@ -3247,7 +3247,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
@@ -3481,7 +3481,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
@@ -3609,7 +3609,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_T_COMPANYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
@@ -3773,9 +3773,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U1_U2_USERID1_2);
+			query.append(_FINDER_COLUMN_U1_U2_USERID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_U1_U2_USERID2_2);
+			query.append(_FINDER_COLUMN_U1_U2_USERID2_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4007,9 +4007,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_U1_U2_USERID1_2);
+		query.append(_FINDER_COLUMN_U1_U2_USERID1_2_SQL);
 
-		query.append(_FINDER_COLUMN_U1_U2_USERID2_2);
+		query.append(_FINDER_COLUMN_U1_U2_USERID2_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4135,9 +4135,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U1_U2_USERID1_2);
+			query.append(_FINDER_COLUMN_U1_U2_USERID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_U1_U2_USERID2_2);
+			query.append(_FINDER_COLUMN_U1_U2_USERID2_2_SQL);
 
 			String sql = query.toString();
 
@@ -4298,7 +4298,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U1_T_USERID1_2);
+			query.append(_FINDER_COLUMN_U1_T_USERID1_2_SQL);
 
 			query.append(_FINDER_COLUMN_U1_T_TYPE_2_SQL);
 
@@ -4532,7 +4532,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_U1_T_USERID1_2);
+		query.append(_FINDER_COLUMN_U1_T_USERID1_2_SQL);
 
 		query.append(_FINDER_COLUMN_U1_T_TYPE_2_SQL);
 
@@ -4660,7 +4660,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U1_T_USERID1_2);
+			query.append(_FINDER_COLUMN_U1_T_USERID1_2_SQL);
 
 			query.append(_FINDER_COLUMN_U1_T_TYPE_2_SQL);
 
@@ -4823,7 +4823,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U2_T_USERID2_2);
+			query.append(_FINDER_COLUMN_U2_T_USERID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_U2_T_TYPE_2_SQL);
 
@@ -5057,7 +5057,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_U2_T_USERID2_2);
+		query.append(_FINDER_COLUMN_U2_T_USERID2_2_SQL);
 
 		query.append(_FINDER_COLUMN_U2_T_TYPE_2_SQL);
 
@@ -5185,7 +5185,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U2_T_USERID2_2);
+			query.append(_FINDER_COLUMN_U2_T_USERID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_U2_T_TYPE_2_SQL);
 
@@ -5315,9 +5315,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U1_U2_T_USERID1_2);
+			query.append(_FINDER_COLUMN_U1_U2_T_USERID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_U1_U2_T_USERID2_2);
+			query.append(_FINDER_COLUMN_U1_U2_T_USERID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_U1_U2_T_TYPE_2_SQL);
 
@@ -5409,9 +5409,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_U1_U2_T_USERID1_2);
+			query.append(_FINDER_COLUMN_U1_U2_T_USERID1_2_SQL);
 
-			query.append(_FINDER_COLUMN_U1_U2_T_USERID2_2);
+			query.append(_FINDER_COLUMN_U1_U2_T_USERID2_2_SQL);
 
 			query.append(_FINDER_COLUMN_U1_U2_T_TYPE_2_SQL);
 

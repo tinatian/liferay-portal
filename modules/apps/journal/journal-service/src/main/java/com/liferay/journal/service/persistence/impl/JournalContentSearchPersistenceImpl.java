@@ -200,12 +200,12 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -433,12 +433,12 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3);
+			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2);
+			query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -567,12 +567,12 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2);
+				query.append(_FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -732,12 +732,12 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -965,12 +965,12 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 		boolean bindArticleId = false;
 
 		if (articleId.isEmpty()) {
-			query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_3);
+			query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_3_SQL);
 		}
 		else {
 			bindArticleId = true;
 
-			query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_2);
+			query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1099,12 +1099,12 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_ARTICLEID_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1270,9 +1270,9 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1510,9 +1510,9 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 		query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2);
+		query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1637,9 +1637,9 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_COUNT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL);
 
 			String sql = query.toString();
 
@@ -1805,17 +1805,17 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2055,17 +2055,17 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 		query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
 		boolean bindArticleId = false;
 
 		if (articleId.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_A_ARTICLEID_3);
+			query.append(_FINDER_COLUMN_G_A_ARTICLEID_3_SQL);
 		}
 		else {
 			bindArticleId = true;
 
-			query.append(_FINDER_COLUMN_G_A_ARTICLEID_2);
+			query.append(_FINDER_COLUMN_G_A_ARTICLEID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2195,17 +2195,17 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_COUNT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_A_GROUPID_2_SQL);
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_A_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2379,11 +2379,11 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_L_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_L_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_LAYOUTID_2);
+			query.append(_FINDER_COLUMN_G_P_L_LAYOUTID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2634,11 +2634,11 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 		query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_L_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_L_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2);
+		query.append(_FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_L_LAYOUTID_2);
+		query.append(_FINDER_COLUMN_G_P_L_LAYOUTID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2768,11 +2768,11 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_COUNT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_L_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_L_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_LAYOUTID_2);
+			query.append(_FINDER_COLUMN_G_P_L_LAYOUTID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2948,19 +2948,19 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_A_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_A_PRIVATELAYOUT_2_SQL);
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3217,19 +3217,19 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 		query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_A_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_A_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_A_PRIVATELAYOUT_2);
+		query.append(_FINDER_COLUMN_G_P_A_PRIVATELAYOUT_2_SQL);
 
 		boolean bindArticleId = false;
 
 		if (articleId.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_3);
+			query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_3_SQL);
 		}
 		else {
 			bindArticleId = true;
 
-			query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_2);
+			query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3366,19 +3366,19 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_COUNT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_A_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_A_PRIVATELAYOUT_2_SQL);
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_P_A_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3567,21 +3567,21 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_LAYOUTID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_LAYOUTID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3853,21 +3853,21 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 		query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_L_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_L_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_L_P_PRIVATELAYOUT_2);
+		query.append(_FINDER_COLUMN_G_P_L_P_PRIVATELAYOUT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_L_P_LAYOUTID_2);
+		query.append(_FINDER_COLUMN_G_P_L_P_LAYOUTID_2_SQL);
 
 		boolean bindPortletId = false;
 
 		if (portletId.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_3);
+			query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_3_SQL);
 		}
 		else {
 			bindPortletId = true;
 
-			query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4010,21 +4010,21 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_COUNT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_LAYOUTID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_LAYOUTID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_3);
+				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_2);
+				query.append(_FINDER_COLUMN_G_P_L_P_PORTLETID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4188,32 +4188,32 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_SELECT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_A_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_A_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_A_LAYOUTID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_A_LAYOUTID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_3);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_2);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_2_SQL);
 			}
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4322,32 +4322,32 @@ public class JournalContentSearchPersistenceImpl extends BasePersistenceImpl<Jou
 
 			query.append(_SQL_COUNT_JOURNALCONTENTSEARCH_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_A_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_A_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_A_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_A_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_L_P_A_LAYOUTID_2);
+			query.append(_FINDER_COLUMN_G_P_L_P_A_LAYOUTID_2_SQL);
 
 			boolean bindPortletId = false;
 
 			if (portletId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_3);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_3_SQL);
 			}
 			else {
 				bindPortletId = true;
 
-				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_2);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_PORTLETID_2_SQL);
 			}
 
 			boolean bindArticleId = false;
 
 			if (articleId.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_3);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_3_SQL);
 			}
 			else {
 				bindArticleId = true;
 
-				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_2);
+				query.append(_FINDER_COLUMN_G_P_L_P_A_ARTICLEID_2_SQL);
 			}
 
 			String sql = query.toString();

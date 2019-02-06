@@ -737,7 +737,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -977,7 +977,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1117,7 +1117,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1269,7 +1269,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 
 			query.append(_SQL_SELECT_APP_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1480,7 +1480,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 
 		query.append(_SQL_SELECT_APP_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1601,7 +1601,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 
 			query.append(_SQL_COUNT_APP_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1710,7 +1710,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 
 			query.append(_SQL_SELECT_APP_WHERE);
 
-			query.append(_FINDER_COLUMN_REMOTEAPPID_REMOTEAPPID_2);
+			query.append(_FINDER_COLUMN_REMOTEAPPID_REMOTEAPPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1801,7 +1801,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 
 			query.append(_SQL_COUNT_APP_WHERE);
 
-			query.append(_FINDER_COLUMN_REMOTEAPPID_REMOTEAPPID_2);
+			query.append(_FINDER_COLUMN_REMOTEAPPID_REMOTEAPPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1952,12 +1952,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			boolean bindCategory = false;
 
 			if (category.isEmpty()) {
-				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_3);
+				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_3_SQL);
 			}
 			else {
 				bindCategory = true;
 
-				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_2);
+				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2176,12 +2176,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		boolean bindCategory = false;
 
 		if (category.isEmpty()) {
-			query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_3);
+			query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_3_SQL);
 		}
 		else {
 			bindCategory = true;
 
-			query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_2);
+			query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2310,12 +2310,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			boolean bindCategory = false;
 
 			if (category.isEmpty()) {
-				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_3);
+				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_3_SQL);
 			}
 			else {
 				bindCategory = true;
 
-				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_2);
+				query.append(_FINDER_COLUMN_CATEGORY_CATEGORY_2_SQL);
 			}
 
 			String sql = query.toString();

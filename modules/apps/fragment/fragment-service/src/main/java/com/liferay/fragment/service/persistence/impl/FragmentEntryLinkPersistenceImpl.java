@@ -708,7 +708,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -807,7 +807,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -986,7 +986,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1233,7 +1233,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1373,7 +1373,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1527,7 +1527,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1746,7 +1746,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 		query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1867,7 +1867,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_COUNT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2028,9 +2028,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_FRAGMENTENTRYID_2);
+			query.append(_FINDER_COLUMN_G_F_FRAGMENTENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2266,9 +2266,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 		query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_FRAGMENTENTRYID_2);
+		query.append(_FINDER_COLUMN_G_F_FRAGMENTENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2393,9 +2393,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_COUNT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_FRAGMENTENTRYID_2);
+			query.append(_FINDER_COLUMN_G_F_FRAGMENTENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2566,11 +2566,11 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2);
+			query.append(_FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_F_C_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2822,11 +2822,11 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 		query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2);
+		query.append(_FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_F_C_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2957,11 +2957,11 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_COUNT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2);
+			query.append(_FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_F_C_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3134,11 +3134,11 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3384,11 +3384,11 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 		query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3517,11 +3517,11 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_COUNT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3702,13 +3702,13 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3975,13 +3975,13 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 		query.append(_SQL_SELECT_FRAGMENTENTRYLINK_WHERE);
 
-		query.append(_FINDER_COLUMN_G_F_C_C_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_F_C_C_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2);
+		query.append(_FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_F_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_G_F_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4119,13 +4119,13 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 
 			query.append(_SQL_COUNT_FRAGMENTENTRYLINK_WHERE);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_F_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_G_F_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

@@ -207,7 +207,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_SELECT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -428,7 +428,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 		query.append(_SQL_SELECT_POWWOWPARTICIPANT_WHERE);
 
-		query.append(_FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2);
+		query.append(_FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -550,7 +550,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_COUNT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2_SQL);
 
 			String sql = query.toString();
 
@@ -671,9 +671,9 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_SELECT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_PMI_PUI_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_PMI_PUI_POWWOWMEETINGID_2_SQL);
 
-			query.append(_FINDER_COLUMN_PMI_PUI_PARTICIPANTUSERID_2);
+			query.append(_FINDER_COLUMN_PMI_PUI_PARTICIPANTUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -771,9 +771,9 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_COUNT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_PMI_PUI_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_PMI_PUI_POWWOWMEETINGID_2_SQL);
 
-			query.append(_FINDER_COLUMN_PMI_PUI_PARTICIPANTUSERID_2);
+			query.append(_FINDER_COLUMN_PMI_PUI_PARTICIPANTUSERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -899,17 +899,17 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_SELECT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_PMI_EA_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_PMI_EA_POWWOWMEETINGID_2_SQL);
 
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1001,17 +1001,17 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_COUNT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_PMI_EA_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_PMI_EA_POWWOWMEETINGID_2_SQL);
 
 			boolean bindEmailAddress = false;
 
 			if (emailAddress.isEmpty()) {
-				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_3);
+				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_3_SQL);
 			}
 			else {
 				bindEmailAddress = true;
 
-				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_2);
+				query.append(_FINDER_COLUMN_PMI_EA_EMAILADDRESS_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1179,7 +1179,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_SELECT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2_SQL);
 
 			query.append(_FINDER_COLUMN_PMI_T_TYPE_2_SQL);
 
@@ -1413,7 +1413,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 		query.append(_SQL_SELECT_POWWOWPARTICIPANT_WHERE);
 
-		query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2);
+		query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2_SQL);
 
 		query.append(_FINDER_COLUMN_PMI_T_TYPE_2_SQL);
 
@@ -1542,7 +1542,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_SQL_COUNT_POWWOWPARTICIPANT_WHERE);
 
-			query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2);
+			query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2_SQL);
 
 			query.append(_FINDER_COLUMN_PMI_T_TYPE_2_SQL);
 

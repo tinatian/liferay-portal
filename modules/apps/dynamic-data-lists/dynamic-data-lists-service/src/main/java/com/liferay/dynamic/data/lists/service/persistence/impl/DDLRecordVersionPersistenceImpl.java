@@ -193,7 +193,7 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_RECORDID_RECORDID_2);
+			query.append(_FINDER_COLUMN_RECORDID_RECORDID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 		query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_RECORDID_RECORDID_2);
+		query.append(_FINDER_COLUMN_RECORDID_RECORDID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -532,7 +532,7 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_COUNT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_RECORDID_RECORDID_2);
+			query.append(_FINDER_COLUMN_RECORDID_RECORDID_2_SQL);
 
 			String sql = query.toString();
 
@@ -697,17 +697,17 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_R_RECORDSETID_2);
+			query.append(_FINDER_COLUMN_R_R_RECORDSETID_2_SQL);
 
 			boolean bindRecordSetVersion = false;
 
 			if (recordSetVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_3);
+				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_3_SQL);
 			}
 			else {
 				bindRecordSetVersion = true;
 
-				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_2);
+				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -949,17 +949,17 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 		query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_R_R_RECORDSETID_2);
+		query.append(_FINDER_COLUMN_R_R_RECORDSETID_2_SQL);
 
 		boolean bindRecordSetVersion = false;
 
 		if (recordSetVersion.isEmpty()) {
-			query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_3);
+			query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_3_SQL);
 		}
 		else {
 			bindRecordSetVersion = true;
 
-			query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_2);
+			query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1089,17 +1089,17 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_COUNT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_R_RECORDSETID_2);
+			query.append(_FINDER_COLUMN_R_R_RECORDSETID_2_SQL);
 
 			boolean bindRecordSetVersion = false;
 
 			if (recordSetVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_3);
+				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_3_SQL);
 			}
 			else {
 				bindRecordSetVersion = true;
 
-				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_2);
+				query.append(_FINDER_COLUMN_R_R_RECORDSETVERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1226,17 +1226,17 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_V_RECORDID_2);
+			query.append(_FINDER_COLUMN_R_V_RECORDID_2_SQL);
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_V_VERSION_3);
+				query.append(_FINDER_COLUMN_R_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_R_V_VERSION_2);
+				query.append(_FINDER_COLUMN_R_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1325,17 +1325,17 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_COUNT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_V_RECORDID_2);
+			query.append(_FINDER_COLUMN_R_V_RECORDID_2_SQL);
 
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_V_VERSION_3);
+				query.append(_FINDER_COLUMN_R_V_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_R_V_VERSION_2);
+				query.append(_FINDER_COLUMN_R_V_VERSION_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1502,9 +1502,9 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_S_RECORDID_2);
+			query.append(_FINDER_COLUMN_R_S_RECORDID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_R_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1736,9 +1736,9 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 		query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_R_S_RECORDID_2);
+		query.append(_FINDER_COLUMN_R_S_RECORDID_2_SQL);
 
-		query.append(_FINDER_COLUMN_R_S_STATUS_2);
+		query.append(_FINDER_COLUMN_R_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1863,9 +1863,9 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_COUNT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_R_S_RECORDID_2);
+			query.append(_FINDER_COLUMN_R_S_RECORDID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_R_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -2046,22 +2046,22 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_U_R_R_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETID_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETID_2_SQL);
 
 			boolean bindRecordSetVersion = false;
 
 			if (recordSetVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3);
+				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3_SQL);
 			}
 			else {
 				bindRecordSetVersion = true;
 
-				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2);
+				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_R_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2330,22 +2330,22 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 		query.append(_SQL_SELECT_DDLRECORDVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_U_R_R_S_USERID_2);
+		query.append(_FINDER_COLUMN_U_R_R_S_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETID_2);
+		query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETID_2_SQL);
 
 		boolean bindRecordSetVersion = false;
 
 		if (recordSetVersion.isEmpty()) {
-			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3);
+			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3_SQL);
 		}
 		else {
 			bindRecordSetVersion = true;
 
-			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_U_R_R_S_STATUS_2);
+		query.append(_FINDER_COLUMN_U_R_R_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2487,22 +2487,22 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 
 			query.append(_SQL_COUNT_DDLRECORDVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_U_R_R_S_USERID_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETID_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETID_2_SQL);
 
 			boolean bindRecordSetVersion = false;
 
 			if (recordSetVersion.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3);
+				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3_SQL);
 			}
 			else {
 				bindRecordSetVersion = true;
 
-				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2);
+				query.append(_FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_U_R_R_S_STATUS_2);
+			query.append(_FINDER_COLUMN_U_R_R_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 

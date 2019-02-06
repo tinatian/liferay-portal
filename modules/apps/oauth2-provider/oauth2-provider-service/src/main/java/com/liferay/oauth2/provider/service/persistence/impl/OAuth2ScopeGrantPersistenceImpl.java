@@ -719,41 +719,41 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 			query.append(_SQL_SELECT_OAUTH2SCOPEGRANT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_O_A_B_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_O_A_B_S_COMPANYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 			boolean bindApplicationName = false;
 
 			if (applicationName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_3);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_3_SQL);
 			}
 			else {
 				bindApplicationName = true;
 
-				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_2);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_2_SQL);
 			}
 
 			boolean bindBundleSymbolicName = false;
 
 			if (bundleSymbolicName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_3);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_3_SQL);
 			}
 			else {
 				bindBundleSymbolicName = true;
 
-				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_2);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_2_SQL);
 			}
 
 			boolean bindScope = false;
 
 			if (scope.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_3);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_3_SQL);
 			}
 			else {
 				bindScope = true;
 
-				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_2);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -880,41 +880,41 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 			query.append(_SQL_COUNT_OAUTH2SCOPEGRANT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_O_A_B_S_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_O_A_B_S_COMPANYID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 			boolean bindApplicationName = false;
 
 			if (applicationName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_3);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_3_SQL);
 			}
 			else {
 				bindApplicationName = true;
 
-				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_2);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_2_SQL);
 			}
 
 			boolean bindBundleSymbolicName = false;
 
 			if (bundleSymbolicName.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_3);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_3_SQL);
 			}
 			else {
 				bindBundleSymbolicName = true;
 
-				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_2);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_2_SQL);
 			}
 
 			boolean bindScope = false;
 
 			if (scope.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_3);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_3_SQL);
 			}
 			else {
 				bindScope = true;
 
-				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_2);
+				query.append(_FINDER_COLUMN_C_O_A_B_S_SCOPE_2_SQL);
 			}
 
 			String sql = query.toString();

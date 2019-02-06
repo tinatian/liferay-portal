@@ -197,7 +197,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 
 			query.append(_SQL_SELECT_KALEONOTIFICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -416,7 +416,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 
 		query.append(_SQL_SELECT_KALEONOTIFICATION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -537,7 +537,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 
 			query.append(_SQL_COUNT_KALEONOTIFICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -695,7 +695,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 
 			query.append(_SQL_SELECT_KALEONOTIFICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -921,7 +921,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 
 		query.append(_SQL_SELECT_KALEONOTIFICATION_WHERE);
 
-		query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+		query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1043,7 +1043,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 
 			query.append(_SQL_COUNT_KALEONOTIFICATION_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1212,15 +1212,15 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1464,15 +1464,15 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 		boolean bindKaleoClassName = false;
 
 		if (kaleoClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL);
 		}
 		else {
 			bindKaleoClassName = true;
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2);
+		query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1605,15 +1605,15 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -1797,25 +1797,25 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2_SQL);
 
 			boolean bindExecutionType = false;
 
 			if (executionType.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3_SQL);
 			}
 			else {
 				bindExecutionType = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2080,25 +2080,25 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 		boolean bindKaleoClassName = false;
 
 		if (kaleoClassName.isEmpty()) {
-			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3);
+			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3_SQL);
 		}
 		else {
 			bindKaleoClassName = true;
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2);
+		query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2_SQL);
 
 		boolean bindExecutionType = false;
 
 		if (executionType.isEmpty()) {
-			query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3);
+			query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3_SQL);
 		}
 		else {
 			bindExecutionType = true;
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2243,25 +2243,25 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 			boolean bindKaleoClassName = false;
 
 			if (kaleoClassName.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3_SQL);
 			}
 			else {
 				bindKaleoClassName = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2);
+			query.append(_FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2_SQL);
 
 			boolean bindExecutionType = false;
 
 			if (executionType.isEmpty()) {
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3_SQL);
 			}
 			else {
 				bindExecutionType = true;
 
-				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2);
+				query.append(_FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2_SQL);
 			}
 
 			String sql = query.toString();

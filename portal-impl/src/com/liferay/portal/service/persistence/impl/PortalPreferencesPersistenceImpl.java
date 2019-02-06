@@ -159,9 +159,9 @@ public class PortalPreferencesPersistenceImpl extends BasePersistenceImpl<Portal
 
 			query.append(_SQL_SELECT_PORTALPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_OWNERTYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -257,9 +257,9 @@ public class PortalPreferencesPersistenceImpl extends BasePersistenceImpl<Portal
 
 			query.append(_SQL_COUNT_PORTALPREFERENCES_WHERE);
 
-			query.append(_FINDER_COLUMN_O_O_OWNERID_2);
+			query.append(_FINDER_COLUMN_O_O_OWNERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_O_O_OWNERTYPE_2);
+			query.append(_FINDER_COLUMN_O_O_OWNERTYPE_2_SQL);
 
 			String sql = query.toString();
 

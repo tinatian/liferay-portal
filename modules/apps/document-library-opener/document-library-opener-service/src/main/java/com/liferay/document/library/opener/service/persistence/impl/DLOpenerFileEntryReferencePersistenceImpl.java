@@ -160,7 +160,7 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 
 			query.append(_SQL_SELECT_DLOPENERFILEENTRYREFERENCE_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -241,7 +241,7 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 
 			query.append(_SQL_COUNT_DLOPENERFILEENTRYREFERENCE_WHERE);
 
-			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2);
+			query.append(_FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL);
 
 			String sql = query.toString();
 

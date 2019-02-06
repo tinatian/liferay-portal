@@ -200,7 +200,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -421,7 +421,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 		query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -542,7 +542,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_COUNT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -693,7 +693,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_CATEGORYID_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_CATEGORYID_CATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -914,7 +914,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 		query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-		query.append(_FINDER_COLUMN_CATEGORYID_CATEGORYID_2);
+		query.append(_FINDER_COLUMN_CATEGORYID_CATEGORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1035,7 +1035,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_COUNT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_CATEGORYID_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_CATEGORYID_CATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1197,7 +1197,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_K_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_K_COMPANYID_2_SQL);
 
 			boolean bindKey = false;
 
@@ -1445,7 +1445,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 		query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-		query.append(_FINDER_COLUMN_C_K_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_K_COMPANYID_2_SQL);
 
 		boolean bindKey = false;
 
@@ -1585,7 +1585,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_COUNT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_K_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_K_COMPANYID_2_SQL);
 
 			boolean bindKey = false;
 
@@ -1723,7 +1723,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_SELECT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_CA_K_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_CA_K_CATEGORYID_2_SQL);
 
 			boolean bindKey = false;
 
@@ -1822,7 +1822,7 @@ public class AssetCategoryPropertyPersistenceImpl extends BasePersistenceImpl<As
 
 			query.append(_SQL_COUNT_ASSETCATEGORYPROPERTY_WHERE);
 
-			query.append(_FINDER_COLUMN_CA_K_CATEGORYID_2);
+			query.append(_FINDER_COLUMN_CA_K_CATEGORYID_2_SQL);
 
 			boolean bindKey = false;
 

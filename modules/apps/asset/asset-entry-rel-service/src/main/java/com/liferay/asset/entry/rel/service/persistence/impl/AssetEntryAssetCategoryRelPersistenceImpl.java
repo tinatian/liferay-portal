@@ -200,7 +200,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -427,7 +427,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 		query.append(_SQL_SELECT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-		query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2);
+		query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -548,7 +548,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -705,7 +705,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2);
+			query.append(_FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -932,7 +932,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 		query.append(_SQL_SELECT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-		query.append(_FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2);
+		query.append(_FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1053,7 +1053,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2);
+			query.append(_FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1174,9 +1174,9 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 			query.append(_SQL_SELECT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETCATEGORYID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETCATEGORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1272,9 +1272,9 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 
 			query.append(_SQL_COUNT_ASSETENTRYASSETCATEGORYREL_WHERE);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_A_A_ASSETCATEGORYID_2);
+			query.append(_FINDER_COLUMN_A_A_ASSETCATEGORYID_2_SQL);
 
 			String sql = query.toString();
 

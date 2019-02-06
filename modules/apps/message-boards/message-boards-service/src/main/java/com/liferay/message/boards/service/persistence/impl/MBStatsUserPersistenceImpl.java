@@ -190,7 +190,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -406,7 +406,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 		query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -527,7 +527,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_COUNT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -674,7 +674,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -889,7 +889,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 		query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1010,7 +1010,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_COUNT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1128,9 +1128,9 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1214,9 +1214,9 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_COUNT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_U_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_U_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_U_USERID_2);
+			query.append(_FINDER_COLUMN_G_U_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1377,11 +1377,11 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTU_NOTM_USERID_2);
+			query.append(_FINDER_COLUMN_G_NOTU_NOTM_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2);
+			query.append(_FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1626,11 +1626,11 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 		query.append(_SQL_SELECT_MBSTATSUSER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTU_NOTM_USERID_2);
+		query.append(_FINDER_COLUMN_G_NOTU_NOTM_USERID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2);
+		query.append(_FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1759,11 +1759,11 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 
 			query.append(_SQL_COUNT_MBSTATSUSER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTU_NOTM_USERID_2);
+			query.append(_FINDER_COLUMN_G_NOTU_NOTM_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2);
+			query.append(_FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2_SQL);
 
 			String sql = query.toString();
 

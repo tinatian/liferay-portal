@@ -200,7 +200,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -420,7 +420,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 		query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -541,7 +541,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_COUNT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -698,7 +698,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2);
+			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -925,7 +925,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 		query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2);
+		query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1046,7 +1046,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_COUNT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2);
+			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1205,7 +1205,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2);
+			query.append(_FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1432,7 +1432,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 		query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2);
+		query.append(_FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1554,7 +1554,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_COUNT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2);
+			query.append(_FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2_SQL);
 
 			String sql = query.toString();
 
@@ -1713,7 +1713,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2);
+			query.append(_FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1940,7 +1940,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 		query.append(_SQL_SELECT_OAUTH2AUTHORIZATION_WHERE);
 
-		query.append(_FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2);
+		query.append(_FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2062,7 +2062,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 
 			query.append(_SQL_COUNT_OAUTH2AUTHORIZATION_WHERE);
 
-			query.append(_FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2);
+			query.append(_FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2_SQL);
 
 			String sql = query.toString();
 

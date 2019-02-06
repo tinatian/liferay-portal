@@ -191,7 +191,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -411,7 +411,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 		query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -533,7 +533,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_COUNT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -681,7 +681,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -901,7 +901,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 		query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_USERID_USERID_2);
+		query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1023,7 +1023,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_COUNT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1180,7 +1180,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2);
+			query.append(_FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1407,7 +1407,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 		query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2);
+		query.append(_FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1529,7 +1529,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_COUNT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2);
+			query.append(_FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1658,11 +1658,11 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_SELECT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_U_L_P_USERID_2);
+			query.append(_FINDER_COLUMN_U_L_P_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_L_P_PLID_2);
+			query.append(_FINDER_COLUMN_U_L_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1753,11 +1753,11 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 
 			query.append(_SQL_COUNT_RECENTLAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_U_L_P_USERID_2);
+			query.append(_FINDER_COLUMN_U_L_P_USERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_U_L_P_PLID_2);
+			query.append(_FINDER_COLUMN_U_L_P_PLID_2_SQL);
 
 			String sql = query.toString();
 

@@ -205,7 +205,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -427,7 +427,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -549,7 +549,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL);
 
 			String sql = query.toString();
 
@@ -697,7 +697,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_PLID_PLID_2);
+			query.append(_FINDER_COLUMN_PLID_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -913,7 +913,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_PLID_PLID_2);
+		query.append(_FINDER_COLUMN_PLID_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1035,7 +1035,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_PLID_PLID_2);
+			query.append(_FINDER_COLUMN_PLID_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1182,7 +1182,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1399,7 +1399,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+		query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1521,7 +1521,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -1681,9 +1681,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_HEAD_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1915,9 +1915,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_H_HEAD_2);
+		query.append(_FINDER_COLUMN_L_H_HEAD_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2043,9 +2043,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_HEAD_2_SQL);
 
 			String sql = query.toString();
 
@@ -2208,9 +2208,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_P_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2442,9 +2442,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_P_PLID_2);
+		query.append(_FINDER_COLUMN_L_P_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2570,9 +2570,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2735,9 +2735,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_S_STATUS_2);
+			query.append(_FINDER_COLUMN_L_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2969,9 +2969,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_S_STATUS_2);
+		query.append(_FINDER_COLUMN_L_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3097,9 +3097,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_S_STATUS_2);
+			query.append(_FINDER_COLUMN_L_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -3255,9 +3255,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_H_P_HEAD_2);
+			query.append(_FINDER_COLUMN_H_P_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_H_P_PLID_2);
+			query.append(_FINDER_COLUMN_H_P_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3489,9 +3489,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_H_P_HEAD_2);
+		query.append(_FINDER_COLUMN_H_P_HEAD_2_SQL);
 
-		query.append(_FINDER_COLUMN_H_P_PLID_2);
+		query.append(_FINDER_COLUMN_H_P_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3617,9 +3617,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_H_P_HEAD_2);
+			query.append(_FINDER_COLUMN_H_P_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_H_P_PLID_2);
+			query.append(_FINDER_COLUMN_H_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3767,9 +3767,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_P_NOTS_PLID_2);
+			query.append(_FINDER_COLUMN_P_NOTS_PLID_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_P_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4001,9 +4001,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_P_NOTS_PLID_2);
+		query.append(_FINDER_COLUMN_P_NOTS_PLID_2_SQL);
 
-		query.append(_FINDER_COLUMN_P_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_P_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4129,9 +4129,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_P_NOTS_PLID_2);
+			query.append(_FINDER_COLUMN_P_NOTS_PLID_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_P_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4302,11 +4302,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_L_P_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4558,11 +4558,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_L_P_PLID_2);
+		query.append(_FINDER_COLUMN_L_L_P_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4696,11 +4696,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_L_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4876,11 +4876,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2);
+			query.append(_FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_P_P_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5133,11 +5133,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2);
+		query.append(_FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_P_P_PLID_2);
+		query.append(_FINDER_COLUMN_L_P_P_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5272,11 +5272,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2);
+			query.append(_FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_P_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5410,11 +5410,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_P_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_H_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5515,11 +5515,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_P_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_H_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5693,11 +5693,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_PLID_2);
+			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_PLID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5949,11 +5949,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2);
+		query.append(_FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_H_P_COLLECTION_PLID_2);
+		query.append(_FINDER_COLUMN_L_H_P_COLLECTION_PLID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6086,11 +6086,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_PLID_2);
+			query.append(_FINDER_COLUMN_L_H_P_COLLECTION_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -6264,11 +6264,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_S_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_S_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_S_STATUS_2);
+			query.append(_FINDER_COLUMN_L_H_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6518,11 +6518,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_H_S_HEAD_2);
+		query.append(_FINDER_COLUMN_L_H_S_HEAD_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_L_H_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6652,11 +6652,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_S_HEAD_2);
+			query.append(_FINDER_COLUMN_L_H_S_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_H_S_STATUS_2);
+			query.append(_FINDER_COLUMN_L_H_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -6829,11 +6829,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_S_PLID_2);
+			query.append(_FINDER_COLUMN_L_P_S_PLID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_L_P_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7079,11 +7079,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 		query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-		query.append(_FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2);
+		query.append(_FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_P_S_PLID_2);
+		query.append(_FINDER_COLUMN_L_P_S_PLID_2_SQL);
 
-		query.append(_FINDER_COLUMN_L_P_S_STATUS_2);
+		query.append(_FINDER_COLUMN_L_P_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7213,11 +7213,11 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_S_PLID_2);
+			query.append(_FINDER_COLUMN_L_P_S_PLID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_P_S_STATUS_2);
+			query.append(_FINDER_COLUMN_L_P_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7361,13 +7361,13 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_SELECT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_HEAD_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_PLID_2_SQL);
 
 			String sql = query.toString();
 
@@ -7477,13 +7477,13 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 
 			query.append(_SQL_COUNT_LAYOUTREVISION_WHERE);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTSETBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTSETBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTBRANCHID_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_LAYOUTBRANCHID_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_HEAD_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_HEAD_2_SQL);
 
-			query.append(_FINDER_COLUMN_L_L_H_P_PLID_2);
+			query.append(_FINDER_COLUMN_L_L_H_P_PLID_2_SQL);
 
 			String sql = query.toString();
 

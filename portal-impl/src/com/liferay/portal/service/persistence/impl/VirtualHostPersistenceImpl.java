@@ -160,12 +160,12 @@ public class VirtualHostPersistenceImpl extends BasePersistenceImpl<VirtualHost>
 			boolean bindHostname = false;
 
 			if (hostname.isEmpty()) {
-				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_3);
+				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_3_SQL);
 			}
 			else {
 				bindHostname = true;
 
-				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_2);
+				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -255,12 +255,12 @@ public class VirtualHostPersistenceImpl extends BasePersistenceImpl<VirtualHost>
 			boolean bindHostname = false;
 
 			if (hostname.isEmpty()) {
-				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_3);
+				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_3_SQL);
 			}
 			else {
 				bindHostname = true;
 
-				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_2);
+				query.append(_FINDER_COLUMN_HOSTNAME_HOSTNAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -382,9 +382,9 @@ public class VirtualHostPersistenceImpl extends BasePersistenceImpl<VirtualHost>
 
 			query.append(_SQL_SELECT_VIRTUALHOST_WHERE);
 
-			query.append(_FINDER_COLUMN_C_L_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_L_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_L_LAYOUTSETID_2);
+			query.append(_FINDER_COLUMN_C_L_LAYOUTSETID_2_SQL);
 
 			String sql = query.toString();
 
@@ -469,9 +469,9 @@ public class VirtualHostPersistenceImpl extends BasePersistenceImpl<VirtualHost>
 
 			query.append(_SQL_COUNT_VIRTUALHOST_WHERE);
 
-			query.append(_FINDER_COLUMN_C_L_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_L_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_L_LAYOUTSETID_2);
+			query.append(_FINDER_COLUMN_C_L_LAYOUTSETID_2_SQL);
 
 			String sql = query.toString();
 

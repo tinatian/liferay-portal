@@ -193,7 +193,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 			query.append(_SQL_SELECT_CONTACT_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -408,7 +408,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 		query.append(_SQL_SELECT_CONTACT_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -530,7 +530,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 			query.append(_SQL_COUNT_CONTACT_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -677,7 +677,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 			query.append(_SQL_SELECT_CONTACT_WHERE);
 
-			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2);
+			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -892,7 +892,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 		query.append(_SQL_SELECT_CONTACT_WHERE);
 
-		query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2);
+		query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1014,7 +1014,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 			query.append(_SQL_COUNT_CONTACT_WHERE);
 
-			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2);
+			query.append(_FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1173,9 +1173,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 			query.append(_SQL_SELECT_CONTACT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1406,9 +1406,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 		query.append(_SQL_SELECT_CONTACT_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1534,9 +1534,9 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 
 			query.append(_SQL_COUNT_CONTACT_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

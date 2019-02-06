@@ -209,7 +209,7 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 			query.append(_SQL_SELECT_CTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2);
+			query.append(_FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -427,7 +427,7 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 		query.append(_SQL_SELECT_CTENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2);
+		query.append(_FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -548,7 +548,7 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 			query.append(_SQL_COUNT_CTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2);
+			query.append(_FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2_SQL);
 
 			String sql = query.toString();
 
@@ -667,9 +667,9 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 			query.append(_SQL_SELECT_CTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -753,9 +753,9 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 			query.append(_SQL_COUNT_CTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 

@@ -200,7 +200,7 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSIONEDENTRYID_2);
+			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSIONEDENTRYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -427,7 +427,7 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 		query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSIONEDENTRYID_2);
+		query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSIONEDENTRYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -548,7 +548,7 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_COUNT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSIONEDENTRYID_2);
+			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSIONEDENTRYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -670,9 +670,9 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSIONEDENTRYID_2);
+			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSIONEDENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -760,9 +760,9 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_COUNT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSIONEDENTRYID_2);
+			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSIONEDENTRYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_VERSIONEDENTRYID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 
@@ -915,7 +915,7 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1135,7 +1135,7 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 		query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1256,7 +1256,7 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_COUNT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1418,9 +1418,9 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1656,9 +1656,9 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 		query.append(_SQL_SELECT_VERSIONEDENTRYVERSION_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2);
+		query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1783,9 +1783,9 @@ public class VersionedEntryVersionPersistenceImpl extends BasePersistenceImpl<Ve
 
 			query.append(_SQL_COUNT_VERSIONEDENTRYVERSION_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2);
+			query.append(_FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL);
 
 			String sql = query.toString();
 

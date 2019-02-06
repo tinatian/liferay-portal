@@ -197,7 +197,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 			query.append(_SQL_SELECT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -420,7 +420,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 		query.append(_SQL_SELECT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -541,7 +541,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 			query.append(_SQL_COUNT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -699,7 +699,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 			query.append(_SQL_SELECT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -926,7 +926,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 		query.append(_SQL_SELECT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-		query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+		query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1048,7 +1048,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 			query.append(_SQL_COUNT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2);
+			query.append(_FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1206,7 +1206,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 			query.append(_SQL_SELECT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEONOTIFICATIONID_KALEONOTIFICATIONID_2);
+			query.append(_FINDER_COLUMN_KALEONOTIFICATIONID_KALEONOTIFICATIONID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1433,7 +1433,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 		query.append(_SQL_SELECT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-		query.append(_FINDER_COLUMN_KALEONOTIFICATIONID_KALEONOTIFICATIONID_2);
+		query.append(_FINDER_COLUMN_KALEONOTIFICATIONID_KALEONOTIFICATIONID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1554,7 +1554,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 			query.append(_SQL_COUNT_KALEONOTIFICATIONRECIPIENT_WHERE);
 
-			query.append(_FINDER_COLUMN_KALEONOTIFICATIONID_KALEONOTIFICATIONID_2);
+			query.append(_FINDER_COLUMN_KALEONOTIFICATIONID_KALEONOTIFICATIONID_2_SQL);
 
 			String sql = query.toString();
 

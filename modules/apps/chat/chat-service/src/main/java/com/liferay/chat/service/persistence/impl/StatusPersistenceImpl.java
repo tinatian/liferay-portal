@@ -152,7 +152,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_SELECT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -231,7 +231,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_COUNT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_USERID_USERID_2);
+			query.append(_FINDER_COLUMN_USERID_USERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -384,7 +384,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_SELECT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2);
+			query.append(_FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -601,7 +601,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 		query.append(_SQL_SELECT_STATUS_WHERE);
 
-		query.append(_FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2);
+		query.append(_FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -722,7 +722,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_COUNT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2);
+			query.append(_FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1363,7 +1363,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_SELECT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2);
+			query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2_SQL);
 
 			query.append(_FINDER_COLUMN_M_O_ONLINE_2_SQL);
 
@@ -1594,7 +1594,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 		query.append(_SQL_SELECT_STATUS_WHERE);
 
-		query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2);
+		query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2_SQL);
 
 		query.append(_FINDER_COLUMN_M_O_ONLINE_2_SQL);
 
@@ -1721,7 +1721,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_COUNT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2);
+			query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2_SQL);
 
 			query.append(_FINDER_COLUMN_M_O_ONLINE_2_SQL);
 

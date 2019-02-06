@@ -716,7 +716,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -817,7 +817,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -994,7 +994,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1240,7 +1240,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
-		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1381,7 +1381,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1533,7 +1533,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1748,7 +1748,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1903,7 +1903,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -2026,7 +2026,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -2178,7 +2178,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2226,7 +2226,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				DLFolder.class.getName(),
@@ -2373,7 +2373,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2588,7 +2588,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2710,7 +2710,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2864,7 +2864,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3082,7 +3082,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3204,7 +3204,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3363,9 +3363,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3596,9 +3596,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3760,9 +3760,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -3888,9 +3888,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -4046,9 +4046,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -4099,9 +4099,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				DLFolder.class.getName(),
@@ -4254,9 +4254,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4487,9 +4487,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+		query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+		query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4615,9 +4615,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_C_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -4738,9 +4738,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_M_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_R_M_MOUNTPOINT_2_SQL);
 
 			String sql = query.toString();
 
@@ -4836,9 +4836,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_M_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_M_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_R_M_MOUNTPOINT_2_SQL);
 
 			String sql = query.toString();
 
@@ -5000,9 +5000,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5233,9 +5233,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5361,9 +5361,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -5527,17 +5527,17 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_P_N_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_P_N_PARENTFOLDERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_P_N_NAME_3);
+				query.append(_FINDER_COLUMN_P_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_P_N_NAME_2);
+				query.append(_FINDER_COLUMN_P_N_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -5773,17 +5773,17 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_P_N_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_P_N_PARENTFOLDERID_2_SQL);
 
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_P_N_NAME_3);
+			query.append(_FINDER_COLUMN_P_N_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_P_N_NAME_2);
+			query.append(_FINDER_COLUMN_P_N_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -5914,17 +5914,17 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_P_N_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_P_N_PARENTFOLDERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_P_N_NAME_3);
+				query.append(_FINDER_COLUMN_P_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_P_N_NAME_2);
+				query.append(_FINDER_COLUMN_P_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -6097,11 +6097,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6347,11 +6347,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6521,11 +6521,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -6656,11 +6656,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -6822,11 +6822,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -6881,11 +6881,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				DLFolder.class.getName(),
@@ -7018,19 +7018,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -7124,19 +7124,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_N_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_N_PARENTFOLDERID_2_SQL);
 
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_N_NAME_3);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_G_P_N_NAME_2);
+				query.append(_FINDER_COLUMN_G_P_N_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -7309,13 +7309,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -7562,13 +7562,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2_SQL);
 
-			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2);
+			query.append(_FINDER_COLUMN_F_C_P_NOTS_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -7751,11 +7751,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
@@ -8020,11 +8020,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
@@ -8201,11 +8201,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
@@ -8343,11 +8343,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
@@ -8518,11 +8518,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
@@ -8582,11 +8582,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
@@ -8763,19 +8763,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL);
 
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3);
+				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
+				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
@@ -9045,19 +9045,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
@@ -9239,19 +9239,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
@@ -9394,19 +9394,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
@@ -9579,19 +9579,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL);
 
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3);
+				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
+				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
@@ -9656,19 +9656,19 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL);
 
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
@@ -9855,13 +9855,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -10124,13 +10124,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -10305,13 +10305,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -10447,13 +10447,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -10621,13 +10621,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -10685,13 +10685,13 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				DLFolder.class.getName(),
@@ -10879,15 +10879,15 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -11167,15 +11167,15 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_SQL_SELECT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -11356,15 +11356,15 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -11503,15 +11503,15 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_DLFOLDER_NO_INLINE_DISTINCT_WHERE_2);
@@ -11684,15 +11684,15 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_SQL_COUNT_DLFOLDER_WHERE);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL);
 
 			String sql = query.toString();
 
@@ -11754,15 +11754,15 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FILTER_SQL_COUNT_DLFOLDER_WHERE);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				DLFolder.class.getName(),

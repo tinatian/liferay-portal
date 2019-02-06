@@ -195,7 +195,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -414,7 +414,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 		query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-		query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -535,7 +535,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_COUNT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -687,7 +687,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -906,7 +906,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 		query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-		query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2);
+		query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1027,7 +1027,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_COUNT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1188,9 +1188,9 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1422,9 +1422,9 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 		query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1549,9 +1549,9 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_COUNT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -1681,11 +1681,11 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_SELECT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_C_C_S_STRUCTUREID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1774,11 +1774,11 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 
 			query.append(_SQL_COUNT_DDMSTRUCTURELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_S_CLASSPK_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_S_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_C_C_S_STRUCTUREID_2_SQL);
 
 			String sql = query.toString();
 

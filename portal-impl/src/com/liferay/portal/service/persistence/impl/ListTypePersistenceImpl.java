@@ -691,12 +691,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_T_NAME_3);
+				query.append(_FINDER_COLUMN_N_T_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_N_T_NAME_2);
+				query.append(_FINDER_COLUMN_N_T_NAME_2_SQL);
 			}
 
 			boolean bindType = false;
@@ -814,12 +814,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_T_NAME_3);
+				query.append(_FINDER_COLUMN_N_T_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_N_T_NAME_2);
+				query.append(_FINDER_COLUMN_N_T_NAME_2_SQL);
 			}
 
 			boolean bindType = false;

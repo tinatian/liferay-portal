@@ -193,12 +193,12 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
+				query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
+				query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -422,12 +422,12 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 		boolean bindName = false;
 
 		if (name.isEmpty()) {
-			query.append(_FINDER_COLUMN_NAME_NAME_3);
+			query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 		}
 		else {
 			bindName = true;
 
-			query.append(_FINDER_COLUMN_NAME_NAME_2);
+			query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -557,12 +557,12 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
+				query.append(_FINDER_COLUMN_NAME_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
+				query.append(_FINDER_COLUMN_NAME_NAME_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -690,23 +690,23 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_A_NAME_3);
+				query.append(_FINDER_COLUMN_N_A_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_N_A_NAME_2);
+				query.append(_FINDER_COLUMN_N_A_NAME_2_SQL);
 			}
 
 			boolean bindActionId = false;
 
 			if (actionId.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_A_ACTIONID_3);
+				query.append(_FINDER_COLUMN_N_A_ACTIONID_3_SQL);
 			}
 			else {
 				bindActionId = true;
 
-				query.append(_FINDER_COLUMN_N_A_ACTIONID_2);
+				query.append(_FINDER_COLUMN_N_A_ACTIONID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -802,23 +802,23 @@ public class ResourceActionPersistenceImpl extends BasePersistenceImpl<ResourceA
 			boolean bindName = false;
 
 			if (name.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_A_NAME_3);
+				query.append(_FINDER_COLUMN_N_A_NAME_3_SQL);
 			}
 			else {
 				bindName = true;
 
-				query.append(_FINDER_COLUMN_N_A_NAME_2);
+				query.append(_FINDER_COLUMN_N_A_NAME_2_SQL);
 			}
 
 			boolean bindActionId = false;
 
 			if (actionId.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_A_ACTIONID_3);
+				query.append(_FINDER_COLUMN_N_A_ACTIONID_3_SQL);
 			}
 			else {
 				bindActionId = true;
 
-				query.append(_FINDER_COLUMN_N_A_ACTIONID_2);
+				query.append(_FINDER_COLUMN_N_A_ACTIONID_2_SQL);
 			}
 
 			String sql = query.toString();

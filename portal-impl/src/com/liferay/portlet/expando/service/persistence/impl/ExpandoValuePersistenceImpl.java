@@ -195,7 +195,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -412,7 +412,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+		query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -534,7 +534,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2);
+			query.append(_FINDER_COLUMN_TABLEID_TABLEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -682,7 +682,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_COLUMNID_COLUMNID_2);
+			query.append(_FINDER_COLUMN_COLUMNID_COLUMNID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -900,7 +900,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_COLUMNID_COLUMNID_2);
+		query.append(_FINDER_COLUMN_COLUMNID_COLUMNID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1022,7 +1022,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_COLUMNID_COLUMNID_2);
+			query.append(_FINDER_COLUMN_COLUMNID_COLUMNID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1664,9 +1664,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_COLUMNID_2);
+			query.append(_FINDER_COLUMN_T_C_COLUMNID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1897,9 +1897,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_C_TABLEID_2);
+		query.append(_FINDER_COLUMN_T_C_TABLEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_C_COLUMNID_2);
+		query.append(_FINDER_COLUMN_T_C_COLUMNID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2025,9 +2025,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_COLUMNID_2);
+			query.append(_FINDER_COLUMN_T_C_COLUMNID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2188,7 +2188,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_R_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_R_TABLEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_T_R_ROWID_2_SQL);
 
@@ -2421,7 +2421,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_R_TABLEID_2);
+		query.append(_FINDER_COLUMN_T_R_TABLEID_2_SQL);
 
 		query.append(_FINDER_COLUMN_T_R_ROWID_2_SQL);
 
@@ -2549,7 +2549,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_R_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_R_TABLEID_2_SQL);
 
 			query.append(_FINDER_COLUMN_T_R_ROWID_2_SQL);
 
@@ -2712,9 +2712,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_CPK_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_CPK_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_CPK_CLASSPK_2);
+			query.append(_FINDER_COLUMN_T_CPK_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2945,9 +2945,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_CPK_TABLEID_2);
+		query.append(_FINDER_COLUMN_T_CPK_TABLEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_CPK_CLASSPK_2);
+		query.append(_FINDER_COLUMN_T_CPK_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3073,9 +3073,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_CPK_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_CPK_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_CPK_CLASSPK_2);
+			query.append(_FINDER_COLUMN_T_CPK_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3196,7 +3196,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_COLUMNID_2);
+			query.append(_FINDER_COLUMN_C_R_COLUMNID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_R_ROWID_2_SQL);
 
@@ -3283,7 +3283,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_R_COLUMNID_2);
+			query.append(_FINDER_COLUMN_C_R_COLUMNID_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_R_ROWID_2_SQL);
 
@@ -3447,9 +3447,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3680,9 +3680,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+		query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3808,9 +3808,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -3938,11 +3938,11 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_C_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_C_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_C_COLUMNID_2);
+			query.append(_FINDER_COLUMN_T_C_C_COLUMNID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_T_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4031,11 +4031,11 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_C_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_C_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_C_COLUMNID_2);
+			query.append(_FINDER_COLUMN_T_C_C_COLUMNID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_C_CLASSPK_2);
+			query.append(_FINDER_COLUMN_T_C_C_CLASSPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4210,9 +4210,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_D_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_D_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_D_COLUMNID_2);
+			query.append(_FINDER_COLUMN_T_C_D_COLUMNID_2_SQL);
 
 			boolean bindData = false;
 
@@ -4472,9 +4472,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_C_D_TABLEID_2);
+		query.append(_FINDER_COLUMN_T_C_D_TABLEID_2_SQL);
 
-		query.append(_FINDER_COLUMN_T_C_D_COLUMNID_2);
+		query.append(_FINDER_COLUMN_T_C_D_COLUMNID_2_SQL);
 
 		boolean bindData = false;
 
@@ -4619,9 +4619,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_C_D_TABLEID_2);
+			query.append(_FINDER_COLUMN_T_C_D_TABLEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_T_C_D_COLUMNID_2);
+			query.append(_FINDER_COLUMN_T_C_D_COLUMNID_2_SQL);
 
 			boolean bindData = false;
 

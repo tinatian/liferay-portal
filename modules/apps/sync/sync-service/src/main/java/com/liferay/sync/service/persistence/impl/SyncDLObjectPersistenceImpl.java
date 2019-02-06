@@ -195,12 +195,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_3);
+				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_2);
+				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -426,12 +426,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_3);
+			query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_2);
+			query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -560,12 +560,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_3);
+				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_2);
+				query.append(_FINDER_COLUMN_TREEPATH_TREEPATH_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -719,9 +719,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_M_R_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_M_R_MODIFIEDTIME_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_R_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_M_R_REPOSITORYID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -953,9 +953,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 		query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-		query.append(_FINDER_COLUMN_M_R_MODIFIEDTIME_2);
+		query.append(_FINDER_COLUMN_M_R_MODIFIEDTIME_2_SQL);
 
-		query.append(_FINDER_COLUMN_M_R_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_M_R_REPOSITORYID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1080,9 +1080,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_M_R_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_M_R_MODIFIEDTIME_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_R_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_M_R_REPOSITORYID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1244,9 +1244,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1478,9 +1478,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 		query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-		query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1605,9 +1605,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1762,17 +1762,17 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_NOTE_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_NOTE_REPOSITORYID_2_SQL);
 
 			boolean bindEvent = false;
 
 			if (event.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_NOTE_EVENT_3);
+				query.append(_FINDER_COLUMN_R_NOTE_EVENT_3_SQL);
 			}
 			else {
 				bindEvent = true;
 
-				query.append(_FINDER_COLUMN_R_NOTE_EVENT_2);
+				query.append(_FINDER_COLUMN_R_NOTE_EVENT_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2009,17 +2009,17 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 		query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-		query.append(_FINDER_COLUMN_R_NOTE_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_R_NOTE_REPOSITORYID_2_SQL);
 
 		boolean bindEvent = false;
 
 		if (event.isEmpty()) {
-			query.append(_FINDER_COLUMN_R_NOTE_EVENT_3);
+			query.append(_FINDER_COLUMN_R_NOTE_EVENT_3_SQL);
 		}
 		else {
 			bindEvent = true;
 
-			query.append(_FINDER_COLUMN_R_NOTE_EVENT_2);
+			query.append(_FINDER_COLUMN_R_NOTE_EVENT_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2149,17 +2149,17 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_NOTE_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_NOTE_REPOSITORYID_2_SQL);
 
 			boolean bindEvent = false;
 
 			if (event.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_NOTE_EVENT_3);
+				query.append(_FINDER_COLUMN_R_NOTE_EVENT_3_SQL);
 			}
 			else {
 				bindEvent = true;
 
-				query.append(_FINDER_COLUMN_R_NOTE_EVENT_2);
+				query.append(_FINDER_COLUMN_R_NOTE_EVENT_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2326,7 +2326,7 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_T_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_T_REPOSITORYID_2_SQL);
 
 			boolean bindType = false;
 
@@ -2573,7 +2573,7 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 		query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-		query.append(_FINDER_COLUMN_R_T_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_R_T_REPOSITORYID_2_SQL);
 
 		boolean bindType = false;
 
@@ -2713,7 +2713,7 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_T_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_T_REPOSITORYID_2_SQL);
 
 			boolean bindType = false;
 
@@ -2883,23 +2883,23 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_3);
+				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_2);
+				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_2_SQL);
 			}
 
 			boolean bindEvent = false;
 
 			if (event.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_NOTE_EVENT_3);
+				query.append(_FINDER_COLUMN_T_NOTE_EVENT_3_SQL);
 			}
 			else {
 				bindEvent = true;
 
-				query.append(_FINDER_COLUMN_T_NOTE_EVENT_2);
+				query.append(_FINDER_COLUMN_T_NOTE_EVENT_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3142,23 +3142,23 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		boolean bindTreePath = false;
 
 		if (treePath.isEmpty()) {
-			query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_3);
+			query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_3_SQL);
 		}
 		else {
 			bindTreePath = true;
 
-			query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_2);
+			query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_2_SQL);
 		}
 
 		boolean bindEvent = false;
 
 		if (event.isEmpty()) {
-			query.append(_FINDER_COLUMN_T_NOTE_EVENT_3);
+			query.append(_FINDER_COLUMN_T_NOTE_EVENT_3_SQL);
 		}
 		else {
 			bindEvent = true;
 
-			query.append(_FINDER_COLUMN_T_NOTE_EVENT_2);
+			query.append(_FINDER_COLUMN_T_NOTE_EVENT_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3294,23 +3294,23 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindTreePath = false;
 
 			if (treePath.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_3);
+				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_3_SQL);
 			}
 			else {
 				bindTreePath = true;
 
-				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_2);
+				query.append(_FINDER_COLUMN_T_NOTE_TREEPATH_2_SQL);
 			}
 
 			boolean bindEvent = false;
 
 			if (event.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_NOTE_EVENT_3);
+				query.append(_FINDER_COLUMN_T_NOTE_EVENT_3_SQL);
 			}
 			else {
 				bindEvent = true;
 
-				query.append(_FINDER_COLUMN_T_NOTE_EVENT_2);
+				query.append(_FINDER_COLUMN_T_NOTE_EVENT_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3484,12 +3484,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_V_T_VERSION_3);
+				query.append(_FINDER_COLUMN_V_T_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_V_T_VERSION_2);
+				query.append(_FINDER_COLUMN_V_T_VERSION_2_SQL);
 			}
 
 			boolean bindType = false;
@@ -3743,12 +3743,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		boolean bindVersion = false;
 
 		if (version.isEmpty()) {
-			query.append(_FINDER_COLUMN_V_T_VERSION_3);
+			query.append(_FINDER_COLUMN_V_T_VERSION_3_SQL);
 		}
 		else {
 			bindVersion = true;
 
-			query.append(_FINDER_COLUMN_V_T_VERSION_2);
+			query.append(_FINDER_COLUMN_V_T_VERSION_2_SQL);
 		}
 
 		boolean bindType = false;
@@ -3895,12 +3895,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindVersion = false;
 
 			if (version.isEmpty()) {
-				query.append(_FINDER_COLUMN_V_T_VERSION_3);
+				query.append(_FINDER_COLUMN_V_T_VERSION_3_SQL);
 			}
 			else {
 				bindVersion = true;
 
-				query.append(_FINDER_COLUMN_V_T_VERSION_2);
+				query.append(_FINDER_COLUMN_V_T_VERSION_2_SQL);
 			}
 
 			boolean bindType = false;
@@ -4052,7 +4052,7 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 				query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_T_T_TYPEPK_2);
+			query.append(_FINDER_COLUMN_T_T_TYPEPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4151,7 +4151,7 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 				query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
 			}
 
-			query.append(_FINDER_COLUMN_T_T_TYPEPK_2);
+			query.append(_FINDER_COLUMN_T_T_TYPEPK_2_SQL);
 
 			String sql = query.toString();
 
@@ -4318,19 +4318,19 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2_SQL);
 
 			boolean bindEvent = false;
 
 			if (event.isEmpty()) {
-				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3);
+				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3_SQL);
 			}
 			else {
 				bindEvent = true;
 
-				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2);
+				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4585,19 +4585,19 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 		query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-		query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2);
+		query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2_SQL);
 
-		query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2_SQL);
 
 		boolean bindEvent = false;
 
 		if (event.isEmpty()) {
-			query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3);
+			query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3_SQL);
 		}
 		else {
 			bindEvent = true;
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4837,9 +4837,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2_SQL);
 
 			if (events.length > 0) {
 				query.append("(");
@@ -4848,10 +4848,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 					String event = events[i];
 
 					if (event.isEmpty()) {
-						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3);
+						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2);
+						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2_SQL);
 					}
 
 					if ((i + 1) < events.length) {
@@ -4967,19 +4967,19 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2_SQL);
 
 			boolean bindEvent = false;
 
 			if (event.isEmpty()) {
-				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3);
+				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3_SQL);
 			}
 			else {
 				bindEvent = true;
 
-				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2);
+				query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -5054,9 +5054,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2_SQL);
 
-			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2_SQL);
 
 			if (events.length > 0) {
 				query.append("(");
@@ -5065,10 +5065,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 					String event = events[i];
 
 					if (event.isEmpty()) {
-						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3);
+						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2);
+						query.append(_FINDER_COLUMN_M_R_NOTE_EVENT_2_SQL);
 					}
 
 					if ((i + 1) < events.length) {
@@ -5263,9 +5263,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -5530,9 +5530,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 		query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-		query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2);
+		query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2_SQL);
 
-		query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2);
+		query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2_SQL);
 
 		boolean bindType = false;
 
@@ -5781,9 +5781,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_SELECT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2_SQL);
 
 			if (types.length > 0) {
 				query.append("(");
@@ -5910,9 +5910,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2_SQL);
 
 			boolean bindType = false;
 
@@ -5997,9 +5997,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 
 			query.append(_SQL_COUNT_SYNCDLOBJECT_WHERE);
 
-			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2);
+			query.append(_FINDER_COLUMN_R_P_T_REPOSITORYID_2_SQL);
 
-			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2);
+			query.append(_FINDER_COLUMN_R_P_T_PARENTFOLDERID_2_SQL);
 
 			if (types.length > 0) {
 				query.append("(");

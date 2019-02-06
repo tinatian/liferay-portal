@@ -202,7 +202,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2);
+			query.append(_FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -430,7 +430,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 		query.append(_SQL_SELECT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-		query.append(_FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2);
+		query.append(_FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -552,7 +552,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2);
+			query.append(_FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2_SQL);
 
 			String sql = query.toString();
 
@@ -705,7 +705,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -933,7 +933,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 		query.append(_SQL_SELECT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-		query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2);
+		query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1054,7 +1054,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1174,9 +1174,9 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			query.append(_SQL_SELECT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_D_S_DATAPROVIDERINSTANCEID_2);
+			query.append(_FINDER_COLUMN_D_S_DATAPROVIDERINSTANCEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_D_S_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_D_S_STRUCTUREID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1262,9 +1262,9 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 
 			query.append(_SQL_COUNT_DDMDATAPROVIDERINSTANCELINK_WHERE);
 
-			query.append(_FINDER_COLUMN_D_S_DATAPROVIDERINSTANCEID_2);
+			query.append(_FINDER_COLUMN_D_S_DATAPROVIDERINSTANCEID_2_SQL);
 
-			query.append(_FINDER_COLUMN_D_S_STRUCTUREID_2);
+			query.append(_FINDER_COLUMN_D_S_STRUCTUREID_2_SQL);
 
 			String sql = query.toString();
 

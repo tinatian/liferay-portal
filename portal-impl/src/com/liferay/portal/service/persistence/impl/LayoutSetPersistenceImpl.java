@@ -197,7 +197,7 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 			query.append(_SQL_SELECT_LAYOUTSET_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -412,7 +412,7 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 		query.append(_SQL_SELECT_LAYOUTSET_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -534,7 +534,7 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 			query.append(_SQL_COUNT_LAYOUTSET_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2_SQL);
 
 			String sql = query.toString();
 
@@ -698,12 +698,12 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 			boolean bindLayoutSetPrototypeUuid = false;
 
 			if (layoutSetPrototypeUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3);
+				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3_SQL);
 			}
 			else {
 				bindLayoutSetPrototypeUuid = true;
 
-				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2);
+				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -934,12 +934,12 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 		boolean bindLayoutSetPrototypeUuid = false;
 
 		if (layoutSetPrototypeUuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3);
+			query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3_SQL);
 		}
 		else {
 			bindLayoutSetPrototypeUuid = true;
 
-			query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2);
+			query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1070,12 +1070,12 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 			boolean bindLayoutSetPrototypeUuid = false;
 
 			if (layoutSetPrototypeUuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3);
+				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3_SQL);
 			}
 			else {
 				bindLayoutSetPrototypeUuid = true;
 
-				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2);
+				query.append(_FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1199,9 +1199,9 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 			query.append(_SQL_SELECT_LAYOUTSET_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL);
 
 			String sql = query.toString();
 
@@ -1286,9 +1286,9 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 			query.append(_SQL_COUNT_LAYOUTSET_WHERE);
 
-			query.append(_FINDER_COLUMN_G_P_GROUPID_2);
+			query.append(_FINDER_COLUMN_G_P_GROUPID_2_SQL);
 
-			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL);
 
 			String sql = query.toString();
 
@@ -1409,9 +1409,9 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 			query.append(_SQL_SELECT_LAYOUTSET_WHERE);
 
-			query.append(_FINDER_COLUMN_P_L_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_P_L_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_L_LOGOID_2);
+			query.append(_FINDER_COLUMN_P_L_LOGOID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1507,9 +1507,9 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 
 			query.append(_SQL_COUNT_LAYOUTSET_WHERE);
 
-			query.append(_FINDER_COLUMN_P_L_PRIVATELAYOUT_2);
+			query.append(_FINDER_COLUMN_P_L_PRIVATELAYOUT_2_SQL);
 
-			query.append(_FINDER_COLUMN_P_L_LOGOID_2);
+			query.append(_FINDER_COLUMN_P_L_LOGOID_2_SQL);
 
 			String sql = query.toString();
 
