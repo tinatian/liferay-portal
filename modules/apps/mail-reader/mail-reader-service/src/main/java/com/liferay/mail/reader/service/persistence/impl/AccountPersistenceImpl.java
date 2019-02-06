@@ -564,7 +564,7 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "account.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "account.userId = ?";
 	private FinderPath _finderPathFetchByU_A;
 	private FinderPath _finderPathCountByU_A;
 
@@ -809,9 +809,9 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_A_USERID_2 = "account.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_A_ADDRESS_2 = "account.address = ?";
-	private static final String _FINDER_COLUMN_U_A_ADDRESS_3 = "(account.address IS NULL OR account.address = '')";
+	private static final String _FINDER_COLUMN_U_A_USERID_2_SQL = "account.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_A_ADDRESS_2_SQL = "account.address = ?";
+	private static final String _FINDER_COLUMN_U_A_ADDRESS_3_SQL = "(account.address IS NULL OR account.address = '')";
 
 	public AccountPersistenceImpl() {
 		setModelClass(Account.class);

@@ -575,7 +575,7 @@ public class CTCollectionPersistenceImpl extends BasePersistenceImpl<CTCollectio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "ctCollection.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "ctCollection.companyId = ?";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -809,9 +809,9 @@ public class CTCollectionPersistenceImpl extends BasePersistenceImpl<CTCollectio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "ctCollection.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "ctCollection.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(ctCollection.name IS NULL OR ctCollection.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "ctCollection.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "ctCollection.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(ctCollection.name IS NULL OR ctCollection.name = '')";
 
 	public CTCollectionPersistenceImpl() {
 		setModelClass(CTCollection.class);
@@ -1700,6 +1700,11 @@ public class CTCollectionPersistenceImpl extends BasePersistenceImpl<CTCollectio
 	}
 
 	@Override
+	public Set<String> getBadColumnNames() {
+		return _badColumnNames;
+	}
+
+	@Override
 	protected EntityCache getEntityCache() {
 		return entityCache;
 	}
@@ -1806,4 +1811,7 @@ public class CTCollectionPersistenceImpl extends BasePersistenceImpl<CTCollectio
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No CTCollection exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No CTCollection exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(CTCollectionPersistenceImpl.class);
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+				"description"
+			});
 }

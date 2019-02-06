@@ -200,12 +200,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -427,12 +427,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -561,12 +561,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -601,8 +601,8 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "module.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(module.uuid IS NULL OR module.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "module.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(module.uuid_ IS NULL OR module.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -733,12 +733,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -977,12 +977,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1117,12 +1117,12 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1161,9 +1161,9 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "module.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(module.uuid IS NULL OR module.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "module.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "module.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(module.uuid_ IS NULL OR module.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "module.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByAppId;
 	private FinderPath _finderPathWithoutPaginationFindByAppId;
 	private FinderPath _finderPathCountByAppId;
@@ -1645,7 +1645,7 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_APPID_APPID_2 = "module.appId = ?";
+	private static final String _FINDER_COLUMN_APPID_APPID_2_SQL = "module.appId = ?";
 	private FinderPath _finderPathWithPaginationFindByBundleSymbolicName;
 	private FinderPath _finderPathWithoutPaginationFindByBundleSymbolicName;
 	private FinderPath _finderPathCountByBundleSymbolicName;
@@ -2178,9 +2178,9 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2 =
+	private static final String _FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_2_SQL =
 		"module.bundleSymbolicName = ?";
-	private static final String _FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3 =
+	private static final String _FINDER_COLUMN_BUNDLESYMBOLICNAME_BUNDLESYMBOLICNAME_3_SQL =
 		"(module.bundleSymbolicName IS NULL OR module.bundleSymbolicName = '')";
 	private FinderPath _finderPathWithPaginationFindByContextName;
 	private FinderPath _finderPathWithoutPaginationFindByContextName;
@@ -2706,8 +2706,8 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2 = "module.contextName = ?";
-	private static final String _FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3 = "(module.contextName IS NULL OR module.contextName = '')";
+	private static final String _FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_2_SQL = "module.contextName = ?";
+	private static final String _FINDER_COLUMN_CONTEXTNAME_CONTEXTNAME_3_SQL = "(module.contextName IS NULL OR module.contextName = '')";
 	private FinderPath _finderPathFetchByA_CN;
 	private FinderPath _finderPathCountByA_CN;
 
@@ -2952,9 +2952,9 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_CN_APPID_2 = "module.appId = ? AND ";
-	private static final String _FINDER_COLUMN_A_CN_CONTEXTNAME_2 = "module.contextName = ?";
-	private static final String _FINDER_COLUMN_A_CN_CONTEXTNAME_3 = "(module.contextName IS NULL OR module.contextName = '')";
+	private static final String _FINDER_COLUMN_A_CN_APPID_2_SQL = "module.appId = ? AND ";
+	private static final String _FINDER_COLUMN_A_CN_CONTEXTNAME_2_SQL = "module.contextName = ?";
+	private static final String _FINDER_COLUMN_A_CN_CONTEXTNAME_3_SQL = "(module.contextName IS NULL OR module.contextName = '')";
 	private FinderPath _finderPathFetchByA_BSN_BV;
 	private FinderPath _finderPathCountByA_BSN_BV;
 
@@ -3247,11 +3247,13 @@ public class ModulePersistenceImpl extends BasePersistenceImpl<Module>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_BSN_BV_APPID_2 = "module.appId = ? AND ";
-	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_2 = "module.bundleSymbolicName = ? AND ";
-	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_3 = "(module.bundleSymbolicName IS NULL OR module.bundleSymbolicName = '') AND ";
-	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_2 = "module.bundleVersion = ?";
-	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_3 = "(module.bundleVersion IS NULL OR module.bundleVersion = '')";
+	private static final String _FINDER_COLUMN_A_BSN_BV_APPID_2_SQL = "module.appId = ? AND ";
+	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_2_SQL =
+		"module.bundleSymbolicName = ? AND ";
+	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLESYMBOLICNAME_3_SQL =
+		"(module.bundleSymbolicName IS NULL OR module.bundleSymbolicName = '') AND ";
+	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_2_SQL = "module.bundleVersion = ?";
+	private static final String _FINDER_COLUMN_A_BSN_BV_BUNDLEVERSION_3_SQL = "(module.bundleVersion IS NULL OR module.bundleVersion = '')";
 
 	public ModulePersistenceImpl() {
 		setModelClass(Module.class);

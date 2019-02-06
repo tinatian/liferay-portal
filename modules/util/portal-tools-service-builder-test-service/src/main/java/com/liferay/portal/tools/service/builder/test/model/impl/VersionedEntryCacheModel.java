@@ -99,7 +99,6 @@ public class VersionedEntryCacheModel implements CacheModel<VersionedEntry>,
 		versionedEntryImpl.setHeadId(headId);
 		versionedEntryImpl.setVersionedEntryId(versionedEntryId);
 		versionedEntryImpl.setGroupId(groupId);
-		versionedEntryImpl.setHead(head);
 
 		versionedEntryImpl.resetOriginalValues();
 
@@ -115,8 +114,6 @@ public class VersionedEntryCacheModel implements CacheModel<VersionedEntry>,
 		versionedEntryId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
-
-		head = objectInput.readBoolean();
 	}
 
 	@Override
@@ -129,13 +126,10 @@ public class VersionedEntryCacheModel implements CacheModel<VersionedEntry>,
 		objectOutput.writeLong(versionedEntryId);
 
 		objectOutput.writeLong(groupId);
-
-		objectOutput.writeBoolean(head);
 	}
 
 	public long mvccVersion;
 	public long headId;
 	public long versionedEntryId;
 	public long groupId;
-	public boolean head;
 }

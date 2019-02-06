@@ -584,7 +584,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2 =
+	private static final String _FINDER_COLUMN_LVENTRYLOCALIZATIONID_LVENTRYLOCALIZATIONID_2_SQL =
 		"lvEntryLocalizationVersion.lvEntryLocalizationId = ?";
 	private FinderPath _finderPathFetchByLvEntryLocalizationId_Version;
 	private FinderPath _finderPathCountByLvEntryLocalizationId_Version;
@@ -801,9 +801,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_LVENTRYLOCALIZATIONID_2 =
+	private static final String _FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_LVENTRYLOCALIZATIONID_2_SQL =
 		"lvEntryLocalizationVersion.lvEntryLocalizationId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_VERSION_2 =
+	private static final String _FINDER_COLUMN_LVENTRYLOCALIZATIONID_VERSION_VERSION_2_SQL =
 		"lvEntryLocalizationVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByLvEntryId;
 	private FinderPath _finderPathWithoutPaginationFindByLvEntryId;
@@ -1299,7 +1299,7 @@ public class LVEntryLocalizationVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2 = "lvEntryLocalizationVersion.lvEntryId = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL = "lvEntryLocalizationVersion.lvEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByLvEntryId_Version;
 	private FinderPath _finderPathWithoutPaginationFindByLvEntryId_Version;
 	private FinderPath _finderPathCountByLvEntryId_Version;
@@ -1834,8 +1834,9 @@ public class LVEntryLocalizationVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2 = "lvEntryLocalizationVersion.lvEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2 = "lvEntryLocalizationVersion.version = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL =
+		"lvEntryLocalizationVersion.lvEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL = "lvEntryLocalizationVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByLvEntryId_LanguageId;
 	private FinderPath _finderPathWithoutPaginationFindByLvEntryId_LanguageId;
 	private FinderPath _finderPathCountByLvEntryId_LanguageId;
@@ -2412,10 +2413,11 @@ public class LVEntryLocalizationVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2 = "lvEntryLocalizationVersion.lvEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2_SQL =
+		"lvEntryLocalizationVersion.lvEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2_SQL =
 		"lvEntryLocalizationVersion.languageId = ?";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3_SQL =
 		"(lvEntryLocalizationVersion.languageId IS NULL OR lvEntryLocalizationVersion.languageId = '')";
 	private FinderPath _finderPathFetchByLvEntryId_LanguageId_Version;
 	private FinderPath _finderPathCountByLvEntryId_LanguageId_Version;
@@ -2677,13 +2679,13 @@ public class LVEntryLocalizationVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LVENTRYID_2 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LVENTRYID_2_SQL =
 		"lvEntryLocalizationVersion.lvEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_2 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_2_SQL =
 		"lvEntryLocalizationVersion.languageId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_3 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_LANGUAGEID_3_SQL =
 		"(lvEntryLocalizationVersion.languageId IS NULL OR lvEntryLocalizationVersion.languageId = '') AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_VERSION_2 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_VERSION_VERSION_2_SQL =
 		"lvEntryLocalizationVersion.version = ?";
 
 	public LVEntryLocalizationVersionPersistenceImpl() {

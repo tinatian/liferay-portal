@@ -10,8 +10,7 @@ create table LVEntry (
 	defaultLanguageId VARCHAR(75) null,
 	lvEntryId LONG not null primary key,
 	groupId LONG,
-	uniqueGroupKey VARCHAR(75) null,
-	head BOOLEAN
+	uniqueGroupKey VARCHAR(75) null
 );
 
 create table LVEntryLocalization (
@@ -21,8 +20,7 @@ create table LVEntryLocalization (
 	lvEntryId LONG,
 	languageId VARCHAR(75) null,
 	title VARCHAR(75) null,
-	content VARCHAR(75) null,
-	head BOOLEAN
+	content VARCHAR(75) null
 );
 
 create table LVEntryLocalizationVersion (
@@ -70,8 +68,7 @@ create table VersionedEntry (
 	mvccVersion LONG default 0 not null,
 	headId LONG,
 	versionedEntryId LONG not null primary key,
-	groupId LONG,
-	head BOOLEAN
+	groupId LONG
 );
 
 create table VersionedEntryVersion (

@@ -557,7 +557,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2 = "dlSyncEvent.modifiedTime > ?";
+	private static final String _FINDER_COLUMN_MODIFIEDTIME_MODIFIEDTIME_2_SQL = "dlSyncEvent.modifiedTime > ?";
 	private FinderPath _finderPathFetchByTypePK;
 	private FinderPath _finderPathCountByTypePK;
 
@@ -745,7 +745,7 @@ public class DLSyncEventPersistenceImpl extends BasePersistenceImpl<DLSyncEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TYPEPK_TYPEPK_2 = "dlSyncEvent.typePK = ?";
+	private static final String _FINDER_COLUMN_TYPEPK_TYPEPK_2_SQL = "dlSyncEvent.typePK = ?";
 
 	public DLSyncEventPersistenceImpl() {
 		setModelClass(DLSyncEvent.class);

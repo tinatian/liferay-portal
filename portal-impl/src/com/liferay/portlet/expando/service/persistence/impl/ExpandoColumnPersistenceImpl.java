@@ -931,7 +931,7 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 		}
 	}
 
-	private static final String _FINDER_COLUMN_TABLEID_TABLEID_2 = "expandoColumn.tableId = ?";
+	private static final String _FINDER_COLUMN_TABLEID_TABLEID_2_SQL = "expandoColumn.tableId = ?";
 	private FinderPath _finderPathWithPaginationFindByT_N;
 	private FinderPath _finderPathWithoutPaginationFindByT_N;
 	private FinderPath _finderPathFetchByT_N;
@@ -1651,9 +1651,9 @@ public class ExpandoColumnPersistenceImpl extends BasePersistenceImpl<ExpandoCol
 		}
 	}
 
-	private static final String _FINDER_COLUMN_T_N_TABLEID_2 = "expandoColumn.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_N_NAME_2 = "expandoColumn.name = ?";
-	private static final String _FINDER_COLUMN_T_N_NAME_3 = "(expandoColumn.name IS NULL OR expandoColumn.name = '')";
+	private static final String _FINDER_COLUMN_T_N_TABLEID_2_SQL = "expandoColumn.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_N_NAME_2_SQL = "expandoColumn.name = ?";
+	private static final String _FINDER_COLUMN_T_N_NAME_3_SQL = "(expandoColumn.name IS NULL OR expandoColumn.name = '')";
 
 	public ExpandoColumnPersistenceImpl() {
 		setModelClass(ExpandoColumn.class);

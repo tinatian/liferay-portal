@@ -565,7 +565,7 @@ public class RecentLayoutSetBranchPersistenceImpl extends BasePersistenceImpl<Re
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "recentLayoutSetBranch.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "recentLayoutSetBranch.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1055,7 +1055,7 @@ public class RecentLayoutSetBranchPersistenceImpl extends BasePersistenceImpl<Re
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "recentLayoutSetBranch.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "recentLayoutSetBranch.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutSetBranchId;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutSetBranchId;
 	private FinderPath _finderPathCountByLayoutSetBranchId;
@@ -1561,7 +1561,7 @@ public class RecentLayoutSetBranchPersistenceImpl extends BasePersistenceImpl<Re
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL =
 		"recentLayoutSetBranch.layoutSetBranchId = ?";
 	private FinderPath _finderPathFetchByU_L;
 	private FinderPath _finderPathCountByU_L;
@@ -1773,8 +1773,8 @@ public class RecentLayoutSetBranchPersistenceImpl extends BasePersistenceImpl<Re
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_L_USERID_2 = "recentLayoutSetBranch.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_L_LAYOUTSETID_2 = "recentLayoutSetBranch.layoutSetId = ?";
+	private static final String _FINDER_COLUMN_U_L_USERID_2_SQL = "recentLayoutSetBranch.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_L_LAYOUTSETID_2_SQL = "recentLayoutSetBranch.layoutSetId = ?";
 
 	public RecentLayoutSetBranchPersistenceImpl() {
 		setModelClass(RecentLayoutSetBranch.class);

@@ -273,7 +273,7 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2 = "dlOpenerFileEntryReference.fileEntryId = ?";
+	private static final String _FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL = "dlOpenerFileEntryReference.fileEntryId = ?";
 
 	public DLOpenerFileEntryReferencePersistenceImpl() {
 		setModelClass(DLOpenerFileEntryReference.class);

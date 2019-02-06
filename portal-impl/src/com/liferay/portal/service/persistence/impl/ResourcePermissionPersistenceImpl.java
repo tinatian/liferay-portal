@@ -607,8 +607,8 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_NAME_NAME_2 = "resourcePermission.name = ?";
-	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(resourcePermission.name IS NULL OR resourcePermission.name = '')";
+	private static final String _FINDER_COLUMN_NAME_NAME_2_SQL = "resourcePermission.name = ?";
+	private static final String _FINDER_COLUMN_NAME_NAME_3_SQL = "(resourcePermission.name IS NULL OR resourcePermission.name = '')";
 	private FinderPath _finderPathWithPaginationFindByScope;
 	private FinderPath _finderPathWithoutPaginationFindByScope;
 	private FinderPath _finderPathCountByScope;
@@ -1354,8 +1354,8 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SCOPE_SCOPE_2 = "resourcePermission.scope = ?";
-	private static final String _FINDER_COLUMN_SCOPE_SCOPE_7 = "resourcePermission.scope IN (";
+	private static final String _FINDER_COLUMN_SCOPE_SCOPE_2_SQL = "resourcePermission.scope = ?";
+	private static final String _FINDER_COLUMN_SCOPE_SCOPE_7_SQL = "resourcePermission.scope IN (";
 	private FinderPath _finderPathWithPaginationFindByRoleId;
 	private FinderPath _finderPathWithoutPaginationFindByRoleId;
 	private FinderPath _finderPathCountByRoleId;
@@ -1844,7 +1844,7 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 = "resourcePermission.roleId = ?";
+	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2_SQL = "resourcePermission.roleId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_LikeP;
 	private FinderPath _finderPathWithPaginationCountByC_LikeP;
 
@@ -2404,9 +2404,9 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_LIKEP_COMPANYID_2 = "resourcePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_LIKEP_PRIMKEY_2 = "resourcePermission.primKey LIKE ?";
-	private static final String _FINDER_COLUMN_C_LIKEP_PRIMKEY_3 = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey LIKE '')";
+	private static final String _FINDER_COLUMN_C_LIKEP_COMPANYID_2_SQL = "resourcePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_LIKEP_PRIMKEY_2_SQL = "resourcePermission.primKey LIKE ?";
+	private static final String _FINDER_COLUMN_C_LIKEP_PRIMKEY_3_SQL = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByC_S_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_S_P;
 	private FinderPath _finderPathCountByC_S_P;
@@ -3005,10 +3005,10 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_P_COMPANYID_2 = "resourcePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_P_SCOPE_2 = "resourcePermission.scope = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_P_PRIMKEY_2 = "resourcePermission.primKey = ?";
-	private static final String _FINDER_COLUMN_C_S_P_PRIMKEY_3 = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey = '')";
+	private static final String _FINDER_COLUMN_C_S_P_COMPANYID_2_SQL = "resourcePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_P_SCOPE_2_SQL = "resourcePermission.scope = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_P_PRIMKEY_2_SQL = "resourcePermission.primKey = ?";
+	private static final String _FINDER_COLUMN_C_S_P_PRIMKEY_3_SQL = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey = '')";
 	private FinderPath _finderPathWithPaginationFindByC_N_S_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_N_S_P;
 	private FinderPath _finderPathCountByC_N_S_P;
@@ -3679,12 +3679,12 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_S_P_COMPANYID_2 = "resourcePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_NAME_2 = "resourcePermission.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_NAME_3 = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_SCOPE_2 = "resourcePermission.scope = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_PRIMKEY_2 = "resourcePermission.primKey = ?";
-	private static final String _FINDER_COLUMN_C_N_S_P_PRIMKEY_3 = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey = '')";
+	private static final String _FINDER_COLUMN_C_N_S_P_COMPANYID_2_SQL = "resourcePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_NAME_2_SQL = "resourcePermission.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_NAME_3_SQL = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_SCOPE_2_SQL = "resourcePermission.scope = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_PRIMKEY_2_SQL = "resourcePermission.primKey = ?";
+	private static final String _FINDER_COLUMN_C_N_S_P_PRIMKEY_3_SQL = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey = '')";
 	private FinderPath _finderPathWithPaginationFindByC_N_S_R;
 	private FinderPath _finderPathWithoutPaginationFindByC_N_S_R;
 	private FinderPath _finderPathCountByC_N_S_R;
@@ -4319,11 +4319,11 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_S_R_COMPANYID_2 = "resourcePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_R_NAME_2 = "resourcePermission.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_R_NAME_3 = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_S_R_SCOPE_2 = "resourcePermission.scope = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_R_ROLEID_2 = "resourcePermission.roleId = ?";
+	private static final String _FINDER_COLUMN_C_N_S_R_COMPANYID_2_SQL = "resourcePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_R_NAME_2_SQL = "resourcePermission.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_R_NAME_3_SQL = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_S_R_SCOPE_2_SQL = "resourcePermission.scope = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_R_ROLEID_2_SQL = "resourcePermission.roleId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_N_S_P_R;
 	private FinderPath _finderPathWithoutPaginationFindByC_N_S_P_R;
 	private FinderPath _finderPathFetchByC_N_S_P_R;
@@ -5100,14 +5100,14 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_S_P_R_COMPANYID_2 = "resourcePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_NAME_2 = "resourcePermission.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_NAME_3 = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_SCOPE_2 = "resourcePermission.scope = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2 = "resourcePermission.primKey = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3 = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_ROLEID_2 = "resourcePermission.roleId = ?";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_ROLEID_7 = "resourcePermission.roleId IN (";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_COMPANYID_2_SQL = "resourcePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_NAME_2_SQL = "resourcePermission.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_NAME_3_SQL = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_SCOPE_2_SQL = "resourcePermission.scope = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_PRIMKEY_2_SQL = "resourcePermission.primKey = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_PRIMKEY_3_SQL = "(resourcePermission.primKey IS NULL OR resourcePermission.primKey = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_ROLEID_2_SQL = "resourcePermission.roleId = ?";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_ROLEID_7_SQL = "resourcePermission.roleId IN (";
 	private FinderPath _finderPathWithPaginationFindByC_N_S_P_R_V;
 	private FinderPath _finderPathWithoutPaginationFindByC_N_S_P_R_V;
 	private FinderPath _finderPathCountByC_N_S_P_R_V;
@@ -6271,14 +6271,14 @@ public class ResourcePermissionPersistenceImpl extends BasePersistenceImpl<Resou
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2 = "resourcePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_NAME_2 = "resourcePermission.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_NAME_3 = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2 = "resourcePermission.scope = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2 = "resourcePermission.primKeyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2 = "resourcePermission.roleId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_ROLEID_7 = "resourcePermission.roleId IN (";
-	private static final String _FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2 = "resourcePermission.viewActionId = ?";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_COMPANYID_2_SQL = "resourcePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_NAME_2_SQL = "resourcePermission.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_NAME_3_SQL = "(resourcePermission.name IS NULL OR resourcePermission.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_SCOPE_2_SQL = "resourcePermission.scope = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_PRIMKEYID_2_SQL = "resourcePermission.primKeyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_ROLEID_2_SQL = "resourcePermission.roleId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_ROLEID_7_SQL = "resourcePermission.roleId IN (";
+	private static final String _FINDER_COLUMN_C_N_S_P_R_V_VIEWACTIONID_2_SQL = "resourcePermission.viewActionId = ?";
 
 	public ResourcePermissionPersistenceImpl() {
 		setModelClass(ResourcePermission.class);

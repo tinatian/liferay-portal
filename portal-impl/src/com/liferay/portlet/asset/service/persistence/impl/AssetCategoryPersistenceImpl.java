@@ -222,12 +222,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -450,12 +450,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -585,12 +585,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -625,8 +625,8 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "assetCategory.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(assetCategory.uuid IS NULL OR assetCategory.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "assetCategory.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(assetCategory.uuid_ IS NULL OR assetCategory.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -717,12 +717,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -818,12 +818,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -862,9 +862,9 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "assetCategory.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(assetCategory.uuid IS NULL OR assetCategory.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "assetCategory.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "assetCategory.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(assetCategory.uuid_ IS NULL OR assetCategory.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "assetCategory.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -995,12 +995,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1242,12 +1242,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1383,12 +1383,12 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1427,9 +1427,9 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "assetCategory.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(assetCategory.uuid IS NULL OR assetCategory.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "assetCategory.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "assetCategory.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(assetCategory.uuid_ IS NULL OR assetCategory.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "assetCategory.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2274,7 +2274,7 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "assetCategory.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "assetCategory.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByParentCategoryId;
 	private FinderPath _finderPathWithoutPaginationFindByParentCategoryId;
 	private FinderPath _finderPathCountByParentCategoryId;
@@ -2769,7 +2769,7 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PARENTCATEGORYID_PARENTCATEGORYID_2 =
+	private static final String _FINDER_COLUMN_PARENTCATEGORYID_PARENTCATEGORYID_2_SQL =
 		"assetCategory.parentCategoryId = ?";
 	private FinderPath _finderPathWithPaginationFindByVocabularyId;
 	private FinderPath _finderPathWithoutPaginationFindByVocabularyId;
@@ -3264,7 +3264,7 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_VOCABULARYID_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_VOCABULARYID_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_P;
 	private FinderPath _finderPathCountByG_P;
@@ -4168,8 +4168,8 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 = "assetCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_PARENTCATEGORYID_2 = "assetCategory.parentCategoryId = ?";
+	private static final String _FINDER_COLUMN_G_P_GROUPID_2_SQL = "assetCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL = "assetCategory.parentCategoryId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_V;
 	private FinderPath _finderPathWithoutPaginationFindByG_V;
 	private FinderPath _finderPathCountByG_V;
@@ -5571,9 +5571,9 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_V_GROUPID_2 = "assetCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
-	private static final String _FINDER_COLUMN_G_V_VOCABULARYID_7 = "assetCategory.vocabularyId IN (";
+	private static final String _FINDER_COLUMN_G_V_GROUPID_2_SQL = "assetCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_G_V_VOCABULARYID_7_SQL = "assetCategory.vocabularyId IN (";
 	private FinderPath _finderPathWithPaginationFindByP_N;
 	private FinderPath _finderPathWithoutPaginationFindByP_N;
 	private FinderPath _finderPathCountByP_N;
@@ -6137,9 +6137,9 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_N_PARENTCATEGORYID_2 = "assetCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_P_N_NAME_2 = "assetCategory.name = ?";
-	private static final String _FINDER_COLUMN_P_N_NAME_3 = "(assetCategory.name IS NULL OR assetCategory.name = '')";
+	private static final String _FINDER_COLUMN_P_N_PARENTCATEGORYID_2_SQL = "assetCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_P_N_NAME_2_SQL = "assetCategory.name = ?";
+	private static final String _FINDER_COLUMN_P_N_NAME_3_SQL = "(assetCategory.name IS NULL OR assetCategory.name = '')";
 	private FinderPath _finderPathWithPaginationFindByP_V;
 	private FinderPath _finderPathWithoutPaginationFindByP_V;
 	private FinderPath _finderPathCountByP_V;
@@ -6667,8 +6667,8 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_V_PARENTCATEGORYID_2 = "assetCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_P_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_P_V_PARENTCATEGORYID_2_SQL = "assetCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_P_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
 	private FinderPath _finderPathWithPaginationFindByN_V;
 	private FinderPath _finderPathWithoutPaginationFindByN_V;
 	private FinderPath _finderPathCountByN_V;
@@ -7230,9 +7230,9 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_V_NAME_2 = "assetCategory.name = ? AND ";
-	private static final String _FINDER_COLUMN_N_V_NAME_3 = "(assetCategory.name IS NULL OR assetCategory.name = '') AND ";
-	private static final String _FINDER_COLUMN_N_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_N_V_NAME_2_SQL = "assetCategory.name = ? AND ";
+	private static final String _FINDER_COLUMN_N_V_NAME_3_SQL = "(assetCategory.name IS NULL OR assetCategory.name = '') AND ";
+	private static final String _FINDER_COLUMN_N_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_V;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_V;
 	private FinderPath _finderPathCountByG_P_V;
@@ -8199,9 +8199,9 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_V_GROUPID_2 = "assetCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_V_PARENTCATEGORYID_2 = "assetCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_G_P_V_GROUPID_2_SQL = "assetCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_V_PARENTCATEGORYID_2_SQL = "assetCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_LikeN_V;
 	private FinderPath _finderPathWithPaginationCountByG_LikeN_V;
 
@@ -9817,11 +9817,11 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LIKEN_V_GROUPID_2 = "assetCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LIKEN_V_NAME_2 = "lower(assetCategory.name) LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_LIKEN_V_NAME_3 = "(assetCategory.name IS NULL OR assetCategory.name LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_LIKEN_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
-	private static final String _FINDER_COLUMN_G_LIKEN_V_VOCABULARYID_7 = "assetCategory.vocabularyId IN (";
+	private static final String _FINDER_COLUMN_G_LIKEN_V_GROUPID_2_SQL = "assetCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LIKEN_V_NAME_2_SQL = "lower(assetCategory.name) LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_LIKEN_V_NAME_3_SQL = "(assetCategory.name IS NULL OR assetCategory.name LIKE '') AND ";
+	private static final String _FINDER_COLUMN_G_LIKEN_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_G_LIKEN_V_VOCABULARYID_7_SQL = "assetCategory.vocabularyId IN (";
 	private FinderPath _finderPathFetchByP_N_V;
 	private FinderPath _finderPathCountByP_N_V;
 
@@ -10077,10 +10077,10 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_N_V_PARENTCATEGORYID_2 = "assetCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_P_N_V_NAME_2 = "assetCategory.name = ? AND ";
-	private static final String _FINDER_COLUMN_P_N_V_NAME_3 = "(assetCategory.name IS NULL OR assetCategory.name = '') AND ";
-	private static final String _FINDER_COLUMN_P_N_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_P_N_V_PARENTCATEGORYID_2_SQL = "assetCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_P_N_V_NAME_2_SQL = "assetCategory.name = ? AND ";
+	private static final String _FINDER_COLUMN_P_N_V_NAME_3_SQL = "(assetCategory.name IS NULL OR assetCategory.name = '') AND ";
+	private static final String _FINDER_COLUMN_P_N_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_N_V;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_N_V;
 	private FinderPath _finderPathCountByG_P_N_V;
@@ -11181,11 +11181,11 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_N_V_GROUPID_2 = "assetCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_V_PARENTCATEGORYID_2 = "assetCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_V_NAME_2 = "assetCategory.name = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_V_NAME_3 = "(assetCategory.name IS NULL OR assetCategory.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_P_N_V_VOCABULARYID_2 = "assetCategory.vocabularyId = ?";
+	private static final String _FINDER_COLUMN_G_P_N_V_GROUPID_2_SQL = "assetCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_V_PARENTCATEGORYID_2_SQL = "assetCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_V_NAME_2_SQL = "assetCategory.name = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_V_NAME_3_SQL = "(assetCategory.name IS NULL OR assetCategory.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_P_N_V_VOCABULARYID_2_SQL = "assetCategory.vocabularyId = ?";
 	private FinderPath _finderPathFetchByC_ERC;
 	private FinderPath _finderPathCountByC_ERC;
 
@@ -11435,9 +11435,11 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2 = "assetCategory.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2 = "assetCategory.externalReferenceCode = ?";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3 = "(assetCategory.externalReferenceCode IS NULL OR assetCategory.externalReferenceCode = '')";
+	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2_SQL = "assetCategory.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL =
+		"assetCategory.externalReferenceCode = ?";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL =
+		"(assetCategory.externalReferenceCode IS NULL OR assetCategory.externalReferenceCode = '')";
 
 	public AssetCategoryPersistenceImpl() {
 		setModelClass(AssetCategory.class);
@@ -13523,6 +13525,6 @@ public class AssetCategoryPersistenceImpl extends BasePersistenceImpl<AssetCateg
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No AssetCategory exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(AssetCategoryPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

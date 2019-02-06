@@ -576,7 +576,7 @@ public class ExportImportConfigurationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "exportImportConfiguration.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "exportImportConfiguration.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1072,7 +1072,7 @@ public class ExportImportConfigurationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "exportImportConfiguration.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "exportImportConfiguration.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_T;
 	private FinderPath _finderPathCountByG_T;
@@ -1202,7 +1202,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1438,7 +1438,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1566,7 +1566,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1600,8 +1600,8 @@ public class ExportImportConfigurationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_T_GROUPID_2 = "exportImportConfiguration.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_TYPE_2 = "exportImportConfiguration.type = ?";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_2_SQL = "exportImportConfiguration.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_TYPE_2_SQL = "exportImportConfiguration.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -2129,8 +2129,8 @@ public class ExportImportConfigurationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "exportImportConfiguration.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "exportImportConfiguration.status = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "exportImportConfiguration.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "exportImportConfiguration.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_T_S;
 	private FinderPath _finderPathCountByG_T_S;
@@ -2267,7 +2267,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
 
@@ -2524,7 +2524,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 		query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
 
@@ -2659,7 +2659,7 @@ public class ExportImportConfigurationPersistenceImpl
 
 			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
 
@@ -2697,9 +2697,9 @@ public class ExportImportConfigurationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_T_S_GROUPID_2 = "exportImportConfiguration.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_S_TYPE_2 = "exportImportConfiguration.type = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_S_STATUS_2 = "exportImportConfiguration.status = ?";
+	private static final String _FINDER_COLUMN_G_T_S_GROUPID_2_SQL = "exportImportConfiguration.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_S_TYPE_2_SQL = "exportImportConfiguration.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_S_STATUS_2_SQL = "exportImportConfiguration.status = ?";
 
 	public ExportImportConfigurationPersistenceImpl() {
 		setModelClass(ExportImportConfiguration.class);
@@ -3569,6 +3569,6 @@ public class ExportImportConfigurationPersistenceImpl
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ExportImportConfiguration exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(ExportImportConfigurationPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"type", "settings"
+				"description", "type", "settings"
 			});
 }

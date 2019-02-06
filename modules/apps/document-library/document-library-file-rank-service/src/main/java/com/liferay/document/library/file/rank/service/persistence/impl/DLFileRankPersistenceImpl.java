@@ -561,7 +561,7 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "dlFileRank.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "dlFileRank.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByFileEntryId;
 	private FinderPath _finderPathWithoutPaginationFindByFileEntryId;
 	private FinderPath _finderPathCountByFileEntryId;
@@ -1050,7 +1050,7 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2 = "dlFileRank.fileEntryId = ?";
+	private static final String _FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL = "dlFileRank.fileEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U;
 	private FinderPath _finderPathWithoutPaginationFindByG_U;
 	private FinderPath _finderPathCountByG_U;
@@ -1572,8 +1572,8 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "dlFileRank.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "dlFileRank.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "dlFileRank.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "dlFileRank.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_A;
 	private FinderPath _finderPathCountByG_U_A;
@@ -1712,7 +1712,7 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 
 			query.append(_FINDER_COLUMN_G_U_A_USERID_2);
 
-			query.append(_FINDER_COLUMN_G_U_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_G_U_A_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1961,7 +1961,7 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 
 		query.append(_FINDER_COLUMN_G_U_A_USERID_2);
 
-		query.append(_FINDER_COLUMN_G_U_A_ACTIVE_2);
+		query.append(_FINDER_COLUMN_G_U_A_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2094,7 +2094,7 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 
 			query.append(_FINDER_COLUMN_G_U_A_USERID_2);
 
-			query.append(_FINDER_COLUMN_G_U_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_G_U_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2130,9 +2130,9 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_A_GROUPID_2 = "dlFileRank.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_A_USERID_2 = "dlFileRank.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_A_ACTIVE_2 = "dlFileRank.active = ?";
+	private static final String _FINDER_COLUMN_G_U_A_GROUPID_2_SQL = "dlFileRank.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_A_USERID_2_SQL = "dlFileRank.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_A_ACTIVE_2_SQL = "dlFileRank.active_ = ?";
 	private FinderPath _finderPathFetchByC_U_F;
 	private FinderPath _finderPathCountByC_U_F;
 
@@ -2368,9 +2368,9 @@ public class DLFileRankPersistenceImpl extends BasePersistenceImpl<DLFileRank>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_F_COMPANYID_2 = "dlFileRank.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_F_USERID_2 = "dlFileRank.userId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_F_FILEENTRYID_2 = "dlFileRank.fileEntryId = ?";
+	private static final String _FINDER_COLUMN_C_U_F_COMPANYID_2_SQL = "dlFileRank.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_F_USERID_2_SQL = "dlFileRank.userId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_F_FILEENTRYID_2_SQL = "dlFileRank.fileEntryId = ?";
 
 	public DLFileRankPersistenceImpl() {
 		setModelClass(DLFileRank.class);

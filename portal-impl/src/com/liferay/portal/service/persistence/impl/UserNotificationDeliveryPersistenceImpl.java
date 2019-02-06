@@ -567,7 +567,7 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "userNotificationDelivery.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "userNotificationDelivery.userId = ?";
 	private FinderPath _finderPathFetchByU_P_C_N_D;
 	private FinderPath _finderPathCountByU_P_C_N_D;
 
@@ -868,12 +868,12 @@ public class UserNotificationDeliveryPersistenceImpl extends BasePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_P_C_N_D_USERID_2 = "userNotificationDelivery.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_P_C_N_D_PORTLETID_2 = "userNotificationDelivery.portletId = ? AND ";
-	private static final String _FINDER_COLUMN_U_P_C_N_D_PORTLETID_3 = "(userNotificationDelivery.portletId IS NULL OR userNotificationDelivery.portletId = '') AND ";
-	private static final String _FINDER_COLUMN_U_P_C_N_D_CLASSNAMEID_2 = "userNotificationDelivery.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_P_C_N_D_NOTIFICATIONTYPE_2 = "userNotificationDelivery.notificationType = ? AND ";
-	private static final String _FINDER_COLUMN_U_P_C_N_D_DELIVERYTYPE_2 = "userNotificationDelivery.deliveryType = ?";
+	private static final String _FINDER_COLUMN_U_P_C_N_D_USERID_2_SQL = "userNotificationDelivery.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_P_C_N_D_PORTLETID_2_SQL = "userNotificationDelivery.portletId = ? AND ";
+	private static final String _FINDER_COLUMN_U_P_C_N_D_PORTLETID_3_SQL = "(userNotificationDelivery.portletId IS NULL OR userNotificationDelivery.portletId = '') AND ";
+	private static final String _FINDER_COLUMN_U_P_C_N_D_CLASSNAMEID_2_SQL = "userNotificationDelivery.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_P_C_N_D_NOTIFICATIONTYPE_2_SQL = "userNotificationDelivery.notificationType = ? AND ";
+	private static final String _FINDER_COLUMN_U_P_C_N_D_DELIVERYTYPE_2_SQL = "userNotificationDelivery.deliveryType = ?";
 
 	public UserNotificationDeliveryPersistenceImpl() {
 		setModelClass(UserNotificationDelivery.class);

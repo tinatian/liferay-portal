@@ -214,12 +214,12 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -437,12 +437,12 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -900,12 +900,12 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1000,8 +1000,6 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "role.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(role.uuid IS NULL OR role.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "role.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(role.uuid_ IS NULL OR role.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1134,12 +1132,12 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1375,12 +1373,12 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1861,12 +1859,12 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1970,11 +1968,9 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "role.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(role.uuid IS NULL OR role.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "role.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(role.uuid_ IS NULL OR role.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "role.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "role.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2808,7 +2804,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "role.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "role.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByName;
 	private FinderPath _finderPathWithoutPaginationFindByName;
 	private FinderPath _finderPathCountByName;
@@ -3713,8 +3709,8 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_NAME_NAME_2 = "role.name = ?";
-	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(role.name IS NULL OR role.name = '')";
+	private static final String _FINDER_COLUMN_NAME_NAME_2_SQL = "role.name = ?";
+	private static final String _FINDER_COLUMN_NAME_NAME_3_SQL = "(role.name IS NULL OR role.name = '')";
 	private FinderPath _finderPathWithPaginationFindByType;
 	private FinderPath _finderPathWithoutPaginationFindByType;
 	private FinderPath _finderPathCountByType;
@@ -3828,7 +3824,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 			query.append(_SQL_SELECT_ROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4038,7 +4034,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 		query.append(_SQL_SELECT_ROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+		query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4462,7 +4458,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 			query.append(_SQL_COUNT_ROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4541,7 +4537,6 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_TYPE_TYPE_2 = "role.type = ?";
 	private static final String _FINDER_COLUMN_TYPE_TYPE_2_SQL = "role.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindBySubtype;
 	private FinderPath _finderPathWithoutPaginationFindBySubtype;
@@ -5451,8 +5446,8 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_SUBTYPE_SUBTYPE_2 = "role.subtype = ?";
-	private static final String _FINDER_COLUMN_SUBTYPE_SUBTYPE_3 = "(role.subtype IS NULL OR role.subtype = '')";
+	private static final String _FINDER_COLUMN_SUBTYPE_SUBTYPE_2_SQL = "role.subtype = ?";
+	private static final String _FINDER_COLUMN_SUBTYPE_SUBTYPE_3_SQL = "(role.subtype IS NULL OR role.subtype = '')";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -5687,9 +5682,9 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "role.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "lower(role.name) = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(role.name IS NULL OR role.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "role.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "lower(role.name) = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(role.name IS NULL OR role.name = '')";
 	private FinderPath _finderPathWithPaginationFindByC_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_T;
 	private FinderPath _finderPathCountByC_T;
@@ -5816,7 +5811,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6043,7 +6038,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
 
-		query.append(_FINDER_COLUMN_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6726,7 +6721,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 			if (types.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_T_TYPE_7);
+				query.append(_FINDER_COLUMN_C_T_TYPE_7_SQL);
 
 				query.append(StringUtil.merge(types));
 
@@ -6829,7 +6824,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -6896,7 +6891,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 			if (types.length > 0) {
 				query.append("(");
 
-				query.append(_FINDER_COLUMN_C_T_TYPE_7);
+				query.append(_FINDER_COLUMN_C_T_TYPE_7_SQL);
 
 				query.append(StringUtil.merge(types));
 
@@ -7064,9 +7059,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_T_COMPANYID_2 = "role.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_T_TYPE_2 = "role.type = ?";
-	private static final String _FINDER_COLUMN_C_T_TYPE_7 = "role.type IN (";
+	private static final String _FINDER_COLUMN_C_T_COMPANYID_2_SQL = "role.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_C_T_TYPE_2_SQL = "role.type_ = ?";
 	private static final String _FINDER_COLUMN_C_T_TYPE_7_SQL = "role.type_ IN (";
 	private FinderPath _finderPathWithPaginationFindByT_S;
@@ -7194,7 +7187,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 			query.append(_SQL_SELECT_ROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_T_S_TYPE_2_SQL);
 
 			boolean bindSubtype = false;
 
@@ -7434,7 +7427,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 		query.append(_SQL_SELECT_ROLE_WHERE);
 
-		query.append(_FINDER_COLUMN_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_T_S_TYPE_2_SQL);
 
 		boolean bindSubtype = false;
 
@@ -7920,7 +7913,7 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 
 			query.append(_SQL_COUNT_ROLE_WHERE);
 
-			query.append(_FINDER_COLUMN_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_T_S_TYPE_2_SQL);
 
 			boolean bindSubtype = false;
 
@@ -8032,10 +8025,9 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_T_S_TYPE_2 = "role.type = ? AND ";
 	private static final String _FINDER_COLUMN_T_S_TYPE_2_SQL = "role.type_ = ? AND ";
-	private static final String _FINDER_COLUMN_T_S_SUBTYPE_2 = "role.subtype = ?";
-	private static final String _FINDER_COLUMN_T_S_SUBTYPE_3 = "(role.subtype IS NULL OR role.subtype = '')";
+	private static final String _FINDER_COLUMN_T_S_SUBTYPE_2_SQL = "role.subtype = ?";
+	private static final String _FINDER_COLUMN_T_S_SUBTYPE_3_SQL = "(role.subtype IS NULL OR role.subtype = '')";
 	private FinderPath _finderPathWithPaginationFindByC_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C;
 	private FinderPath _finderPathFetchByC_C_C;
@@ -8706,10 +8698,10 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2 = "role.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2 = "role.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2 = "role.classPK = ?";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_7 = "role.classPK IN (";
+	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2_SQL = "role.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL = "role.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2_SQL = "role.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_7_SQL = "role.classPK IN (";
 
 	public RolePersistenceImpl() {
 		setModelClass(Role.class);
@@ -10460,6 +10452,6 @@ public class RolePersistenceImpl extends BasePersistenceImpl<Role>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Role exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(RolePersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "type"
+				"uuid", "description", "type"
 			});
 }

@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.persistence.LayoutBranchPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.model.impl.LayoutBranchImpl;
 import com.liferay.portal.model.impl.LayoutBranchModelImpl;
 
@@ -48,6 +49,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * The persistence implementation for the layout branch service.
@@ -571,7 +573,7 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL =
 		"layoutBranch.layoutSetBranchId = ?";
 	private FinderPath _finderPathWithPaginationFindByL_P;
 	private FinderPath _finderPathWithoutPaginationFindByL_P;
@@ -1097,8 +1099,8 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2 = "layoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_PLID_2 = "layoutBranch.plid = ?";
+	private static final String _FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2_SQL = "layoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_PLID_2_SQL = "layoutBranch.plid = ?";
 	private FinderPath _finderPathFetchByL_P_N;
 	private FinderPath _finderPathCountByL_P_N;
 
@@ -1351,10 +1353,10 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_N_LAYOUTSETBRANCHID_2 = "layoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_N_PLID_2 = "layoutBranch.plid = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_N_NAME_2 = "layoutBranch.name = ?";
-	private static final String _FINDER_COLUMN_L_P_N_NAME_3 = "(layoutBranch.name IS NULL OR layoutBranch.name = '')";
+	private static final String _FINDER_COLUMN_L_P_N_LAYOUTSETBRANCHID_2_SQL = "layoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_N_PLID_2_SQL = "layoutBranch.plid = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_N_NAME_2_SQL = "layoutBranch.name = ?";
+	private static final String _FINDER_COLUMN_L_P_N_NAME_3_SQL = "(layoutBranch.name IS NULL OR layoutBranch.name = '')";
 	private FinderPath _finderPathWithPaginationFindByL_P_M;
 	private FinderPath _finderPathWithoutPaginationFindByL_P_M;
 	private FinderPath _finderPathCountByL_P_M;
@@ -1913,9 +1915,9 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_M_LAYOUTSETBRANCHID_2 = "layoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_M_PLID_2 = "layoutBranch.plid = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_M_MASTER_2 = "layoutBranch.master = ?";
+	private static final String _FINDER_COLUMN_L_P_M_LAYOUTSETBRANCHID_2_SQL = "layoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_M_PLID_2_SQL = "layoutBranch.plid = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_M_MASTER_2_SQL = "layoutBranch.master = ?";
 
 	public LayoutBranchPersistenceImpl() {
 		setModelClass(LayoutBranch.class);
@@ -2550,6 +2552,11 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 	}
 
 	@Override
+	public Set<String> getBadColumnNames() {
+		return _badColumnNames;
+	}
+
+	@Override
 	protected EntityCache getEntityCache() {
 		return EntityCacheUtil.getEntityCache();
 	}
@@ -2708,4 +2715,7 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LayoutBranch exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LayoutBranch exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(LayoutBranchPersistenceImpl.class);
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+				"description"
+			});
 }

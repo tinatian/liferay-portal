@@ -681,10 +681,10 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GADGETKEY_2 = "oAuthToken.gadgetKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_GADGETKEY_3 = "(oAuthToken.gadgetKey IS NULL OR oAuthToken.gadgetKey = '') AND ";
-	private static final String _FINDER_COLUMN_G_S_SERVICENAME_2 = "oAuthToken.serviceName = ?";
-	private static final String _FINDER_COLUMN_G_S_SERVICENAME_3 = "(oAuthToken.serviceName IS NULL OR oAuthToken.serviceName = '')";
+	private static final String _FINDER_COLUMN_G_S_GADGETKEY_2_SQL = "oAuthToken.gadgetKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_GADGETKEY_3_SQL = "(oAuthToken.gadgetKey IS NULL OR oAuthToken.gadgetKey = '') AND ";
+	private static final String _FINDER_COLUMN_G_S_SERVICENAME_2_SQL = "oAuthToken.serviceName = ?";
+	private static final String _FINDER_COLUMN_G_S_SERVICENAME_3_SQL = "(oAuthToken.serviceName IS NULL OR oAuthToken.serviceName = '')";
 	private FinderPath _finderPathFetchByU_G_S_M_T;
 	private FinderPath _finderPathCountByU_G_S_M_T;
 
@@ -1042,14 +1042,14 @@ public class OAuthTokenPersistenceImpl extends BasePersistenceImpl<OAuthToken>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_G_S_M_T_USERID_2 = "oAuthToken.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_GADGETKEY_2 = "oAuthToken.gadgetKey = ? AND ";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_GADGETKEY_3 = "(oAuthToken.gadgetKey IS NULL OR oAuthToken.gadgetKey = '') AND ";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_SERVICENAME_2 = "oAuthToken.serviceName = ? AND ";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_SERVICENAME_3 = "(oAuthToken.serviceName IS NULL OR oAuthToken.serviceName = '') AND ";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_MODULEID_2 = "oAuthToken.moduleId = ? AND ";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_TOKENNAME_2 = "oAuthToken.tokenName = ?";
-	private static final String _FINDER_COLUMN_U_G_S_M_T_TOKENNAME_3 = "(oAuthToken.tokenName IS NULL OR oAuthToken.tokenName = '')";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_USERID_2_SQL = "oAuthToken.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_GADGETKEY_2_SQL = "oAuthToken.gadgetKey = ? AND ";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_GADGETKEY_3_SQL = "(oAuthToken.gadgetKey IS NULL OR oAuthToken.gadgetKey = '') AND ";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_SERVICENAME_2_SQL = "oAuthToken.serviceName = ? AND ";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_SERVICENAME_3_SQL = "(oAuthToken.serviceName IS NULL OR oAuthToken.serviceName = '') AND ";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_MODULEID_2_SQL = "oAuthToken.moduleId = ? AND ";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_TOKENNAME_2_SQL = "oAuthToken.tokenName = ?";
+	private static final String _FINDER_COLUMN_U_G_S_M_T_TOKENNAME_3_SQL = "(oAuthToken.tokenName IS NULL OR oAuthToken.tokenName = '')";
 
 	public OAuthTokenPersistenceImpl() {
 		setModelClass(OAuthToken.class);

@@ -215,12 +215,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -443,12 +443,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -577,12 +577,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -617,8 +617,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "mbMessage.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(mbMessage.uuid IS NULL OR mbMessage.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "mbMessage.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(mbMessage.uuid_ IS NULL OR mbMessage.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -709,12 +709,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -808,12 +808,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -852,9 +852,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "mbMessage.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(mbMessage.uuid IS NULL OR mbMessage.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "mbMessage.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "mbMessage.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(mbMessage.uuid_ IS NULL OR mbMessage.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "mbMessage.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -985,12 +985,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1231,12 +1231,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1371,12 +1371,12 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1415,9 +1415,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "mbMessage.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(mbMessage.uuid IS NULL OR mbMessage.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "mbMessage.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "mbMessage.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(mbMessage.uuid_ IS NULL OR mbMessage.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "mbMessage.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2256,7 +2256,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "mbMessage.groupId = ? AND mbMessage.categoryId != -1";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "mbMessage.groupId = ? AND mbMessage.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2742,7 +2742,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "mbMessage.companyId = ? AND mbMessage.categoryId != -1";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "mbMessage.companyId = ? AND mbMessage.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -3225,7 +3225,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "mbMessage.userId = ? AND mbMessage.categoryId != -1";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "mbMessage.userId = ? AND mbMessage.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByThreadId;
 	private FinderPath _finderPathWithoutPaginationFindByThreadId;
 	private FinderPath _finderPathCountByThreadId;
@@ -3709,7 +3709,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_THREADID_THREADID_2 = "mbMessage.threadId = ?";
+	private static final String _FINDER_COLUMN_THREADID_THREADID_2_SQL = "mbMessage.threadId = ?";
 	private FinderPath _finderPathWithPaginationFindByThreadReplies;
 	private FinderPath _finderPathWithoutPaginationFindByThreadReplies;
 	private FinderPath _finderPathCountByThreadReplies;
@@ -4196,7 +4196,7 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_THREADREPLIES_THREADID_2 = "mbMessage.threadId = ? AND mbMessage.parentMessageId != 0";
+	private static final String _FINDER_COLUMN_THREADREPLIES_THREADID_2_SQL = "mbMessage.threadId = ? AND mbMessage.parentMessageId != 0";
 	private FinderPath _finderPathWithPaginationFindByG_U;
 	private FinderPath _finderPathWithoutPaginationFindByG_U;
 	private FinderPath _finderPathCountByG_U;
@@ -5092,8 +5092,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "mbMessage.userId = ? AND (mbMessage.categoryId != -1) AND (mbMessage.anonymous = [$FALSE$])";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "mbMessage.userId = ? AND (mbMessage.categoryId != -1) AND (mbMessage.anonymous = [$FALSE$])";
 	private FinderPath _finderPathWithPaginationFindByG_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C;
 	private FinderPath _finderPathCountByG_C;
@@ -5991,8 +5991,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_CATEGORYID_2 = "mbMessage.categoryId = ?";
+	private static final String _FINDER_COLUMN_G_C_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_CATEGORYID_2_SQL = "mbMessage.categoryId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -6887,8 +6887,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "mbMessage.status = ? AND mbMessage.categoryId != -1";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "mbMessage.status = ? AND mbMessage.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByC_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_S;
 	private FinderPath _finderPathCountByC_S;
@@ -7410,8 +7410,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_COMPANYID_2 = "mbMessage.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 = "mbMessage.status = ? AND mbMessage.categoryId != -1";
+	private static final String _FINDER_COLUMN_C_S_COMPANYID_2_SQL = "mbMessage.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_STATUS_2_SQL = "mbMessage.status = ? AND mbMessage.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByU_C;
 	private FinderPath _finderPathWithoutPaginationFindByU_C;
 	private FinderPath _finderPathCountByU_C;
@@ -8215,9 +8215,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_USERID_2 = "mbMessage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_CLASSNAMEID_2 = "mbMessage.classNameId = ?";
-	private static final String _FINDER_COLUMN_U_C_CLASSNAMEID_7 = "mbMessage.classNameId IN (";
+	private static final String _FINDER_COLUMN_U_C_USERID_2_SQL = "mbMessage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_CLASSNAMEID_2_SQL = "mbMessage.classNameId = ?";
+	private static final String _FINDER_COLUMN_U_C_CLASSNAMEID_7_SQL = "mbMessage.classNameId IN (";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -8740,8 +8740,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "mbMessage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "mbMessage.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "mbMessage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "mbMessage.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByT_P;
 	private FinderPath _finderPathWithoutPaginationFindByT_P;
 	private FinderPath _finderPathCountByT_P;
@@ -9264,8 +9264,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_P_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_T_P_PARENTMESSAGEID_2 = "mbMessage.parentMessageId = ?";
+	private static final String _FINDER_COLUMN_T_P_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_T_P_PARENTMESSAGEID_2_SQL = "mbMessage.parentMessageId = ?";
 	private FinderPath _finderPathWithPaginationFindByT_A;
 	private FinderPath _finderPathWithoutPaginationFindByT_A;
 	private FinderPath _finderPathCountByT_A;
@@ -9787,8 +9787,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_A_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_T_A_ANSWER_2 = "mbMessage.answer = ?";
+	private static final String _FINDER_COLUMN_T_A_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_T_A_ANSWER_2_SQL = "mbMessage.answer = ?";
 	private FinderPath _finderPathWithPaginationFindByT_S;
 	private FinderPath _finderPathWithoutPaginationFindByT_S;
 	private FinderPath _finderPathCountByT_S;
@@ -10310,8 +10310,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_S_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_T_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_T_S_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_T_S_STATUS_2_SQL = "mbMessage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByT_notS;
 	private FinderPath _finderPathWithPaginationCountByT_notS;
 
@@ -10825,8 +10825,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_NOTS_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_T_NOTS_STATUS_2 = "mbMessage.status != ?";
+	private static final String _FINDER_COLUMN_T_NOTS_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_T_NOTS_STATUS_2_SQL = "mbMessage.status != ?";
 	private FinderPath _finderPathWithPaginationFindByTR_S;
 	private FinderPath _finderPathWithoutPaginationFindByTR_S;
 	private FinderPath _finderPathCountByTR_S;
@@ -11348,8 +11348,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TR_S_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_TR_S_STATUS_2 = "mbMessage.status = ? AND mbMessage.parentMessageId != 0";
+	private static final String _FINDER_COLUMN_TR_S_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_TR_S_STATUS_2_SQL = "mbMessage.status = ? AND mbMessage.parentMessageId != 0";
 	private FinderPath _finderPathWithPaginationFindByP_S;
 	private FinderPath _finderPathWithoutPaginationFindByP_S;
 	private FinderPath _finderPathCountByP_S;
@@ -11873,8 +11873,8 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_S_PARENTMESSAGEID_2 = "mbMessage.parentMessageId = ? AND ";
-	private static final String _FINDER_COLUMN_P_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_P_S_PARENTMESSAGEID_2_SQL = "mbMessage.parentMessageId = ? AND ";
+	private static final String _FINDER_COLUMN_P_S_STATUS_2_SQL = "mbMessage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_S;
 	private FinderPath _finderPathCountByG_U_S;
@@ -12822,9 +12822,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_USERID_2 = "mbMessage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_STATUS_2 = "mbMessage.status = ? AND (mbMessage.categoryId != -1) AND (mbMessage.anonymous = [$FALSE$])";
+	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_USERID_2_SQL = "mbMessage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_STATUS_2_SQL = "mbMessage.status = ? AND (mbMessage.categoryId != -1) AND (mbMessage.anonymous = [$FALSE$])";
 	private FinderPath _finderPathWithPaginationFindByG_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_T;
 	private FinderPath _finderPathCountByG_C_T;
@@ -13776,9 +13776,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_T_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_CATEGORYID_2 = "mbMessage.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_THREADID_2 = "mbMessage.threadId = ?";
+	private static final String _FINDER_COLUMN_G_C_T_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_CATEGORYID_2_SQL = "mbMessage.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_THREADID_2_SQL = "mbMessage.threadId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_S;
 	private FinderPath _finderPathCountByG_C_S;
@@ -14729,9 +14729,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_S_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_S_CATEGORYID_2 = "mbMessage.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_G_C_S_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL = "mbMessage.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_S_STATUS_2_SQL = "mbMessage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByU_C_C;
 	private FinderPath _finderPathCountByU_C_C;
@@ -15288,9 +15288,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_C_USERID_2 = "mbMessage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_CLASSNAMEID_2 = "mbMessage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_CLASSPK_2 = "mbMessage.classPK = ?";
+	private static final String _FINDER_COLUMN_U_C_C_USERID_2_SQL = "mbMessage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_CLASSNAMEID_2_SQL = "mbMessage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_CLASSPK_2_SQL = "mbMessage.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_C_S;
 	private FinderPath _finderPathCountByU_C_S;
@@ -16150,10 +16150,10 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_S_USERID_2 = "mbMessage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_S_CLASSNAMEID_2 = "mbMessage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_S_CLASSNAMEID_7 = "mbMessage.classNameId IN (";
-	private static final String _FINDER_COLUMN_U_C_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_U_C_S_USERID_2_SQL = "mbMessage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_S_CLASSNAMEID_2_SQL = "mbMessage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_S_CLASSNAMEID_7_SQL = "mbMessage.classNameId IN (";
+	private static final String _FINDER_COLUMN_U_C_S_STATUS_2_SQL = "mbMessage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_S;
 	private FinderPath _finderPathCountByC_C_S;
@@ -16710,9 +16710,9 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_S_CLASSNAMEID_2 = "mbMessage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_S_CLASSPK_2 = "mbMessage.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL = "mbMessage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_S_CLASSPK_2_SQL = "mbMessage.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_S_STATUS_2_SQL = "mbMessage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_T_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_T_A;
 	private FinderPath _finderPathCountByG_C_T_A;
@@ -17724,10 +17724,10 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_T_A_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_A_CATEGORYID_2 = "mbMessage.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_A_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_A_ANSWER_2 = "mbMessage.answer = ?";
+	private static final String _FINDER_COLUMN_G_C_T_A_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_A_CATEGORYID_2_SQL = "mbMessage.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_A_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_A_ANSWER_2_SQL = "mbMessage.answer = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_T_S;
 	private FinderPath _finderPathCountByG_C_T_S;
@@ -18739,10 +18739,10 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_T_S_GROUPID_2 = "mbMessage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_S_CATEGORYID_2 = "mbMessage.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_S_THREADID_2 = "mbMessage.threadId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_G_C_T_S_GROUPID_2_SQL = "mbMessage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_S_CATEGORYID_2_SQL = "mbMessage.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_S_THREADID_2_SQL = "mbMessage.threadId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_S_STATUS_2_SQL = "mbMessage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C_C_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_C_C_S;
 	private FinderPath _finderPathCountByU_C_C_S;
@@ -19333,10 +19333,10 @@ public class MBMessagePersistenceImpl extends BasePersistenceImpl<MBMessage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_C_S_USERID_2 = "mbMessage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2 = "mbMessage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_S_CLASSPK_2 = "mbMessage.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_S_STATUS_2 = "mbMessage.status = ?";
+	private static final String _FINDER_COLUMN_U_C_C_S_USERID_2_SQL = "mbMessage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_S_CLASSNAMEID_2_SQL = "mbMessage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_S_CLASSPK_2_SQL = "mbMessage.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_S_STATUS_2_SQL = "mbMessage.status = ?";
 
 	public MBMessagePersistenceImpl() {
 		setModelClass(MBMessage.class);

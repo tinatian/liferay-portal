@@ -200,12 +200,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -428,12 +428,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -562,12 +562,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -602,8 +602,8 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "amImageEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(amImageEntry.uuid IS NULL OR amImageEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "amImageEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(amImageEntry.uuid_ IS NULL OR amImageEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -694,12 +694,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -793,12 +793,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -837,9 +837,9 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "amImageEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(amImageEntry.uuid IS NULL OR amImageEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "amImageEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "amImageEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(amImageEntry.uuid_ IS NULL OR amImageEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "amImageEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -970,12 +970,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1217,12 +1217,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1357,12 +1357,12 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1401,9 +1401,9 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "amImageEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(amImageEntry.uuid IS NULL OR amImageEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "amImageEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "amImageEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(amImageEntry.uuid_ IS NULL OR amImageEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "amImageEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1888,7 +1888,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "amImageEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "amImageEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2375,7 +2375,7 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "amImageEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "amImageEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByConfigurationUuid;
 	private FinderPath _finderPathWithoutPaginationFindByConfigurationUuid;
 	private FinderPath _finderPathCountByConfigurationUuid;
@@ -2914,9 +2914,9 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2 =
+	private static final String _FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_2_SQL =
 		"amImageEntry.configurationUuid = ?";
-	private static final String _FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3 =
+	private static final String _FINDER_COLUMN_CONFIGURATIONUUID_CONFIGURATIONUUID_3_SQL =
 		"(amImageEntry.configurationUuid IS NULL OR amImageEntry.configurationUuid = '')";
 	private FinderPath _finderPathWithPaginationFindByFileVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByFileVersionId;
@@ -3410,7 +3410,8 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2 = "amImageEntry.fileVersionId = ?";
+	private static final String _FINDER_COLUMN_FILEVERSIONID_FILEVERSIONID_2_SQL =
+		"amImageEntry.fileVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -3980,9 +3981,9 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_COMPANYID_2 = "amImageEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CONFIGURATIONUUID_2 = "amImageEntry.configurationUuid = ?";
-	private static final String _FINDER_COLUMN_C_C_CONFIGURATIONUUID_3 = "(amImageEntry.configurationUuid IS NULL OR amImageEntry.configurationUuid = '')";
+	private static final String _FINDER_COLUMN_C_C_COMPANYID_2_SQL = "amImageEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CONFIGURATIONUUID_2_SQL = "amImageEntry.configurationUuid = ?";
+	private static final String _FINDER_COLUMN_C_C_CONFIGURATIONUUID_3_SQL = "(amImageEntry.configurationUuid IS NULL OR amImageEntry.configurationUuid = '')";
 	private FinderPath _finderPathFetchByC_F;
 	private FinderPath _finderPathCountByC_F;
 
@@ -4217,9 +4218,9 @@ public class AMImageEntryPersistenceImpl extends BasePersistenceImpl<AMImageEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_F_CONFIGURATIONUUID_2 = "amImageEntry.configurationUuid = ? AND ";
-	private static final String _FINDER_COLUMN_C_F_CONFIGURATIONUUID_3 = "(amImageEntry.configurationUuid IS NULL OR amImageEntry.configurationUuid = '') AND ";
-	private static final String _FINDER_COLUMN_C_F_FILEVERSIONID_2 = "amImageEntry.fileVersionId = ?";
+	private static final String _FINDER_COLUMN_C_F_CONFIGURATIONUUID_2_SQL = "amImageEntry.configurationUuid = ? AND ";
+	private static final String _FINDER_COLUMN_C_F_CONFIGURATIONUUID_3_SQL = "(amImageEntry.configurationUuid IS NULL OR amImageEntry.configurationUuid = '') AND ";
+	private static final String _FINDER_COLUMN_C_F_FILEVERSIONID_2_SQL = "amImageEntry.fileVersionId = ?";
 
 	public AMImageEntryPersistenceImpl() {
 		setModelClass(AMImageEntry.class);

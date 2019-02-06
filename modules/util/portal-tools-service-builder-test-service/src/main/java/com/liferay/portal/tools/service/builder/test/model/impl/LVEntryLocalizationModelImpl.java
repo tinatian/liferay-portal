@@ -71,8 +71,7 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 			{ "lvEntryId", Types.BIGINT },
 			{ "languageId", Types.VARCHAR },
 			{ "title", Types.VARCHAR },
-			{ "content", Types.VARCHAR },
-			{ "head", Types.BOOLEAN }
+			{ "content", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -84,10 +83,9 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("head", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LVEntryLocalization (mvccVersion LONG default 0 not null,headId LONG,lvEntryLocalizationId LONG not null primary key,lvEntryId LONG,languageId VARCHAR(75) null,title VARCHAR(75) null,content VARCHAR(75) null,head BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table LVEntryLocalization (mvccVersion LONG default 0 not null,headId LONG,lvEntryLocalizationId LONG not null primary key,lvEntryId LONG,languageId VARCHAR(75) null,title VARCHAR(75) null,content VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table LVEntryLocalization";
 	public static final String ORDER_BY_JPQL = " ORDER BY lvEntryLocalization.lvEntryLocalizationId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LVEntryLocalization.lvEntryLocalizationId ASC";
@@ -103,11 +101,10 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.com.liferay.portal.tools.service.builder.test.model.LVEntryLocalization"),
 			true);
-	public static final long HEAD_COLUMN_BITMASK = 1L;
-	public static final long HEADID_COLUMN_BITMASK = 2L;
-	public static final long LANGUAGEID_COLUMN_BITMASK = 4L;
-	public static final long LVENTRYID_COLUMN_BITMASK = 8L;
-	public static final long LVENTRYLOCALIZATIONID_COLUMN_BITMASK = 16L;
+	public static final long HEADID_COLUMN_BITMASK = 1L;
+	public static final long LANGUAGEID_COLUMN_BITMASK = 2L;
+	public static final long LVENTRYID_COLUMN_BITMASK = 4L;
+	public static final long LVENTRYLOCALIZATIONID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.get(
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.LVEntryLocalization"));
 
@@ -346,29 +343,13 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 		_attributeSetterBiConsumers = Collections.unmodifiableMap((Map)attributeSetterBiConsumers);
 	}
 
-	public boolean getHead() {
-		return _head;
-	}
-
 	@Override
 	public boolean isHead() {
-		return _head;
-	}
-
-	public boolean getOriginalHead() {
-		return _originalHead;
-	}
-
-	public void setHead(boolean head) {
-		_columnBitmask |= HEAD_COLUMN_BITMASK;
-
-		if (!_setOriginalHead) {
-			_setOriginalHead = true;
-
-			_originalHead = _head;
+		if (getHeadId() > 0) {
+			return false;
 		}
 
-		_head = head;
+		return true;
 	}
 
 	@Override
@@ -403,13 +384,6 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 			_setOriginalHeadId = true;
 
 			_originalHeadId = _headId;
-		}
-
-		if (headId >= 0) {
-			setHead(false);
-		}
-		else {
-			setHead(true);
 		}
 
 		_headId = headId;
@@ -616,10 +590,6 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 
 		lvEntryLocalizationModelImpl._originalLanguageId = lvEntryLocalizationModelImpl._languageId;
 
-		lvEntryLocalizationModelImpl._originalHead = lvEntryLocalizationModelImpl._head;
-
-		lvEntryLocalizationModelImpl._setOriginalHead = false;
-
 		lvEntryLocalizationModelImpl._columnBitmask = 0;
 	}
 
@@ -658,8 +628,6 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 		if ((content != null) && (content.length() == 0)) {
 			lvEntryLocalizationCacheModel.content = null;
 		}
-
-		lvEntryLocalizationCacheModel.head = isHead();
 
 		return lvEntryLocalizationCacheModel;
 	}
@@ -737,9 +705,6 @@ public class LVEntryLocalizationModelImpl extends BaseModelImpl<LVEntryLocalizat
 	private String _originalLanguageId;
 	private String _title;
 	private String _content;
-	private boolean _head;
-	private boolean _originalHead;
-	private boolean _setOriginalHead;
 	private long _columnBitmask;
 	private LVEntryLocalization _escapedModel;
 }

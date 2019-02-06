@@ -217,12 +217,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -445,12 +445,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -579,12 +579,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -619,8 +619,8 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "blogsEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(blogsEntry.uuid IS NULL OR blogsEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "blogsEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(blogsEntry.uuid_ IS NULL OR blogsEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -711,12 +711,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -810,12 +810,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -854,9 +854,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "blogsEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(blogsEntry.uuid IS NULL OR blogsEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "blogsEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "blogsEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(blogsEntry.uuid_ IS NULL OR blogsEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "blogsEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -987,12 +987,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1233,12 +1233,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1373,12 +1373,12 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1417,9 +1417,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "blogsEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(blogsEntry.uuid IS NULL OR blogsEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "blogsEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "blogsEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(blogsEntry.uuid_ IS NULL OR blogsEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "blogsEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2257,7 +2257,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "blogsEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "blogsEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2744,7 +2744,7 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "blogsEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "blogsEntry.companyId = ?";
 	private FinderPath _finderPathFetchByG_UT;
 	private FinderPath _finderPathCountByG_UT;
 
@@ -2978,9 +2978,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_UT_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_UT_URLTITLE_2 = "blogsEntry.urlTitle = ?";
-	private static final String _FINDER_COLUMN_G_UT_URLTITLE_3 = "(blogsEntry.urlTitle IS NULL OR blogsEntry.urlTitle = '')";
+	private static final String _FINDER_COLUMN_G_UT_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_UT_URLTITLE_2_SQL = "blogsEntry.urlTitle = ?";
+	private static final String _FINDER_COLUMN_G_UT_URLTITLE_3_SQL = "(blogsEntry.urlTitle IS NULL OR blogsEntry.urlTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByG_LtD;
 	private FinderPath _finderPathWithPaginationCountByG_LtD;
 
@@ -3937,9 +3937,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LTD_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LTD_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL";
-	private static final String _FINDER_COLUMN_G_LTD_DISPLAYDATE_2 = "blogsEntry.displayDate < ?";
+	private static final String _FINDER_COLUMN_G_LTD_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LTD_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL";
+	private static final String _FINDER_COLUMN_G_LTD_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -4835,8 +4835,8 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_NotS;
 
@@ -5720,8 +5720,8 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTS_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_NOTS_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByC_U;
 	private FinderPath _finderPathWithoutPaginationFindByC_U;
 	private FinderPath _finderPathCountByC_U;
@@ -6243,8 +6243,8 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_USERID_2 = "blogsEntry.userId = ?";
+	private static final String _FINDER_COLUMN_C_U_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_USERID_2_SQL = "blogsEntry.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_LtD;
 	private FinderPath _finderPathWithPaginationCountByC_LtD;
 
@@ -6792,9 +6792,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_LTD_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_LTD_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL";
-	private static final String _FINDER_COLUMN_C_LTD_DISPLAYDATE_2 = "blogsEntry.displayDate < ?";
+	private static final String _FINDER_COLUMN_C_LTD_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_LTD_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL";
+	private static final String _FINDER_COLUMN_C_LTD_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ?";
 	private FinderPath _finderPathWithPaginationFindByC_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_S;
 	private FinderPath _finderPathCountByC_S;
@@ -7316,8 +7316,8 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_C_S_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_NotS;
 	private FinderPath _finderPathWithPaginationCountByC_NotS;
 
@@ -7831,8 +7831,8 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_NOTS_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByLtD_S;
 	private FinderPath _finderPathWithPaginationCountByLtD_S;
 
@@ -8380,9 +8380,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_LTD_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_LTD_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_LtD;
 	private FinderPath _finderPathWithPaginationCountByG_U_LtD;
 
@@ -9395,10 +9395,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_LTD_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL";
-	private static final String _FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2 = "blogsEntry.displayDate < ?";
+	private static final String _FINDER_COLUMN_G_U_LTD_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL";
+	private static final String _FINDER_COLUMN_G_U_LTD_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_S;
 	private FinderPath _finderPathCountByG_U_S;
@@ -10876,10 +10876,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_STATUS_2 = "blogsEntry.status = ?";
-	private static final String _FINDER_COLUMN_G_U_S_STATUS_7 = "blogsEntry.status IN (";
+	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_STATUS_2_SQL = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_U_S_STATUS_7_SQL = "blogsEntry.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_U_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_U_NotS;
 
@@ -11820,9 +11820,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_NOTS_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_NOTS_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_NOTS_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_D_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_D_S;
 	private FinderPath _finderPathCountByG_D_S;
@@ -12843,10 +12843,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_D_S_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_D_S_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_D_S_DISPLAYDATE_2 = "blogsEntry.displayDate = ? AND ";
-	private static final String _FINDER_COLUMN_G_D_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_D_S_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_D_S_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_D_S_DISPLAYDATE_2_SQL = "blogsEntry.displayDate = ? AND ";
+	private static final String _FINDER_COLUMN_G_D_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_GtD_S;
 	private FinderPath _finderPathWithPaginationCountByG_GtD_S;
 
@@ -13859,10 +13859,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_GTD_S_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2 = "blogsEntry.displayDate > ? AND ";
-	private static final String _FINDER_COLUMN_G_GTD_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_GTD_S_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_GTD_S_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_GTD_S_DISPLAYDATE_2_SQL = "blogsEntry.displayDate > ? AND ";
+	private static final String _FINDER_COLUMN_G_GTD_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_LtD_S;
 	private FinderPath _finderPathWithPaginationCountByG_LtD_S;
 
@@ -14875,10 +14875,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LTD_S_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_G_LTD_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_LTD_S_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LTD_S_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_LTD_S_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_G_LTD_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_LtD_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_LtD_NotS;
 
@@ -15892,10 +15892,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LTD_NOTS_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_G_LTD_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_LTD_NOTS_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_LTD_NOTS_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_G_LTD_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByC_U_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_U_S;
 	private FinderPath _finderPathCountByC_U_S;
@@ -16450,9 +16450,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_S_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_S_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_C_U_S_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_S_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_U_NotS;
 	private FinderPath _finderPathWithPaginationCountByC_U_NotS;
 
@@ -17000,9 +17000,9 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_NOTS_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_NOTS_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_C_U_NOTS_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_NOTS_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByC_LtD_S;
 	private FinderPath _finderPathWithPaginationCountByC_LtD_S;
 
@@ -17586,10 +17586,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_LTD_S_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_C_LTD_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_C_LTD_S_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_LTD_S_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_C_LTD_S_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_C_LTD_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_LtD_NotS;
 	private FinderPath _finderPathWithPaginationCountByC_LtD_NotS;
 
@@ -18173,10 +18173,10 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2 = "blogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_C_LTD_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_C_LTD_NOTS_COMPANYID_2_SQL = "blogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_C_LTD_NOTS_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_C_LTD_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_LtD_S;
 	private FinderPath _finderPathWithPaginationCountByG_U_LtD_S;
 
@@ -19248,11 +19248,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_LTD_S_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_S_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_S_STATUS_2 = "blogsEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_U_LTD_S_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_S_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_S_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_S_STATUS_2_SQL = "blogsEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_LtD_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_U_LtD_NotS;
 
@@ -20326,11 +20326,11 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2 = "blogsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_USERID_2 = "blogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1 = "blogsEntry.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2 = "blogsEntry.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2 = "blogsEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_GROUPID_2_SQL = "blogsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_USERID_2_SQL = "blogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_1_SQL = "blogsEntry.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_DISPLAYDATE_2_SQL = "blogsEntry.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_G_U_LTD_NOTS_STATUS_2_SQL = "blogsEntry.status != ?";
 
 	public BlogsEntryPersistenceImpl() {
 		setModelClass(BlogsEntry.class);
@@ -21893,6 +21893,6 @@ public class BlogsEntryPersistenceImpl extends BasePersistenceImpl<BlogsEntry>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No BlogsEntry exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(BlogsEntryPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

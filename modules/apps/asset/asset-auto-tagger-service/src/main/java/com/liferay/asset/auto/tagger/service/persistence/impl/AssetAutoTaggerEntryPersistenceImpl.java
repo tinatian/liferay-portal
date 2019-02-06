@@ -576,7 +576,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2 = "assetAutoTaggerEntry.assetEntryId = ?";
+	private static final String _FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL = "assetAutoTaggerEntry.assetEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByAssetTagId;
 	private FinderPath _finderPathWithoutPaginationFindByAssetTagId;
 	private FinderPath _finderPathCountByAssetTagId;
@@ -1069,7 +1069,7 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2 = "assetAutoTaggerEntry.assetTagId = ?";
+	private static final String _FINDER_COLUMN_ASSETTAGID_ASSETTAGID_2_SQL = "assetAutoTaggerEntry.assetTagId = ?";
 	private FinderPath _finderPathFetchByA_A;
 	private FinderPath _finderPathCountByA_A;
 
@@ -1279,8 +1279,8 @@ public class AssetAutoTaggerEntryPersistenceImpl extends BasePersistenceImpl<Ass
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_A_ASSETENTRYID_2 = "assetAutoTaggerEntry.assetEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_A_A_ASSETTAGID_2 = "assetAutoTaggerEntry.assetTagId = ?";
+	private static final String _FINDER_COLUMN_A_A_ASSETENTRYID_2_SQL = "assetAutoTaggerEntry.assetEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_A_A_ASSETTAGID_2_SQL = "assetAutoTaggerEntry.assetTagId = ?";
 
 	public AssetAutoTaggerEntryPersistenceImpl() {
 		setModelClass(AssetAutoTaggerEntry.class);

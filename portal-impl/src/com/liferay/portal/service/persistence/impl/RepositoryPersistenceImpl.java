@@ -203,12 +203,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -431,12 +431,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -566,12 +566,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -606,8 +606,8 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "repository.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(repository.uuid IS NULL OR repository.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "repository.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(repository.uuid_ IS NULL OR repository.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -698,12 +698,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -799,12 +799,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -843,9 +843,9 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "repository.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(repository.uuid IS NULL OR repository.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "repository.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "repository.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(repository.uuid_ IS NULL OR repository.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "repository.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -976,12 +976,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1223,12 +1223,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1364,12 +1364,12 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1408,9 +1408,9 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "repository.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(repository.uuid IS NULL OR repository.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "repository.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "repository.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(repository.uuid_ IS NULL OR repository.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "repository.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1894,7 +1894,7 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "repository.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "repository.groupId = ?";
 	private FinderPath _finderPathFetchByG_N_P;
 	private FinderPath _finderPathCountByG_N_P;
 
@@ -2170,11 +2170,11 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_P_GROUPID_2 = "repository.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_P_NAME_2 = "repository.name = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_P_NAME_3 = "(repository.name IS NULL OR repository.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_P_PORTLETID_2 = "repository.portletId = ?";
-	private static final String _FINDER_COLUMN_G_N_P_PORTLETID_3 = "(repository.portletId IS NULL OR repository.portletId = '')";
+	private static final String _FINDER_COLUMN_G_N_P_GROUPID_2_SQL = "repository.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_P_NAME_2_SQL = "repository.name = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_P_NAME_3_SQL = "(repository.name IS NULL OR repository.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_P_PORTLETID_2_SQL = "repository.portletId = ?";
+	private static final String _FINDER_COLUMN_G_N_P_PORTLETID_3_SQL = "(repository.portletId IS NULL OR repository.portletId = '')";
 
 	public RepositoryPersistenceImpl() {
 		setModelClass(Repository.class);
@@ -3015,6 +3015,6 @@ public class RepositoryPersistenceImpl extends BasePersistenceImpl<Repository>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Repository exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(RepositoryPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

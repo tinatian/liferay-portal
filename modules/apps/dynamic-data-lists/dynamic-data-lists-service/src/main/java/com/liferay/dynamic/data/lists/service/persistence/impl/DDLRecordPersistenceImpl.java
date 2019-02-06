@@ -203,12 +203,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -431,12 +431,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -565,12 +565,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -605,8 +605,8 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "ddlRecord.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(ddlRecord.uuid IS NULL OR ddlRecord.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "ddlRecord.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(ddlRecord.uuid_ IS NULL OR ddlRecord.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -697,12 +697,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -796,12 +796,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -840,9 +840,9 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "ddlRecord.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(ddlRecord.uuid IS NULL OR ddlRecord.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "ddlRecord.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "ddlRecord.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(ddlRecord.uuid_ IS NULL OR ddlRecord.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "ddlRecord.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -973,12 +973,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1219,12 +1219,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1359,12 +1359,12 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1403,9 +1403,9 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "ddlRecord.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(ddlRecord.uuid IS NULL OR ddlRecord.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "ddlRecord.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "ddlRecord.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(ddlRecord.uuid_ IS NULL OR ddlRecord.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "ddlRecord.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1891,7 +1891,7 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "ddlRecord.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "ddlRecord.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByRecordSetId;
 	private FinderPath _finderPathWithoutPaginationFindByRecordSetId;
 	private FinderPath _finderPathCountByRecordSetId;
@@ -2380,7 +2380,7 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECORDSETID_RECORDSETID_2 = "ddlRecord.recordSetId = ?";
+	private static final String _FINDER_COLUMN_RECORDSETID_RECORDSETID_2_SQL = "ddlRecord.recordSetId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_U;
 	private FinderPath _finderPathWithoutPaginationFindByR_U;
 	private FinderPath _finderPathCountByR_U;
@@ -2903,8 +2903,8 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_U_RECORDSETID_2 = "ddlRecord.recordSetId = ? AND ";
-	private static final String _FINDER_COLUMN_R_U_USERID_2 = "ddlRecord.userId = ?";
+	private static final String _FINDER_COLUMN_R_U_RECORDSETID_2_SQL = "ddlRecord.recordSetId = ? AND ";
+	private static final String _FINDER_COLUMN_R_U_USERID_2_SQL = "ddlRecord.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_R;
 	private FinderPath _finderPathWithoutPaginationFindByR_R;
 	private FinderPath _finderPathCountByR_R;
@@ -3467,9 +3467,9 @@ public class DDLRecordPersistenceImpl extends BasePersistenceImpl<DDLRecord>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_R_RECORDSETID_2 = "ddlRecord.recordSetId = ? AND ";
-	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_2 = "ddlRecord.recordSetVersion = ?";
-	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_3 = "(ddlRecord.recordSetVersion IS NULL OR ddlRecord.recordSetVersion = '')";
+	private static final String _FINDER_COLUMN_R_R_RECORDSETID_2_SQL = "ddlRecord.recordSetId = ? AND ";
+	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_2_SQL = "ddlRecord.recordSetVersion = ?";
+	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_3_SQL = "(ddlRecord.recordSetVersion IS NULL OR ddlRecord.recordSetVersion = '')";
 
 	public DDLRecordPersistenceImpl() {
 		setModelClass(DDLRecord.class);

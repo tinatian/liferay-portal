@@ -203,12 +203,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -433,12 +433,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -567,12 +567,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -607,8 +607,8 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "assetEntryUsage.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(assetEntryUsage.uuid IS NULL OR assetEntryUsage.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "assetEntryUsage.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(assetEntryUsage.uuid_ IS NULL OR assetEntryUsage.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -699,12 +699,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -798,12 +798,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -842,9 +842,9 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "assetEntryUsage.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(assetEntryUsage.uuid IS NULL OR assetEntryUsage.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "assetEntryUsage.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "assetEntryUsage.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(assetEntryUsage.uuid_ IS NULL OR assetEntryUsage.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "assetEntryUsage.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -976,12 +976,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1223,12 +1223,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1363,12 +1363,12 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1407,9 +1407,9 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "assetEntryUsage.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(assetEntryUsage.uuid IS NULL OR assetEntryUsage.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "assetEntryUsage.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "assetEntryUsage.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(assetEntryUsage.uuid_ IS NULL OR assetEntryUsage.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "assetEntryUsage.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByAssetEntryId;
 	private FinderPath _finderPathWithoutPaginationFindByAssetEntryId;
 	private FinderPath _finderPathCountByAssetEntryId;
@@ -1904,7 +1904,7 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2 = "assetEntryUsage.assetEntryId = ? AND assetEntryUsage.portletId IS NOT NULL";
+	private static final String _FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL = "assetEntryUsage.assetEntryId = ? AND assetEntryUsage.portletId IS NOT NULL";
 	private FinderPath _finderPathWithPaginationFindByA_C;
 	private FinderPath _finderPathWithoutPaginationFindByA_C;
 	private FinderPath _finderPathCountByA_C;
@@ -2429,8 +2429,8 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_C_ASSETENTRYID_2 = "assetEntryUsage.assetEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_A_C_CLASSNAMEID_2 = "assetEntryUsage.classNameId = ? AND assetEntryUsage.portletId IS NOT NULL";
+	private static final String _FINDER_COLUMN_A_C_ASSETENTRYID_2_SQL = "assetEntryUsage.assetEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_A_C_CLASSNAMEID_2_SQL = "assetEntryUsage.classNameId = ? AND assetEntryUsage.portletId IS NOT NULL";
 	private FinderPath _finderPathWithPaginationFindByA_P;
 	private FinderPath _finderPathWithoutPaginationFindByA_P;
 	private FinderPath _finderPathCountByA_P;
@@ -2994,9 +2994,9 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_P_ASSETENTRYID_2 = "assetEntryUsage.assetEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_A_P_PORTLETID_2 = "assetEntryUsage.portletId = ?";
-	private static final String _FINDER_COLUMN_A_P_PORTLETID_3 = "(assetEntryUsage.portletId IS NULL OR assetEntryUsage.portletId = '')";
+	private static final String _FINDER_COLUMN_A_P_ASSETENTRYID_2_SQL = "assetEntryUsage.assetEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_A_P_PORTLETID_2_SQL = "assetEntryUsage.portletId = ?";
+	private static final String _FINDER_COLUMN_A_P_PORTLETID_3_SQL = "(assetEntryUsage.portletId IS NULL OR assetEntryUsage.portletId = '')";
 	private FinderPath _finderPathWithPaginationFindByC_C_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_P;
 	private FinderPath _finderPathCountByC_C_P;
@@ -3593,10 +3593,10 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_P_CLASSNAMEID_2 = "assetEntryUsage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_P_CLASSPK_2 = "assetEntryUsage.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_P_PORTLETID_2 = "assetEntryUsage.portletId = ?";
-	private static final String _FINDER_COLUMN_C_C_P_PORTLETID_3 = "(assetEntryUsage.portletId IS NULL OR assetEntryUsage.portletId = '')";
+	private static final String _FINDER_COLUMN_C_C_P_CLASSNAMEID_2_SQL = "assetEntryUsage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_P_CLASSPK_2_SQL = "assetEntryUsage.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_P_PORTLETID_2_SQL = "assetEntryUsage.portletId = ?";
+	private static final String _FINDER_COLUMN_C_C_P_PORTLETID_3_SQL = "(assetEntryUsage.portletId IS NULL OR assetEntryUsage.portletId = '')";
 	private FinderPath _finderPathFetchByA_C_C_P;
 	private FinderPath _finderPathCountByA_C_C_P;
 
@@ -3873,11 +3873,11 @@ public class AssetEntryUsagePersistenceImpl extends BasePersistenceImpl<AssetEnt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_C_C_P_ASSETENTRYID_2 = "assetEntryUsage.assetEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_A_C_C_P_CLASSNAMEID_2 = "assetEntryUsage.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_A_C_C_P_CLASSPK_2 = "assetEntryUsage.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_A_C_C_P_PORTLETID_2 = "assetEntryUsage.portletId = ?";
-	private static final String _FINDER_COLUMN_A_C_C_P_PORTLETID_3 = "(assetEntryUsage.portletId IS NULL OR assetEntryUsage.portletId = '')";
+	private static final String _FINDER_COLUMN_A_C_C_P_ASSETENTRYID_2_SQL = "assetEntryUsage.assetEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_A_C_C_P_CLASSNAMEID_2_SQL = "assetEntryUsage.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_A_C_C_P_CLASSPK_2_SQL = "assetEntryUsage.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_A_C_C_P_PORTLETID_2_SQL = "assetEntryUsage.portletId = ?";
+	private static final String _FINDER_COLUMN_A_C_C_P_PORTLETID_3_SQL = "(assetEntryUsage.portletId IS NULL OR assetEntryUsage.portletId = '')";
 
 	public AssetEntryUsagePersistenceImpl() {
 		setModelClass(AssetEntryUsage.class);

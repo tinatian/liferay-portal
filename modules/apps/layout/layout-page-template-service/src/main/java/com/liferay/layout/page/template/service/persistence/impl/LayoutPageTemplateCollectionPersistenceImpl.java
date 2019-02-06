@@ -210,12 +210,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -444,12 +444,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -578,12 +578,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -618,8 +618,8 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "layoutPageTemplateCollection.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(layoutPageTemplateCollection.uuid IS NULL OR layoutPageTemplateCollection.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "layoutPageTemplateCollection.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(layoutPageTemplateCollection.uuid_ IS NULL OR layoutPageTemplateCollection.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -711,12 +711,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -811,12 +811,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -855,9 +855,9 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "layoutPageTemplateCollection.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(layoutPageTemplateCollection.uuid IS NULL OR layoutPageTemplateCollection.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "layoutPageTemplateCollection.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "layoutPageTemplateCollection.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(layoutPageTemplateCollection.uuid_ IS NULL OR layoutPageTemplateCollection.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "layoutPageTemplateCollection.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -991,12 +991,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1247,12 +1247,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1387,12 +1387,12 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1431,9 +1431,9 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "layoutPageTemplateCollection.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(layoutPageTemplateCollection.uuid IS NULL OR layoutPageTemplateCollection.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "layoutPageTemplateCollection.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "layoutPageTemplateCollection.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(layoutPageTemplateCollection.uuid_ IS NULL OR layoutPageTemplateCollection.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "layoutPageTemplateCollection.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2297,7 +2297,7 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "layoutPageTemplateCollection.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "layoutPageTemplateCollection.groupId = ?";
 	private FinderPath _finderPathFetchByG_N;
 	private FinderPath _finderPathCountByG_N;
 
@@ -2533,9 +2533,9 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_GROUPID_2 = "layoutPageTemplateCollection.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_NAME_2 = "layoutPageTemplateCollection.name = ?";
-	private static final String _FINDER_COLUMN_G_N_NAME_3 = "(layoutPageTemplateCollection.name IS NULL OR layoutPageTemplateCollection.name = '')";
+	private static final String _FINDER_COLUMN_G_N_GROUPID_2_SQL = "layoutPageTemplateCollection.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_NAME_2_SQL = "layoutPageTemplateCollection.name = ?";
+	private static final String _FINDER_COLUMN_G_N_NAME_3_SQL = "(layoutPageTemplateCollection.name IS NULL OR layoutPageTemplateCollection.name = '')";
 	private FinderPath _finderPathWithPaginationFindByG_LikeN;
 	private FinderPath _finderPathWithPaginationCountByG_LikeN;
 
@@ -3524,9 +3524,9 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LIKEN_GROUPID_2 = "layoutPageTemplateCollection.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LIKEN_NAME_2 = "layoutPageTemplateCollection.name LIKE ?";
-	private static final String _FINDER_COLUMN_G_LIKEN_NAME_3 = "(layoutPageTemplateCollection.name IS NULL OR layoutPageTemplateCollection.name LIKE '')";
+	private static final String _FINDER_COLUMN_G_LIKEN_GROUPID_2_SQL = "layoutPageTemplateCollection.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LIKEN_NAME_2_SQL = "layoutPageTemplateCollection.name LIKE ?";
+	private static final String _FINDER_COLUMN_G_LIKEN_NAME_3_SQL = "(layoutPageTemplateCollection.name IS NULL OR layoutPageTemplateCollection.name LIKE '')";
 
 	public LayoutPageTemplateCollectionPersistenceImpl() {
 		setModelClass(LayoutPageTemplateCollection.class);
@@ -4440,6 +4440,6 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LayoutPageTemplateCollection exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(LayoutPageTemplateCollectionPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

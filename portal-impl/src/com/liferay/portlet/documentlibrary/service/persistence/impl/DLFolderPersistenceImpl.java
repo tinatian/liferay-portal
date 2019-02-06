@@ -213,12 +213,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -441,12 +441,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -576,12 +576,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -616,8 +616,8 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "dlFolder.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(dlFolder.uuid IS NULL OR dlFolder.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "dlFolder.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(dlFolder.uuid_ IS NULL OR dlFolder.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -708,12 +708,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -809,12 +809,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -853,9 +853,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "dlFolder.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(dlFolder.uuid IS NULL OR dlFolder.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "dlFolder.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "dlFolder.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(dlFolder.uuid_ IS NULL OR dlFolder.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "dlFolder.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -986,12 +986,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1232,12 +1232,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1373,12 +1373,12 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1417,9 +1417,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "dlFolder.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(dlFolder.uuid IS NULL OR dlFolder.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "dlFolder.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "dlFolder.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(dlFolder.uuid_ IS NULL OR dlFolder.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "dlFolder.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2258,7 +2258,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "dlFolder.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "dlFolder.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2742,7 +2742,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "dlFolder.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "dlFolder.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByRepositoryId;
 	private FinderPath _finderPathWithoutPaginationFindByRepositoryId;
 	private FinderPath _finderPathCountByRepositoryId;
@@ -3236,7 +3236,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2 = "dlFolder.repositoryId = ?";
+	private static final String _FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL = "dlFolder.repositoryId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_P;
 	private FinderPath _finderPathCountByG_P;
@@ -4135,8 +4135,8 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ?";
+	private static final String _FINDER_COLUMN_G_P_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_NotS;
 	private FinderPath _finderPathWithPaginationCountByC_NotS;
 
@@ -4651,8 +4651,8 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_NOTS_COMPANYID_2 = "dlFolder.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_NOTS_STATUS_2 = "dlFolder.status != ?";
+	private static final String _FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL = "dlFolder.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_NOTS_STATUS_2_SQL = "dlFolder.status != ?";
 	private FinderPath _finderPathFetchByR_M;
 	private FinderPath _finderPathCountByR_M;
 
@@ -4872,8 +4872,8 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_M_REPOSITORYID_2 = "dlFolder.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_M_MOUNTPOINT_2 = "dlFolder.mountPoint = ?";
+	private static final String _FINDER_COLUMN_R_M_REPOSITORYID_2_SQL = "dlFolder.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_M_MOUNTPOINT_2_SQL = "dlFolder.mountPoint = ?";
 	private FinderPath _finderPathWithPaginationFindByR_P;
 	private FinderPath _finderPathWithoutPaginationFindByR_P;
 	private FinderPath _finderPathCountByR_P;
@@ -5397,8 +5397,8 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_P_REPOSITORYID_2 = "dlFolder.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_P_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ?";
+	private static final String _FINDER_COLUMN_R_P_REPOSITORYID_2_SQL = "dlFolder.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ?";
 	private FinderPath _finderPathWithPaginationFindByP_N;
 	private FinderPath _finderPathWithoutPaginationFindByP_N;
 	private FinderPath _finderPathCountByP_N;
@@ -5961,9 +5961,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_N_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_P_N_NAME_2 = "dlFolder.name = ?";
-	private static final String _FINDER_COLUMN_P_N_NAME_3 = "(dlFolder.name IS NULL OR dlFolder.name = '')";
+	private static final String _FINDER_COLUMN_P_N_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_P_N_NAME_2_SQL = "dlFolder.name = ?";
+	private static final String _FINDER_COLUMN_P_N_NAME_3_SQL = "(dlFolder.name IS NULL OR dlFolder.name = '')";
 	private FinderPath _finderPathWithPaginationFindByG_M_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_M_P;
 	private FinderPath _finderPathCountByG_M_P;
@@ -6921,9 +6921,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_M_P_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_MOUNTPOINT_2 = "dlFolder.mountPoint = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ?";
+	private static final String _FINDER_COLUMN_G_M_P_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_MOUNTPOINT_2_SQL = "dlFolder.mountPoint = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ?";
 	private FinderPath _finderPathFetchByG_P_N;
 	private FinderPath _finderPathCountByG_P_N;
 
@@ -7175,10 +7175,10 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_N_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_2 = "dlFolder.name = ?";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_3 = "(dlFolder.name IS NULL OR dlFolder.name = '')";
+	private static final String _FINDER_COLUMN_G_P_N_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_2_SQL = "dlFolder.name = ?";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_3_SQL = "(dlFolder.name IS NULL OR dlFolder.name = '')";
 	private FinderPath _finderPathWithPaginationFindByF_C_P_NotS;
 	private FinderPath _finderPathWithPaginationCountByF_C_P_NotS;
 
@@ -7606,10 +7606,10 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2 = "dlFolder.folderId > ? AND ";
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2 = "dlFolder.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_F_C_P_NOTS_STATUS_2 = "dlFolder.status != ?";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_FOLDERID_2_SQL = "dlFolder.folderId > ? AND ";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_COMPANYID_2_SQL = "dlFolder.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_F_C_P_NOTS_STATUS_2_SQL = "dlFolder.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_M_P_H;
 	private FinderPath _finderPathWithoutPaginationFindByG_M_P_H;
 	private FinderPath _finderPathCountByG_M_P_H;
@@ -7757,7 +7757,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8026,7 +8026,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -8524,7 +8524,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL);
 
 			String sql = query.toString();
 
@@ -8626,10 +8626,9 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_M_P_H_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2 = "dlFolder.mountPoint = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_HIDDEN_2 = "dlFolder.hidden = ?";
+	private static final String _FINDER_COLUMN_G_M_P_H_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_H_MOUNTPOINT_2_SQL = "dlFolder.mountPoint = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_H_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ? AND ";
 	private static final String _FINDER_COLUMN_G_M_P_H_HIDDEN_2_SQL = "dlFolder.hidden_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_M_T_H;
 	private FinderPath _finderPathWithPaginationCountByG_M_T_H;
@@ -8779,7 +8778,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9061,7 +9060,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 			query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
 		}
 
-		query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2);
+		query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9595,7 +9594,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 				query.append(_FINDER_COLUMN_G_M_T_H_TREEPATH_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL);
 
 			String sql = query.toString();
 
@@ -9712,11 +9711,10 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_M_T_H_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2 = "dlFolder.mountPoint = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_T_H_TREEPATH_2 = "dlFolder.treePath LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_M_T_H_TREEPATH_3 = "(dlFolder.treePath IS NULL OR dlFolder.treePath LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_M_T_H_HIDDEN_2 = "dlFolder.hidden = ?";
+	private static final String _FINDER_COLUMN_G_M_T_H_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_T_H_MOUNTPOINT_2_SQL = "dlFolder.mountPoint = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_T_H_TREEPATH_2_SQL = "dlFolder.treePath LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_M_T_H_TREEPATH_3_SQL = "(dlFolder.treePath IS NULL OR dlFolder.treePath LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_M_T_H_HIDDEN_2_SQL = "dlFolder.hidden_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_H_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_H_S;
@@ -9861,7 +9859,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
 
@@ -10130,7 +10128,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
 
-		query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2);
+		query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
 
@@ -10627,7 +10625,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2);
 
-			query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_P_H_S_STATUS_2);
 
@@ -10731,11 +10729,10 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_H_S_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_H_S_HIDDEN_2 = "dlFolder.hidden = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_H_S_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_H_S_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ? AND ";
 	private static final String _FINDER_COLUMN_G_P_H_S_HIDDEN_2_SQL = "dlFolder.hidden_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_H_S_STATUS_2 = "dlFolder.status = ?";
+	private static final String _FINDER_COLUMN_G_P_H_S_STATUS_2_SQL = "dlFolder.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_M_P_H_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_M_P_H_S;
 	private FinderPath _finderPathCountByG_M_P_H_S;
@@ -10888,7 +10885,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
 
@@ -11176,7 +11173,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 		query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
 
-		query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2);
+		query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
 
@@ -11693,7 +11690,7 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 
 			query.append(_FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2);
 
-			query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2);
+			query.append(_FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_M_P_H_S_STATUS_2);
 
@@ -11805,12 +11802,11 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_M_P_H_S_GROUPID_2 = "dlFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2 = "dlFolder.mountPoint = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2 = "dlFolder.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_S_HIDDEN_2 = "dlFolder.hidden = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_H_S_GROUPID_2_SQL = "dlFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_H_S_MOUNTPOINT_2_SQL = "dlFolder.mountPoint = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_P_H_S_PARENTFOLDERID_2_SQL = "dlFolder.parentFolderId = ? AND ";
 	private static final String _FINDER_COLUMN_G_M_P_H_S_HIDDEN_2_SQL = "dlFolder.hidden_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_P_H_S_STATUS_2 = "dlFolder.status = ?";
+	private static final String _FINDER_COLUMN_G_M_P_H_S_STATUS_2_SQL = "dlFolder.status = ?";
 
 	public DLFolderPersistenceImpl() {
 		setModelClass(DLFolder.class);
@@ -13604,6 +13600,6 @@ public class DLFolderPersistenceImpl extends BasePersistenceImpl<DLFolder>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No DLFolder exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(DLFolderPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "hidden"
+				"uuid", "description", "hidden"
 			});
 }

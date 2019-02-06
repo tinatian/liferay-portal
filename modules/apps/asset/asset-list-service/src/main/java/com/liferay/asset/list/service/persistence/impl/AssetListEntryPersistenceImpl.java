@@ -206,12 +206,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -435,12 +435,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -569,12 +569,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -609,8 +609,8 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "assetListEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(assetListEntry.uuid IS NULL OR assetListEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "assetListEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(assetListEntry.uuid_ IS NULL OR assetListEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -701,12 +701,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -800,12 +800,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -844,9 +844,9 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "assetListEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(assetListEntry.uuid IS NULL OR assetListEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "assetListEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "assetListEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(assetListEntry.uuid_ IS NULL OR assetListEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "assetListEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -978,12 +978,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1225,12 +1225,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1365,12 +1365,12 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1409,9 +1409,9 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "assetListEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(assetListEntry.uuid IS NULL OR assetListEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "assetListEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "assetListEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(assetListEntry.uuid_ IS NULL OR assetListEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "assetListEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2256,7 +2256,7 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "assetListEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "assetListEntry.groupId = ?";
 	private FinderPath _finderPathFetchByG_T;
 	private FinderPath _finderPathCountByG_T;
 
@@ -2490,9 +2490,9 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_T_GROUPID_2 = "assetListEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_TITLE_2 = "assetListEntry.title = ?";
-	private static final String _FINDER_COLUMN_G_T_TITLE_3 = "(assetListEntry.title IS NULL OR assetListEntry.title = '')";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_2_SQL = "assetListEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_TITLE_2_SQL = "assetListEntry.title = ?";
+	private static final String _FINDER_COLUMN_G_T_TITLE_3_SQL = "(assetListEntry.title IS NULL OR assetListEntry.title = '')";
 	private FinderPath _finderPathWithPaginationFindByG_LikeT;
 	private FinderPath _finderPathWithPaginationCountByG_LikeT;
 
@@ -3459,9 +3459,9 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LIKET_GROUPID_2 = "assetListEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LIKET_TITLE_2 = "assetListEntry.title LIKE ?";
-	private static final String _FINDER_COLUMN_G_LIKET_TITLE_3 = "(assetListEntry.title IS NULL OR assetListEntry.title LIKE '')";
+	private static final String _FINDER_COLUMN_G_LIKET_GROUPID_2_SQL = "assetListEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LIKET_TITLE_2_SQL = "assetListEntry.title LIKE ?";
+	private static final String _FINDER_COLUMN_G_LIKET_TITLE_3_SQL = "(assetListEntry.title IS NULL OR assetListEntry.title LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByG_TY;
 	private FinderPath _finderPathWithoutPaginationFindByG_TY;
 	private FinderPath _finderPathCountByG_TY;
@@ -3589,7 +3589,7 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 
 			query.append(_FINDER_COLUMN_G_TY_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_TY_TYPE_2);
+			query.append(_FINDER_COLUMN_G_TY_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3823,7 +3823,7 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 
 		query.append(_FINDER_COLUMN_G_TY_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_TY_TYPE_2);
+		query.append(_FINDER_COLUMN_G_TY_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4273,7 +4273,7 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 
 			query.append(_FINDER_COLUMN_G_TY_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_TY_TYPE_2);
+			query.append(_FINDER_COLUMN_G_TY_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4360,8 +4360,7 @@ public class AssetListEntryPersistenceImpl extends BasePersistenceImpl<AssetList
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_TY_GROUPID_2 = "assetListEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_TY_TYPE_2 = "assetListEntry.type = ?";
+	private static final String _FINDER_COLUMN_G_TY_GROUPID_2_SQL = "assetListEntry.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_TY_TYPE_2_SQL = "assetListEntry.type_ = ?";
 
 	public AssetListEntryPersistenceImpl() {

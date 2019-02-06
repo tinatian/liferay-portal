@@ -216,12 +216,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -444,12 +444,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -578,12 +578,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -618,8 +618,8 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "mbThread.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(mbThread.uuid IS NULL OR mbThread.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "mbThread.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(mbThread.uuid_ IS NULL OR mbThread.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -710,12 +710,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -809,12 +809,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -853,9 +853,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "mbThread.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(mbThread.uuid IS NULL OR mbThread.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "mbThread.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "mbThread.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(mbThread.uuid_ IS NULL OR mbThread.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "mbThread.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -986,12 +986,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1232,12 +1232,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1372,12 +1372,12 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1416,9 +1416,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "mbThread.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(mbThread.uuid IS NULL OR mbThread.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "mbThread.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "mbThread.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(mbThread.uuid_ IS NULL OR mbThread.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "mbThread.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2256,7 +2256,7 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "mbThread.groupId = ? AND mbThread.categoryId != -1";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "mbThread.groupId = ? AND mbThread.categoryId != -1";
 	private FinderPath _finderPathFetchByRootMessageId;
 	private FinderPath _finderPathCountByRootMessageId;
 
@@ -2459,7 +2459,8 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROOTMESSAGEID_ROOTMESSAGEID_2 = "mbThread.rootMessageId = ?";
+	private static final String _FINDER_COLUMN_ROOTMESSAGEID_ROOTMESSAGEID_2_SQL =
+		"mbThread.rootMessageId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C;
 	private FinderPath _finderPathCountByG_C;
@@ -3853,9 +3854,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_CATEGORYID_2 = "mbThread.categoryId = ?";
-	private static final String _FINDER_COLUMN_G_C_CATEGORYID_7 = "mbThread.categoryId IN (";
+	private static final String _FINDER_COLUMN_G_C_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_CATEGORYID_2_SQL = "mbThread.categoryId = ?";
+	private static final String _FINDER_COLUMN_G_C_CATEGORYID_7_SQL = "mbThread.categoryId IN (";
 	private FinderPath _finderPathWithPaginationFindByG_NotC;
 	private FinderPath _finderPathWithPaginationCountByG_NotC;
 
@@ -4745,8 +4746,8 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTC_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTC_CATEGORYID_2 = "mbThread.categoryId != ?";
+	private static final String _FINDER_COLUMN_G_NOTC_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTC_CATEGORYID_2_SQL = "mbThread.categoryId != ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -5638,8 +5639,8 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "mbThread.status = ? AND mbThread.categoryId != -1";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "mbThread.status = ? AND mbThread.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByC_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_P;
 	private FinderPath _finderPathCountByC_P;
@@ -6162,8 +6163,8 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_P_CATEGORYID_2 = "mbThread.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_PRIORITY_2 = "mbThread.priority = ?";
+	private static final String _FINDER_COLUMN_C_P_CATEGORYID_2_SQL = "mbThread.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_PRIORITY_2_SQL = "mbThread.priority = ?";
 	private FinderPath _finderPathWithPaginationFindByL_P;
 	private FinderPath _finderPathWithoutPaginationFindByL_P;
 	private FinderPath _finderPathCountByL_P;
@@ -6719,9 +6720,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_LASTPOSTDATE_1 = "mbThread.lastPostDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_L_P_LASTPOSTDATE_2 = "mbThread.lastPostDate = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_PRIORITY_2 = "mbThread.priority = ? AND mbThread.categoryId != -1";
+	private static final String _FINDER_COLUMN_L_P_LASTPOSTDATE_1_SQL = "mbThread.lastPostDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_L_P_LASTPOSTDATE_2_SQL = "mbThread.lastPostDate = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_PRIORITY_2_SQL = "mbThread.priority = ? AND mbThread.categoryId != -1";
 	private FinderPath _finderPathWithPaginationFindByG_C_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_L;
 	private FinderPath _finderPathCountByG_C_L;
@@ -7745,10 +7746,10 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_L_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_L_CATEGORYID_2 = "mbThread.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_L_LASTPOSTDATE_1 = "mbThread.lastPostDate IS NULL";
-	private static final String _FINDER_COLUMN_G_C_L_LASTPOSTDATE_2 = "mbThread.lastPostDate = ?";
+	private static final String _FINDER_COLUMN_G_C_L_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_L_CATEGORYID_2_SQL = "mbThread.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_L_LASTPOSTDATE_1_SQL = "mbThread.lastPostDate IS NULL";
+	private static final String _FINDER_COLUMN_G_C_L_LASTPOSTDATE_2_SQL = "mbThread.lastPostDate = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_S;
 	private FinderPath _finderPathCountByG_C_S;
@@ -9236,10 +9237,10 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_S_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_S_CATEGORYID_2 = "mbThread.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_S_CATEGORYID_7 = "mbThread.categoryId IN (";
-	private static final String _FINDER_COLUMN_G_C_S_STATUS_2 = "mbThread.status = ?";
+	private static final String _FINDER_COLUMN_G_C_S_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_S_CATEGORYID_2_SQL = "mbThread.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_S_CATEGORYID_7_SQL = "mbThread.categoryId IN (";
+	private static final String _FINDER_COLUMN_G_C_S_STATUS_2_SQL = "mbThread.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_C_NotS;
 
@@ -10721,10 +10722,10 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_NOTS_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_NOTS_CATEGORYID_2 = "mbThread.categoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_NOTS_CATEGORYID_7 = "mbThread.categoryId IN (";
-	private static final String _FINDER_COLUMN_G_C_NOTS_STATUS_2 = "mbThread.status != ?";
+	private static final String _FINDER_COLUMN_G_C_NOTS_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_NOTS_CATEGORYID_2_SQL = "mbThread.categoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_NOTS_CATEGORYID_7_SQL = "mbThread.categoryId IN (";
+	private static final String _FINDER_COLUMN_G_C_NOTS_STATUS_2_SQL = "mbThread.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_NotC_S;
 	private FinderPath _finderPathWithPaginationCountByG_NotC_S;
 
@@ -11667,9 +11668,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTC_S_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTC_S_CATEGORYID_2 = "mbThread.categoryId != ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTC_S_STATUS_2 = "mbThread.status = ?";
+	private static final String _FINDER_COLUMN_G_NOTC_S_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTC_S_CATEGORYID_2_SQL = "mbThread.categoryId != ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTC_S_STATUS_2_SQL = "mbThread.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_NotC_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_NotC_NotS;
 
@@ -12613,9 +12614,9 @@ public class MBThreadPersistenceImpl extends BasePersistenceImpl<MBThread>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2 = "mbThread.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2 = "mbThread.categoryId != ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTC_NOTS_STATUS_2 = "mbThread.status != ?";
+	private static final String _FINDER_COLUMN_G_NOTC_NOTS_GROUPID_2_SQL = "mbThread.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTC_NOTS_CATEGORYID_2_SQL = "mbThread.categoryId != ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTC_NOTS_STATUS_2_SQL = "mbThread.status != ?";
 
 	public MBThreadPersistenceImpl() {
 		setModelClass(MBThread.class);

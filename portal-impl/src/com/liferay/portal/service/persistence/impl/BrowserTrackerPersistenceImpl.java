@@ -267,7 +267,7 @@ public class BrowserTrackerPersistenceImpl extends BasePersistenceImpl<BrowserTr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "browserTracker.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "browserTracker.userId = ?";
 
 	public BrowserTrackerPersistenceImpl() {
 		setModelClass(BrowserTracker.class);

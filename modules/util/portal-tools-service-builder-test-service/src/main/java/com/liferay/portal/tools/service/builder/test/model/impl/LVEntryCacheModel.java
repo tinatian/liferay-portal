@@ -129,8 +129,6 @@ public class LVEntryCacheModel implements CacheModel<LVEntry>, Externalizable,
 			lvEntryImpl.setUniqueGroupKey(uniqueGroupKey);
 		}
 
-		lvEntryImpl.setHead(head);
-
 		lvEntryImpl.resetOriginalValues();
 
 		return lvEntryImpl;
@@ -148,8 +146,6 @@ public class LVEntryCacheModel implements CacheModel<LVEntry>, Externalizable,
 
 		groupId = objectInput.readLong();
 		uniqueGroupKey = objectInput.readUTF();
-
-		head = objectInput.readBoolean();
 	}
 
 	@Override
@@ -183,8 +179,6 @@ public class LVEntryCacheModel implements CacheModel<LVEntry>, Externalizable,
 		else {
 			objectOutput.writeUTF(uniqueGroupKey);
 		}
-
-		objectOutput.writeBoolean(head);
 	}
 
 	public long mvccVersion;
@@ -194,5 +188,4 @@ public class LVEntryCacheModel implements CacheModel<LVEntry>, Externalizable,
 	public long lvEntryId;
 	public long groupId;
 	public String uniqueGroupKey;
-	public boolean head;
 }

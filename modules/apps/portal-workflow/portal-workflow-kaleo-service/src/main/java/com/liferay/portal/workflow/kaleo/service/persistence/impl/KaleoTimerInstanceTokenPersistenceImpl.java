@@ -583,7 +583,7 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2 =
+	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL =
 		"kaleoTimerInstanceToken.kaleoInstanceId = ?";
 	private FinderPath _finderPathFetchByKITI_KTI;
 	private FinderPath _finderPathCountByKITI_KTI;
@@ -806,8 +806,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KITI_KTI_KALEOINSTANCETOKENID_2 = "kaleoTimerInstanceToken.kaleoInstanceTokenId = ? AND ";
-	private static final String _FINDER_COLUMN_KITI_KTI_KALEOTIMERID_2 = "kaleoTimerInstanceToken.kaleoTimerId = ?";
+	private static final String _FINDER_COLUMN_KITI_KTI_KALEOINSTANCETOKENID_2_SQL =
+		"kaleoTimerInstanceToken.kaleoInstanceTokenId = ? AND ";
+	private static final String _FINDER_COLUMN_KITI_KTI_KALEOTIMERID_2_SQL = "kaleoTimerInstanceToken.kaleoTimerId = ?";
 	private FinderPath _finderPathWithPaginationFindByKITI_C;
 	private FinderPath _finderPathWithoutPaginationFindByKITI_C;
 	private FinderPath _finderPathCountByKITI_C;
@@ -1344,8 +1345,9 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2 = "kaleoTimerInstanceToken.kaleoInstanceTokenId = ? AND ";
-	private static final String _FINDER_COLUMN_KITI_C_COMPLETED_2 = "kaleoTimerInstanceToken.completed = ?";
+	private static final String _FINDER_COLUMN_KITI_C_KALEOINSTANCETOKENID_2_SQL =
+		"kaleoTimerInstanceToken.kaleoInstanceTokenId = ? AND ";
+	private static final String _FINDER_COLUMN_KITI_C_COMPLETED_2_SQL = "kaleoTimerInstanceToken.completed = ?";
 	private FinderPath _finderPathWithPaginationFindByKITI_B_C;
 	private FinderPath _finderPathWithoutPaginationFindByKITI_B_C;
 	private FinderPath _finderPathCountByKITI_B_C;
@@ -1920,9 +1922,10 @@ public class KaleoTimerInstanceTokenPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2 = "kaleoTimerInstanceToken.kaleoInstanceTokenId = ? AND ";
-	private static final String _FINDER_COLUMN_KITI_B_C_BLOCKING_2 = "kaleoTimerInstanceToken.blocking = ? AND ";
-	private static final String _FINDER_COLUMN_KITI_B_C_COMPLETED_2 = "kaleoTimerInstanceToken.completed = ?";
+	private static final String _FINDER_COLUMN_KITI_B_C_KALEOINSTANCETOKENID_2_SQL =
+		"kaleoTimerInstanceToken.kaleoInstanceTokenId = ? AND ";
+	private static final String _FINDER_COLUMN_KITI_B_C_BLOCKING_2_SQL = "kaleoTimerInstanceToken.blocking = ? AND ";
+	private static final String _FINDER_COLUMN_KITI_B_C_COMPLETED_2_SQL = "kaleoTimerInstanceToken.completed = ?";
 
 	public KaleoTimerInstanceTokenPersistenceImpl() {
 		setModelClass(KaleoTimerInstanceToken.class);

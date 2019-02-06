@@ -212,7 +212,7 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 			query.append(_SQL_SELECT_OAUTH2SCOPEGRANT_WHERE);
 
-			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2);
+			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -438,7 +438,7 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 		query.append(_SQL_SELECT_OAUTH2SCOPEGRANT_WHERE);
 
-		query.append(_FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2);
+		query.append(_FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -562,7 +562,7 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 			query.append(_SQL_COUNT_OAUTH2SCOPEGRANT_WHERE);
 
-			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2);
+			query.append(_FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 			String sql = query.toString();
 
@@ -594,8 +594,8 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2 =
-		"oAuth2ScopeGrant.oAuth2ApplicationScopeAliasesId = ?";
+	private static final String _FINDER_COLUMN_OAUTH2APPLICATIONSCOPEALIASESID_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL =
+		"oAuth2ScopeGrant.oA2AScopeAliasesId = ?";
 	private FinderPath _finderPathFetchByC_O_A_B_S;
 	private FinderPath _finderPathCountByC_O_A_B_S;
 
@@ -721,7 +721,7 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 			query.append(_FINDER_COLUMN_C_O_A_B_S_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2);
+			query.append(_FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 			boolean bindApplicationName = false;
 
@@ -882,7 +882,7 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 
 			query.append(_FINDER_COLUMN_C_O_A_B_S_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2);
+			query.append(_FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL);
 
 			boolean bindApplicationName = false;
 
@@ -961,15 +961,17 @@ public class OAuth2ScopeGrantPersistenceImpl extends BasePersistenceImpl<OAuth2S
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_O_A_B_S_COMPANYID_2 = "oAuth2ScopeGrant.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2 =
-		"oAuth2ScopeGrant.oAuth2ApplicationScopeAliasesId = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_2 = "oAuth2ScopeGrant.applicationName = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_3 = "(oAuth2ScopeGrant.applicationName IS NULL OR oAuth2ScopeGrant.applicationName = '') AND ";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_2 = "oAuth2ScopeGrant.bundleSymbolicName = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_3 = "(oAuth2ScopeGrant.bundleSymbolicName IS NULL OR oAuth2ScopeGrant.bundleSymbolicName = '') AND ";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_SCOPE_2 = "oAuth2ScopeGrant.scope = ?";
-	private static final String _FINDER_COLUMN_C_O_A_B_S_SCOPE_3 = "(oAuth2ScopeGrant.scope IS NULL OR oAuth2ScopeGrant.scope = '')";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_COMPANYID_2_SQL = "oAuth2ScopeGrant.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_OAUTH2APPLICATIONSCOPEALIASESID_2_SQL =
+		"oAuth2ScopeGrant.oA2AScopeAliasesId = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_2_SQL = "oAuth2ScopeGrant.applicationName = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_APPLICATIONNAME_3_SQL = "(oAuth2ScopeGrant.applicationName IS NULL OR oAuth2ScopeGrant.applicationName = '') AND ";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_2_SQL =
+		"oAuth2ScopeGrant.bundleSymbolicName = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_BUNDLESYMBOLICNAME_3_SQL =
+		"(oAuth2ScopeGrant.bundleSymbolicName IS NULL OR oAuth2ScopeGrant.bundleSymbolicName = '') AND ";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_SCOPE_2_SQL = "oAuth2ScopeGrant.scope = ?";
+	private static final String _FINDER_COLUMN_C_O_A_B_S_SCOPE_3_SQL = "(oAuth2ScopeGrant.scope IS NULL OR oAuth2ScopeGrant.scope = '')";
 
 	public OAuth2ScopeGrantPersistenceImpl() {
 		setModelClass(OAuth2ScopeGrant.class);

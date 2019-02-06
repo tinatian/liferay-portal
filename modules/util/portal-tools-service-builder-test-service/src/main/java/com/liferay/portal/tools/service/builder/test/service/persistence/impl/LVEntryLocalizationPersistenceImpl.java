@@ -566,7 +566,7 @@ public class LVEntryLocalizationPersistenceImpl extends BasePersistenceImpl<LVEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2 = "lvEntryLocalization.lvEntryId = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL = "lvEntryLocalization.lvEntryId = ?";
 	private FinderPath _finderPathFetchByLvEntryId_LanguageId;
 	private FinderPath _finderPathCountByLvEntryId_LanguageId;
 
@@ -805,10 +805,11 @@ public class LVEntryLocalizationPersistenceImpl extends BasePersistenceImpl<LVEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2 = "lvEntryLocalization.lvEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LVENTRYID_2_SQL =
+		"lvEntryLocalization.lvEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_2_SQL =
 		"lvEntryLocalization.languageId = ?";
-	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3 =
+	private static final String _FINDER_COLUMN_LVENTRYID_LANGUAGEID_LANGUAGEID_3_SQL =
 		"(lvEntryLocalization.languageId IS NULL OR lvEntryLocalization.languageId = '')";
 	private FinderPath _finderPathFetchByHeadId;
 	private FinderPath _finderPathCountByHeadId;
@@ -1000,7 +1001,7 @@ public class LVEntryLocalizationPersistenceImpl extends BasePersistenceImpl<LVEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_HEADID_HEADID_2 = "lvEntryLocalization.headId = ?";
+	private static final String _FINDER_COLUMN_HEADID_HEADID_2_SQL = "lvEntryLocalization.headId = ?";
 
 	public LVEntryLocalizationPersistenceImpl() {
 		setModelClass(LVEntryLocalization.class);

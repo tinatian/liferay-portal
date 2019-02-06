@@ -563,7 +563,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E1_ENTRYID1_2 = "assetLink.entryId1 = ?";
+	private static final String _FINDER_COLUMN_E1_ENTRYID1_2_SQL = "assetLink.entryId1 = ?";
 	private FinderPath _finderPathWithPaginationFindByE2;
 	private FinderPath _finderPathWithoutPaginationFindByE2;
 	private FinderPath _finderPathCountByE2;
@@ -1047,7 +1047,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E2_ENTRYID2_2 = "assetLink.entryId2 = ?";
+	private static final String _FINDER_COLUMN_E2_ENTRYID2_2_SQL = "assetLink.entryId2 = ?";
 	private FinderPath _finderPathWithPaginationFindByE_E;
 	private FinderPath _finderPathWithoutPaginationFindByE_E;
 	private FinderPath _finderPathCountByE_E;
@@ -1570,8 +1570,8 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E_E_ENTRYID1_2 = "assetLink.entryId1 = ? AND ";
-	private static final String _FINDER_COLUMN_E_E_ENTRYID2_2 = "assetLink.entryId2 = ?";
+	private static final String _FINDER_COLUMN_E_E_ENTRYID1_2_SQL = "assetLink.entryId1 = ? AND ";
+	private static final String _FINDER_COLUMN_E_E_ENTRYID2_2_SQL = "assetLink.entryId2 = ?";
 	private FinderPath _finderPathWithPaginationFindByE1_T;
 	private FinderPath _finderPathWithoutPaginationFindByE1_T;
 	private FinderPath _finderPathCountByE1_T;
@@ -1699,7 +1699,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2);
 
-			query.append(_FINDER_COLUMN_E1_T_TYPE_2);
+			query.append(_FINDER_COLUMN_E1_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1931,7 +1931,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2);
 
-		query.append(_FINDER_COLUMN_E1_T_TYPE_2);
+		query.append(_FINDER_COLUMN_E1_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2059,7 +2059,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_FINDER_COLUMN_E1_T_ENTRYID1_2);
 
-			query.append(_FINDER_COLUMN_E1_T_TYPE_2);
+			query.append(_FINDER_COLUMN_E1_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2093,8 +2093,8 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E1_T_ENTRYID1_2 = "assetLink.entryId1 = ? AND ";
-	private static final String _FINDER_COLUMN_E1_T_TYPE_2 = "assetLink.type = ?";
+	private static final String _FINDER_COLUMN_E1_T_ENTRYID1_2_SQL = "assetLink.entryId1 = ? AND ";
+	private static final String _FINDER_COLUMN_E1_T_TYPE_2_SQL = "assetLink.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByE2_T;
 	private FinderPath _finderPathWithoutPaginationFindByE2_T;
 	private FinderPath _finderPathCountByE2_T;
@@ -2222,7 +2222,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2);
 
-			query.append(_FINDER_COLUMN_E2_T_TYPE_2);
+			query.append(_FINDER_COLUMN_E2_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2454,7 +2454,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 		query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2);
 
-		query.append(_FINDER_COLUMN_E2_T_TYPE_2);
+		query.append(_FINDER_COLUMN_E2_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2582,7 +2582,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_FINDER_COLUMN_E2_T_ENTRYID2_2);
 
-			query.append(_FINDER_COLUMN_E2_T_TYPE_2);
+			query.append(_FINDER_COLUMN_E2_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2616,8 +2616,8 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E2_T_ENTRYID2_2 = "assetLink.entryId2 = ? AND ";
-	private static final String _FINDER_COLUMN_E2_T_TYPE_2 = "assetLink.type = ?";
+	private static final String _FINDER_COLUMN_E2_T_ENTRYID2_2_SQL = "assetLink.entryId2 = ? AND ";
+	private static final String _FINDER_COLUMN_E2_T_TYPE_2_SQL = "assetLink.type_ = ?";
 	private FinderPath _finderPathFetchByE_E_T;
 	private FinderPath _finderPathCountByE_E_T;
 
@@ -2714,7 +2714,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_FINDER_COLUMN_E_E_T_ENTRYID2_2);
 
-			query.append(_FINDER_COLUMN_E_E_T_TYPE_2);
+			query.append(_FINDER_COLUMN_E_E_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2807,7 +2807,7 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 
 			query.append(_FINDER_COLUMN_E_E_T_ENTRYID2_2);
 
-			query.append(_FINDER_COLUMN_E_E_T_TYPE_2);
+			query.append(_FINDER_COLUMN_E_E_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2843,9 +2843,9 @@ public class AssetLinkPersistenceImpl extends BasePersistenceImpl<AssetLink>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E_E_T_ENTRYID1_2 = "assetLink.entryId1 = ? AND ";
-	private static final String _FINDER_COLUMN_E_E_T_ENTRYID2_2 = "assetLink.entryId2 = ? AND ";
-	private static final String _FINDER_COLUMN_E_E_T_TYPE_2 = "assetLink.type = ?";
+	private static final String _FINDER_COLUMN_E_E_T_ENTRYID1_2_SQL = "assetLink.entryId1 = ? AND ";
+	private static final String _FINDER_COLUMN_E_E_T_ENTRYID2_2_SQL = "assetLink.entryId2 = ? AND ";
+	private static final String _FINDER_COLUMN_E_E_T_TYPE_2_SQL = "assetLink.type_ = ?";
 
 	public AssetLinkPersistenceImpl() {
 		setModelClass(AssetLink.class);

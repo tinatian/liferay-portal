@@ -202,12 +202,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -430,12 +430,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -565,12 +565,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -605,8 +605,8 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "socialRequest.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(socialRequest.uuid IS NULL OR socialRequest.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "socialRequest.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(socialRequest.uuid_ IS NULL OR socialRequest.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -697,12 +697,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -798,12 +798,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -842,9 +842,9 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "socialRequest.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(socialRequest.uuid IS NULL OR socialRequest.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "socialRequest.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "socialRequest.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(socialRequest.uuid_ IS NULL OR socialRequest.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "socialRequest.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -975,12 +975,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1222,12 +1222,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1363,12 +1363,12 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1407,9 +1407,9 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "socialRequest.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(socialRequest.uuid IS NULL OR socialRequest.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "socialRequest.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "socialRequest.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(socialRequest.uuid_ IS NULL OR socialRequest.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "socialRequest.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1898,7 +1898,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "socialRequest.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "socialRequest.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -2384,7 +2384,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "socialRequest.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "socialRequest.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByReceiverUserId;
 	private FinderPath _finderPathWithoutPaginationFindByReceiverUserId;
 	private FinderPath _finderPathCountByReceiverUserId;
@@ -2878,7 +2878,8 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2 = "socialRequest.receiverUserId = ?";
+	private static final String _FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL =
+		"socialRequest.receiverUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_S;
 	private FinderPath _finderPathCountByU_S;
@@ -3401,8 +3402,8 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_S_USERID_2 = "socialRequest.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_S_STATUS_2 = "socialRequest.status = ?";
+	private static final String _FINDER_COLUMN_U_S_USERID_2_SQL = "socialRequest.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_S_STATUS_2_SQL = "socialRequest.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -3927,8 +3928,8 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "socialRequest.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "socialRequest.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "socialRequest.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "socialRequest.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByR_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_S;
 	private FinderPath _finderPathCountByR_S;
@@ -4453,8 +4454,8 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_S_RECEIVERUSERID_2 = "socialRequest.receiverUserId = ? AND ";
-	private static final String _FINDER_COLUMN_R_S_STATUS_2 = "socialRequest.status = ?";
+	private static final String _FINDER_COLUMN_R_S_RECEIVERUSERID_2_SQL = "socialRequest.receiverUserId = ? AND ";
+	private static final String _FINDER_COLUMN_R_S_STATUS_2_SQL = "socialRequest.status = ?";
 	private FinderPath _finderPathFetchByU_C_C_T_R;
 	private FinderPath _finderPathCountByU_C_C_T_R;
 
@@ -4573,7 +4574,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 			query.append(_FINDER_COLUMN_U_C_C_T_R_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_U_C_C_T_R_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_C_T_R_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_C_C_T_R_RECEIVERUSERID_2);
 
@@ -4684,7 +4685,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 			query.append(_FINDER_COLUMN_U_C_C_T_R_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_U_C_C_T_R_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_C_T_R_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_C_C_T_R_RECEIVERUSERID_2);
 
@@ -4726,11 +4727,11 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_C_T_R_USERID_2 = "socialRequest.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_R_CLASSNAMEID_2 = "socialRequest.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_R_CLASSPK_2 = "socialRequest.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_R_TYPE_2 = "socialRequest.type = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_R_RECEIVERUSERID_2 = "socialRequest.receiverUserId = ?";
+	private static final String _FINDER_COLUMN_U_C_C_T_R_USERID_2_SQL = "socialRequest.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_R_CLASSNAMEID_2_SQL = "socialRequest.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_R_CLASSPK_2_SQL = "socialRequest.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_R_TYPE_2_SQL = "socialRequest.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_R_RECEIVERUSERID_2_SQL = "socialRequest.receiverUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C_C_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_C_C_T_S;
 	private FinderPath _finderPathCountByU_C_C_T_S;
@@ -4882,7 +4883,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 			query.append(_FINDER_COLUMN_U_C_C_T_S_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_U_C_C_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_C_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_C_C_T_S_STATUS_2);
 
@@ -5168,7 +5169,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 		query.append(_FINDER_COLUMN_U_C_C_T_S_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_U_C_C_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_U_C_C_T_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_U_C_C_T_S_STATUS_2);
 
@@ -5319,7 +5320,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 			query.append(_FINDER_COLUMN_U_C_C_T_S_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_U_C_C_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_C_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_C_C_T_S_STATUS_2);
 
@@ -5361,11 +5362,11 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_C_T_S_USERID_2 = "socialRequest.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_S_CLASSNAMEID_2 = "socialRequest.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_S_CLASSPK_2 = "socialRequest.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_S_TYPE_2 = "socialRequest.type = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_S_STATUS_2 = "socialRequest.status = ?";
+	private static final String _FINDER_COLUMN_U_C_C_T_S_USERID_2_SQL = "socialRequest.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_S_CLASSNAMEID_2_SQL = "socialRequest.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_S_CLASSPK_2_SQL = "socialRequest.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_S_TYPE_2_SQL = "socialRequest.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_S_STATUS_2_SQL = "socialRequest.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_T_R_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_T_R_S;
 	private FinderPath _finderPathCountByC_C_T_R_S;
@@ -5517,7 +5518,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 			query.append(_FINDER_COLUMN_C_C_T_R_S_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_R_S_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_R_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_T_R_S_RECEIVERUSERID_2);
 
@@ -5804,7 +5805,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 		query.append(_FINDER_COLUMN_C_C_T_R_S_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_C_T_R_S_TYPE_2);
+		query.append(_FINDER_COLUMN_C_C_T_R_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_C_C_T_R_S_RECEIVERUSERID_2);
 
@@ -5955,7 +5956,7 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 
 			query.append(_FINDER_COLUMN_C_C_T_R_S_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_R_S_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_R_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_C_C_T_R_S_RECEIVERUSERID_2);
 
@@ -5999,11 +6000,11 @@ public class SocialRequestPersistenceImpl extends BasePersistenceImpl<SocialRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_T_R_S_CLASSNAMEID_2 = "socialRequest.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_R_S_CLASSPK_2 = "socialRequest.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_R_S_TYPE_2 = "socialRequest.type = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_R_S_RECEIVERUSERID_2 = "socialRequest.receiverUserId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_R_S_STATUS_2 = "socialRequest.status = ?";
+	private static final String _FINDER_COLUMN_C_C_T_R_S_CLASSNAMEID_2_SQL = "socialRequest.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_R_S_CLASSPK_2_SQL = "socialRequest.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_R_S_TYPE_2_SQL = "socialRequest.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_R_S_RECEIVERUSERID_2_SQL = "socialRequest.receiverUserId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_R_S_STATUS_2_SQL = "socialRequest.status = ?";
 
 	public SocialRequestPersistenceImpl() {
 		setModelClass(SocialRequest.class);

@@ -567,7 +567,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "socialActivity.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "socialActivity.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1056,7 +1056,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "socialActivity.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "socialActivity.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1542,7 +1542,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "socialActivity.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "socialActivity.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByActivitySetId;
 	private FinderPath _finderPathWithoutPaginationFindByActivitySetId;
 	private FinderPath _finderPathCountByActivitySetId;
@@ -2037,7 +2037,8 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2 = "socialActivity.activitySetId = ?";
+	private static final String _FINDER_COLUMN_ACTIVITYSETID_ACTIVITYSETID_2_SQL =
+		"socialActivity.activitySetId = ?";
 	private FinderPath _finderPathFetchByMirrorActivityId;
 	private FinderPath _finderPathCountByMirrorActivityId;
 
@@ -2241,7 +2242,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_MIRRORACTIVITYID_MIRRORACTIVITYID_2 =
+	private static final String _FINDER_COLUMN_MIRRORACTIVITYID_MIRRORACTIVITYID_2_SQL =
 		"socialActivity.mirrorActivityId = ?";
 	private FinderPath _finderPathWithPaginationFindByClassNameId;
 	private FinderPath _finderPathWithoutPaginationFindByClassNameId;
@@ -2732,7 +2733,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2 = "socialActivity.classNameId = ?";
+	private static final String _FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL = "socialActivity.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByReceiverUserId;
 	private FinderPath _finderPathWithoutPaginationFindByReceiverUserId;
 	private FinderPath _finderPathCountByReceiverUserId;
@@ -3227,7 +3228,8 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2 = "socialActivity.receiverUserId = ?";
+	private static final String _FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL =
+		"socialActivity.receiverUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -3753,8 +3755,8 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "socialActivity.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "socialActivity.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "socialActivity.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "socialActivity.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByM_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByM_C_C;
 	private FinderPath _finderPathCountByM_C_C;
@@ -4324,9 +4326,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2 = "socialActivity.mirrorActivityId = ? AND ";
-	private static final String _FINDER_COLUMN_M_C_C_CLASSNAMEID_2 = "socialActivity.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_M_C_C_CLASSPK_2 = "socialActivity.classPK = ?";
+	private static final String _FINDER_COLUMN_M_C_C_MIRRORACTIVITYID_2_SQL = "socialActivity.mirrorActivityId = ? AND ";
+	private static final String _FINDER_COLUMN_M_C_C_CLASSNAMEID_2_SQL = "socialActivity.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_M_C_C_CLASSPK_2_SQL = "socialActivity.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_T;
 	private FinderPath _finderPathCountByC_C_T;
@@ -4465,7 +4467,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4715,7 +4717,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4849,7 +4851,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4885,9 +4887,9 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_T_CLASSNAMEID_2 = "socialActivity.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_CLASSPK_2 = "socialActivity.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_TYPE_2 = "socialActivity.type = ?";
+	private static final String _FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL = "socialActivity.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_CLASSPK_2_SQL = "socialActivity.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_TYPE_2_SQL = "socialActivity.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_C_C_T_R;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_C_C_T_R;
 	private FinderPath _finderPathCountByG_U_C_C_T_R;
@@ -5050,7 +5052,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2);
 
@@ -5356,7 +5358,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 		query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2);
+		query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2);
 
@@ -5513,7 +5515,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2);
 
@@ -5557,12 +5559,12 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2 = "socialActivity.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_T_R_USERID_2 = "socialActivity.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2 = "socialActivity.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2 = "socialActivity.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_T_R_TYPE_2 = "socialActivity.type = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2 = "socialActivity.receiverUserId = ?";
+	private static final String _FINDER_COLUMN_G_U_C_C_T_R_GROUPID_2_SQL = "socialActivity.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_T_R_USERID_2_SQL = "socialActivity.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_T_R_CLASSNAMEID_2_SQL = "socialActivity.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_T_R_CLASSPK_2_SQL = "socialActivity.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_T_R_TYPE_2_SQL = "socialActivity.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_T_R_RECEIVERUSERID_2_SQL = "socialActivity.receiverUserId = ?";
 	private FinderPath _finderPathFetchByG_U_CD_C_C_T_R;
 	private FinderPath _finderPathCountByG_U_CD_C_C_T_R;
 
@@ -5702,7 +5704,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2);
 
@@ -5827,7 +5829,7 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 
 			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2);
 
@@ -5873,13 +5875,14 @@ public class SocialActivityPersistenceImpl extends BasePersistenceImpl<SocialAct
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_GROUPID_2 = "socialActivity.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_USERID_2 = "socialActivity.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_CREATEDATE_2 = "socialActivity.createDate = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSNAMEID_2 = "socialActivity.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2 = "socialActivity.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2 = "socialActivity.type = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2 = "socialActivity.receiverUserId = ?";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_GROUPID_2_SQL = "socialActivity.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_USERID_2_SQL = "socialActivity.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_CREATEDATE_2_SQL = "socialActivity.createDate = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSNAMEID_2_SQL = "socialActivity.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_CLASSPK_2_SQL = "socialActivity.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_TYPE_2_SQL = "socialActivity.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_CD_C_C_T_R_RECEIVERUSERID_2_SQL =
+		"socialActivity.receiverUserId = ?";
 
 	public SocialActivityPersistenceImpl() {
 		setModelClass(SocialActivity.class);

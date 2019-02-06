@@ -202,12 +202,12 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -430,12 +430,12 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -565,12 +565,12 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -605,8 +605,8 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "website.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(website.uuid IS NULL OR website.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "website.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(website.uuid_ IS NULL OR website.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -737,12 +737,12 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -981,12 +981,12 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1122,12 +1122,12 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1166,9 +1166,9 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "website.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(website.uuid IS NULL OR website.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "website.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "website.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(website.uuid_ IS NULL OR website.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "website.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1652,7 +1652,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "website.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "website.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -2135,7 +2135,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "website.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "website.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -2659,8 +2659,8 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_COMPANYID_2 = "website.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "website.classNameId = ?";
+	private static final String _FINDER_COLUMN_C_C_COMPANYID_2_SQL = "website.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "website.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C;
 	private FinderPath _finderPathCountByC_C_C;
@@ -3217,9 +3217,9 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2 = "website.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2 = "website.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2 = "website.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2_SQL = "website.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL = "website.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2_SQL = "website.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_C_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C_P;
 	private FinderPath _finderPathCountByC_C_C_P;
@@ -3365,7 +3365,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3634,7 +3634,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 		query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2);
+		query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3778,7 +3778,7 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 
 			query.append(_FINDER_COLUMN_C_C_C_P_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2);
+			query.append(_FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL);
 
 			String sql = query.toString();
 
@@ -3816,10 +3816,10 @@ public class WebsitePersistenceImpl extends BasePersistenceImpl<Website>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_P_COMPANYID_2 = "website.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2 = "website.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_P_CLASSPK_2 = "website.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_P_PRIMARY_2 = "website.primary = ?";
+	private static final String _FINDER_COLUMN_C_C_C_P_COMPANYID_2_SQL = "website.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_P_CLASSNAMEID_2_SQL = "website.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_P_CLASSPK_2_SQL = "website.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_P_PRIMARY_2_SQL = "website.primary_ = ?";
 
 	public WebsitePersistenceImpl() {
 		setModelClass(Website.class);

@@ -206,12 +206,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -436,12 +436,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -570,12 +570,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -610,8 +610,8 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "calendarBooking.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(calendarBooking.uuid IS NULL OR calendarBooking.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "calendarBooking.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(calendarBooking.uuid_ IS NULL OR calendarBooking.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -702,12 +702,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -801,12 +801,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -845,9 +845,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "calendarBooking.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(calendarBooking.uuid IS NULL OR calendarBooking.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "calendarBooking.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "calendarBooking.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(calendarBooking.uuid_ IS NULL OR calendarBooking.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "calendarBooking.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -979,12 +979,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1226,12 +1226,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1366,12 +1366,12 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1410,9 +1410,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "calendarBooking.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(calendarBooking.uuid IS NULL OR calendarBooking.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "calendarBooking.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "calendarBooking.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(calendarBooking.uuid_ IS NULL OR calendarBooking.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "calendarBooking.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCalendarId;
 	private FinderPath _finderPathWithoutPaginationFindByCalendarId;
 	private FinderPath _finderPathCountByCalendarId;
@@ -1901,7 +1901,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CALENDARID_CALENDARID_2 = "calendarBooking.calendarId = ?";
+	private static final String _FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL = "calendarBooking.calendarId = ?";
 	private FinderPath _finderPathWithPaginationFindByCalendarResourceId;
 	private FinderPath _finderPathWithoutPaginationFindByCalendarResourceId;
 	private FinderPath _finderPathCountByCalendarResourceId;
@@ -2404,7 +2404,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2 =
+	private static final String _FINDER_COLUMN_CALENDARRESOURCEID_CALENDARRESOURCEID_2_SQL =
 		"calendarBooking.calendarResourceId = ?";
 	private FinderPath _finderPathWithPaginationFindByParentCalendarBookingId;
 	private FinderPath _finderPathWithoutPaginationFindByParentCalendarBookingId;
@@ -2911,7 +2911,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2 =
+	private static final String _FINDER_COLUMN_PARENTCALENDARBOOKINGID_PARENTCALENDARBOOKINGID_2_SQL =
 		"calendarBooking.parentCalendarBookingId = ?";
 	private FinderPath _finderPathWithPaginationFindByRecurringCalendarBookingId;
 	private FinderPath _finderPathWithoutPaginationFindByRecurringCalendarBookingId;
@@ -3420,7 +3420,7 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2 =
+	private static final String _FINDER_COLUMN_RECURRINGCALENDARBOOKINGID_RECURRINGCALENDARBOOKINGID_2_SQL =
 		"calendarBooking.recurringCalendarBookingId = ?";
 	private FinderPath _finderPathFetchByC_P;
 	private FinderPath _finderPathCountByC_P;
@@ -3632,8 +3632,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_P_CALENDARID_2 = "calendarBooking.calendarId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_PARENTCALENDARBOOKINGID_2 = "calendarBooking.parentCalendarBookingId = ?";
+	private static final String _FINDER_COLUMN_C_P_CALENDARID_2_SQL = "calendarBooking.calendarId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_PARENTCALENDARBOOKINGID_2_SQL =
+		"calendarBooking.parentCalendarBookingId = ?";
 	private FinderPath _finderPathFetchByC_V;
 	private FinderPath _finderPathCountByC_V;
 
@@ -3867,9 +3868,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_V_CALENDARID_2 = "calendarBooking.calendarId = ? AND ";
-	private static final String _FINDER_COLUMN_C_V_VEVENTUID_2 = "calendarBooking.vEventUid = ?";
-	private static final String _FINDER_COLUMN_C_V_VEVENTUID_3 = "(calendarBooking.vEventUid IS NULL OR calendarBooking.vEventUid = '')";
+	private static final String _FINDER_COLUMN_C_V_CALENDARID_2_SQL = "calendarBooking.calendarId = ? AND ";
+	private static final String _FINDER_COLUMN_C_V_VEVENTUID_2_SQL = "calendarBooking.vEventUid = ?";
+	private static final String _FINDER_COLUMN_C_V_VEVENTUID_3_SQL = "(calendarBooking.vEventUid IS NULL OR calendarBooking.vEventUid = '')";
 	private FinderPath _finderPathWithPaginationFindByC_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_S;
 	private FinderPath _finderPathCountByC_S;
@@ -4675,9 +4676,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_CALENDARID_2 = "calendarBooking.calendarId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 = "calendarBooking.status = ?";
-	private static final String _FINDER_COLUMN_C_S_STATUS_7 = "calendarBooking.status IN (";
+	private static final String _FINDER_COLUMN_C_S_CALENDARID_2_SQL = "calendarBooking.calendarId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_STATUS_2_SQL = "calendarBooking.status = ?";
+	private static final String _FINDER_COLUMN_C_S_STATUS_7_SQL = "calendarBooking.status IN (";
 	private FinderPath _finderPathWithPaginationFindByP_S;
 	private FinderPath _finderPathWithoutPaginationFindByP_S;
 	private FinderPath _finderPathCountByP_S;
@@ -5206,8 +5207,9 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2 = "calendarBooking.parentCalendarBookingId = ? AND ";
-	private static final String _FINDER_COLUMN_P_S_STATUS_2 = "calendarBooking.status = ?";
+	private static final String _FINDER_COLUMN_P_S_PARENTCALENDARBOOKINGID_2_SQL =
+		"calendarBooking.parentCalendarBookingId = ? AND ";
+	private static final String _FINDER_COLUMN_P_S_STATUS_2_SQL = "calendarBooking.status = ?";
 
 	public CalendarBookingPersistenceImpl() {
 		setModelClass(CalendarBooking.class);
@@ -6399,6 +6401,6 @@ public class CalendarBookingPersistenceImpl extends BasePersistenceImpl<Calendar
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No CalendarBooking exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(CalendarBookingPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

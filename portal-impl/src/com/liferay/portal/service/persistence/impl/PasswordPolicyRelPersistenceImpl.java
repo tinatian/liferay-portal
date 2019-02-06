@@ -578,7 +578,7 @@ public class PasswordPolicyRelPersistenceImpl extends BasePersistenceImpl<Passwo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PASSWORDPOLICYID_PASSWORDPOLICYID_2 =
+	private static final String _FINDER_COLUMN_PASSWORDPOLICYID_PASSWORDPOLICYID_2_SQL =
 		"passwordPolicyRel.passwordPolicyId = ?";
 	private FinderPath _finderPathFetchByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -788,8 +788,8 @@ public class PasswordPolicyRelPersistenceImpl extends BasePersistenceImpl<Passwo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "passwordPolicyRel.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "passwordPolicyRel.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "passwordPolicyRel.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "passwordPolicyRel.classPK = ?";
 
 	public PasswordPolicyRelPersistenceImpl() {
 		setModelClass(PasswordPolicyRel.class);

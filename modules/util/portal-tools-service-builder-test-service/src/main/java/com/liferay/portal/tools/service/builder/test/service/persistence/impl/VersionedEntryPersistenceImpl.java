@@ -561,7 +561,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "versionedEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "versionedEntry.groupId = ?";
 	private FinderPath _finderPathFetchByHeadId;
 	private FinderPath _finderPathCountByHeadId;
 
@@ -751,7 +751,7 @@ public class VersionedEntryPersistenceImpl extends BasePersistenceImpl<Versioned
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_HEADID_HEADID_2 = "versionedEntry.headId = ?";
+	private static final String _FINDER_COLUMN_HEADID_HEADID_2_SQL = "versionedEntry.headId = ?";
 
 	public VersionedEntryPersistenceImpl() {
 		setModelClass(VersionedEntry.class);

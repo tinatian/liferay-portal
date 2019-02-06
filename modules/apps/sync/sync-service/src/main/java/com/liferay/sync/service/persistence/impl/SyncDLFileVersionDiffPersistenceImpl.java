@@ -572,7 +572,7 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2 = "syncDLFileVersionDiff.fileEntryId = ?";
+	private static final String _FINDER_COLUMN_FILEENTRYID_FILEENTRYID_2_SQL = "syncDLFileVersionDiff.fileEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByExpirationDate;
 	private FinderPath _finderPathWithPaginationCountByExpirationDate;
 
@@ -1101,8 +1101,10 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1 = "syncDLFileVersionDiff.expirationDate IS NULL";
-	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2 = "syncDLFileVersionDiff.expirationDate < ?";
+	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL =
+		"syncDLFileVersionDiff.expirationDate IS NULL";
+	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL =
+		"syncDLFileVersionDiff.expirationDate < ?";
 	private FinderPath _finderPathFetchByF_S_T;
 	private FinderPath _finderPathCountByF_S_T;
 
@@ -1339,9 +1341,9 @@ public class SyncDLFileVersionDiffPersistenceImpl extends BasePersistenceImpl<Sy
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_S_T_FILEENTRYID_2 = "syncDLFileVersionDiff.fileEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_F_S_T_SOURCEFILEVERSIONID_2 = "syncDLFileVersionDiff.sourceFileVersionId = ? AND ";
-	private static final String _FINDER_COLUMN_F_S_T_TARGETFILEVERSIONID_2 = "syncDLFileVersionDiff.targetFileVersionId = ?";
+	private static final String _FINDER_COLUMN_F_S_T_FILEENTRYID_2_SQL = "syncDLFileVersionDiff.fileEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_F_S_T_SOURCEFILEVERSIONID_2_SQL = "syncDLFileVersionDiff.sourceFileVersionId = ? AND ";
+	private static final String _FINDER_COLUMN_F_S_T_TARGETFILEVERSIONID_2_SQL = "syncDLFileVersionDiff.targetFileVersionId = ?";
 
 	public SyncDLFileVersionDiffPersistenceImpl() {
 		setModelClass(SyncDLFileVersionDiff.class);

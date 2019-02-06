@@ -205,12 +205,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -433,12 +433,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -567,12 +567,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -607,8 +607,8 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "kbFolder.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(kbFolder.uuid IS NULL OR kbFolder.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "kbFolder.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(kbFolder.uuid_ IS NULL OR kbFolder.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -699,12 +699,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -798,12 +798,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -842,9 +842,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "kbFolder.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(kbFolder.uuid IS NULL OR kbFolder.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "kbFolder.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "kbFolder.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(kbFolder.uuid_ IS NULL OR kbFolder.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "kbFolder.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -975,12 +975,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1221,12 +1221,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1361,12 +1361,12 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1405,9 +1405,9 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "kbFolder.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(kbFolder.uuid IS NULL OR kbFolder.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "kbFolder.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "kbFolder.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(kbFolder.uuid_ IS NULL OR kbFolder.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "kbFolder.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_P;
 	private FinderPath _finderPathCountByG_P;
@@ -2306,8 +2306,8 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 = "kbFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_PARENTKBFOLDERID_2 = "kbFolder.parentKBFolderId = ?";
+	private static final String _FINDER_COLUMN_G_P_GROUPID_2_SQL = "kbFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_PARENTKBFOLDERID_2_SQL = "kbFolder.parentKBFolderId = ?";
 	private FinderPath _finderPathFetchByG_P_N;
 	private FinderPath _finderPathCountByG_P_N;
 
@@ -2570,10 +2570,10 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_N_GROUPID_2 = "kbFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_PARENTKBFOLDERID_2 = "kbFolder.parentKBFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_2 = "kbFolder.name = ?";
-	private static final String _FINDER_COLUMN_G_P_N_NAME_3 = "(kbFolder.name IS NULL OR kbFolder.name = '')";
+	private static final String _FINDER_COLUMN_G_P_N_GROUPID_2_SQL = "kbFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_PARENTKBFOLDERID_2_SQL = "kbFolder.parentKBFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_2_SQL = "kbFolder.name = ?";
+	private static final String _FINDER_COLUMN_G_P_N_NAME_3_SQL = "(kbFolder.name IS NULL OR kbFolder.name = '')";
 	private FinderPath _finderPathFetchByG_P_UT;
 	private FinderPath _finderPathCountByG_P_UT;
 
@@ -2837,10 +2837,10 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_UT_GROUPID_2 = "kbFolder.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_UT_PARENTKBFOLDERID_2 = "kbFolder.parentKBFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_UT_URLTITLE_2 = "kbFolder.urlTitle = ?";
-	private static final String _FINDER_COLUMN_G_P_UT_URLTITLE_3 = "(kbFolder.urlTitle IS NULL OR kbFolder.urlTitle = '')";
+	private static final String _FINDER_COLUMN_G_P_UT_GROUPID_2_SQL = "kbFolder.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_UT_PARENTKBFOLDERID_2_SQL = "kbFolder.parentKBFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_UT_URLTITLE_2_SQL = "kbFolder.urlTitle = ?";
+	private static final String _FINDER_COLUMN_G_P_UT_URLTITLE_3_SQL = "(kbFolder.urlTitle IS NULL OR kbFolder.urlTitle = '')";
 
 	public KBFolderPersistenceImpl() {
 		setModelClass(KBFolder.class);
@@ -3753,6 +3753,6 @@ public class KBFolderPersistenceImpl extends BasePersistenceImpl<KBFolder>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No KBFolder exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(KBFolderPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

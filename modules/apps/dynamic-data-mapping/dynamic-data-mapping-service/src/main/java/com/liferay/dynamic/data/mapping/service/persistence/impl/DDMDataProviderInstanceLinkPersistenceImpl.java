@@ -584,7 +584,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2 =
+	private static final String _FINDER_COLUMN_DATAPROVIDERINSTANCEID_DATAPROVIDERINSTANCEID_2_SQL =
 		"ddmDataProviderInstanceLink.dataProviderInstanceId = ?";
 	private FinderPath _finderPathWithPaginationFindByStructureId;
 	private FinderPath _finderPathWithoutPaginationFindByStructureId;
@@ -1086,7 +1086,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2 = "ddmDataProviderInstanceLink.structureId = ?";
+	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL = "ddmDataProviderInstanceLink.structureId = ?";
 	private FinderPath _finderPathFetchByD_S;
 	private FinderPath _finderPathCountByD_S;
 
@@ -1298,8 +1298,8 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_D_S_DATAPROVIDERINSTANCEID_2 = "ddmDataProviderInstanceLink.dataProviderInstanceId = ? AND ";
-	private static final String _FINDER_COLUMN_D_S_STRUCTUREID_2 = "ddmDataProviderInstanceLink.structureId = ?";
+	private static final String _FINDER_COLUMN_D_S_DATAPROVIDERINSTANCEID_2_SQL = "ddmDataProviderInstanceLink.dataProviderInstanceId = ? AND ";
+	private static final String _FINDER_COLUMN_D_S_STRUCTUREID_2_SQL = "ddmDataProviderInstanceLink.structureId = ?";
 
 	public DDMDataProviderInstanceLinkPersistenceImpl() {
 		setModelClass(DDMDataProviderInstanceLink.class);

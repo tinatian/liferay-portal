@@ -583,7 +583,8 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2 = "ddmFormInstanceVersion.formInstanceId = ?";
+	private static final String _FINDER_COLUMN_FORMINSTANCEID_FORMINSTANCEID_2_SQL =
+		"ddmFormInstanceVersion.formInstanceId = ?";
 	private FinderPath _finderPathFetchByF_V;
 	private FinderPath _finderPathCountByF_V;
 
@@ -819,9 +820,9 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_V_FORMINSTANCEID_2 = "ddmFormInstanceVersion.formInstanceId = ? AND ";
-	private static final String _FINDER_COLUMN_F_V_VERSION_2 = "ddmFormInstanceVersion.version = ?";
-	private static final String _FINDER_COLUMN_F_V_VERSION_3 = "(ddmFormInstanceVersion.version IS NULL OR ddmFormInstanceVersion.version = '')";
+	private static final String _FINDER_COLUMN_F_V_FORMINSTANCEID_2_SQL = "ddmFormInstanceVersion.formInstanceId = ? AND ";
+	private static final String _FINDER_COLUMN_F_V_VERSION_2_SQL = "ddmFormInstanceVersion.version = ?";
+	private static final String _FINDER_COLUMN_F_V_VERSION_3_SQL = "(ddmFormInstanceVersion.version IS NULL OR ddmFormInstanceVersion.version = '')";
 	private FinderPath _finderPathWithPaginationFindByF_S;
 	private FinderPath _finderPathWithoutPaginationFindByF_S;
 	private FinderPath _finderPathCountByF_S;
@@ -1351,8 +1352,8 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_S_FORMINSTANCEID_2 = "ddmFormInstanceVersion.formInstanceId = ? AND ";
-	private static final String _FINDER_COLUMN_F_S_STATUS_2 = "ddmFormInstanceVersion.status = ?";
+	private static final String _FINDER_COLUMN_F_S_FORMINSTANCEID_2_SQL = "ddmFormInstanceVersion.formInstanceId = ? AND ";
+	private static final String _FINDER_COLUMN_F_S_STATUS_2_SQL = "ddmFormInstanceVersion.status = ?";
 
 	public DDMFormInstanceVersionPersistenceImpl() {
 		setModelClass(DDMFormInstanceVersion.class);
@@ -2089,6 +2090,6 @@ public class DDMFormInstanceVersionPersistenceImpl extends BasePersistenceImpl<D
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No DDMFormInstanceVersion exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(DDMFormInstanceVersionPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"settings"
+				"description", "settings"
 			});
 }

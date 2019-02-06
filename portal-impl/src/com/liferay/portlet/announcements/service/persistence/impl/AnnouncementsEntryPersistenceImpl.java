@@ -214,12 +214,12 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -445,12 +445,12 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -915,12 +915,12 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1016,8 +1016,6 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "announcementsEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(announcementsEntry.uuid IS NULL OR announcementsEntry.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "announcementsEntry.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(announcementsEntry.uuid_ IS NULL OR announcementsEntry.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1152,12 +1150,12 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1400,12 +1398,12 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1895,12 +1893,12 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -2005,11 +2003,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "announcementsEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(announcementsEntry.uuid IS NULL OR announcementsEntry.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "announcementsEntry.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(announcementsEntry.uuid_ IS NULL OR announcementsEntry.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "announcementsEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "announcementsEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -2855,7 +2851,7 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "announcementsEntry.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "announcementsEntry.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -3762,8 +3758,8 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "announcementsEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "announcementsEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "announcementsEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "announcementsEntry.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C;
 	private FinderPath _finderPathCountByC_C_C;
@@ -4728,9 +4724,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2 = "announcementsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2 = "announcementsEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2 = "announcementsEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2_SQL = "announcementsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL = "announcementsEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2_SQL = "announcementsEntry.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_A;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_A;
 	private FinderPath _finderPathCountByC_C_A;
@@ -5689,9 +5685,9 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_C_A_CLASSNAMEID_2 = "announcementsEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_A_CLASSPK_2 = "announcementsEntry.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_A_ALERT_2 = "announcementsEntry.alert = ?";
+	private static final String _FINDER_COLUMN_C_C_A_CLASSNAMEID_2_SQL = "announcementsEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_A_CLASSPK_2_SQL = "announcementsEntry.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_A_ALERT_2_SQL = "announcementsEntry.alert = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_C_A;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C_A;
 	private FinderPath _finderPathCountByC_C_C_A;
@@ -6712,10 +6708,10 @@ public class AnnouncementsEntryPersistenceImpl extends BasePersistenceImpl<Annou
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_A_COMPANYID_2 = "announcementsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2 = "announcementsEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_A_CLASSPK_2 = "announcementsEntry.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_A_ALERT_2 = "announcementsEntry.alert = ?";
+	private static final String _FINDER_COLUMN_C_C_C_A_COMPANYID_2_SQL = "announcementsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_A_CLASSNAMEID_2_SQL = "announcementsEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_A_CLASSPK_2_SQL = "announcementsEntry.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_A_ALERT_2_SQL = "announcementsEntry.alert = ?";
 
 	public AnnouncementsEntryPersistenceImpl() {
 		setModelClass(AnnouncementsEntry.class);

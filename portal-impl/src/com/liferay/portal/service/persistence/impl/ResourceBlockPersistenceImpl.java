@@ -641,9 +641,9 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "resourceBlock.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "resourceBlock.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(resourceBlock.name IS NULL OR resourceBlock.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "resourceBlock.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "resourceBlock.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(resourceBlock.name IS NULL OR resourceBlock.name = '')";
 	private FinderPath _finderPathWithPaginationFindByC_G_N;
 	private FinderPath _finderPathWithoutPaginationFindByC_G_N;
 	private FinderPath _finderPathCountByC_G_N;
@@ -1240,10 +1240,10 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_G_N_COMPANYID_2 = "resourceBlock.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_GROUPID_2 = "resourceBlock.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_NAME_2 = "resourceBlock.name = ?";
-	private static final String _FINDER_COLUMN_C_G_N_NAME_3 = "(resourceBlock.name IS NULL OR resourceBlock.name = '')";
+	private static final String _FINDER_COLUMN_C_G_N_COMPANYID_2_SQL = "resourceBlock.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_GROUPID_2_SQL = "resourceBlock.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_NAME_2_SQL = "resourceBlock.name = ?";
+	private static final String _FINDER_COLUMN_C_G_N_NAME_3_SQL = "(resourceBlock.name IS NULL OR resourceBlock.name = '')";
 	private FinderPath _finderPathFetchByC_G_N_P;
 	private FinderPath _finderPathCountByC_G_N_P;
 
@@ -1548,12 +1548,12 @@ public class ResourceBlockPersistenceImpl extends BasePersistenceImpl<ResourceBl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_G_N_P_COMPANYID_2 = "resourceBlock.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_P_GROUPID_2 = "resourceBlock.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_P_NAME_2 = "resourceBlock.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_P_NAME_3 = "(resourceBlock.name IS NULL OR resourceBlock.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_2 = "resourceBlock.permissionsHash = ?";
-	private static final String _FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_3 = "(resourceBlock.permissionsHash IS NULL OR resourceBlock.permissionsHash = '')";
+	private static final String _FINDER_COLUMN_C_G_N_P_COMPANYID_2_SQL = "resourceBlock.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_P_GROUPID_2_SQL = "resourceBlock.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_P_NAME_2_SQL = "resourceBlock.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_P_NAME_3_SQL = "(resourceBlock.name IS NULL OR resourceBlock.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_2_SQL = "resourceBlock.permissionsHash = ?";
+	private static final String _FINDER_COLUMN_C_G_N_P_PERMISSIONSHASH_3_SQL = "(resourceBlock.permissionsHash IS NULL OR resourceBlock.permissionsHash = '')";
 
 	public ResourceBlockPersistenceImpl() {
 		setModelClass(ResourceBlock.class);

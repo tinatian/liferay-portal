@@ -582,7 +582,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2 =
+	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LOCALIZEDENTRYID_2_SQL =
 		"localizedEntryLocalization.localizedEntryId = ?";
 	private FinderPath _finderPathFetchByLocalizedEntryId_LanguageId;
 	private FinderPath _finderPathCountByLocalizedEntryId_LanguageId;
@@ -826,11 +826,11 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LOCALIZEDENTRYID_2 =
+	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LOCALIZEDENTRYID_2_SQL =
 		"localizedEntryLocalization.localizedEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_2 =
+	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_2_SQL =
 		"localizedEntryLocalization.languageId = ?";
-	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_3 =
+	private static final String _FINDER_COLUMN_LOCALIZEDENTRYID_LANGUAGEID_LANGUAGEID_3_SQL =
 		"(localizedEntryLocalization.languageId IS NULL OR localizedEntryLocalization.languageId = '')";
 
 	public LocalizedEntryLocalizationPersistenceImpl() {

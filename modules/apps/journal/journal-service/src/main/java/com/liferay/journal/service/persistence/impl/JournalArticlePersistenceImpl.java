@@ -585,7 +585,7 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2 =
+	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2_SQL =
 		"journalArticle.resourcePrimKey = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid;
 	private FinderPath _finderPathWithoutPaginationFindByUuid;
@@ -706,12 +706,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -935,12 +935,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1069,12 +1069,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1109,8 +1109,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "journalArticle.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(journalArticle.uuid IS NULL OR journalArticle.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "journalArticle.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(journalArticle.uuid_ IS NULL OR journalArticle.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -1201,12 +1201,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -1300,12 +1300,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -1344,9 +1344,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "journalArticle.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(journalArticle.uuid IS NULL OR journalArticle.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "journalArticle.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "journalArticle.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(journalArticle.uuid_ IS NULL OR journalArticle.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "journalArticle.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -1478,12 +1478,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1724,12 +1724,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1864,12 +1864,12 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1908,9 +1908,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "journalArticle.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(journalArticle.uuid IS NULL OR journalArticle.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "journalArticle.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "journalArticle.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(journalArticle.uuid_ IS NULL OR journalArticle.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "journalArticle.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2753,7 +2753,7 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "journalArticle.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "journalArticle.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -3241,7 +3241,7 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "journalArticle.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "journalArticle.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByDDMStructureKey;
 	private FinderPath _finderPathWithoutPaginationFindByDDMStructureKey;
 	private FinderPath _finderPathCountByDDMStructureKey;
@@ -4084,9 +4084,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DDMSTRUCTUREKEY_DDMSTRUCTUREKEY_2 =
+	private static final String _FINDER_COLUMN_DDMSTRUCTUREKEY_DDMSTRUCTUREKEY_2_SQL =
 		"journalArticle.DDMStructureKey = ?";
-	private static final String _FINDER_COLUMN_DDMSTRUCTUREKEY_DDMSTRUCTUREKEY_3 =
+	private static final String _FINDER_COLUMN_DDMSTRUCTUREKEY_DDMSTRUCTUREKEY_3_SQL =
 		"(journalArticle.DDMStructureKey IS NULL OR journalArticle.DDMStructureKey = '')";
 	private FinderPath _finderPathWithPaginationFindByDDMTemplateKey;
 	private FinderPath _finderPathWithoutPaginationFindByDDMTemplateKey;
@@ -4622,8 +4622,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DDMTEMPLATEKEY_DDMTEMPLATEKEY_2 = "journalArticle.DDMTemplateKey = ?";
-	private static final String _FINDER_COLUMN_DDMTEMPLATEKEY_DDMTEMPLATEKEY_3 = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
+	private static final String _FINDER_COLUMN_DDMTEMPLATEKEY_DDMTEMPLATEKEY_2_SQL =
+		"journalArticle.DDMTemplateKey = ?";
+	private static final String _FINDER_COLUMN_DDMTEMPLATEKEY_DDMTEMPLATEKEY_3_SQL =
+		"(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
 	private FinderPath _finderPathWithPaginationFindByLayoutUuid;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutUuid;
 	private FinderPath _finderPathCountByLayoutUuid;
@@ -5150,8 +5152,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2 = "journalArticle.layoutUuid = ?";
-	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3 = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid = '')";
+	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2_SQL = "journalArticle.layoutUuid = ?";
+	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3_SQL = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid = '')";
 	private FinderPath _finderPathWithPaginationFindBySmallImageId;
 	private FinderPath _finderPathWithoutPaginationFindBySmallImageId;
 	private FinderPath _finderPathCountBySmallImageId;
@@ -5645,7 +5647,7 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SMALLIMAGEID_SMALLIMAGEID_2 = "journalArticle.smallImageId = ?";
+	private static final String _FINDER_COLUMN_SMALLIMAGEID_SMALLIMAGEID_2_SQL = "journalArticle.smallImageId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_I;
 	private FinderPath _finderPathWithoutPaginationFindByR_I;
 	private FinderPath _finderPathCountByR_I;
@@ -6172,8 +6174,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_I_RESOURCEPRIMKEY_2 = "journalArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_I_INDEXABLE_2 = "journalArticle.indexable = ?";
+	private static final String _FINDER_COLUMN_R_I_RESOURCEPRIMKEY_2_SQL = "journalArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_I_INDEXABLE_2_SQL = "journalArticle.indexable = ?";
 	private FinderPath _finderPathWithPaginationFindByR_ST;
 	private FinderPath _finderPathWithoutPaginationFindByR_ST;
 	private FinderPath _finderPathCountByR_ST;
@@ -6983,9 +6985,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_ST_RESOURCEPRIMKEY_2 = "journalArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_ST_STATUS_2 = "journalArticle.status = ?";
-	private static final String _FINDER_COLUMN_R_ST_STATUS_7 = "journalArticle.status IN (";
+	private static final String _FINDER_COLUMN_R_ST_RESOURCEPRIMKEY_2_SQL = "journalArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_ST_STATUS_2_SQL = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_R_ST_STATUS_7_SQL = "journalArticle.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_U;
 	private FinderPath _finderPathWithoutPaginationFindByG_U;
 	private FinderPath _finderPathCountByG_U;
@@ -7881,8 +7883,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "journalArticle.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "journalArticle.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F;
 	private FinderPath _finderPathWithoutPaginationFindByG_F;
 	private FinderPath _finderPathCountByG_F;
@@ -9276,9 +9278,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_F_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_FOLDERID_2 = "journalArticle.folderId = ?";
-	private static final String _FINDER_COLUMN_G_F_FOLDERID_7 = "journalArticle.folderId IN (";
+	private static final String _FINDER_COLUMN_G_F_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_FOLDERID_2_SQL = "journalArticle.folderId = ?";
+	private static final String _FINDER_COLUMN_G_F_FOLDERID_7_SQL = "journalArticle.folderId IN (";
 	private FinderPath _finderPathWithPaginationFindByG_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_A;
 	private FinderPath _finderPathCountByG_A;
@@ -10254,9 +10256,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_ARTICLEID_2 = "journalArticle.articleId = ?";
-	private static final String _FINDER_COLUMN_G_A_ARTICLEID_3 = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '')";
+	private static final String _FINDER_COLUMN_G_A_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_ARTICLEID_2_SQL = "journalArticle.articleId = ?";
+	private static final String _FINDER_COLUMN_G_A_ARTICLEID_3_SQL = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '')";
 	private FinderPath _finderPathWithPaginationFindByG_UT;
 	private FinderPath _finderPathWithoutPaginationFindByG_UT;
 	private FinderPath _finderPathCountByG_UT;
@@ -11232,9 +11234,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_UT_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_UT_URLTITLE_2 = "journalArticle.urlTitle = ?";
-	private static final String _FINDER_COLUMN_G_UT_URLTITLE_3 = "(journalArticle.urlTitle IS NULL OR journalArticle.urlTitle = '')";
+	private static final String _FINDER_COLUMN_G_UT_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_UT_URLTITLE_2_SQL = "journalArticle.urlTitle = ?";
+	private static final String _FINDER_COLUMN_G_UT_URLTITLE_3_SQL = "(journalArticle.urlTitle IS NULL OR journalArticle.urlTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByG_DDMSK;
 	private FinderPath _finderPathWithoutPaginationFindByG_DDMSK;
 	private FinderPath _finderPathCountByG_DDMSK;
@@ -12223,9 +12225,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_DDMSK_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_DDMSK_DDMSTRUCTUREKEY_2 = "journalArticle.DDMStructureKey = ?";
-	private static final String _FINDER_COLUMN_G_DDMSK_DDMSTRUCTUREKEY_3 = "(journalArticle.DDMStructureKey IS NULL OR journalArticle.DDMStructureKey = '')";
+	private static final String _FINDER_COLUMN_G_DDMSK_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_DDMSK_DDMSTRUCTUREKEY_2_SQL = "journalArticle.DDMStructureKey = ?";
+	private static final String _FINDER_COLUMN_G_DDMSK_DDMSTRUCTUREKEY_3_SQL = "(journalArticle.DDMStructureKey IS NULL OR journalArticle.DDMStructureKey = '')";
 	private FinderPath _finderPathWithPaginationFindByG_DDMTK;
 	private FinderPath _finderPathWithoutPaginationFindByG_DDMTK;
 	private FinderPath _finderPathCountByG_DDMTK;
@@ -13214,9 +13216,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_DDMTK_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_DDMTK_DDMTEMPLATEKEY_2 = "journalArticle.DDMTemplateKey = ?";
-	private static final String _FINDER_COLUMN_G_DDMTK_DDMTEMPLATEKEY_3 = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
+	private static final String _FINDER_COLUMN_G_DDMTK_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_DDMTK_DDMTEMPLATEKEY_2_SQL = "journalArticle.DDMTemplateKey = ?";
+	private static final String _FINDER_COLUMN_G_DDMTK_DDMTEMPLATEKEY_3_SQL = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
 	private FinderPath _finderPathWithPaginationFindByG_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_L;
 	private FinderPath _finderPathCountByG_L;
@@ -14194,9 +14196,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LAYOUTUUID_2 = "journalArticle.layoutUuid = ?";
-	private static final String _FINDER_COLUMN_G_L_LAYOUTUUID_3 = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid = '')";
+	private static final String _FINDER_COLUMN_G_L_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_LAYOUTUUID_2_SQL = "journalArticle.layoutUuid = ?";
+	private static final String _FINDER_COLUMN_G_L_LAYOUTUUID_3_SQL = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid = '')";
 	private FinderPath _finderPathWithPaginationFindByG_NotL;
 	private FinderPath _finderPathWithPaginationCountByG_NotL;
 
@@ -15746,9 +15748,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTL_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTL_LAYOUTUUID_2 = "journalArticle.layoutUuid != ?";
-	private static final String _FINDER_COLUMN_G_NOTL_LAYOUTUUID_3 = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid != '')";
+	private static final String _FINDER_COLUMN_G_NOTL_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTL_LAYOUTUUID_2_SQL = "journalArticle.layoutUuid != ?";
+	private static final String _FINDER_COLUMN_G_NOTL_LAYOUTUUID_3_SQL = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid != '')";
 	private FinderPath _finderPathWithPaginationFindByG_ST;
 	private FinderPath _finderPathWithoutPaginationFindByG_ST;
 	private FinderPath _finderPathCountByG_ST;
@@ -16644,8 +16646,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_ST_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_ST_STATUS_2 = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_ST_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_ST_STATUS_2_SQL = "journalArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_V;
 	private FinderPath _finderPathWithoutPaginationFindByC_V;
 	private FinderPath _finderPathCountByC_V;
@@ -17168,8 +17170,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_V_COMPANYID_2 = "journalArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_V_VERSION_2 = "journalArticle.version = ?";
+	private static final String _FINDER_COLUMN_C_V_COMPANYID_2_SQL = "journalArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_V_VERSION_2_SQL = "journalArticle.version = ?";
 	private FinderPath _finderPathWithPaginationFindByC_ST;
 	private FinderPath _finderPathWithoutPaginationFindByC_ST;
 	private FinderPath _finderPathCountByC_ST;
@@ -17692,8 +17694,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_ST_COMPANYID_2 = "journalArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_ST_STATUS_2 = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_C_ST_COMPANYID_2_SQL = "journalArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_ST_STATUS_2_SQL = "journalArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_NotST;
 	private FinderPath _finderPathWithPaginationCountByC_NotST;
 
@@ -18208,8 +18210,8 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_NOTST_COMPANYID_2 = "journalArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_NOTST_STATUS_2 = "journalArticle.status != ?";
+	private static final String _FINDER_COLUMN_C_NOTST_COMPANYID_2_SQL = "journalArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_NOTST_STATUS_2_SQL = "journalArticle.status != ?";
 	private FinderPath _finderPathWithPaginationFindByC_DDMTK;
 	private FinderPath _finderPathWithoutPaginationFindByC_DDMTK;
 	private FinderPath _finderPathCountByC_DDMTK;
@@ -18780,9 +18782,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_DDMTK_CLASSNAMEID_2 = "journalArticle.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_DDMTK_DDMTEMPLATEKEY_2 = "journalArticle.DDMTemplateKey = ?";
-	private static final String _FINDER_COLUMN_C_DDMTK_DDMTEMPLATEKEY_3 = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
+	private static final String _FINDER_COLUMN_C_DDMTK_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_DDMTK_DDMTEMPLATEKEY_2_SQL = "journalArticle.DDMTemplateKey = ?";
+	private static final String _FINDER_COLUMN_C_DDMTK_DDMTEMPLATEKEY_3_SQL = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
 	private FinderPath _finderPathWithPaginationFindByLtD_S;
 	private FinderPath _finderPathWithPaginationCountByLtD_S;
 
@@ -19331,9 +19333,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_1 = "journalArticle.displayDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_2 = "journalArticle.displayDate < ? AND ";
-	private static final String _FINDER_COLUMN_LTD_S_STATUS_2 = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_1_SQL = "journalArticle.displayDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_LTD_S_DISPLAYDATE_2_SQL = "journalArticle.displayDate < ? AND ";
+	private static final String _FINDER_COLUMN_LTD_S_STATUS_2_SQL = "journalArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByR_I_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_I_S;
 	private FinderPath _finderPathCountByR_I_S;
@@ -20198,10 +20200,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_I_S_RESOURCEPRIMKEY_2 = "journalArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_I_S_INDEXABLE_2 = "journalArticle.indexable = ? AND ";
-	private static final String _FINDER_COLUMN_R_I_S_STATUS_2 = "journalArticle.status = ?";
-	private static final String _FINDER_COLUMN_R_I_S_STATUS_7 = "journalArticle.status IN (";
+	private static final String _FINDER_COLUMN_R_I_S_RESOURCEPRIMKEY_2_SQL = "journalArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_I_S_INDEXABLE_2_SQL = "journalArticle.indexable = ? AND ";
+	private static final String _FINDER_COLUMN_R_I_S_STATUS_2_SQL = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_R_I_S_STATUS_7_SQL = "journalArticle.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_U_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_C;
 	private FinderPath _finderPathCountByG_U_C;
@@ -21156,9 +21158,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_C_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_USERID_2 = "journalArticle.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_CLASSNAMEID_2 = "journalArticle.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_U_C_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_USERID_2_SQL = "journalArticle.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F_ST;
 	private FinderPath _finderPathWithoutPaginationFindByG_F_ST;
 	private FinderPath _finderPathCountByG_F_ST;
@@ -22643,10 +22645,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_F_ST_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_ST_FOLDERID_2 = "journalArticle.folderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_ST_STATUS_2 = "journalArticle.status = ?";
-	private static final String _FINDER_COLUMN_G_F_ST_STATUS_7 = "journalArticle.status IN (";
+	private static final String _FINDER_COLUMN_G_F_ST_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_ST_FOLDERID_2_SQL = "journalArticle.folderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_ST_STATUS_2_SQL = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_F_ST_STATUS_7_SQL = "journalArticle.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C;
 	private FinderPath _finderPathCountByG_C_C;
@@ -23601,9 +23603,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2 = "journalArticle.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2 = "journalArticle.classPK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2_SQL = "journalArticle.classPK = ?";
 	private FinderPath _finderPathFetchByG_C_DDMSK;
 	private FinderPath _finderPathCountByG_C_DDMSK;
 
@@ -23870,10 +23872,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_DDMSK_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_DDMSK_CLASSNAMEID_2 = "journalArticle.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_DDMSK_DDMSTRUCTUREKEY_2 = "journalArticle.DDMStructureKey = ?";
-	private static final String _FINDER_COLUMN_G_C_DDMSK_DDMSTRUCTUREKEY_3 = "(journalArticle.DDMStructureKey IS NULL OR journalArticle.DDMStructureKey = '')";
+	private static final String _FINDER_COLUMN_G_C_DDMSK_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_DDMSK_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_DDMSK_DDMSTRUCTUREKEY_2_SQL = "journalArticle.DDMStructureKey = ?";
+	private static final String _FINDER_COLUMN_G_C_DDMSK_DDMSTRUCTUREKEY_3_SQL = "(journalArticle.DDMStructureKey IS NULL OR journalArticle.DDMStructureKey = '')";
 	private FinderPath _finderPathWithPaginationFindByG_C_DDMTK;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_DDMTK;
 	private FinderPath _finderPathCountByG_C_DDMTK;
@@ -24921,10 +24923,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_DDMTK_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_DDMTK_CLASSNAMEID_2 = "journalArticle.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_DDMTK_DDMTEMPLATEKEY_2 = "journalArticle.DDMTemplateKey = ?";
-	private static final String _FINDER_COLUMN_G_C_DDMTK_DDMTEMPLATEKEY_3 = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
+	private static final String _FINDER_COLUMN_G_C_DDMTK_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_DDMTK_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_DDMTK_DDMTEMPLATEKEY_2_SQL = "journalArticle.DDMTemplateKey = ?";
+	private static final String _FINDER_COLUMN_G_C_DDMTK_DDMTEMPLATEKEY_3_SQL = "(journalArticle.DDMTemplateKey IS NULL OR journalArticle.DDMTemplateKey = '')";
 	private FinderPath _finderPathWithPaginationFindByG_C_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_L;
 	private FinderPath _finderPathCountByG_C_L;
@@ -25959,10 +25961,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_L_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_L_CLASSNAMEID_2 = "journalArticle.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_L_LAYOUTUUID_2 = "journalArticle.layoutUuid = ?";
-	private static final String _FINDER_COLUMN_G_C_L_LAYOUTUUID_3 = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid = '')";
+	private static final String _FINDER_COLUMN_G_C_L_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_L_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_L_LAYOUTUUID_2_SQL = "journalArticle.layoutUuid = ?";
+	private static final String _FINDER_COLUMN_G_C_L_LAYOUTUUID_3_SQL = "(journalArticle.layoutUuid IS NULL OR journalArticle.layoutUuid = '')";
 	private FinderPath _finderPathFetchByG_A_V;
 	private FinderPath _finderPathCountByG_A_V;
 
@@ -26214,10 +26216,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_A_V_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_V_ARTICLEID_2 = "journalArticle.articleId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_V_ARTICLEID_3 = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '') AND ";
-	private static final String _FINDER_COLUMN_G_A_V_VERSION_2 = "journalArticle.version = ?";
+	private static final String _FINDER_COLUMN_G_A_V_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_V_ARTICLEID_2_SQL = "journalArticle.articleId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_V_ARTICLEID_3_SQL = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '') AND ";
+	private static final String _FINDER_COLUMN_G_A_V_VERSION_2_SQL = "journalArticle.version = ?";
 	private FinderPath _finderPathWithPaginationFindByG_A_ST;
 	private FinderPath _finderPathWithoutPaginationFindByG_A_ST;
 	private FinderPath _finderPathCountByG_A_ST;
@@ -27835,11 +27837,11 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_ST_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_ST_ARTICLEID_2 = "journalArticle.articleId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_ST_ARTICLEID_3 = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '') AND ";
-	private static final String _FINDER_COLUMN_G_A_ST_STATUS_2 = "journalArticle.status = ?";
-	private static final String _FINDER_COLUMN_G_A_ST_STATUS_7 = "journalArticle.status IN (";
+	private static final String _FINDER_COLUMN_G_A_ST_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_ST_ARTICLEID_2_SQL = "journalArticle.articleId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_ST_ARTICLEID_3_SQL = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '') AND ";
+	private static final String _FINDER_COLUMN_G_A_ST_STATUS_2_SQL = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_A_ST_STATUS_7_SQL = "journalArticle.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_A_NotST;
 	private FinderPath _finderPathWithPaginationCountByG_A_NotST;
 
@@ -28867,10 +28869,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_NOTST_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_NOTST_ARTICLEID_2 = "journalArticle.articleId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_NOTST_ARTICLEID_3 = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '') AND ";
-	private static final String _FINDER_COLUMN_G_A_NOTST_STATUS_2 = "journalArticle.status != ?";
+	private static final String _FINDER_COLUMN_G_A_NOTST_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_NOTST_ARTICLEID_2_SQL = "journalArticle.articleId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_NOTST_ARTICLEID_3_SQL = "(journalArticle.articleId IS NULL OR journalArticle.articleId = '') AND ";
+	private static final String _FINDER_COLUMN_G_A_NOTST_STATUS_2_SQL = "journalArticle.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_UT_ST;
 	private FinderPath _finderPathWithoutPaginationFindByG_UT_ST;
 	private FinderPath _finderPathCountByG_UT_ST;
@@ -29903,10 +29905,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_UT_ST_GROUPID_2 = "journalArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_UT_ST_URLTITLE_2 = "journalArticle.urlTitle = ? AND ";
-	private static final String _FINDER_COLUMN_G_UT_ST_URLTITLE_3 = "(journalArticle.urlTitle IS NULL OR journalArticle.urlTitle = '') AND ";
-	private static final String _FINDER_COLUMN_G_UT_ST_STATUS_2 = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_UT_ST_GROUPID_2_SQL = "journalArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_UT_ST_URLTITLE_2_SQL = "journalArticle.urlTitle = ? AND ";
+	private static final String _FINDER_COLUMN_G_UT_ST_URLTITLE_3_SQL = "(journalArticle.urlTitle IS NULL OR journalArticle.urlTitle = '') AND ";
+	private static final String _FINDER_COLUMN_G_UT_ST_STATUS_2_SQL = "journalArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_V_ST;
 	private FinderPath _finderPathWithoutPaginationFindByC_V_ST;
 	private FinderPath _finderPathCountByC_V_ST;
@@ -30464,9 +30466,9 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_V_ST_COMPANYID_2 = "journalArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_V_ST_VERSION_2 = "journalArticle.version = ? AND ";
-	private static final String _FINDER_COLUMN_C_V_ST_STATUS_2 = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_C_V_ST_COMPANYID_2_SQL = "journalArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_V_ST_VERSION_2_SQL = "journalArticle.version = ? AND ";
+	private static final String _FINDER_COLUMN_C_V_ST_STATUS_2_SQL = "journalArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_ED_ST;
 	private FinderPath _finderPathWithoutPaginationFindByC_ED_ST;
 	private FinderPath _finderPathCountByC_ED_ST;
@@ -31070,10 +31072,10 @@ public class JournalArticlePersistenceImpl extends BasePersistenceImpl<JournalAr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_ED_ST_CLASSNAMEID_2 = "journalArticle.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_ED_ST_EXPIRATIONDATE_1 = "journalArticle.expirationDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_ED_ST_EXPIRATIONDATE_2 = "journalArticle.expirationDate = ? AND ";
-	private static final String _FINDER_COLUMN_C_ED_ST_STATUS_2 = "journalArticle.status = ?";
+	private static final String _FINDER_COLUMN_C_ED_ST_CLASSNAMEID_2_SQL = "journalArticle.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_ED_ST_EXPIRATIONDATE_1_SQL = "journalArticle.expirationDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_C_ED_ST_EXPIRATIONDATE_2_SQL = "journalArticle.expirationDate = ? AND ";
+	private static final String _FINDER_COLUMN_C_ED_ST_STATUS_2_SQL = "journalArticle.status = ?";
 
 	public JournalArticlePersistenceImpl() {
 		setModelClass(JournalArticle.class);

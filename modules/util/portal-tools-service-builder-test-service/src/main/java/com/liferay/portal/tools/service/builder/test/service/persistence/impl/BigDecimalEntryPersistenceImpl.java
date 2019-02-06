@@ -614,9 +614,9 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1 =
+	private static final String _FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL =
 		"bigDecimalEntry.bigDecimalValue IS NULL";
-	private static final String _FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2 =
+	private static final String _FINDER_COLUMN_BIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL =
 		"bigDecimalEntry.bigDecimalValue = ?";
 	private FinderPath _finderPathWithPaginationFindByGtBigDecimalValue;
 	private FinderPath _finderPathWithPaginationCountByGtBigDecimalValue;
@@ -1140,9 +1140,9 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1 =
+	private static final String _FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL =
 		"bigDecimalEntry.bigDecimalValue IS NULL";
-	private static final String _FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2 =
+	private static final String _FINDER_COLUMN_GTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL =
 		"bigDecimalEntry.bigDecimalValue > ?";
 	private FinderPath _finderPathWithPaginationFindByLtBigDecimalValue;
 	private FinderPath _finderPathWithPaginationCountByLtBigDecimalValue;
@@ -1666,9 +1666,9 @@ public class BigDecimalEntryPersistenceImpl extends BasePersistenceImpl<BigDecim
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1 =
+	private static final String _FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_1_SQL =
 		"bigDecimalEntry.bigDecimalValue IS NULL";
-	private static final String _FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2 =
+	private static final String _FINDER_COLUMN_LTBIGDECIMALVALUE_BIGDECIMALVALUE_2_SQL =
 		"bigDecimalEntry.bigDecimalValue < ?";
 
 	public BigDecimalEntryPersistenceImpl() {

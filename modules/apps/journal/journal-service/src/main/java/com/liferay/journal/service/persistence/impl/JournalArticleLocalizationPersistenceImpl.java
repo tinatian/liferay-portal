@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
@@ -48,6 +49,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * The persistence implementation for the journal article localization service.
@@ -572,7 +574,7 @@ public class JournalArticleLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2 = "journalArticleLocalization.articlePK = ?";
+	private static final String _FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2_SQL = "journalArticleLocalization.articlePK = ?";
 	private FinderPath _finderPathFetchByA_L;
 	private FinderPath _finderPathCountByA_L;
 
@@ -810,9 +812,9 @@ public class JournalArticleLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_L_ARTICLEPK_2 = "journalArticleLocalization.articlePK = ? AND ";
-	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_2 = "journalArticleLocalization.languageId = ?";
-	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_3 = "(journalArticleLocalization.languageId IS NULL OR journalArticleLocalization.languageId = '')";
+	private static final String _FINDER_COLUMN_A_L_ARTICLEPK_2_SQL = "journalArticleLocalization.articlePK = ? AND ";
+	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_2_SQL = "journalArticleLocalization.languageId = ?";
+	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_3_SQL = "(journalArticleLocalization.languageId IS NULL OR journalArticleLocalization.languageId = '')";
 
 	public JournalArticleLocalizationPersistenceImpl() {
 		setModelClass(JournalArticleLocalization.class);
@@ -1396,6 +1398,11 @@ public class JournalArticleLocalizationPersistenceImpl
 	}
 
 	@Override
+	public Set<String> getBadColumnNames() {
+		return _badColumnNames;
+	}
+
+	@Override
 	protected EntityCache getEntityCache() {
 		return entityCache;
 	}
@@ -1494,4 +1501,7 @@ public class JournalArticleLocalizationPersistenceImpl
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No JournalArticleLocalization exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No JournalArticleLocalization exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(JournalArticleLocalizationPersistenceImpl.class);
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+				"description"
+			});
 }

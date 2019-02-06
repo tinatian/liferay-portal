@@ -203,12 +203,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -431,12 +431,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -565,12 +565,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -605,8 +605,8 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "pollsVote.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(pollsVote.uuid IS NULL OR pollsVote.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "pollsVote.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(pollsVote.uuid_ IS NULL OR pollsVote.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -697,12 +697,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -796,12 +796,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -840,9 +840,9 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "pollsVote.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(pollsVote.uuid IS NULL OR pollsVote.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "pollsVote.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "pollsVote.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(pollsVote.uuid_ IS NULL OR pollsVote.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "pollsVote.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -973,12 +973,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1219,12 +1219,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1359,12 +1359,12 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1403,9 +1403,9 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "pollsVote.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(pollsVote.uuid IS NULL OR pollsVote.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "pollsVote.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "pollsVote.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(pollsVote.uuid_ IS NULL OR pollsVote.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "pollsVote.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByQuestionId;
 	private FinderPath _finderPathWithoutPaginationFindByQuestionId;
 	private FinderPath _finderPathCountByQuestionId;
@@ -1892,7 +1892,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_QUESTIONID_QUESTIONID_2 = "pollsVote.questionId = ?";
+	private static final String _FINDER_COLUMN_QUESTIONID_QUESTIONID_2_SQL = "pollsVote.questionId = ?";
 	private FinderPath _finderPathWithPaginationFindByChoiceId;
 	private FinderPath _finderPathWithoutPaginationFindByChoiceId;
 	private FinderPath _finderPathCountByChoiceId;
@@ -2376,7 +2376,7 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CHOICEID_CHOICEID_2 = "pollsVote.choiceId = ?";
+	private static final String _FINDER_COLUMN_CHOICEID_CHOICEID_2_SQL = "pollsVote.choiceId = ?";
 	private FinderPath _finderPathWithPaginationFindByQ_U;
 	private FinderPath _finderPathWithoutPaginationFindByQ_U;
 	private FinderPath _finderPathCountByQ_U;
@@ -2898,8 +2898,8 @@ public class PollsVotePersistenceImpl extends BasePersistenceImpl<PollsVote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_Q_U_QUESTIONID_2 = "pollsVote.questionId = ? AND ";
-	private static final String _FINDER_COLUMN_Q_U_USERID_2 = "pollsVote.userId = ?";
+	private static final String _FINDER_COLUMN_Q_U_QUESTIONID_2_SQL = "pollsVote.questionId = ? AND ";
+	private static final String _FINDER_COLUMN_Q_U_USERID_2_SQL = "pollsVote.userId = ?";
 
 	public PollsVotePersistenceImpl() {
 		setModelClass(PollsVote.class);

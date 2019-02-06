@@ -566,7 +566,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2 = "lvEntryVersion.lvEntryId = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL = "lvEntryVersion.lvEntryId = ?";
 	private FinderPath _finderPathFetchByLvEntryId_Version;
 	private FinderPath _finderPathCountByLvEntryId_Version;
 
@@ -777,8 +777,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2 = "lvEntryVersion.lvEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL =
+		"lvEntryVersion.lvEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid;
 	private FinderPath _finderPathWithoutPaginationFindByUuid;
 	private FinderPath _finderPathCountByUuid;
@@ -898,12 +899,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1127,12 +1128,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1261,12 +1262,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1301,8 +1302,8 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "lvEntryVersion.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(lvEntryVersion.uuid IS NULL OR lvEntryVersion.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "lvEntryVersion.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(lvEntryVersion.uuid_ IS NULL OR lvEntryVersion.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_Version;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_Version;
 	private FinderPath _finderPathCountByUuid_Version;
@@ -1435,12 +1436,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2);
@@ -1682,12 +1683,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_VERSION_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_VERSION_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2);
@@ -1822,12 +1823,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_VERSION_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_VERSION_VERSION_2);
@@ -1866,9 +1867,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_VERSION_UUID_2 = "lvEntryVersion.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_VERSION_UUID_3 = "(lvEntryVersion.uuid IS NULL OR lvEntryVersion.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_UUID_VERSION_UUID_2_SQL = "lvEntryVersion.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_VERSION_UUID_3_SQL = "(lvEntryVersion.uuid_ IS NULL OR lvEntryVersion.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByUUID_G;
 	private FinderPath _finderPathWithoutPaginationFindByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
@@ -2000,12 +2001,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -2247,12 +2248,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -2387,12 +2388,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -2431,9 +2432,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "lvEntryVersion.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(lvEntryVersion.uuid IS NULL OR lvEntryVersion.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "lvEntryVersion.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "lvEntryVersion.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(lvEntryVersion.uuid_ IS NULL OR lvEntryVersion.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "lvEntryVersion.groupId = ?";
 	private FinderPath _finderPathFetchByUUID_G_Version;
 	private FinderPath _finderPathCountByUUID_G_Version;
 
@@ -2533,12 +2534,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_VERSION_GROUPID_2);
@@ -2640,12 +2641,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_VERSION_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_VERSION_GROUPID_2);
@@ -2688,10 +2689,10 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_VERSION_UUID_2 = "lvEntryVersion.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_VERSION_UUID_3 = "(lvEntryVersion.uuid IS NULL OR lvEntryVersion.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_VERSION_GROUPID_2 = "lvEntryVersion.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_UUID_G_VERSION_UUID_2_SQL = "lvEntryVersion.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_VERSION_UUID_3_SQL = "(lvEntryVersion.uuid_ IS NULL OR lvEntryVersion.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_VERSION_GROUPID_2_SQL = "lvEntryVersion.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -3177,7 +3178,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "lvEntryVersion.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "lvEntryVersion.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId_Version;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId_Version;
 	private FinderPath _finderPathCountByGroupId_Version;
@@ -3703,8 +3704,8 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_VERSION_GROUPID_2 = "lvEntryVersion.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_GROUPID_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL = "lvEntryVersion.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByG_UGK;
 	private FinderPath _finderPathWithoutPaginationFindByG_UGK;
 	private FinderPath _finderPathCountByG_UGK;
@@ -4273,9 +4274,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_UGK_GROUPID_2 = "lvEntryVersion.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2 = "lvEntryVersion.uniqueGroupKey = ?";
-	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3 = "(lvEntryVersion.uniqueGroupKey IS NULL OR lvEntryVersion.uniqueGroupKey = '')";
+	private static final String _FINDER_COLUMN_G_UGK_GROUPID_2_SQL = "lvEntryVersion.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2_SQL = "lvEntryVersion.uniqueGroupKey = ?";
+	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3_SQL = "(lvEntryVersion.uniqueGroupKey IS NULL OR lvEntryVersion.uniqueGroupKey = '')";
 	private FinderPath _finderPathFetchByG_UGK_Version;
 	private FinderPath _finderPathCountByG_UGK_Version;
 
@@ -4534,10 +4535,12 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_UGK_VERSION_GROUPID_2 = "lvEntryVersion.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_2 = "lvEntryVersion.uniqueGroupKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_3 = "(lvEntryVersion.uniqueGroupKey IS NULL OR lvEntryVersion.uniqueGroupKey = '') AND ";
-	private static final String _FINDER_COLUMN_G_UGK_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_G_UGK_VERSION_GROUPID_2_SQL = "lvEntryVersion.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_2_SQL =
+		"lvEntryVersion.uniqueGroupKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_UGK_VERSION_UNIQUEGROUPKEY_3_SQL =
+		"(lvEntryVersion.uniqueGroupKey IS NULL OR lvEntryVersion.uniqueGroupKey = '') AND ";
+	private static final String _FINDER_COLUMN_G_UGK_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 
 	public LVEntryVersionPersistenceImpl() {
 		setModelClass(LVEntryVersion.class);

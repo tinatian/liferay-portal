@@ -165,12 +165,12 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_KEY_KEY_3);
+				query.append(_FINDER_COLUMN_KEY_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_KEY_KEY_2);
+				query.append(_FINDER_COLUMN_KEY_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -269,12 +269,12 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_KEY_KEY_3);
+				query.append(_FINDER_COLUMN_KEY_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_KEY_KEY_2);
+				query.append(_FINDER_COLUMN_KEY_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -309,8 +309,8 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KEY_KEY_2 = "memberRequest.key = ?";
-	private static final String _FINDER_COLUMN_KEY_KEY_3 = "(memberRequest.key IS NULL OR memberRequest.key = '')";
+	private static final String _FINDER_COLUMN_KEY_KEY_2_SQL = "memberRequest.key_ = ?";
+	private static final String _FINDER_COLUMN_KEY_KEY_3_SQL = "(memberRequest.key_ IS NULL OR memberRequest.key_ = '')";
 	private FinderPath _finderPathWithPaginationFindByReceiverUserId;
 	private FinderPath _finderPathWithoutPaginationFindByReceiverUserId;
 	private FinderPath _finderPathCountByReceiverUserId;
@@ -804,7 +804,8 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2 = "memberRequest.receiverUserId = ?";
+	private static final String _FINDER_COLUMN_RECEIVERUSERID_RECEIVERUSERID_2_SQL =
+		"memberRequest.receiverUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_S;
 	private FinderPath _finderPathCountByR_S;
@@ -1328,8 +1329,8 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_S_RECEIVERUSERID_2 = "memberRequest.receiverUserId = ? AND ";
-	private static final String _FINDER_COLUMN_R_S_STATUS_2 = "memberRequest.status = ?";
+	private static final String _FINDER_COLUMN_R_S_RECEIVERUSERID_2_SQL = "memberRequest.receiverUserId = ? AND ";
+	private static final String _FINDER_COLUMN_R_S_STATUS_2_SQL = "memberRequest.status = ?";
 	private FinderPath _finderPathFetchByG_R_S;
 	private FinderPath _finderPathCountByG_R_S;
 
@@ -1568,9 +1569,9 @@ public class MemberRequestPersistenceImpl extends BasePersistenceImpl<MemberRequ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_R_S_GROUPID_2 = "memberRequest.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_R_S_RECEIVERUSERID_2 = "memberRequest.receiverUserId = ? AND ";
-	private static final String _FINDER_COLUMN_G_R_S_STATUS_2 = "memberRequest.status = ?";
+	private static final String _FINDER_COLUMN_G_R_S_GROUPID_2_SQL = "memberRequest.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_R_S_RECEIVERUSERID_2_SQL = "memberRequest.receiverUserId = ? AND ";
+	private static final String _FINDER_COLUMN_G_R_S_STATUS_2_SQL = "memberRequest.status = ?";
 
 	public MemberRequestPersistenceImpl() {
 		setModelClass(MemberRequest.class);

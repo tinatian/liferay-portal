@@ -565,7 +565,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "userGroupRole.id.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "userGroupRole.id.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1053,7 +1053,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "userGroupRole.id.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "userGroupRole.id.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByRoleId;
 	private FinderPath _finderPathWithoutPaginationFindByRoleId;
 	private FinderPath _finderPathCountByRoleId;
@@ -1540,7 +1540,7 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 = "userGroupRole.id.roleId = ?";
+	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2_SQL = "userGroupRole.id.roleId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_G;
 	private FinderPath _finderPathWithoutPaginationFindByU_G;
 	private FinderPath _finderPathCountByU_G;
@@ -2064,8 +2064,8 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_G_USERID_2 = "userGroupRole.id.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_G_GROUPID_2 = "userGroupRole.id.groupId = ?";
+	private static final String _FINDER_COLUMN_U_G_USERID_2_SQL = "userGroupRole.id.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_G_GROUPID_2_SQL = "userGroupRole.id.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_R;
 	private FinderPath _finderPathWithoutPaginationFindByG_R;
 	private FinderPath _finderPathCountByG_R;
@@ -2589,8 +2589,8 @@ public class UserGroupRolePersistenceImpl extends BasePersistenceImpl<UserGroupR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_R_GROUPID_2 = "userGroupRole.id.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_R_ROLEID_2 = "userGroupRole.id.roleId = ?";
+	private static final String _FINDER_COLUMN_G_R_GROUPID_2_SQL = "userGroupRole.id.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_R_ROLEID_2_SQL = "userGroupRole.id.roleId = ?";
 
 	public UserGroupRolePersistenceImpl() {
 		setModelClass(UserGroupRole.class);

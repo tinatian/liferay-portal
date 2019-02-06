@@ -586,7 +586,7 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2 =
+	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2_SQL =
 		"wikiPage.resourcePrimKey = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid;
 	private FinderPath _finderPathWithoutPaginationFindByUuid;
@@ -706,12 +706,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -934,12 +934,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1068,12 +1068,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1108,8 +1108,8 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "wikiPage.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(wikiPage.uuid IS NULL OR wikiPage.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "wikiPage.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(wikiPage.uuid_ IS NULL OR wikiPage.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -1200,12 +1200,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -1299,12 +1299,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -1343,9 +1343,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "wikiPage.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(wikiPage.uuid IS NULL OR wikiPage.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "wikiPage.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "wikiPage.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(wikiPage.uuid_ IS NULL OR wikiPage.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "wikiPage.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -1476,12 +1476,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1722,12 +1722,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1862,12 +1862,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1906,9 +1906,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "wikiPage.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(wikiPage.uuid IS NULL OR wikiPage.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "wikiPage.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "wikiPage.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(wikiPage.uuid_ IS NULL OR wikiPage.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "wikiPage.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByNodeId;
 	private FinderPath _finderPathWithoutPaginationFindByNodeId;
 	private FinderPath _finderPathCountByNodeId;
@@ -2390,7 +2390,7 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_NODEID_NODEID_2 = "wikiPage.nodeId = ?";
+	private static final String _FINDER_COLUMN_NODEID_NODEID_2_SQL = "wikiPage.nodeId = ?";
 	private FinderPath _finderPathWithPaginationFindByFormat;
 	private FinderPath _finderPathWithoutPaginationFindByFormat;
 	private FinderPath _finderPathCountByFormat;
@@ -2911,8 +2911,8 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FORMAT_FORMAT_2 = "wikiPage.format = ?";
-	private static final String _FINDER_COLUMN_FORMAT_FORMAT_3 = "(wikiPage.format IS NULL OR wikiPage.format = '')";
+	private static final String _FINDER_COLUMN_FORMAT_FORMAT_2_SQL = "wikiPage.format = ?";
+	private static final String _FINDER_COLUMN_FORMAT_FORMAT_3_SQL = "(wikiPage.format IS NULL OR wikiPage.format = '')";
 	private FinderPath _finderPathWithPaginationFindByR_N;
 	private FinderPath _finderPathWithoutPaginationFindByR_N;
 	private FinderPath _finderPathCountByR_N;
@@ -3435,8 +3435,8 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_N_RESOURCEPRIMKEY_2 = "wikiPage.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_NODEID_2 = "wikiPage.nodeId = ?";
+	private static final String _FINDER_COLUMN_R_N_RESOURCEPRIMKEY_2_SQL = "wikiPage.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_NODEID_2_SQL = "wikiPage.nodeId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_S;
 	private FinderPath _finderPathCountByR_S;
@@ -3959,8 +3959,8 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_S_RESOURCEPRIMKEY_2 = "wikiPage.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_R_S_RESOURCEPRIMKEY_2_SQL = "wikiPage.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByN_T;
 	private FinderPath _finderPathWithoutPaginationFindByN_T;
 	private FinderPath _finderPathCountByN_T;
@@ -4518,9 +4518,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_T_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_TITLE_2 = "lower(wikiPage.title) = ?";
-	private static final String _FINDER_COLUMN_N_T_TITLE_3 = "(wikiPage.title IS NULL OR wikiPage.title = '')";
+	private static final String _FINDER_COLUMN_N_T_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_TITLE_2_SQL = "lower(wikiPage.title) = ?";
+	private static final String _FINDER_COLUMN_N_T_TITLE_3_SQL = "(wikiPage.title IS NULL OR wikiPage.title = '')";
 	private FinderPath _finderPathWithPaginationFindByN_H;
 	private FinderPath _finderPathWithoutPaginationFindByN_H;
 	private FinderPath _finderPathCountByN_H;
@@ -5039,8 +5039,8 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_HEAD_2 = "wikiPage.head = ?";
+	private static final String _FINDER_COLUMN_N_H_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_HEAD_2_SQL = "wikiPage.head = ?";
 	private FinderPath _finderPathWithPaginationFindByN_P;
 	private FinderPath _finderPathWithoutPaginationFindByN_P;
 	private FinderPath _finderPathCountByN_P;
@@ -5602,9 +5602,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_P_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_P_PARENTTITLE_2 = "lower(wikiPage.parentTitle) = ?";
-	private static final String _FINDER_COLUMN_N_P_PARENTTITLE_3 = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '')";
+	private static final String _FINDER_COLUMN_N_P_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_P_PARENTTITLE_2_SQL = "lower(wikiPage.parentTitle) = ?";
+	private static final String _FINDER_COLUMN_N_P_PARENTTITLE_3_SQL = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByN_R;
 	private FinderPath _finderPathWithoutPaginationFindByN_R;
 	private FinderPath _finderPathCountByN_R;
@@ -6166,9 +6166,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_R_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_R_REDIRECTTITLE_2 = "lower(wikiPage.redirectTitle) = ?";
-	private static final String _FINDER_COLUMN_N_R_REDIRECTTITLE_3 = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '')";
+	private static final String _FINDER_COLUMN_N_R_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_R_REDIRECTTITLE_2_SQL = "lower(wikiPage.redirectTitle) = ?";
+	private static final String _FINDER_COLUMN_N_R_REDIRECTTITLE_3_SQL = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByN_S;
 	private FinderPath _finderPathWithoutPaginationFindByN_S;
 	private FinderPath _finderPathCountByN_S;
@@ -6686,8 +6686,8 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_N_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathFetchByR_N_V;
 	private FinderPath _finderPathCountByR_N_V;
 
@@ -6913,9 +6913,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_N_V_RESOURCEPRIMKEY_2 = "wikiPage.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_V_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_V_VERSION_2 = "wikiPage.version = ?";
+	private static final String _FINDER_COLUMN_R_N_V_RESOURCEPRIMKEY_2_SQL = "wikiPage.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_V_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_V_VERSION_2_SQL = "wikiPage.version = ?";
 	private FinderPath _finderPathWithPaginationFindByR_N_H;
 	private FinderPath _finderPathWithoutPaginationFindByR_N_H;
 	private FinderPath _finderPathCountByR_N_H;
@@ -7471,9 +7471,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_N_H_RESOURCEPRIMKEY_2 = "wikiPage.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_H_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_H_HEAD_2 = "wikiPage.head = ?";
+	private static final String _FINDER_COLUMN_R_N_H_RESOURCEPRIMKEY_2_SQL = "wikiPage.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_H_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_H_HEAD_2_SQL = "wikiPage.head = ?";
 	private FinderPath _finderPathWithPaginationFindByR_N_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_N_S;
 	private FinderPath _finderPathCountByR_N_S;
@@ -8029,9 +8029,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_N_S_RESOURCEPRIMKEY_2 = "wikiPage.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_R_N_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_R_N_S_RESOURCEPRIMKEY_2_SQL = "wikiPage.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_R_N_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_H;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_H;
 	private FinderPath _finderPathCountByG_N_H;
@@ -8978,9 +8978,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_N_H_GROUPID_2 = "wikiPage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_HEAD_2 = "wikiPage.head = ?";
+	private static final String _FINDER_COLUMN_G_N_H_GROUPID_2_SQL = "wikiPage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_HEAD_2_SQL = "wikiPage.head = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_S;
 	private FinderPath _finderPathCountByG_N_S;
@@ -9927,9 +9927,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_N_S_GROUPID_2 = "wikiPage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_G_N_S_GROUPID_2_SQL = "wikiPage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_N_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_N_S;
 	private FinderPath _finderPathCountByU_N_S;
@@ -10482,9 +10482,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_N_S_USERID_2 = "wikiPage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_N_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_U_N_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_U_N_S_USERID_2_SQL = "wikiPage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_N_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_U_N_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathFetchByN_T_V;
 	private FinderPath _finderPathCountByN_T_V;
 
@@ -10735,10 +10735,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_T_V_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_V_TITLE_2 = "lower(wikiPage.title) = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_V_TITLE_3 = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
-	private static final String _FINDER_COLUMN_N_T_V_VERSION_2 = "wikiPage.version = ?";
+	private static final String _FINDER_COLUMN_N_T_V_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_V_TITLE_2_SQL = "lower(wikiPage.title) = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_V_TITLE_3_SQL = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
+	private static final String _FINDER_COLUMN_N_T_V_VERSION_2_SQL = "wikiPage.version = ?";
 	private FinderPath _finderPathWithPaginationFindByN_T_H;
 	private FinderPath _finderPathWithoutPaginationFindByN_T_H;
 	private FinderPath _finderPathCountByN_T_H;
@@ -11331,10 +11331,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_T_H_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_H_TITLE_2 = "lower(wikiPage.title) = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_H_TITLE_3 = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
-	private static final String _FINDER_COLUMN_N_T_H_HEAD_2 = "wikiPage.head = ?";
+	private static final String _FINDER_COLUMN_N_T_H_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_H_TITLE_2_SQL = "lower(wikiPage.title) = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_H_TITLE_3_SQL = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
+	private static final String _FINDER_COLUMN_N_T_H_HEAD_2_SQL = "wikiPage.head = ?";
 	private FinderPath _finderPathWithPaginationFindByN_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByN_T_S;
 	private FinderPath _finderPathCountByN_T_S;
@@ -11926,10 +11926,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_T_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_S_TITLE_2 = "lower(wikiPage.title) = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_S_TITLE_3 = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
-	private static final String _FINDER_COLUMN_N_T_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_N_T_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_S_TITLE_2_SQL = "lower(wikiPage.title) = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_S_TITLE_3_SQL = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
+	private static final String _FINDER_COLUMN_N_T_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByN_H_P;
 	private FinderPath _finderPathWithoutPaginationFindByN_H_P;
 	private FinderPath _finderPathCountByN_H_P;
@@ -12524,10 +12524,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_P_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_PARENTTITLE_2 = "lower(wikiPage.parentTitle) = ?";
-	private static final String _FINDER_COLUMN_N_H_P_PARENTTITLE_3 = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '')";
+	private static final String _FINDER_COLUMN_N_H_P_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_PARENTTITLE_2_SQL = "lower(wikiPage.parentTitle) = ?";
+	private static final String _FINDER_COLUMN_N_H_P_PARENTTITLE_3_SQL = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByN_H_R;
 	private FinderPath _finderPathWithoutPaginationFindByN_H_R;
 	private FinderPath _finderPathCountByN_H_R;
@@ -13122,10 +13122,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_R_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_REDIRECTTITLE_2 = "lower(wikiPage.redirectTitle) = ?";
-	private static final String _FINDER_COLUMN_N_H_R_REDIRECTTITLE_3 = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '')";
+	private static final String _FINDER_COLUMN_N_H_R_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_REDIRECTTITLE_2_SQL = "lower(wikiPage.redirectTitle) = ?";
+	private static final String _FINDER_COLUMN_N_H_R_REDIRECTTITLE_3_SQL = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByN_H_S;
 	private FinderPath _finderPathWithoutPaginationFindByN_H_S;
 	private FinderPath _finderPathCountByN_H_S;
@@ -13678,9 +13678,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_S_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_N_H_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_S_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByN_H_NotS;
 	private FinderPath _finderPathWithPaginationCountByN_H_NotS;
 
@@ -14224,9 +14224,9 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_NOTS_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_NOTS_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_NOTS_STATUS_2 = "wikiPage.status != ?";
+	private static final String _FINDER_COLUMN_N_H_NOTS_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_NOTS_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_NOTS_STATUS_2_SQL = "wikiPage.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_N_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_N_S;
 	private FinderPath _finderPathCountByG_U_N_S;
@@ -15227,10 +15227,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_N_S_GROUPID_2 = "wikiPage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_N_S_USERID_2 = "wikiPage.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_N_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_N_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_G_U_N_S_GROUPID_2_SQL = "wikiPage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_N_S_USERID_2_SQL = "wikiPage.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_N_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_N_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_T_H;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_T_H;
 	private FinderPath _finderPathCountByG_N_T_H;
@@ -16315,11 +16315,11 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_N_T_H_GROUPID_2 = "wikiPage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_H_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_H_TITLE_2 = "lower(wikiPage.title) = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_H_TITLE_3 = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_T_H_HEAD_2 = "wikiPage.head = ?";
+	private static final String _FINDER_COLUMN_G_N_T_H_GROUPID_2_SQL = "wikiPage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_H_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_H_TITLE_2_SQL = "lower(wikiPage.title) = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_H_TITLE_3_SQL = "(wikiPage.title IS NULL OR wikiPage.title = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_T_H_HEAD_2_SQL = "wikiPage.head = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_H_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_H_S;
 	private FinderPath _finderPathCountByG_N_H_S;
@@ -17321,10 +17321,10 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_N_H_S_GROUPID_2 = "wikiPage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_S_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_G_N_H_S_GROUPID_2_SQL = "wikiPage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_S_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByN_H_P_S;
 	private FinderPath _finderPathWithoutPaginationFindByN_H_P_S;
 	private FinderPath _finderPathCountByN_H_P_S;
@@ -17956,11 +17956,11 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_P_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_S_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_S_PARENTTITLE_2 = "lower(wikiPage.parentTitle) = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_S_PARENTTITLE_3 = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '') AND ";
-	private static final String _FINDER_COLUMN_N_H_P_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_N_H_P_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_S_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_S_PARENTTITLE_2_SQL = "lower(wikiPage.parentTitle) = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_S_PARENTTITLE_3_SQL = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '') AND ";
+	private static final String _FINDER_COLUMN_N_H_P_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByN_H_P_NotS;
 	private FinderPath _finderPathWithPaginationCountByN_H_P_NotS;
 
@@ -18584,11 +18584,11 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_P_NOTS_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_NOTS_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_NOTS_PARENTTITLE_2 = "lower(wikiPage.parentTitle) = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_P_NOTS_PARENTTITLE_3 = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '') AND ";
-	private static final String _FINDER_COLUMN_N_H_P_NOTS_STATUS_2 = "wikiPage.status != ?";
+	private static final String _FINDER_COLUMN_N_H_P_NOTS_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_NOTS_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_NOTS_PARENTTITLE_2_SQL = "lower(wikiPage.parentTitle) = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_P_NOTS_PARENTTITLE_3_SQL = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '') AND ";
+	private static final String _FINDER_COLUMN_N_H_P_NOTS_STATUS_2_SQL = "wikiPage.status != ?";
 	private FinderPath _finderPathWithPaginationFindByN_H_R_S;
 	private FinderPath _finderPathWithoutPaginationFindByN_H_R_S;
 	private FinderPath _finderPathCountByN_H_R_S;
@@ -19221,11 +19221,11 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_R_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_S_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_S_REDIRECTTITLE_2 = "lower(wikiPage.redirectTitle) = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_S_REDIRECTTITLE_3 = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '') AND ";
-	private static final String _FINDER_COLUMN_N_H_R_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_N_H_R_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_S_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_S_REDIRECTTITLE_2_SQL = "lower(wikiPage.redirectTitle) = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_S_REDIRECTTITLE_3_SQL = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '') AND ";
+	private static final String _FINDER_COLUMN_N_H_R_S_STATUS_2_SQL = "wikiPage.status = ?";
 	private FinderPath _finderPathWithPaginationFindByN_H_R_NotS;
 	private FinderPath _finderPathWithPaginationCountByN_H_R_NotS;
 
@@ -19849,11 +19849,11 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_H_R_NOTS_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_NOTS_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_NOTS_REDIRECTTITLE_2 = "lower(wikiPage.redirectTitle) = ? AND ";
-	private static final String _FINDER_COLUMN_N_H_R_NOTS_REDIRECTTITLE_3 = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '') AND ";
-	private static final String _FINDER_COLUMN_N_H_R_NOTS_STATUS_2 = "wikiPage.status != ?";
+	private static final String _FINDER_COLUMN_N_H_R_NOTS_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_NOTS_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_NOTS_REDIRECTTITLE_2_SQL = "lower(wikiPage.redirectTitle) = ? AND ";
+	private static final String _FINDER_COLUMN_N_H_R_NOTS_REDIRECTTITLE_3_SQL = "(wikiPage.redirectTitle IS NULL OR wikiPage.redirectTitle = '') AND ";
+	private static final String _FINDER_COLUMN_N_H_R_NOTS_STATUS_2_SQL = "wikiPage.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_H_P_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_H_P_S;
 	private FinderPath _finderPathCountByG_N_H_P_S;
@@ -20991,12 +20991,12 @@ public class WikiPagePersistenceImpl extends BasePersistenceImpl<WikiPage>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_N_H_P_S_GROUPID_2 = "wikiPage.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_P_S_NODEID_2 = "wikiPage.nodeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_P_S_HEAD_2 = "wikiPage.head = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_P_S_PARENTTITLE_2 = "lower(wikiPage.parentTitle) = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_H_P_S_PARENTTITLE_3 = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_H_P_S_STATUS_2 = "wikiPage.status = ?";
+	private static final String _FINDER_COLUMN_G_N_H_P_S_GROUPID_2_SQL = "wikiPage.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_P_S_NODEID_2_SQL = "wikiPage.nodeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_P_S_HEAD_2_SQL = "wikiPage.head = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_P_S_PARENTTITLE_2_SQL = "lower(wikiPage.parentTitle) = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_H_P_S_PARENTTITLE_3_SQL = "(wikiPage.parentTitle IS NULL OR wikiPage.parentTitle = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_H_P_S_STATUS_2_SQL = "wikiPage.status = ?";
 
 	public WikiPagePersistenceImpl() {
 		setModelClass(WikiPage.class);

@@ -569,7 +569,7 @@ public class SubscriptionPersistenceImpl extends BasePersistenceImpl<Subscriptio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "subscription.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "subscription.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U;
 	private FinderPath _finderPathWithoutPaginationFindByG_U;
 	private FinderPath _finderPathCountByG_U;
@@ -1093,8 +1093,8 @@ public class SubscriptionPersistenceImpl extends BasePersistenceImpl<Subscriptio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "subscription.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "subscription.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "subscription.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "subscription.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C;
 	private FinderPath _finderPathWithoutPaginationFindByU_C;
 	private FinderPath _finderPathCountByU_C;
@@ -1619,8 +1619,8 @@ public class SubscriptionPersistenceImpl extends BasePersistenceImpl<Subscriptio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_USERID_2 = "subscription.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_CLASSNAMEID_2 = "subscription.classNameId = ?";
+	private static final String _FINDER_COLUMN_U_C_USERID_2_SQL = "subscription.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_CLASSNAMEID_2_SQL = "subscription.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C;
 	private FinderPath _finderPathCountByC_C_C;
@@ -2179,9 +2179,9 @@ public class SubscriptionPersistenceImpl extends BasePersistenceImpl<Subscriptio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2 = "subscription.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2 = "subscription.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2 = "subscription.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_C_COMPANYID_2_SQL = "subscription.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL = "subscription.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2_SQL = "subscription.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByC_U_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_U_C_C;
 	private FinderPath _finderPathFetchByC_U_C_C;
@@ -2762,11 +2762,11 @@ public class SubscriptionPersistenceImpl extends BasePersistenceImpl<Subscriptio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_C_C_COMPANYID_2 = "subscription.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_C_C_USERID_2 = "subscription.userId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_C_C_CLASSNAMEID_2 = "subscription.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_C_C_CLASSPK_2 = "subscription.classPK = ?";
-	private static final String _FINDER_COLUMN_C_U_C_C_CLASSPK_7 = "subscription.classPK IN (";
+	private static final String _FINDER_COLUMN_C_U_C_C_COMPANYID_2_SQL = "subscription.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_C_C_USERID_2_SQL = "subscription.userId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_C_C_CLASSNAMEID_2_SQL = "subscription.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_C_C_CLASSPK_2_SQL = "subscription.classPK = ?";
+	private static final String _FINDER_COLUMN_C_U_C_C_CLASSPK_7_SQL = "subscription.classPK IN (";
 
 	public SubscriptionPersistenceImpl() {
 		setModelClass(Subscription.class);

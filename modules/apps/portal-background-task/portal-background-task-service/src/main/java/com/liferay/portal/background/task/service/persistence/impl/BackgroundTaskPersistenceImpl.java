@@ -567,7 +567,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "backgroundTask.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "backgroundTask.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1055,7 +1055,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "backgroundTask.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "backgroundTask.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompleted;
 	private FinderPath _finderPathWithoutPaginationFindByCompleted;
 	private FinderPath _finderPathCountByCompleted;
@@ -1543,7 +1543,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPLETED_COMPLETED_2 = "backgroundTask.completed = ?";
+	private static final String _FINDER_COLUMN_COMPLETED_COMPLETED_2_SQL = "backgroundTask.completed = ?";
 	private FinderPath _finderPathWithPaginationFindByStatus;
 	private FinderPath _finderPathWithoutPaginationFindByStatus;
 	private FinderPath _finderPathCountByStatus;
@@ -2028,7 +2028,7 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUS_STATUS_2 = "backgroundTask.status = ?";
+	private static final String _FINDER_COLUMN_STATUS_STATUS_2_SQL = "backgroundTask.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_T;
 	private FinderPath _finderPathCountByG_T;
@@ -2971,10 +2971,10 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_T_GROUPID_2 = "backgroundTask.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_GROUPID_7 = "backgroundTask.groupId IN (";
-	private static final String _FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2 = "backgroundTask.taskExecutorClassName = ?";
-	private static final String _FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3 = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '')";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_2_SQL = "backgroundTask.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_7_SQL = "backgroundTask.groupId IN (";
+	private static final String _FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_2_SQL = "backgroundTask.taskExecutorClassName = ?";
+	private static final String _FINDER_COLUMN_G_T_TASKEXECUTORCLASSNAME_3_SQL = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '')";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -3497,8 +3497,8 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "backgroundTask.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "backgroundTask.status = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "backgroundTask.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "backgroundTask.status = ?";
 	private FinderPath _finderPathWithPaginationFindByT_S;
 	private FinderPath _finderPathWithoutPaginationFindByT_S;
 	private FinderPath _finderPathCountByT_S;
@@ -4398,13 +4398,13 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2 = "backgroundTask.taskExecutorClassName = ? AND ";
-	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3 = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
-	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5 = "(" +
+	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2_SQL = "backgroundTask.taskExecutorClassName = ? AND ";
+	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3_SQL = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
+	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_5_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_2) + ")";
-	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6 = "(" +
+	private static final String _FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_6_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_T_S_TASKEXECUTORCLASSNAME_3) + ")";
-	private static final String _FINDER_COLUMN_T_S_STATUS_2 = "backgroundTask.status = ?";
+	private static final String _FINDER_COLUMN_T_S_STATUS_2_SQL = "backgroundTask.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_T;
 	private FinderPath _finderPathCountByG_N_T;
@@ -5458,12 +5458,14 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_T_GROUPID_2 = "backgroundTask.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_GROUPID_7 = "backgroundTask.groupId IN (";
-	private static final String _FINDER_COLUMN_G_N_T_NAME_2 = "backgroundTask.name = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_NAME_3 = "(backgroundTask.name IS NULL OR backgroundTask.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2 = "backgroundTask.taskExecutorClassName = ?";
-	private static final String _FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3 = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '')";
+	private static final String _FINDER_COLUMN_G_N_T_GROUPID_2_SQL = "backgroundTask.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_GROUPID_7_SQL = "backgroundTask.groupId IN (";
+	private static final String _FINDER_COLUMN_G_N_T_NAME_2_SQL = "backgroundTask.name = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_NAME_3_SQL = "(backgroundTask.name IS NULL OR backgroundTask.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_2_SQL =
+		"backgroundTask.taskExecutorClassName = ?";
+	private static final String _FINDER_COLUMN_G_N_T_TASKEXECUTORCLASSNAME_3_SQL =
+		"(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '')";
 	private FinderPath _finderPathWithPaginationFindByG_T_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_T_C;
 	private FinderPath _finderPathCountByG_T_C;
@@ -6461,15 +6463,19 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_T_C_GROUPID_2 = "backgroundTask.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_C_GROUPID_7 = "backgroundTask.groupId IN (";
-	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2 = "backgroundTask.taskExecutorClassName = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3 = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
-	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5 = "(" +
-		removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2) + ")";
-	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6 = "(" +
-		removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3) + ")";
-	private static final String _FINDER_COLUMN_G_T_C_COMPLETED_2 = "backgroundTask.completed = ?";
+	private static final String _FINDER_COLUMN_G_T_C_GROUPID_2_SQL = "backgroundTask.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_C_GROUPID_7_SQL = "backgroundTask.groupId IN (";
+	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2_SQL =
+		"backgroundTask.taskExecutorClassName = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3_SQL =
+		"(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
+	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_5_SQL =
+		"(" + removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_2) +
+		")";
+	private static final String _FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_6_SQL =
+		"(" + removeConjunction(_FINDER_COLUMN_G_T_C_TASKEXECUTORCLASSNAME_3) +
+		")";
+	private static final String _FINDER_COLUMN_G_T_C_COMPLETED_2_SQL = "backgroundTask.completed = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_T_S;
 	private FinderPath _finderPathCountByG_T_S;
@@ -7425,14 +7431,18 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_T_S_GROUPID_2 = "backgroundTask.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2 = "backgroundTask.taskExecutorClassName = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3 = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
-	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5 = "(" +
-		removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2) + ")";
-	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6 = "(" +
-		removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3) + ")";
-	private static final String _FINDER_COLUMN_G_T_S_STATUS_2 = "backgroundTask.status = ?";
+	private static final String _FINDER_COLUMN_G_T_S_GROUPID_2_SQL = "backgroundTask.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2_SQL =
+		"backgroundTask.taskExecutorClassName = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3_SQL =
+		"(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
+	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_5_SQL =
+		"(" + removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_2) +
+		")";
+	private static final String _FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_6_SQL =
+		"(" + removeConjunction(_FINDER_COLUMN_G_T_S_TASKEXECUTORCLASSNAME_3) +
+		")";
+	private static final String _FINDER_COLUMN_G_T_S_STATUS_2_SQL = "backgroundTask.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N_T_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_N_T_C;
 	private FinderPath _finderPathCountByG_N_T_C;
@@ -8486,13 +8496,15 @@ public class BackgroundTaskPersistenceImpl extends BasePersistenceImpl<Backgroun
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_T_C_GROUPID_2 = "backgroundTask.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_C_GROUPID_7 = "backgroundTask.groupId IN (";
-	private static final String _FINDER_COLUMN_G_N_T_C_NAME_2 = "backgroundTask.name = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_C_NAME_3 = "(backgroundTask.name IS NULL OR backgroundTask.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2 = "backgroundTask.taskExecutorClassName = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3 = "(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_T_C_COMPLETED_2 = "backgroundTask.completed = ?";
+	private static final String _FINDER_COLUMN_G_N_T_C_GROUPID_2_SQL = "backgroundTask.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_C_GROUPID_7_SQL = "backgroundTask.groupId IN (";
+	private static final String _FINDER_COLUMN_G_N_T_C_NAME_2_SQL = "backgroundTask.name = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_C_NAME_3_SQL = "(backgroundTask.name IS NULL OR backgroundTask.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_2_SQL =
+		"backgroundTask.taskExecutorClassName = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_T_C_TASKEXECUTORCLASSNAME_3_SQL =
+		"(backgroundTask.taskExecutorClassName IS NULL OR backgroundTask.taskExecutorClassName = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_T_C_COMPLETED_2_SQL = "backgroundTask.completed = ?";
 
 	public BackgroundTaskPersistenceImpl() {
 		setModelClass(BackgroundTask.class);

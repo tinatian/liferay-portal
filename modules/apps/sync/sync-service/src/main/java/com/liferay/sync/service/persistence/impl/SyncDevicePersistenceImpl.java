@@ -204,12 +204,12 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -432,12 +432,12 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -566,12 +566,12 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -606,8 +606,8 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "syncDevice.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(syncDevice.uuid IS NULL OR syncDevice.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "syncDevice.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(syncDevice.uuid_ IS NULL OR syncDevice.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -738,12 +738,12 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -985,12 +985,12 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1125,12 +1125,12 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1169,9 +1169,9 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "syncDevice.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(syncDevice.uuid IS NULL OR syncDevice.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "syncDevice.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "syncDevice.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(syncDevice.uuid_ IS NULL OR syncDevice.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "syncDevice.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1654,7 +1654,7 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "syncDevice.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "syncDevice.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_U;
 	private FinderPath _finderPathWithPaginationCountByC_U;
 
@@ -2210,9 +2210,9 @@ public class SyncDevicePersistenceImpl extends BasePersistenceImpl<SyncDevice>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_COMPANYID_2 = "syncDevice.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_USERNAME_2 = "lower(syncDevice.userName) LIKE ?";
-	private static final String _FINDER_COLUMN_C_U_USERNAME_3 = "(syncDevice.userName IS NULL OR syncDevice.userName LIKE '')";
+	private static final String _FINDER_COLUMN_C_U_COMPANYID_2_SQL = "syncDevice.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_USERNAME_2_SQL = "lower(syncDevice.userName) LIKE ?";
+	private static final String _FINDER_COLUMN_C_U_USERNAME_3_SQL = "(syncDevice.userName IS NULL OR syncDevice.userName LIKE '')";
 
 	public SyncDevicePersistenceImpl() {
 		setModelClass(SyncDevice.class);

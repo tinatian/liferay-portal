@@ -573,7 +573,8 @@ public class UserTrackerPathPersistenceImpl extends BasePersistenceImpl<UserTrac
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2 = "userTrackerPath.userTrackerId = ?";
+	private static final String _FINDER_COLUMN_USERTRACKERID_USERTRACKERID_2_SQL =
+		"userTrackerPath.userTrackerId = ?";
 
 	public UserTrackerPathPersistenceImpl() {
 		setModelClass(UserTrackerPath.class);

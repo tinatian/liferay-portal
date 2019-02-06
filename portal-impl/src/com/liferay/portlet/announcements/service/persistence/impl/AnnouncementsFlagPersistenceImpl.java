@@ -565,7 +565,7 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ENTRYID_ENTRYID_2 = "announcementsFlag.entryId = ?";
+	private static final String _FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL = "announcementsFlag.entryId = ?";
 	private FinderPath _finderPathFetchByU_E_V;
 	private FinderPath _finderPathCountByU_E_V;
 
@@ -792,9 +792,9 @@ public class AnnouncementsFlagPersistenceImpl extends BasePersistenceImpl<Announ
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_E_V_USERID_2 = "announcementsFlag.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_E_V_ENTRYID_2 = "announcementsFlag.entryId = ? AND ";
-	private static final String _FINDER_COLUMN_U_E_V_VALUE_2 = "announcementsFlag.value = ?";
+	private static final String _FINDER_COLUMN_U_E_V_USERID_2_SQL = "announcementsFlag.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_E_V_ENTRYID_2_SQL = "announcementsFlag.entryId = ? AND ";
+	private static final String _FINDER_COLUMN_U_E_V_VALUE_2_SQL = "announcementsFlag.value = ?";
 
 	public AnnouncementsFlagPersistenceImpl() {
 		setModelClass(AnnouncementsFlag.class);

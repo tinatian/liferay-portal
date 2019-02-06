@@ -559,7 +559,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "entry.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "entry.userId = ?";
 	private FinderPath _finderPathFetchByU_EA;
 	private FinderPath _finderPathCountByU_EA;
 
@@ -804,9 +804,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_EA_USERID_2 = "entry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_EA_EMAILADDRESS_2 = "entry.emailAddress = ?";
-	private static final String _FINDER_COLUMN_U_EA_EMAILADDRESS_3 = "(entry.emailAddress IS NULL OR entry.emailAddress = '')";
+	private static final String _FINDER_COLUMN_U_EA_USERID_2_SQL = "entry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_EA_EMAILADDRESS_2_SQL = "entry.emailAddress = ?";
+	private static final String _FINDER_COLUMN_U_EA_EMAILADDRESS_3_SQL = "(entry.emailAddress IS NULL OR entry.emailAddress = '')";
 
 	public EntryPersistenceImpl() {
 		setModelClass(Entry.class);

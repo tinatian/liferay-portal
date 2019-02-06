@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 
 import com.liferay.powwow.exception.NoSuchMeetingException;
 import com.liferay.powwow.model.PowwowMeeting;
@@ -53,6 +54,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The persistence implementation for the powwow meeting service.
@@ -927,7 +929,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "powwowMeeting.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "powwowMeeting.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByPowwowServerId;
 	private FinderPath _finderPathWithoutPaginationFindByPowwowServerId;
 	private FinderPath _finderPathCountByPowwowServerId;
@@ -1422,7 +1424,8 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2 = "powwowMeeting.powwowServerId = ?";
+	private static final String _FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2_SQL =
+		"powwowMeeting.powwowServerId = ?";
 	private FinderPath _finderPathWithPaginationFindByStatus;
 	private FinderPath _finderPathWithoutPaginationFindByStatus;
 	private FinderPath _finderPathCountByStatus;
@@ -1908,7 +1911,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUS_STATUS_2 = "powwowMeeting.status = ?";
+	private static final String _FINDER_COLUMN_STATUS_STATUS_2_SQL = "powwowMeeting.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_S;
 	private FinderPath _finderPathCountByU_S;
@@ -2432,8 +2435,8 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_S_USERID_2 = "powwowMeeting.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_S_STATUS_2 = "powwowMeeting.status = ?";
+	private static final String _FINDER_COLUMN_U_S_USERID_2_SQL = "powwowMeeting.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_S_STATUS_2_SQL = "powwowMeeting.status = ?";
 	private FinderPath _finderPathWithPaginationFindByPSI_S;
 	private FinderPath _finderPathWithoutPaginationFindByPSI_S;
 	private FinderPath _finderPathCountByPSI_S;
@@ -2958,8 +2961,8 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PSI_S_POWWOWSERVERID_2 = "powwowMeeting.powwowServerId = ? AND ";
-	private static final String _FINDER_COLUMN_PSI_S_STATUS_2 = "powwowMeeting.status = ?";
+	private static final String _FINDER_COLUMN_PSI_S_POWWOWSERVERID_2_SQL = "powwowMeeting.powwowServerId = ? AND ";
+	private static final String _FINDER_COLUMN_PSI_S_STATUS_2_SQL = "powwowMeeting.status = ?";
 
 	public PowwowMeetingPersistenceImpl() {
 		setModelClass(PowwowMeeting.class);
@@ -3606,6 +3609,11 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 	}
 
 	@Override
+	public Set<String> getBadColumnNames() {
+		return _badColumnNames;
+	}
+
+	@Override
 	protected EntityCache getEntityCache() {
 		return EntityCacheUtil.getEntityCache();
 	}
@@ -3795,4 +3803,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No PowwowMeeting exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No PowwowMeeting exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(PowwowMeetingPersistenceImpl.class);
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+				"description"
+			});
 }

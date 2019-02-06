@@ -570,7 +570,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoDefinition.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoDefinition.companyId = ?";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -815,9 +815,9 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "kaleoDefinition.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "kaleoDefinition.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(kaleoDefinition.name IS NULL OR kaleoDefinition.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "kaleoDefinition.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "kaleoDefinition.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(kaleoDefinition.name IS NULL OR kaleoDefinition.name = '')";
 	private FinderPath _finderPathWithPaginationFindByC_A;
 	private FinderPath _finderPathWithoutPaginationFindByC_A;
 	private FinderPath _finderPathCountByC_A;
@@ -946,7 +946,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_FINDER_COLUMN_C_A_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1180,7 +1180,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 		query.append(_FINDER_COLUMN_C_A_COMPANYID_2);
 
-		query.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+		query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1307,7 +1307,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 
 			query.append(_FINDER_COLUMN_C_A_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1341,8 +1341,8 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_A_COMPANYID_2 = "kaleoDefinition.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_A_ACTIVE_2 = "kaleoDefinition.active = ?";
+	private static final String _FINDER_COLUMN_C_A_COMPANYID_2_SQL = "kaleoDefinition.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_A_ACTIVE_2_SQL = "kaleoDefinition.active_ = ?";
 	private FinderPath _finderPathFetchByC_N_V;
 	private FinderPath _finderPathCountByC_N_V;
 
@@ -1604,10 +1604,10 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_V_COMPANYID_2 = "kaleoDefinition.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_V_NAME_2 = "kaleoDefinition.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_V_NAME_3 = "(kaleoDefinition.name IS NULL OR kaleoDefinition.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_V_VERSION_2 = "kaleoDefinition.version = ?";
+	private static final String _FINDER_COLUMN_C_N_V_COMPANYID_2_SQL = "kaleoDefinition.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_V_NAME_2_SQL = "kaleoDefinition.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_V_NAME_3_SQL = "(kaleoDefinition.name IS NULL OR kaleoDefinition.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_V_VERSION_2_SQL = "kaleoDefinition.version = ?";
 	private FinderPath _finderPathFetchByC_N_A;
 	private FinderPath _finderPathCountByC_N_A;
 
@@ -1716,7 +1716,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 				query.append(_FINDER_COLUMN_C_N_A_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_C_N_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1832,7 +1832,7 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 				query.append(_FINDER_COLUMN_C_N_A_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_C_N_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_C_N_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1870,10 +1870,10 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_A_COMPANYID_2 = "kaleoDefinition.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_A_NAME_2 = "kaleoDefinition.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_A_NAME_3 = "(kaleoDefinition.name IS NULL OR kaleoDefinition.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_A_ACTIVE_2 = "kaleoDefinition.active = ?";
+	private static final String _FINDER_COLUMN_C_N_A_COMPANYID_2_SQL = "kaleoDefinition.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_A_NAME_2_SQL = "kaleoDefinition.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_A_NAME_3_SQL = "(kaleoDefinition.name IS NULL OR kaleoDefinition.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_A_ACTIVE_2_SQL = "kaleoDefinition.active_ = ?";
 
 	public KaleoDefinitionPersistenceImpl() {
 		setModelClass(KaleoDefinition.class);
@@ -2740,6 +2740,6 @@ public class KaleoDefinitionPersistenceImpl extends BasePersistenceImpl<KaleoDef
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No KaleoDefinition exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(KaleoDefinitionPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"active"
+				"description", "active"
 			});
 }

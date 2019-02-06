@@ -565,7 +565,7 @@ public class KaleoNodePersistenceImpl extends BasePersistenceImpl<KaleoNode>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoNode.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoNode.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1069,7 +1069,7 @@ public class KaleoNodePersistenceImpl extends BasePersistenceImpl<KaleoNode>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoNode.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_KDVI;
 	private FinderPath _finderPathWithoutPaginationFindByC_KDVI;
@@ -1603,8 +1603,8 @@ public class KaleoNodePersistenceImpl extends BasePersistenceImpl<KaleoNode>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_KDVI_COMPANYID_2 = "kaleoNode.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_KDVI_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_C_KDVI_COMPANYID_2_SQL = "kaleoNode.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_KDVI_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoNode.kaleoDefinitionVersionId = ?";
 
 	public KaleoNodePersistenceImpl() {
@@ -2327,6 +2327,6 @@ public class KaleoNodePersistenceImpl extends BasePersistenceImpl<KaleoNode>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No KaleoNode exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(KaleoNodePersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"type", "initial"
+				"description", "type", "initial"
 			});
 }

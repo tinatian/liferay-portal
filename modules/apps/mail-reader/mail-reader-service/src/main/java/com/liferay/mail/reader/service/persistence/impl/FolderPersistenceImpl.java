@@ -563,7 +563,7 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2 = "folder.accountId = ?";
+	private static final String _FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL = "folder.accountId = ?";
 	private FinderPath _finderPathFetchByA_F;
 	private FinderPath _finderPathCountByA_F;
 
@@ -808,9 +808,9 @@ public class FolderPersistenceImpl extends BasePersistenceImpl<Folder>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_F_ACCOUNTID_2 = "folder.accountId = ? AND ";
-	private static final String _FINDER_COLUMN_A_F_FULLNAME_2 = "folder.fullName = ?";
-	private static final String _FINDER_COLUMN_A_F_FULLNAME_3 = "(folder.fullName IS NULL OR folder.fullName = '')";
+	private static final String _FINDER_COLUMN_A_F_ACCOUNTID_2_SQL = "folder.accountId = ? AND ";
+	private static final String _FINDER_COLUMN_A_F_FULLNAME_2_SQL = "folder.fullName = ?";
+	private static final String _FINDER_COLUMN_A_F_FULLNAME_3_SQL = "(folder.fullName IS NULL OR folder.fullName = '')";
 
 	public FolderPersistenceImpl() {
 		setModelClass(Folder.class);

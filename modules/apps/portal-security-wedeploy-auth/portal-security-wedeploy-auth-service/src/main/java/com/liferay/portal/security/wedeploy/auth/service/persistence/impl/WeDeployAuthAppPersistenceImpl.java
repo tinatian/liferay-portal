@@ -348,10 +348,10 @@ public class WeDeployAuthAppPersistenceImpl extends BasePersistenceImpl<WeDeploy
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RU_CI_REDIRECTURI_2 = "weDeployAuthApp.redirectURI = ? AND ";
-	private static final String _FINDER_COLUMN_RU_CI_REDIRECTURI_3 = "(weDeployAuthApp.redirectURI IS NULL OR weDeployAuthApp.redirectURI = '') AND ";
-	private static final String _FINDER_COLUMN_RU_CI_CLIENTID_2 = "weDeployAuthApp.clientId = ?";
-	private static final String _FINDER_COLUMN_RU_CI_CLIENTID_3 = "(weDeployAuthApp.clientId IS NULL OR weDeployAuthApp.clientId = '')";
+	private static final String _FINDER_COLUMN_RU_CI_REDIRECTURI_2_SQL = "weDeployAuthApp.redirectURI = ? AND ";
+	private static final String _FINDER_COLUMN_RU_CI_REDIRECTURI_3_SQL = "(weDeployAuthApp.redirectURI IS NULL OR weDeployAuthApp.redirectURI = '') AND ";
+	private static final String _FINDER_COLUMN_RU_CI_CLIENTID_2_SQL = "weDeployAuthApp.clientId = ?";
+	private static final String _FINDER_COLUMN_RU_CI_CLIENTID_3_SQL = "(weDeployAuthApp.clientId IS NULL OR weDeployAuthApp.clientId = '')";
 	private FinderPath _finderPathFetchByCI_CS;
 	private FinderPath _finderPathCountByCI_CS;
 
@@ -621,10 +621,10 @@ public class WeDeployAuthAppPersistenceImpl extends BasePersistenceImpl<WeDeploy
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CI_CS_CLIENTID_2 = "weDeployAuthApp.clientId = ? AND ";
-	private static final String _FINDER_COLUMN_CI_CS_CLIENTID_3 = "(weDeployAuthApp.clientId IS NULL OR weDeployAuthApp.clientId = '') AND ";
-	private static final String _FINDER_COLUMN_CI_CS_CLIENTSECRET_2 = "weDeployAuthApp.clientSecret = ?";
-	private static final String _FINDER_COLUMN_CI_CS_CLIENTSECRET_3 = "(weDeployAuthApp.clientSecret IS NULL OR weDeployAuthApp.clientSecret = '')";
+	private static final String _FINDER_COLUMN_CI_CS_CLIENTID_2_SQL = "weDeployAuthApp.clientId = ? AND ";
+	private static final String _FINDER_COLUMN_CI_CS_CLIENTID_3_SQL = "(weDeployAuthApp.clientId IS NULL OR weDeployAuthApp.clientId = '') AND ";
+	private static final String _FINDER_COLUMN_CI_CS_CLIENTSECRET_2_SQL = "weDeployAuthApp.clientSecret = ?";
+	private static final String _FINDER_COLUMN_CI_CS_CLIENTSECRET_3_SQL = "(weDeployAuthApp.clientSecret IS NULL OR weDeployAuthApp.clientSecret = '')";
 
 	public WeDeployAuthAppPersistenceImpl() {
 		setModelClass(WeDeployAuthApp.class);

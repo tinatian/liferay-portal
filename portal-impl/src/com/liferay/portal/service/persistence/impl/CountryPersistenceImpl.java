@@ -290,8 +290,8 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_NAME_NAME_2 = "country.name = ?";
-	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(country.name IS NULL OR country.name = '')";
+	private static final String _FINDER_COLUMN_NAME_NAME_2_SQL = "country.name = ?";
+	private static final String _FINDER_COLUMN_NAME_NAME_3_SQL = "(country.name IS NULL OR country.name = '')";
 	private FinderPath _finderPathFetchByA2;
 	private FinderPath _finderPathCountByA2;
 
@@ -506,8 +506,8 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A2_A2_2 = "country.a2 = ?";
-	private static final String _FINDER_COLUMN_A2_A2_3 = "(country.a2 IS NULL OR country.a2 = '')";
+	private static final String _FINDER_COLUMN_A2_A2_2_SQL = "country.a2 = ?";
+	private static final String _FINDER_COLUMN_A2_A2_3_SQL = "(country.a2 IS NULL OR country.a2 = '')";
 	private FinderPath _finderPathFetchByA3;
 	private FinderPath _finderPathCountByA3;
 
@@ -722,8 +722,8 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A3_A3_2 = "country.a3 = ?";
-	private static final String _FINDER_COLUMN_A3_A3_3 = "(country.a3 IS NULL OR country.a3 = '')";
+	private static final String _FINDER_COLUMN_A3_A3_2_SQL = "country.a3 = ?";
+	private static final String _FINDER_COLUMN_A3_A3_3_SQL = "(country.a3 IS NULL OR country.a3 = '')";
 	private FinderPath _finderPathWithPaginationFindByActive;
 	private FinderPath _finderPathWithoutPaginationFindByActive;
 	private FinderPath _finderPathCountByActive;
@@ -837,7 +837,7 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 
 			query.append(_SQL_SELECT_COUNTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2);
+			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1052,7 +1052,7 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 
 		query.append(_SQL_SELECT_COUNTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2);
+		query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1174,7 +1174,7 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 
 			query.append(_SQL_COUNT_COUNTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2);
+			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1206,7 +1206,7 @@ public class CountryPersistenceImpl extends BasePersistenceImpl<Country>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACTIVE_ACTIVE_2 = "country.active = ?";
+	private static final String _FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL = "country.active_ = ?";
 
 	public CountryPersistenceImpl() {
 		setModelClass(Country.class);

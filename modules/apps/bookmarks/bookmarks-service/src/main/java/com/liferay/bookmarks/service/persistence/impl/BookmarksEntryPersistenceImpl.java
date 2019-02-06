@@ -208,12 +208,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -437,12 +437,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -571,12 +571,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -611,8 +611,8 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "bookmarksEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(bookmarksEntry.uuid IS NULL OR bookmarksEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "bookmarksEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(bookmarksEntry.uuid_ IS NULL OR bookmarksEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -703,12 +703,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -802,12 +802,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -846,9 +846,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "bookmarksEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(bookmarksEntry.uuid IS NULL OR bookmarksEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "bookmarksEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "bookmarksEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(bookmarksEntry.uuid_ IS NULL OR bookmarksEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "bookmarksEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -980,12 +980,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1226,12 +1226,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1366,12 +1366,12 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1410,9 +1410,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "bookmarksEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(bookmarksEntry.uuid IS NULL OR bookmarksEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "bookmarksEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "bookmarksEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(bookmarksEntry.uuid_ IS NULL OR bookmarksEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "bookmarksEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1900,7 +1900,7 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "bookmarksEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "bookmarksEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F;
 	private FinderPath _finderPathWithoutPaginationFindByG_F;
 	private FinderPath _finderPathCountByG_F;
@@ -3295,9 +3295,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_F_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_FOLDERID_2 = "bookmarksEntry.folderId = ?";
-	private static final String _FINDER_COLUMN_G_F_FOLDERID_7 = "bookmarksEntry.folderId IN (";
+	private static final String _FINDER_COLUMN_G_F_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_FOLDERID_2_SQL = "bookmarksEntry.folderId = ?";
+	private static final String _FINDER_COLUMN_G_F_FOLDERID_7_SQL = "bookmarksEntry.folderId IN (";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -4195,8 +4195,8 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "bookmarksEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "bookmarksEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_NotS;
 
@@ -5083,8 +5083,8 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTS_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTS_STATUS_2 = "bookmarksEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_NOTS_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTS_STATUS_2_SQL = "bookmarksEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByC_NotS;
 	private FinderPath _finderPathWithPaginationCountByC_NotS;
 
@@ -5600,8 +5600,8 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_NOTS_COMPANYID_2 = "bookmarksEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_NOTS_STATUS_2 = "bookmarksEntry.status != ?";
+	private static final String _FINDER_COLUMN_C_NOTS_COMPANYID_2_SQL = "bookmarksEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_NOTS_STATUS_2_SQL = "bookmarksEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_S;
 	private FinderPath _finderPathCountByG_U_S;
@@ -6554,9 +6554,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_USERID_2 = "bookmarksEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_STATUS_2 = "bookmarksEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_USERID_2_SQL = "bookmarksEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_STATUS_2_SQL = "bookmarksEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_U_NotS;
 
@@ -7500,9 +7500,9 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_NOTS_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_NOTS_USERID_2 = "bookmarksEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_NOTS_STATUS_2 = "bookmarksEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_U_NOTS_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_NOTS_USERID_2_SQL = "bookmarksEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_NOTS_STATUS_2_SQL = "bookmarksEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_F_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_F_S;
 	private FinderPath _finderPathCountByG_F_S;
@@ -8995,10 +8995,10 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_F_S_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_S_FOLDERID_2 = "bookmarksEntry.folderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_S_FOLDERID_7 = "bookmarksEntry.folderId IN (";
-	private static final String _FINDER_COLUMN_G_F_S_STATUS_2 = "bookmarksEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_F_S_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_S_FOLDERID_2_SQL = "bookmarksEntry.folderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_S_FOLDERID_7_SQL = "bookmarksEntry.folderId IN (";
+	private static final String _FINDER_COLUMN_G_F_S_STATUS_2_SQL = "bookmarksEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_F_NotS;
 
@@ -10481,10 +10481,10 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_F_NOTS_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_NOTS_FOLDERID_2 = "bookmarksEntry.folderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_NOTS_FOLDERID_7 = "bookmarksEntry.folderId IN (";
-	private static final String _FINDER_COLUMN_G_F_NOTS_STATUS_2 = "bookmarksEntry.status != ?";
+	private static final String _FINDER_COLUMN_G_F_NOTS_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_NOTS_FOLDERID_2_SQL = "bookmarksEntry.folderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_NOTS_FOLDERID_7_SQL = "bookmarksEntry.folderId IN (";
+	private static final String _FINDER_COLUMN_G_F_NOTS_STATUS_2_SQL = "bookmarksEntry.status != ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_F_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_F_S;
 	private FinderPath _finderPathCountByG_U_F_S;
@@ -12064,11 +12064,11 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_F_S_GROUPID_2 = "bookmarksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_F_S_USERID_2 = "bookmarksEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_F_S_FOLDERID_2 = "bookmarksEntry.folderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_F_S_FOLDERID_7 = "bookmarksEntry.folderId IN (";
-	private static final String _FINDER_COLUMN_G_U_F_S_STATUS_2 = "bookmarksEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_U_F_S_GROUPID_2_SQL = "bookmarksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_F_S_USERID_2_SQL = "bookmarksEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_F_S_FOLDERID_2_SQL = "bookmarksEntry.folderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_F_S_FOLDERID_7_SQL = "bookmarksEntry.folderId IN (";
+	private static final String _FINDER_COLUMN_G_U_F_S_STATUS_2_SQL = "bookmarksEntry.status = ?";
 
 	public BookmarksEntryPersistenceImpl() {
 		setModelClass(BookmarksEntry.class);
@@ -13288,6 +13288,6 @@ public class BookmarksEntryPersistenceImpl extends BasePersistenceImpl<Bookmarks
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No BookmarksEntry exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(BookmarksEntryPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

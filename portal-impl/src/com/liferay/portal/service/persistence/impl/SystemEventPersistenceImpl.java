@@ -562,7 +562,7 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "systemEvent.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "systemEvent.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -1087,8 +1087,8 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "systemEvent.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_SYSTEMEVENTSETKEY_2 = "systemEvent.systemEventSetKey = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "systemEvent.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_SYSTEMEVENTSETKEY_2_SQL = "systemEvent.systemEventSetKey = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C;
 	private FinderPath _finderPathCountByG_C_C;
@@ -1646,9 +1646,9 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2 = "systemEvent.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2 = "systemEvent.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2 = "systemEvent.classPK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2_SQL = "systemEvent.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL = "systemEvent.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2_SQL = "systemEvent.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_T;
 	private FinderPath _finderPathCountByG_C_C_T;
@@ -1795,7 +1795,7 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 
 			query.append(_FINDER_COLUMN_G_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2060,7 +2060,7 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 
 		query.append(_FINDER_COLUMN_G_C_C_T_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2202,7 +2202,7 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 
 			query.append(_FINDER_COLUMN_G_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2240,10 +2240,10 @@ public class SystemEventPersistenceImpl extends BasePersistenceImpl<SystemEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_T_GROUPID_2 = "systemEvent.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_CLASSNAMEID_2 = "systemEvent.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_CLASSPK_2 = "systemEvent.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_TYPE_2 = "systemEvent.type = ?";
+	private static final String _FINDER_COLUMN_G_C_C_T_GROUPID_2_SQL = "systemEvent.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_CLASSNAMEID_2_SQL = "systemEvent.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_CLASSPK_2_SQL = "systemEvent.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_TYPE_2_SQL = "systemEvent.type_ = ?";
 
 	public SystemEventPersistenceImpl() {
 		setModelClass(SystemEvent.class);

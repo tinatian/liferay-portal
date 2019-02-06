@@ -293,8 +293,8 @@ public class PortalPreferencesPersistenceImpl extends BasePersistenceImpl<Portal
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_O_OWNERID_2 = "portalPreferences.ownerId = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_OWNERTYPE_2 = "portalPreferences.ownerType = ?";
+	private static final String _FINDER_COLUMN_O_O_OWNERID_2_SQL = "portalPreferences.ownerId = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_OWNERTYPE_2_SQL = "portalPreferences.ownerType = ?";
 
 	public PortalPreferencesPersistenceImpl() {
 		setModelClass(PortalPreferences.class);

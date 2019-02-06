@@ -295,8 +295,8 @@ public class VirtualHostPersistenceImpl extends BasePersistenceImpl<VirtualHost>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_HOSTNAME_HOSTNAME_2 = "virtualHost.hostname = ?";
-	private static final String _FINDER_COLUMN_HOSTNAME_HOSTNAME_3 = "(virtualHost.hostname IS NULL OR virtualHost.hostname = '')";
+	private static final String _FINDER_COLUMN_HOSTNAME_HOSTNAME_2_SQL = "virtualHost.hostname = ?";
+	private static final String _FINDER_COLUMN_HOSTNAME_HOSTNAME_3_SQL = "(virtualHost.hostname IS NULL OR virtualHost.hostname = '')";
 	private FinderPath _finderPathFetchByC_L;
 	private FinderPath _finderPathCountByC_L;
 
@@ -505,8 +505,8 @@ public class VirtualHostPersistenceImpl extends BasePersistenceImpl<VirtualHost>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_L_COMPANYID_2 = "virtualHost.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_L_LAYOUTSETID_2 = "virtualHost.layoutSetId = ?";
+	private static final String _FINDER_COLUMN_C_L_COMPANYID_2_SQL = "virtualHost.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_L_LAYOUTSETID_2_SQL = "virtualHost.layoutSetId = ?";
 
 	public VirtualHostPersistenceImpl() {
 		setModelClass(VirtualHost.class);

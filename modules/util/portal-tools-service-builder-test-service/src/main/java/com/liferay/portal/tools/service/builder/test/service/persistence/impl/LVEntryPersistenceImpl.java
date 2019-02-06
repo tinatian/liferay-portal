@@ -203,12 +203,12 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -431,12 +431,12 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -565,12 +565,12 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -605,27 +605,26 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "lvEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(lvEntry.uuid IS NULL OR lvEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "lvEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(lvEntry.uuid_ IS NULL OR lvEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the lv entry where uuid = &#63; and groupId = &#63; and head = &#63; or throws a {@link NoSuchLVEntryException} if it could not be found.
+	 * Returns the lv entry where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchLVEntryException} if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
-	 * @param head the head
 	 * @return the matching lv entry
 	 * @throws NoSuchLVEntryException if a matching lv entry could not be found
 	 */
 	@Override
-	public LVEntry findByUUID_G(String uuid, long groupId, boolean head)
+	public LVEntry findByUUID_G(String uuid, long groupId)
 		throws NoSuchLVEntryException {
-		LVEntry lvEntry = fetchByUUID_G(uuid, groupId, head);
+		LVEntry lvEntry = fetchByUUID_G(uuid, groupId);
 
 		if (lvEntry == null) {
-			StringBundler msg = new StringBundler(8);
+			StringBundler msg = new StringBundler(6);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -634,9 +633,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 			msg.append(", groupId=");
 			msg.append(groupId);
-
-			msg.append(", head=");
-			msg.append(head);
 
 			msg.append("}");
 
@@ -651,33 +647,31 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 	}
 
 	/**
-	 * Returns the lv entry where uuid = &#63; and groupId = &#63; and head = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the lv entry where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
-	 * @param head the head
 	 * @return the matching lv entry, or <code>null</code> if a matching lv entry could not be found
 	 */
 	@Override
-	public LVEntry fetchByUUID_G(String uuid, long groupId, boolean head) {
-		return fetchByUUID_G(uuid, groupId, head, true);
+	public LVEntry fetchByUUID_G(String uuid, long groupId) {
+		return fetchByUUID_G(uuid, groupId, true);
 	}
 
 	/**
-	 * Returns the lv entry where uuid = &#63; and groupId = &#63; and head = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the lv entry where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
-	 * @param head the head
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching lv entry, or <code>null</code> if a matching lv entry could not be found
 	 */
 	@Override
-	public LVEntry fetchByUUID_G(String uuid, long groupId, boolean head,
+	public LVEntry fetchByUUID_G(String uuid, long groupId,
 		boolean retrieveFromCache) {
 		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId, head };
+		Object[] finderArgs = new Object[] { uuid, groupId };
 
 		Object result = null;
 
@@ -690,31 +684,28 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 			LVEntry lvEntry = (LVEntry)result;
 
 			if (!Objects.equals(uuid, lvEntry.getUuid()) ||
-					(groupId != lvEntry.getGroupId()) ||
-					(head != lvEntry.isHead())) {
+					(groupId != lvEntry.getGroupId())) {
 				result = null;
 			}
 		}
 
 		if (result == null) {
-			StringBundler query = new StringBundler(5);
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_LVENTRY_WHERE);
 
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			query.append(_FINDER_COLUMN_UUID_G_HEAD_2);
 
 			String sql = query.toString();
 
@@ -732,8 +723,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 				}
 
 				qPos.add(groupId);
-
-				qPos.add(head);
 
 				List<LVEntry> list = q.list();
 
@@ -768,58 +757,54 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 	}
 
 	/**
-	 * Removes the lv entry where uuid = &#63; and groupId = &#63; and head = &#63; from the database.
+	 * Removes the lv entry where uuid = &#63; and groupId = &#63; from the database.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
-	 * @param head the head
 	 * @return the lv entry that was removed
 	 */
 	@Override
-	public LVEntry removeByUUID_G(String uuid, long groupId, boolean head)
+	public LVEntry removeByUUID_G(String uuid, long groupId)
 		throws NoSuchLVEntryException {
-		LVEntry lvEntry = findByUUID_G(uuid, groupId, head);
+		LVEntry lvEntry = findByUUID_G(uuid, groupId);
 
 		return remove(lvEntry);
 	}
 
 	/**
-	 * Returns the number of lv entries where uuid = &#63; and groupId = &#63; and head = &#63;.
+	 * Returns the number of lv entries where uuid = &#63; and groupId = &#63;.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
-	 * @param head the head
 	 * @return the number of matching lv entries
 	 */
 	@Override
-	public int countByUUID_G(String uuid, long groupId, boolean head) {
+	public int countByUUID_G(String uuid, long groupId) {
 		uuid = Objects.toString(uuid, "");
 
 		FinderPath finderPath = _finderPathCountByUUID_G;
 
-		Object[] finderArgs = new Object[] { uuid, groupId, head };
+		Object[] finderArgs = new Object[] { uuid, groupId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_LVENTRY_WHERE);
 
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			query.append(_FINDER_COLUMN_UUID_G_HEAD_2);
 
 			String sql = query.toString();
 
@@ -838,8 +823,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 				qPos.add(groupId);
 
-				qPos.add(head);
-
 				count = (Long)q.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
@@ -857,10 +840,9 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "lvEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(lvEntry.uuid IS NULL OR lvEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "lvEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_HEAD_2 = "lvEntry.head = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "lvEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(lvEntry.uuid_ IS NULL OR lvEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "lvEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1661,27 +1643,26 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "lvEntry.groupId = ? AND lvEntry.lvEntryId > 0";
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_7 = "lvEntry.groupId IN (";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "lvEntry.groupId = ? AND lvEntry.lvEntryId > 0";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_7_SQL = "lvEntry.groupId IN (";
 	private FinderPath _finderPathFetchByG_UGK;
 	private FinderPath _finderPathCountByG_UGK;
 
 	/**
-	 * Returns the lv entry where groupId = &#63; and uniqueGroupKey = &#63; and head = &#63; or throws a {@link NoSuchLVEntryException} if it could not be found.
+	 * Returns the lv entry where groupId = &#63; and uniqueGroupKey = &#63; or throws a {@link NoSuchLVEntryException} if it could not be found.
 	 *
 	 * @param groupId the group ID
 	 * @param uniqueGroupKey the unique group key
-	 * @param head the head
 	 * @return the matching lv entry
 	 * @throws NoSuchLVEntryException if a matching lv entry could not be found
 	 */
 	@Override
-	public LVEntry findByG_UGK(long groupId, String uniqueGroupKey, boolean head)
+	public LVEntry findByG_UGK(long groupId, String uniqueGroupKey)
 		throws NoSuchLVEntryException {
-		LVEntry lvEntry = fetchByG_UGK(groupId, uniqueGroupKey, head);
+		LVEntry lvEntry = fetchByG_UGK(groupId, uniqueGroupKey);
 
 		if (lvEntry == null) {
-			StringBundler msg = new StringBundler(8);
+			StringBundler msg = new StringBundler(6);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -1690,9 +1671,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 			msg.append(", uniqueGroupKey=");
 			msg.append(uniqueGroupKey);
-
-			msg.append(", head=");
-			msg.append(head);
 
 			msg.append("}");
 
@@ -1707,34 +1685,31 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 	}
 
 	/**
-	 * Returns the lv entry where groupId = &#63; and uniqueGroupKey = &#63; and head = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the lv entry where groupId = &#63; and uniqueGroupKey = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param uniqueGroupKey the unique group key
-	 * @param head the head
 	 * @return the matching lv entry, or <code>null</code> if a matching lv entry could not be found
 	 */
 	@Override
-	public LVEntry fetchByG_UGK(long groupId, String uniqueGroupKey,
-		boolean head) {
-		return fetchByG_UGK(groupId, uniqueGroupKey, head, true);
+	public LVEntry fetchByG_UGK(long groupId, String uniqueGroupKey) {
+		return fetchByG_UGK(groupId, uniqueGroupKey, true);
 	}
 
 	/**
-	 * Returns the lv entry where groupId = &#63; and uniqueGroupKey = &#63; and head = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the lv entry where groupId = &#63; and uniqueGroupKey = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param uniqueGroupKey the unique group key
-	 * @param head the head
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching lv entry, or <code>null</code> if a matching lv entry could not be found
 	 */
 	@Override
 	public LVEntry fetchByG_UGK(long groupId, String uniqueGroupKey,
-		boolean head, boolean retrieveFromCache) {
+		boolean retrieveFromCache) {
 		uniqueGroupKey = Objects.toString(uniqueGroupKey, "");
 
-		Object[] finderArgs = new Object[] { groupId, uniqueGroupKey, head };
+		Object[] finderArgs = new Object[] { groupId, uniqueGroupKey };
 
 		Object result = null;
 
@@ -1747,14 +1722,13 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 			LVEntry lvEntry = (LVEntry)result;
 
 			if ((groupId != lvEntry.getGroupId()) ||
-					!Objects.equals(uniqueGroupKey, lvEntry.getUniqueGroupKey()) ||
-					(head != lvEntry.isHead())) {
+					!Objects.equals(uniqueGroupKey, lvEntry.getUniqueGroupKey())) {
 				result = null;
 			}
 		}
 
 		if (result == null) {
-			StringBundler query = new StringBundler(5);
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_LVENTRY_WHERE);
 
@@ -1770,8 +1744,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2);
 			}
-
-			query.append(_FINDER_COLUMN_G_UGK_HEAD_2);
 
 			String sql = query.toString();
 
@@ -1789,8 +1761,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 				if (bindUniqueGroupKey) {
 					qPos.add(uniqueGroupKey);
 				}
-
-				qPos.add(head);
 
 				List<LVEntry> list = q.list();
 
@@ -1825,41 +1795,39 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 	}
 
 	/**
-	 * Removes the lv entry where groupId = &#63; and uniqueGroupKey = &#63; and head = &#63; from the database.
+	 * Removes the lv entry where groupId = &#63; and uniqueGroupKey = &#63; from the database.
 	 *
 	 * @param groupId the group ID
 	 * @param uniqueGroupKey the unique group key
-	 * @param head the head
 	 * @return the lv entry that was removed
 	 */
 	@Override
-	public LVEntry removeByG_UGK(long groupId, String uniqueGroupKey,
-		boolean head) throws NoSuchLVEntryException {
-		LVEntry lvEntry = findByG_UGK(groupId, uniqueGroupKey, head);
+	public LVEntry removeByG_UGK(long groupId, String uniqueGroupKey)
+		throws NoSuchLVEntryException {
+		LVEntry lvEntry = findByG_UGK(groupId, uniqueGroupKey);
 
 		return remove(lvEntry);
 	}
 
 	/**
-	 * Returns the number of lv entries where groupId = &#63; and uniqueGroupKey = &#63; and head = &#63;.
+	 * Returns the number of lv entries where groupId = &#63; and uniqueGroupKey = &#63;.
 	 *
 	 * @param groupId the group ID
 	 * @param uniqueGroupKey the unique group key
-	 * @param head the head
 	 * @return the number of matching lv entries
 	 */
 	@Override
-	public int countByG_UGK(long groupId, String uniqueGroupKey, boolean head) {
+	public int countByG_UGK(long groupId, String uniqueGroupKey) {
 		uniqueGroupKey = Objects.toString(uniqueGroupKey, "");
 
 		FinderPath finderPath = _finderPathCountByG_UGK;
 
-		Object[] finderArgs = new Object[] { groupId, uniqueGroupKey, head };
+		Object[] finderArgs = new Object[] { groupId, uniqueGroupKey };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_LVENTRY_WHERE);
 
@@ -1875,8 +1843,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 				query.append(_FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2);
 			}
-
-			query.append(_FINDER_COLUMN_G_UGK_HEAD_2);
 
 			String sql = query.toString();
 
@@ -1895,8 +1861,6 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 					qPos.add(uniqueGroupKey);
 				}
 
-				qPos.add(head);
-
 				count = (Long)q.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
@@ -1914,10 +1878,9 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_UGK_GROUPID_2 = "lvEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2 = "lvEntry.uniqueGroupKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3 = "(lvEntry.uniqueGroupKey IS NULL OR lvEntry.uniqueGroupKey = '') AND ";
-	private static final String _FINDER_COLUMN_G_UGK_HEAD_2 = "lvEntry.head = ?";
+	private static final String _FINDER_COLUMN_G_UGK_GROUPID_2_SQL = "lvEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_2_SQL = "lvEntry.uniqueGroupKey = ?";
+	private static final String _FINDER_COLUMN_G_UGK_UNIQUEGROUPKEY_3_SQL = "(lvEntry.uniqueGroupKey IS NULL OR lvEntry.uniqueGroupKey = '')";
 	private FinderPath _finderPathFetchByHeadId;
 	private FinderPath _finderPathCountByHeadId;
 
@@ -2105,7 +2068,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_HEADID_HEADID_2 = "lvEntry.headId = ?";
+	private static final String _FINDER_COLUMN_HEADID_HEADID_2_SQL = "lvEntry.headId = ?";
 
 	public LVEntryPersistenceImpl() {
 		setModelClass(LVEntry.class);
@@ -2140,15 +2103,11 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 			LVEntryImpl.class, lvEntry.getPrimaryKey(), lvEntry);
 
 		finderCache.putResult(_finderPathFetchByUUID_G,
-			new Object[] {
-				lvEntry.getUuid(), lvEntry.getGroupId(), lvEntry.isHead()
-			}, lvEntry);
+			new Object[] { lvEntry.getUuid(), lvEntry.getGroupId() }, lvEntry);
 
 		finderCache.putResult(_finderPathFetchByG_UGK,
-			new Object[] {
-				lvEntry.getGroupId(), lvEntry.getUniqueGroupKey(),
-				lvEntry.isHead()
-			}, lvEntry);
+			new Object[] { lvEntry.getGroupId(), lvEntry.getUniqueGroupKey() },
+			lvEntry);
 
 		finderCache.putResult(_finderPathFetchByHeadId,
 			new Object[] { lvEntry.getHeadId() }, lvEntry);
@@ -2223,8 +2182,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 	protected void cacheUniqueFindersCache(LVEntryModelImpl lvEntryModelImpl) {
 		Object[] args = new Object[] {
-				lvEntryModelImpl.getUuid(), lvEntryModelImpl.getGroupId(),
-				lvEntryModelImpl.isHead()
+				lvEntryModelImpl.getUuid(), lvEntryModelImpl.getGroupId()
 			};
 
 		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1),
@@ -2234,7 +2192,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 
 		args = new Object[] {
 				lvEntryModelImpl.getGroupId(),
-				lvEntryModelImpl.getUniqueGroupKey(), lvEntryModelImpl.isHead()
+				lvEntryModelImpl.getUniqueGroupKey()
 			};
 
 		finderCache.putResult(_finderPathCountByG_UGK, args, Long.valueOf(1),
@@ -2254,8 +2212,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		boolean clearCurrent) {
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					lvEntryModelImpl.getUuid(), lvEntryModelImpl.getGroupId(),
-					lvEntryModelImpl.isHead()
+					lvEntryModelImpl.getUuid(), lvEntryModelImpl.getGroupId()
 				};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2266,8 +2223,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 				_finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 			Object[] args = new Object[] {
 					lvEntryModelImpl.getOriginalUuid(),
-					lvEntryModelImpl.getOriginalGroupId(),
-					lvEntryModelImpl.getOriginalHead()
+					lvEntryModelImpl.getOriginalGroupId()
 				};
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
@@ -2277,8 +2233,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		if (clearCurrent) {
 			Object[] args = new Object[] {
 					lvEntryModelImpl.getGroupId(),
-					lvEntryModelImpl.getUniqueGroupKey(),
-					lvEntryModelImpl.isHead()
+					lvEntryModelImpl.getUniqueGroupKey()
 				};
 
 			finderCache.removeResult(_finderPathCountByG_UGK, args);
@@ -2289,8 +2244,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 				_finderPathFetchByG_UGK.getColumnBitmask()) != 0) {
 			Object[] args = new Object[] {
 					lvEntryModelImpl.getOriginalGroupId(),
-					lvEntryModelImpl.getOriginalUniqueGroupKey(),
-					lvEntryModelImpl.getOriginalHead()
+					lvEntryModelImpl.getOriginalUniqueGroupKey()
 				};
 
 			finderCache.removeResult(_finderPathCountByG_UGK, args);
@@ -2962,21 +2916,14 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		_finderPathFetchByUUID_G = new FinderPath(LVEntryModelImpl.ENTITY_CACHE_ENABLED,
 				LVEntryModelImpl.FINDER_CACHE_ENABLED, LVEntryImpl.class,
 				FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-				new String[] {
-					String.class.getName(), Long.class.getName(),
-					Boolean.class.getName()
-				},
+				new String[] { String.class.getName(), Long.class.getName() },
 				LVEntryModelImpl.UUID_COLUMN_BITMASK |
-				LVEntryModelImpl.GROUPID_COLUMN_BITMASK |
-				LVEntryModelImpl.HEAD_COLUMN_BITMASK);
+				LVEntryModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(LVEntryModelImpl.ENTITY_CACHE_ENABLED,
 				LVEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-				new String[] {
-					String.class.getName(), Long.class.getName(),
-					Boolean.class.getName()
-				});
+				new String[] { String.class.getName(), Long.class.getName() });
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(LVEntryModelImpl.ENTITY_CACHE_ENABLED,
 				LVEntryModelImpl.FINDER_CACHE_ENABLED, LVEntryImpl.class,
@@ -3007,21 +2954,14 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		_finderPathFetchByG_UGK = new FinderPath(LVEntryModelImpl.ENTITY_CACHE_ENABLED,
 				LVEntryModelImpl.FINDER_CACHE_ENABLED, LVEntryImpl.class,
 				FINDER_CLASS_NAME_ENTITY, "fetchByG_UGK",
-				new String[] {
-					Long.class.getName(), String.class.getName(),
-					Boolean.class.getName()
-				},
+				new String[] { Long.class.getName(), String.class.getName() },
 				LVEntryModelImpl.GROUPID_COLUMN_BITMASK |
-				LVEntryModelImpl.UNIQUEGROUPKEY_COLUMN_BITMASK |
-				LVEntryModelImpl.HEAD_COLUMN_BITMASK);
+				LVEntryModelImpl.UNIQUEGROUPKEY_COLUMN_BITMASK);
 
 		_finderPathCountByG_UGK = new FinderPath(LVEntryModelImpl.ENTITY_CACHE_ENABLED,
 				LVEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_UGK",
-				new String[] {
-					Long.class.getName(), String.class.getName(),
-					Boolean.class.getName()
-				});
+				new String[] { Long.class.getName(), String.class.getName() });
 
 		_finderPathFetchByHeadId = new FinderPath(LVEntryModelImpl.ENTITY_CACHE_ENABLED,
 				LVEntryModelImpl.FINDER_CACHE_ENABLED, LVEntryImpl.class,

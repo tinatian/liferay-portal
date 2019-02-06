@@ -202,12 +202,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -431,12 +431,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -566,12 +566,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -606,8 +606,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "socialRelation.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(socialRelation.uuid IS NULL OR socialRelation.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "socialRelation.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(socialRelation.uuid_ IS NULL OR socialRelation.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -739,12 +739,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -986,12 +986,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1127,12 +1127,12 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1171,9 +1171,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "socialRelation.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(socialRelation.uuid IS NULL OR socialRelation.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "socialRelation.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "socialRelation.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(socialRelation.uuid_ IS NULL OR socialRelation.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "socialRelation.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1662,7 +1662,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "socialRelation.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "socialRelation.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId1;
 	private FinderPath _finderPathWithoutPaginationFindByUserId1;
 	private FinderPath _finderPathCountByUserId1;
@@ -2149,7 +2149,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID1_USERID1_2 = "socialRelation.userId1 = ?";
+	private static final String _FINDER_COLUMN_USERID1_USERID1_2_SQL = "socialRelation.userId1 = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId2;
 	private FinderPath _finderPathWithoutPaginationFindByUserId2;
 	private FinderPath _finderPathCountByUserId2;
@@ -2636,7 +2636,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID2_USERID2_2 = "socialRelation.userId2 = ?";
+	private static final String _FINDER_COLUMN_USERID2_USERID2_2_SQL = "socialRelation.userId2 = ?";
 	private FinderPath _finderPathWithPaginationFindByType;
 	private FinderPath _finderPathWithoutPaginationFindByType;
 	private FinderPath _finderPathCountByType;
@@ -2751,7 +2751,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2967,7 +2967,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_SQL_SELECT_SOCIALRELATION_WHERE);
 
-		query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+		query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3089,7 +3089,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_SQL_COUNT_SOCIALRELATION_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -3121,7 +3121,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TYPE_TYPE_2 = "socialRelation.type = ?";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_2_SQL = "socialRelation.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByC_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_T;
 	private FinderPath _finderPathCountByC_T;
@@ -3249,7 +3249,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3483,7 +3483,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
 
-		query.append(_FINDER_COLUMN_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3611,7 +3611,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_C_T_COMPANYID_2);
 
-			query.append(_FINDER_COLUMN_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -3645,8 +3645,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_T_COMPANYID_2 = "socialRelation.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_T_TYPE_2 = "socialRelation.type = ?";
+	private static final String _FINDER_COLUMN_C_T_COMPANYID_2_SQL = "socialRelation.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_T_TYPE_2_SQL = "socialRelation.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByU1_U2;
 	private FinderPath _finderPathWithoutPaginationFindByU1_U2;
 	private FinderPath _finderPathCountByU1_U2;
@@ -4171,8 +4171,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U1_U2_USERID1_2 = "socialRelation.userId1 = ? AND ";
-	private static final String _FINDER_COLUMN_U1_U2_USERID2_2 = "socialRelation.userId2 = ?";
+	private static final String _FINDER_COLUMN_U1_U2_USERID1_2_SQL = "socialRelation.userId1 = ? AND ";
+	private static final String _FINDER_COLUMN_U1_U2_USERID2_2_SQL = "socialRelation.userId2 = ?";
 	private FinderPath _finderPathWithPaginationFindByU1_T;
 	private FinderPath _finderPathWithoutPaginationFindByU1_T;
 	private FinderPath _finderPathCountByU1_T;
@@ -4300,7 +4300,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_U1_T_USERID1_2);
 
-			query.append(_FINDER_COLUMN_U1_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U1_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4534,7 +4534,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_FINDER_COLUMN_U1_T_USERID1_2);
 
-		query.append(_FINDER_COLUMN_U1_T_TYPE_2);
+		query.append(_FINDER_COLUMN_U1_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4662,7 +4662,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_U1_T_USERID1_2);
 
-			query.append(_FINDER_COLUMN_U1_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U1_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4696,8 +4696,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U1_T_USERID1_2 = "socialRelation.userId1 = ? AND ";
-	private static final String _FINDER_COLUMN_U1_T_TYPE_2 = "socialRelation.type = ?";
+	private static final String _FINDER_COLUMN_U1_T_USERID1_2_SQL = "socialRelation.userId1 = ? AND ";
+	private static final String _FINDER_COLUMN_U1_T_TYPE_2_SQL = "socialRelation.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByU2_T;
 	private FinderPath _finderPathWithoutPaginationFindByU2_T;
 	private FinderPath _finderPathCountByU2_T;
@@ -4825,7 +4825,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_U2_T_USERID2_2);
 
-			query.append(_FINDER_COLUMN_U2_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U2_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5059,7 +5059,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 		query.append(_FINDER_COLUMN_U2_T_USERID2_2);
 
-		query.append(_FINDER_COLUMN_U2_T_TYPE_2);
+		query.append(_FINDER_COLUMN_U2_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5187,7 +5187,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_U2_T_USERID2_2);
 
-			query.append(_FINDER_COLUMN_U2_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U2_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -5221,8 +5221,8 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U2_T_USERID2_2 = "socialRelation.userId2 = ? AND ";
-	private static final String _FINDER_COLUMN_U2_T_TYPE_2 = "socialRelation.type = ?";
+	private static final String _FINDER_COLUMN_U2_T_USERID2_2_SQL = "socialRelation.userId2 = ? AND ";
+	private static final String _FINDER_COLUMN_U2_T_TYPE_2_SQL = "socialRelation.type_ = ?";
 	private FinderPath _finderPathFetchByU1_U2_T;
 	private FinderPath _finderPathCountByU1_U2_T;
 
@@ -5319,7 +5319,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_U1_U2_T_USERID2_2);
 
-			query.append(_FINDER_COLUMN_U1_U2_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U1_U2_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -5413,7 +5413,7 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 
 			query.append(_FINDER_COLUMN_U1_U2_T_USERID2_2);
 
-			query.append(_FINDER_COLUMN_U1_U2_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U1_U2_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -5449,9 +5449,9 @@ public class SocialRelationPersistenceImpl extends BasePersistenceImpl<SocialRel
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U1_U2_T_USERID1_2 = "socialRelation.userId1 = ? AND ";
-	private static final String _FINDER_COLUMN_U1_U2_T_USERID2_2 = "socialRelation.userId2 = ? AND ";
-	private static final String _FINDER_COLUMN_U1_U2_T_TYPE_2 = "socialRelation.type = ?";
+	private static final String _FINDER_COLUMN_U1_U2_T_USERID1_2_SQL = "socialRelation.userId1 = ? AND ";
+	private static final String _FINDER_COLUMN_U1_U2_T_USERID2_2_SQL = "socialRelation.userId2 = ? AND ";
+	private static final String _FINDER_COLUMN_U1_U2_T_TYPE_2_SQL = "socialRelation.type_ = ?";
 
 	public SocialRelationPersistenceImpl() {
 		setModelClass(SocialRelation.class);

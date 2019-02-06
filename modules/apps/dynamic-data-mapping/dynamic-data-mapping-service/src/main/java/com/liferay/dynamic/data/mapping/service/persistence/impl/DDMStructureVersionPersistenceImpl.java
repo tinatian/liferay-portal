@@ -572,7 +572,7 @@ public class DDMStructureVersionPersistenceImpl extends BasePersistenceImpl<DDMS
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2 = "ddmStructureVersion.structureId = ?";
+	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL = "ddmStructureVersion.structureId = ?";
 	private FinderPath _finderPathFetchByS_V;
 	private FinderPath _finderPathCountByS_V;
 
@@ -807,9 +807,9 @@ public class DDMStructureVersionPersistenceImpl extends BasePersistenceImpl<DDMS
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_S_V_STRUCTUREID_2 = "ddmStructureVersion.structureId = ? AND ";
-	private static final String _FINDER_COLUMN_S_V_VERSION_2 = "ddmStructureVersion.version = ?";
-	private static final String _FINDER_COLUMN_S_V_VERSION_3 = "(ddmStructureVersion.version IS NULL OR ddmStructureVersion.version = '')";
+	private static final String _FINDER_COLUMN_S_V_STRUCTUREID_2_SQL = "ddmStructureVersion.structureId = ? AND ";
+	private static final String _FINDER_COLUMN_S_V_VERSION_2_SQL = "ddmStructureVersion.version = ?";
+	private static final String _FINDER_COLUMN_S_V_VERSION_3_SQL = "(ddmStructureVersion.version IS NULL OR ddmStructureVersion.version = '')";
 	private FinderPath _finderPathWithPaginationFindByS_S;
 	private FinderPath _finderPathWithoutPaginationFindByS_S;
 	private FinderPath _finderPathCountByS_S;
@@ -1336,8 +1336,8 @@ public class DDMStructureVersionPersistenceImpl extends BasePersistenceImpl<DDMS
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_S_S_STRUCTUREID_2 = "ddmStructureVersion.structureId = ? AND ";
-	private static final String _FINDER_COLUMN_S_S_STATUS_2 = "ddmStructureVersion.status = ?";
+	private static final String _FINDER_COLUMN_S_S_STRUCTUREID_2_SQL = "ddmStructureVersion.structureId = ? AND ";
+	private static final String _FINDER_COLUMN_S_S_STATUS_2_SQL = "ddmStructureVersion.status = ?";
 
 	public DDMStructureVersionPersistenceImpl() {
 		setModelClass(DDMStructureVersion.class);
@@ -2069,6 +2069,6 @@ public class DDMStructureVersionPersistenceImpl extends BasePersistenceImpl<DDMS
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No DDMStructureVersion exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(DDMStructureVersionPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"type"
+				"description", "definition", "type"
 			});
 }

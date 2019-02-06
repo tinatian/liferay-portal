@@ -299,9 +299,9 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_2 =
+	private static final String _FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_2_SQL =
 		"lower(release.servletContextName) = ?";
-	private static final String _FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_3 =
+	private static final String _FINDER_COLUMN_SERVLETCONTEXTNAME_SERVLETCONTEXTNAME_3_SQL =
 		"(release.servletContextName IS NULL OR release.servletContextName = '')";
 
 	public ReleasePersistenceImpl() {

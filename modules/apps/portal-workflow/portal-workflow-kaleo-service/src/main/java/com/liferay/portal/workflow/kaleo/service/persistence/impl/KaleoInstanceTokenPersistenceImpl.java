@@ -570,7 +570,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoInstanceToken.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoInstanceToken.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1077,7 +1077,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoInstanceToken.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoInstanceId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoInstanceId;
@@ -1580,7 +1580,7 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2 =
+	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL =
 		"kaleoInstanceToken.kaleoInstanceId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_PKITI;
 	private FinderPath _finderPathWithoutPaginationFindByC_PKITI;
@@ -2119,8 +2119,8 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_PKITI_COMPANYID_2 = "kaleoInstanceToken.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2 =
+	private static final String _FINDER_COLUMN_C_PKITI_COMPANYID_2_SQL = "kaleoInstanceToken.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_PKITI_PARENTKALEOINSTANCETOKENID_2_SQL =
 		"kaleoInstanceToken.parentKaleoInstanceTokenId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_PKITI_CD;
 	private FinderPath _finderPathWithoutPaginationFindByC_PKITI_CD;
@@ -2734,11 +2734,11 @@ public class KaleoInstanceTokenPersistenceImpl extends BasePersistenceImpl<Kaleo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_PKITI_CD_COMPANYID_2 = "kaleoInstanceToken.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2 =
+	private static final String _FINDER_COLUMN_C_PKITI_CD_COMPANYID_2_SQL = "kaleoInstanceToken.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_PKITI_CD_PARENTKALEOINSTANCETOKENID_2_SQL =
 		"kaleoInstanceToken.parentKaleoInstanceTokenId = ? AND ";
-	private static final String _FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1 = "kaleoInstanceToken.completionDate IS NULL";
-	private static final String _FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2 = "kaleoInstanceToken.completionDate = ?";
+	private static final String _FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_1_SQL = "kaleoInstanceToken.completionDate IS NULL";
+	private static final String _FINDER_COLUMN_C_PKITI_CD_COMPLETIONDATE_2_SQL = "kaleoInstanceToken.completionDate = ?";
 
 	public KaleoInstanceTokenPersistenceImpl() {
 		setModelClass(KaleoInstanceToken.class);

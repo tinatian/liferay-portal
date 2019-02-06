@@ -566,7 +566,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TABLEID_TABLEID_2 = "expandoValue.tableId = ?";
+	private static final String _FINDER_COLUMN_TABLEID_TABLEID_2_SQL = "expandoValue.tableId = ?";
 	private FinderPath _finderPathWithPaginationFindByColumnId;
 	private FinderPath _finderPathWithoutPaginationFindByColumnId;
 	private FinderPath _finderPathCountByColumnId;
@@ -1054,7 +1054,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COLUMNID_COLUMNID_2 = "expandoValue.columnId = ?";
+	private static final String _FINDER_COLUMN_COLUMNID_COLUMNID_2_SQL = "expandoValue.columnId = ?";
 	private FinderPath _finderPathWithPaginationFindByRowId;
 	private FinderPath _finderPathWithoutPaginationFindByRowId;
 	private FinderPath _finderPathCountByRowId;
@@ -1169,7 +1169,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_ROWID_ROWID_2);
+			query.append(_FINDER_COLUMN_ROWID_ROWID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1384,7 +1384,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_SQL_SELECT_EXPANDOVALUE_WHERE);
 
-		query.append(_FINDER_COLUMN_ROWID_ROWID_2);
+		query.append(_FINDER_COLUMN_ROWID_ROWID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1506,7 +1506,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_SQL_COUNT_EXPANDOVALUE_WHERE);
 
-			query.append(_FINDER_COLUMN_ROWID_ROWID_2);
+			query.append(_FINDER_COLUMN_ROWID_ROWID_2_SQL);
 
 			String sql = query.toString();
 
@@ -1538,7 +1538,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROWID_ROWID_2 = "expandoValue.rowId = ?";
+	private static final String _FINDER_COLUMN_ROWID_ROWID_2_SQL = "expandoValue.rowId_ = ?";
 	private FinderPath _finderPathWithPaginationFindByT_C;
 	private FinderPath _finderPathWithoutPaginationFindByT_C;
 	private FinderPath _finderPathCountByT_C;
@@ -2061,8 +2061,8 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_C_TABLEID_2 = "expandoValue.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_COLUMNID_2 = "expandoValue.columnId = ?";
+	private static final String _FINDER_COLUMN_T_C_TABLEID_2_SQL = "expandoValue.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_COLUMNID_2_SQL = "expandoValue.columnId = ?";
 	private FinderPath _finderPathWithPaginationFindByT_R;
 	private FinderPath _finderPathWithoutPaginationFindByT_R;
 	private FinderPath _finderPathCountByT_R;
@@ -2190,7 +2190,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_FINDER_COLUMN_T_R_TABLEID_2);
 
-			query.append(_FINDER_COLUMN_T_R_ROWID_2);
+			query.append(_FINDER_COLUMN_T_R_ROWID_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2423,7 +2423,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 		query.append(_FINDER_COLUMN_T_R_TABLEID_2);
 
-		query.append(_FINDER_COLUMN_T_R_ROWID_2);
+		query.append(_FINDER_COLUMN_T_R_ROWID_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2551,7 +2551,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_FINDER_COLUMN_T_R_TABLEID_2);
 
-			query.append(_FINDER_COLUMN_T_R_ROWID_2);
+			query.append(_FINDER_COLUMN_T_R_ROWID_2_SQL);
 
 			String sql = query.toString();
 
@@ -2585,8 +2585,8 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_R_TABLEID_2 = "expandoValue.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_R_ROWID_2 = "expandoValue.rowId = ?";
+	private static final String _FINDER_COLUMN_T_R_TABLEID_2_SQL = "expandoValue.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_R_ROWID_2_SQL = "expandoValue.rowId_ = ?";
 	private FinderPath _finderPathWithPaginationFindByT_CPK;
 	private FinderPath _finderPathWithoutPaginationFindByT_CPK;
 	private FinderPath _finderPathCountByT_CPK;
@@ -3109,8 +3109,8 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_CPK_TABLEID_2 = "expandoValue.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_CPK_CLASSPK_2 = "expandoValue.classPK = ?";
+	private static final String _FINDER_COLUMN_T_CPK_TABLEID_2_SQL = "expandoValue.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_CPK_CLASSPK_2_SQL = "expandoValue.classPK = ?";
 	private FinderPath _finderPathFetchByC_R;
 	private FinderPath _finderPathCountByC_R;
 
@@ -3198,7 +3198,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_FINDER_COLUMN_C_R_COLUMNID_2);
 
-			query.append(_FINDER_COLUMN_C_R_ROWID_2);
+			query.append(_FINDER_COLUMN_C_R_ROWID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3285,7 +3285,7 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 
 			query.append(_FINDER_COLUMN_C_R_COLUMNID_2);
 
-			query.append(_FINDER_COLUMN_C_R_ROWID_2);
+			query.append(_FINDER_COLUMN_C_R_ROWID_2_SQL);
 
 			String sql = query.toString();
 
@@ -3319,8 +3319,8 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_R_COLUMNID_2 = "expandoValue.columnId = ? AND ";
-	private static final String _FINDER_COLUMN_C_R_ROWID_2 = "expandoValue.rowId = ?";
+	private static final String _FINDER_COLUMN_C_R_COLUMNID_2_SQL = "expandoValue.columnId = ? AND ";
+	private static final String _FINDER_COLUMN_C_R_ROWID_2_SQL = "expandoValue.rowId_ = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -3844,8 +3844,8 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "expandoValue.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "expandoValue.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "expandoValue.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "expandoValue.classPK = ?";
 	private FinderPath _finderPathFetchByT_C_C;
 	private FinderPath _finderPathCountByT_C_C;
 
@@ -4071,9 +4071,9 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_C_C_TABLEID_2 = "expandoValue.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_C_COLUMNID_2 = "expandoValue.columnId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_C_CLASSPK_2 = "expandoValue.classPK = ?";
+	private static final String _FINDER_COLUMN_T_C_C_TABLEID_2_SQL = "expandoValue.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_C_COLUMNID_2_SQL = "expandoValue.columnId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_C_CLASSPK_2_SQL = "expandoValue.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByT_C_D;
 	private FinderPath _finderPathWithoutPaginationFindByT_C_D;
 	private FinderPath _finderPathCountByT_C_D;
@@ -4217,12 +4217,12 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 			boolean bindData = false;
 
 			if (data.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_C_D_DATA_3);
+				query.append(_FINDER_COLUMN_T_C_D_DATA_3_SQL);
 			}
 			else {
 				bindData = true;
 
-				query.append(_FINDER_COLUMN_T_C_D_DATA_2);
+				query.append(_FINDER_COLUMN_T_C_D_DATA_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4479,12 +4479,12 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		boolean bindData = false;
 
 		if (data.isEmpty()) {
-			query.append(_FINDER_COLUMN_T_C_D_DATA_3);
+			query.append(_FINDER_COLUMN_T_C_D_DATA_3_SQL);
 		}
 		else {
 			bindData = true;
 
-			query.append(_FINDER_COLUMN_T_C_D_DATA_2);
+			query.append(_FINDER_COLUMN_T_C_D_DATA_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4626,12 +4626,12 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 			boolean bindData = false;
 
 			if (data.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_C_D_DATA_3);
+				query.append(_FINDER_COLUMN_T_C_D_DATA_3_SQL);
 			}
 			else {
 				bindData = true;
 
-				query.append(_FINDER_COLUMN_T_C_D_DATA_2);
+				query.append(_FINDER_COLUMN_T_C_D_DATA_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4670,10 +4670,10 @@ public class ExpandoValuePersistenceImpl extends BasePersistenceImpl<ExpandoValu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_C_D_TABLEID_2 = "expandoValue.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_D_COLUMNID_2 = "expandoValue.columnId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_D_DATA_2 = "CAST_CLOB_TEXT(expandoValue.data) = ?";
-	private static final String _FINDER_COLUMN_T_C_D_DATA_3 = "(expandoValue.data IS NULL OR CAST_CLOB_TEXT(expandoValue.data) = '')";
+	private static final String _FINDER_COLUMN_T_C_D_TABLEID_2_SQL = "expandoValue.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_D_COLUMNID_2_SQL = "expandoValue.columnId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_D_DATA_2_SQL = "CAST_CLOB_TEXT(expandoValue.data_) = ?";
+	private static final String _FINDER_COLUMN_T_C_D_DATA_3_SQL = "(expandoValue.data_ IS NULL OR CAST_CLOB_TEXT(expandoValue.data_) = '')";
 
 	public ExpandoValuePersistenceImpl() {
 		setModelClass(ExpandoValue.class);

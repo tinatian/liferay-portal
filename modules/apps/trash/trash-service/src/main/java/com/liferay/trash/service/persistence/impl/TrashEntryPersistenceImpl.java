@@ -561,7 +561,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "trashEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "trashEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1048,7 +1048,7 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "trashEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "trashEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_LtCD;
 	private FinderPath _finderPathWithPaginationCountByG_LtCD;
 
@@ -1596,9 +1596,9 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_LTCD_GROUPID_2 = "trashEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LTCD_CREATEDATE_1 = "trashEntry.createDate IS NULL";
-	private static final String _FINDER_COLUMN_G_LTCD_CREATEDATE_2 = "trashEntry.createDate < ?";
+	private static final String _FINDER_COLUMN_G_LTCD_GROUPID_2_SQL = "trashEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LTCD_CREATEDATE_1_SQL = "trashEntry.createDate IS NULL";
+	private static final String _FINDER_COLUMN_G_LTCD_CREATEDATE_2_SQL = "trashEntry.createDate < ?";
 	private FinderPath _finderPathWithPaginationFindByG_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C;
 	private FinderPath _finderPathCountByG_C;
@@ -2121,8 +2121,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_GROUPID_2 = "trashEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2 = "trashEntry.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_C_GROUPID_2_SQL = "trashEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL = "trashEntry.classNameId = ?";
 	private FinderPath _finderPathFetchByC_C;
 	private FinderPath _finderPathCountByC_C;
 
@@ -2330,8 +2330,8 @@ public class TrashEntryPersistenceImpl extends BasePersistenceImpl<TrashEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "trashEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "trashEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "trashEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "trashEntry.classPK = ?";
 
 	public TrashEntryPersistenceImpl() {
 		setModelClass(TrashEntry.class);

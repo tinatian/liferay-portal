@@ -214,12 +214,12 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -442,12 +442,12 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -907,12 +907,12 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1007,8 +1007,6 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "userGroup.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(userGroup.uuid IS NULL OR userGroup.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "userGroup.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(userGroup.uuid_ IS NULL OR userGroup.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1141,12 +1139,12 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1387,12 +1385,12 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1874,12 +1872,12 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1983,11 +1981,9 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "userGroup.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(userGroup.uuid IS NULL OR userGroup.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "userGroup.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(userGroup.uuid_ IS NULL OR userGroup.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "userGroup.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "userGroup.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2828,7 +2824,7 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "userGroup.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "userGroup.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_P;
 	private FinderPath _finderPathCountByC_P;
@@ -3727,8 +3723,8 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_P_COMPANYID_2 = "userGroup.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_PARENTUSERGROUPID_2 = "userGroup.parentUserGroupId = ?";
+	private static final String _FINDER_COLUMN_C_P_COMPANYID_2_SQL = "userGroup.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_PARENTUSERGROUPID_2_SQL = "userGroup.parentUserGroupId = ?";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -3963,9 +3959,9 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "userGroup.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "lower(userGroup.name) = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(userGroup.name IS NULL OR userGroup.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "userGroup.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "lower(userGroup.name) = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(userGroup.name IS NULL OR userGroup.name = '')";
 	private FinderPath _finderPathWithPaginationFindByC_LikeN;
 	private FinderPath _finderPathWithPaginationCountByC_LikeN;
 
@@ -4928,9 +4924,9 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_LIKEN_COMPANYID_2 = "userGroup.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_LIKEN_NAME_2 = "lower(userGroup.name) LIKE ?";
-	private static final String _FINDER_COLUMN_C_LIKEN_NAME_3 = "(userGroup.name IS NULL OR userGroup.name LIKE '')";
+	private static final String _FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL = "userGroup.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_LIKEN_NAME_2_SQL = "lower(userGroup.name) LIKE ?";
+	private static final String _FINDER_COLUMN_C_LIKEN_NAME_3_SQL = "(userGroup.name IS NULL OR userGroup.name LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByU_C_P;
 	private FinderPath _finderPathWithPaginationCountByU_C_P;
 
@@ -5527,9 +5523,9 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_U_C_P_USERGROUPID_2 = "userGroup.userGroupId > ? AND ";
-	private static final String _FINDER_COLUMN_U_C_P_COMPANYID_2 = "userGroup.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_P_PARENTUSERGROUPID_2 = "userGroup.parentUserGroupId = ?";
+	private static final String _FINDER_COLUMN_U_C_P_USERGROUPID_2_SQL = "userGroup.userGroupId > ? AND ";
+	private static final String _FINDER_COLUMN_U_C_P_COMPANYID_2_SQL = "userGroup.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_P_PARENTUSERGROUPID_2_SQL = "userGroup.parentUserGroupId = ?";
 	private FinderPath _finderPathFetchByC_ERC;
 	private FinderPath _finderPathCountByC_ERC;
 
@@ -5776,9 +5772,11 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2 = "userGroup.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2 = "userGroup.externalReferenceCode = ?";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3 = "(userGroup.externalReferenceCode IS NULL OR userGroup.externalReferenceCode = '')";
+	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2_SQL = "userGroup.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL =
+		"userGroup.externalReferenceCode = ?";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL =
+		"(userGroup.externalReferenceCode IS NULL OR userGroup.externalReferenceCode = '')";
 
 	public UserGroupPersistenceImpl() {
 		setModelClass(UserGroup.class);
@@ -7630,6 +7628,6 @@ public class UserGroupPersistenceImpl extends BasePersistenceImpl<UserGroup>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No UserGroup exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(UserGroupPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "description"
 			});
 }

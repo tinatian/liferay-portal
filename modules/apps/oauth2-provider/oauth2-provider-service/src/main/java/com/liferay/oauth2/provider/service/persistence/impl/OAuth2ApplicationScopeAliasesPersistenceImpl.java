@@ -573,7 +573,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_COMPANYID_2 = "oAuth2ApplicationScopeAliases.companyId = ?";
+	private static final String _FINDER_COLUMN_C_COMPANYID_2_SQL = "oAuth2ApplicationScopeAliases.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByOAuth2ApplicationId;
 	private FinderPath _finderPathWithoutPaginationFindByOAuth2ApplicationId;
 	private FinderPath _finderPathCountByOAuth2ApplicationId;
@@ -1079,7 +1079,7 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2 =
+	private static final String _FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL =
 		"oAuth2ApplicationScopeAliases.oAuth2ApplicationId = ?";
 	private FinderPath _finderPathWithPaginationFindByO_S;
 	private FinderPath _finderPathWithoutPaginationFindByO_S;
@@ -1618,8 +1618,8 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2 = "oAuth2ApplicationScopeAliases.oAuth2ApplicationId = ? AND ";
-	private static final String _FINDER_COLUMN_O_S_SCOPEALIASESHASH_2 = "oAuth2ApplicationScopeAliases.scopeAliasesHash = ?";
+	private static final String _FINDER_COLUMN_O_S_OAUTH2APPLICATIONID_2_SQL = "oAuth2ApplicationScopeAliases.oAuth2ApplicationId = ? AND ";
+	private static final String _FINDER_COLUMN_O_S_SCOPEALIASESHASH_2_SQL = "oAuth2ApplicationScopeAliases.scopeAliasesHash = ?";
 
 	public OAuth2ApplicationScopeAliasesPersistenceImpl() {
 		setModelClass(OAuth2ApplicationScopeAliases.class);

@@ -564,7 +564,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "message.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "message.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByFolderId;
 	private FinderPath _finderPathWithoutPaginationFindByFolderId;
 	private FinderPath _finderPathCountByFolderId;
@@ -1047,7 +1047,7 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FOLDERID_FOLDERID_2 = "message.folderId = ?";
+	private static final String _FINDER_COLUMN_FOLDERID_FOLDERID_2_SQL = "message.folderId = ?";
 	private FinderPath _finderPathFetchByF_R;
 	private FinderPath _finderPathCountByF_R;
 
@@ -1266,8 +1266,8 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_R_FOLDERID_2 = "message.folderId = ? AND ";
-	private static final String _FINDER_COLUMN_F_R_REMOTEMESSAGEID_2 = "message.remoteMessageId = ?";
+	private static final String _FINDER_COLUMN_F_R_FOLDERID_2_SQL = "message.folderId = ? AND ";
+	private static final String _FINDER_COLUMN_F_R_REMOTEMESSAGEID_2_SQL = "message.remoteMessageId = ?";
 
 	public MessagePersistenceImpl() {
 		setModelClass(Message.class);

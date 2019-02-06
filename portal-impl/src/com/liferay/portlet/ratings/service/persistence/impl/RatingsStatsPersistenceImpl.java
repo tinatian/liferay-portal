@@ -641,9 +641,9 @@ public class RatingsStatsPersistenceImpl extends BasePersistenceImpl<RatingsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "ratingsStats.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "ratingsStats.classPK = ?";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_7 = "ratingsStats.classPK IN (";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "ratingsStats.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "ratingsStats.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_7_SQL = "ratingsStats.classPK IN (";
 
 	public RatingsStatsPersistenceImpl() {
 		setModelClass(RatingsStats.class);

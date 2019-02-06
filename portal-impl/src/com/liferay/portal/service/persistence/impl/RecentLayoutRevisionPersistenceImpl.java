@@ -565,7 +565,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "recentLayoutRevision.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "recentLayoutRevision.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1055,7 +1055,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "recentLayoutRevision.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "recentLayoutRevision.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutRevisionId;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutRevisionId;
 	private FinderPath _finderPathCountByLayoutRevisionId;
@@ -1561,7 +1561,7 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTREVISIONID_LAYOUTREVISIONID_2_SQL =
 		"recentLayoutRevision.layoutRevisionId = ?";
 	private FinderPath _finderPathFetchByU_L_P;
 	private FinderPath _finderPathCountByU_L_P;
@@ -1793,9 +1793,9 @@ public class RecentLayoutRevisionPersistenceImpl extends BasePersistenceImpl<Rec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_L_P_USERID_2 = "recentLayoutRevision.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2 = "recentLayoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_U_L_P_PLID_2 = "recentLayoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_U_L_P_USERID_2_SQL = "recentLayoutRevision.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2_SQL = "recentLayoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_U_L_P_PLID_2_SQL = "recentLayoutRevision.plid = ?";
 
 	public RecentLayoutRevisionPersistenceImpl() {
 		setModelClass(RecentLayoutRevision.class);

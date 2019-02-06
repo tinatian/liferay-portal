@@ -291,8 +291,8 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_WEBID_WEBID_2 = "company.webId = ?";
-	private static final String _FINDER_COLUMN_WEBID_WEBID_3 = "(company.webId IS NULL OR company.webId = '')";
+	private static final String _FINDER_COLUMN_WEBID_WEBID_2_SQL = "company.webId = ?";
+	private static final String _FINDER_COLUMN_WEBID_WEBID_3_SQL = "(company.webId IS NULL OR company.webId = '')";
 	private FinderPath _finderPathFetchByMx;
 	private FinderPath _finderPathCountByMx;
 
@@ -518,8 +518,8 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_MX_MX_2 = "company.mx = ?";
-	private static final String _FINDER_COLUMN_MX_MX_3 = "(company.mx IS NULL OR company.mx = '')";
+	private static final String _FINDER_COLUMN_MX_MX_2_SQL = "company.mx = ?";
+	private static final String _FINDER_COLUMN_MX_MX_3_SQL = "(company.mx IS NULL OR company.mx = '')";
 	private FinderPath _finderPathFetchByLogoId;
 	private FinderPath _finderPathCountByLogoId;
 
@@ -720,7 +720,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LOGOID_LOGOID_2 = "company.logoId = ?";
+	private static final String _FINDER_COLUMN_LOGOID_LOGOID_2_SQL = "company.logoId = ?";
 	private FinderPath _finderPathWithPaginationFindBySystem;
 	private FinderPath _finderPathWithoutPaginationFindBySystem;
 	private FinderPath _finderPathCountBySystem;
@@ -834,7 +834,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 
 			query.append(_SQL_SELECT_COMPANY_WHERE);
 
-			query.append(_FINDER_COLUMN_SYSTEM_SYSTEM_2);
+			query.append(_FINDER_COLUMN_SYSTEM_SYSTEM_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1049,7 +1049,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 
 		query.append(_SQL_SELECT_COMPANY_WHERE);
 
-		query.append(_FINDER_COLUMN_SYSTEM_SYSTEM_2);
+		query.append(_FINDER_COLUMN_SYSTEM_SYSTEM_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1171,7 +1171,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 
 			query.append(_SQL_COUNT_COMPANY_WHERE);
 
-			query.append(_FINDER_COLUMN_SYSTEM_SYSTEM_2);
+			query.append(_FINDER_COLUMN_SYSTEM_SYSTEM_2_SQL);
 
 			String sql = query.toString();
 
@@ -1203,7 +1203,7 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SYSTEM_SYSTEM_2 = "company.system = ?";
+	private static final String _FINDER_COLUMN_SYSTEM_SYSTEM_2_SQL = "company.system_ = ?";
 
 	public CompanyPersistenceImpl() {
 		setModelClass(Company.class);
@@ -1912,6 +1912,6 @@ public class CompanyPersistenceImpl extends BasePersistenceImpl<Company>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Company exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(CompanyPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"key", "active"
+				"key", "system", "active"
 			});
 }
