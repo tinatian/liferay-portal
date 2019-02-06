@@ -205,12 +205,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -433,12 +433,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -567,12 +567,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -607,8 +607,8 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "sharingEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(sharingEntry.uuid IS NULL OR sharingEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "sharingEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(sharingEntry.uuid_ IS NULL OR sharingEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -699,12 +699,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -798,12 +798,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -842,9 +842,9 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "sharingEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(sharingEntry.uuid IS NULL OR sharingEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "sharingEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "sharingEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(sharingEntry.uuid_ IS NULL OR sharingEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "sharingEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -975,12 +975,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1222,12 +1222,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1362,12 +1362,12 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1406,9 +1406,9 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "sharingEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(sharingEntry.uuid IS NULL OR sharingEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "sharingEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "sharingEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(sharingEntry.uuid_ IS NULL OR sharingEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "sharingEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1893,7 +1893,7 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "sharingEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "sharingEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByFromUserId;
 	private FinderPath _finderPathWithoutPaginationFindByFromUserId;
 	private FinderPath _finderPathCountByFromUserId;
@@ -2381,7 +2381,7 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FROMUSERID_FROMUSERID_2 = "sharingEntry.fromUserId = ?";
+	private static final String _FINDER_COLUMN_FROMUSERID_FROMUSERID_2_SQL = "sharingEntry.fromUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByToUserId;
 	private FinderPath _finderPathWithoutPaginationFindByToUserId;
 	private FinderPath _finderPathCountByToUserId;
@@ -2868,7 +2868,7 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TOUSERID_TOUSERID_2 = "sharingEntry.toUserId = ?";
+	private static final String _FINDER_COLUMN_TOUSERID_TOUSERID_2_SQL = "sharingEntry.toUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByExpirationDate;
 	private FinderPath _finderPathWithPaginationCountByExpirationDate;
 
@@ -3387,8 +3387,10 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1 = "sharingEntry.expirationDate IS NULL";
-	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2 = "sharingEntry.expirationDate < ?";
+	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL =
+		"sharingEntry.expirationDate IS NULL";
+	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL =
+		"sharingEntry.expirationDate < ?";
 	private FinderPath _finderPathWithPaginationFindByTU_C;
 	private FinderPath _finderPathWithoutPaginationFindByTU_C;
 	private FinderPath _finderPathCountByTU_C;
@@ -3912,8 +3914,8 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TU_C_TOUSERID_2 = "sharingEntry.toUserId = ? AND ";
-	private static final String _FINDER_COLUMN_TU_C_CLASSNAMEID_2 = "sharingEntry.classNameId = ?";
+	private static final String _FINDER_COLUMN_TU_C_TOUSERID_2_SQL = "sharingEntry.toUserId = ? AND ";
+	private static final String _FINDER_COLUMN_TU_C_CLASSNAMEID_2_SQL = "sharingEntry.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -4437,8 +4439,8 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "sharingEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "sharingEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "sharingEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "sharingEntry.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByFU_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByFU_C_C;
 	private FinderPath _finderPathCountByFU_C_C;
@@ -4996,9 +4998,9 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FU_C_C_FROMUSERID_2 = "sharingEntry.fromUserId = ? AND ";
-	private static final String _FINDER_COLUMN_FU_C_C_CLASSNAMEID_2 = "sharingEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_FU_C_C_CLASSPK_2 = "sharingEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_FU_C_C_FROMUSERID_2_SQL = "sharingEntry.fromUserId = ? AND ";
+	private static final String _FINDER_COLUMN_FU_C_C_CLASSNAMEID_2_SQL = "sharingEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_FU_C_C_CLASSPK_2_SQL = "sharingEntry.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByTU_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByTU_C_C;
 	private FinderPath _finderPathCountByTU_C_C;
@@ -5556,9 +5558,9 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TU_C_C_TOUSERID_2 = "sharingEntry.toUserId = ? AND ";
-	private static final String _FINDER_COLUMN_TU_C_C_CLASSNAMEID_2 = "sharingEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_TU_C_C_CLASSPK_2 = "sharingEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_TU_C_C_TOUSERID_2_SQL = "sharingEntry.toUserId = ? AND ";
+	private static final String _FINDER_COLUMN_TU_C_C_CLASSNAMEID_2_SQL = "sharingEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_TU_C_C_CLASSPK_2_SQL = "sharingEntry.classPK = ?";
 	private FinderPath _finderPathFetchByFU_TU_C_C;
 	private FinderPath _finderPathCountByFU_TU_C_C;
 
@@ -5808,10 +5810,10 @@ public class SharingEntryPersistenceImpl extends BasePersistenceImpl<SharingEntr
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FU_TU_C_C_FROMUSERID_2 = "sharingEntry.fromUserId = ? AND ";
-	private static final String _FINDER_COLUMN_FU_TU_C_C_TOUSERID_2 = "sharingEntry.toUserId = ? AND ";
-	private static final String _FINDER_COLUMN_FU_TU_C_C_CLASSNAMEID_2 = "sharingEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_FU_TU_C_C_CLASSPK_2 = "sharingEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_FU_TU_C_C_FROMUSERID_2_SQL = "sharingEntry.fromUserId = ? AND ";
+	private static final String _FINDER_COLUMN_FU_TU_C_C_TOUSERID_2_SQL = "sharingEntry.toUserId = ? AND ";
+	private static final String _FINDER_COLUMN_FU_TU_C_C_CLASSNAMEID_2_SQL = "sharingEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_FU_TU_C_C_CLASSPK_2_SQL = "sharingEntry.classPK = ?";
 
 	public SharingEntryPersistenceImpl() {
 		setModelClass(SharingEntry.class);

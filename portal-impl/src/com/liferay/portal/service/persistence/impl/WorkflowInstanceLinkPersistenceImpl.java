@@ -681,10 +681,10 @@ public class WorkflowInstanceLinkPersistenceImpl extends BasePersistenceImpl<Wor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_C_GROUPID_2 = "workflowInstanceLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_COMPANYID_2 = "workflowInstanceLink.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2 = "workflowInstanceLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_CLASSPK_2 = "workflowInstanceLink.classPK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_C_GROUPID_2_SQL = "workflowInstanceLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_COMPANYID_2_SQL = "workflowInstanceLink.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2_SQL = "workflowInstanceLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_CLASSPK_2_SQL = "workflowInstanceLink.classPK = ?";
 
 	public WorkflowInstanceLinkPersistenceImpl() {
 		setModelClass(WorkflowInstanceLink.class);

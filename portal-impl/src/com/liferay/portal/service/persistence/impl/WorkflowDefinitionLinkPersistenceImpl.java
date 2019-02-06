@@ -574,7 +574,7 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "workflowDefinitionLink.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "workflowDefinitionLink.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C;
 	private FinderPath _finderPathCountByG_C_C;
@@ -1140,9 +1140,9 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2 = "workflowDefinitionLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_COMPANYID_2 = "workflowDefinitionLink.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2 = "workflowDefinitionLink.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2_SQL = "workflowDefinitionLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_COMPANYID_2_SQL = "workflowDefinitionLink.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL = "workflowDefinitionLink.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_W_W;
 	private FinderPath _finderPathWithoutPaginationFindByC_W_W;
 	private FinderPath _finderPathCountByC_W_W;
@@ -1766,10 +1766,12 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_W_W_COMPANYID_2 = "workflowDefinitionLink.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2 = "workflowDefinitionLink.workflowDefinitionName = ? AND ";
-	private static final String _FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3 = "(workflowDefinitionLink.workflowDefinitionName IS NULL OR workflowDefinitionLink.workflowDefinitionName = '') AND ";
-	private static final String _FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2 =
+	private static final String _FINDER_COLUMN_C_W_W_COMPANYID_2_SQL = "workflowDefinitionLink.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_2_SQL =
+		"workflowDefinitionLink.workflowDefinitionName = ? AND ";
+	private static final String _FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONNAME_3_SQL =
+		"(workflowDefinitionLink.workflowDefinitionName IS NULL OR workflowDefinitionLink.workflowDefinitionName = '') AND ";
+	private static final String _FINDER_COLUMN_C_W_W_WORKFLOWDEFINITIONVERSION_2_SQL =
 		"workflowDefinitionLink.workflowDefinitionVersion = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_C;
@@ -2373,10 +2375,10 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_C_GROUPID_2 = "workflowDefinitionLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_COMPANYID_2 = "workflowDefinitionLink.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2 = "workflowDefinitionLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_CLASSPK_2 = "workflowDefinitionLink.classPK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_C_GROUPID_2_SQL = "workflowDefinitionLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_COMPANYID_2_SQL = "workflowDefinitionLink.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_CLASSNAMEID_2_SQL = "workflowDefinitionLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_CLASSPK_2_SQL = "workflowDefinitionLink.classPK = ?";
 	private FinderPath _finderPathFetchByG_C_C_C_T;
 	private FinderPath _finderPathCountByG_C_C_C_T;
 
@@ -2660,11 +2662,11 @@ public class WorkflowDefinitionLinkPersistenceImpl extends BasePersistenceImpl<W
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_C_T_GROUPID_2 = "workflowDefinitionLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_T_COMPANYID_2 = "workflowDefinitionLink.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_T_CLASSNAMEID_2 = "workflowDefinitionLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_T_CLASSPK_2 = "workflowDefinitionLink.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_C_T_TYPEPK_2 = "workflowDefinitionLink.typePK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_C_T_GROUPID_2_SQL = "workflowDefinitionLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_T_COMPANYID_2_SQL = "workflowDefinitionLink.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_T_CLASSNAMEID_2_SQL = "workflowDefinitionLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_T_CLASSPK_2_SQL = "workflowDefinitionLink.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_C_T_TYPEPK_2_SQL = "workflowDefinitionLink.typePK = ?";
 
 	public WorkflowDefinitionLinkPersistenceImpl() {
 		setModelClass(WorkflowDefinitionLink.class);

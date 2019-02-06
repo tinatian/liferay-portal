@@ -283,8 +283,8 @@ public class FriendlyURLEntryMappingPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "friendlyURLEntryMapping.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "friendlyURLEntryMapping.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "friendlyURLEntryMapping.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "friendlyURLEntryMapping.classPK = ?";
 
 	public FriendlyURLEntryMappingPersistenceImpl() {
 		setModelClass(FriendlyURLEntryMapping.class);

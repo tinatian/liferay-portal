@@ -570,7 +570,7 @@ public class DDMTemplateVersionPersistenceImpl extends BasePersistenceImpl<DDMTe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TEMPLATEID_TEMPLATEID_2 = "ddmTemplateVersion.templateId = ?";
+	private static final String _FINDER_COLUMN_TEMPLATEID_TEMPLATEID_2_SQL = "ddmTemplateVersion.templateId = ?";
 	private FinderPath _finderPathFetchByT_V;
 	private FinderPath _finderPathCountByT_V;
 
@@ -804,9 +804,9 @@ public class DDMTemplateVersionPersistenceImpl extends BasePersistenceImpl<DDMTe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_V_TEMPLATEID_2 = "ddmTemplateVersion.templateId = ? AND ";
-	private static final String _FINDER_COLUMN_T_V_VERSION_2 = "ddmTemplateVersion.version = ?";
-	private static final String _FINDER_COLUMN_T_V_VERSION_3 = "(ddmTemplateVersion.version IS NULL OR ddmTemplateVersion.version = '')";
+	private static final String _FINDER_COLUMN_T_V_TEMPLATEID_2_SQL = "ddmTemplateVersion.templateId = ? AND ";
+	private static final String _FINDER_COLUMN_T_V_VERSION_2_SQL = "ddmTemplateVersion.version = ?";
+	private static final String _FINDER_COLUMN_T_V_VERSION_3_SQL = "(ddmTemplateVersion.version IS NULL OR ddmTemplateVersion.version = '')";
 	private FinderPath _finderPathWithPaginationFindByT_S;
 	private FinderPath _finderPathWithoutPaginationFindByT_S;
 	private FinderPath _finderPathCountByT_S;
@@ -1332,8 +1332,8 @@ public class DDMTemplateVersionPersistenceImpl extends BasePersistenceImpl<DDMTe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_S_TEMPLATEID_2 = "ddmTemplateVersion.templateId = ? AND ";
-	private static final String _FINDER_COLUMN_T_S_STATUS_2 = "ddmTemplateVersion.status = ?";
+	private static final String _FINDER_COLUMN_T_S_TEMPLATEID_2_SQL = "ddmTemplateVersion.templateId = ? AND ";
+	private static final String _FINDER_COLUMN_T_S_STATUS_2_SQL = "ddmTemplateVersion.status = ?";
 
 	public DDMTemplateVersionPersistenceImpl() {
 		setModelClass(DDMTemplateVersion.class);

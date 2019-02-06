@@ -567,7 +567,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_OWNERID_OWNERID_2 = "portletPreferences.ownerId = ?";
+	private static final String _FINDER_COLUMN_OWNERID_OWNERID_2_SQL = "portletPreferences.ownerId = ?";
 	private FinderPath _finderPathWithPaginationFindByPlid;
 	private FinderPath _finderPathWithoutPaginationFindByPlid;
 	private FinderPath _finderPathCountByPlid;
@@ -1055,7 +1055,7 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PLID_PLID_2 = "portletPreferences.plid = ?";
+	private static final String _FINDER_COLUMN_PLID_PLID_2_SQL = "portletPreferences.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByPortletId;
 	private FinderPath _finderPathWithoutPaginationFindByPortletId;
 	private FinderPath _finderPathCountByPortletId;
@@ -1587,8 +1587,8 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_2 = "portletPreferences.portletId = ?";
-	private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
+	private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_2_SQL = "portletPreferences.portletId = ?";
+	private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
 	private FinderPath _finderPathWithPaginationFindByO_P;
 	private FinderPath _finderPathWithoutPaginationFindByO_P;
 	private FinderPath _finderPathCountByO_P;
@@ -2155,9 +2155,9 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_P_OWNERTYPE_2 = "portletPreferences.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_O_P_PORTLETID_2 = "portletPreferences.portletId = ?";
-	private static final String _FINDER_COLUMN_O_P_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
+	private static final String _FINDER_COLUMN_O_P_OWNERTYPE_2_SQL = "portletPreferences.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_O_P_PORTLETID_2_SQL = "portletPreferences.portletId = ?";
+	private static final String _FINDER_COLUMN_O_P_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
 	private FinderPath _finderPathWithPaginationFindByP_P;
 	private FinderPath _finderPathWithoutPaginationFindByP_P;
 	private FinderPath _finderPathCountByP_P;
@@ -2723,9 +2723,9 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_P_PLID_2 = "portletPreferences.plid = ? AND ";
-	private static final String _FINDER_COLUMN_P_P_PORTLETID_2 = "portletPreferences.portletId = ?";
-	private static final String _FINDER_COLUMN_P_P_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
+	private static final String _FINDER_COLUMN_P_P_PLID_2_SQL = "portletPreferences.plid = ? AND ";
+	private static final String _FINDER_COLUMN_P_P_PORTLETID_2_SQL = "portletPreferences.portletId = ?";
+	private static final String _FINDER_COLUMN_P_P_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
 	private FinderPath _finderPathWithPaginationFindByO_O_P;
 	private FinderPath _finderPathWithoutPaginationFindByO_O_P;
 	private FinderPath _finderPathCountByO_O_P;
@@ -3284,9 +3284,9 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_O_P_OWNERID_2 = "portletPreferences.ownerId = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_P_OWNERTYPE_2 = "portletPreferences.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_P_PLID_2 = "portletPreferences.plid = ?";
+	private static final String _FINDER_COLUMN_O_O_P_OWNERID_2_SQL = "portletPreferences.ownerId = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_P_OWNERTYPE_2_SQL = "portletPreferences.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_P_PLID_2_SQL = "portletPreferences.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByO_O_PI;
 	private FinderPath _finderPathWithoutPaginationFindByO_O_PI;
 	private FinderPath _finderPathCountByO_O_PI;
@@ -3890,10 +3890,10 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_O_PI_OWNERID_2 = "portletPreferences.ownerId = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_PI_OWNERTYPE_2 = "portletPreferences.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_PI_PORTLETID_2 = "portletPreferences.portletId = ?";
-	private static final String _FINDER_COLUMN_O_O_PI_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
+	private static final String _FINDER_COLUMN_O_O_PI_OWNERID_2_SQL = "portletPreferences.ownerId = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_PI_OWNERTYPE_2_SQL = "portletPreferences.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_PI_PORTLETID_2_SQL = "portletPreferences.portletId = ?";
+	private static final String _FINDER_COLUMN_O_O_PI_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
 	private FinderPath _finderPathWithPaginationFindByO_P_P;
 	private FinderPath _finderPathWithoutPaginationFindByO_P_P;
 	private FinderPath _finderPathCountByO_P_P;
@@ -4496,10 +4496,10 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_P_P_OWNERTYPE_2 = "portletPreferences.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_O_P_P_PLID_2 = "portletPreferences.plid = ? AND ";
-	private static final String _FINDER_COLUMN_O_P_P_PORTLETID_2 = "portletPreferences.portletId = ?";
-	private static final String _FINDER_COLUMN_O_P_P_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
+	private static final String _FINDER_COLUMN_O_P_P_OWNERTYPE_2_SQL = "portletPreferences.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_O_P_P_PLID_2_SQL = "portletPreferences.plid = ? AND ";
+	private static final String _FINDER_COLUMN_O_P_P_PORTLETID_2_SQL = "portletPreferences.portletId = ?";
+	private static final String _FINDER_COLUMN_O_P_P_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
 	private FinderPath _finderPathWithPaginationFindByC_O_O_LikeP;
 	private FinderPath _finderPathWithPaginationCountByC_O_O_LikeP;
 
@@ -5134,11 +5134,11 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2 = "portletPreferences.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2 = "portletPreferences.ownerId = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2 = "portletPreferences.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2 = "portletPreferences.portletId LIKE ?";
-	private static final String _FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId LIKE '')";
+	private static final String _FINDER_COLUMN_C_O_O_LIKEP_COMPANYID_2_SQL = "portletPreferences.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_O_LIKEP_OWNERID_2_SQL = "portletPreferences.ownerId = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_O_LIKEP_OWNERTYPE_2_SQL = "portletPreferences.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_2_SQL = "portletPreferences.portletId LIKE ?";
+	private static final String _FINDER_COLUMN_C_O_O_LIKEP_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId LIKE '')";
 	private FinderPath _finderPathFetchByO_O_P_P;
 	private FinderPath _finderPathCountByO_O_P_P;
 
@@ -5412,11 +5412,11 @@ public class PortletPreferencesPersistenceImpl extends BasePersistenceImpl<Portl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_O_O_P_P_OWNERID_2 = "portletPreferences.ownerId = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_P_P_OWNERTYPE_2 = "portletPreferences.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_P_P_PLID_2 = "portletPreferences.plid = ? AND ";
-	private static final String _FINDER_COLUMN_O_O_P_P_PORTLETID_2 = "portletPreferences.portletId = ?";
-	private static final String _FINDER_COLUMN_O_O_P_P_PORTLETID_3 = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
+	private static final String _FINDER_COLUMN_O_O_P_P_OWNERID_2_SQL = "portletPreferences.ownerId = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_P_P_OWNERTYPE_2_SQL = "portletPreferences.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_P_P_PLID_2_SQL = "portletPreferences.plid = ? AND ";
+	private static final String _FINDER_COLUMN_O_O_P_P_PORTLETID_2_SQL = "portletPreferences.portletId = ?";
+	private static final String _FINDER_COLUMN_O_O_P_P_PORTLETID_3_SQL = "(portletPreferences.portletId IS NULL OR portletPreferences.portletId = '')";
 
 	public PortletPreferencesPersistenceImpl() {
 		setModelClass(PortletPreferences.class);

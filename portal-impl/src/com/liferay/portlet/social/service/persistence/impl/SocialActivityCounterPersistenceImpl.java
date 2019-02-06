@@ -570,7 +570,7 @@ public class SocialActivityCounterPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "socialActivityCounter.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "socialActivityCounter.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -1099,8 +1099,8 @@ public class SocialActivityCounterPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "socialActivityCounter.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "socialActivityCounter.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "socialActivityCounter.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "socialActivityCounter.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_O;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_O;
 	private FinderPath _finderPathCountByG_C_C_O;
@@ -1703,10 +1703,10 @@ public class SocialActivityCounterPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_O_GROUPID_2 = "socialActivityCounter.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_O_CLASSNAMEID_2 = "socialActivityCounter.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_O_CLASSPK_2 = "socialActivityCounter.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_O_OWNERTYPE_2 = "socialActivityCounter.ownerType = ? AND socialActivityCounter.endPeriod = -1";
+	private static final String _FINDER_COLUMN_G_C_C_O_GROUPID_2_SQL = "socialActivityCounter.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_O_CLASSNAMEID_2_SQL = "socialActivityCounter.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_O_CLASSPK_2_SQL = "socialActivityCounter.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_O_OWNERTYPE_2_SQL = "socialActivityCounter.ownerType = ? AND socialActivityCounter.endPeriod = -1";
 	private FinderPath _finderPathFetchByG_C_C_N_O_S;
 	private FinderPath _finderPathCountByG_C_C_N_O_S;
 
@@ -2023,13 +2023,13 @@ public class SocialActivityCounterPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_GROUPID_2 = "socialActivityCounter.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_CLASSNAMEID_2 = "socialActivityCounter.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_CLASSPK_2 = "socialActivityCounter.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_NAME_2 = "socialActivityCounter.name = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_NAME_3 = "(socialActivityCounter.name IS NULL OR socialActivityCounter.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_OWNERTYPE_2 = "socialActivityCounter.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_S_STARTPERIOD_2 = "socialActivityCounter.startPeriod = ?";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_GROUPID_2_SQL = "socialActivityCounter.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_CLASSNAMEID_2_SQL = "socialActivityCounter.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_CLASSPK_2_SQL = "socialActivityCounter.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_NAME_2_SQL = "socialActivityCounter.name = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_NAME_3_SQL = "(socialActivityCounter.name IS NULL OR socialActivityCounter.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_OWNERTYPE_2_SQL = "socialActivityCounter.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_S_STARTPERIOD_2_SQL = "socialActivityCounter.startPeriod = ?";
 	private FinderPath _finderPathFetchByG_C_C_N_O_E;
 	private FinderPath _finderPathCountByG_C_C_N_O_E;
 
@@ -2346,13 +2346,13 @@ public class SocialActivityCounterPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_GROUPID_2 = "socialActivityCounter.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_CLASSNAMEID_2 = "socialActivityCounter.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_CLASSPK_2 = "socialActivityCounter.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_NAME_2 = "socialActivityCounter.name = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_NAME_3 = "(socialActivityCounter.name IS NULL OR socialActivityCounter.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_OWNERTYPE_2 = "socialActivityCounter.ownerType = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_N_O_E_ENDPERIOD_2 = "socialActivityCounter.endPeriod = ?";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_GROUPID_2_SQL = "socialActivityCounter.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_CLASSNAMEID_2_SQL = "socialActivityCounter.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_CLASSPK_2_SQL = "socialActivityCounter.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_NAME_2_SQL = "socialActivityCounter.name = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_NAME_3_SQL = "(socialActivityCounter.name IS NULL OR socialActivityCounter.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_OWNERTYPE_2_SQL = "socialActivityCounter.ownerType = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_N_O_E_ENDPERIOD_2_SQL = "socialActivityCounter.endPeriod = ?";
 
 	public SocialActivityCounterPersistenceImpl() {
 		setModelClass(SocialActivityCounter.class);

@@ -575,7 +575,7 @@ public class CTCollectionPersistenceImpl extends BasePersistenceImpl<CTCollectio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "ctCollection.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "ctCollection.companyId = ?";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -809,9 +809,9 @@ public class CTCollectionPersistenceImpl extends BasePersistenceImpl<CTCollectio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "ctCollection.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "ctCollection.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(ctCollection.name IS NULL OR ctCollection.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "ctCollection.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "ctCollection.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(ctCollection.name IS NULL OR ctCollection.name = '')";
 
 	public CTCollectionPersistenceImpl() {
 		setModelClass(CTCollection.class);

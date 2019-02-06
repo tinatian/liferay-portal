@@ -213,12 +213,12 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -441,12 +441,12 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -910,12 +910,12 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1011,8 +1011,6 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "organization.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(organization.uuid IS NULL OR organization.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "organization.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(organization.uuid_ IS NULL OR organization.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1145,12 +1143,12 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1392,12 +1390,12 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1882,12 +1880,12 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1992,11 +1990,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "organization.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(organization.uuid IS NULL OR organization.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "organization.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(organization.uuid_ IS NULL OR organization.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "organization.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "organization.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2843,7 +2839,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "organization.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "organization.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByLocations;
 	private FinderPath _finderPathWithoutPaginationFindByLocations;
 	private FinderPath _finderPathCountByLocations;
@@ -3690,7 +3686,7 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_LOCATIONS_COMPANYID_2 = "organization.companyId = ? AND organization.parentOrganizationId != 0";
+	private static final String _FINDER_COLUMN_LOCATIONS_COMPANYID_2_SQL = "organization.companyId = ? AND organization.parentOrganizationId != 0";
 	private FinderPath _finderPathWithPaginationFindByC_P;
 	private FinderPath _finderPathWithoutPaginationFindByC_P;
 	private FinderPath _finderPathCountByC_P;
@@ -4601,8 +4597,8 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_P_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2 = "organization.parentOrganizationId = ?";
+	private static final String _FINDER_COLUMN_C_P_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_PARENTORGANIZATIONID_2_SQL = "organization.parentOrganizationId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_T;
 	private FinderPath _finderPathWithPaginationCountByC_T;
 
@@ -5574,9 +5570,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_T_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_T_TREEPATH_2 = "organization.treePath LIKE ?";
-	private static final String _FINDER_COLUMN_C_T_TREEPATH_3 = "(organization.treePath IS NULL OR organization.treePath LIKE '')";
+	private static final String _FINDER_COLUMN_C_T_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_T_TREEPATH_2_SQL = "organization.treePath LIKE ?";
+	private static final String _FINDER_COLUMN_C_T_TREEPATH_3_SQL = "(organization.treePath IS NULL OR organization.treePath LIKE '')";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -5811,9 +5807,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "organization.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(organization.name IS NULL OR organization.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "organization.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(organization.name IS NULL OR organization.name = '')";
 	private FinderPath _finderPathWithPaginationFindByC_LikeN;
 	private FinderPath _finderPathWithPaginationCountByC_LikeN;
 
@@ -6781,9 +6777,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_LIKEN_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_LIKEN_NAME_2 = "lower(organization.name) LIKE ?";
-	private static final String _FINDER_COLUMN_C_LIKEN_NAME_3 = "(organization.name IS NULL OR organization.name LIKE '')";
+	private static final String _FINDER_COLUMN_C_LIKEN_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_LIKEN_NAME_2_SQL = "lower(organization.name) LIKE ?";
+	private static final String _FINDER_COLUMN_C_LIKEN_NAME_3_SQL = "(organization.name IS NULL OR organization.name LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByO_C_P;
 	private FinderPath _finderPathWithPaginationCountByO_C_P;
 
@@ -7387,9 +7383,9 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_O_C_P_ORGANIZATIONID_2 = "organization.organizationId > ? AND ";
-	private static final String _FINDER_COLUMN_O_C_P_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2 = "organization.parentOrganizationId = ?";
+	private static final String _FINDER_COLUMN_O_C_P_ORGANIZATIONID_2_SQL = "organization.organizationId > ? AND ";
+	private static final String _FINDER_COLUMN_O_C_P_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_O_C_P_PARENTORGANIZATIONID_2_SQL = "organization.parentOrganizationId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_P_LikeN;
 	private FinderPath _finderPathWithPaginationCountByC_P_LikeN;
 
@@ -8430,10 +8426,11 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_P_LIKEN_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2 = "organization.parentOrganizationId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_LIKEN_NAME_2 = "lower(organization.name) LIKE ?";
-	private static final String _FINDER_COLUMN_C_P_LIKEN_NAME_3 = "(organization.name IS NULL OR organization.name LIKE '')";
+	private static final String _FINDER_COLUMN_C_P_LIKEN_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_LIKEN_PARENTORGANIZATIONID_2_SQL =
+		"organization.parentOrganizationId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_LIKEN_NAME_2_SQL = "lower(organization.name) LIKE ?";
+	private static final String _FINDER_COLUMN_C_P_LIKEN_NAME_3_SQL = "(organization.name IS NULL OR organization.name LIKE '')";
 	private FinderPath _finderPathFetchByC_ERC;
 	private FinderPath _finderPathCountByC_ERC;
 
@@ -8682,9 +8679,11 @@ public class OrganizationPersistenceImpl extends BasePersistenceImpl<Organizatio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2 = "organization.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2 = "organization.externalReferenceCode = ?";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3 = "(organization.externalReferenceCode IS NULL OR organization.externalReferenceCode = '')";
+	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2_SQL = "organization.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL =
+		"organization.externalReferenceCode = ?";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL =
+		"(organization.externalReferenceCode IS NULL OR organization.externalReferenceCode = '')";
 
 	public OrganizationPersistenceImpl() {
 		setModelClass(Organization.class);

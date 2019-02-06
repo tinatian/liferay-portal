@@ -568,7 +568,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "socialActivityLimit.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "socialActivityLimit.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1058,7 +1058,7 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "socialActivityLimit.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "socialActivityLimit.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -1586,8 +1586,8 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "socialActivityLimit.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "socialActivityLimit.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "socialActivityLimit.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "socialActivityLimit.classPK = ?";
 	private FinderPath _finderPathFetchByG_U_C_C_A_A;
 	private FinderPath _finderPathCountByG_U_C_C_A_A;
 
@@ -1907,14 +1907,14 @@ public class SocialActivityLimitPersistenceImpl extends BasePersistenceImpl<Soci
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_GROUPID_2 = "socialActivityLimit.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_USERID_2 = "socialActivityLimit.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_CLASSNAMEID_2 = "socialActivityLimit.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_CLASSPK_2 = "socialActivityLimit.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_ACTIVITYTYPE_2 = "socialActivityLimit.activityType = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_ACTIVITYCOUNTERNAME_2 =
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_GROUPID_2_SQL = "socialActivityLimit.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_USERID_2_SQL = "socialActivityLimit.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_CLASSNAMEID_2_SQL = "socialActivityLimit.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_CLASSPK_2_SQL = "socialActivityLimit.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_ACTIVITYTYPE_2_SQL = "socialActivityLimit.activityType = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_ACTIVITYCOUNTERNAME_2_SQL =
 		"socialActivityLimit.activityCounterName = ?";
-	private static final String _FINDER_COLUMN_G_U_C_C_A_A_ACTIVITYCOUNTERNAME_3 =
+	private static final String _FINDER_COLUMN_G_U_C_C_A_A_ACTIVITYCOUNTERNAME_3_SQL =
 		"(socialActivityLimit.activityCounterName IS NULL OR socialActivityLimit.activityCounterName = '')";
 
 	public SocialActivityLimitPersistenceImpl() {

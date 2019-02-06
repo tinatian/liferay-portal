@@ -202,12 +202,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -430,12 +430,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -564,12 +564,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -604,8 +604,8 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "mdrRule.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(mdrRule.uuid IS NULL OR mdrRule.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "mdrRule.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(mdrRule.uuid_ IS NULL OR mdrRule.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -696,12 +696,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -795,12 +795,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -839,9 +839,9 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "mdrRule.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(mdrRule.uuid IS NULL OR mdrRule.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "mdrRule.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "mdrRule.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(mdrRule.uuid_ IS NULL OR mdrRule.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "mdrRule.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -972,12 +972,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1216,12 +1216,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1356,12 +1356,12 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1400,9 +1400,9 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "mdrRule.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(mdrRule.uuid IS NULL OR mdrRule.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "mdrRule.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "mdrRule.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(mdrRule.uuid_ IS NULL OR mdrRule.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "mdrRule.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByRuleGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByRuleGroupId;
 	private FinderPath _finderPathCountByRuleGroupId;
@@ -1889,7 +1889,7 @@ public class MDRRulePersistenceImpl extends BasePersistenceImpl<MDRRule>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2 = "mdrRule.ruleGroupId = ?";
+	private static final String _FINDER_COLUMN_RULEGROUPID_RULEGROUPID_2_SQL = "mdrRule.ruleGroupId = ?";
 
 	public MDRRulePersistenceImpl() {
 		setModelClass(MDRRule.class);

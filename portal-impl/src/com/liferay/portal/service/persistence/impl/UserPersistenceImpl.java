@@ -215,12 +215,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -438,12 +438,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -573,12 +573,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -613,8 +613,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "user.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(user.uuid IS NULL OR user.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "user.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(user.uuid_ IS NULL OR user.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -745,12 +745,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -986,12 +986,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1127,12 +1127,12 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1171,9 +1171,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "user.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(user.uuid IS NULL OR user.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "user.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "user.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(user.uuid_ IS NULL OR user.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "user.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1654,7 +1654,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "user.companyId = ? AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "user.companyId = ? AND user.defaultUser = [$FALSE$]";
 	private FinderPath _finderPathFetchByContactId;
 	private FinderPath _finderPathCountByContactId;
 
@@ -1844,7 +1844,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CONTACTID_CONTACTID_2 = "user.contactId = ?";
+	private static final String _FINDER_COLUMN_CONTACTID_CONTACTID_2_SQL = "user.contactId = ?";
 	private FinderPath _finderPathWithPaginationFindByEmailAddress;
 	private FinderPath _finderPathWithoutPaginationFindByEmailAddress;
 	private FinderPath _finderPathCountByEmailAddress;
@@ -2372,8 +2372,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2 = "user.emailAddress = ?";
-	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3 = "(user.emailAddress IS NULL OR user.emailAddress = '')";
+	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2_SQL = "user.emailAddress = ?";
+	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3_SQL = "(user.emailAddress IS NULL OR user.emailAddress = '')";
 	private FinderPath _finderPathFetchByPortraitId;
 	private FinderPath _finderPathCountByPortraitId;
 
@@ -2574,7 +2574,7 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PORTRAITID_PORTRAITID_2 = "user.portraitId = ?";
+	private static final String _FINDER_COLUMN_PORTRAITID_PORTRAITID_2_SQL = "user.portraitId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C;
 	private FinderPath _finderPathWithPaginationCountByU_C;
 
@@ -2932,8 +2932,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_USERID_2 = "user.userId > ? AND ";
-	private static final String _FINDER_COLUMN_U_C_COMPANYID_2 = "user.companyId = ? AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_U_C_USERID_2_SQL = "user.userId > ? AND ";
+	private static final String _FINDER_COLUMN_U_C_COMPANYID_2_SQL = "user.companyId = ? AND user.defaultUser = [$FALSE$]";
 	private FinderPath _finderPathFetchByC_U;
 	private FinderPath _finderPathCountByC_U;
 
@@ -3142,8 +3142,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_USERID_2 = "user.userId = ?";
+	private static final String _FINDER_COLUMN_C_U_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_USERID_2_SQL = "user.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_CD;
 	private FinderPath _finderPathWithoutPaginationFindByC_CD;
 	private FinderPath _finderPathCountByC_CD;
@@ -3696,9 +3696,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_CD_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CD_CREATEDATE_1 = "user.createDate IS NULL AND user.defaultUser = [$FALSE$]";
-	private static final String _FINDER_COLUMN_C_CD_CREATEDATE_2 = "user.createDate = ? AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_CD_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CD_CREATEDATE_1_SQL = "user.createDate IS NULL AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_CD_CREATEDATE_2_SQL = "user.createDate = ? AND user.defaultUser = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByC_MD;
 	private FinderPath _finderPathWithoutPaginationFindByC_MD;
 	private FinderPath _finderPathCountByC_MD;
@@ -4251,9 +4251,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_MD_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_MD_MODIFIEDDATE_1 = "user.modifiedDate IS NULL AND user.defaultUser = [$FALSE$]";
-	private static final String _FINDER_COLUMN_C_MD_MODIFIEDDATE_2 = "user.modifiedDate = ? AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_MD_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_MD_MODIFIEDDATE_1_SQL = "user.modifiedDate IS NULL AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_MD_MODIFIEDDATE_2_SQL = "user.modifiedDate = ? AND user.defaultUser = [$FALSE$]";
 	private FinderPath _finderPathFetchByC_DU;
 	private FinderPath _finderPathCountByC_DU;
 
@@ -4473,8 +4473,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_DU_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_DU_DEFAULTUSER_2 = "user.defaultUser = ?";
+	private static final String _FINDER_COLUMN_C_DU_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_DU_DEFAULTUSER_2_SQL = "user.defaultUser = ?";
 	private FinderPath _finderPathFetchByC_SN;
 	private FinderPath _finderPathCountByC_SN;
 
@@ -4709,9 +4709,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_SN_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_SN_SCREENNAME_2 = "user.screenName = ?";
-	private static final String _FINDER_COLUMN_C_SN_SCREENNAME_3 = "(user.screenName IS NULL OR user.screenName = '')";
+	private static final String _FINDER_COLUMN_C_SN_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_SN_SCREENNAME_2_SQL = "user.screenName = ?";
+	private static final String _FINDER_COLUMN_C_SN_SCREENNAME_3_SQL = "(user.screenName IS NULL OR user.screenName = '')";
 	private FinderPath _finderPathFetchByC_EA;
 	private FinderPath _finderPathCountByC_EA;
 
@@ -4946,9 +4946,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_EA_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_EA_EMAILADDRESS_2 = "user.emailAddress = ?";
-	private static final String _FINDER_COLUMN_C_EA_EMAILADDRESS_3 = "(user.emailAddress IS NULL OR user.emailAddress = '')";
+	private static final String _FINDER_COLUMN_C_EA_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_EA_EMAILADDRESS_2_SQL = "user.emailAddress = ?";
+	private static final String _FINDER_COLUMN_C_EA_EMAILADDRESS_3_SQL = "(user.emailAddress IS NULL OR user.emailAddress = '')";
 	private FinderPath _finderPathFetchByC_FID;
 	private FinderPath _finderPathCountByC_FID;
 
@@ -5168,8 +5168,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_FID_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_FID_FACEBOOKID_2 = "user.facebookId = ?";
+	private static final String _FINDER_COLUMN_C_FID_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_FID_FACEBOOKID_2_SQL = "user.facebookId = ?";
 	private FinderPath _finderPathFetchByC_GUID;
 	private FinderPath _finderPathCountByC_GUID;
 
@@ -5416,9 +5416,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_GUID_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_GUID_GOOGLEUSERID_2 = "user.googleUserId = ?";
-	private static final String _FINDER_COLUMN_C_GUID_GOOGLEUSERID_3 = "(user.googleUserId IS NULL OR user.googleUserId = '')";
+	private static final String _FINDER_COLUMN_C_GUID_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_GUID_GOOGLEUSERID_2_SQL = "user.googleUserId = ?";
+	private static final String _FINDER_COLUMN_C_GUID_GOOGLEUSERID_3_SQL = "(user.googleUserId IS NULL OR user.googleUserId = '')";
 	private FinderPath _finderPathFetchByC_O;
 	private FinderPath _finderPathCountByC_O;
 
@@ -5664,9 +5664,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_O_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_O_OPENID_2 = "user.openId = ?";
-	private static final String _FINDER_COLUMN_C_O_OPENID_3 = "(user.openId IS NULL OR user.openId = '')";
+	private static final String _FINDER_COLUMN_C_O_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_O_OPENID_2_SQL = "user.openId = ?";
+	private static final String _FINDER_COLUMN_C_O_OPENID_3_SQL = "(user.openId IS NULL OR user.openId = '')";
 	private FinderPath _finderPathWithPaginationFindByC_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_S;
 	private FinderPath _finderPathCountByC_S;
@@ -6182,8 +6182,8 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 = "user.status = ? AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_S_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_STATUS_2_SQL = "user.status = ? AND user.defaultUser = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByC_CD_MD;
 	private FinderPath _finderPathWithoutPaginationFindByC_CD_MD;
 	private FinderPath _finderPathCountByC_CD_MD;
@@ -6811,11 +6811,11 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_CD_MD_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CD_MD_CREATEDATE_1 = "user.createDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_CD_MD_CREATEDATE_2 = "user.createDate = ? AND ";
-	private static final String _FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1 = "user.modifiedDate IS NULL AND user.defaultUser = [$FALSE$]";
-	private static final String _FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2 = "user.modifiedDate = ? AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_CD_MD_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CD_MD_CREATEDATE_1_SQL = "user.createDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_C_CD_MD_CREATEDATE_2_SQL = "user.createDate = ? AND ";
+	private static final String _FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_1_SQL = "user.modifiedDate IS NULL AND user.defaultUser = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_CD_MD_MODIFIEDDATE_2_SQL = "user.modifiedDate = ? AND user.defaultUser = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByC_DU_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_DU_S;
 	private FinderPath _finderPathCountByC_DU_S;
@@ -7371,9 +7371,9 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_DU_S_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_DU_S_DEFAULTUSER_2 = "user.defaultUser = ? AND ";
-	private static final String _FINDER_COLUMN_C_DU_S_STATUS_2 = "user.status = ?";
+	private static final String _FINDER_COLUMN_C_DU_S_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_DU_S_DEFAULTUSER_2_SQL = "user.defaultUser = ? AND ";
+	private static final String _FINDER_COLUMN_C_DU_S_STATUS_2_SQL = "user.status = ?";
 	private FinderPath _finderPathFetchByC_ERC;
 	private FinderPath _finderPathCountByC_ERC;
 
@@ -7620,9 +7620,11 @@ public class UserPersistenceImpl extends BasePersistenceImpl<User>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2 = "user.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2 = "user.externalReferenceCode = ?";
-	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3 = "(user.externalReferenceCode IS NULL OR user.externalReferenceCode = '')";
+	private static final String _FINDER_COLUMN_C_ERC_COMPANYID_2_SQL = "user.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_2_SQL =
+		"user.externalReferenceCode = ?";
+	private static final String _FINDER_COLUMN_C_ERC_EXTERNALREFERENCECODE_3_SQL =
+		"(user.externalReferenceCode IS NULL OR user.externalReferenceCode = '')";
 
 	public UserPersistenceImpl() {
 		setModelClass(User.class);

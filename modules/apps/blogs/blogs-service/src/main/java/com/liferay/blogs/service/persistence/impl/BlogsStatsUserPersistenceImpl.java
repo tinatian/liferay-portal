@@ -565,7 +565,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "blogsStatsUser.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "blogsStatsUser.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1050,7 +1050,7 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "blogsStatsUser.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "blogsStatsUser.userId = ?";
 	private FinderPath _finderPathFetchByG_U;
 	private FinderPath _finderPathCountByG_U;
 
@@ -1258,8 +1258,8 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "blogsStatsUser.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "blogsStatsUser.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "blogsStatsUser.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "blogsStatsUser.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_NotE;
 	private FinderPath _finderPathWithPaginationCountByG_NotE;
 
@@ -1775,8 +1775,8 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTE_GROUPID_2 = "blogsStatsUser.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2 = "blogsStatsUser.entryCount != ?";
+	private static final String _FINDER_COLUMN_G_NOTE_GROUPID_2_SQL = "blogsStatsUser.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTE_ENTRYCOUNT_2_SQL = "blogsStatsUser.entryCount != ?";
 	private FinderPath _finderPathWithPaginationFindByC_NotE;
 	private FinderPath _finderPathWithPaginationCountByC_NotE;
 
@@ -2292,8 +2292,8 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_NOTE_COMPANYID_2 = "blogsStatsUser.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2 = "blogsStatsUser.entryCount != ?";
+	private static final String _FINDER_COLUMN_C_NOTE_COMPANYID_2_SQL = "blogsStatsUser.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_NOTE_ENTRYCOUNT_2_SQL = "blogsStatsUser.entryCount != ?";
 	private FinderPath _finderPathWithPaginationFindByU_L;
 	private FinderPath _finderPathWithoutPaginationFindByU_L;
 	private FinderPath _finderPathCountByU_L;
@@ -2852,9 +2852,9 @@ public class BlogsStatsUserPersistenceImpl extends BasePersistenceImpl<BlogsStat
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_L_USERID_2 = "blogsStatsUser.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_L_LASTPOSTDATE_1 = "blogsStatsUser.lastPostDate IS NULL";
-	private static final String _FINDER_COLUMN_U_L_LASTPOSTDATE_2 = "blogsStatsUser.lastPostDate = ?";
+	private static final String _FINDER_COLUMN_U_L_USERID_2_SQL = "blogsStatsUser.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_L_LASTPOSTDATE_1_SQL = "blogsStatsUser.lastPostDate IS NULL";
+	private static final String _FINDER_COLUMN_U_L_LASTPOSTDATE_2_SQL = "blogsStatsUser.lastPostDate = ?";
 
 	public BlogsStatsUserPersistenceImpl() {
 		setModelClass(BlogsStatsUser.class);

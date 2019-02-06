@@ -561,7 +561,7 @@ public class AuditEventPersistenceImpl extends BasePersistenceImpl<AuditEvent>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "auditEvent.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "auditEvent.companyId = ?";
 
 	public AuditEventPersistenceImpl() {
 		setModelClass(AuditEvent.class);

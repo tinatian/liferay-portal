@@ -572,7 +572,7 @@ public class KaleoTaskInstanceTokenPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoTaskInstanceToken.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoTaskInstanceToken.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1079,7 +1079,7 @@ public class KaleoTaskInstanceTokenPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoTaskInstanceToken.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoInstanceId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoInstanceId;
@@ -1585,7 +1585,7 @@ public class KaleoTaskInstanceTokenPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2 =
+	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL =
 		"kaleoTaskInstanceToken.kaleoInstanceId = ?";
 	private FinderPath _finderPathFetchByKII_KTI;
 	private FinderPath _finderPathCountByKII_KTI;
@@ -1808,8 +1808,8 @@ public class KaleoTaskInstanceTokenPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KII_KTI_KALEOINSTANCEID_2 = "kaleoTaskInstanceToken.kaleoInstanceId = ? AND ";
-	private static final String _FINDER_COLUMN_KII_KTI_KALEOTASKID_2 = "kaleoTaskInstanceToken.kaleoTaskId = ?";
+	private static final String _FINDER_COLUMN_KII_KTI_KALEOINSTANCEID_2_SQL = "kaleoTaskInstanceToken.kaleoInstanceId = ? AND ";
+	private static final String _FINDER_COLUMN_KII_KTI_KALEOTASKID_2_SQL = "kaleoTaskInstanceToken.kaleoTaskId = ?";
 	private FinderPath _finderPathWithPaginationFindByCN_CPK;
 	private FinderPath _finderPathWithoutPaginationFindByCN_CPK;
 	private FinderPath _finderPathCountByCN_CPK;
@@ -2381,9 +2381,9 @@ public class KaleoTaskInstanceTokenPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_2 = "kaleoTaskInstanceToken.className = ? AND ";
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_3 = "(kaleoTaskInstanceToken.className IS NULL OR kaleoTaskInstanceToken.className = '') AND ";
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSPK_2 = "kaleoTaskInstanceToken.classPK = ?";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_2_SQL = "kaleoTaskInstanceToken.className = ? AND ";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_3_SQL = "(kaleoTaskInstanceToken.className IS NULL OR kaleoTaskInstanceToken.className = '') AND ";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSPK_2_SQL = "kaleoTaskInstanceToken.classPK = ?";
 
 	public KaleoTaskInstanceTokenPersistenceImpl() {
 		setModelClass(KaleoTaskInstanceToken.class);

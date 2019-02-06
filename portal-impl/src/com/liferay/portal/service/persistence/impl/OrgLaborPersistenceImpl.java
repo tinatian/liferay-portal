@@ -569,7 +569,8 @@ public class OrgLaborPersistenceImpl extends BasePersistenceImpl<OrgLabor>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ORGANIZATIONID_ORGANIZATIONID_2 = "orgLabor.organizationId = ?";
+	private static final String _FINDER_COLUMN_ORGANIZATIONID_ORGANIZATIONID_2_SQL =
+		"orgLabor.organizationId = ?";
 
 	public OrgLaborPersistenceImpl() {
 		setModelClass(OrgLabor.class);

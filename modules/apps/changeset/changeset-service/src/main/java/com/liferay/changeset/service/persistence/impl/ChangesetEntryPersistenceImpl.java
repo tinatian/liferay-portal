@@ -564,7 +564,7 @@ public class ChangesetEntryPersistenceImpl extends BasePersistenceImpl<Changeset
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "changesetEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "changesetEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1052,7 +1052,7 @@ public class ChangesetEntryPersistenceImpl extends BasePersistenceImpl<Changeset
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "changesetEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "changesetEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByChangesetCollectionId;
 	private FinderPath _finderPathWithoutPaginationFindByChangesetCollectionId;
 	private FinderPath _finderPathCountByChangesetCollectionId;
@@ -1558,7 +1558,7 @@ public class ChangesetEntryPersistenceImpl extends BasePersistenceImpl<Changeset
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CHANGESETCOLLECTIONID_CHANGESETCOLLECTIONID_2 =
+	private static final String _FINDER_COLUMN_CHANGESETCOLLECTIONID_CHANGESETCOLLECTIONID_2_SQL =
 		"changesetEntry.changesetCollectionId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C;
@@ -2084,8 +2084,8 @@ public class ChangesetEntryPersistenceImpl extends BasePersistenceImpl<Changeset
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_GROUPID_2 = "changesetEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2 = "changesetEntry.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_C_GROUPID_2_SQL = "changesetEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL = "changesetEntry.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -2613,8 +2613,8 @@ public class ChangesetEntryPersistenceImpl extends BasePersistenceImpl<Changeset
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CHANGESETCOLLECTIONID_2 = "changesetEntry.changesetCollectionId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "changesetEntry.classNameId = ?";
+	private static final String _FINDER_COLUMN_C_C_CHANGESETCOLLECTIONID_2_SQL = "changesetEntry.changesetCollectionId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "changesetEntry.classNameId = ?";
 	private FinderPath _finderPathFetchByC_C_C;
 	private FinderPath _finderPathCountByC_C_C;
 
@@ -2847,9 +2847,10 @@ public class ChangesetEntryPersistenceImpl extends BasePersistenceImpl<Changeset
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_CHANGESETCOLLECTIONID_2 = "changesetEntry.changesetCollectionId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2 = "changesetEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2 = "changesetEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_C_CHANGESETCOLLECTIONID_2_SQL =
+		"changesetEntry.changesetCollectionId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSNAMEID_2_SQL = "changesetEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_CLASSPK_2_SQL = "changesetEntry.classPK = ?";
 
 	public ChangesetEntryPersistenceImpl() {
 		setModelClass(ChangesetEntry.class);

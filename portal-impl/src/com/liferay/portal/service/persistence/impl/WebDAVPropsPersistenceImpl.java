@@ -287,8 +287,8 @@ public class WebDAVPropsPersistenceImpl extends BasePersistenceImpl<WebDAVProps>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "webDAVProps.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "webDAVProps.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "webDAVProps.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "webDAVProps.classPK = ?";
 
 	public WebDAVPropsPersistenceImpl() {
 		setModelClass(WebDAVProps.class);

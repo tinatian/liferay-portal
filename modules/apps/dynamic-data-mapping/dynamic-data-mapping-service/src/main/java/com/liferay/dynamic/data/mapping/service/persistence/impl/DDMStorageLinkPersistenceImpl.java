@@ -203,12 +203,12 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -432,12 +432,12 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -566,12 +566,12 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -606,8 +606,8 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "ddmStorageLink.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(ddmStorageLink.uuid IS NULL OR ddmStorageLink.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "ddmStorageLink.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(ddmStorageLink.uuid_ IS NULL OR ddmStorageLink.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -739,12 +739,12 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -986,12 +986,12 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1126,12 +1126,12 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1170,9 +1170,9 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "ddmStorageLink.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(ddmStorageLink.uuid IS NULL OR ddmStorageLink.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "ddmStorageLink.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "ddmStorageLink.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(ddmStorageLink.uuid_ IS NULL OR ddmStorageLink.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "ddmStorageLink.companyId = ?";
 	private FinderPath _finderPathFetchByClassPK;
 	private FinderPath _finderPathCountByClassPK;
 
@@ -1362,7 +1362,7 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CLASSPK_CLASSPK_2 = "ddmStorageLink.classPK = ?";
+	private static final String _FINDER_COLUMN_CLASSPK_CLASSPK_2_SQL = "ddmStorageLink.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByStructureId;
 	private FinderPath _finderPathWithoutPaginationFindByStructureId;
 	private FinderPath _finderPathCountByStructureId;
@@ -1851,7 +1851,7 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2 = "ddmStorageLink.structureId = ?";
+	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL = "ddmStorageLink.structureId = ?";
 	private FinderPath _finderPathWithPaginationFindByStructureVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByStructureVersionId;
 	private FinderPath _finderPathCountByStructureVersionId;
@@ -2617,9 +2617,9 @@ public class DDMStorageLinkPersistenceImpl extends BasePersistenceImpl<DDMStorag
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_2 =
+	private static final String _FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_2_SQL =
 		"ddmStorageLink.structureVersionId = ?";
-	private static final String _FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_7 =
+	private static final String _FINDER_COLUMN_STRUCTUREVERSIONID_STRUCTUREVERSIONID_7_SQL =
 		"ddmStorageLink.structureVersionId IN (";
 
 	public DDMStorageLinkPersistenceImpl() {

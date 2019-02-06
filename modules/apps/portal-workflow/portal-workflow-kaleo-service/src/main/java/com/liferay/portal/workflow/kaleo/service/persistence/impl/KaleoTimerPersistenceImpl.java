@@ -646,9 +646,9 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2 = "kaleoTimer.kaleoClassName = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3 = "(kaleoTimer.kaleoClassName IS NULL OR kaleoTimer.kaleoClassName = '') AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2 = "kaleoTimer.kaleoClassPK = ?";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL = "kaleoTimer.kaleoClassName = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL = "(kaleoTimer.kaleoClassName IS NULL OR kaleoTimer.kaleoClassName = '') AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL = "kaleoTimer.kaleoClassPK = ?";
 	private FinderPath _finderPathWithPaginationFindByKCN_KCPK_Blocking;
 	private FinderPath _finderPathWithoutPaginationFindByKCN_KCPK_Blocking;
 	private FinderPath _finderPathCountByKCN_KCPK_Blocking;
@@ -1258,12 +1258,13 @@ public class KaleoTimerPersistenceImpl extends BasePersistenceImpl<KaleoTimer>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2 =
+	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_2_SQL =
 		"kaleoTimer.kaleoClassName = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3 =
+	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSNAME_3_SQL =
 		"(kaleoTimer.kaleoClassName IS NULL OR kaleoTimer.kaleoClassName = '') AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2 = "kaleoTimer.kaleoClassPK = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2 = "kaleoTimer.blocking = ?";
+	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_KALEOCLASSPK_2_SQL =
+		"kaleoTimer.kaleoClassPK = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_BLOCKING_BLOCKING_2_SQL = "kaleoTimer.blocking = ?";
 
 	public KaleoTimerPersistenceImpl() {
 		setModelClass(KaleoTimer.class);

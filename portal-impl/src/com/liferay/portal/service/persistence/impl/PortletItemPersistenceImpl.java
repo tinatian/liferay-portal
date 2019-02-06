@@ -605,8 +605,8 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_GROUPID_2 = "portletItem.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2 = "portletItem.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_C_GROUPID_2_SQL = "portletItem.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL = "portletItem.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_C;
 	private FinderPath _finderPathCountByG_P_C;
@@ -1204,10 +1204,10 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_C_GROUPID_2 = "portletItem.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_C_PORTLETID_2 = "portletItem.portletId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_C_PORTLETID_3 = "(portletItem.portletId IS NULL OR portletItem.portletId = '') AND ";
-	private static final String _FINDER_COLUMN_G_P_C_CLASSNAMEID_2 = "portletItem.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_P_C_GROUPID_2_SQL = "portletItem.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_C_PORTLETID_2_SQL = "portletItem.portletId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_C_PORTLETID_3_SQL = "(portletItem.portletId IS NULL OR portletItem.portletId = '') AND ";
+	private static final String _FINDER_COLUMN_G_P_C_CLASSNAMEID_2_SQL = "portletItem.classNameId = ?";
 	private FinderPath _finderPathFetchByG_N_P_C;
 	private FinderPath _finderPathCountByG_N_P_C;
 
@@ -1516,12 +1516,12 @@ public class PortletItemPersistenceImpl extends BasePersistenceImpl<PortletItem>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_P_C_GROUPID_2 = "portletItem.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_P_C_NAME_2 = "lower(portletItem.name) = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_P_C_NAME_3 = "(portletItem.name IS NULL OR portletItem.name = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_P_C_PORTLETID_2 = "portletItem.portletId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_P_C_PORTLETID_3 = "(portletItem.portletId IS NULL OR portletItem.portletId = '') AND ";
-	private static final String _FINDER_COLUMN_G_N_P_C_CLASSNAMEID_2 = "portletItem.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_N_P_C_GROUPID_2_SQL = "portletItem.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_P_C_NAME_2_SQL = "lower(portletItem.name) = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_P_C_NAME_3_SQL = "(portletItem.name IS NULL OR portletItem.name = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_P_C_PORTLETID_2_SQL = "portletItem.portletId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_P_C_PORTLETID_3_SQL = "(portletItem.portletId IS NULL OR portletItem.portletId = '') AND ";
+	private static final String _FINDER_COLUMN_G_N_P_C_CLASSNAMEID_2_SQL = "portletItem.classNameId = ?";
 
 	public PortletItemPersistenceImpl() {
 		setModelClass(PortletItem.class);

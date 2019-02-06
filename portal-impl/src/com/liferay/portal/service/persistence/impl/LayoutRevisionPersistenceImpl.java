@@ -581,7 +581,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL =
 		"layoutRevision.layoutSetBranchId = ?";
 	private FinderPath _finderPathWithPaginationFindByPlid;
 	private FinderPath _finderPathWithoutPaginationFindByPlid;
@@ -1067,7 +1067,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PLID_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_PLID_PLID_2_SQL = "layoutRevision.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByStatus;
 	private FinderPath _finderPathWithoutPaginationFindByStatus;
 	private FinderPath _finderPathCountByStatus;
@@ -1553,7 +1553,7 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUS_STATUS_2 = "layoutRevision.status = ?";
+	private static final String _FINDER_COLUMN_STATUS_STATUS_2_SQL = "layoutRevision.status = ?";
 	private FinderPath _finderPathWithPaginationFindByL_H;
 	private FinderPath _finderPathWithoutPaginationFindByL_H;
 	private FinderPath _finderPathCountByL_H;
@@ -2079,8 +2079,8 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_HEAD_2 = "layoutRevision.head = ?";
+	private static final String _FINDER_COLUMN_L_H_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_H_HEAD_2_SQL = "layoutRevision.head = ?";
 	private FinderPath _finderPathWithPaginationFindByL_P;
 	private FinderPath _finderPathWithoutPaginationFindByL_P;
 	private FinderPath _finderPathCountByL_P;
@@ -2606,8 +2606,8 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_PLID_2_SQL = "layoutRevision.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByL_S;
 	private FinderPath _finderPathWithoutPaginationFindByL_S;
 	private FinderPath _finderPathCountByL_S;
@@ -3133,8 +3133,8 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_S_STATUS_2 = "layoutRevision.status = ?";
+	private static final String _FINDER_COLUMN_L_S_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_S_STATUS_2_SQL = "layoutRevision.status = ?";
 	private FinderPath _finderPathWithPaginationFindByH_P;
 	private FinderPath _finderPathWithoutPaginationFindByH_P;
 	private FinderPath _finderPathCountByH_P;
@@ -3653,8 +3653,8 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_H_P_HEAD_2 = "layoutRevision.head = ? AND ";
-	private static final String _FINDER_COLUMN_H_P_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_H_P_HEAD_2_SQL = "layoutRevision.head = ? AND ";
+	private static final String _FINDER_COLUMN_H_P_PLID_2_SQL = "layoutRevision.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByP_NotS;
 	private FinderPath _finderPathWithPaginationCountByP_NotS;
 
@@ -4165,8 +4165,8 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_NOTS_PLID_2 = "layoutRevision.plid = ? AND ";
-	private static final String _FINDER_COLUMN_P_NOTS_STATUS_2 = "layoutRevision.status != ?";
+	private static final String _FINDER_COLUMN_P_NOTS_PLID_2_SQL = "layoutRevision.plid = ? AND ";
+	private static final String _FINDER_COLUMN_P_NOTS_STATUS_2_SQL = "layoutRevision.status != ?";
 	private FinderPath _finderPathWithPaginationFindByL_L_P;
 	private FinderPath _finderPathWithoutPaginationFindByL_L_P;
 	private FinderPath _finderPathCountByL_L_P;
@@ -4736,9 +4736,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2 = "layoutRevision.layoutBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_L_P_PLID_2 = "layoutRevision.plid = ? AND layoutRevision.status != 5";
+	private static final String _FINDER_COLUMN_L_L_P_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_L_P_LAYOUTBRANCHID_2_SQL = "layoutRevision.layoutBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_L_P_PLID_2_SQL = "layoutRevision.plid = ? AND layoutRevision.status != 5";
 	private FinderPath _finderPathWithPaginationFindByL_P_P;
 	private FinderPath _finderPathWithoutPaginationFindByL_P_P;
 	private FinderPath _finderPathCountByL_P_P;
@@ -5312,9 +5312,10 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2 = "layoutRevision.parentLayoutRevisionId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_P_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_L_P_P_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_P_PARENTLAYOUTREVISIONID_2_SQL =
+		"layoutRevision.parentLayoutRevisionId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_P_PLID_2_SQL = "layoutRevision.plid = ?";
 	private FinderPath _finderPathFetchByL_H_P;
 	private FinderPath _finderPathCountByL_H_P;
 
@@ -5554,9 +5555,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_H_P_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_P_HEAD_2 = "layoutRevision.head = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_P_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_L_H_P_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_H_P_HEAD_2_SQL = "layoutRevision.head = ? AND ";
+	private static final String _FINDER_COLUMN_L_H_P_PLID_2_SQL = "layoutRevision.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByL_H_P_Collection;
 	private FinderPath _finderPathWithoutPaginationFindByL_H_P_Collection;
 	private FinderPath _finderPathCountByL_H_P_Collection;
@@ -6125,10 +6126,10 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2 =
+	private static final String _FINDER_COLUMN_L_H_P_COLLECTION_LAYOUTSETBRANCHID_2_SQL =
 		"layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2 = "layoutRevision.head = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_P_COLLECTION_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_L_H_P_COLLECTION_HEAD_2_SQL = "layoutRevision.head = ? AND ";
+	private static final String _FINDER_COLUMN_L_H_P_COLLECTION_PLID_2_SQL = "layoutRevision.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByL_H_S;
 	private FinderPath _finderPathWithoutPaginationFindByL_H_S;
 	private FinderPath _finderPathCountByL_H_S;
@@ -6691,9 +6692,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_S_HEAD_2 = "layoutRevision.head = ? AND ";
-	private static final String _FINDER_COLUMN_L_H_S_STATUS_2 = "layoutRevision.status = ?";
+	private static final String _FINDER_COLUMN_L_H_S_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_H_S_HEAD_2_SQL = "layoutRevision.head = ? AND ";
+	private static final String _FINDER_COLUMN_L_H_S_STATUS_2_SQL = "layoutRevision.status = ?";
 	private FinderPath _finderPathWithPaginationFindByL_P_S;
 	private FinderPath _finderPathWithoutPaginationFindByL_P_S;
 	private FinderPath _finderPathCountByL_P_S;
@@ -7252,9 +7253,9 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_S_PLID_2 = "layoutRevision.plid = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_S_STATUS_2 = "layoutRevision.status = ?";
+	private static final String _FINDER_COLUMN_L_P_S_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_S_PLID_2_SQL = "layoutRevision.plid = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_S_STATUS_2_SQL = "layoutRevision.status = ?";
 	private FinderPath _finderPathFetchByL_L_H_P;
 	private FinderPath _finderPathCountByL_L_H_P;
 
@@ -7520,10 +7521,10 @@ public class LayoutRevisionPersistenceImpl extends BasePersistenceImpl<LayoutRev
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_L_H_P_LAYOUTSETBRANCHID_2 = "layoutRevision.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_L_H_P_LAYOUTBRANCHID_2 = "layoutRevision.layoutBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_L_H_P_HEAD_2 = "layoutRevision.head = ? AND ";
-	private static final String _FINDER_COLUMN_L_L_H_P_PLID_2 = "layoutRevision.plid = ?";
+	private static final String _FINDER_COLUMN_L_L_H_P_LAYOUTSETBRANCHID_2_SQL = "layoutRevision.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_L_H_P_LAYOUTBRANCHID_2_SQL = "layoutRevision.layoutBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_L_H_P_HEAD_2_SQL = "layoutRevision.head = ? AND ";
+	private static final String _FINDER_COLUMN_L_L_H_P_PLID_2_SQL = "layoutRevision.plid = ?";
 
 	public LayoutRevisionPersistenceImpl() {
 		setModelClass(LayoutRevision.class);

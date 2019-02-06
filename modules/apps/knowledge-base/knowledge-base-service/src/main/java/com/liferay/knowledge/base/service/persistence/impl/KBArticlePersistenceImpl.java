@@ -588,7 +588,7 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2 =
+	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2_SQL =
 		"kbArticle.resourcePrimKey = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid;
 	private FinderPath _finderPathWithoutPaginationFindByUuid;
@@ -709,12 +709,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -937,12 +937,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1071,12 +1071,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1111,8 +1111,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "kbArticle.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(kbArticle.uuid IS NULL OR kbArticle.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "kbArticle.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(kbArticle.uuid_ IS NULL OR kbArticle.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -1203,12 +1203,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -1302,12 +1302,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -1346,9 +1346,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "kbArticle.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(kbArticle.uuid IS NULL OR kbArticle.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "kbArticle.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "kbArticle.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(kbArticle.uuid_ IS NULL OR kbArticle.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "kbArticle.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -1479,12 +1479,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1725,12 +1725,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1865,12 +1865,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1909,9 +1909,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "kbArticle.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(kbArticle.uuid IS NULL OR kbArticle.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "kbArticle.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "kbArticle.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(kbArticle.uuid_ IS NULL OR kbArticle.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "kbArticle.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_G;
 	private FinderPath _finderPathWithoutPaginationFindByR_G;
 	private FinderPath _finderPathCountByR_G;
@@ -2811,8 +2811,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_R_G_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_GROUPID_2 = "kbArticle.groupId = ?";
+	private static final String _FINDER_COLUMN_R_G_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_GROUPID_2_SQL = "kbArticle.groupId = ?";
 	private FinderPath _finderPathFetchByR_V;
 	private FinderPath _finderPathCountByR_V;
 
@@ -3020,8 +3020,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_V_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_V_VERSION_2 = "kbArticle.version = ?";
+	private static final String _FINDER_COLUMN_R_V_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_V_VERSION_2_SQL = "kbArticle.version = ?";
 	private FinderPath _finderPathWithPaginationFindByR_L;
 	private FinderPath _finderPathWithoutPaginationFindByR_L;
 	private FinderPath _finderPathCountByR_L;
@@ -3832,9 +3832,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_L_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_L_RESOURCEPRIMKEY_7 = "kbArticle.resourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_R_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_R_L_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_L_RESOURCEPRIMKEY_7_SQL = "kbArticle.resourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_R_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByR_M;
 	private FinderPath _finderPathWithoutPaginationFindByR_M;
 	private FinderPath _finderPathCountByR_M;
@@ -4643,9 +4643,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_M_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_M_RESOURCEPRIMKEY_7 = "kbArticle.resourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_R_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_R_M_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_M_RESOURCEPRIMKEY_7_SQL = "kbArticle.resourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_R_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByR_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_S;
 	private FinderPath _finderPathCountByR_S;
@@ -5456,9 +5456,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_S_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_S_RESOURCEPRIMKEY_7 = "kbArticle.resourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_R_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_R_S_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_S_RESOURCEPRIMKEY_7_SQL = "kbArticle.resourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_R_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_L;
 	private FinderPath _finderPathCountByG_L;
@@ -6354,8 +6354,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_G_L_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByG_M;
 	private FinderPath _finderPathWithoutPaginationFindByG_M;
 	private FinderPath _finderPathCountByG_M;
@@ -7249,8 +7249,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_M_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_G_M_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -8145,8 +8145,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_L;
 	private FinderPath _finderPathWithoutPaginationFindByC_L;
 	private FinderPath _finderPathCountByC_L;
@@ -8668,8 +8668,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_L_COMPANYID_2 = "kbArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_C_L_COMPANYID_2_SQL = "kbArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByC_M;
 	private FinderPath _finderPathWithoutPaginationFindByC_M;
 	private FinderPath _finderPathCountByC_M;
@@ -9190,8 +9190,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_M_COMPANYID_2 = "kbArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_C_M_COMPANYID_2_SQL = "kbArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByC_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_S;
 	private FinderPath _finderPathCountByC_S;
@@ -9713,8 +9713,8 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_COMPANYID_2 = "kbArticle.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_C_S_COMPANYID_2_SQL = "kbArticle.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByP_L;
 	private FinderPath _finderPathWithoutPaginationFindByP_L;
 	private FinderPath _finderPathCountByP_L;
@@ -10530,9 +10530,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_L_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_P_L_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_P_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_P_L_PARENTRESOURCEPRIMKEY_2_SQL = "kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_P_L_PARENTRESOURCEPRIMKEY_7_SQL = "kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_P_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByP_M;
 	private FinderPath _finderPathWithoutPaginationFindByP_M;
 	private FinderPath _finderPathCountByP_M;
@@ -11346,9 +11346,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_M_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_P_M_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_P_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_P_M_PARENTRESOURCEPRIMKEY_2_SQL = "kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_P_M_PARENTRESOURCEPRIMKEY_7_SQL = "kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_P_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByP_S;
 	private FinderPath _finderPathWithoutPaginationFindByP_S;
 	private FinderPath _finderPathCountByP_S;
@@ -12161,9 +12161,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_S_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_P_S_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_P_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_P_S_PARENTRESOURCEPRIMKEY_2_SQL = "kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_P_S_PARENTRESOURCEPRIMKEY_7_SQL = "kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_P_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathFetchByR_G_V;
 	private FinderPath _finderPathCountByR_G_V;
 
@@ -12389,9 +12389,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_G_V_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_V_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_V_VERSION_2 = "kbArticle.version = ?";
+	private static final String _FINDER_COLUMN_R_G_V_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_V_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_V_VERSION_2_SQL = "kbArticle.version = ?";
 	private FinderPath _finderPathWithPaginationFindByR_G_L;
 	private FinderPath _finderPathWithoutPaginationFindByR_G_L;
 	private FinderPath _finderPathCountByR_G_L;
@@ -13889,10 +13889,10 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_R_G_L_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_L_RESOURCEPRIMKEY_7 = "kbArticle.resourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_R_G_L_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_R_G_L_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_L_RESOURCEPRIMKEY_7_SQL = "kbArticle.resourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_R_G_L_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByR_G_M;
 	private FinderPath _finderPathWithoutPaginationFindByR_G_M;
 	private FinderPath _finderPathCountByR_G_M;
@@ -15387,10 +15387,10 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_R_G_M_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_M_RESOURCEPRIMKEY_7 = "kbArticle.resourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_R_G_M_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_R_G_M_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_M_RESOURCEPRIMKEY_7_SQL = "kbArticle.resourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_R_G_M_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByR_G_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_G_S;
 	private FinderPath _finderPathCountByR_G_S;
@@ -16884,10 +16884,10 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_R_G_S_RESOURCEPRIMKEY_2 = "kbArticle.resourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_S_RESOURCEPRIMKEY_7 = "kbArticle.resourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_R_G_S_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_R_G_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_R_G_S_RESOURCEPRIMKEY_2_SQL = "kbArticle.resourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_S_RESOURCEPRIMKEY_7_SQL = "kbArticle.resourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_R_G_S_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_R_G_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_L;
 	private FinderPath _finderPathCountByG_P_L;
@@ -18396,10 +18396,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_L_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_G_P_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_G_P_L_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_PARENTRESOURCEPRIMKEY_2_SQL =
+		"kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_PARENTRESOURCEPRIMKEY_7_SQL =
+		"kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_G_P_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_M;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_M;
 	private FinderPath _finderPathCountByG_P_M;
@@ -19906,10 +19908,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_M_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_M_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_M_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_G_P_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_G_P_M_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_M_PARENTRESOURCEPRIMKEY_2_SQL =
+		"kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_M_PARENTRESOURCEPRIMKEY_7_SQL =
+		"kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_G_P_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_S;
 	private FinderPath _finderPathCountByG_P_S;
@@ -21417,10 +21421,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_S_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_S_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_S_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_G_P_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_P_S_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_S_PARENTRESOURCEPRIMKEY_2_SQL =
+		"kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_S_PARENTRESOURCEPRIMKEY_7_SQL =
+		"kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_G_P_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_KBFI_UT;
 	private FinderPath _finderPathWithoutPaginationFindByG_KBFI_UT;
 	private FinderPath _finderPathCountByG_KBFI_UT;
@@ -22452,10 +22458,10 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_KBFI_UT_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_KBFOLDERID_2 = "kbArticle.kbFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_URLTITLE_2 = "kbArticle.urlTitle = ?";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_URLTITLE_3 = "(kbArticle.urlTitle IS NULL OR kbArticle.urlTitle = '')";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_KBFOLDERID_2_SQL = "kbArticle.kbFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_URLTITLE_2_SQL = "kbArticle.urlTitle = ?";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_URLTITLE_3_SQL = "(kbArticle.urlTitle IS NULL OR kbArticle.urlTitle = '')";
 	private FinderPath _finderPathWithPaginationFindByG_KBFI_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_KBFI_L;
 	private FinderPath _finderPathCountByG_KBFI_L;
@@ -23409,9 +23415,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_KBFI_L_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_L_KBFOLDERID_2 = "kbArticle.kbFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_G_KBFI_L_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_L_KBFOLDERID_2_SQL = "kbArticle.kbFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByG_KBFI_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_KBFI_S;
 	private FinderPath _finderPathCountByG_KBFI_S;
@@ -24364,9 +24370,9 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_KBFI_S_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_S_KBFOLDERID_2 = "kbArticle.kbFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_KBFI_S_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_S_KBFOLDERID_2_SQL = "kbArticle.kbFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S_L;
 	private FinderPath _finderPathWithPaginationCountByG_S_L;
 
@@ -26004,14 +26010,14 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_L_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_2 = "kbArticle.sections LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_3 = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_5 = "(" +
+	private static final String _FINDER_COLUMN_G_S_L_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_2_SQL = "kbArticle.sections LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_3_SQL = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
+	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_5_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_G_S_L_SECTIONS_2) + ")";
-	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_6 = "(" +
+	private static final String _FINDER_COLUMN_G_S_L_SECTIONS_6_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_G_S_L_SECTIONS_3) + ")";
-	private static final String _FINDER_COLUMN_G_S_L_LATEST_2 = "kbArticle.latest = ?";
+	private static final String _FINDER_COLUMN_G_S_L_LATEST_2_SQL = "kbArticle.latest = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S_M;
 	private FinderPath _finderPathWithPaginationCountByG_S_M;
 
@@ -27648,14 +27654,14 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_M_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_2 = "kbArticle.sections LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_3 = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_5 = "(" +
+	private static final String _FINDER_COLUMN_G_S_M_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_2_SQL = "kbArticle.sections LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_3_SQL = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
+	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_5_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_G_S_M_SECTIONS_2) + ")";
-	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_6 = "(" +
+	private static final String _FINDER_COLUMN_G_S_M_SECTIONS_6_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_G_S_M_SECTIONS_3) + ")";
-	private static final String _FINDER_COLUMN_G_S_M_MAIN_2 = "kbArticle.main = ?";
+	private static final String _FINDER_COLUMN_G_S_M_MAIN_2_SQL = "kbArticle.main = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S_S;
 	private FinderPath _finderPathWithPaginationCountByG_S_S;
 
@@ -29291,14 +29297,14 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_S_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_2 = "kbArticle.sections LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_3 = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_5 = "(" +
+	private static final String _FINDER_COLUMN_G_S_S_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_2_SQL = "kbArticle.sections LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_3_SQL = "(kbArticle.sections IS NULL OR kbArticle.sections LIKE '') AND ";
+	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_5_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_G_S_S_SECTIONS_2) + ")";
-	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_6 = "(" +
+	private static final String _FINDER_COLUMN_G_S_S_SECTIONS_6_SQL = "(" +
 		removeConjunction(_FINDER_COLUMN_G_S_S_SECTIONS_3) + ")";
-	private static final String _FINDER_COLUMN_G_S_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_S_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_L_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_L_S;
 	private FinderPath _finderPathCountByG_P_L_S;
@@ -30895,11 +30901,13 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_L_S_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_S_PARENTRESOURCEPRIMKEY_2 = "kbArticle.parentResourcePrimKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_S_PARENTRESOURCEPRIMKEY_7 = "kbArticle.parentResourcePrimKey IN (";
-	private static final String _FINDER_COLUMN_G_P_L_S_LATEST_2 = "kbArticle.latest = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_S_STATUS_2 = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_P_L_S_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_S_PARENTRESOURCEPRIMKEY_2_SQL =
+		"kbArticle.parentResourcePrimKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_S_PARENTRESOURCEPRIMKEY_7_SQL =
+		"kbArticle.parentResourcePrimKey IN (";
+	private static final String _FINDER_COLUMN_G_P_L_S_LATEST_2_SQL = "kbArticle.latest = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_S_STATUS_2_SQL = "kbArticle.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_KBFI_UT_ST;
 	private FinderPath _finderPathWithoutPaginationFindByG_KBFI_UT_ST;
 	private FinderPath _finderPathCountByG_KBFI_UT_ST;
@@ -32603,12 +32611,12 @@ public class KBArticlePersistenceImpl extends BasePersistenceImpl<KBArticle>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_GROUPID_2 = "kbArticle.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_KBFOLDERID_2 = "kbArticle.kbFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_URLTITLE_2 = "kbArticle.urlTitle = ? AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_URLTITLE_3 = "(kbArticle.urlTitle IS NULL OR kbArticle.urlTitle = '') AND ";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_STATUS_2 = "kbArticle.status = ?";
-	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_STATUS_7 = "kbArticle.status IN (";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_GROUPID_2_SQL = "kbArticle.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_KBFOLDERID_2_SQL = "kbArticle.kbFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_URLTITLE_2_SQL = "kbArticle.urlTitle = ? AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_URLTITLE_3_SQL = "(kbArticle.urlTitle IS NULL OR kbArticle.urlTitle = '') AND ";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_STATUS_2_SQL = "kbArticle.status = ?";
+	private static final String _FINDER_COLUMN_G_KBFI_UT_ST_STATUS_7_SQL = "kbArticle.status IN (";
 
 	public KBArticlePersistenceImpl() {
 		setModelClass(KBArticle.class);

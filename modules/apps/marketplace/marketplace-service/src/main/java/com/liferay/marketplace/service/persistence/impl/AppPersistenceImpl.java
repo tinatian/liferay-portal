@@ -202,12 +202,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -424,12 +424,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -558,12 +558,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -598,8 +598,8 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "app.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(app.uuid IS NULL OR app.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "app.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(app.uuid_ IS NULL OR app.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -729,12 +729,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -969,12 +969,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1109,12 +1109,12 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1153,9 +1153,9 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "app.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(app.uuid IS NULL OR app.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "app.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "app.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(app.uuid_ IS NULL OR app.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "app.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1633,7 +1633,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "app.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "app.companyId = ?";
 	private FinderPath _finderPathFetchByRemoteAppId;
 	private FinderPath _finderPathCountByRemoteAppId;
 
@@ -1833,7 +1833,7 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_REMOTEAPPID_REMOTEAPPID_2 = "app.remoteAppId = ?";
+	private static final String _FINDER_COLUMN_REMOTEAPPID_REMOTEAPPID_2_SQL = "app.remoteAppId = ?";
 	private FinderPath _finderPathWithPaginationFindByCategory;
 	private FinderPath _finderPathWithoutPaginationFindByCategory;
 	private FinderPath _finderPathCountByCategory;
@@ -2350,8 +2350,8 @@ public class AppPersistenceImpl extends BasePersistenceImpl<App>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CATEGORY_CATEGORY_2 = "app.category = ?";
-	private static final String _FINDER_COLUMN_CATEGORY_CATEGORY_3 = "(app.category IS NULL OR app.category = '')";
+	private static final String _FINDER_COLUMN_CATEGORY_CATEGORY_2_SQL = "app.category = ?";
+	private static final String _FINDER_COLUMN_CATEGORY_CATEGORY_3_SQL = "(app.category IS NULL OR app.category = '')";
 
 	public AppPersistenceImpl() {
 		setModelClass(App.class);

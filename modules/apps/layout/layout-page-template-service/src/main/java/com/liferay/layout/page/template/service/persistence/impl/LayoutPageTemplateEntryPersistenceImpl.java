@@ -207,12 +207,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -440,12 +440,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -574,12 +574,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -614,8 +614,8 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "layoutPageTemplateEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(layoutPageTemplateEntry.uuid IS NULL OR layoutPageTemplateEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "layoutPageTemplateEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(layoutPageTemplateEntry.uuid_ IS NULL OR layoutPageTemplateEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -707,12 +707,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -807,12 +807,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -851,9 +851,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "layoutPageTemplateEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(layoutPageTemplateEntry.uuid IS NULL OR layoutPageTemplateEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "layoutPageTemplateEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "layoutPageTemplateEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(layoutPageTemplateEntry.uuid_ IS NULL OR layoutPageTemplateEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -987,12 +987,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1242,12 +1242,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1382,12 +1382,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1426,9 +1426,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "layoutPageTemplateEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(layoutPageTemplateEntry.uuid IS NULL OR layoutPageTemplateEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "layoutPageTemplateEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "layoutPageTemplateEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(layoutPageTemplateEntry.uuid_ IS NULL OR layoutPageTemplateEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "layoutPageTemplateEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2282,7 +2282,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "layoutPageTemplateEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutPrototypeId;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutPrototypeId;
 	private FinderPath _finderPathCountByLayoutPrototypeId;
@@ -2787,7 +2787,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTPROTOTYPEID_LAYOUTPROTOTYPEID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTPROTOTYPEID_LAYOUTPROTOTYPEID_2_SQL =
 		"layoutPageTemplateEntry.layoutPrototypeId = ?";
 	private FinderPath _finderPathFetchByPlid;
 	private FinderPath _finderPathCountByPlid;
@@ -2979,7 +2979,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PLID_PLID_2 = "layoutPageTemplateEntry.plid = ?";
+	private static final String _FINDER_COLUMN_PLID_PLID_2_SQL = "layoutPageTemplateEntry.plid = ?";
 	private FinderPath _finderPathWithPaginationFindByG_L;
 	private FinderPath _finderPathWithoutPaginationFindByG_L;
 	private FinderPath _finderPathCountByG_L;
@@ -3908,8 +3908,8 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LAYOUTPAGETEMPLATECOLLECTIONID_2 =
+	private static final String _FINDER_COLUMN_G_L_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_LAYOUTPAGETEMPLATECOLLECTIONID_2_SQL =
 		"layoutPageTemplateEntry.layoutPageTemplateCollectionId = ?";
 	private FinderPath _finderPathFetchByG_N;
 	private FinderPath _finderPathCountByG_N;
@@ -4146,9 +4146,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_NAME_2 = "layoutPageTemplateEntry.name = ?";
-	private static final String _FINDER_COLUMN_G_N_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name = '')";
+	private static final String _FINDER_COLUMN_G_N_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_NAME_2_SQL = "layoutPageTemplateEntry.name = ?";
+	private static final String _FINDER_COLUMN_G_N_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name = '')";
 	private FinderPath _finderPathWithPaginationFindByG_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_T;
 	private FinderPath _finderPathCountByG_T;
@@ -4278,7 +4278,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4513,7 +4513,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4970,7 +4970,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -5057,8 +5057,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_T_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_TYPE_2 = "layoutPageTemplateEntry.type = ?";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_T_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_L_LikeN;
 	private FinderPath _finderPathWithPaginationCountByG_L_LikeN;
@@ -6114,11 +6113,11 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_LIKEN_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_LAYOUTPAGETEMPLATECOLLECTIONID_2 =
+	private static final String _FINDER_COLUMN_G_L_LIKEN_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_LAYOUTPAGETEMPLATECOLLECTIONID_2_SQL =
 		"layoutPageTemplateEntry.layoutPageTemplateCollectionId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_NAME_2 = "layoutPageTemplateEntry.name LIKE ?";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '')";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_NAME_2_SQL = "layoutPageTemplateEntry.name LIKE ?";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByG_L_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_L_T;
 	private FinderPath _finderPathCountByG_L_T;
@@ -6260,7 +6259,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_L_T_LAYOUTPAGETEMPLATECOLLECTIONID_2);
 
-			query.append(_FINDER_COLUMN_G_L_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_L_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6519,7 +6518,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_FINDER_COLUMN_G_L_T_LAYOUTPAGETEMPLATECOLLECTIONID_2);
 
-		query.append(_FINDER_COLUMN_G_L_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_L_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -7005,7 +7004,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_L_T_LAYOUTPAGETEMPLATECOLLECTIONID_2);
 
-			query.append(_FINDER_COLUMN_G_L_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_L_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -7100,10 +7099,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_T_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_T_LAYOUTPAGETEMPLATECOLLECTIONID_2 =
+	private static final String _FINDER_COLUMN_G_L_T_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_T_LAYOUTPAGETEMPLATECOLLECTIONID_2_SQL =
 		"layoutPageTemplateEntry.layoutPageTemplateCollectionId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_T_TYPE_2 = "layoutPageTemplateEntry.type = ?";
 	private static final String _FINDER_COLUMN_G_L_T_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_L_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_L_S;
@@ -8086,10 +8084,10 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_S_LAYOUTPAGETEMPLATECOLLECTIONID_2 =
+	private static final String _FINDER_COLUMN_G_L_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_S_LAYOUTPAGETEMPLATECOLLECTIONID_2_SQL =
 		"layoutPageTemplateEntry.layoutPageTemplateCollectionId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_L_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T_LikeN;
 	private FinderPath _finderPathWithPaginationCountByG_T_LikeN;
 
@@ -8232,7 +8230,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_T_LIKEN_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_LIKEN_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_LIKEN_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8502,7 +8500,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			query.append(_FINDER_COLUMN_G_T_LIKEN_NAME_2);
 		}
 
-		query.append(_FINDER_COLUMN_G_T_LIKEN_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_LIKEN_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9018,7 +9016,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_T_LIKEN_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_LIKEN_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_LIKEN_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -9127,10 +9125,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_T_LIKEN_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_NAME_2 = "layoutPageTemplateEntry.name LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_TYPE_2 = "layoutPageTemplateEntry.type = ?";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_NAME_2_SQL = "layoutPageTemplateEntry.name LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_T_LIKEN_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_T_S;
@@ -9268,7 +9265,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
 
@@ -9519,7 +9516,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
 
@@ -9997,7 +9994,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_T_S_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_S_STATUS_2);
 
@@ -10093,10 +10090,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_T_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_S_TYPE_2 = "layoutPageTemplateEntry.type = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_T_S_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_T_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_L_LikeN_S;
 	private FinderPath _finderPathWithPaginationCountByG_L_LikeN_S;
 
@@ -11207,12 +11203,12 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_L_LIKEN_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_S_LAYOUTPAGETEMPLATECOLLECTIONID_2 =
+	private static final String _FINDER_COLUMN_G_L_LIKEN_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_S_LAYOUTPAGETEMPLATECOLLECTIONID_2_SQL =
 		"layoutPageTemplateEntry.layoutPageTemplateCollectionId = ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_S_NAME_2 = "layoutPageTemplateEntry.name LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_S_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_L_LIKEN_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_S_NAME_2_SQL = "layoutPageTemplateEntry.name LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_S_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
+	private static final String _FINDER_COLUMN_G_L_LIKEN_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_T;
 	private FinderPath _finderPathCountByG_C_C_T;
@@ -11359,7 +11355,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_C_C_T_CLASSTYPEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -11633,7 +11629,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_FINDER_COLUMN_G_C_C_T_CLASSTYPEID_2);
 
-		query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -12135,7 +12131,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_C_C_T_CLASSTYPEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -12237,10 +12233,9 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_T_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_CLASSTYPEID_2 = "layoutPageTemplateEntry.classTypeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_TYPE_2 = "layoutPageTemplateEntry.type = ?";
+	private static final String _FINDER_COLUMN_G_C_C_T_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_CLASSNAMEID_2_SQL = "layoutPageTemplateEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_CLASSTYPEID_2_SQL = "layoutPageTemplateEntry.classTypeId = ? AND ";
 	private static final String _FINDER_COLUMN_G_C_C_T_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_D;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_D;
@@ -13276,10 +13271,10 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_D_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_CLASSTYPEID_2 = "layoutPageTemplateEntry.classTypeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_DEFAULTTEMPLATE_2 = "layoutPageTemplateEntry.defaultTemplate = ?";
+	private static final String _FINDER_COLUMN_G_C_C_D_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_CLASSNAMEID_2_SQL = "layoutPageTemplateEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_CLASSTYPEID_2_SQL = "layoutPageTemplateEntry.classTypeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_DEFAULTTEMPLATE_2_SQL = "layoutPageTemplateEntry.defaultTemplate = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_T_D;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_T_D;
 	private FinderPath _finderPathCountByG_C_T_D;
@@ -13426,7 +13421,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_C_T_D_CLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_T_D_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_T_D_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_T_D_DEFAULTTEMPLATE_2);
 
@@ -13700,7 +13695,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_FINDER_COLUMN_G_C_T_D_CLASSNAMEID_2);
 
-		query.append(_FINDER_COLUMN_G_C_T_D_TYPE_2);
+		query.append(_FINDER_COLUMN_G_C_T_D_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_C_T_D_DEFAULTTEMPLATE_2);
 
@@ -14202,7 +14197,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_C_T_D_CLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_T_D_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_T_D_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_T_D_DEFAULTTEMPLATE_2);
 
@@ -14306,11 +14301,10 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_T_D_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_D_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_D_TYPE_2 = "layoutPageTemplateEntry.type = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_D_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_T_D_CLASSNAMEID_2_SQL = "layoutPageTemplateEntry.classNameId = ? AND ";
 	private static final String _FINDER_COLUMN_G_C_T_D_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_T_D_DEFAULTTEMPLATE_2 = "layoutPageTemplateEntry.defaultTemplate = ?";
+	private static final String _FINDER_COLUMN_G_C_T_D_DEFAULTTEMPLATE_2_SQL = "layoutPageTemplateEntry.defaultTemplate = ?";
 	private FinderPath _finderPathWithPaginationFindByG_T_LikeN_S;
 	private FinderPath _finderPathWithPaginationCountByG_T_LikeN_S;
 
@@ -14458,7 +14452,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_T_LIKEN_S_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_LIKEN_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_LIKEN_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_LIKEN_S_STATUS_2);
 
@@ -14743,7 +14737,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			query.append(_FINDER_COLUMN_G_T_LIKEN_S_NAME_2);
 		}
 
-		query.append(_FINDER_COLUMN_G_T_LIKEN_S_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_LIKEN_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_T_LIKEN_S_STATUS_2);
 
@@ -15281,7 +15275,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_T_LIKEN_S_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_T_LIKEN_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_LIKEN_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_T_LIKEN_S_STATUS_2);
 
@@ -15400,12 +15394,11 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_T_LIKEN_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_S_NAME_2 = "layoutPageTemplateEntry.name LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_S_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_S_TYPE_2 = "layoutPageTemplateEntry.type = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_S_NAME_2_SQL = "layoutPageTemplateEntry.name LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_S_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_T_LIKEN_S_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_LIKEN_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_T_LIKEN_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_LikeN_T;
 	private FinderPath _finderPathWithPaginationCountByG_C_C_LikeN_T;
 
@@ -15564,7 +15557,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -15867,7 +15860,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_NAME_2);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -16428,7 +16421,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -16553,12 +16546,11 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_CLASSTYPEID_2 = "layoutPageTemplateEntry.classTypeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_NAME_2 = "layoutPageTemplateEntry.name LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2 = "layoutPageTemplateEntry.type = ?";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_CLASSNAMEID_2_SQL = "layoutPageTemplateEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_CLASSTYPEID_2_SQL = "layoutPageTemplateEntry.classTypeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_NAME_2_SQL = "layoutPageTemplateEntry.name LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_T_S;
@@ -16714,7 +16706,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_C_C_T_S_CLASSTYPEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_C_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_C_T_S_STATUS_2);
 
@@ -17004,7 +16996,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_FINDER_COLUMN_G_C_C_T_S_CLASSTYPEID_2);
 
-		query.append(_FINDER_COLUMN_G_C_C_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_G_C_C_T_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_C_C_T_S_STATUS_2);
 
@@ -17526,7 +17518,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_FINDER_COLUMN_G_C_C_T_S_CLASSTYPEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_C_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_C_T_S_STATUS_2);
 
@@ -17638,12 +17630,11 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_T_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_S_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_S_CLASSTYPEID_2 = "layoutPageTemplateEntry.classTypeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_S_TYPE_2 = "layoutPageTemplateEntry.type = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_S_CLASSNAMEID_2_SQL = "layoutPageTemplateEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_T_S_CLASSTYPEID_2_SQL = "layoutPageTemplateEntry.classTypeId = ? AND ";
 	private static final String _FINDER_COLUMN_G_C_C_T_S_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_T_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_C_C_T_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_D_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C_D_S;
 	private FinderPath _finderPathCountByG_C_C_D_S;
@@ -18730,11 +18721,11 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_D_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_S_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_S_CLASSTYPEID_2 = "layoutPageTemplateEntry.classTypeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_S_DEFAULTTEMPLATE_2 = "layoutPageTemplateEntry.defaultTemplate = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_D_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_C_C_D_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_S_CLASSNAMEID_2_SQL = "layoutPageTemplateEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_S_CLASSTYPEID_2_SQL = "layoutPageTemplateEntry.classTypeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_S_DEFAULTTEMPLATE_2_SQL = "layoutPageTemplateEntry.defaultTemplate = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_D_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C_LikeN_T_S;
 	private FinderPath _finderPathWithPaginationCountByG_C_C_LikeN_T_S;
 
@@ -18900,7 +18891,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_STATUS_2);
 
@@ -19220,7 +19211,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_2);
 		}
 
-		query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_STATUS_2);
 
@@ -19802,7 +19793,7 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 				query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_2);
 			}
 
-			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_G_C_C_LIKEN_T_S_STATUS_2);
 
@@ -19936,14 +19927,15 @@ public class LayoutPageTemplateEntryPersistenceImpl extends BasePersistenceImpl<
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_GROUPID_2 = "layoutPageTemplateEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_CLASSNAMEID_2 = "layoutPageTemplateEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_CLASSTYPEID_2 = "layoutPageTemplateEntry.classTypeId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_2 = "layoutPageTemplateEntry.name LIKE ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_3 = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2 = "layoutPageTemplateEntry.type = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_GROUPID_2_SQL = "layoutPageTemplateEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_CLASSNAMEID_2_SQL =
+		"layoutPageTemplateEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_CLASSTYPEID_2_SQL =
+		"layoutPageTemplateEntry.classTypeId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_2_SQL = "layoutPageTemplateEntry.name LIKE ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_NAME_3_SQL = "(layoutPageTemplateEntry.name IS NULL OR layoutPageTemplateEntry.name LIKE '') AND ";
 	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_TYPE_2_SQL = "layoutPageTemplateEntry.type_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_STATUS_2 = "layoutPageTemplateEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_C_C_LIKEN_T_S_STATUS_2_SQL = "layoutPageTemplateEntry.status = ?";
 
 	public LayoutPageTemplateEntryPersistenceImpl() {
 		setModelClass(LayoutPageTemplateEntry.class);

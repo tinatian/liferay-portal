@@ -575,7 +575,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "microblogsEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "microblogsEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1061,7 +1061,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "microblogsEntry.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "microblogsEntry.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_T;
 	private FinderPath _finderPathWithoutPaginationFindByU_T;
 	private FinderPath _finderPathCountByU_T;
@@ -1189,7 +1189,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_U_T_USERID_2);
 
-			query.append(_FINDER_COLUMN_U_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1423,7 +1423,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_FINDER_COLUMN_U_T_USERID_2);
 
-		query.append(_FINDER_COLUMN_U_T_TYPE_2);
+		query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1550,7 +1550,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_U_T_USERID_2);
 
-			query.append(_FINDER_COLUMN_U_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1584,8 +1584,8 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_T_USERID_2 = "microblogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_T_TYPE_2 = "microblogsEntry.type = ?";
+	private static final String _FINDER_COLUMN_U_T_USERID_2_SQL = "microblogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_T_TYPE_2_SQL = "microblogsEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByCCNI_CCPK;
 	private FinderPath _finderPathWithoutPaginationFindByCCNI_CCPK;
 	private FinderPath _finderPathCountByCCNI_CCPK;
@@ -2406,9 +2406,10 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2 = "microblogsEntry.creatorClassNameId = ? AND ";
-	private static final String _FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2 = "microblogsEntry.creatorClassPK = ?";
-	private static final String _FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_7 = "microblogsEntry.creatorClassPK IN (";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL =
+		"microblogsEntry.creatorClassNameId = ? AND ";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_2_SQL = "microblogsEntry.creatorClassPK = ?";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_CREATORCLASSPK_7_SQL = "microblogsEntry.creatorClassPK IN (";
 	private FinderPath _finderPathWithPaginationFindByCCNI_T;
 	private FinderPath _finderPathWithoutPaginationFindByCCNI_T;
 	private FinderPath _finderPathCountByCCNI_T;
@@ -2539,7 +2540,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_CCNI_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CCNI_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2773,7 +2774,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2);
 
-		query.append(_FINDER_COLUMN_CCNI_T_TYPE_2);
+		query.append(_FINDER_COLUMN_CCNI_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2901,7 +2902,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_CCNI_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CCNI_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2935,8 +2936,8 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2 = "microblogsEntry.creatorClassNameId = ? AND ";
-	private static final String _FINDER_COLUMN_CCNI_T_TYPE_2 = "microblogsEntry.type = ?";
+	private static final String _FINDER_COLUMN_CCNI_T_CREATORCLASSNAMEID_2_SQL = "microblogsEntry.creatorClassNameId = ? AND ";
+	private static final String _FINDER_COLUMN_CCNI_T_TYPE_2_SQL = "microblogsEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByT_P;
 	private FinderPath _finderPathWithoutPaginationFindByT_P;
 	private FinderPath _finderPathCountByT_P;
@@ -3066,7 +3067,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_T_P_TYPE_2);
+			query.append(_FINDER_COLUMN_T_P_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2);
 
@@ -3305,7 +3306,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_SQL_SELECT_MICROBLOGSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_T_P_TYPE_2);
+		query.append(_FINDER_COLUMN_T_P_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2);
 
@@ -3433,7 +3434,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_SQL_COUNT_MICROBLOGSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_T_P_TYPE_2);
+			query.append(_FINDER_COLUMN_T_P_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2);
 
@@ -3469,8 +3470,9 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_P_TYPE_2 = "microblogsEntry.type = ? AND ";
-	private static final String _FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2 = "microblogsEntry.parentMicroblogsEntryId = ?";
+	private static final String _FINDER_COLUMN_T_P_TYPE_2_SQL = "microblogsEntry.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_T_P_PARENTMICROBLOGSENTRYID_2_SQL =
+		"microblogsEntry.parentMicroblogsEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_CCNI_CCPK;
 	private FinderPath _finderPathWithoutPaginationFindByC_CCNI_CCPK;
 	private FinderPath _finderPathCountByC_CCNI_CCPK;
@@ -4349,10 +4351,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2 = "microblogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2 = "microblogsEntry.creatorClassNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2 = "microblogsEntry.creatorClassPK = ?";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_7 = "microblogsEntry.creatorClassPK IN (";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_COMPANYID_2_SQL = "microblogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSNAMEID_2_SQL =
+		"microblogsEntry.creatorClassNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_2_SQL = "microblogsEntry.creatorClassPK = ?";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_CREATORCLASSPK_7_SQL = "microblogsEntry.creatorClassPK IN (";
 	private FinderPath _finderPathWithPaginationFindByC_CCNI_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_CCNI_T;
 	private FinderPath _finderPathCountByC_CCNI_T;
@@ -4492,7 +4495,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4747,7 +4750,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2);
 
-		query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4882,7 +4885,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4918,9 +4921,10 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_CCNI_T_COMPANYID_2 = "microblogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2 = "microblogsEntry.creatorClassNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_T_TYPE_2 = "microblogsEntry.type = ?";
+	private static final String _FINDER_COLUMN_C_CCNI_T_COMPANYID_2_SQL = "microblogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CCNI_T_CREATORCLASSNAMEID_2_SQL =
+		"microblogsEntry.creatorClassNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CCNI_T_TYPE_2_SQL = "microblogsEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByCCNI_CCPK_T;
 	private FinderPath _finderPathWithoutPaginationFindByCCNI_CCPK_T;
 	private FinderPath _finderPathCountByCCNI_CCPK_T;
@@ -5061,7 +5065,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -5317,7 +5321,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2);
 
-		query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2);
+		query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5567,7 +5571,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -5673,7 +5677,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2);
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -5757,7 +5761,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -5796,10 +5800,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2 = "microblogsEntry.creatorClassNameId = ? AND ";
-	private static final String _FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2 = "microblogsEntry.creatorClassPK = ? AND ";
-	private static final String _FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_7 = "microblogsEntry.creatorClassPK IN (";
-	private static final String _FINDER_COLUMN_CCNI_CCPK_T_TYPE_2 = "microblogsEntry.type = ?";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL =
+		"microblogsEntry.creatorClassNameId = ? AND ";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_2_SQL = "microblogsEntry.creatorClassPK = ? AND ";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_T_CREATORCLASSPK_7_SQL = "microblogsEntry.creatorClassPK IN (";
+	private static final String _FINDER_COLUMN_CCNI_CCPK_T_TYPE_2_SQL = "microblogsEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByC_CCNI_CCPK_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_CCNI_CCPK_T;
 	private FinderPath _finderPathCountByC_CCNI_CCPK_T;
@@ -5950,7 +5955,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -6225,7 +6230,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -6487,7 +6492,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -6599,7 +6604,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 
 			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -6689,7 +6694,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 				query.append(WHERE_AND);
 			}
 
-			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL);
 
 			query.setStringAt(removeConjunction(query.stringAt(query.index() -
 						1)), query.index() - 1);
@@ -6730,12 +6735,14 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2 = "microblogsEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2 =
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_COMPANYID_2_SQL = "microblogsEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSNAMEID_2_SQL =
 		"microblogsEntry.creatorClassNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2 = "microblogsEntry.creatorClassPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_7 = "microblogsEntry.creatorClassPK IN (";
-	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2 = "microblogsEntry.type = ?";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_2_SQL =
+		"microblogsEntry.creatorClassPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_CREATORCLASSPK_7_SQL =
+		"microblogsEntry.creatorClassPK IN (";
+	private static final String _FINDER_COLUMN_C_CCNI_CCPK_T_TYPE_2_SQL = "microblogsEntry.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C_T_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_C_T_S;
 	private FinderPath _finderPathCountByU_C_T_S;
@@ -6892,7 +6899,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2);
 			}
 
-			query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2);
 
@@ -7174,7 +7181,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 			query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2);
 		}
 
-		query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2);
+		query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2_SQL);
 
 		query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2);
 
@@ -7329,7 +7336,7 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 				query.append(_FINDER_COLUMN_U_C_T_S_CREATEDATE_2);
 			}
 
-			query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_T_S_TYPE_2_SQL);
 
 			query.append(_FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2);
 
@@ -7371,11 +7378,11 @@ public class MicroblogsEntryPersistenceImpl extends BasePersistenceImpl<Microblo
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_T_S_USERID_2 = "microblogsEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_T_S_CREATEDATE_1 = "microblogsEntry.createDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_U_C_T_S_CREATEDATE_2 = "microblogsEntry.createDate = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_T_S_TYPE_2 = "microblogsEntry.type = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2 = "microblogsEntry.socialRelationType = ?";
+	private static final String _FINDER_COLUMN_U_C_T_S_USERID_2_SQL = "microblogsEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_T_S_CREATEDATE_1_SQL = "microblogsEntry.createDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_U_C_T_S_CREATEDATE_2_SQL = "microblogsEntry.createDate = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_T_S_TYPE_2_SQL = "microblogsEntry.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_T_S_SOCIALRELATIONTYPE_2_SQL = "microblogsEntry.socialRelationType = ?";
 
 	public MicroblogsEntryPersistenceImpl() {
 		setModelClass(MicroblogsEntry.class);

@@ -572,7 +572,7 @@ public class DDLRecordSetVersionPersistenceImpl extends BasePersistenceImpl<DDLR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECORDSETID_RECORDSETID_2 = "ddlRecordSetVersion.recordSetId = ?";
+	private static final String _FINDER_COLUMN_RECORDSETID_RECORDSETID_2_SQL = "ddlRecordSetVersion.recordSetId = ?";
 	private FinderPath _finderPathFetchByRS_V;
 	private FinderPath _finderPathCountByRS_V;
 
@@ -808,9 +808,9 @@ public class DDLRecordSetVersionPersistenceImpl extends BasePersistenceImpl<DDLR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RS_V_RECORDSETID_2 = "ddlRecordSetVersion.recordSetId = ? AND ";
-	private static final String _FINDER_COLUMN_RS_V_VERSION_2 = "ddlRecordSetVersion.version = ?";
-	private static final String _FINDER_COLUMN_RS_V_VERSION_3 = "(ddlRecordSetVersion.version IS NULL OR ddlRecordSetVersion.version = '')";
+	private static final String _FINDER_COLUMN_RS_V_RECORDSETID_2_SQL = "ddlRecordSetVersion.recordSetId = ? AND ";
+	private static final String _FINDER_COLUMN_RS_V_VERSION_2_SQL = "ddlRecordSetVersion.version = ?";
+	private static final String _FINDER_COLUMN_RS_V_VERSION_3_SQL = "(ddlRecordSetVersion.version IS NULL OR ddlRecordSetVersion.version = '')";
 	private FinderPath _finderPathWithPaginationFindByRS_S;
 	private FinderPath _finderPathWithoutPaginationFindByRS_S;
 	private FinderPath _finderPathCountByRS_S;
@@ -1337,8 +1337,8 @@ public class DDLRecordSetVersionPersistenceImpl extends BasePersistenceImpl<DDLR
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RS_S_RECORDSETID_2 = "ddlRecordSetVersion.recordSetId = ? AND ";
-	private static final String _FINDER_COLUMN_RS_S_STATUS_2 = "ddlRecordSetVersion.status = ?";
+	private static final String _FINDER_COLUMN_RS_S_RECORDSETID_2_SQL = "ddlRecordSetVersion.recordSetId = ? AND ";
+	private static final String _FINDER_COLUMN_RS_S_STATUS_2_SQL = "ddlRecordSetVersion.status = ?";
 
 	public DDLRecordSetVersionPersistenceImpl() {
 		setModelClass(DDLRecordSetVersion.class);

@@ -564,7 +564,7 @@ public class PasswordTrackerPersistenceImpl extends BasePersistenceImpl<Password
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "passwordTracker.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "passwordTracker.userId = ?";
 
 	public PasswordTrackerPersistenceImpl() {
 		setModelClass(PasswordTracker.class);

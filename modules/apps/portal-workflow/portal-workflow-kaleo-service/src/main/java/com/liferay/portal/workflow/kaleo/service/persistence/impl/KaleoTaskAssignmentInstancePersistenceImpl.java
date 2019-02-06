@@ -575,7 +575,7 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoTaskAssignmentInstance.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoTaskAssignmentInstance.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1083,7 +1083,7 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoTaskAssignmentInstance.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoInstanceId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoInstanceId;
@@ -1590,7 +1590,7 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2 =
+	private static final String _FINDER_COLUMN_KALEOINSTANCEID_KALEOINSTANCEID_2_SQL =
 		"kaleoTaskAssignmentInstance.kaleoInstanceId = ?";
 	private FinderPath _finderPathWithPaginationFindBykaleoTaskInstanceTokenId;
 	private FinderPath _finderPathWithoutPaginationFindBykaleoTaskInstanceTokenId;
@@ -2099,7 +2099,7 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEOTASKINSTANCETOKENID_KALEOTASKINSTANCETOKENID_2 =
+	private static final String _FINDER_COLUMN_KALEOTASKINSTANCETOKENID_KALEOTASKINSTANCETOKENID_2_SQL =
 		"kaleoTaskAssignmentInstance.kaleoTaskInstanceTokenId = ?";
 	private FinderPath _finderPathWithPaginationFindByassigneeClassName;
 	private FinderPath _finderPathWithoutPaginationFindByassigneeClassName;
@@ -2646,9 +2646,9 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSIGNEECLASSNAME_ASSIGNEECLASSNAME_2 =
+	private static final String _FINDER_COLUMN_ASSIGNEECLASSNAME_ASSIGNEECLASSNAME_2_SQL =
 		"kaleoTaskAssignmentInstance.assigneeClassName = ?";
-	private static final String _FINDER_COLUMN_ASSIGNEECLASSNAME_ASSIGNEECLASSNAME_3 =
+	private static final String _FINDER_COLUMN_ASSIGNEECLASSNAME_ASSIGNEECLASSNAME_3_SQL =
 		"(kaleoTaskAssignmentInstance.assigneeClassName IS NULL OR kaleoTaskAssignmentInstance.assigneeClassName = '')";
 	private FinderPath _finderPathWithPaginationFindByG_ACPK;
 	private FinderPath _finderPathWithoutPaginationFindByG_ACPK;
@@ -3186,8 +3186,8 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_ACPK_GROUPID_2 = "kaleoTaskAssignmentInstance.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_ACPK_ASSIGNEECLASSPK_2 = "kaleoTaskAssignmentInstance.assigneeClassPK = ?";
+	private static final String _FINDER_COLUMN_G_ACPK_GROUPID_2_SQL = "kaleoTaskAssignmentInstance.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_ACPK_ASSIGNEECLASSPK_2_SQL = "kaleoTaskAssignmentInstance.assigneeClassPK = ?";
 	private FinderPath _finderPathWithPaginationFindByACN_ACPK;
 	private FinderPath _finderPathWithoutPaginationFindByACN_ACPK;
 	private FinderPath _finderPathCountByACN_ACPK;
@@ -3766,9 +3766,9 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACN_ACPK_ASSIGNEECLASSNAME_2 = "kaleoTaskAssignmentInstance.assigneeClassName = ? AND ";
-	private static final String _FINDER_COLUMN_ACN_ACPK_ASSIGNEECLASSNAME_3 = "(kaleoTaskAssignmentInstance.assigneeClassName IS NULL OR kaleoTaskAssignmentInstance.assigneeClassName = '') AND ";
-	private static final String _FINDER_COLUMN_ACN_ACPK_ASSIGNEECLASSPK_2 = "kaleoTaskAssignmentInstance.assigneeClassPK = ?";
+	private static final String _FINDER_COLUMN_ACN_ACPK_ASSIGNEECLASSNAME_2_SQL = "kaleoTaskAssignmentInstance.assigneeClassName = ? AND ";
+	private static final String _FINDER_COLUMN_ACN_ACPK_ASSIGNEECLASSNAME_3_SQL = "(kaleoTaskAssignmentInstance.assigneeClassName IS NULL OR kaleoTaskAssignmentInstance.assigneeClassName = '') AND ";
+	private static final String _FINDER_COLUMN_ACN_ACPK_ASSIGNEECLASSPK_2_SQL = "kaleoTaskAssignmentInstance.assigneeClassPK = ?";
 
 	public KaleoTaskAssignmentInstancePersistenceImpl() {
 		setModelClass(KaleoTaskAssignmentInstance.class);

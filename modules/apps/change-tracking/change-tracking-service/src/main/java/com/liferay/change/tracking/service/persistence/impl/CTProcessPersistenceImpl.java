@@ -561,7 +561,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "ctProcess.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "ctProcess.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1044,7 +1044,7 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "ctProcess.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "ctProcess.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByCollectionId;
 	private FinderPath _finderPathWithoutPaginationFindByCollectionId;
 	private FinderPath _finderPathCountByCollectionId;
@@ -1537,7 +1537,8 @@ public class CTProcessPersistenceImpl extends BasePersistenceImpl<CTProcess>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2 = "ctProcess.ctCollectionId = ?";
+	private static final String _FINDER_COLUMN_COLLECTIONID_CTCOLLECTIONID_2_SQL =
+		"ctProcess.ctCollectionId = ?";
 
 	public CTProcessPersistenceImpl() {
 		setModelClass(CTProcess.class);

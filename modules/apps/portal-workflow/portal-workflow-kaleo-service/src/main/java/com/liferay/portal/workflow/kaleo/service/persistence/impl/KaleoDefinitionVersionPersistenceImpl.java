@@ -573,7 +573,7 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoDefinitionVersion.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoDefinitionVersion.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_N;
 	private FinderPath _finderPathWithoutPaginationFindByC_N;
 	private FinderPath _finderPathCountByC_N;
@@ -1139,9 +1139,9 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "kaleoDefinitionVersion.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "kaleoDefinitionVersion.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(kaleoDefinitionVersion.name IS NULL OR kaleoDefinitionVersion.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "kaleoDefinitionVersion.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "kaleoDefinitionVersion.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(kaleoDefinitionVersion.name IS NULL OR kaleoDefinitionVersion.name = '')";
 	private FinderPath _finderPathFetchByC_N_V;
 	private FinderPath _finderPathCountByC_N_V;
 
@@ -1419,11 +1419,11 @@ public class KaleoDefinitionVersionPersistenceImpl extends BasePersistenceImpl<K
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_V_COMPANYID_2 = "kaleoDefinitionVersion.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_V_NAME_2 = "kaleoDefinitionVersion.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_V_NAME_3 = "(kaleoDefinitionVersion.name IS NULL OR kaleoDefinitionVersion.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_V_VERSION_2 = "kaleoDefinitionVersion.version = ?";
-	private static final String _FINDER_COLUMN_C_N_V_VERSION_3 = "(kaleoDefinitionVersion.version IS NULL OR kaleoDefinitionVersion.version = '')";
+	private static final String _FINDER_COLUMN_C_N_V_COMPANYID_2_SQL = "kaleoDefinitionVersion.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_V_NAME_2_SQL = "kaleoDefinitionVersion.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_V_NAME_3_SQL = "(kaleoDefinitionVersion.name IS NULL OR kaleoDefinitionVersion.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_V_VERSION_2_SQL = "kaleoDefinitionVersion.version = ?";
+	private static final String _FINDER_COLUMN_C_N_V_VERSION_3_SQL = "(kaleoDefinitionVersion.version IS NULL OR kaleoDefinitionVersion.version = '')";
 
 	public KaleoDefinitionVersionPersistenceImpl() {
 		setModelClass(KaleoDefinitionVersion.class);

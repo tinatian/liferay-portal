@@ -572,7 +572,7 @@ public class SocialActivityAchievementPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "socialActivityAchievement.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "socialActivityAchievement.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U;
 	private FinderPath _finderPathWithoutPaginationFindByG_U;
 	private FinderPath _finderPathCountByG_U;
@@ -1101,8 +1101,8 @@ public class SocialActivityAchievementPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "socialActivityAchievement.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "socialActivityAchievement.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "socialActivityAchievement.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "socialActivityAchievement.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_N;
 	private FinderPath _finderPathWithoutPaginationFindByG_N;
 	private FinderPath _finderPathCountByG_N;
@@ -1670,9 +1670,9 @@ public class SocialActivityAchievementPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_GROUPID_2 = "socialActivityAchievement.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_NAME_2 = "socialActivityAchievement.name = ?";
-	private static final String _FINDER_COLUMN_G_N_NAME_3 = "(socialActivityAchievement.name IS NULL OR socialActivityAchievement.name = '')";
+	private static final String _FINDER_COLUMN_G_N_GROUPID_2_SQL = "socialActivityAchievement.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_NAME_2_SQL = "socialActivityAchievement.name = ?";
+	private static final String _FINDER_COLUMN_G_N_NAME_3_SQL = "(socialActivityAchievement.name IS NULL OR socialActivityAchievement.name = '')";
 	private FinderPath _finderPathWithPaginationFindByG_F;
 	private FinderPath _finderPathWithoutPaginationFindByG_F;
 	private FinderPath _finderPathCountByG_F;
@@ -2207,8 +2207,8 @@ public class SocialActivityAchievementPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_F_GROUPID_2 = "socialActivityAchievement.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_FIRSTINGROUP_2 = "socialActivityAchievement.firstInGroup = ?";
+	private static final String _FINDER_COLUMN_G_F_GROUPID_2_SQL = "socialActivityAchievement.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_FIRSTINGROUP_2_SQL = "socialActivityAchievement.firstInGroup = ?";
 	private FinderPath _finderPathFetchByG_U_N;
 	private FinderPath _finderPathCountByG_U_N;
 
@@ -2463,10 +2463,10 @@ public class SocialActivityAchievementPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_N_GROUPID_2 = "socialActivityAchievement.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_N_USERID_2 = "socialActivityAchievement.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_N_NAME_2 = "socialActivityAchievement.name = ?";
-	private static final String _FINDER_COLUMN_G_U_N_NAME_3 = "(socialActivityAchievement.name IS NULL OR socialActivityAchievement.name = '')";
+	private static final String _FINDER_COLUMN_G_U_N_GROUPID_2_SQL = "socialActivityAchievement.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_N_USERID_2_SQL = "socialActivityAchievement.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_N_NAME_2_SQL = "socialActivityAchievement.name = ?";
+	private static final String _FINDER_COLUMN_G_U_N_NAME_3_SQL = "(socialActivityAchievement.name IS NULL OR socialActivityAchievement.name = '')";
 	private FinderPath _finderPathWithPaginationFindByG_U_F;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_F;
 	private FinderPath _finderPathCountByG_U_F;
@@ -3034,9 +3034,9 @@ public class SocialActivityAchievementPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_F_GROUPID_2 = "socialActivityAchievement.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_F_USERID_2 = "socialActivityAchievement.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_F_FIRSTINGROUP_2 = "socialActivityAchievement.firstInGroup = ?";
+	private static final String _FINDER_COLUMN_G_U_F_GROUPID_2_SQL = "socialActivityAchievement.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_F_USERID_2_SQL = "socialActivityAchievement.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_F_FIRSTINGROUP_2_SQL = "socialActivityAchievement.firstInGroup = ?";
 
 	public SocialActivityAchievementPersistenceImpl() {
 		setModelClass(SocialActivityAchievement.class);

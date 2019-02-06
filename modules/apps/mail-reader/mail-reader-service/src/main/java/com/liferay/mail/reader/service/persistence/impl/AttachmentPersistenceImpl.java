@@ -564,7 +564,7 @@ public class AttachmentPersistenceImpl extends BasePersistenceImpl<Attachment>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_MESSAGEID_MESSAGEID_2 = "attachment.messageId = ?";
+	private static final String _FINDER_COLUMN_MESSAGEID_MESSAGEID_2_SQL = "attachment.messageId = ?";
 
 	public AttachmentPersistenceImpl() {
 		setModelClass(Attachment.class);

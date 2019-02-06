@@ -565,7 +565,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "orgGroupRole.id.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "orgGroupRole.id.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByRoleId;
 	private FinderPath _finderPathWithoutPaginationFindByRoleId;
 	private FinderPath _finderPathCountByRoleId;
@@ -1051,7 +1051,7 @@ public class OrgGroupRolePersistenceImpl extends BasePersistenceImpl<OrgGroupRol
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 = "orgGroupRole.id.roleId = ?";
+	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2_SQL = "orgGroupRole.id.roleId = ?";
 
 	public OrgGroupRolePersistenceImpl() {
 		setModelClass(OrgGroupRole.class);

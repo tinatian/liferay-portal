@@ -564,7 +564,7 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RECORDID_RECORDID_2 = "ddlRecordVersion.recordId = ?";
+	private static final String _FINDER_COLUMN_RECORDID_RECORDID_2_SQL = "ddlRecordVersion.recordId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_R;
 	private FinderPath _finderPathWithoutPaginationFindByR_R;
 	private FinderPath _finderPathCountByR_R;
@@ -1136,9 +1136,9 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_R_RECORDSETID_2 = "ddlRecordVersion.recordSetId = ? AND ";
-	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_2 = "ddlRecordVersion.recordSetVersion = ?";
-	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_3 = "(ddlRecordVersion.recordSetVersion IS NULL OR ddlRecordVersion.recordSetVersion = '')";
+	private static final String _FINDER_COLUMN_R_R_RECORDSETID_2_SQL = "ddlRecordVersion.recordSetId = ? AND ";
+	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_2_SQL = "ddlRecordVersion.recordSetVersion = ?";
+	private static final String _FINDER_COLUMN_R_R_RECORDSETVERSION_3_SQL = "(ddlRecordVersion.recordSetVersion IS NULL OR ddlRecordVersion.recordSetVersion = '')";
 	private FinderPath _finderPathFetchByR_V;
 	private FinderPath _finderPathCountByR_V;
 
@@ -1372,9 +1372,9 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_V_RECORDID_2 = "ddlRecordVersion.recordId = ? AND ";
-	private static final String _FINDER_COLUMN_R_V_VERSION_2 = "ddlRecordVersion.version = ?";
-	private static final String _FINDER_COLUMN_R_V_VERSION_3 = "(ddlRecordVersion.version IS NULL OR ddlRecordVersion.version = '')";
+	private static final String _FINDER_COLUMN_R_V_RECORDID_2_SQL = "ddlRecordVersion.recordId = ? AND ";
+	private static final String _FINDER_COLUMN_R_V_VERSION_2_SQL = "ddlRecordVersion.version = ?";
+	private static final String _FINDER_COLUMN_R_V_VERSION_3_SQL = "(ddlRecordVersion.version IS NULL OR ddlRecordVersion.version = '')";
 	private FinderPath _finderPathWithPaginationFindByR_S;
 	private FinderPath _finderPathWithoutPaginationFindByR_S;
 	private FinderPath _finderPathCountByR_S;
@@ -1899,8 +1899,8 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_S_RECORDID_2 = "ddlRecordVersion.recordId = ? AND ";
-	private static final String _FINDER_COLUMN_R_S_STATUS_2 = "ddlRecordVersion.status = ?";
+	private static final String _FINDER_COLUMN_R_S_RECORDID_2_SQL = "ddlRecordVersion.recordId = ? AND ";
+	private static final String _FINDER_COLUMN_R_S_STATUS_2_SQL = "ddlRecordVersion.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_R_R_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_R_R_S;
 	private FinderPath _finderPathCountByU_R_R_S;
@@ -2542,11 +2542,11 @@ public class DDLRecordVersionPersistenceImpl extends BasePersistenceImpl<DDLReco
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_R_R_S_USERID_2 = "ddlRecordVersion.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_R_R_S_RECORDSETID_2 = "ddlRecordVersion.recordSetId = ? AND ";
-	private static final String _FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2 = "ddlRecordVersion.recordSetVersion = ? AND ";
-	private static final String _FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3 = "(ddlRecordVersion.recordSetVersion IS NULL OR ddlRecordVersion.recordSetVersion = '') AND ";
-	private static final String _FINDER_COLUMN_U_R_R_S_STATUS_2 = "ddlRecordVersion.status = ?";
+	private static final String _FINDER_COLUMN_U_R_R_S_USERID_2_SQL = "ddlRecordVersion.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_R_R_S_RECORDSETID_2_SQL = "ddlRecordVersion.recordSetId = ? AND ";
+	private static final String _FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_2_SQL = "ddlRecordVersion.recordSetVersion = ? AND ";
+	private static final String _FINDER_COLUMN_U_R_R_S_RECORDSETVERSION_3_SQL = "(ddlRecordVersion.recordSetVersion IS NULL OR ddlRecordVersion.recordSetVersion = '') AND ";
+	private static final String _FINDER_COLUMN_U_R_R_S_STATUS_2_SQL = "ddlRecordVersion.status = ?";
 
 	public DDLRecordVersionPersistenceImpl() {
 		setModelClass(DDLRecordVersion.class);

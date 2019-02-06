@@ -554,7 +554,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CREATEDATE_CREATEDATE_2 = "entry.createDate = ?";
+	private static final String _FINDER_COLUMN_CREATEDATE_CREATEDATE_2_SQL = "entry.createDate = ?";
 	private FinderPath _finderPathWithPaginationFindByFromUserId;
 	private FinderPath _finderPathWithoutPaginationFindByFromUserId;
 	private FinderPath _finderPathCountByFromUserId;
@@ -1034,7 +1034,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FROMUSERID_FROMUSERID_2 = "entry.fromUserId = ?";
+	private static final String _FINDER_COLUMN_FROMUSERID_FROMUSERID_2_SQL = "entry.fromUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByToUserId;
 	private FinderPath _finderPathWithoutPaginationFindByToUserId;
 	private FinderPath _finderPathCountByToUserId;
@@ -1514,7 +1514,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TOUSERID_TOUSERID_2 = "entry.toUserId = ?";
+	private static final String _FINDER_COLUMN_TOUSERID_TOUSERID_2_SQL = "entry.toUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_F;
 	private FinderPath _finderPathWithoutPaginationFindByC_F;
 	private FinderPath _finderPathCountByC_F;
@@ -2033,8 +2033,8 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_F_CREATEDATE_2 = "entry.createDate = ? AND ";
-	private static final String _FINDER_COLUMN_C_F_FROMUSERID_2 = "entry.fromUserId = ?";
+	private static final String _FINDER_COLUMN_C_F_CREATEDATE_2_SQL = "entry.createDate = ? AND ";
+	private static final String _FINDER_COLUMN_C_F_FROMUSERID_2_SQL = "entry.fromUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_T;
 	private FinderPath _finderPathCountByC_T;
@@ -2553,8 +2553,8 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_T_CREATEDATE_2 = "entry.createDate = ? AND ";
-	private static final String _FINDER_COLUMN_C_T_TOUSERID_2 = "entry.toUserId = ?";
+	private static final String _FINDER_COLUMN_C_T_CREATEDATE_2_SQL = "entry.createDate = ? AND ";
+	private static final String _FINDER_COLUMN_C_T_TOUSERID_2_SQL = "entry.toUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByF_T;
 	private FinderPath _finderPathWithoutPaginationFindByF_T;
 	private FinderPath _finderPathCountByF_T;
@@ -3073,8 +3073,8 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_T_FROMUSERID_2 = "entry.fromUserId = ? AND ";
-	private static final String _FINDER_COLUMN_F_T_TOUSERID_2 = "entry.toUserId = ?";
+	private static final String _FINDER_COLUMN_F_T_FROMUSERID_2_SQL = "entry.fromUserId = ? AND ";
+	private static final String _FINDER_COLUMN_F_T_TOUSERID_2_SQL = "entry.toUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_F_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_F_T;
 	private FinderPath _finderPathCountByC_F_T;
@@ -3629,9 +3629,9 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_F_T_CREATEDATE_2 = "entry.createDate = ? AND ";
-	private static final String _FINDER_COLUMN_C_F_T_FROMUSERID_2 = "entry.fromUserId = ? AND ";
-	private static final String _FINDER_COLUMN_C_F_T_TOUSERID_2 = "entry.toUserId = ?";
+	private static final String _FINDER_COLUMN_C_F_T_CREATEDATE_2_SQL = "entry.createDate = ? AND ";
+	private static final String _FINDER_COLUMN_C_F_T_FROMUSERID_2_SQL = "entry.fromUserId = ? AND ";
+	private static final String _FINDER_COLUMN_C_F_T_TOUSERID_2_SQL = "entry.toUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByF_T_C;
 	private FinderPath _finderPathWithoutPaginationFindByF_T_C;
 	private FinderPath _finderPathCountByF_T_C;
@@ -4225,10 +4225,10 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_T_C_FROMUSERID_2 = "entry.fromUserId = ? AND ";
-	private static final String _FINDER_COLUMN_F_T_C_TOUSERID_2 = "entry.toUserId = ? AND ";
-	private static final String _FINDER_COLUMN_F_T_C_CONTENT_2 = "entry.content = ?";
-	private static final String _FINDER_COLUMN_F_T_C_CONTENT_3 = "(entry.content IS NULL OR entry.content = '')";
+	private static final String _FINDER_COLUMN_F_T_C_FROMUSERID_2_SQL = "entry.fromUserId = ? AND ";
+	private static final String _FINDER_COLUMN_F_T_C_TOUSERID_2_SQL = "entry.toUserId = ? AND ";
+	private static final String _FINDER_COLUMN_F_T_C_CONTENT_2_SQL = "entry.content = ?";
+	private static final String _FINDER_COLUMN_F_T_C_CONTENT_3_SQL = "(entry.content IS NULL OR entry.content = '')";
 
 	public EntryPersistenceImpl() {
 		setModelClass(Entry.class);

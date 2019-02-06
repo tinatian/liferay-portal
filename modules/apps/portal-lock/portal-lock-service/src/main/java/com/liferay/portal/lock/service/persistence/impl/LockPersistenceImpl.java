@@ -201,12 +201,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -424,12 +424,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -558,12 +558,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -598,8 +598,8 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "lock.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(lock.uuid IS NULL OR lock.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "lock.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(lock.uuid_ IS NULL OR lock.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -730,12 +730,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -971,12 +971,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1111,12 +1111,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1155,9 +1155,9 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "lock.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(lock.uuid IS NULL OR lock.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "lock.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "lock.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(lock.uuid_ IS NULL OR lock.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "lock.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByLtExpirationDate;
 	private FinderPath _finderPathWithPaginationCountByLtExpirationDate;
 
@@ -1673,9 +1673,9 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1 =
+	private static final String _FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_1_SQL =
 		"lock.expirationDate IS NULL";
-	private static final String _FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2 =
+	private static final String _FINDER_COLUMN_LTEXPIRATIONDATE_EXPIRATIONDATE_2_SQL =
 		"lock.expirationDate < ?";
 	private FinderPath _finderPathFetchByC_K;
 	private FinderPath _finderPathCountByC_K;
@@ -1779,12 +1779,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_K_KEY_3);
+				query.append(_FINDER_COLUMN_C_K_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_C_K_KEY_2);
+				query.append(_FINDER_COLUMN_C_K_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1890,12 +1890,12 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_C_K_KEY_3);
+				query.append(_FINDER_COLUMN_C_K_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_C_K_KEY_2);
+				query.append(_FINDER_COLUMN_C_K_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1934,10 +1934,10 @@ public class LockPersistenceImpl extends BasePersistenceImpl<Lock>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_K_CLASSNAME_2 = "lock.className = ? AND ";
-	private static final String _FINDER_COLUMN_C_K_CLASSNAME_3 = "(lock.className IS NULL OR lock.className = '') AND ";
-	private static final String _FINDER_COLUMN_C_K_KEY_2 = "lock.key = ?";
-	private static final String _FINDER_COLUMN_C_K_KEY_3 = "(lock.key IS NULL OR lock.key = '')";
+	private static final String _FINDER_COLUMN_C_K_CLASSNAME_2_SQL = "lock.className = ? AND ";
+	private static final String _FINDER_COLUMN_C_K_CLASSNAME_3_SQL = "(lock.className IS NULL OR lock.className = '') AND ";
+	private static final String _FINDER_COLUMN_C_K_KEY_2_SQL = "lock.key_ = ?";
+	private static final String _FINDER_COLUMN_C_K_KEY_3_SQL = "(lock.key_ IS NULL OR lock.key_ = '')";
 
 	public LockPersistenceImpl() {
 		setModelClass(Lock.class);

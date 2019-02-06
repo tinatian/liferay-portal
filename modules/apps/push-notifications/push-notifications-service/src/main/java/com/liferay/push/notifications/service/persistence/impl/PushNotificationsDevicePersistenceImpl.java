@@ -296,8 +296,8 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TOKEN_TOKEN_2 = "pushNotificationsDevice.token = ?";
-	private static final String _FINDER_COLUMN_TOKEN_TOKEN_3 = "(pushNotificationsDevice.token IS NULL OR pushNotificationsDevice.token = '')";
+	private static final String _FINDER_COLUMN_TOKEN_TOKEN_2_SQL = "pushNotificationsDevice.token = ?";
+	private static final String _FINDER_COLUMN_TOKEN_TOKEN_3_SQL = "(pushNotificationsDevice.token IS NULL OR pushNotificationsDevice.token = '')";
 	private FinderPath _finderPathWithPaginationFindByU_P;
 	private FinderPath _finderPathWithoutPaginationFindByU_P;
 	private FinderPath _finderPathCountByU_P;
@@ -1178,10 +1178,10 @@ public class PushNotificationsDevicePersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_P_USERID_2 = "pushNotificationsDevice.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_P_USERID_7 = "pushNotificationsDevice.userId IN (";
-	private static final String _FINDER_COLUMN_U_P_PLATFORM_2 = "pushNotificationsDevice.platform = ?";
-	private static final String _FINDER_COLUMN_U_P_PLATFORM_3 = "(pushNotificationsDevice.platform IS NULL OR pushNotificationsDevice.platform = '')";
+	private static final String _FINDER_COLUMN_U_P_USERID_2_SQL = "pushNotificationsDevice.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_P_USERID_7_SQL = "pushNotificationsDevice.userId IN (";
+	private static final String _FINDER_COLUMN_U_P_PLATFORM_2_SQL = "pushNotificationsDevice.platform = ?";
+	private static final String _FINDER_COLUMN_U_P_PLATFORM_3_SQL = "(pushNotificationsDevice.platform IS NULL OR pushNotificationsDevice.platform = '')";
 
 	public PushNotificationsDevicePersistenceImpl() {
 		setModelClass(PushNotificationsDevice.class);

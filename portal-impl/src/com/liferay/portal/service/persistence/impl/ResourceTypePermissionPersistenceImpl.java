@@ -568,7 +568,7 @@ public class ResourceTypePermissionPersistenceImpl extends BasePersistenceImpl<R
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 = "resourceTypePermission.roleId = ?";
+	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2_SQL = "resourceTypePermission.roleId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_N_R;
 	private FinderPath _finderPathWithoutPaginationFindByC_N_R;
 	private FinderPath _finderPathCountByC_N_R;
@@ -1171,10 +1171,10 @@ public class ResourceTypePermissionPersistenceImpl extends BasePersistenceImpl<R
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_R_COMPANYID_2 = "resourceTypePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_R_NAME_2 = "resourceTypePermission.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_R_NAME_3 = "(resourceTypePermission.name IS NULL OR resourceTypePermission.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_R_ROLEID_2 = "resourceTypePermission.roleId = ?";
+	private static final String _FINDER_COLUMN_C_N_R_COMPANYID_2_SQL = "resourceTypePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_R_NAME_2_SQL = "resourceTypePermission.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_R_NAME_3_SQL = "(resourceTypePermission.name IS NULL OR resourceTypePermission.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_N_R_ROLEID_2_SQL = "resourceTypePermission.roleId = ?";
 	private FinderPath _finderPathFetchByC_G_N_R;
 	private FinderPath _finderPathCountByC_G_N_R;
 
@@ -1448,11 +1448,11 @@ public class ResourceTypePermissionPersistenceImpl extends BasePersistenceImpl<R
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_G_N_R_COMPANYID_2 = "resourceTypePermission.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_R_GROUPID_2 = "resourceTypePermission.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_R_NAME_2 = "resourceTypePermission.name = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_N_R_NAME_3 = "(resourceTypePermission.name IS NULL OR resourceTypePermission.name = '') AND ";
-	private static final String _FINDER_COLUMN_C_G_N_R_ROLEID_2 = "resourceTypePermission.roleId = ?";
+	private static final String _FINDER_COLUMN_C_G_N_R_COMPANYID_2_SQL = "resourceTypePermission.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_R_GROUPID_2_SQL = "resourceTypePermission.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_R_NAME_2_SQL = "resourceTypePermission.name = ? AND ";
+	private static final String _FINDER_COLUMN_C_G_N_R_NAME_3_SQL = "(resourceTypePermission.name IS NULL OR resourceTypePermission.name = '') AND ";
+	private static final String _FINDER_COLUMN_C_G_N_R_ROLEID_2_SQL = "resourceTypePermission.roleId = ?";
 
 	public ResourceTypePermissionPersistenceImpl() {
 		setModelClass(ResourceTypePermission.class);

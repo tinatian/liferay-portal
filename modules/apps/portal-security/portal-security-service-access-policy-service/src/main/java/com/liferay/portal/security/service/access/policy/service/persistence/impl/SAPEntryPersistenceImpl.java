@@ -204,12 +204,12 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -432,12 +432,12 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -896,12 +896,12 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -996,8 +996,6 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "sapEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(sapEntry.uuid IS NULL OR sapEntry.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "sapEntry.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(sapEntry.uuid_ IS NULL OR sapEntry.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1130,12 +1128,12 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1376,12 +1374,12 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1862,12 +1860,12 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1971,11 +1969,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "sapEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(sapEntry.uuid IS NULL OR sapEntry.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "sapEntry.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(sapEntry.uuid_ IS NULL OR sapEntry.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "sapEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "sapEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2812,7 +2808,7 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "sapEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "sapEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_D;
 	private FinderPath _finderPathWithoutPaginationFindByC_D;
 	private FinderPath _finderPathCountByC_D;
@@ -3710,8 +3706,8 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_C_D_COMPANYID_2 = "sapEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2 = "sapEntry.defaultSAPEntry = ?";
+	private static final String _FINDER_COLUMN_C_D_COMPANYID_2_SQL = "sapEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_D_DEFAULTSAPENTRY_2_SQL = "sapEntry.defaultSAPEntry = ?";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -3956,9 +3952,9 @@ public class SAPEntryPersistenceImpl extends BasePersistenceImpl<SAPEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "sapEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "lower(sapEntry.name) = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(sapEntry.name IS NULL OR sapEntry.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "sapEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "lower(sapEntry.name) = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(sapEntry.name IS NULL OR sapEntry.name = '')";
 
 	public SAPEntryPersistenceImpl() {
 		setModelClass(SAPEntry.class);

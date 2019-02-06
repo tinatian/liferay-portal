@@ -263,7 +263,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "status.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "status.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByModifiedDate;
 	private FinderPath _finderPathWithoutPaginationFindByModifiedDate;
 	private FinderPath _finderPathCountByModifiedDate;
@@ -754,7 +754,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2 = "status.modifiedDate = ?";
+	private static final String _FINDER_COLUMN_MODIFIEDDATE_MODIFIEDDATE_2_SQL = "status.modifiedDate = ?";
 	private FinderPath _finderPathWithPaginationFindByOnline;
 	private FinderPath _finderPathWithoutPaginationFindByOnline;
 	private FinderPath _finderPathCountByOnline;
@@ -868,7 +868,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_SELECT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_ONLINE_ONLINE_2);
+			query.append(_FINDER_COLUMN_ONLINE_ONLINE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1083,7 +1083,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 		query.append(_SQL_SELECT_STATUS_WHERE);
 
-		query.append(_FINDER_COLUMN_ONLINE_ONLINE_2);
+		query.append(_FINDER_COLUMN_ONLINE_ONLINE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1204,7 +1204,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_SQL_COUNT_STATUS_WHERE);
 
-			query.append(_FINDER_COLUMN_ONLINE_ONLINE_2);
+			query.append(_FINDER_COLUMN_ONLINE_ONLINE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1236,7 +1236,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ONLINE_ONLINE_2 = "status.online = ?";
+	private static final String _FINDER_COLUMN_ONLINE_ONLINE_2_SQL = "status.online_ = ?";
 	private FinderPath _finderPathWithPaginationFindByM_O;
 	private FinderPath _finderPathWithoutPaginationFindByM_O;
 	private FinderPath _finderPathCountByM_O;
@@ -1365,7 +1365,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2);
 
-			query.append(_FINDER_COLUMN_M_O_ONLINE_2);
+			query.append(_FINDER_COLUMN_M_O_ONLINE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1596,7 +1596,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 		query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2);
 
-		query.append(_FINDER_COLUMN_M_O_ONLINE_2);
+		query.append(_FINDER_COLUMN_M_O_ONLINE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1723,7 +1723,7 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 
 			query.append(_FINDER_COLUMN_M_O_MODIFIEDDATE_2);
 
-			query.append(_FINDER_COLUMN_M_O_ONLINE_2);
+			query.append(_FINDER_COLUMN_M_O_ONLINE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1757,8 +1757,8 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_M_O_MODIFIEDDATE_2 = "status.modifiedDate = ? AND ";
-	private static final String _FINDER_COLUMN_M_O_ONLINE_2 = "status.online = ?";
+	private static final String _FINDER_COLUMN_M_O_MODIFIEDDATE_2_SQL = "status.modifiedDate = ? AND ";
+	private static final String _FINDER_COLUMN_M_O_ONLINE_2_SQL = "status.online_ = ?";
 
 	public StatusPersistenceImpl() {
 		setModelClass(Status.class);

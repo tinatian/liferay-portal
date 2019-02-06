@@ -568,7 +568,7 @@ public class KaleoTaskAssignmentPersistenceImpl extends BasePersistenceImpl<Kale
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoTaskAssignment.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoTaskAssignment.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1075,7 +1075,7 @@ public class KaleoTaskAssignmentPersistenceImpl extends BasePersistenceImpl<Kale
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoTaskAssignment.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKCN_KCPK;
 	private FinderPath _finderPathWithoutPaginationFindByKCN_KCPK;
@@ -1650,9 +1650,9 @@ public class KaleoTaskAssignmentPersistenceImpl extends BasePersistenceImpl<Kale
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2 = "kaleoTaskAssignment.kaleoClassName = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3 = "(kaleoTaskAssignment.kaleoClassName IS NULL OR kaleoTaskAssignment.kaleoClassName = '') AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2 = "kaleoTaskAssignment.kaleoClassPK = ?";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL = "kaleoTaskAssignment.kaleoClassName = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL = "(kaleoTaskAssignment.kaleoClassName IS NULL OR kaleoTaskAssignment.kaleoClassName = '') AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL = "kaleoTaskAssignment.kaleoClassPK = ?";
 	private FinderPath _finderPathWithPaginationFindByKCN_KCPK_ACN;
 	private FinderPath _finderPathWithoutPaginationFindByKCN_KCPK_ACN;
 	private FinderPath _finderPathCountByKCN_KCPK_ACN;
@@ -2305,11 +2305,15 @@ public class KaleoTaskAssignmentPersistenceImpl extends BasePersistenceImpl<Kale
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_KALEOCLASSNAME_2 = "kaleoTaskAssignment.kaleoClassName = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_KALEOCLASSNAME_3 = "(kaleoTaskAssignment.kaleoClassName IS NULL OR kaleoTaskAssignment.kaleoClassName = '') AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_KALEOCLASSPK_2 = "kaleoTaskAssignment.kaleoClassPK = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_ASSIGNEECLASSNAME_2 = "kaleoTaskAssignment.assigneeClassName = ?";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_ASSIGNEECLASSNAME_3 = "(kaleoTaskAssignment.assigneeClassName IS NULL OR kaleoTaskAssignment.assigneeClassName = '')";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_KALEOCLASSNAME_2_SQL =
+		"kaleoTaskAssignment.kaleoClassName = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_KALEOCLASSNAME_3_SQL =
+		"(kaleoTaskAssignment.kaleoClassName IS NULL OR kaleoTaskAssignment.kaleoClassName = '') AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_KALEOCLASSPK_2_SQL = "kaleoTaskAssignment.kaleoClassPK = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_ASSIGNEECLASSNAME_2_SQL =
+		"kaleoTaskAssignment.assigneeClassName = ?";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ACN_ASSIGNEECLASSNAME_3_SQL =
+		"(kaleoTaskAssignment.assigneeClassName IS NULL OR kaleoTaskAssignment.assigneeClassName = '')";
 
 	public KaleoTaskAssignmentPersistenceImpl() {
 		setModelClass(KaleoTaskAssignment.class);

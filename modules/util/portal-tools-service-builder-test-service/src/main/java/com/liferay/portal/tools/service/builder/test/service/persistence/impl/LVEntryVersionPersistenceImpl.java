@@ -563,7 +563,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2 = "lvEntryVersion.lvEntryId = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_LVENTRYID_2_SQL = "lvEntryVersion.lvEntryId = ?";
 	private FinderPath _finderPathFetchByLvEntryId_Version;
 	private FinderPath _finderPathCountByLvEntryId_Version;
 
@@ -774,8 +774,9 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2 = "lvEntryVersion.lvEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_LVENTRYID_2_SQL =
+		"lvEntryVersion.lvEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_LVENTRYID_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1261,7 +1262,7 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "lvEntryVersion.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "lvEntryVersion.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId_Version;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId_Version;
 	private FinderPath _finderPathCountByGroupId_Version;
@@ -1787,8 +1788,8 @@ public class LVEntryVersionPersistenceImpl extends BasePersistenceImpl<LVEntryVe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_VERSION_GROUPID_2 = "lvEntryVersion.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_GROUPID_VERSION_VERSION_2 = "lvEntryVersion.version = ?";
+	private static final String _FINDER_COLUMN_GROUPID_VERSION_GROUPID_2_SQL = "lvEntryVersion.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPID_VERSION_VERSION_2_SQL = "lvEntryVersion.version = ?";
 
 	public LVEntryVersionPersistenceImpl() {
 		setModelClass(LVEntryVersion.class);

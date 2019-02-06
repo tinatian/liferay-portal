@@ -613,8 +613,10 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2 = "serviceComponent.buildNamespace = ?";
-	private static final String _FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3 = "(serviceComponent.buildNamespace IS NULL OR serviceComponent.buildNamespace = '')";
+	private static final String _FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_2_SQL =
+		"serviceComponent.buildNamespace = ?";
+	private static final String _FINDER_COLUMN_BUILDNAMESPACE_BUILDNAMESPACE_3_SQL =
+		"(serviceComponent.buildNamespace IS NULL OR serviceComponent.buildNamespace = '')";
 	private FinderPath _finderPathFetchByBNS_BNU;
 	private FinderPath _finderPathCountByBNS_BNU;
 
@@ -854,9 +856,9 @@ public class ServiceComponentPersistenceImpl extends BasePersistenceImpl<Service
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_2 = "serviceComponent.buildNamespace = ? AND ";
-	private static final String _FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_3 = "(serviceComponent.buildNamespace IS NULL OR serviceComponent.buildNamespace = '') AND ";
-	private static final String _FINDER_COLUMN_BNS_BNU_BUILDNUMBER_2 = "serviceComponent.buildNumber = ?";
+	private static final String _FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_2_SQL = "serviceComponent.buildNamespace = ? AND ";
+	private static final String _FINDER_COLUMN_BNS_BNU_BUILDNAMESPACE_3_SQL = "(serviceComponent.buildNamespace IS NULL OR serviceComponent.buildNamespace = '') AND ";
+	private static final String _FINDER_COLUMN_BNS_BNU_BUILDNUMBER_2_SQL = "serviceComponent.buildNumber = ?";
 
 	public ServiceComponentPersistenceImpl() {
 		setModelClass(ServiceComponent.class);

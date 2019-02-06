@@ -564,7 +564,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "userTracker.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "userTracker.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1048,7 +1048,7 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "userTracker.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "userTracker.userId = ?";
 	private FinderPath _finderPathWithPaginationFindBySessionId;
 	private FinderPath _finderPathWithoutPaginationFindBySessionId;
 	private FinderPath _finderPathCountBySessionId;
@@ -1576,8 +1576,8 @@ public class UserTrackerPersistenceImpl extends BasePersistenceImpl<UserTracker>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SESSIONID_SESSIONID_2 = "userTracker.sessionId = ?";
-	private static final String _FINDER_COLUMN_SESSIONID_SESSIONID_3 = "(userTracker.sessionId IS NULL OR userTracker.sessionId = '')";
+	private static final String _FINDER_COLUMN_SESSIONID_SESSIONID_2_SQL = "userTracker.sessionId = ?";
+	private static final String _FINDER_COLUMN_SESSIONID_SESSIONID_3_SQL = "(userTracker.sessionId IS NULL OR userTracker.sessionId = '')";
 
 	public UserTrackerPersistenceImpl() {
 		setModelClass(UserTracker.class);

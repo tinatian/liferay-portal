@@ -568,7 +568,7 @@ public class KaleoInstancePersistenceImpl extends BasePersistenceImpl<KaleoInsta
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoInstance.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoInstance.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1074,7 +1074,7 @@ public class KaleoInstancePersistenceImpl extends BasePersistenceImpl<KaleoInsta
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoInstance.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_U;
 	private FinderPath _finderPathWithoutPaginationFindByC_U;
@@ -1598,8 +1598,8 @@ public class KaleoInstancePersistenceImpl extends BasePersistenceImpl<KaleoInsta
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_COMPANYID_2 = "kaleoInstance.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_USERID_2 = "kaleoInstance.userId = ?";
+	private static final String _FINDER_COLUMN_C_U_COMPANYID_2_SQL = "kaleoInstance.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_USERID_2_SQL = "kaleoInstance.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByKDVI_C;
 	private FinderPath _finderPathWithoutPaginationFindByKDVI_C;
 	private FinderPath _finderPathCountByKDVI_C;
@@ -2130,9 +2130,9 @@ public class KaleoInstancePersistenceImpl extends BasePersistenceImpl<KaleoInsta
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KDVI_C_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KDVI_C_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoInstance.kaleoDefinitionVersionId = ? AND ";
-	private static final String _FINDER_COLUMN_KDVI_C_COMPLETED_2 = "kaleoInstance.completed = ?";
+	private static final String _FINDER_COLUMN_KDVI_C_COMPLETED_2_SQL = "kaleoInstance.completed = ?";
 	private FinderPath _finderPathWithPaginationFindByCN_CPK;
 	private FinderPath _finderPathWithoutPaginationFindByCN_CPK;
 	private FinderPath _finderPathCountByCN_CPK;
@@ -2695,9 +2695,9 @@ public class KaleoInstancePersistenceImpl extends BasePersistenceImpl<KaleoInsta
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_2 = "kaleoInstance.className = ? AND ";
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_3 = "(kaleoInstance.className IS NULL OR kaleoInstance.className = '') AND ";
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSPK_2 = "kaleoInstance.classPK = ?";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_2_SQL = "kaleoInstance.className = ? AND ";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAME_3_SQL = "(kaleoInstance.className IS NULL OR kaleoInstance.className = '') AND ";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSPK_2_SQL = "kaleoInstance.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByC_KDN_KDV_CD;
 	private FinderPath _finderPathWithoutPaginationFindByC_KDN_KDV_CD;
 	private FinderPath _finderPathCountByC_KDN_KDV_CD;
@@ -3390,15 +3390,17 @@ public class KaleoInstancePersistenceImpl extends BasePersistenceImpl<KaleoInsta
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_COMPANYID_2 = "kaleoInstance.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_KALEODEFINITIONNAME_2 =
+	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_COMPANYID_2_SQL = "kaleoInstance.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_KALEODEFINITIONNAME_2_SQL =
 		"kaleoInstance.kaleoDefinitionName = ? AND ";
-	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_KALEODEFINITIONNAME_3 =
+	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_KALEODEFINITIONNAME_3_SQL =
 		"(kaleoInstance.kaleoDefinitionName IS NULL OR kaleoInstance.kaleoDefinitionName = '') AND ";
-	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_KALEODEFINITIONVERSION_2 =
+	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_KALEODEFINITIONVERSION_2_SQL =
 		"kaleoInstance.kaleoDefinitionVersion = ? AND ";
-	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_COMPLETIONDATE_1 = "kaleoInstance.completionDate IS NULL";
-	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_COMPLETIONDATE_2 = "kaleoInstance.completionDate = ?";
+	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_COMPLETIONDATE_1_SQL =
+		"kaleoInstance.completionDate IS NULL";
+	private static final String _FINDER_COLUMN_C_KDN_KDV_CD_COMPLETIONDATE_2_SQL =
+		"kaleoInstance.completionDate = ?";
 
 	public KaleoInstancePersistenceImpl() {
 		setModelClass(KaleoInstance.class);

@@ -880,8 +880,8 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "lvEntry.groupId = ? AND lvEntry.lvEntryId > 0";
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_7 = "lvEntry.groupId IN (";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "lvEntry.groupId = ? AND lvEntry.lvEntryId > 0";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_7_SQL = "lvEntry.groupId IN (";
 	private FinderPath _finderPathFetchByHeadId;
 	private FinderPath _finderPathCountByHeadId;
 
@@ -1069,7 +1069,7 @@ public class LVEntryPersistenceImpl extends BasePersistenceImpl<LVEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_HEADID_HEADID_2 = "lvEntry.headId = ?";
+	private static final String _FINDER_COLUMN_HEADID_HEADID_2_SQL = "lvEntry.headId = ?";
 
 	public LVEntryPersistenceImpl() {
 		setModelClass(LVEntry.class);

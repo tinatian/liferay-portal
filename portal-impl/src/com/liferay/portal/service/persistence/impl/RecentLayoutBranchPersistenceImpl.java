@@ -565,7 +565,7 @@ public class RecentLayoutBranchPersistenceImpl extends BasePersistenceImpl<Recen
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "recentLayoutBranch.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "recentLayoutBranch.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1054,7 +1054,7 @@ public class RecentLayoutBranchPersistenceImpl extends BasePersistenceImpl<Recen
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "recentLayoutBranch.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "recentLayoutBranch.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutBranchId;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutBranchId;
 	private FinderPath _finderPathCountByLayoutBranchId;
@@ -1553,7 +1553,8 @@ public class RecentLayoutBranchPersistenceImpl extends BasePersistenceImpl<Recen
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTBRANCHID_LAYOUTBRANCHID_2 = "recentLayoutBranch.layoutBranchId = ?";
+	private static final String _FINDER_COLUMN_LAYOUTBRANCHID_LAYOUTBRANCHID_2_SQL =
+		"recentLayoutBranch.layoutBranchId = ?";
 	private FinderPath _finderPathFetchByU_L_P;
 	private FinderPath _finderPathCountByU_L_P;
 
@@ -1783,9 +1784,9 @@ public class RecentLayoutBranchPersistenceImpl extends BasePersistenceImpl<Recen
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_L_P_USERID_2 = "recentLayoutBranch.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2 = "recentLayoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_U_L_P_PLID_2 = "recentLayoutBranch.plid = ?";
+	private static final String _FINDER_COLUMN_U_L_P_USERID_2_SQL = "recentLayoutBranch.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_L_P_LAYOUTSETBRANCHID_2_SQL = "recentLayoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_U_L_P_PLID_2_SQL = "recentLayoutBranch.plid = ?";
 
 	public RecentLayoutBranchPersistenceImpl() {
 		setModelClass(RecentLayoutBranch.class);

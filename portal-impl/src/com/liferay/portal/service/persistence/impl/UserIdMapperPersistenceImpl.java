@@ -563,7 +563,7 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "userIdMapper.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "userIdMapper.userId = ?";
 	private FinderPath _finderPathFetchByU_T;
 	private FinderPath _finderPathCountByU_T;
 
@@ -656,12 +656,12 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_T_TYPE_3);
+				query.append(_FINDER_COLUMN_U_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_U_T_TYPE_2);
+				query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -756,12 +756,12 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_T_TYPE_3);
+				query.append(_FINDER_COLUMN_U_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_U_T_TYPE_2);
+				query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -798,9 +798,9 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_T_USERID_2 = "userIdMapper.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_T_TYPE_2 = "userIdMapper.type = ?";
-	private static final String _FINDER_COLUMN_U_T_TYPE_3 = "(userIdMapper.type IS NULL OR userIdMapper.type = '')";
+	private static final String _FINDER_COLUMN_U_T_USERID_2_SQL = "userIdMapper.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_T_TYPE_2_SQL = "userIdMapper.type_ = ?";
+	private static final String _FINDER_COLUMN_U_T_TYPE_3_SQL = "(userIdMapper.type_ IS NULL OR userIdMapper.type_ = '')";
 	private FinderPath _finderPathFetchByT_E;
 	private FinderPath _finderPathCountByT_E;
 
@@ -893,12 +893,12 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_E_TYPE_3);
+				query.append(_FINDER_COLUMN_T_E_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_T_E_TYPE_2);
+				query.append(_FINDER_COLUMN_T_E_TYPE_2_SQL);
 			}
 
 			boolean bindExternalUserId = false;
@@ -1005,12 +1005,12 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_E_TYPE_3);
+				query.append(_FINDER_COLUMN_T_E_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_T_E_TYPE_2);
+				query.append(_FINDER_COLUMN_T_E_TYPE_2_SQL);
 			}
 
 			boolean bindExternalUserId = false;
@@ -1060,10 +1060,10 @@ public class UserIdMapperPersistenceImpl extends BasePersistenceImpl<UserIdMappe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_E_TYPE_2 = "userIdMapper.type = ? AND ";
-	private static final String _FINDER_COLUMN_T_E_TYPE_3 = "(userIdMapper.type IS NULL OR userIdMapper.type = '') AND ";
-	private static final String _FINDER_COLUMN_T_E_EXTERNALUSERID_2 = "userIdMapper.externalUserId = ?";
-	private static final String _FINDER_COLUMN_T_E_EXTERNALUSERID_3 = "(userIdMapper.externalUserId IS NULL OR userIdMapper.externalUserId = '')";
+	private static final String _FINDER_COLUMN_T_E_TYPE_2_SQL = "userIdMapper.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_T_E_TYPE_3_SQL = "(userIdMapper.type_ IS NULL OR userIdMapper.type_ = '') AND ";
+	private static final String _FINDER_COLUMN_T_E_EXTERNALUSERID_2_SQL = "userIdMapper.externalUserId = ?";
+	private static final String _FINDER_COLUMN_T_E_EXTERNALUSERID_3_SQL = "(userIdMapper.externalUserId IS NULL OR userIdMapper.externalUserId = '')";
 
 	public UserIdMapperPersistenceImpl() {
 		setModelClass(UserIdMapper.class);

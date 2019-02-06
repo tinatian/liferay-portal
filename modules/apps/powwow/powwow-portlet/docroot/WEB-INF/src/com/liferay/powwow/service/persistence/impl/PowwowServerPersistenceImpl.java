@@ -222,7 +222,7 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2);
 			}
 
-			query.append(_FINDER_COLUMN_PT_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_PT_A_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -469,7 +469,7 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 			query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2);
 		}
 
-		query.append(_FINDER_COLUMN_PT_A_ACTIVE_2);
+		query.append(_FINDER_COLUMN_PT_A_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -610,7 +610,7 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 				query.append(_FINDER_COLUMN_PT_A_PROVIDERTYPE_2);
 			}
 
-			query.append(_FINDER_COLUMN_PT_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_PT_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -646,9 +646,9 @@ public class PowwowServerPersistenceImpl extends BasePersistenceImpl<PowwowServe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PT_A_PROVIDERTYPE_2 = "powwowServer.providerType = ? AND ";
-	private static final String _FINDER_COLUMN_PT_A_PROVIDERTYPE_3 = "(powwowServer.providerType IS NULL OR powwowServer.providerType = '') AND ";
-	private static final String _FINDER_COLUMN_PT_A_ACTIVE_2 = "powwowServer.active = ?";
+	private static final String _FINDER_COLUMN_PT_A_PROVIDERTYPE_2_SQL = "powwowServer.providerType = ? AND ";
+	private static final String _FINDER_COLUMN_PT_A_PROVIDERTYPE_3_SQL = "(powwowServer.providerType IS NULL OR powwowServer.providerType = '') AND ";
+	private static final String _FINDER_COLUMN_PT_A_ACTIVE_2_SQL = "powwowServer.active_ = ?";
 
 	public PowwowServerPersistenceImpl() {
 		setModelClass(PowwowServer.class);

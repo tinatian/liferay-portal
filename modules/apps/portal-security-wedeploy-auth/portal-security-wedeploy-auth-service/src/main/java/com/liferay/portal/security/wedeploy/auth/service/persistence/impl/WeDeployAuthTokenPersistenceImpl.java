@@ -180,7 +180,7 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 				query.append(_FINDER_COLUMN_T_T_TOKEN_2);
 			}
 
-			query.append(_FINDER_COLUMN_T_T_TYPE_2);
+			query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -290,7 +290,7 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 				query.append(_FINDER_COLUMN_T_T_TOKEN_2);
 			}
 
-			query.append(_FINDER_COLUMN_T_T_TYPE_2);
+			query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -326,9 +326,9 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_T_TOKEN_2 = "weDeployAuthToken.token = ? AND ";
-	private static final String _FINDER_COLUMN_T_T_TOKEN_3 = "(weDeployAuthToken.token IS NULL OR weDeployAuthToken.token = '') AND ";
-	private static final String _FINDER_COLUMN_T_T_TYPE_2 = "weDeployAuthToken.type = ?";
+	private static final String _FINDER_COLUMN_T_T_TOKEN_2_SQL = "weDeployAuthToken.token = ? AND ";
+	private static final String _FINDER_COLUMN_T_T_TOKEN_3_SQL = "(weDeployAuthToken.token IS NULL OR weDeployAuthToken.token = '') AND ";
+	private static final String _FINDER_COLUMN_T_T_TYPE_2_SQL = "weDeployAuthToken.type_ = ?";
 	private FinderPath _finderPathFetchByCI_T_T;
 	private FinderPath _finderPathCountByCI_T_T;
 
@@ -448,7 +448,7 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_2);
 			}
 
-			query.append(_FINDER_COLUMN_CI_T_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CI_T_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -576,7 +576,7 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 				query.append(_FINDER_COLUMN_CI_T_T_TOKEN_2);
 			}
 
-			query.append(_FINDER_COLUMN_CI_T_T_TYPE_2);
+			query.append(_FINDER_COLUMN_CI_T_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -616,11 +616,11 @@ public class WeDeployAuthTokenPersistenceImpl extends BasePersistenceImpl<WeDepl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CI_T_T_CLIENTID_2 = "weDeployAuthToken.clientId = ? AND ";
-	private static final String _FINDER_COLUMN_CI_T_T_CLIENTID_3 = "(weDeployAuthToken.clientId IS NULL OR weDeployAuthToken.clientId = '') AND ";
-	private static final String _FINDER_COLUMN_CI_T_T_TOKEN_2 = "weDeployAuthToken.token = ? AND ";
-	private static final String _FINDER_COLUMN_CI_T_T_TOKEN_3 = "(weDeployAuthToken.token IS NULL OR weDeployAuthToken.token = '') AND ";
-	private static final String _FINDER_COLUMN_CI_T_T_TYPE_2 = "weDeployAuthToken.type = ?";
+	private static final String _FINDER_COLUMN_CI_T_T_CLIENTID_2_SQL = "weDeployAuthToken.clientId = ? AND ";
+	private static final String _FINDER_COLUMN_CI_T_T_CLIENTID_3_SQL = "(weDeployAuthToken.clientId IS NULL OR weDeployAuthToken.clientId = '') AND ";
+	private static final String _FINDER_COLUMN_CI_T_T_TOKEN_2_SQL = "weDeployAuthToken.token = ? AND ";
+	private static final String _FINDER_COLUMN_CI_T_T_TOKEN_3_SQL = "(weDeployAuthToken.token IS NULL OR weDeployAuthToken.token = '') AND ";
+	private static final String _FINDER_COLUMN_CI_T_T_TYPE_2_SQL = "weDeployAuthToken.type_ = ?";
 
 	public WeDeployAuthTokenPersistenceImpl() {
 		setModelClass(WeDeployAuthToken.class);

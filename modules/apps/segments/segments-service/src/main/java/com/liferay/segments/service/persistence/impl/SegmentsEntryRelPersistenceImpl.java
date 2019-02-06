@@ -575,7 +575,7 @@ public class SegmentsEntryRelPersistenceImpl extends BasePersistenceImpl<Segment
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SEGMENTSENTRYID_SEGMENTSENTRYID_2 =
+	private static final String _FINDER_COLUMN_SEGMENTSENTRYID_SEGMENTSENTRYID_2_SQL =
 		"segmentsEntryRel.segmentsEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByCN_CPK;
 	private FinderPath _finderPathWithoutPaginationFindByCN_CPK;
@@ -1102,8 +1102,8 @@ public class SegmentsEntryRelPersistenceImpl extends BasePersistenceImpl<Segment
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAMEID_2 = "segmentsEntryRel.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_CN_CPK_CLASSPK_2 = "segmentsEntryRel.classPK = ?";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSNAMEID_2_SQL = "segmentsEntryRel.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_CN_CPK_CLASSPK_2_SQL = "segmentsEntryRel.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByG_CN_CPK;
 	private FinderPath _finderPathWithoutPaginationFindByG_CN_CPK;
 	private FinderPath _finderPathCountByG_CN_CPK;
@@ -1664,9 +1664,9 @@ public class SegmentsEntryRelPersistenceImpl extends BasePersistenceImpl<Segment
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_CN_CPK_GROUPID_2 = "segmentsEntryRel.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_CN_CPK_CLASSNAMEID_2 = "segmentsEntryRel.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_CN_CPK_CLASSPK_2 = "segmentsEntryRel.classPK = ?";
+	private static final String _FINDER_COLUMN_G_CN_CPK_GROUPID_2_SQL = "segmentsEntryRel.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_CN_CPK_CLASSNAMEID_2_SQL = "segmentsEntryRel.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_CN_CPK_CLASSPK_2_SQL = "segmentsEntryRel.classPK = ?";
 	private FinderPath _finderPathFetchByS_CN_CPK;
 	private FinderPath _finderPathCountByS_CN_CPK;
 
@@ -1895,9 +1895,9 @@ public class SegmentsEntryRelPersistenceImpl extends BasePersistenceImpl<Segment
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_S_CN_CPK_SEGMENTSENTRYID_2 = "segmentsEntryRel.segmentsEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_S_CN_CPK_CLASSNAMEID_2 = "segmentsEntryRel.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_S_CN_CPK_CLASSPK_2 = "segmentsEntryRel.classPK = ?";
+	private static final String _FINDER_COLUMN_S_CN_CPK_SEGMENTSENTRYID_2_SQL = "segmentsEntryRel.segmentsEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_S_CN_CPK_CLASSNAMEID_2_SQL = "segmentsEntryRel.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_S_CN_CPK_CLASSPK_2_SQL = "segmentsEntryRel.classPK = ?";
 
 	public SegmentsEntryRelPersistenceImpl() {
 		setModelClass(SegmentsEntryRel.class);

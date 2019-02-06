@@ -567,7 +567,7 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "pluginSetting.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "pluginSetting.companyId = ?";
 	private FinderPath _finderPathFetchByC_I_T;
 	private FinderPath _finderPathCountByC_I_T;
 
@@ -846,11 +846,11 @@ public class PluginSettingPersistenceImpl extends BasePersistenceImpl<PluginSett
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_I_T_COMPANYID_2 = "pluginSetting.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_I_T_PLUGINID_2 = "pluginSetting.pluginId = ? AND ";
-	private static final String _FINDER_COLUMN_C_I_T_PLUGINID_3 = "(pluginSetting.pluginId IS NULL OR pluginSetting.pluginId = '') AND ";
-	private static final String _FINDER_COLUMN_C_I_T_PLUGINTYPE_2 = "pluginSetting.pluginType = ?";
-	private static final String _FINDER_COLUMN_C_I_T_PLUGINTYPE_3 = "(pluginSetting.pluginType IS NULL OR pluginSetting.pluginType = '')";
+	private static final String _FINDER_COLUMN_C_I_T_COMPANYID_2_SQL = "pluginSetting.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_I_T_PLUGINID_2_SQL = "pluginSetting.pluginId = ? AND ";
+	private static final String _FINDER_COLUMN_C_I_T_PLUGINID_3_SQL = "(pluginSetting.pluginId IS NULL OR pluginSetting.pluginId = '') AND ";
+	private static final String _FINDER_COLUMN_C_I_T_PLUGINTYPE_2_SQL = "pluginSetting.pluginType = ?";
+	private static final String _FINDER_COLUMN_C_I_T_PLUGINTYPE_3_SQL = "(pluginSetting.pluginType IS NULL OR pluginSetting.pluginType = '')";
 
 	public PluginSettingPersistenceImpl() {
 		setModelClass(PluginSetting.class);

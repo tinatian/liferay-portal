@@ -202,12 +202,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -426,12 +426,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -560,12 +560,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -600,8 +600,8 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "mbBan.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(mbBan.uuid IS NULL OR mbBan.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "mbBan.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(mbBan.uuid_ IS NULL OR mbBan.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -692,12 +692,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -791,12 +791,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -835,9 +835,9 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "mbBan.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(mbBan.uuid IS NULL OR mbBan.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "mbBan.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "mbBan.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(mbBan.uuid_ IS NULL OR mbBan.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "mbBan.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -968,12 +968,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1209,12 +1209,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1349,12 +1349,12 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1393,9 +1393,9 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "mbBan.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(mbBan.uuid IS NULL OR mbBan.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "mbBan.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "mbBan.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(mbBan.uuid_ IS NULL OR mbBan.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "mbBan.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1874,7 +1874,7 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "mbBan.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "mbBan.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -2353,7 +2353,7 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "mbBan.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "mbBan.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByBanUserId;
 	private FinderPath _finderPathWithoutPaginationFindByBanUserId;
 	private FinderPath _finderPathCountByBanUserId;
@@ -2833,7 +2833,7 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_BANUSERID_BANUSERID_2 = "mbBan.banUserId = ?";
+	private static final String _FINDER_COLUMN_BANUSERID_BANUSERID_2_SQL = "mbBan.banUserId = ?";
 	private FinderPath _finderPathFetchByG_B;
 	private FinderPath _finderPathCountByG_B;
 
@@ -3041,8 +3041,8 @@ public class MBBanPersistenceImpl extends BasePersistenceImpl<MBBan>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_B_GROUPID_2 = "mbBan.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_B_BANUSERID_2 = "mbBan.banUserId = ?";
+	private static final String _FINDER_COLUMN_G_B_GROUPID_2_SQL = "mbBan.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_B_BANUSERID_2_SQL = "mbBan.banUserId = ?";
 
 	public MBBanPersistenceImpl() {
 		setModelClass(MBBan.class);

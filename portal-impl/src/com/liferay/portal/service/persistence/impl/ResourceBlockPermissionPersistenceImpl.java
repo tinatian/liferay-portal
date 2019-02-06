@@ -583,7 +583,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2 =
+	private static final String _FINDER_COLUMN_RESOURCEBLOCKID_RESOURCEBLOCKID_2_SQL =
 		"resourceBlockPermission.resourceBlockId = ?";
 	private FinderPath _finderPathWithPaginationFindByRoleId;
 	private FinderPath _finderPathWithoutPaginationFindByRoleId;
@@ -1074,7 +1074,7 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 = "resourceBlockPermission.roleId = ?";
+	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2_SQL = "resourceBlockPermission.roleId = ?";
 	private FinderPath _finderPathFetchByR_R;
 	private FinderPath _finderPathCountByR_R;
 
@@ -1285,8 +1285,8 @@ public class ResourceBlockPermissionPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_R_RESOURCEBLOCKID_2 = "resourceBlockPermission.resourceBlockId = ? AND ";
-	private static final String _FINDER_COLUMN_R_R_ROLEID_2 = "resourceBlockPermission.roleId = ?";
+	private static final String _FINDER_COLUMN_R_R_RESOURCEBLOCKID_2_SQL = "resourceBlockPermission.resourceBlockId = ? AND ";
+	private static final String _FINDER_COLUMN_R_R_ROLEID_2_SQL = "resourceBlockPermission.roleId = ?";
 
 	public ResourceBlockPermissionPersistenceImpl() {
 		setModelClass(ResourceBlockPermission.class);

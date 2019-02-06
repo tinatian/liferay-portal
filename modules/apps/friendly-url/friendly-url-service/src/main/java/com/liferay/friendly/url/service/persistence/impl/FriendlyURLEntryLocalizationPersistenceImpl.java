@@ -583,7 +583,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2 =
+	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_FRIENDLYURLENTRYID_2_SQL =
 		"friendlyURLEntryLocalization.friendlyURLEntryId = ?";
 	private FinderPath _finderPathFetchByFriendlyURLEntryId_LanguageId;
 	private FinderPath _finderPathCountByFriendlyURLEntryId_LanguageId;
@@ -827,11 +827,11 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_FRIENDLYURLENTRYID_2 =
+	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_FRIENDLYURLENTRYID_2_SQL =
 		"friendlyURLEntryLocalization.friendlyURLEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_2 =
+	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_2_SQL =
 		"friendlyURLEntryLocalization.languageId = ?";
-	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_3 =
+	private static final String _FINDER_COLUMN_FRIENDLYURLENTRYID_LANGUAGEID_LANGUAGEID_3_SQL =
 		"(friendlyURLEntryLocalization.languageId IS NULL OR friendlyURLEntryLocalization.languageId = '')";
 	private FinderPath _finderPathFetchByG_C_U;
 	private FinderPath _finderPathCountByG_C_U;
@@ -1089,10 +1089,10 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_U_GROUPID_2 = "friendlyURLEntryLocalization.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_U_CLASSNAMEID_2 = "friendlyURLEntryLocalization.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_U_URLTITLE_2 = "friendlyURLEntryLocalization.urlTitle = ?";
-	private static final String _FINDER_COLUMN_G_C_U_URLTITLE_3 = "(friendlyURLEntryLocalization.urlTitle IS NULL OR friendlyURLEntryLocalization.urlTitle = '')";
+	private static final String _FINDER_COLUMN_G_C_U_GROUPID_2_SQL = "friendlyURLEntryLocalization.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_U_CLASSNAMEID_2_SQL = "friendlyURLEntryLocalization.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_U_URLTITLE_2_SQL = "friendlyURLEntryLocalization.urlTitle = ?";
+	private static final String _FINDER_COLUMN_G_C_U_URLTITLE_3_SQL = "(friendlyURLEntryLocalization.urlTitle IS NULL OR friendlyURLEntryLocalization.urlTitle = '')";
 
 	public FriendlyURLEntryLocalizationPersistenceImpl() {
 		setModelClass(FriendlyURLEntryLocalization.class);

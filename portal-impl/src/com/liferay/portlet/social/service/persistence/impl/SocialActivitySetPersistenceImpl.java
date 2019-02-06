@@ -567,7 +567,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "socialActivitySet.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "socialActivitySet.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1054,7 +1054,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "socialActivitySet.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "socialActivitySet.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_T;
 	private FinderPath _finderPathCountByG_U_T;
@@ -1193,7 +1193,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_G_U_T_USERID_2);
 
-			query.append(_FINDER_COLUMN_G_U_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1443,7 +1443,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 		query.append(_FINDER_COLUMN_G_U_T_USERID_2);
 
-		query.append(_FINDER_COLUMN_G_U_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_U_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1577,7 +1577,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_G_U_T_USERID_2);
 
-			query.append(_FINDER_COLUMN_G_U_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1613,9 +1613,9 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_T_GROUPID_2 = "socialActivitySet.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_T_USERID_2 = "socialActivitySet.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_T_TYPE_2 = "socialActivitySet.type = ?";
+	private static final String _FINDER_COLUMN_G_U_T_GROUPID_2_SQL = "socialActivitySet.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_T_USERID_2_SQL = "socialActivitySet.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_T_TYPE_2_SQL = "socialActivitySet.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_T;
 	private FinderPath _finderPathCountByC_C_T;
@@ -1754,7 +1754,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2004,7 +2004,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2138,7 +2138,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2174,9 +2174,9 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_T_CLASSNAMEID_2 = "socialActivitySet.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_CLASSPK_2 = "socialActivitySet.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_TYPE_2 = "socialActivitySet.type = ?";
+	private static final String _FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL = "socialActivitySet.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_CLASSPK_2_SQL = "socialActivitySet.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_TYPE_2_SQL = "socialActivitySet.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_C_T;
 	private FinderPath _finderPathCountByG_U_C_T;
@@ -2323,7 +2323,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_G_U_C_T_CLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_G_U_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2592,7 +2592,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 		query.append(_FINDER_COLUMN_G_U_C_T_CLASSNAMEID_2);
 
-		query.append(_FINDER_COLUMN_G_U_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_U_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2735,7 +2735,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_G_U_C_T_CLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_G_U_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_U_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2773,10 +2773,10 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_C_T_GROUPID_2 = "socialActivitySet.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_T_USERID_2 = "socialActivitySet.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_T_CLASSNAMEID_2 = "socialActivitySet.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_C_T_TYPE_2 = "socialActivitySet.type = ?";
+	private static final String _FINDER_COLUMN_G_U_C_T_GROUPID_2_SQL = "socialActivitySet.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_T_USERID_2_SQL = "socialActivitySet.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_T_CLASSNAMEID_2_SQL = "socialActivitySet.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_C_T_TYPE_2_SQL = "socialActivitySet.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByU_C_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByU_C_C_T;
 	private FinderPath _finderPathCountByU_C_C_T;
@@ -2923,7 +2923,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_U_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_U_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3192,7 +3192,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 		query.append(_FINDER_COLUMN_U_C_C_T_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_U_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_U_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3335,7 +3335,7 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 
 			query.append(_FINDER_COLUMN_U_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_U_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_U_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -3373,10 +3373,10 @@ public class SocialActivitySetPersistenceImpl extends BasePersistenceImpl<Social
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_C_C_T_USERID_2 = "socialActivitySet.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_CLASSNAMEID_2 = "socialActivitySet.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_CLASSPK_2 = "socialActivitySet.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_U_C_C_T_TYPE_2 = "socialActivitySet.type = ?";
+	private static final String _FINDER_COLUMN_U_C_C_T_USERID_2_SQL = "socialActivitySet.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_CLASSNAMEID_2_SQL = "socialActivitySet.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_CLASSPK_2_SQL = "socialActivitySet.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_U_C_C_T_TYPE_2_SQL = "socialActivitySet.type_ = ?";
 
 	public SocialActivitySetPersistenceImpl() {
 		setModelClass(SocialActivitySet.class);

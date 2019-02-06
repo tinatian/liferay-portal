@@ -583,7 +583,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2 =
+	private static final String _FINDER_COLUMN_FORMINSTANCERECORDID_FORMINSTANCERECORDID_2_SQL =
 		"ddmFormInstanceRecordVersion.formInstanceRecordId = ?";
 	private FinderPath _finderPathWithPaginationFindByF_F;
 	private FinderPath _finderPathWithoutPaginationFindByF_F;
@@ -1162,9 +1162,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_F_FORMINSTANCEID_2 = "ddmFormInstanceRecordVersion.formInstanceId = ? AND ";
-	private static final String _FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2 = "ddmFormInstanceRecordVersion.formInstanceVersion = ?";
-	private static final String _FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3 = "(ddmFormInstanceRecordVersion.formInstanceVersion IS NULL OR ddmFormInstanceRecordVersion.formInstanceVersion = '')";
+	private static final String _FINDER_COLUMN_F_F_FORMINSTANCEID_2_SQL = "ddmFormInstanceRecordVersion.formInstanceId = ? AND ";
+	private static final String _FINDER_COLUMN_F_F_FORMINSTANCEVERSION_2_SQL = "ddmFormInstanceRecordVersion.formInstanceVersion = ?";
+	private static final String _FINDER_COLUMN_F_F_FORMINSTANCEVERSION_3_SQL = "(ddmFormInstanceRecordVersion.formInstanceVersion IS NULL OR ddmFormInstanceRecordVersion.formInstanceVersion = '')";
 	private FinderPath _finderPathFetchByF_V;
 	private FinderPath _finderPathCountByF_V;
 
@@ -1402,9 +1402,9 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_V_FORMINSTANCERECORDID_2 = "ddmFormInstanceRecordVersion.formInstanceRecordId = ? AND ";
-	private static final String _FINDER_COLUMN_F_V_VERSION_2 = "ddmFormInstanceRecordVersion.version = ?";
-	private static final String _FINDER_COLUMN_F_V_VERSION_3 = "(ddmFormInstanceRecordVersion.version IS NULL OR ddmFormInstanceRecordVersion.version = '')";
+	private static final String _FINDER_COLUMN_F_V_FORMINSTANCERECORDID_2_SQL = "ddmFormInstanceRecordVersion.formInstanceRecordId = ? AND ";
+	private static final String _FINDER_COLUMN_F_V_VERSION_2_SQL = "ddmFormInstanceRecordVersion.version = ?";
+	private static final String _FINDER_COLUMN_F_V_VERSION_3_SQL = "(ddmFormInstanceRecordVersion.version IS NULL OR ddmFormInstanceRecordVersion.version = '')";
 	private FinderPath _finderPathWithPaginationFindByF_S;
 	private FinderPath _finderPathWithoutPaginationFindByF_S;
 	private FinderPath _finderPathCountByF_S;
@@ -1942,8 +1942,8 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2 = "ddmFormInstanceRecordVersion.formInstanceRecordId = ? AND ";
-	private static final String _FINDER_COLUMN_F_S_STATUS_2 = "ddmFormInstanceRecordVersion.status = ?";
+	private static final String _FINDER_COLUMN_F_S_FORMINSTANCERECORDID_2_SQL = "ddmFormInstanceRecordVersion.formInstanceRecordId = ? AND ";
+	private static final String _FINDER_COLUMN_F_S_STATUS_2_SQL = "ddmFormInstanceRecordVersion.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_F_F_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_F_F_S;
 	private FinderPath _finderPathCountByU_F_F_S;
@@ -2594,11 +2594,13 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_F_F_S_USERID_2 = "ddmFormInstanceRecordVersion.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2 = "ddmFormInstanceRecordVersion.formInstanceId = ? AND ";
-	private static final String _FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2 = "ddmFormInstanceRecordVersion.formInstanceVersion = ? AND ";
-	private static final String _FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3 = "(ddmFormInstanceRecordVersion.formInstanceVersion IS NULL OR ddmFormInstanceRecordVersion.formInstanceVersion = '') AND ";
-	private static final String _FINDER_COLUMN_U_F_F_S_STATUS_2 = "ddmFormInstanceRecordVersion.status = ?";
+	private static final String _FINDER_COLUMN_U_F_F_S_USERID_2_SQL = "ddmFormInstanceRecordVersion.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_F_F_S_FORMINSTANCEID_2_SQL = "ddmFormInstanceRecordVersion.formInstanceId = ? AND ";
+	private static final String _FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_2_SQL =
+		"ddmFormInstanceRecordVersion.formInstanceVersion = ? AND ";
+	private static final String _FINDER_COLUMN_U_F_F_S_FORMINSTANCEVERSION_3_SQL =
+		"(ddmFormInstanceRecordVersion.formInstanceVersion IS NULL OR ddmFormInstanceRecordVersion.formInstanceVersion = '') AND ";
+	private static final String _FINDER_COLUMN_U_F_F_S_STATUS_2_SQL = "ddmFormInstanceRecordVersion.status = ?";
 
 	public DDMFormInstanceRecordVersionPersistenceImpl() {
 		setModelClass(DDMFormInstanceRecordVersion.class);

@@ -560,7 +560,7 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ENTRYID_ENTRYID_2 = "trashVersion.entryId = ?";
+	private static final String _FINDER_COLUMN_ENTRYID_ENTRYID_2_SQL = "trashVersion.entryId = ?";
 	private FinderPath _finderPathWithPaginationFindByE_C;
 	private FinderPath _finderPathWithoutPaginationFindByE_C;
 	private FinderPath _finderPathCountByE_C;
@@ -1083,8 +1083,8 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_E_C_ENTRYID_2 = "trashVersion.entryId = ? AND ";
-	private static final String _FINDER_COLUMN_E_C_CLASSNAMEID_2 = "trashVersion.classNameId = ?";
+	private static final String _FINDER_COLUMN_E_C_ENTRYID_2_SQL = "trashVersion.entryId = ? AND ";
+	private static final String _FINDER_COLUMN_E_C_CLASSNAMEID_2_SQL = "trashVersion.classNameId = ?";
 	private FinderPath _finderPathFetchByC_C;
 	private FinderPath _finderPathCountByC_C;
 
@@ -1292,8 +1292,8 @@ public class TrashVersionPersistenceImpl extends BasePersistenceImpl<TrashVersio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "trashVersion.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "trashVersion.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "trashVersion.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "trashVersion.classPK = ?";
 
 	public TrashVersionPersistenceImpl() {
 		setModelClass(TrashVersion.class);

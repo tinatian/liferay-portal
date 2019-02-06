@@ -559,7 +559,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COUNTRYID_COUNTRYID_2 = "region.countryId = ?";
+	private static final String _FINDER_COLUMN_COUNTRYID_COUNTRYID_2_SQL = "region.countryId = ?";
 	private FinderPath _finderPathWithPaginationFindByActive;
 	private FinderPath _finderPathWithoutPaginationFindByActive;
 	private FinderPath _finderPathCountByActive;
@@ -673,7 +673,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_SELECT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2);
+			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -888,7 +888,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 		query.append(_SQL_SELECT_REGION_WHERE);
 
-		query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2);
+		query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1010,7 +1010,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_SQL_COUNT_REGION_WHERE);
 
-			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2);
+			query.append(_FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1042,7 +1042,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACTIVE_ACTIVE_2 = "region.active = ?";
+	private static final String _FINDER_COLUMN_ACTIVE_ACTIVE_2_SQL = "region.active_ = ?";
 	private FinderPath _finderPathFetchByC_R;
 	private FinderPath _finderPathCountByC_R;
 
@@ -1277,9 +1277,9 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_R_COUNTRYID_2 = "region.countryId = ? AND ";
-	private static final String _FINDER_COLUMN_C_R_REGIONCODE_2 = "region.regionCode = ?";
-	private static final String _FINDER_COLUMN_C_R_REGIONCODE_3 = "(region.regionCode IS NULL OR region.regionCode = '')";
+	private static final String _FINDER_COLUMN_C_R_COUNTRYID_2_SQL = "region.countryId = ? AND ";
+	private static final String _FINDER_COLUMN_C_R_REGIONCODE_2_SQL = "region.regionCode = ?";
+	private static final String _FINDER_COLUMN_C_R_REGIONCODE_3_SQL = "(region.regionCode IS NULL OR region.regionCode = '')";
 	private FinderPath _finderPathWithPaginationFindByC_A;
 	private FinderPath _finderPathWithoutPaginationFindByC_A;
 	private FinderPath _finderPathCountByC_A;
@@ -1407,7 +1407,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_FINDER_COLUMN_C_A_COUNTRYID_2);
 
-			query.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1637,7 +1637,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 		query.append(_FINDER_COLUMN_C_A_COUNTRYID_2);
 
-		query.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+		query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1765,7 +1765,7 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 
 			query.append(_FINDER_COLUMN_C_A_COUNTRYID_2);
 
-			query.append(_FINDER_COLUMN_C_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_C_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1799,8 +1799,8 @@ public class RegionPersistenceImpl extends BasePersistenceImpl<Region>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_A_COUNTRYID_2 = "region.countryId = ? AND ";
-	private static final String _FINDER_COLUMN_C_A_ACTIVE_2 = "region.active = ?";
+	private static final String _FINDER_COLUMN_C_A_COUNTRYID_2_SQL = "region.countryId = ? AND ";
+	private static final String _FINDER_COLUMN_C_A_ACTIVE_2_SQL = "region.active_ = ?";
 
 	public RegionPersistenceImpl() {
 		setModelClass(Region.class);

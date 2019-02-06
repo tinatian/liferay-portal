@@ -569,7 +569,7 @@ public class KaleoTaskFormPersistenceImpl extends BasePersistenceImpl<KaleoTaskF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoTaskForm.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoTaskForm.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1075,7 +1075,7 @@ public class KaleoTaskFormPersistenceImpl extends BasePersistenceImpl<KaleoTaskF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoTaskForm.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoNodeId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoNodeId;
@@ -1565,7 +1565,7 @@ public class KaleoTaskFormPersistenceImpl extends BasePersistenceImpl<KaleoTaskF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEONODEID_KALEONODEID_2 = "kaleoTaskForm.kaleoNodeId = ?";
+	private static final String _FINDER_COLUMN_KALEONODEID_KALEONODEID_2_SQL = "kaleoTaskForm.kaleoNodeId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoTaskId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoTaskId;
 	private FinderPath _finderPathCountByKaleoTaskId;
@@ -2054,7 +2054,7 @@ public class KaleoTaskFormPersistenceImpl extends BasePersistenceImpl<KaleoTaskF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEOTASKID_KALEOTASKID_2 = "kaleoTaskForm.kaleoTaskId = ?";
+	private static final String _FINDER_COLUMN_KALEOTASKID_KALEOTASKID_2_SQL = "kaleoTaskForm.kaleoTaskId = ?";
 	private FinderPath _finderPathFetchByFormUuid_KTI;
 	private FinderPath _finderPathCountByFormUuid_KTI;
 
@@ -2300,9 +2300,9 @@ public class KaleoTaskFormPersistenceImpl extends BasePersistenceImpl<KaleoTaskF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_FORMUUID_KTI_KALEOTASKID_2 = "kaleoTaskForm.kaleoTaskId = ? AND ";
-	private static final String _FINDER_COLUMN_FORMUUID_KTI_FORMUUID_2 = "kaleoTaskForm.formUuid = ?";
-	private static final String _FINDER_COLUMN_FORMUUID_KTI_FORMUUID_3 = "(kaleoTaskForm.formUuid IS NULL OR kaleoTaskForm.formUuid = '')";
+	private static final String _FINDER_COLUMN_FORMUUID_KTI_KALEOTASKID_2_SQL = "kaleoTaskForm.kaleoTaskId = ? AND ";
+	private static final String _FINDER_COLUMN_FORMUUID_KTI_FORMUUID_2_SQL = "kaleoTaskForm.formUuid = ?";
+	private static final String _FINDER_COLUMN_FORMUUID_KTI_FORMUUID_3_SQL = "(kaleoTaskForm.formUuid IS NULL OR kaleoTaskForm.formUuid = '')";
 
 	public KaleoTaskFormPersistenceImpl() {
 		setModelClass(KaleoTaskForm.class);

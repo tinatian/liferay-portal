@@ -580,7 +580,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2 = "assetEntryAssetCategoryRel.assetEntryId = ?";
+	private static final String _FINDER_COLUMN_ASSETENTRYID_ASSETENTRYID_2_SQL = "assetEntryAssetCategoryRel.assetEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByAssetCategoryId;
 	private FinderPath _finderPathWithoutPaginationFindByAssetCategoryId;
 	private FinderPath _finderPathCountByAssetCategoryId;
@@ -1085,7 +1085,7 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2 =
+	private static final String _FINDER_COLUMN_ASSETCATEGORYID_ASSETCATEGORYID_2_SQL =
 		"assetEntryAssetCategoryRel.assetCategoryId = ?";
 	private FinderPath _finderPathFetchByA_A;
 	private FinderPath _finderPathCountByA_A;
@@ -1308,8 +1308,8 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_A_ASSETENTRYID_2 = "assetEntryAssetCategoryRel.assetEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_A_A_ASSETCATEGORYID_2 = "assetEntryAssetCategoryRel.assetCategoryId = ?";
+	private static final String _FINDER_COLUMN_A_A_ASSETENTRYID_2_SQL = "assetEntryAssetCategoryRel.assetEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_A_A_ASSETCATEGORYID_2_SQL = "assetEntryAssetCategoryRel.assetCategoryId = ?";
 
 	public AssetEntryAssetCategoryRelPersistenceImpl() {
 		setModelClass(AssetEntryAssetCategoryRel.class);

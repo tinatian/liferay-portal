@@ -569,7 +569,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoNotification.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoNotification.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1075,7 +1075,7 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoNotification.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKCN_KCPK;
 	private FinderPath _finderPathWithoutPaginationFindByKCN_KCPK;
@@ -1649,9 +1649,9 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2 = "kaleoNotification.kaleoClassName = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3 = "(kaleoNotification.kaleoClassName IS NULL OR kaleoNotification.kaleoClassName = '') AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2 = "kaleoNotification.kaleoClassPK = ?";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_2_SQL = "kaleoNotification.kaleoClassName = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSNAME_3_SQL = "(kaleoNotification.kaleoClassName IS NULL OR kaleoNotification.kaleoClassName = '') AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_KALEOCLASSPK_2_SQL = "kaleoNotification.kaleoClassPK = ?";
 	private FinderPath _finderPathWithPaginationFindByKCN_KCPK_ET;
 	private FinderPath _finderPathWithoutPaginationFindByKCN_KCPK_ET;
 	private FinderPath _finderPathCountByKCN_KCPK_ET;
@@ -2302,11 +2302,11 @@ public class KaleoNotificationPersistenceImpl extends BasePersistenceImpl<KaleoN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2 = "kaleoNotification.kaleoClassName = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3 = "(kaleoNotification.kaleoClassName IS NULL OR kaleoNotification.kaleoClassName = '') AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2 = "kaleoNotification.kaleoClassPK = ? AND ";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2 = "kaleoNotification.executionType = ?";
-	private static final String _FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3 = "(kaleoNotification.executionType IS NULL OR kaleoNotification.executionType = '')";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_2_SQL = "kaleoNotification.kaleoClassName = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSNAME_3_SQL = "(kaleoNotification.kaleoClassName IS NULL OR kaleoNotification.kaleoClassName = '') AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ET_KALEOCLASSPK_2_SQL = "kaleoNotification.kaleoClassPK = ? AND ";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_2_SQL = "kaleoNotification.executionType = ?";
+	private static final String _FINDER_COLUMN_KCN_KCPK_ET_EXECUTIONTYPE_3_SQL = "(kaleoNotification.executionType IS NULL OR kaleoNotification.executionType = '')";
 
 	public KaleoNotificationPersistenceImpl() {
 		setModelClass(KaleoNotification.class);

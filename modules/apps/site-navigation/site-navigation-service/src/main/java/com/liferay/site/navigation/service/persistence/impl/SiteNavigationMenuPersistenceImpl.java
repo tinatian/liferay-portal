@@ -206,12 +206,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -438,12 +438,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -572,12 +572,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -612,8 +612,8 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "siteNavigationMenu.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(siteNavigationMenu.uuid IS NULL OR siteNavigationMenu.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "siteNavigationMenu.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(siteNavigationMenu.uuid_ IS NULL OR siteNavigationMenu.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -704,12 +704,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -803,12 +803,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -847,9 +847,9 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "siteNavigationMenu.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(siteNavigationMenu.uuid IS NULL OR siteNavigationMenu.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "siteNavigationMenu.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "siteNavigationMenu.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(siteNavigationMenu.uuid_ IS NULL OR siteNavigationMenu.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "siteNavigationMenu.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -982,12 +982,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1230,12 +1230,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1370,12 +1370,12 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1414,9 +1414,9 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "siteNavigationMenu.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(siteNavigationMenu.uuid IS NULL OR siteNavigationMenu.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "siteNavigationMenu.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "siteNavigationMenu.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(siteNavigationMenu.uuid_ IS NULL OR siteNavigationMenu.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "siteNavigationMenu.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2266,7 +2266,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "siteNavigationMenu.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "siteNavigationMenu.groupId = ?";
 	private FinderPath _finderPathFetchByG_N;
 	private FinderPath _finderPathCountByG_N;
 
@@ -2500,9 +2500,9 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_N_GROUPID_2 = "siteNavigationMenu.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_N_NAME_2 = "siteNavigationMenu.name = ?";
-	private static final String _FINDER_COLUMN_G_N_NAME_3 = "(siteNavigationMenu.name IS NULL OR siteNavigationMenu.name = '')";
+	private static final String _FINDER_COLUMN_G_N_GROUPID_2_SQL = "siteNavigationMenu.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_N_NAME_2_SQL = "siteNavigationMenu.name = ?";
+	private static final String _FINDER_COLUMN_G_N_NAME_3_SQL = "(siteNavigationMenu.name IS NULL OR siteNavigationMenu.name = '')";
 	private FinderPath _finderPathWithPaginationFindByG_LikeN;
 	private FinderPath _finderPathWithPaginationCountByG_LikeN;
 
@@ -3474,9 +3474,9 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_LIKEN_GROUPID_2 = "siteNavigationMenu.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_LIKEN_NAME_2 = "siteNavigationMenu.name LIKE ?";
-	private static final String _FINDER_COLUMN_G_LIKEN_NAME_3 = "(siteNavigationMenu.name IS NULL OR siteNavigationMenu.name LIKE '')";
+	private static final String _FINDER_COLUMN_G_LIKEN_GROUPID_2_SQL = "siteNavigationMenu.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_LIKEN_NAME_2_SQL = "siteNavigationMenu.name LIKE ?";
+	private static final String _FINDER_COLUMN_G_LIKEN_NAME_3_SQL = "(siteNavigationMenu.name IS NULL OR siteNavigationMenu.name LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByG_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_T;
 	private FinderPath _finderPathCountByG_T;
@@ -3606,7 +3606,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 
 			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3841,7 +3841,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 
 		query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_T_TYPE_2);
+		query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4293,7 +4293,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 
 			query.append(_FINDER_COLUMN_G_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4380,8 +4380,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_T_GROUPID_2 = "siteNavigationMenu.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_TYPE_2 = "siteNavigationMenu.type = ?";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_2_SQL = "siteNavigationMenu.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_T_TYPE_2_SQL = "siteNavigationMenu.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_A;
@@ -4512,7 +4511,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 
 			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_A_AUTO_2);
+			query.append(_FINDER_COLUMN_G_A_AUTO_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -4747,7 +4746,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 
 		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_A_AUTO_2);
+		query.append(_FINDER_COLUMN_G_A_AUTO_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -5199,7 +5198,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 
 			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_A_AUTO_2);
+			query.append(_FINDER_COLUMN_G_A_AUTO_2_SQL);
 
 			String sql = query.toString();
 
@@ -5286,8 +5285,7 @@ public class SiteNavigationMenuPersistenceImpl extends BasePersistenceImpl<SiteN
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_GROUPID_2 = "siteNavigationMenu.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_AUTO_2 = "siteNavigationMenu.auto = ?";
+	private static final String _FINDER_COLUMN_G_A_GROUPID_2_SQL = "siteNavigationMenu.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_A_AUTO_2_SQL = "siteNavigationMenu.auto_ = ?";
 
 	public SiteNavigationMenuPersistenceImpl() {

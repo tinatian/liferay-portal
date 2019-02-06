@@ -928,7 +928,7 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "segmentsEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "segmentsEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindBySource;
 	private FinderPath _finderPathWithoutPaginationFindBySource;
 	private FinderPath _finderPathCountBySource;
@@ -1452,8 +1452,8 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SOURCE_SOURCE_2 = "segmentsEntry.source = ?";
-	private static final String _FINDER_COLUMN_SOURCE_SOURCE_3 = "(segmentsEntry.source IS NULL OR segmentsEntry.source = '')";
+	private static final String _FINDER_COLUMN_SOURCE_SOURCE_2_SQL = "segmentsEntry.source = ?";
+	private static final String _FINDER_COLUMN_SOURCE_SOURCE_3_SQL = "(segmentsEntry.source IS NULL OR segmentsEntry.source = '')";
 	private FinderPath _finderPathWithPaginationFindByType;
 	private FinderPath _finderPathWithoutPaginationFindByType;
 	private FinderPath _finderPathCountByType;
@@ -1573,12 +1573,12 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -1801,12 +1801,12 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -1935,12 +1935,12 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1975,8 +1975,8 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TYPE_TYPE_2 = "segmentsEntry.type = ?";
-	private static final String _FINDER_COLUMN_TYPE_TYPE_3 = "(segmentsEntry.type IS NULL OR segmentsEntry.type = '')";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_2_SQL = "segmentsEntry.type_ = ?";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_3_SQL = "(segmentsEntry.type_ IS NULL OR segmentsEntry.type_ = '')";
 	private FinderPath _finderPathWithPaginationFindByG_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_A;
 	private FinderPath _finderPathCountByG_A;
@@ -2104,7 +2104,7 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_G_A_ACTIVE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2338,7 +2338,7 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 		query.append(_FINDER_COLUMN_G_A_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_A_ACTIVE_2);
+		query.append(_FINDER_COLUMN_G_A_ACTIVE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2788,7 +2788,7 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 			query.append(_FINDER_COLUMN_G_A_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_A_ACTIVE_2);
+			query.append(_FINDER_COLUMN_G_A_ACTIVE_2_SQL);
 
 			String sql = query.toString();
 
@@ -2875,8 +2875,7 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_GROUPID_2 = "segmentsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_ACTIVE_2 = "segmentsEntry.active = ?";
+	private static final String _FINDER_COLUMN_G_A_GROUPID_2_SQL = "segmentsEntry.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_A_ACTIVE_2_SQL = "segmentsEntry.active_ = ?";
 	private FinderPath _finderPathFetchByG_K;
 	private FinderPath _finderPathCountByG_K;
@@ -2970,12 +2969,12 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_K_KEY_3);
+				query.append(_FINDER_COLUMN_G_K_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_G_K_KEY_2);
+				query.append(_FINDER_COLUMN_G_K_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3069,12 +3068,12 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_K_KEY_3);
+				query.append(_FINDER_COLUMN_G_K_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_G_K_KEY_2);
+				query.append(_FINDER_COLUMN_G_K_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3111,9 +3110,9 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_K_GROUPID_2 = "segmentsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_K_KEY_2 = "segmentsEntry.key = ?";
-	private static final String _FINDER_COLUMN_G_K_KEY_3 = "(segmentsEntry.key IS NULL OR segmentsEntry.key = '')";
+	private static final String _FINDER_COLUMN_G_K_GROUPID_2_SQL = "segmentsEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_K_KEY_2_SQL = "segmentsEntry.key_ = ?";
+	private static final String _FINDER_COLUMN_G_K_KEY_3_SQL = "(segmentsEntry.key_ IS NULL OR segmentsEntry.key_ = '')";
 	private FinderPath _finderPathWithPaginationFindByA_T;
 	private FinderPath _finderPathWithoutPaginationFindByA_T;
 	private FinderPath _finderPathCountByA_T;
@@ -3241,17 +3240,17 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 			query.append(_SQL_SELECT_SEGMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_T_ACTIVE_2);
+			query.append(_FINDER_COLUMN_A_T_ACTIVE_2_SQL);
 
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_T_TYPE_3);
+				query.append(_FINDER_COLUMN_A_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_A_T_TYPE_2);
+				query.append(_FINDER_COLUMN_A_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3488,17 +3487,17 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 		query.append(_SQL_SELECT_SEGMENTSENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_A_T_ACTIVE_2);
+		query.append(_FINDER_COLUMN_A_T_ACTIVE_2_SQL);
 
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_A_T_TYPE_3);
+			query.append(_FINDER_COLUMN_A_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_A_T_TYPE_2);
+			query.append(_FINDER_COLUMN_A_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3628,17 +3627,17 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 			query.append(_SQL_COUNT_SEGMENTSENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_A_T_ACTIVE_2);
+			query.append(_FINDER_COLUMN_A_T_ACTIVE_2_SQL);
 
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_A_T_TYPE_3);
+				query.append(_FINDER_COLUMN_A_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_A_T_TYPE_2);
+				query.append(_FINDER_COLUMN_A_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3675,9 +3674,9 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_T_ACTIVE_2 = "segmentsEntry.active = ? AND ";
-	private static final String _FINDER_COLUMN_A_T_TYPE_2 = "segmentsEntry.type = ?";
-	private static final String _FINDER_COLUMN_A_T_TYPE_3 = "(segmentsEntry.type IS NULL OR segmentsEntry.type = '')";
+	private static final String _FINDER_COLUMN_A_T_ACTIVE_2_SQL = "segmentsEntry.active_ = ? AND ";
+	private static final String _FINDER_COLUMN_A_T_TYPE_2_SQL = "segmentsEntry.type_ = ?";
+	private static final String _FINDER_COLUMN_A_T_TYPE_3_SQL = "(segmentsEntry.type_ IS NULL OR segmentsEntry.type_ = '')";
 	private FinderPath _finderPathWithPaginationFindByG_A_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_A_T;
 	private FinderPath _finderPathCountByG_A_T;
@@ -3816,17 +3815,17 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 			query.append(_FINDER_COLUMN_G_A_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_A_T_ACTIVE_2);
+			query.append(_FINDER_COLUMN_G_A_T_ACTIVE_2_SQL);
 
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_A_T_TYPE_3);
+				query.append(_FINDER_COLUMN_G_A_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_G_A_T_TYPE_2);
+				query.append(_FINDER_COLUMN_G_A_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -4078,17 +4077,17 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 		query.append(_FINDER_COLUMN_G_A_T_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_G_A_T_ACTIVE_2);
+		query.append(_FINDER_COLUMN_G_A_T_ACTIVE_2_SQL);
 
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_A_T_TYPE_3);
+			query.append(_FINDER_COLUMN_G_A_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_G_A_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_A_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -4588,17 +4587,17 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 
 			query.append(_FINDER_COLUMN_G_A_T_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_G_A_T_ACTIVE_2);
+			query.append(_FINDER_COLUMN_G_A_T_ACTIVE_2_SQL);
 
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_A_T_TYPE_3);
+				query.append(_FINDER_COLUMN_G_A_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_G_A_T_TYPE_2);
+				query.append(_FINDER_COLUMN_G_A_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -4708,11 +4707,8 @@ public class SegmentsEntryPersistenceImpl extends BasePersistenceImpl<SegmentsEn
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_T_GROUPID_2 = "segmentsEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_T_ACTIVE_2 = "segmentsEntry.active = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_T_GROUPID_2_SQL = "segmentsEntry.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_A_T_ACTIVE_2_SQL = "segmentsEntry.active_ = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_T_TYPE_2 = "segmentsEntry.type = ?";
-	private static final String _FINDER_COLUMN_G_A_T_TYPE_3 = "(segmentsEntry.type IS NULL OR segmentsEntry.type = '')";
 	private static final String _FINDER_COLUMN_G_A_T_TYPE_2_SQL = "segmentsEntry.type_ = ?";
 	private static final String _FINDER_COLUMN_G_A_T_TYPE_3_SQL = "(segmentsEntry.type_ IS NULL OR segmentsEntry.type_ = '')";
 

@@ -569,7 +569,7 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "announcementsDelivery.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "announcementsDelivery.userId = ?";
 	private FinderPath _finderPathFetchByU_T;
 	private FinderPath _finderPathCountByU_T;
 
@@ -662,12 +662,12 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_T_TYPE_3);
+				query.append(_FINDER_COLUMN_U_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_U_T_TYPE_2);
+				query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -762,12 +762,12 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_T_TYPE_3);
+				query.append(_FINDER_COLUMN_U_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_U_T_TYPE_2);
+				query.append(_FINDER_COLUMN_U_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -804,9 +804,9 @@ public class AnnouncementsDeliveryPersistenceImpl extends BasePersistenceImpl<An
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_T_USERID_2 = "announcementsDelivery.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_T_TYPE_2 = "announcementsDelivery.type = ?";
-	private static final String _FINDER_COLUMN_U_T_TYPE_3 = "(announcementsDelivery.type IS NULL OR announcementsDelivery.type = '')";
+	private static final String _FINDER_COLUMN_U_T_USERID_2_SQL = "announcementsDelivery.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_T_TYPE_2_SQL = "announcementsDelivery.type_ = ?";
+	private static final String _FINDER_COLUMN_U_T_TYPE_3_SQL = "(announcementsDelivery.type_ IS NULL OR announcementsDelivery.type_ = '')";
 
 	public AnnouncementsDeliveryPersistenceImpl() {
 		setModelClass(AnnouncementsDelivery.class);

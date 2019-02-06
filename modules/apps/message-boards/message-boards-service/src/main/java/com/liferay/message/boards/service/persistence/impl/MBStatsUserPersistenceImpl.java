@@ -559,7 +559,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "mbStatsUser.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "mbStatsUser.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1042,7 +1042,7 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "mbStatsUser.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "mbStatsUser.userId = ?";
 	private FinderPath _finderPathFetchByG_U;
 	private FinderPath _finderPathCountByG_U;
 
@@ -1250,8 +1250,8 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "mbStatsUser.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "mbStatsUser.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "mbStatsUser.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "mbStatsUser.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_NotU_NotM;
 	private FinderPath _finderPathWithPaginationCountByG_NotU_NotM;
 
@@ -1799,9 +1799,9 @@ public class MBStatsUserPersistenceImpl extends BasePersistenceImpl<MBStatsUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2 = "mbStatsUser.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTU_NOTM_USERID_2 = "mbStatsUser.userId != ? AND ";
-	private static final String _FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2 = "mbStatsUser.messageCount != ?";
+	private static final String _FINDER_COLUMN_G_NOTU_NOTM_GROUPID_2_SQL = "mbStatsUser.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTU_NOTM_USERID_2_SQL = "mbStatsUser.userId != ? AND ";
+	private static final String _FINDER_COLUMN_G_NOTU_NOTM_MESSAGECOUNT_2_SQL = "mbStatsUser.messageCount != ?";
 
 	public MBStatsUserPersistenceImpl() {
 		setModelClass(MBStatsUser.class);

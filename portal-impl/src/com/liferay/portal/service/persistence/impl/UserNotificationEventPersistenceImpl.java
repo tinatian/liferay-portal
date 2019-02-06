@@ -201,12 +201,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -434,12 +434,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -569,12 +569,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -609,8 +609,8 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "userNotificationEvent.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(userNotificationEvent.uuid IS NULL OR userNotificationEvent.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "userNotificationEvent.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(userNotificationEvent.uuid_ IS NULL OR userNotificationEvent.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -743,12 +743,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -995,12 +995,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1136,12 +1136,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1180,9 +1180,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "userNotificationEvent.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(userNotificationEvent.uuid IS NULL OR userNotificationEvent.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "userNotificationEvent.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "userNotificationEvent.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(userNotificationEvent.uuid_ IS NULL OR userNotificationEvent.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "userNotificationEvent.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1672,7 +1672,7 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "userNotificationEvent.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "userNotificationEvent.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByType;
 	private FinderPath _finderPathWithoutPaginationFindByType;
 	private FinderPath _finderPathCountByType;
@@ -1793,12 +1793,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2026,12 +2026,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2161,12 +2161,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2201,8 +2201,8 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TYPE_TYPE_2 = "userNotificationEvent.type = ?";
-	private static final String _FINDER_COLUMN_TYPE_TYPE_3 = "(userNotificationEvent.type IS NULL OR userNotificationEvent.type = '')";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_2_SQL = "userNotificationEvent.type_ = ?";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_3_SQL = "(userNotificationEvent.type_ IS NULL OR userNotificationEvent.type_ = '')";
 	private FinderPath _finderPathWithPaginationFindByU_DT;
 	private FinderPath _finderPathWithoutPaginationFindByU_DT;
 	private FinderPath _finderPathCountByU_DT;
@@ -2734,8 +2734,8 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_DT_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_DELIVERYTYPE_2 = "userNotificationEvent.deliveryType = ?";
+	private static final String _FINDER_COLUMN_U_DT_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_DELIVERYTYPE_2_SQL = "userNotificationEvent.deliveryType = ?";
 	private FinderPath _finderPathWithPaginationFindByU_D;
 	private FinderPath _finderPathWithoutPaginationFindByU_D;
 	private FinderPath _finderPathCountByU_D;
@@ -3266,8 +3266,8 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_D_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_D_DELIVERED_2 = "userNotificationEvent.delivered = ?";
+	private static final String _FINDER_COLUMN_U_D_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_D_DELIVERED_2_SQL = "userNotificationEvent.delivered = ?";
 	private FinderPath _finderPathWithPaginationFindByU_A;
 	private FinderPath _finderPathWithoutPaginationFindByU_A;
 	private FinderPath _finderPathCountByU_A;
@@ -3796,8 +3796,8 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_A_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_A_ARCHIVED_2 = "userNotificationEvent.archived = ?";
+	private static final String _FINDER_COLUMN_U_A_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_A_ARCHIVED_2_SQL = "userNotificationEvent.archived = ?";
 	private FinderPath _finderPathWithPaginationFindByU_DT_D;
 	private FinderPath _finderPathWithoutPaginationFindByU_DT_D;
 	private FinderPath _finderPathCountByU_DT_D;
@@ -4363,9 +4363,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_DT_D_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2 = "userNotificationEvent.deliveryType = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_D_DELIVERED_2 = "userNotificationEvent.delivered = ?";
+	private static final String _FINDER_COLUMN_U_DT_D_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_D_DELIVERYTYPE_2_SQL = "userNotificationEvent.deliveryType = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_D_DELIVERED_2_SQL = "userNotificationEvent.delivered = ?";
 	private FinderPath _finderPathWithPaginationFindByU_DT_A;
 	private FinderPath _finderPathWithoutPaginationFindByU_DT_A;
 	private FinderPath _finderPathCountByU_DT_A;
@@ -4931,9 +4931,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_DT_A_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2 = "userNotificationEvent.deliveryType = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_A_ARCHIVED_2 = "userNotificationEvent.archived = ?";
+	private static final String _FINDER_COLUMN_U_DT_A_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_A_DELIVERYTYPE_2_SQL = "userNotificationEvent.deliveryType = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_A_ARCHIVED_2_SQL = "userNotificationEvent.archived = ?";
 	private FinderPath _finderPathWithPaginationFindByU_D_A;
 	private FinderPath _finderPathWithoutPaginationFindByU_D_A;
 	private FinderPath _finderPathCountByU_D_A;
@@ -5501,9 +5501,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_D_A_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_D_A_DELIVERED_2 = "userNotificationEvent.delivered = ? AND ";
-	private static final String _FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2 = "userNotificationEvent.actionRequired = ?";
+	private static final String _FINDER_COLUMN_U_D_A_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_D_A_DELIVERED_2_SQL = "userNotificationEvent.delivered = ? AND ";
+	private static final String _FINDER_COLUMN_U_D_A_ACTIONREQUIRED_2_SQL = "userNotificationEvent.actionRequired = ?";
 	private FinderPath _finderPathWithPaginationFindByU_A_A;
 	private FinderPath _finderPathWithoutPaginationFindByU_A_A;
 	private FinderPath _finderPathCountByU_A_A;
@@ -6071,9 +6071,9 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_A_A_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2 = "userNotificationEvent.actionRequired = ? AND ";
-	private static final String _FINDER_COLUMN_U_A_A_ARCHIVED_2 = "userNotificationEvent.archived = ?";
+	private static final String _FINDER_COLUMN_U_A_A_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_A_A_ACTIONREQUIRED_2_SQL = "userNotificationEvent.actionRequired = ? AND ";
+	private static final String _FINDER_COLUMN_U_A_A_ARCHIVED_2_SQL = "userNotificationEvent.archived = ?";
 	private FinderPath _finderPathWithPaginationFindByU_T_DT_D;
 	private FinderPath _finderPathWithoutPaginationFindByU_T_DT_D;
 	private FinderPath _finderPathCountByU_T_DT_D;
@@ -6221,12 +6221,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_3);
+				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2);
+				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2);
@@ -6507,12 +6507,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_3);
+			query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2);
+			query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2);
@@ -6663,12 +6663,12 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_3);
+				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2);
+				query.append(_FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2);
@@ -6713,11 +6713,11 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_T_DT_D_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_T_DT_D_TYPE_2 = "userNotificationEvent.type = ? AND ";
-	private static final String _FINDER_COLUMN_U_T_DT_D_TYPE_3 = "(userNotificationEvent.type IS NULL OR userNotificationEvent.type = '') AND ";
-	private static final String _FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2 = "userNotificationEvent.deliveryType = ? AND ";
-	private static final String _FINDER_COLUMN_U_T_DT_D_DELIVERED_2 = "userNotificationEvent.delivered = ?";
+	private static final String _FINDER_COLUMN_U_T_DT_D_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_T_DT_D_TYPE_2_SQL = "userNotificationEvent.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_U_T_DT_D_TYPE_3_SQL = "(userNotificationEvent.type_ IS NULL OR userNotificationEvent.type_ = '') AND ";
+	private static final String _FINDER_COLUMN_U_T_DT_D_DELIVERYTYPE_2_SQL = "userNotificationEvent.deliveryType = ? AND ";
+	private static final String _FINDER_COLUMN_U_T_DT_D_DELIVERED_2_SQL = "userNotificationEvent.delivered = ?";
 	private FinderPath _finderPathWithPaginationFindByU_DT_D_A;
 	private FinderPath _finderPathWithoutPaginationFindByU_DT_D_A;
 	private FinderPath _finderPathCountByU_DT_D_A;
@@ -7324,10 +7324,10 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_DT_D_A_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2 = "userNotificationEvent.deliveryType = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_D_A_DELIVERED_2 = "userNotificationEvent.delivered = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2 = "userNotificationEvent.actionRequired = ?";
+	private static final String _FINDER_COLUMN_U_DT_D_A_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_D_A_DELIVERYTYPE_2_SQL = "userNotificationEvent.deliveryType = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_D_A_DELIVERED_2_SQL = "userNotificationEvent.delivered = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_D_A_ACTIONREQUIRED_2_SQL = "userNotificationEvent.actionRequired = ?";
 	private FinderPath _finderPathWithPaginationFindByU_DT_A_A;
 	private FinderPath _finderPathWithoutPaginationFindByU_DT_A_A;
 	private FinderPath _finderPathCountByU_DT_A_A;
@@ -7934,10 +7934,10 @@ public class UserNotificationEventPersistenceImpl extends BasePersistenceImpl<Us
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_DT_A_A_USERID_2 = "userNotificationEvent.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2 = "userNotificationEvent.deliveryType = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2 = "userNotificationEvent.actionRequired = ? AND ";
-	private static final String _FINDER_COLUMN_U_DT_A_A_ARCHIVED_2 = "userNotificationEvent.archived = ?";
+	private static final String _FINDER_COLUMN_U_DT_A_A_USERID_2_SQL = "userNotificationEvent.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_A_A_DELIVERYTYPE_2_SQL = "userNotificationEvent.deliveryType = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_A_A_ACTIONREQUIRED_2_SQL = "userNotificationEvent.actionRequired = ? AND ";
+	private static final String _FINDER_COLUMN_U_DT_A_A_ARCHIVED_2_SQL = "userNotificationEvent.archived = ?";
 
 	public UserNotificationEventPersistenceImpl() {
 		setModelClass(UserNotificationEvent.class);

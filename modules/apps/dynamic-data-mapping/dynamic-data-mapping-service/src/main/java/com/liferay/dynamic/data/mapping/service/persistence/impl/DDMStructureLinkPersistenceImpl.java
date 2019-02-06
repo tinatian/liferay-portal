@@ -567,7 +567,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2 = "ddmStructureLink.classNameId = ?";
+	private static final String _FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL = "ddmStructureLink.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByStructureId;
 	private FinderPath _finderPathWithoutPaginationFindByStructureId;
 	private FinderPath _finderPathCountByStructureId;
@@ -1059,7 +1059,7 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2 = "ddmStructureLink.structureId = ?";
+	private static final String _FINDER_COLUMN_STRUCTUREID_STRUCTUREID_2_SQL = "ddmStructureLink.structureId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -1585,8 +1585,8 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "ddmStructureLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "ddmStructureLink.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "ddmStructureLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "ddmStructureLink.classPK = ?";
 	private FinderPath _finderPathFetchByC_C_S;
 	private FinderPath _finderPathCountByC_C_S;
 
@@ -1814,9 +1814,9 @@ public class DDMStructureLinkPersistenceImpl extends BasePersistenceImpl<DDMStru
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_S_CLASSNAMEID_2 = "ddmStructureLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_S_CLASSPK_2 = "ddmStructureLink.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_S_STRUCTUREID_2 = "ddmStructureLink.structureId = ?";
+	private static final String _FINDER_COLUMN_C_C_S_CLASSNAMEID_2_SQL = "ddmStructureLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_S_CLASSPK_2_SQL = "ddmStructureLink.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_S_STRUCTUREID_2_SQL = "ddmStructureLink.structureId = ?";
 
 	public DDMStructureLinkPersistenceImpl() {
 		setModelClass(DDMStructureLink.class);

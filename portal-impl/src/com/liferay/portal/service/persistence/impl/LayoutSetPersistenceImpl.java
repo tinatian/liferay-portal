@@ -566,7 +566,7 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "layoutSet.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "layoutSet.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutSetPrototypeUuid;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutSetPrototypeUuid;
 	private FinderPath _finderPathCountByLayoutSetPrototypeUuid;
@@ -1110,9 +1110,9 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_2_SQL =
 		"layoutSet.layoutSetPrototypeUuid = ?";
-	private static final String _FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3 =
+	private static final String _FINDER_COLUMN_LAYOUTSETPROTOTYPEUUID_LAYOUTSETPROTOTYPEUUID_3_SQL =
 		"(layoutSet.layoutSetPrototypeUuid IS NULL OR layoutSet.layoutSetPrototypeUuid = '')";
 	private FinderPath _finderPathFetchByG_P;
 	private FinderPath _finderPathCountByG_P;
@@ -1322,8 +1322,8 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 = "layoutSet.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_PRIVATELAYOUT_2 = "layoutSet.privateLayout = ?";
+	private static final String _FINDER_COLUMN_G_P_GROUPID_2_SQL = "layoutSet.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL = "layoutSet.privateLayout = ?";
 	private FinderPath _finderPathFetchByP_L;
 	private FinderPath _finderPathCountByP_L;
 
@@ -1543,8 +1543,8 @@ public class LayoutSetPersistenceImpl extends BasePersistenceImpl<LayoutSet>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_L_PRIVATELAYOUT_2 = "layoutSet.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_P_L_LOGOID_2 = "layoutSet.logoId = ?";
+	private static final String _FINDER_COLUMN_P_L_PRIVATELAYOUT_2_SQL = "layoutSet.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_P_L_LOGOID_2_SQL = "layoutSet.logoId = ?";
 
 	public LayoutSetPersistenceImpl() {
 		setModelClass(LayoutSet.class);

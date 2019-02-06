@@ -609,8 +609,8 @@ public class OAuthConsumerPersistenceImpl extends BasePersistenceImpl<OAuthConsu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GADGETKEY_GADGETKEY_2 = "oAuthConsumer.gadgetKey = ?";
-	private static final String _FINDER_COLUMN_GADGETKEY_GADGETKEY_3 = "(oAuthConsumer.gadgetKey IS NULL OR oAuthConsumer.gadgetKey = '')";
+	private static final String _FINDER_COLUMN_GADGETKEY_GADGETKEY_2_SQL = "oAuthConsumer.gadgetKey = ?";
+	private static final String _FINDER_COLUMN_GADGETKEY_GADGETKEY_3_SQL = "(oAuthConsumer.gadgetKey IS NULL OR oAuthConsumer.gadgetKey = '')";
 	private FinderPath _finderPathFetchByG_S;
 	private FinderPath _finderPathCountByG_S;
 
@@ -880,10 +880,10 @@ public class OAuthConsumerPersistenceImpl extends BasePersistenceImpl<OAuthConsu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GADGETKEY_2 = "oAuthConsumer.gadgetKey = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_GADGETKEY_3 = "(oAuthConsumer.gadgetKey IS NULL OR oAuthConsumer.gadgetKey = '') AND ";
-	private static final String _FINDER_COLUMN_G_S_SERVICENAME_2 = "oAuthConsumer.serviceName = ?";
-	private static final String _FINDER_COLUMN_G_S_SERVICENAME_3 = "(oAuthConsumer.serviceName IS NULL OR oAuthConsumer.serviceName = '')";
+	private static final String _FINDER_COLUMN_G_S_GADGETKEY_2_SQL = "oAuthConsumer.gadgetKey = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_GADGETKEY_3_SQL = "(oAuthConsumer.gadgetKey IS NULL OR oAuthConsumer.gadgetKey = '') AND ";
+	private static final String _FINDER_COLUMN_G_S_SERVICENAME_2_SQL = "oAuthConsumer.serviceName = ?";
+	private static final String _FINDER_COLUMN_G_S_SERVICENAME_3_SQL = "(oAuthConsumer.serviceName IS NULL OR oAuthConsumer.serviceName = '')";
 
 	public OAuthConsumerPersistenceImpl() {
 		setModelClass(OAuthConsumer.class);

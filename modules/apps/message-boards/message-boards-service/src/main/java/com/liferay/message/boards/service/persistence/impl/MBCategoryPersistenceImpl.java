@@ -208,12 +208,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -436,12 +436,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -570,12 +570,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -610,8 +610,8 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "mbCategory.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(mbCategory.uuid IS NULL OR mbCategory.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "mbCategory.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(mbCategory.uuid_ IS NULL OR mbCategory.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -702,12 +702,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -801,12 +801,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -845,9 +845,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "mbCategory.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(mbCategory.uuid IS NULL OR mbCategory.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "mbCategory.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "mbCategory.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(mbCategory.uuid_ IS NULL OR mbCategory.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "mbCategory.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -978,12 +978,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1224,12 +1224,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1364,12 +1364,12 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1408,9 +1408,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "mbCategory.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(mbCategory.uuid IS NULL OR mbCategory.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "mbCategory.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "mbCategory.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(mbCategory.uuid_ IS NULL OR mbCategory.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "mbCategory.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2249,7 +2249,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "mbCategory.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "mbCategory.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2736,7 +2736,7 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "mbCategory.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "mbCategory.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_P;
 	private FinderPath _finderPathCountByG_P;
@@ -4138,9 +4138,9 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 = "mbCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_PARENTCATEGORYID_2 = "mbCategory.parentCategoryId = ?";
-	private static final String _FINDER_COLUMN_G_P_PARENTCATEGORYID_7 = "mbCategory.parentCategoryId IN (";
+	private static final String _FINDER_COLUMN_G_P_GROUPID_2_SQL = "mbCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_PARENTCATEGORYID_2_SQL = "mbCategory.parentCategoryId = ?";
+	private static final String _FINDER_COLUMN_G_P_PARENTCATEGORYID_7_SQL = "mbCategory.parentCategoryId IN (";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -5037,8 +5037,8 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "mbCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 = "mbCategory.status = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "mbCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUS_2_SQL = "mbCategory.status = ?";
 	private FinderPath _finderPathWithPaginationFindByC_S;
 	private FinderPath _finderPathWithoutPaginationFindByC_S;
 	private FinderPath _finderPathCountByC_S;
@@ -5560,8 +5560,8 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_COMPANYID_2 = "mbCategory.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 = "mbCategory.status = ?";
+	private static final String _FINDER_COLUMN_C_S_COMPANYID_2_SQL = "mbCategory.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_S_STATUS_2_SQL = "mbCategory.status = ?";
 	private FinderPath _finderPathWithPaginationFindByNotC_G_P;
 	private FinderPath _finderPathWithPaginationCountByNotC_G_P;
 
@@ -6771,11 +6771,11 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_NOTC_G_P_CATEGORYID_2 = "mbCategory.categoryId != ? AND ";
-	private static final String _FINDER_COLUMN_NOTC_G_P_CATEGORYID_7 = "mbCategory.categoryId NOT IN (";
-	private static final String _FINDER_COLUMN_NOTC_G_P_GROUPID_2 = "mbCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2 = "mbCategory.parentCategoryId = ?";
-	private static final String _FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7 = "mbCategory.parentCategoryId IN (";
+	private static final String _FINDER_COLUMN_NOTC_G_P_CATEGORYID_2_SQL = "mbCategory.categoryId != ? AND ";
+	private static final String _FINDER_COLUMN_NOTC_G_P_CATEGORYID_7_SQL = "mbCategory.categoryId NOT IN (";
+	private static final String _FINDER_COLUMN_NOTC_G_P_GROUPID_2_SQL = "mbCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_2_SQL = "mbCategory.parentCategoryId = ?";
+	private static final String _FINDER_COLUMN_NOTC_G_P_PARENTCATEGORYID_7_SQL = "mbCategory.parentCategoryId IN (";
 	private FinderPath _finderPathWithPaginationFindByG_P_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_S;
 	private FinderPath _finderPathCountByG_P_S;
@@ -8270,10 +8270,10 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_S_GROUPID_2 = "mbCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2 = "mbCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7 = "mbCategory.parentCategoryId IN (";
-	private static final String _FINDER_COLUMN_G_P_S_STATUS_2 = "mbCategory.status = ?";
+	private static final String _FINDER_COLUMN_G_P_S_GROUPID_2_SQL = "mbCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_S_PARENTCATEGORYID_2_SQL = "mbCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_S_PARENTCATEGORYID_7_SQL = "mbCategory.parentCategoryId IN (";
+	private static final String _FINDER_COLUMN_G_P_S_STATUS_2_SQL = "mbCategory.status = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_NotS;
 	private FinderPath _finderPathWithPaginationCountByG_P_NotS;
 
@@ -9762,10 +9762,10 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_NOTS_GROUPID_2 = "mbCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2 = "mbCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7 = "mbCategory.parentCategoryId IN (";
-	private static final String _FINDER_COLUMN_G_P_NOTS_STATUS_2 = "mbCategory.status != ?";
+	private static final String _FINDER_COLUMN_G_P_NOTS_GROUPID_2_SQL = "mbCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_2_SQL = "mbCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_NOTS_PARENTCATEGORYID_7_SQL = "mbCategory.parentCategoryId IN (";
+	private static final String _FINDER_COLUMN_G_P_NOTS_STATUS_2_SQL = "mbCategory.status != ?";
 	private FinderPath _finderPathWithPaginationFindByNotC_G_P_S;
 	private FinderPath _finderPathWithPaginationCountByNotC_G_P_S;
 
@@ -11056,12 +11056,14 @@ public class MBCategoryPersistenceImpl extends BasePersistenceImpl<MBCategory>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2 = "mbCategory.categoryId != ? AND ";
-	private static final String _FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7 = "mbCategory.categoryId NOT IN (";
-	private static final String _FINDER_COLUMN_NOTC_G_P_S_GROUPID_2 = "mbCategory.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2 = "mbCategory.parentCategoryId = ? AND ";
-	private static final String _FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7 = "mbCategory.parentCategoryId IN (";
-	private static final String _FINDER_COLUMN_NOTC_G_P_S_STATUS_2 = "mbCategory.status = ?";
+	private static final String _FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_2_SQL = "mbCategory.categoryId != ? AND ";
+	private static final String _FINDER_COLUMN_NOTC_G_P_S_CATEGORYID_7_SQL = "mbCategory.categoryId NOT IN (";
+	private static final String _FINDER_COLUMN_NOTC_G_P_S_GROUPID_2_SQL = "mbCategory.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_2_SQL =
+		"mbCategory.parentCategoryId = ? AND ";
+	private static final String _FINDER_COLUMN_NOTC_G_P_S_PARENTCATEGORYID_7_SQL =
+		"mbCategory.parentCategoryId IN (";
+	private static final String _FINDER_COLUMN_NOTC_G_P_S_STATUS_2_SQL = "mbCategory.status = ?";
 
 	public MBCategoryPersistenceImpl() {
 		setModelClass(MBCategory.class);

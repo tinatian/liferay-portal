@@ -562,7 +562,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "contact.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "contact.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByAccountId;
 	private FinderPath _finderPathWithoutPaginationFindByAccountId;
 	private FinderPath _finderPathCountByAccountId;
@@ -1046,7 +1046,7 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2 = "contact.accountId = ?";
+	private static final String _FINDER_COLUMN_ACCOUNTID_ACCOUNTID_2_SQL = "contact.accountId = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C;
 	private FinderPath _finderPathWithoutPaginationFindByC_C;
 	private FinderPath _finderPathCountByC_C;
@@ -1570,8 +1570,8 @@ public class ContactPersistenceImpl extends BasePersistenceImpl<Contact>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "contact.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "contact.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "contact.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "contact.classPK = ?";
 
 	public ContactPersistenceImpl() {
 		setModelClass(Contact.class);

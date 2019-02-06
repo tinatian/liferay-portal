@@ -600,8 +600,8 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TREEPATH_TREEPATH_2 = "syncDLObject.treePath LIKE ?";
-	private static final String _FINDER_COLUMN_TREEPATH_TREEPATH_3 = "(syncDLObject.treePath IS NULL OR syncDLObject.treePath LIKE '')";
+	private static final String _FINDER_COLUMN_TREEPATH_TREEPATH_2_SQL = "syncDLObject.treePath LIKE ?";
+	private static final String _FINDER_COLUMN_TREEPATH_TREEPATH_3_SQL = "(syncDLObject.treePath IS NULL OR syncDLObject.treePath LIKE '')";
 	private FinderPath _finderPathWithPaginationFindByM_R;
 	private FinderPath _finderPathWithPaginationCountByM_R;
 
@@ -1116,8 +1116,8 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_M_R_MODIFIEDTIME_2 = "syncDLObject.modifiedTime > ? AND ";
-	private static final String _FINDER_COLUMN_M_R_REPOSITORYID_2 = "syncDLObject.repositoryId = ?";
+	private static final String _FINDER_COLUMN_M_R_MODIFIEDTIME_2_SQL = "syncDLObject.modifiedTime > ? AND ";
+	private static final String _FINDER_COLUMN_M_R_REPOSITORYID_2_SQL = "syncDLObject.repositoryId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_P;
 	private FinderPath _finderPathWithoutPaginationFindByR_P;
 	private FinderPath _finderPathCountByR_P;
@@ -1641,8 +1641,8 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_P_REPOSITORYID_2 = "syncDLObject.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_P_PARENTFOLDERID_2 = "syncDLObject.parentFolderId = ?";
+	private static final String _FINDER_COLUMN_R_P_REPOSITORYID_2_SQL = "syncDLObject.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_P_PARENTFOLDERID_2_SQL = "syncDLObject.parentFolderId = ?";
 	private FinderPath _finderPathWithPaginationFindByR_NotE;
 	private FinderPath _finderPathWithPaginationCountByR_NotE;
 
@@ -2196,9 +2196,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_NOTE_REPOSITORYID_2 = "syncDLObject.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_NOTE_EVENT_2 = "syncDLObject.event != ?";
-	private static final String _FINDER_COLUMN_R_NOTE_EVENT_3 = "(syncDLObject.event IS NULL OR syncDLObject.event != '')";
+	private static final String _FINDER_COLUMN_R_NOTE_REPOSITORYID_2_SQL = "syncDLObject.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_NOTE_EVENT_2_SQL = "syncDLObject.event != ?";
+	private static final String _FINDER_COLUMN_R_NOTE_EVENT_3_SQL = "(syncDLObject.event IS NULL OR syncDLObject.event != '')";
 	private FinderPath _finderPathWithPaginationFindByR_T;
 	private FinderPath _finderPathWithoutPaginationFindByR_T;
 	private FinderPath _finderPathCountByR_T;
@@ -2331,12 +2331,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_T_TYPE_3);
+				query.append(_FINDER_COLUMN_R_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_R_T_TYPE_2);
+				query.append(_FINDER_COLUMN_R_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -2578,12 +2578,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_R_T_TYPE_3);
+			query.append(_FINDER_COLUMN_R_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_R_T_TYPE_2);
+			query.append(_FINDER_COLUMN_R_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -2718,12 +2718,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_T_TYPE_3);
+				query.append(_FINDER_COLUMN_R_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_R_T_TYPE_2);
+				query.append(_FINDER_COLUMN_R_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -2760,9 +2760,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_T_REPOSITORYID_2 = "syncDLObject.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_T_TYPE_2 = "syncDLObject.type = ?";
-	private static final String _FINDER_COLUMN_R_T_TYPE_3 = "(syncDLObject.type IS NULL OR syncDLObject.type = '')";
+	private static final String _FINDER_COLUMN_R_T_REPOSITORYID_2_SQL = "syncDLObject.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_T_TYPE_2_SQL = "syncDLObject.type_ = ?";
+	private static final String _FINDER_COLUMN_R_T_TYPE_3_SQL = "(syncDLObject.type_ IS NULL OR syncDLObject.type_ = '')";
 	private FinderPath _finderPathWithPaginationFindByT_NotE;
 	private FinderPath _finderPathWithPaginationCountByT_NotE;
 
@@ -3349,10 +3349,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_NOTE_TREEPATH_2 = "syncDLObject.treePath LIKE ? AND ";
-	private static final String _FINDER_COLUMN_T_NOTE_TREEPATH_3 = "(syncDLObject.treePath IS NULL OR syncDLObject.treePath LIKE '') AND ";
-	private static final String _FINDER_COLUMN_T_NOTE_EVENT_2 = "syncDLObject.event != ?";
-	private static final String _FINDER_COLUMN_T_NOTE_EVENT_3 = "(syncDLObject.event IS NULL OR syncDLObject.event != '')";
+	private static final String _FINDER_COLUMN_T_NOTE_TREEPATH_2_SQL = "syncDLObject.treePath LIKE ? AND ";
+	private static final String _FINDER_COLUMN_T_NOTE_TREEPATH_3_SQL = "(syncDLObject.treePath IS NULL OR syncDLObject.treePath LIKE '') AND ";
+	private static final String _FINDER_COLUMN_T_NOTE_EVENT_2_SQL = "syncDLObject.event != ?";
+	private static final String _FINDER_COLUMN_T_NOTE_EVENT_3_SQL = "(syncDLObject.event IS NULL OR syncDLObject.event != '')";
 	private FinderPath _finderPathWithPaginationFindByV_T;
 	private FinderPath _finderPathWithoutPaginationFindByV_T;
 	private FinderPath _finderPathCountByV_T;
@@ -3495,12 +3495,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_V_T_TYPE_3);
+				query.append(_FINDER_COLUMN_V_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_V_T_TYPE_2);
+				query.append(_FINDER_COLUMN_V_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -3754,12 +3754,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_V_T_TYPE_3);
+			query.append(_FINDER_COLUMN_V_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_V_T_TYPE_2);
+			query.append(_FINDER_COLUMN_V_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -3906,12 +3906,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_V_T_TYPE_3);
+				query.append(_FINDER_COLUMN_V_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_V_T_TYPE_2);
+				query.append(_FINDER_COLUMN_V_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -3950,10 +3950,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_V_T_VERSION_2 = "syncDLObject.version = ? AND ";
-	private static final String _FINDER_COLUMN_V_T_VERSION_3 = "(syncDLObject.version IS NULL OR syncDLObject.version = '') AND ";
-	private static final String _FINDER_COLUMN_V_T_TYPE_2 = "syncDLObject.type = ?";
-	private static final String _FINDER_COLUMN_V_T_TYPE_3 = "(syncDLObject.type IS NULL OR syncDLObject.type = '')";
+	private static final String _FINDER_COLUMN_V_T_VERSION_2_SQL = "syncDLObject.version = ? AND ";
+	private static final String _FINDER_COLUMN_V_T_VERSION_3_SQL = "(syncDLObject.version IS NULL OR syncDLObject.version = '') AND ";
+	private static final String _FINDER_COLUMN_V_T_TYPE_2_SQL = "syncDLObject.type_ = ?";
+	private static final String _FINDER_COLUMN_V_T_TYPE_3_SQL = "(syncDLObject.type_ IS NULL OR syncDLObject.type_ = '')";
 	private FinderPath _finderPathFetchByT_T;
 	private FinderPath _finderPathCountByT_T;
 
@@ -4044,12 +4044,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_T_TYPE_3);
+				query.append(_FINDER_COLUMN_T_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_T_T_TYPE_2);
+				query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_T_T_TYPEPK_2);
@@ -4143,12 +4143,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_T_T_TYPE_3);
+				query.append(_FINDER_COLUMN_T_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_T_T_TYPE_2);
+				query.append(_FINDER_COLUMN_T_T_TYPE_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_T_T_TYPEPK_2);
@@ -4187,9 +4187,9 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_T_TYPE_2 = "syncDLObject.type = ? AND ";
-	private static final String _FINDER_COLUMN_T_T_TYPE_3 = "(syncDLObject.type IS NULL OR syncDLObject.type = '') AND ";
-	private static final String _FINDER_COLUMN_T_T_TYPEPK_2 = "syncDLObject.typePK = ?";
+	private static final String _FINDER_COLUMN_T_T_TYPE_2_SQL = "syncDLObject.type_ = ? AND ";
+	private static final String _FINDER_COLUMN_T_T_TYPE_3_SQL = "(syncDLObject.type_ IS NULL OR syncDLObject.type_ = '') AND ";
+	private static final String _FINDER_COLUMN_T_T_TYPEPK_2_SQL = "syncDLObject.typePK = ?";
 	private FinderPath _finderPathWithPaginationFindByM_R_NotE;
 	private FinderPath _finderPathWithPaginationCountByM_R_NotE;
 
@@ -5122,10 +5122,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2 = "syncDLObject.modifiedTime > ? AND ";
-	private static final String _FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2 = "syncDLObject.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_M_R_NOTE_EVENT_2 = "syncDLObject.event != ?";
-	private static final String _FINDER_COLUMN_M_R_NOTE_EVENT_3 = "(syncDLObject.event IS NULL OR syncDLObject.event != '')";
+	private static final String _FINDER_COLUMN_M_R_NOTE_MODIFIEDTIME_2_SQL = "syncDLObject.modifiedTime > ? AND ";
+	private static final String _FINDER_COLUMN_M_R_NOTE_REPOSITORYID_2_SQL = "syncDLObject.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_M_R_NOTE_EVENT_2_SQL = "syncDLObject.event != ?";
+	private static final String _FINDER_COLUMN_M_R_NOTE_EVENT_3_SQL = "(syncDLObject.event IS NULL OR syncDLObject.event != '')";
 	private FinderPath _finderPathWithPaginationFindByR_P_T;
 	private FinderPath _finderPathWithoutPaginationFindByR_P_T;
 	private FinderPath _finderPathCountByR_P_T;
@@ -5270,12 +5270,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_P_T_TYPE_3);
+				query.append(_FINDER_COLUMN_R_P_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_R_P_T_TYPE_2);
+				query.append(_FINDER_COLUMN_R_P_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -5537,12 +5537,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_R_P_T_TYPE_3);
+			query.append(_FINDER_COLUMN_R_P_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_R_P_T_TYPE_2);
+			query.append(_FINDER_COLUMN_R_P_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -5792,10 +5792,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 					String type = types[i];
 
 					if (type.isEmpty()) {
-						query.append(_FINDER_COLUMN_R_P_T_TYPE_3);
+						query.append(_FINDER_COLUMN_R_P_T_TYPE_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_R_P_T_TYPE_2);
+						query.append(_FINDER_COLUMN_R_P_T_TYPE_2_SQL);
 					}
 
 					if ((i + 1) < types.length) {
@@ -5917,12 +5917,12 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_R_P_T_TYPE_3);
+				query.append(_FINDER_COLUMN_R_P_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_R_P_T_TYPE_2);
+				query.append(_FINDER_COLUMN_R_P_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -6008,10 +6008,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 					String type = types[i];
 
 					if (type.isEmpty()) {
-						query.append(_FINDER_COLUMN_R_P_T_TYPE_3);
+						query.append(_FINDER_COLUMN_R_P_T_TYPE_3_SQL);
 					}
 					else {
-						query.append(_FINDER_COLUMN_R_P_T_TYPE_2);
+						query.append(_FINDER_COLUMN_R_P_T_TYPE_2_SQL);
 					}
 
 					if ((i + 1) < types.length) {
@@ -6065,10 +6065,10 @@ public class SyncDLObjectPersistenceImpl extends BasePersistenceImpl<SyncDLObjec
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_P_T_REPOSITORYID_2 = "syncDLObject.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_P_T_PARENTFOLDERID_2 = "syncDLObject.parentFolderId = ? AND ";
-	private static final String _FINDER_COLUMN_R_P_T_TYPE_2 = "syncDLObject.type = ?";
-	private static final String _FINDER_COLUMN_R_P_T_TYPE_3 = "(syncDLObject.type IS NULL OR syncDLObject.type = '')";
+	private static final String _FINDER_COLUMN_R_P_T_REPOSITORYID_2_SQL = "syncDLObject.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_P_T_PARENTFOLDERID_2_SQL = "syncDLObject.parentFolderId = ? AND ";
+	private static final String _FINDER_COLUMN_R_P_T_TYPE_2_SQL = "syncDLObject.type_ = ?";
+	private static final String _FINDER_COLUMN_R_P_T_TYPE_3_SQL = "(syncDLObject.type_ IS NULL OR syncDLObject.type_ = '')";
 
 	public SyncDLObjectPersistenceImpl() {
 		setModelClass(SyncDLObject.class);

@@ -573,7 +573,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "oAuth2Authorization.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "oAuth2Authorization.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByOAuth2ApplicationId;
 	private FinderPath _finderPathWithoutPaginationFindByOAuth2ApplicationId;
 	private FinderPath _finderPathCountByOAuth2ApplicationId;
@@ -1078,7 +1078,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2 =
+	private static final String _FINDER_COLUMN_OAUTH2APPLICATIONID_OAUTH2APPLICATIONID_2_SQL =
 		"oAuth2Authorization.oAuth2ApplicationId = ?";
 	private FinderPath _finderPathWithPaginationFindByAccessTokenContentHash;
 	private FinderPath _finderPathWithoutPaginationFindByAccessTokenContentHash;
@@ -1586,7 +1586,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2 =
+	private static final String _FINDER_COLUMN_ACCESSTOKENCONTENTHASH_ACCESSTOKENCONTENTHASH_2_SQL =
 		"oAuth2Authorization.accessTokenContentHash = ?";
 	private FinderPath _finderPathWithPaginationFindByRefreshTokenContentHash;
 	private FinderPath _finderPathWithoutPaginationFindByRefreshTokenContentHash;
@@ -2094,7 +2094,7 @@ public class OAuth2AuthorizationPersistenceImpl extends BasePersistenceImpl<OAut
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2 =
+	private static final String _FINDER_COLUMN_REFRESHTOKENCONTENTHASH_REFRESHTOKENCONTENTHASH_2_SQL =
 		"oAuth2Authorization.refreshTokenContentHash = ?";
 
 	public OAuth2AuthorizationPersistenceImpl() {

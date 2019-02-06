@@ -215,12 +215,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -442,12 +442,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -577,12 +577,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -617,8 +617,8 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "layout.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(layout.uuid IS NULL OR layout.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "layout.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(layout.uuid_ IS NULL OR layout.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G_P;
 	private FinderPath _finderPathCountByUUID_G_P;
 
@@ -717,12 +717,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_P_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_P_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_P_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_P_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_P_GROUPID_2);
@@ -824,12 +824,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_P_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_P_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_P_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_P_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_P_GROUPID_2);
@@ -872,10 +872,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_P_UUID_2 = "layout.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_P_UUID_3 = "(layout.uuid IS NULL OR layout.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_P_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_P_PRIVATELAYOUT_2 = "layout.privateLayout = ?";
+	private static final String _FINDER_COLUMN_UUID_G_P_UUID_2_SQL = "layout.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_P_UUID_3_SQL = "(layout.uuid_ IS NULL OR layout.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_P_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_P_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -1006,12 +1006,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1250,12 +1250,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1391,12 +1391,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1435,9 +1435,9 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "layout.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(layout.uuid IS NULL OR layout.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "layout.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "layout.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(layout.uuid_ IS NULL OR layout.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "layout.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -2275,7 +2275,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "layout.groupId = ? AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "layout.groupId = ? AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2759,7 +2759,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "layout.companyId = ? AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "layout.companyId = ? AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByParentPlid;
 	private FinderPath _finderPathWithoutPaginationFindByParentPlid;
 	private FinderPath _finderPathCountByParentPlid;
@@ -3243,7 +3243,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PARENTPLID_PARENTPLID_2 = "layout.parentPlid = ? AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_PARENTPLID_PARENTPLID_2_SQL = "layout.parentPlid = ? AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathFetchByIconImageId;
 	private FinderPath _finderPathCountByIconImageId;
 
@@ -3446,7 +3446,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ICONIMAGEID_ICONIMAGEID_2 = "layout.iconImageId = ?";
+	private static final String _FINDER_COLUMN_ICONIMAGEID_ICONIMAGEID_2_SQL = "layout.iconImageId = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutPrototypeUuid;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutPrototypeUuid;
 	private FinderPath _finderPathCountByLayoutPrototypeUuid;
@@ -3980,10 +3980,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTPROTOTYPEUUID_LAYOUTPROTOTYPEUUID_2 =
-		"layout.layoutPrototypeUuid = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_LAYOUTPROTOTYPEUUID_LAYOUTPROTOTYPEUUID_3 =
-		"(layout.layoutPrototypeUuid IS NULL OR layout.layoutPrototypeUuid = '') AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_LAYOUTPROTOTYPEUUID_LAYOUTPROTOTYPEUUID_2_SQL =
+		"layout.layoutPrototypeUuid = ? AND layout.system_ = [$FALSE$]";
+	private static final String _FINDER_COLUMN_LAYOUTPROTOTYPEUUID_LAYOUTPROTOTYPEUUID_3_SQL =
+		"(layout.layoutPrototypeUuid IS NULL OR layout.layoutPrototypeUuid = '') AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindBySourcePrototypeLayoutUuid;
 	private FinderPath _finderPathWithoutPaginationFindBySourcePrototypeLayoutUuid;
 	private FinderPath _finderPathCountBySourcePrototypeLayoutUuid;
@@ -4531,10 +4531,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SOURCEPROTOTYPELAYOUTUUID_SOURCEPROTOTYPELAYOUTUUID_2 =
-		"layout.sourcePrototypeLayoutUuid = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_SOURCEPROTOTYPELAYOUTUUID_SOURCEPROTOTYPELAYOUTUUID_3 =
-		"(layout.sourcePrototypeLayoutUuid IS NULL OR layout.sourcePrototypeLayoutUuid = '') AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_SOURCEPROTOTYPELAYOUTUUID_SOURCEPROTOTYPELAYOUTUUID_2_SQL =
+		"layout.sourcePrototypeLayoutUuid = ? AND layout.system_ = [$FALSE$]";
+	private static final String _FINDER_COLUMN_SOURCEPROTOTYPELAYOUTUUID_SOURCEPROTOTYPELAYOUTUUID_3_SQL =
+		"(layout.sourcePrototypeLayoutUuid IS NULL OR layout.sourcePrototypeLayoutUuid = '') AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByG_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_P;
 	private FinderPath _finderPathCountByG_P;
@@ -5433,8 +5433,8 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_P_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByG_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_T;
 	private FinderPath _finderPathCountByG_T;
@@ -5566,12 +5566,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_TYPE_3);
+				query.append(_FINDER_COLUMN_G_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_G_T_TYPE_2);
+				query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -5809,12 +5809,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_T_TYPE_3);
+			query.append(_FINDER_COLUMN_G_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_G_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -6296,12 +6296,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_T_TYPE_3);
+				query.append(_FINDER_COLUMN_G_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_G_T_TYPE_2);
+				query.append(_FINDER_COLUMN_G_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -6404,11 +6404,9 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_T_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_T_TYPE_2 = "layout.type = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_T_TYPE_3 = "(layout.type IS NULL OR layout.type = '') AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_T_TYPE_2_SQL = "layout.type_ = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_T_TYPE_3_SQL = "(layout.type_ IS NULL OR layout.type_ = '') AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_T_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_T_TYPE_2_SQL = "layout.type_ = ? AND layout.system_ = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_T_TYPE_3_SQL = "(layout.type_ IS NULL OR layout.type_ = '') AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByC_L;
 	private FinderPath _finderPathWithoutPaginationFindByC_L;
 	private FinderPath _finderPathCountByC_L;
@@ -6972,9 +6970,9 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_L_COMPANYID_2 = "layout.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_L_LAYOUTPROTOTYPEUUID_2 = "layout.layoutPrototypeUuid = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_C_L_LAYOUTPROTOTYPEUUID_3 = "(layout.layoutPrototypeUuid IS NULL OR layout.layoutPrototypeUuid = '') AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_L_COMPANYID_2_SQL = "layout.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_L_LAYOUTPROTOTYPEUUID_2_SQL = "layout.layoutPrototypeUuid = ? AND layout.system_ = [$FALSE$]";
+	private static final String _FINDER_COLUMN_C_L_LAYOUTPROTOTYPEUUID_3_SQL = "(layout.layoutPrototypeUuid IS NULL OR layout.layoutPrototypeUuid = '') AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathFetchByP_I;
 	private FinderPath _finderPathCountByP_I;
 
@@ -7194,8 +7192,8 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_P_I_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_P_I_ICONIMAGEID_2 = "layout.iconImageId = ?";
+	private static final String _FINDER_COLUMN_P_I_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_P_I_ICONIMAGEID_2_SQL = "layout.iconImageId = ?";
 	private FinderPath _finderPathFetchByG_P_L;
 	private FinderPath _finderPathCountByG_P_L;
 
@@ -7422,9 +7420,9 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_L_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_L_LAYOUTID_2 = "layout.layoutId = ?";
+	private static final String _FINDER_COLUMN_G_P_L_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_L_LAYOUTID_2_SQL = "layout.layoutId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_P_P;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_P;
 	private FinderPath _finderPathCountByG_P_P;
@@ -8342,7 +8340,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
 
-		query.append(" AND layout.system = [$FALSE$]");
+		query.append(" AND layout.system_ = [$FALSE$]");
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			query.append(_FILTER_SQL_SELECT_LAYOUT_NO_INLINE_DISTINCT_WHERE_2);
@@ -8606,7 +8604,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
 
-		query.append(" AND layout.system = [$FALSE$]");
+		query.append(" AND layout.system_ = [$FALSE$]");
 
 		if (orderByComparator != null) {
 			appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -8822,7 +8820,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
 
-		query.append(" AND layout.system = [$FALSE$]");
+		query.append(" AND layout.system_ = [$FALSE$]");
 
 		String sql = query.toString();
 
@@ -8957,7 +8955,7 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)),
 			query.index() - 1);
 
-		query.append(" AND layout.system = [$FALSE$]");
+		query.append(" AND layout.system_ = [$FALSE$]");
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
 				Layout.class.getName(), _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN,
@@ -8991,10 +8989,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_P_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_P_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_P_PARENTLAYOUTID_2 = "layout.parentLayoutId = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_P_P_PARENTLAYOUTID_7 = "layout.parentLayoutId IN (";
+	private static final String _FINDER_COLUMN_G_P_P_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_P_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_P_PARENTLAYOUTID_2_SQL = "layout.parentLayoutId = ? AND layout.system_ = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_P_P_PARENTLAYOUTID_7_SQL = "layout.parentLayoutId IN (";
 	private FinderPath _finderPathWithPaginationFindByG_P_T;
 	private FinderPath _finderPathWithoutPaginationFindByG_P_T;
 	private FinderPath _finderPathCountByG_P_T;
@@ -9137,12 +9135,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_T_TYPE_3);
+				query.append(_FINDER_COLUMN_G_P_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_G_P_T_TYPE_2);
+				query.append(_FINDER_COLUMN_G_P_T_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -9399,12 +9397,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_G_P_T_TYPE_3);
+			query.append(_FINDER_COLUMN_G_P_T_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_G_P_T_TYPE_2);
+			query.append(_FINDER_COLUMN_G_P_T_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -9909,12 +9907,12 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_G_P_T_TYPE_3);
+				query.append(_FINDER_COLUMN_G_P_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_G_P_T_TYPE_2);
+				query.append(_FINDER_COLUMN_G_P_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -10025,12 +10023,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_T_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_T_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_T_TYPE_2 = "layout.type = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_P_T_TYPE_3 = "(layout.type IS NULL OR layout.type = '') AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_P_T_TYPE_2_SQL = "layout.type_ = ? AND layout.system = [$FALSE$]";
-	private static final String _FINDER_COLUMN_G_P_T_TYPE_3_SQL = "(layout.type_ IS NULL OR layout.type_ = '') AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_P_T_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_T_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_T_TYPE_2_SQL = "layout.type_ = ? AND layout.system_ = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_P_T_TYPE_3_SQL = "(layout.type_ IS NULL OR layout.type_ = '') AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathFetchByG_P_F;
 	private FinderPath _finderPathCountByG_P_F;
 
@@ -10284,10 +10280,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_F_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_F_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_F_FRIENDLYURL_2 = "layout.friendlyURL = ?";
-	private static final String _FINDER_COLUMN_G_P_F_FRIENDLYURL_3 = "(layout.friendlyURL IS NULL OR layout.friendlyURL = '')";
+	private static final String _FINDER_COLUMN_G_P_F_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_F_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_F_FRIENDLYURL_2_SQL = "layout.friendlyURL = ?";
+	private static final String _FINDER_COLUMN_G_P_F_FRIENDLYURL_3_SQL = "(layout.friendlyURL IS NULL OR layout.friendlyURL = '')";
 	private FinderPath _finderPathFetchByG_P_SPLU;
 	private FinderPath _finderPathCountByG_P_SPLU;
 
@@ -10563,11 +10559,11 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_P_SPLU_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_SPLU_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_SPLU_SOURCEPROTOTYPELAYOUTUUID_2 =
+	private static final String _FINDER_COLUMN_G_P_SPLU_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_SPLU_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_SPLU_SOURCEPROTOTYPELAYOUTUUID_2_SQL =
 		"layout.sourcePrototypeLayoutUuid = ?";
-	private static final String _FINDER_COLUMN_G_P_SPLU_SOURCEPROTOTYPELAYOUTUUID_3 =
+	private static final String _FINDER_COLUMN_G_P_SPLU_SOURCEPROTOTYPELAYOUTUUID_3_SQL =
 		"(layout.sourcePrototypeLayoutUuid IS NULL OR layout.sourcePrototypeLayoutUuid = '')";
 	private FinderPath _finderPathWithPaginationFindByG_P_GtLP_LtRP;
 	private FinderPath _finderPathWithPaginationCountByG_P_GtLP_LtRP;
@@ -11575,10 +11571,11 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_LEFTPLID_2 = "layout.leftPlid > ? AND ";
-	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_RIGHTPLID_2 = "layout.rightPlid < ? AND ";
-	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_LEFTPLID_2_SQL = "layout.leftPlid > ? AND ";
+	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_RIGHTPLID_2_SQL = "layout.rightPlid < ? AND ";
+	private static final String _FINDER_COLUMN_G_P_GTLP_LTRP_PRIVATELAYOUT_2_SQL =
+		"layout.privateLayout = ? AND layout.system_ = [$FALSE$]";
 	private FinderPath _finderPathWithPaginationFindByG_P_P_LtP;
 	private FinderPath _finderPathWithPaginationCountByG_P_P_LtP;
 
@@ -12588,10 +12585,10 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_P_LTP_GROUPID_2 = "layout.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_P_LTP_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_P_LTP_PARENTLAYOUTID_2 = "layout.parentLayoutId = ? AND ";
-	private static final String _FINDER_COLUMN_G_P_P_LTP_PRIORITY_2 = "layout.priority <= ? AND layout.system = [$FALSE$]";
+	private static final String _FINDER_COLUMN_G_P_P_LTP_GROUPID_2_SQL = "layout.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_P_LTP_PRIVATELAYOUT_2_SQL = "layout.privateLayout = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_P_LTP_PARENTLAYOUTID_2_SQL = "layout.parentLayoutId = ? AND ";
+	private static final String _FINDER_COLUMN_G_P_P_LTP_PRIORITY_2_SQL = "layout.priority <= ? AND layout.system_ = [$FALSE$]";
 
 	public LayoutPersistenceImpl() {
 		setModelClass(Layout.class);

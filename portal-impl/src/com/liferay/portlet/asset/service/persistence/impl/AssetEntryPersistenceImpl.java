@@ -577,7 +577,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "assetEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "assetEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -1065,7 +1065,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "assetEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "assetEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByVisible;
 	private FinderPath _finderPathWithoutPaginationFindByVisible;
 	private FinderPath _finderPathCountByVisible;
@@ -1180,7 +1180,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_VISIBLE_VISIBLE_2);
+			query.append(_FINDER_COLUMN_VISIBLE_VISIBLE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1395,7 +1395,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 		query.append(_SQL_SELECT_ASSETENTRY_WHERE);
 
-		query.append(_FINDER_COLUMN_VISIBLE_VISIBLE_2);
+		query.append(_FINDER_COLUMN_VISIBLE_VISIBLE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1517,7 +1517,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_SQL_COUNT_ASSETENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_VISIBLE_VISIBLE_2);
+			query.append(_FINDER_COLUMN_VISIBLE_VISIBLE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1549,7 +1549,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_VISIBLE_VISIBLE_2 = "assetEntry.visible = ?";
+	private static final String _FINDER_COLUMN_VISIBLE_VISIBLE_2_SQL = "assetEntry.visible_ = ?";
 	private FinderPath _finderPathWithPaginationFindByPublishDate;
 	private FinderPath _finderPathWithoutPaginationFindByPublishDate;
 	private FinderPath _finderPathCountByPublishDate;
@@ -2076,8 +2076,8 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1 = "assetEntry.publishDate IS NULL";
-	private static final String _FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2 = "assetEntry.publishDate = ?";
+	private static final String _FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_1_SQL = "assetEntry.publishDate IS NULL";
+	private static final String _FINDER_COLUMN_PUBLISHDATE_PUBLISHDATE_2_SQL = "assetEntry.publishDate = ?";
 	private FinderPath _finderPathWithPaginationFindByExpirationDate;
 	private FinderPath _finderPathWithoutPaginationFindByExpirationDate;
 	private FinderPath _finderPathCountByExpirationDate;
@@ -2605,8 +2605,10 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1 = "assetEntry.expirationDate IS NULL";
-	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2 = "assetEntry.expirationDate = ?";
+	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_1_SQL =
+		"assetEntry.expirationDate IS NULL";
+	private static final String _FINDER_COLUMN_EXPIRATIONDATE_EXPIRATIONDATE_2_SQL =
+		"assetEntry.expirationDate = ?";
 	private FinderPath _finderPathWithPaginationFindByLayoutUuid;
 	private FinderPath _finderPathWithoutPaginationFindByLayoutUuid;
 	private FinderPath _finderPathCountByLayoutUuid;
@@ -3134,8 +3136,8 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2 = "assetEntry.layoutUuid = ?";
-	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3 = "(assetEntry.layoutUuid IS NULL OR assetEntry.layoutUuid = '')";
+	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_2_SQL = "assetEntry.layoutUuid = ?";
+	private static final String _FINDER_COLUMN_LAYOUTUUID_LAYOUTUUID_3_SQL = "(assetEntry.layoutUuid IS NULL OR assetEntry.layoutUuid = '')";
 	private FinderPath _finderPathFetchByG_CU;
 	private FinderPath _finderPathCountByG_CU;
 
@@ -3381,9 +3383,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_CU_GROUPID_2 = "assetEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_CU_CLASSUUID_2 = "assetEntry.classUuid = ?";
-	private static final String _FINDER_COLUMN_G_CU_CLASSUUID_3 = "(assetEntry.classUuid IS NULL OR assetEntry.classUuid = '')";
+	private static final String _FINDER_COLUMN_G_CU_GROUPID_2_SQL = "assetEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_CU_CLASSUUID_2_SQL = "assetEntry.classUuid = ?";
+	private static final String _FINDER_COLUMN_G_CU_CLASSUUID_3_SQL = "(assetEntry.classUuid IS NULL OR assetEntry.classUuid = '')";
 	private FinderPath _finderPathFetchByC_C;
 	private FinderPath _finderPathCountByC_C;
 
@@ -3592,8 +3594,8 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 = "assetEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 = "assetEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2_SQL = "assetEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2_SQL = "assetEntry.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_V;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_V;
 	private FinderPath _finderPathCountByG_C_V;
@@ -3732,7 +3734,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2);
+			query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -3981,7 +3983,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 		query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2);
 
-		query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2);
+		query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -4115,7 +4117,7 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 
 			query.append(_FINDER_COLUMN_G_C_V_CLASSNAMEID_2);
 
-			query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2);
+			query.append(_FINDER_COLUMN_G_C_V_VISIBLE_2_SQL);
 
 			String sql = query.toString();
 
@@ -4151,9 +4153,9 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_V_GROUPID_2 = "assetEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_V_CLASSNAMEID_2 = "assetEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_V_VISIBLE_2 = "assetEntry.visible = ?";
+	private static final String _FINDER_COLUMN_G_C_V_GROUPID_2_SQL = "assetEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_V_CLASSNAMEID_2_SQL = "assetEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_V_VISIBLE_2_SQL = "assetEntry.visible_ = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_P_E;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_P_E;
 	private FinderPath _finderPathCountByG_C_P_E;
@@ -4828,12 +4830,12 @@ public class AssetEntryPersistenceImpl extends BasePersistenceImpl<AssetEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_P_E_GROUPID_2 = "assetEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2 = "assetEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1 = "assetEntry.publishDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2 = "assetEntry.publishDate = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1 = "assetEntry.expirationDate IS NULL";
-	private static final String _FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2 = "assetEntry.expirationDate = ?";
+	private static final String _FINDER_COLUMN_G_C_P_E_GROUPID_2_SQL = "assetEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_P_E_CLASSNAMEID_2_SQL = "assetEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_P_E_PUBLISHDATE_1_SQL = "assetEntry.publishDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_G_C_P_E_PUBLISHDATE_2_SQL = "assetEntry.publishDate = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_1_SQL = "assetEntry.expirationDate IS NULL";
+	private static final String _FINDER_COLUMN_G_C_P_E_EXPIRATIONDATE_2_SQL = "assetEntry.expirationDate = ?";
 
 	public AssetEntryPersistenceImpl() {
 		setModelClass(AssetEntry.class);

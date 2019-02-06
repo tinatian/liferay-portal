@@ -570,7 +570,7 @@ public class KaleoTransitionPersistenceImpl extends BasePersistenceImpl<KaleoTra
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "kaleoTransition.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "kaleoTransition.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoDefinitionVersionId;
 	private FinderPath _finderPathCountByKaleoDefinitionVersionId;
@@ -1076,7 +1076,7 @@ public class KaleoTransitionPersistenceImpl extends BasePersistenceImpl<KaleoTra
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2 =
+	private static final String _FINDER_COLUMN_KALEODEFINITIONVERSIONID_KALEODEFINITIONVERSIONID_2_SQL =
 		"kaleoTransition.kaleoDefinitionVersionId = ?";
 	private FinderPath _finderPathWithPaginationFindByKaleoNodeId;
 	private FinderPath _finderPathWithoutPaginationFindByKaleoNodeId;
@@ -1567,7 +1567,7 @@ public class KaleoTransitionPersistenceImpl extends BasePersistenceImpl<KaleoTra
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KALEONODEID_KALEONODEID_2 = "kaleoTransition.kaleoNodeId = ?";
+	private static final String _FINDER_COLUMN_KALEONODEID_KALEONODEID_2_SQL = "kaleoTransition.kaleoNodeId = ?";
 	private FinderPath _finderPathFetchByKNI_N;
 	private FinderPath _finderPathCountByKNI_N;
 
@@ -1812,9 +1812,9 @@ public class KaleoTransitionPersistenceImpl extends BasePersistenceImpl<KaleoTra
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KNI_N_KALEONODEID_2 = "kaleoTransition.kaleoNodeId = ? AND ";
-	private static final String _FINDER_COLUMN_KNI_N_NAME_2 = "kaleoTransition.name = ?";
-	private static final String _FINDER_COLUMN_KNI_N_NAME_3 = "(kaleoTransition.name IS NULL OR kaleoTransition.name = '')";
+	private static final String _FINDER_COLUMN_KNI_N_KALEONODEID_2_SQL = "kaleoTransition.kaleoNodeId = ? AND ";
+	private static final String _FINDER_COLUMN_KNI_N_NAME_2_SQL = "kaleoTransition.name = ?";
+	private static final String _FINDER_COLUMN_KNI_N_NAME_3_SQL = "(kaleoTransition.name IS NULL OR kaleoTransition.name = '')";
 	private FinderPath _finderPathFetchByKNI_DT;
 	private FinderPath _finderPathCountByKNI_DT;
 
@@ -2036,8 +2036,8 @@ public class KaleoTransitionPersistenceImpl extends BasePersistenceImpl<KaleoTra
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KNI_DT_KALEONODEID_2 = "kaleoTransition.kaleoNodeId = ? AND ";
-	private static final String _FINDER_COLUMN_KNI_DT_DEFAULTTRANSITION_2 = "kaleoTransition.defaultTransition = ?";
+	private static final String _FINDER_COLUMN_KNI_DT_KALEONODEID_2_SQL = "kaleoTransition.kaleoNodeId = ? AND ";
+	private static final String _FINDER_COLUMN_KNI_DT_DEFAULTTRANSITION_2_SQL = "kaleoTransition.defaultTransition = ?";
 
 	public KaleoTransitionPersistenceImpl() {
 		setModelClass(KaleoTransition.class);

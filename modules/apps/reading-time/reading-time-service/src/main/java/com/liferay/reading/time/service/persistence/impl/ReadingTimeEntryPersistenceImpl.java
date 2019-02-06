@@ -203,12 +203,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -433,12 +433,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -567,12 +567,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -607,8 +607,8 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "readingTimeEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(readingTimeEntry.uuid IS NULL OR readingTimeEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "readingTimeEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(readingTimeEntry.uuid_ IS NULL OR readingTimeEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -699,12 +699,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -798,12 +798,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -842,9 +842,9 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "readingTimeEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(readingTimeEntry.uuid IS NULL OR readingTimeEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "readingTimeEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "readingTimeEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(readingTimeEntry.uuid_ IS NULL OR readingTimeEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "readingTimeEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -977,12 +977,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1224,12 +1224,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1364,12 +1364,12 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1408,9 +1408,9 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "readingTimeEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(readingTimeEntry.uuid IS NULL OR readingTimeEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "readingTimeEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "readingTimeEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(readingTimeEntry.uuid_ IS NULL OR readingTimeEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "readingTimeEntry.companyId = ?";
 	private FinderPath _finderPathFetchByG_C_C;
 	private FinderPath _finderPathCountByG_C_C;
 
@@ -1638,9 +1638,9 @@ public class ReadingTimeEntryPersistenceImpl extends BasePersistenceImpl<Reading
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2 = "readingTimeEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2 = "readingTimeEntry.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2 = "readingTimeEntry.classPK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2_SQL = "readingTimeEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL = "readingTimeEntry.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2_SQL = "readingTimeEntry.classPK = ?";
 
 	public ReadingTimeEntryPersistenceImpl() {
 		setModelClass(ReadingTimeEntry.class);

@@ -205,12 +205,12 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -432,12 +432,12 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -897,12 +897,12 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -997,8 +997,6 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "gadget.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(gadget.uuid IS NULL OR gadget.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "gadget.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(gadget.uuid_ IS NULL OR gadget.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1131,12 +1129,12 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1375,12 +1373,12 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1861,12 +1859,12 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1970,11 +1968,9 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "gadget.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(gadget.uuid IS NULL OR gadget.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "gadget.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(gadget.uuid_ IS NULL OR gadget.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "gadget.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "gadget.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2811,7 +2807,7 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "gadget.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "gadget.companyId = ?";
 	private FinderPath _finderPathFetchByC_U;
 	private FinderPath _finderPathCountByC_U;
 
@@ -3046,9 +3042,9 @@ public class GadgetPersistenceImpl extends BasePersistenceImpl<Gadget>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_U_COMPANYID_2 = "gadget.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_U_URL_2 = "gadget.url = ?";
-	private static final String _FINDER_COLUMN_C_U_URL_3 = "(gadget.url IS NULL OR gadget.url = '')";
+	private static final String _FINDER_COLUMN_C_U_COMPANYID_2_SQL = "gadget.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_U_URL_2_SQL = "gadget.url = ?";
+	private static final String _FINDER_COLUMN_C_U_URL_3_SQL = "(gadget.url IS NULL OR gadget.url = '')";
 
 	public GadgetPersistenceImpl() {
 		setModelClass(Gadget.class);

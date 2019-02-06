@@ -573,7 +573,7 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2 =
+	private static final String _FINDER_COLUMN_LAYOUTSETBRANCHID_LAYOUTSETBRANCHID_2_SQL =
 		"layoutBranch.layoutSetBranchId = ?";
 	private FinderPath _finderPathWithPaginationFindByL_P;
 	private FinderPath _finderPathWithoutPaginationFindByL_P;
@@ -1099,8 +1099,8 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2 = "layoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_PLID_2 = "layoutBranch.plid = ?";
+	private static final String _FINDER_COLUMN_L_P_LAYOUTSETBRANCHID_2_SQL = "layoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_PLID_2_SQL = "layoutBranch.plid = ?";
 	private FinderPath _finderPathFetchByL_P_N;
 	private FinderPath _finderPathCountByL_P_N;
 
@@ -1353,10 +1353,10 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_N_LAYOUTSETBRANCHID_2 = "layoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_N_PLID_2 = "layoutBranch.plid = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_N_NAME_2 = "layoutBranch.name = ?";
-	private static final String _FINDER_COLUMN_L_P_N_NAME_3 = "(layoutBranch.name IS NULL OR layoutBranch.name = '')";
+	private static final String _FINDER_COLUMN_L_P_N_LAYOUTSETBRANCHID_2_SQL = "layoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_N_PLID_2_SQL = "layoutBranch.plid = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_N_NAME_2_SQL = "layoutBranch.name = ?";
+	private static final String _FINDER_COLUMN_L_P_N_NAME_3_SQL = "(layoutBranch.name IS NULL OR layoutBranch.name = '')";
 	private FinderPath _finderPathWithPaginationFindByL_P_M;
 	private FinderPath _finderPathWithoutPaginationFindByL_P_M;
 	private FinderPath _finderPathCountByL_P_M;
@@ -1915,9 +1915,9 @@ public class LayoutBranchPersistenceImpl extends BasePersistenceImpl<LayoutBranc
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_L_P_M_LAYOUTSETBRANCHID_2 = "layoutBranch.layoutSetBranchId = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_M_PLID_2 = "layoutBranch.plid = ? AND ";
-	private static final String _FINDER_COLUMN_L_P_M_MASTER_2 = "layoutBranch.master = ?";
+	private static final String _FINDER_COLUMN_L_P_M_LAYOUTSETBRANCHID_2_SQL = "layoutBranch.layoutSetBranchId = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_M_PLID_2_SQL = "layoutBranch.plid = ? AND ";
+	private static final String _FINDER_COLUMN_L_P_M_MASTER_2_SQL = "layoutBranch.master = ?";
 
 	public LayoutBranchPersistenceImpl() {
 		setModelClass(LayoutBranch.class);

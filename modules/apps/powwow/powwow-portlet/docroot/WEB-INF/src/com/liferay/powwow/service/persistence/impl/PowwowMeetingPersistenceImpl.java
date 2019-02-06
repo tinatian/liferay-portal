@@ -929,7 +929,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "powwowMeeting.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "powwowMeeting.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByPowwowServerId;
 	private FinderPath _finderPathWithoutPaginationFindByPowwowServerId;
 	private FinderPath _finderPathCountByPowwowServerId;
@@ -1424,7 +1424,8 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2 = "powwowMeeting.powwowServerId = ?";
+	private static final String _FINDER_COLUMN_POWWOWSERVERID_POWWOWSERVERID_2_SQL =
+		"powwowMeeting.powwowServerId = ?";
 	private FinderPath _finderPathWithPaginationFindByStatus;
 	private FinderPath _finderPathWithoutPaginationFindByStatus;
 	private FinderPath _finderPathCountByStatus;
@@ -1910,7 +1911,7 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUS_STATUS_2 = "powwowMeeting.status = ?";
+	private static final String _FINDER_COLUMN_STATUS_STATUS_2_SQL = "powwowMeeting.status = ?";
 	private FinderPath _finderPathWithPaginationFindByU_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_S;
 	private FinderPath _finderPathCountByU_S;
@@ -2434,8 +2435,8 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_S_USERID_2 = "powwowMeeting.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_S_STATUS_2 = "powwowMeeting.status = ?";
+	private static final String _FINDER_COLUMN_U_S_USERID_2_SQL = "powwowMeeting.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_S_STATUS_2_SQL = "powwowMeeting.status = ?";
 	private FinderPath _finderPathWithPaginationFindByPSI_S;
 	private FinderPath _finderPathWithoutPaginationFindByPSI_S;
 	private FinderPath _finderPathCountByPSI_S;
@@ -2960,8 +2961,8 @@ public class PowwowMeetingPersistenceImpl extends BasePersistenceImpl<PowwowMeet
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PSI_S_POWWOWSERVERID_2 = "powwowMeeting.powwowServerId = ? AND ";
-	private static final String _FINDER_COLUMN_PSI_S_STATUS_2 = "powwowMeeting.status = ?";
+	private static final String _FINDER_COLUMN_PSI_S_POWWOWSERVERID_2_SQL = "powwowMeeting.powwowServerId = ? AND ";
+	private static final String _FINDER_COLUMN_PSI_S_STATUS_2_SQL = "powwowMeeting.status = ?";
 
 	public PowwowMeetingPersistenceImpl() {
 		setModelClass(PowwowMeeting.class);

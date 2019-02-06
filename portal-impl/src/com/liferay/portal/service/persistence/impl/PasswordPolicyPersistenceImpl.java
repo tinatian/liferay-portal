@@ -206,12 +206,12 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -435,12 +435,12 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -905,12 +905,12 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -1006,8 +1006,6 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "passwordPolicy.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(passwordPolicy.uuid IS NULL OR passwordPolicy.uuid = '')";
 	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "passwordPolicy.uuid_ = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(passwordPolicy.uuid_ IS NULL OR passwordPolicy.uuid_ = '')";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
@@ -1141,12 +1139,12 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1388,12 +1386,12 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1878,12 +1876,12 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1988,11 +1986,9 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		}
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "passwordPolicy.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(passwordPolicy.uuid IS NULL OR passwordPolicy.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "passwordPolicy.uuid_ = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(passwordPolicy.uuid_ IS NULL OR passwordPolicy.uuid_ = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "passwordPolicy.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "passwordPolicy.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCompanyId;
 	private FinderPath _finderPathWithoutPaginationFindByCompanyId;
 	private FinderPath _finderPathCountByCompanyId;
@@ -2840,7 +2836,7 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		}
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "passwordPolicy.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "passwordPolicy.companyId = ?";
 	private FinderPath _finderPathFetchByC_DP;
 	private FinderPath _finderPathCountByC_DP;
 
@@ -3060,8 +3056,8 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_DP_COMPANYID_2 = "passwordPolicy.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_DP_DEFAULTPOLICY_2 = "passwordPolicy.defaultPolicy = ?";
+	private static final String _FINDER_COLUMN_C_DP_COMPANYID_2_SQL = "passwordPolicy.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_DP_DEFAULTPOLICY_2_SQL = "passwordPolicy.defaultPolicy = ?";
 	private FinderPath _finderPathFetchByC_N;
 	private FinderPath _finderPathCountByC_N;
 
@@ -3296,9 +3292,9 @@ public class PasswordPolicyPersistenceImpl extends BasePersistenceImpl<PasswordP
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_COMPANYID_2 = "passwordPolicy.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_NAME_2 = "passwordPolicy.name = ?";
-	private static final String _FINDER_COLUMN_C_N_NAME_3 = "(passwordPolicy.name IS NULL OR passwordPolicy.name = '')";
+	private static final String _FINDER_COLUMN_C_N_COMPANYID_2_SQL = "passwordPolicy.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_N_NAME_2_SQL = "passwordPolicy.name = ?";
+	private static final String _FINDER_COLUMN_C_N_NAME_3_SQL = "(passwordPolicy.name IS NULL OR passwordPolicy.name = '')";
 
 	public PasswordPolicyPersistenceImpl() {
 		setModelClass(PasswordPolicy.class);

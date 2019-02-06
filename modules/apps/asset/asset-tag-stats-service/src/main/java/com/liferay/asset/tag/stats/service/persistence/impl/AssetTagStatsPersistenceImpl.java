@@ -559,7 +559,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TAGID_TAGID_2 = "assetTagStats.tagId = ?";
+	private static final String _FINDER_COLUMN_TAGID_TAGID_2_SQL = "assetTagStats.tagId = ?";
 	private FinderPath _finderPathWithPaginationFindByClassNameId;
 	private FinderPath _finderPathWithoutPaginationFindByClassNameId;
 	private FinderPath _finderPathCountByClassNameId;
@@ -1048,7 +1048,7 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2 = "assetTagStats.classNameId = ?";
+	private static final String _FINDER_COLUMN_CLASSNAMEID_CLASSNAMEID_2_SQL = "assetTagStats.classNameId = ?";
 	private FinderPath _finderPathFetchByT_C;
 	private FinderPath _finderPathCountByT_C;
 
@@ -1256,8 +1256,8 @@ public class AssetTagStatsPersistenceImpl extends BasePersistenceImpl<AssetTagSt
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_C_TAGID_2 = "assetTagStats.tagId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_CLASSNAMEID_2 = "assetTagStats.classNameId = ?";
+	private static final String _FINDER_COLUMN_T_C_TAGID_2_SQL = "assetTagStats.tagId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_CLASSNAMEID_2_SQL = "assetTagStats.classNameId = ?";
 
 	public AssetTagStatsPersistenceImpl() {
 		setModelClass(AssetTagStats.class);

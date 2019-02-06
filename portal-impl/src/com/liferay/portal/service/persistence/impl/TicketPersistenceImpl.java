@@ -161,12 +161,12 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_KEY_KEY_3);
+				query.append(_FINDER_COLUMN_KEY_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_KEY_KEY_2);
+				query.append(_FINDER_COLUMN_KEY_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -265,12 +265,12 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 			boolean bindKey = false;
 
 			if (key.isEmpty()) {
-				query.append(_FINDER_COLUMN_KEY_KEY_3);
+				query.append(_FINDER_COLUMN_KEY_KEY_3_SQL);
 			}
 			else {
 				bindKey = true;
 
-				query.append(_FINDER_COLUMN_KEY_KEY_2);
+				query.append(_FINDER_COLUMN_KEY_KEY_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -305,8 +305,8 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_KEY_KEY_2 = "ticket.key = ?";
-	private static final String _FINDER_COLUMN_KEY_KEY_3 = "(ticket.key IS NULL OR ticket.key = '')";
+	private static final String _FINDER_COLUMN_KEY_KEY_2_SQL = "ticket.key_ = ?";
+	private static final String _FINDER_COLUMN_KEY_KEY_3_SQL = "(ticket.key_ IS NULL OR ticket.key_ = '')";
 	private FinderPath _finderPathWithPaginationFindByC_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_T;
 	private FinderPath _finderPathCountByC_C_T;
@@ -442,7 +442,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -690,7 +690,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -824,7 +824,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_FINDER_COLUMN_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -860,9 +860,9 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_T_CLASSNAMEID_2 = "ticket.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_CLASSPK_2 = "ticket.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_T_TYPE_2 = "ticket.type = ?";
+	private static final String _FINDER_COLUMN_C_C_T_CLASSNAMEID_2_SQL = "ticket.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_CLASSPK_2_SQL = "ticket.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_T_TYPE_2_SQL = "ticket.type_ = ?";
 	private FinderPath _finderPathWithPaginationFindByC_C_C_T;
 	private FinderPath _finderPathWithoutPaginationFindByC_C_C_T;
 	private FinderPath _finderPathCountByC_C_C_T;
@@ -1008,7 +1008,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1272,7 +1272,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 		query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2);
 
-		query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2);
+		query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1414,7 +1414,7 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 
 			query.append(_FINDER_COLUMN_C_C_C_T_CLASSPK_2);
 
-			query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2);
+			query.append(_FINDER_COLUMN_C_C_C_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1452,10 +1452,10 @@ public class TicketPersistenceImpl extends BasePersistenceImpl<Ticket>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_C_C_T_COMPANYID_2 = "ticket.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2 = "ticket.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_T_CLASSPK_2 = "ticket.classPK = ? AND ";
-	private static final String _FINDER_COLUMN_C_C_C_T_TYPE_2 = "ticket.type = ?";
+	private static final String _FINDER_COLUMN_C_C_C_T_COMPANYID_2_SQL = "ticket.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_T_CLASSNAMEID_2_SQL = "ticket.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_T_CLASSPK_2_SQL = "ticket.classPK = ? AND ";
+	private static final String _FINDER_COLUMN_C_C_C_T_TYPE_2_SQL = "ticket.type_ = ?";
 
 	public TicketPersistenceImpl() {
 		setModelClass(Ticket.class);

@@ -569,7 +569,7 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "socialActivitySetting.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "socialActivitySetting.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C;
 	private FinderPath _finderPathCountByG_C;
@@ -1101,8 +1101,8 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_GROUPID_2 = "socialActivitySetting.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2 = "socialActivitySetting.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_C_GROUPID_2_SQL = "socialActivitySetting.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_CLASSNAMEID_2_SQL = "socialActivitySetting.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_A;
 	private FinderPath _finderPathCountByG_A;
@@ -1634,8 +1634,8 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_A_GROUPID_2 = "socialActivitySetting.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_ACTIVITYTYPE_2 = "socialActivitySetting.activityType = ?";
+	private static final String _FINDER_COLUMN_G_A_GROUPID_2_SQL = "socialActivitySetting.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_ACTIVITYTYPE_2_SQL = "socialActivitySetting.activityType = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_A;
 	private FinderPath _finderPathCountByG_C_A;
@@ -2201,9 +2201,9 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_A_GROUPID_2 = "socialActivitySetting.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_A_CLASSNAMEID_2 = "socialActivitySetting.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2 = "socialActivitySetting.activityType = ?";
+	private static final String _FINDER_COLUMN_G_C_A_GROUPID_2_SQL = "socialActivitySetting.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_A_CLASSNAMEID_2_SQL = "socialActivitySetting.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_A_ACTIVITYTYPE_2_SQL = "socialActivitySetting.activityType = ?";
 	private FinderPath _finderPathFetchByG_C_A_N;
 	private FinderPath _finderPathCountByG_C_A_N;
 
@@ -2493,11 +2493,11 @@ public class SocialActivitySettingPersistenceImpl extends BasePersistenceImpl<So
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_A_N_GROUPID_2 = "socialActivitySetting.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_A_N_CLASSNAMEID_2 = "socialActivitySetting.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_A_N_ACTIVITYTYPE_2 = "socialActivitySetting.activityType = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_A_N_NAME_2 = "socialActivitySetting.name = ?";
-	private static final String _FINDER_COLUMN_G_C_A_N_NAME_3 = "(socialActivitySetting.name IS NULL OR socialActivitySetting.name = '')";
+	private static final String _FINDER_COLUMN_G_C_A_N_GROUPID_2_SQL = "socialActivitySetting.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_A_N_CLASSNAMEID_2_SQL = "socialActivitySetting.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_A_N_ACTIVITYTYPE_2_SQL = "socialActivitySetting.activityType = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_A_N_NAME_2_SQL = "socialActivitySetting.name = ?";
+	private static final String _FINDER_COLUMN_G_C_A_N_NAME_3_SQL = "(socialActivitySetting.name IS NULL OR socialActivitySetting.name = '')";
 
 	public SocialActivitySettingPersistenceImpl() {
 		setModelClass(SocialActivitySetting.class);

@@ -563,7 +563,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TABLEID_TABLEID_2 = "expandoRow.tableId = ?";
+	private static final String _FINDER_COLUMN_TABLEID_TABLEID_2_SQL = "expandoRow.tableId = ?";
 	private FinderPath _finderPathWithPaginationFindByClassPK;
 	private FinderPath _finderPathWithoutPaginationFindByClassPK;
 	private FinderPath _finderPathCountByClassPK;
@@ -1047,7 +1047,7 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CLASSPK_CLASSPK_2 = "expandoRow.classPK = ?";
+	private static final String _FINDER_COLUMN_CLASSPK_CLASSPK_2_SQL = "expandoRow.classPK = ?";
 	private FinderPath _finderPathFetchByT_C;
 	private FinderPath _finderPathCountByT_C;
 
@@ -1256,8 +1256,8 @@ public class ExpandoRowPersistenceImpl extends BasePersistenceImpl<ExpandoRow>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_T_C_TABLEID_2 = "expandoRow.tableId = ? AND ";
-	private static final String _FINDER_COLUMN_T_C_CLASSPK_2 = "expandoRow.classPK = ?";
+	private static final String _FINDER_COLUMN_T_C_TABLEID_2_SQL = "expandoRow.tableId = ? AND ";
+	private static final String _FINDER_COLUMN_T_C_CLASSPK_2_SQL = "expandoRow.classPK = ?";
 
 	public ExpandoRowPersistenceImpl() {
 		setModelClass(ExpandoRow.class);

@@ -208,12 +208,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -442,12 +442,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -576,12 +576,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -616,8 +616,8 @@ public class CalendarNotificationTemplatePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "calendarNotificationTemplate.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(calendarNotificationTemplate.uuid IS NULL OR calendarNotificationTemplate.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "calendarNotificationTemplate.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(calendarNotificationTemplate.uuid_ IS NULL OR calendarNotificationTemplate.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -709,12 +709,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -809,12 +809,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -853,9 +853,9 @@ public class CalendarNotificationTemplatePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "calendarNotificationTemplate.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(calendarNotificationTemplate.uuid IS NULL OR calendarNotificationTemplate.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "calendarNotificationTemplate.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "calendarNotificationTemplate.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(calendarNotificationTemplate.uuid_ IS NULL OR calendarNotificationTemplate.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "calendarNotificationTemplate.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -989,12 +989,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1245,12 +1245,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1385,12 +1385,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1429,9 +1429,9 @@ public class CalendarNotificationTemplatePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "calendarNotificationTemplate.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(calendarNotificationTemplate.uuid IS NULL OR calendarNotificationTemplate.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "calendarNotificationTemplate.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "calendarNotificationTemplate.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(calendarNotificationTemplate.uuid_ IS NULL OR calendarNotificationTemplate.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "calendarNotificationTemplate.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByCalendarId;
 	private FinderPath _finderPathWithoutPaginationFindByCalendarId;
 	private FinderPath _finderPathCountByCalendarId;
@@ -1930,7 +1930,7 @@ public class CalendarNotificationTemplatePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CALENDARID_CALENDARID_2 = "calendarNotificationTemplate.calendarId = ?";
+	private static final String _FINDER_COLUMN_CALENDARID_CALENDARID_2_SQL = "calendarNotificationTemplate.calendarId = ?";
 	private FinderPath _finderPathFetchByC_NT_NTT;
 	private FinderPath _finderPathCountByC_NT_NTT;
 
@@ -2230,12 +2230,12 @@ public class CalendarNotificationTemplatePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_NT_NTT_CALENDARID_2 = "calendarNotificationTemplate.calendarId = ? AND ";
-	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_2 = "calendarNotificationTemplate.notificationType = ? AND ";
-	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_3 = "(calendarNotificationTemplate.notificationType IS NULL OR calendarNotificationTemplate.notificationType = '') AND ";
-	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_2 =
+	private static final String _FINDER_COLUMN_C_NT_NTT_CALENDARID_2_SQL = "calendarNotificationTemplate.calendarId = ? AND ";
+	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_2_SQL = "calendarNotificationTemplate.notificationType = ? AND ";
+	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTYPE_3_SQL = "(calendarNotificationTemplate.notificationType IS NULL OR calendarNotificationTemplate.notificationType = '') AND ";
+	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_2_SQL =
 		"calendarNotificationTemplate.notificationTemplateType = ?";
-	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_3 =
+	private static final String _FINDER_COLUMN_C_NT_NTT_NOTIFICATIONTEMPLATETYPE_3_SQL =
 		"(calendarNotificationTemplate.notificationTemplateType IS NULL OR calendarNotificationTemplate.notificationTemplateType = '')";
 
 	public CalendarNotificationTemplatePersistenceImpl() {

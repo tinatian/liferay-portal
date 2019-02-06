@@ -562,7 +562,7 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "portlet.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2_SQL = "portlet.companyId = ?";
 	private FinderPath _finderPathFetchByC_P;
 	private FinderPath _finderPathCountByC_P;
 
@@ -797,9 +797,9 @@ public class PortletPersistenceImpl extends BasePersistenceImpl<Portlet>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_P_COMPANYID_2 = "portlet.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_P_PORTLETID_2 = "portlet.portletId = ?";
-	private static final String _FINDER_COLUMN_C_P_PORTLETID_3 = "(portlet.portletId IS NULL OR portlet.portletId = '')";
+	private static final String _FINDER_COLUMN_C_P_COMPANYID_2_SQL = "portlet.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_C_P_PORTLETID_2_SQL = "portlet.portletId = ?";
+	private static final String _FINDER_COLUMN_C_P_PORTLETID_3_SQL = "(portlet.portletId IS NULL OR portlet.portletId = '')";
 
 	public PortletPersistenceImpl() {
 		setModelClass(Portlet.class);

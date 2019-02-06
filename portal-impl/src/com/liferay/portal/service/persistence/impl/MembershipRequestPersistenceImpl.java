@@ -564,7 +564,7 @@ public class MembershipRequestPersistenceImpl extends BasePersistenceImpl<Member
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "membershipRequest.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "membershipRequest.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1052,7 +1052,7 @@ public class MembershipRequestPersistenceImpl extends BasePersistenceImpl<Member
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "membershipRequest.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "membershipRequest.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_S;
 	private FinderPath _finderPathCountByG_S;
@@ -1578,8 +1578,8 @@ public class MembershipRequestPersistenceImpl extends BasePersistenceImpl<Member
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 = "membershipRequest.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_S_STATUSID_2 = "membershipRequest.statusId = ?";
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2_SQL = "membershipRequest.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_S_STATUSID_2_SQL = "membershipRequest.statusId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_S;
 	private FinderPath _finderPathCountByG_U_S;
@@ -2138,9 +2138,9 @@ public class MembershipRequestPersistenceImpl extends BasePersistenceImpl<Member
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2 = "membershipRequest.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_USERID_2 = "membershipRequest.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_STATUSID_2 = "membershipRequest.statusId = ?";
+	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2_SQL = "membershipRequest.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_USERID_2_SQL = "membershipRequest.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_STATUSID_2_SQL = "membershipRequest.statusId = ?";
 
 	public MembershipRequestPersistenceImpl() {
 		setModelClass(MembershipRequest.class);

@@ -924,7 +924,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "tasksEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "tasksEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUserId;
 	private FinderPath _finderPathWithoutPaginationFindByUserId;
 	private FinderPath _finderPathCountByUserId;
@@ -1408,7 +1408,7 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_USERID_USERID_2 = "tasksEntry.userId = ?";
+	private static final String _FINDER_COLUMN_USERID_USERID_2_SQL = "tasksEntry.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByAssigneeUserId;
 	private FinderPath _finderPathWithoutPaginationFindByAssigneeUserId;
 	private FinderPath _finderPathCountByAssigneeUserId;
@@ -1902,7 +1902,8 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2 = "tasksEntry.assigneeUserId = ?";
+	private static final String _FINDER_COLUMN_ASSIGNEEUSERID_ASSIGNEEUSERID_2_SQL =
+		"tasksEntry.assigneeUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByResolverUserId;
 	private FinderPath _finderPathWithoutPaginationFindByResolverUserId;
 	private FinderPath _finderPathCountByResolverUserId;
@@ -2396,7 +2397,8 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2 = "tasksEntry.resolverUserId = ?";
+	private static final String _FINDER_COLUMN_RESOLVERUSERID_RESOLVERUSERID_2_SQL =
+		"tasksEntry.resolverUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_U;
 	private FinderPath _finderPathWithoutPaginationFindByG_U;
 	private FinderPath _finderPathCountByG_U;
@@ -3294,8 +3296,8 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_GROUPID_2 = "tasksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_USERID_2 = "tasksEntry.userId = ?";
+	private static final String _FINDER_COLUMN_G_U_GROUPID_2_SQL = "tasksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_USERID_2_SQL = "tasksEntry.userId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_A;
 	private FinderPath _finderPathWithoutPaginationFindByG_A;
 	private FinderPath _finderPathCountByG_A;
@@ -4195,8 +4197,8 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_GROUPID_2 = "tasksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_ASSIGNEEUSERID_2 = "tasksEntry.assigneeUserId = ?";
+	private static final String _FINDER_COLUMN_G_A_GROUPID_2_SQL = "tasksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_ASSIGNEEUSERID_2_SQL = "tasksEntry.assigneeUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_R;
 	private FinderPath _finderPathWithoutPaginationFindByG_R;
 	private FinderPath _finderPathCountByG_R;
@@ -5096,8 +5098,8 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_R_GROUPID_2 = "tasksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_R_RESOLVERUSERID_2 = "tasksEntry.resolverUserId = ?";
+	private static final String _FINDER_COLUMN_G_R_GROUPID_2_SQL = "tasksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_R_RESOLVERUSERID_2_SQL = "tasksEntry.resolverUserId = ?";
 	private FinderPath _finderPathWithPaginationFindByU_S;
 	private FinderPath _finderPathWithoutPaginationFindByU_S;
 	private FinderPath _finderPathCountByU_S;
@@ -5896,9 +5898,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_U_S_USERID_2 = "tasksEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_U_S_STATUS_2 = "tasksEntry.status = ?";
-	private static final String _FINDER_COLUMN_U_S_STATUS_7 = "tasksEntry.status IN (";
+	private static final String _FINDER_COLUMN_U_S_USERID_2_SQL = "tasksEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_U_S_STATUS_2_SQL = "tasksEntry.status = ?";
+	private static final String _FINDER_COLUMN_U_S_STATUS_7_SQL = "tasksEntry.status IN (";
 	private FinderPath _finderPathWithPaginationFindByA_S;
 	private FinderPath _finderPathWithoutPaginationFindByA_S;
 	private FinderPath _finderPathCountByA_S;
@@ -6703,9 +6705,9 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_S_ASSIGNEEUSERID_2 = "tasksEntry.assigneeUserId = ? AND ";
-	private static final String _FINDER_COLUMN_A_S_STATUS_2 = "tasksEntry.status = ?";
-	private static final String _FINDER_COLUMN_A_S_STATUS_7 = "tasksEntry.status IN (";
+	private static final String _FINDER_COLUMN_A_S_ASSIGNEEUSERID_2_SQL = "tasksEntry.assigneeUserId = ? AND ";
+	private static final String _FINDER_COLUMN_A_S_STATUS_2_SQL = "tasksEntry.status = ?";
+	private static final String _FINDER_COLUMN_A_S_STATUS_7_SQL = "tasksEntry.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_U_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_U_S;
 	private FinderPath _finderPathCountByG_U_S;
@@ -8185,10 +8187,10 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2 = "tasksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_USERID_2 = "tasksEntry.userId = ? AND ";
-	private static final String _FINDER_COLUMN_G_U_S_STATUS_2 = "tasksEntry.status = ?";
-	private static final String _FINDER_COLUMN_G_U_S_STATUS_7 = "tasksEntry.status IN (";
+	private static final String _FINDER_COLUMN_G_U_S_GROUPID_2_SQL = "tasksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_USERID_2_SQL = "tasksEntry.userId = ? AND ";
+	private static final String _FINDER_COLUMN_G_U_S_STATUS_2_SQL = "tasksEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_U_S_STATUS_7_SQL = "tasksEntry.status IN (";
 	private FinderPath _finderPathWithPaginationFindByG_A_S;
 	private FinderPath _finderPathWithoutPaginationFindByG_A_S;
 	private FinderPath _finderPathCountByG_A_S;
@@ -9674,10 +9676,10 @@ public class TasksEntryPersistenceImpl extends BasePersistenceImpl<TasksEntry>
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_A_S_GROUPID_2 = "tasksEntry.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2 = "tasksEntry.assigneeUserId = ? AND ";
-	private static final String _FINDER_COLUMN_G_A_S_STATUS_2 = "tasksEntry.status = ?";
-	private static final String _FINDER_COLUMN_G_A_S_STATUS_7 = "tasksEntry.status IN (";
+	private static final String _FINDER_COLUMN_G_A_S_GROUPID_2_SQL = "tasksEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_S_ASSIGNEEUSERID_2_SQL = "tasksEntry.assigneeUserId = ? AND ";
+	private static final String _FINDER_COLUMN_G_A_S_STATUS_2_SQL = "tasksEntry.status = ?";
+	private static final String _FINDER_COLUMN_G_A_S_STATUS_7_SQL = "tasksEntry.status IN (";
 
 	public TasksEntryPersistenceImpl() {
 		setModelClass(TasksEntry.class);

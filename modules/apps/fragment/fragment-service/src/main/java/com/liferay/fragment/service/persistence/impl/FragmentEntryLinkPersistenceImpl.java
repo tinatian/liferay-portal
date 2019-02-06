@@ -203,12 +203,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -434,12 +434,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -568,12 +568,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -608,8 +608,8 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "fragmentEntryLink.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(fragmentEntryLink.uuid IS NULL OR fragmentEntryLink.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "fragmentEntryLink.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(fragmentEntryLink.uuid_ IS NULL OR fragmentEntryLink.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -700,12 +700,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -799,12 +799,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -843,9 +843,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "fragmentEntryLink.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(fragmentEntryLink.uuid IS NULL OR fragmentEntryLink.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "fragmentEntryLink.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "fragmentEntryLink.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(fragmentEntryLink.uuid_ IS NULL OR fragmentEntryLink.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "fragmentEntryLink.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -978,12 +978,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1225,12 +1225,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1365,12 +1365,12 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1409,9 +1409,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "fragmentEntryLink.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(fragmentEntryLink.uuid IS NULL OR fragmentEntryLink.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "fragmentEntryLink.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "fragmentEntryLink.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(fragmentEntryLink.uuid_ IS NULL OR fragmentEntryLink.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "fragmentEntryLink.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1899,7 +1899,7 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "fragmentEntryLink.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2_SQL = "fragmentEntryLink.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F;
 	private FinderPath _finderPathWithoutPaginationFindByG_F;
 	private FinderPath _finderPathCountByG_F;
@@ -2429,8 +2429,8 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_F_GROUPID_2 = "fragmentEntryLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_FRAGMENTENTRYID_2 = "fragmentEntryLink.fragmentEntryId = ?";
+	private static final String _FINDER_COLUMN_G_F_GROUPID_2_SQL = "fragmentEntryLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_FRAGMENTENTRYID_2_SQL = "fragmentEntryLink.fragmentEntryId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_F_C;
 	private FinderPath _finderPathCountByG_F_C;
@@ -2997,9 +2997,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_F_C_GROUPID_2 = "fragmentEntryLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2 = "fragmentEntryLink.fragmentEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_C_CLASSNAMEID_2 = "fragmentEntryLink.classNameId = ?";
+	private static final String _FINDER_COLUMN_G_F_C_GROUPID_2_SQL = "fragmentEntryLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_C_FRAGMENTENTRYID_2_SQL = "fragmentEntryLink.fragmentEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_C_CLASSNAMEID_2_SQL = "fragmentEntryLink.classNameId = ?";
 	private FinderPath _finderPathWithPaginationFindByG_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_C;
 	private FinderPath _finderPathCountByG_C_C;
@@ -3557,9 +3557,9 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2 = "fragmentEntryLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2 = "fragmentEntryLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2 = "fragmentEntryLink.classPK = ?";
+	private static final String _FINDER_COLUMN_G_C_C_GROUPID_2_SQL = "fragmentEntryLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSNAMEID_2_SQL = "fragmentEntryLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_C_CLASSPK_2_SQL = "fragmentEntryLink.classPK = ?";
 	private FinderPath _finderPathWithPaginationFindByG_F_C_C;
 	private FinderPath _finderPathWithoutPaginationFindByG_F_C_C;
 	private FinderPath _finderPathCountByG_F_C_C;
@@ -4163,10 +4163,10 @@ public class FragmentEntryLinkPersistenceImpl extends BasePersistenceImpl<Fragme
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_F_C_C_GROUPID_2 = "fragmentEntryLink.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2 = "fragmentEntryLink.fragmentEntryId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2 = "fragmentEntryLink.classNameId = ? AND ";
-	private static final String _FINDER_COLUMN_G_F_C_C_CLASSPK_2 = "fragmentEntryLink.classPK = ?";
+	private static final String _FINDER_COLUMN_G_F_C_C_GROUPID_2_SQL = "fragmentEntryLink.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_C_C_FRAGMENTENTRYID_2_SQL = "fragmentEntryLink.fragmentEntryId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_C_C_CLASSNAMEID_2_SQL = "fragmentEntryLink.classNameId = ? AND ";
+	private static final String _FINDER_COLUMN_G_F_C_C_CLASSPK_2_SQL = "fragmentEntryLink.classPK = ?";
 
 	public FragmentEntryLinkPersistenceImpl() {
 		setModelClass(FragmentEntryLink.class);

@@ -203,12 +203,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -433,12 +433,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -568,12 +568,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -608,8 +608,8 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "repositoryEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(repositoryEntry.uuid IS NULL OR repositoryEntry.uuid = '')";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL = "repositoryEntry.uuid_ = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL = "(repositoryEntry.uuid_ IS NULL OR repositoryEntry.uuid_ = '')";
 	private FinderPath _finderPathFetchByUUID_G;
 	private FinderPath _finderPathCountByUUID_G;
 
@@ -700,12 +700,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -801,12 +801,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
@@ -845,9 +845,9 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "repositoryEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(repositoryEntry.uuid IS NULL OR repositoryEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "repositoryEntry.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2_SQL = "repositoryEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3_SQL = "(repositoryEntry.uuid_ IS NULL OR repositoryEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2_SQL = "repositoryEntry.groupId = ?";
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
 	private FinderPath _finderPathCountByUuid_C;
@@ -979,12 +979,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1226,12 +1226,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		boolean bindUuid = false;
 
 		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 		}
 		else {
 			bindUuid = true;
 
-			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 		}
 
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1367,12 +1367,12 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 			boolean bindUuid = false;
 
 			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
 			}
 			else {
 				bindUuid = true;
 
-				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
 			}
 
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
@@ -1411,9 +1411,9 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "repositoryEntry.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(repositoryEntry.uuid IS NULL OR repositoryEntry.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "repositoryEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL = "repositoryEntry.uuid_ = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL = "(repositoryEntry.uuid_ IS NULL OR repositoryEntry.uuid_ = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2_SQL = "repositoryEntry.companyId = ?";
 	private FinderPath _finderPathWithPaginationFindByRepositoryId;
 	private FinderPath _finderPathWithoutPaginationFindByRepositoryId;
 	private FinderPath _finderPathCountByRepositoryId;
@@ -1909,7 +1909,7 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2 = "repositoryEntry.repositoryId = ?";
+	private static final String _FINDER_COLUMN_REPOSITORYID_REPOSITORYID_2_SQL = "repositoryEntry.repositoryId = ?";
 	private FinderPath _finderPathFetchByR_M;
 	private FinderPath _finderPathCountByR_M;
 
@@ -2144,9 +2144,9 @@ public class RepositoryEntryPersistenceImpl extends BasePersistenceImpl<Reposito
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_R_M_REPOSITORYID_2 = "repositoryEntry.repositoryId = ? AND ";
-	private static final String _FINDER_COLUMN_R_M_MAPPEDID_2 = "repositoryEntry.mappedId = ?";
-	private static final String _FINDER_COLUMN_R_M_MAPPEDID_3 = "(repositoryEntry.mappedId IS NULL OR repositoryEntry.mappedId = '')";
+	private static final String _FINDER_COLUMN_R_M_REPOSITORYID_2_SQL = "repositoryEntry.repositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_R_M_MAPPEDID_2_SQL = "repositoryEntry.mappedId = ?";
+	private static final String _FINDER_COLUMN_R_M_MAPPEDID_3_SQL = "(repositoryEntry.mappedId IS NULL OR repositoryEntry.mappedId = '')";
 
 	public RepositoryEntryPersistenceImpl() {
 		setModelClass(RepositoryEntry.class);

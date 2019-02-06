@@ -582,7 +582,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2 =
+	private static final String _FINDER_COLUMN_POWWOWMEETINGID_POWWOWMEETINGID_2_SQL =
 		"powwowParticipant.powwowMeetingId = ?";
 	private FinderPath _finderPathFetchByPMI_PUI;
 	private FinderPath _finderPathCountByPMI_PUI;
@@ -807,8 +807,8 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PMI_PUI_POWWOWMEETINGID_2 = "powwowParticipant.powwowMeetingId = ? AND ";
-	private static final String _FINDER_COLUMN_PMI_PUI_PARTICIPANTUSERID_2 = "powwowParticipant.participantUserId = ?";
+	private static final String _FINDER_COLUMN_PMI_PUI_POWWOWMEETINGID_2_SQL = "powwowParticipant.powwowMeetingId = ? AND ";
+	private static final String _FINDER_COLUMN_PMI_PUI_PARTICIPANTUSERID_2_SQL = "powwowParticipant.participantUserId = ?";
 	private FinderPath _finderPathFetchByPMI_EA;
 	private FinderPath _finderPathCountByPMI_EA;
 
@@ -1048,9 +1048,9 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PMI_EA_POWWOWMEETINGID_2 = "powwowParticipant.powwowMeetingId = ? AND ";
-	private static final String _FINDER_COLUMN_PMI_EA_EMAILADDRESS_2 = "powwowParticipant.emailAddress = ?";
-	private static final String _FINDER_COLUMN_PMI_EA_EMAILADDRESS_3 = "(powwowParticipant.emailAddress IS NULL OR powwowParticipant.emailAddress = '')";
+	private static final String _FINDER_COLUMN_PMI_EA_POWWOWMEETINGID_2_SQL = "powwowParticipant.powwowMeetingId = ? AND ";
+	private static final String _FINDER_COLUMN_PMI_EA_EMAILADDRESS_2_SQL = "powwowParticipant.emailAddress = ?";
+	private static final String _FINDER_COLUMN_PMI_EA_EMAILADDRESS_3_SQL = "(powwowParticipant.emailAddress IS NULL OR powwowParticipant.emailAddress = '')";
 	private FinderPath _finderPathWithPaginationFindByPMI_T;
 	private FinderPath _finderPathWithoutPaginationFindByPMI_T;
 	private FinderPath _finderPathCountByPMI_T;
@@ -1181,7 +1181,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2);
 
-			query.append(_FINDER_COLUMN_PMI_T_TYPE_2);
+			query.append(_FINDER_COLUMN_PMI_T_TYPE_2_SQL);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1415,7 +1415,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 		query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2);
 
-		query.append(_FINDER_COLUMN_PMI_T_TYPE_2);
+		query.append(_FINDER_COLUMN_PMI_T_TYPE_2_SQL);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1544,7 +1544,7 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 
 			query.append(_FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2);
 
-			query.append(_FINDER_COLUMN_PMI_T_TYPE_2);
+			query.append(_FINDER_COLUMN_PMI_T_TYPE_2_SQL);
 
 			String sql = query.toString();
 
@@ -1578,8 +1578,8 @@ public class PowwowParticipantPersistenceImpl extends BasePersistenceImpl<Powwow
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2 = "powwowParticipant.powwowMeetingId = ? AND ";
-	private static final String _FINDER_COLUMN_PMI_T_TYPE_2 = "powwowParticipant.type = ?";
+	private static final String _FINDER_COLUMN_PMI_T_POWWOWMEETINGID_2_SQL = "powwowParticipant.powwowMeetingId = ? AND ";
+	private static final String _FINDER_COLUMN_PMI_T_TYPE_2_SQL = "powwowParticipant.type_ = ?";
 
 	public PowwowParticipantPersistenceImpl() {
 		setModelClass(PowwowParticipant.class);

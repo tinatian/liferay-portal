@@ -574,7 +574,7 @@ public class JournalArticleLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2 = "journalArticleLocalization.articlePK = ?";
+	private static final String _FINDER_COLUMN_ARTICLEPK_ARTICLEPK_2_SQL = "journalArticleLocalization.articlePK = ?";
 	private FinderPath _finderPathFetchByA_L;
 	private FinderPath _finderPathCountByA_L;
 
@@ -812,9 +812,9 @@ public class JournalArticleLocalizationPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_A_L_ARTICLEPK_2 = "journalArticleLocalization.articlePK = ? AND ";
-	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_2 = "journalArticleLocalization.languageId = ?";
-	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_3 = "(journalArticleLocalization.languageId IS NULL OR journalArticleLocalization.languageId = '')";
+	private static final String _FINDER_COLUMN_A_L_ARTICLEPK_2_SQL = "journalArticleLocalization.articlePK = ? AND ";
+	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_2_SQL = "journalArticleLocalization.languageId = ?";
+	private static final String _FINDER_COLUMN_A_L_LANGUAGEID_3_SQL = "(journalArticleLocalization.languageId IS NULL OR journalArticleLocalization.languageId = '')";
 
 	public JournalArticleLocalizationPersistenceImpl() {
 		setModelClass(JournalArticleLocalization.class);

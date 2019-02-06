@@ -195,12 +195,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 			}
 
 			if (orderByComparator != null) {
@@ -423,12 +423,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 		boolean bindType = false;
 
 		if (type.isEmpty()) {
-			query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 		}
 		else {
 			bindType = true;
 
-			query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+			query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 		}
 
 		if (orderByComparator != null) {
@@ -558,12 +558,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_TYPE_TYPE_3);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_TYPE_TYPE_2);
+				query.append(_FINDER_COLUMN_TYPE_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -598,8 +598,8 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TYPE_TYPE_2 = "listType.type = ?";
-	private static final String _FINDER_COLUMN_TYPE_TYPE_3 = "(listType.type IS NULL OR listType.type = '')";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_2_SQL = "listType.type_ = ?";
+	private static final String _FINDER_COLUMN_TYPE_TYPE_3_SQL = "(listType.type_ IS NULL OR listType.type_ = '')";
 	private FinderPath _finderPathFetchByN_T;
 	private FinderPath _finderPathCountByN_T;
 
@@ -702,12 +702,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_T_TYPE_3);
+				query.append(_FINDER_COLUMN_N_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_N_T_TYPE_2);
+				query.append(_FINDER_COLUMN_N_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -825,12 +825,12 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 			boolean bindType = false;
 
 			if (type.isEmpty()) {
-				query.append(_FINDER_COLUMN_N_T_TYPE_3);
+				query.append(_FINDER_COLUMN_N_T_TYPE_3_SQL);
 			}
 			else {
 				bindType = true;
 
-				query.append(_FINDER_COLUMN_N_T_TYPE_2);
+				query.append(_FINDER_COLUMN_N_T_TYPE_2_SQL);
 			}
 
 			String sql = query.toString();
@@ -869,10 +869,10 @@ public class ListTypePersistenceImpl extends BasePersistenceImpl<ListType>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_N_T_NAME_2 = "listType.name = ? AND ";
-	private static final String _FINDER_COLUMN_N_T_NAME_3 = "(listType.name IS NULL OR listType.name = '') AND ";
-	private static final String _FINDER_COLUMN_N_T_TYPE_2 = "listType.type = ?";
-	private static final String _FINDER_COLUMN_N_T_TYPE_3 = "(listType.type IS NULL OR listType.type = '')";
+	private static final String _FINDER_COLUMN_N_T_NAME_2_SQL = "listType.name = ? AND ";
+	private static final String _FINDER_COLUMN_N_T_NAME_3_SQL = "(listType.name IS NULL OR listType.name = '') AND ";
+	private static final String _FINDER_COLUMN_N_T_TYPE_2_SQL = "listType.type_ = ?";
+	private static final String _FINDER_COLUMN_N_T_TYPE_3_SQL = "(listType.type_ IS NULL OR listType.type_ = '')";
 
 	public ListTypePersistenceImpl() {
 		setModelClass(ListType.class);
