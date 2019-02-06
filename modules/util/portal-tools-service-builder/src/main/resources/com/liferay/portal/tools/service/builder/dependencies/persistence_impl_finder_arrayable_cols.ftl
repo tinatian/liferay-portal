@@ -1,10 +1,4 @@
 <#list entityColumns as entityColumn>
-	<#if entityColumn.name != entityColumn.DBName>
-		<#assign finderFieldSuffix = finderFieldSQLSuffix />
-	<#else>
-		<#assign finderFieldSuffix = "" />
-	</#if>
-
 	<#if entityColumn.hasArrayableOperator()>
 		if (${entityColumn.names}.length > 0) {
 			query.append("(");

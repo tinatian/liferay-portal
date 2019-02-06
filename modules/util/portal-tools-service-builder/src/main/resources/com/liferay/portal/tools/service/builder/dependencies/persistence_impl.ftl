@@ -20,7 +20,7 @@
 	/>
 </#if>
 
-<#assign finderFieldSQLSuffix = "_SQL" />
+<#assign finderFieldSuffix = "_SQL" />
 
 package ${packagePath}.service.persistence.impl;
 
