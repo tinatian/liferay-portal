@@ -1,6 +1,6 @@
 <#assign hasConjunction = false />
 
-<#if entityColumn_has_next || (entityFinder.where?? && validator.isNotNull(entityFinder.getWhere()))>
+<#if entityColumn_has_next || ((validator.isNull(finderFieldSuffix) && entityFinder.where?? && validator.isNotNull(entityFinder.getWhere())) || (validator.isNotNull(finderFieldSuffix) && entityFinder.DBWhere?? && validator.isNotNull(entityFinder.getDBWhere())))>
 	<#assign hasConjunction = true />
 </#if>
 

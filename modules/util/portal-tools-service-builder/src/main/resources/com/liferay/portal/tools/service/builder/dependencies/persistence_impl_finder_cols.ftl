@@ -1,5 +1,9 @@
+<#if entityFinder.where?? && entityFinder.DBWhere?? && (entityFinder.where != entityFinder.DBWhere)>
+	<#assign isDBWhere = true />
+</#if>
+
 <#list entityColumns as entityColumn>
-	<#if sqlQuery?? && sqlQuery && (entityColumn.name != entityColumn.DBName)>
+	<#if sqlQuery?? && sqlQuery && ((entityColumn.name != entityColumn.DBName) || (isDBWhere?? && isDBWhere))>
 		<#assign finderFieldSuffix = finderFieldSQLSuffix />
 	<#else>
 		<#assign finderFieldSuffix = "" />

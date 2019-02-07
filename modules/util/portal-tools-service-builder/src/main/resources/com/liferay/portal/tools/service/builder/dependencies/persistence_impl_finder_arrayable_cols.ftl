@@ -1,5 +1,9 @@
+<#if entityFinder.where?? && entityFinder.DBWhere?? && (entityFinder.where != entityFinder.DBWhere)>
+	<#assign isDBWhere = true />
+</#if>
+
 <#list entityColumns as entityColumn>
-	<#if sqlQuery?? && sqlQuery && (entityColumn.name != entityColumn.DBName)>
+	<#if sqlQuery?? && sqlQuery && ((entityColumn.name != entityColumn.DBName) || (isDBWhere?? && isDBWhere))>
 		<#assign finderFieldSuffix = finderFieldSQLSuffix />
 	<#else>
 		<#assign finderFieldSuffix = "" />
@@ -40,6 +44,8 @@
 
 query.setStringAt(removeConjunction(query.stringAt(query.index() - 1)), query.index() - 1);
 
-<#if entityFinder.where?? && validator.isNotNull(entityFinder.getWhere())>
+<#if sqlQuery?? && sqlQuery && entityFinder.DBWhere?? && validator.isNotNull(entityFinder.getDBWhere())>
+	query.append(" AND ${entityFinder.DBWhere}");
+<#elseif entityFinder.where?? && validator.isNotNull(entityFinder.getWhere())>
 	query.append(" AND ${entityFinder.where}");
 </#if>
