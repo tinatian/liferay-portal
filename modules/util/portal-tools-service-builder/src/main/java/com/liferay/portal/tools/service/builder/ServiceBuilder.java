@@ -614,6 +614,21 @@ public class ServiceBuilder {
 
 			_compatProperties = _getCompatProperties(matcher.group(1));
 
+			Collections.addAll(
+				_badAliasNames,
+				StringUtil.split(
+					_compatProperties.getProperty("bad.alias.names.extra")));
+
+			Collections.addAll(
+				_badColumnNames,
+				StringUtil.split(
+					_compatProperties.getProperty("bad.column.names.extra")));
+
+			Collections.addAll(
+				_badTableNames,
+				StringUtil.split(
+					_compatProperties.getProperty("bad.table.names.extra")));
+
 			Element rootElement = document.getRootElement();
 
 			String packagePath = rootElement.attributeValue("package-path");
@@ -1594,7 +1609,8 @@ public class ServiceBuilder {
 
 		if (methodName.equals("clearCache") ||
 			methodName.equals("fetchByPrimaryKeys") ||
-			methodName.equals("findWithDynamicQuery")) {
+			methodName.equals("findWithDynamicQuery") ||
+			methodName.equals("getBadColumnNames")) {
 
 			return true;
 		}
@@ -3772,15 +3788,20 @@ public class ServiceBuilder {
 			if (Validator.isNotNull(createTableSQL)) {
 				_createSQLTables(sqlFile, createTableSQL, entity, true);
 
-				List<Path> updateSQLFilePaths = _getUpdateSQLFilePaths();
+				if (GetterUtil.getBoolean(
+						_compatProperties.getProperty(
+							"update.sql.file.auto.update"))) {
 
-				for (Path updateSQLFilePath : updateSQLFilePaths) {
-					if ((updateSQLFilePath != null) &&
-						Files.exists(updateSQLFilePath)) {
+					List<Path> updateSQLFilePaths = _getUpdateSQLFilePaths();
 
-						_createSQLTables(
-							updateSQLFilePath.toFile(), createTableSQL, entity,
-							false);
+					for (Path updateSQLFilePath : updateSQLFilePaths) {
+						if ((updateSQLFilePath != null) &&
+							Files.exists(updateSQLFilePath)) {
+
+							_createSQLTables(
+								updateSQLFilePath.toFile(), createTableSQL,
+								entity, false);
+						}
 					}
 				}
 			}
@@ -5811,12 +5832,16 @@ public class ServiceBuilder {
 
 			String finderWhere = finderElement.attributeValue("where");
 
+			String finderDBWhere = finderWhere;
+
 			if (Validator.isNotNull(finderWhere)) {
 				for (EntityColumn column : entityColumns) {
 					String name = column.getName();
 
 					finderWhere = StringUtil.replace(
 						finderWhere, name, alias + "." + name);
+					finderDBWhere = StringUtil.replace(
+						finderDBWhere, name, alias + "." + column.getDBName());
 				}
 			}
 
@@ -5863,7 +5888,7 @@ public class ServiceBuilder {
 			entityFinders.add(
 				new EntityFinder(
 					finderName, finderReturn, finderUnique, finderWhere,
-					finderDBIndex, finderEntityColumns));
+					finderDBWhere, finderDBIndex, finderEntityColumns));
 		}
 
 		List<Entity> referenceEntities = new ArrayList<>();
