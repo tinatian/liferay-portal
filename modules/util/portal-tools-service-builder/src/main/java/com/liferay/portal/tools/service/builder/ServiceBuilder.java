@@ -1608,11 +1608,14 @@ public class ServiceBuilder {
 		String methodName = method.getName();
 
 		if (methodName.equals("clearCache") ||
-			methodName.equals("fetchByPrimaryKeys") ||
-			methodName.equals("findWithDynamicQuery") ||
-			methodName.equals("getBadColumnNames")) {
+			methodName.equals("findWithDynamicQuery")) {
 
 			return true;
+		}
+		else if (methodName.equals("fetchByPrimaryKeys") ||
+				 methodName.equals("getBadColumnNames")) {
+
+			return isVersionLTE_7_2_0();
 		}
 		else if (methodName.equals("findByPrimaryKey") ||
 				 methodName.equals("fetchByPrimaryKey") ||
@@ -1885,6 +1888,16 @@ public class ServiceBuilder {
 	public boolean isVersionLTE_7_1_0() {
 		if (_dtdVersion.isPreviousVersionThan("7.1.0") ||
 			_dtdVersion.isSameVersionAs("7.1.0")) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isVersionLTE_7_2_0() {
+		if (_dtdVersion.isPreviousVersionThan("7.2.0") ||
+			_dtdVersion.isSameVersionAs("7.2.0")) {
 
 			return true;
 		}
