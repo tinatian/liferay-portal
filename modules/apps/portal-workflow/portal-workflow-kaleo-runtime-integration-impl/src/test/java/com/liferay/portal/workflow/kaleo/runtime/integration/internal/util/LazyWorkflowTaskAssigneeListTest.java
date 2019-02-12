@@ -43,39 +43,32 @@ public class LazyWorkflowTaskAssigneeListTest {
 				User.class.getName(), 2)
 		};
 
-		KaleoTaskInstanceToken kaleoTaskInstanceToken =
-			KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken(
-				kaleoTaskAssignmentInstances);
-
 		TestKaleoTaskAssignmentInstanceLocalServiceWrapper
 			kaleoTaskAssignmentInstanceLocalService =
 				new TestKaleoTaskAssignmentInstanceLocalServiceWrapper();
 
 		LazyWorkflowTaskAssigneeList lazyWorkflowTaskAssigneeList =
 			new LazyWorkflowTaskAssigneeList(
-				kaleoTaskInstanceToken,
+				KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken(
+					kaleoTaskAssignmentInstances),
 				kaleoTaskAssignmentInstanceLocalService);
 
 		lazyWorkflowTaskAssigneeList.initWorkflowTaskAssignees();
-
-		int actualSize = lazyWorkflowTaskAssigneeList.size();
 
 		Assert.assertFalse(
 			kaleoTaskAssignmentInstanceLocalService.
 				isGetInstancesCountExecuted());
 
-		Assert.assertEquals(2, actualSize);
+		Assert.assertEquals(2, lazyWorkflowTaskAssigneeList.size());
 	}
 
 	@Test
 	public void testGetSizeWhenWorkflowTaskAssigneesIsNotLoaded() {
-		KaleoTaskInstanceToken kaleoTaskInstanceToken =
-			KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken();
-
 		long kaleoTaskInstanceTokenId = RandomTestUtil.randomLong();
 
-		kaleoTaskInstanceToken =
-			new KaleoTaskInstanceTokenWrapper(kaleoTaskInstanceToken) {
+		KaleoTaskInstanceToken kaleoTaskInstanceToken =
+			new KaleoTaskInstanceTokenWrapper(
+				KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken()) {
 
 				@Override
 				public long getKaleoTaskInstanceTokenId() {
@@ -96,13 +89,11 @@ public class LazyWorkflowTaskAssigneeListTest {
 				kaleoTaskInstanceToken,
 				kaleoTaskAssignmentInstanceLocalService);
 
-		int actualCount = lazyWorkflowTaskAssigneeList.size();
+		Assert.assertEquals(expectedCount, lazyWorkflowTaskAssigneeList.size());
 
 		Assert.assertTrue(
 			kaleoTaskAssignmentInstanceLocalService.
 				isGetInstancesCountExecuted());
-
-		Assert.assertEquals(expectedCount, actualCount);
 	}
 
 	@Test
@@ -165,11 +156,9 @@ public class LazyWorkflowTaskAssigneeListTest {
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testGetWhenIndexIsZeroAndAssignmentIsNull() {
-		KaleoTaskInstanceToken kaleoTaskInstanceToken =
-			KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken();
-
 		LazyWorkflowTaskAssigneeList lazyWorkflowTaskAssigneeList =
-			new LazyWorkflowTaskAssigneeList(kaleoTaskInstanceToken, null);
+			new LazyWorkflowTaskAssigneeList(
+				KaleoRuntimeTestUtil.mockKaleoTaskInstanceToken(), null);
 
 		lazyWorkflowTaskAssigneeList.get(0);
 	}
