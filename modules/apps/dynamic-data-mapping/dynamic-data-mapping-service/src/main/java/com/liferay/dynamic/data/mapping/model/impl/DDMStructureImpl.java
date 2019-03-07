@@ -244,9 +244,7 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	@Override
 	public DDMForm getFullHierarchyDDMForm() {
 		try {
-			DDMForm fullHierarchyDDMForm = createFullHierarchyDDMForm();
-
-			return new DDMForm(fullHierarchyDDMForm);
+			return createFullHierarchyDDMForm();
 		}
 		catch (Exception e) {
 			_log.error(e, e);
