@@ -112,17 +112,34 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 	public DDMFormField getDDMFormField(String fieldName)
 		throws PortalException {
 
-		Map<String, DDMFormField> ddmFormFieldsMap =
-			getFullHierarchyDDMFormFieldsMap(true);
+		try {
+			DDMForm ddmForm = _getDDMForm();
 
-		DDMFormField ddmFormField = ddmFormFieldsMap.get(fieldName);
+			for (DDMFormField ddmFormField : ddmForm.getDDMFormFields()) {
+				if (fieldName.equals(ddmFormField.getName())) {
+					return new DDMFormField(ddmFormField);
+				}
 
-		if (ddmFormField == null) {
-			throw new StructureFieldException(
-				"Unable to find field " + fieldName);
+				for (DDMFormField nestedDDMFormField :
+						ddmFormField.getNestedDDMFormFields()) {
+
+					if (fieldName.equals(nestedDDMFormField.getName())) {
+						return new DDMFormField(nestedDDMFormField);
+					}
+				}
+			}
+
+			DDMStructure parentDDMStructure = getParentDDMStructure();
+
+			if (parentDDMStructure != null) {
+				return parentDDMStructure.getDDMFormField(fieldName);
+			}
+		}
+		catch (Exception e) {
+			_log.error(e, e);
 		}
 
-		return ddmFormField;
+		throw new StructureFieldException("Unable to find field " + fieldName);
 	}
 
 	@Override
