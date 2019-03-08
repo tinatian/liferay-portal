@@ -368,10 +368,34 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 
 	@Override
 	public boolean hasField(String fieldName) {
-		Map<String, DDMFormField> ddmFormFieldsMap =
-			getFullHierarchyDDMFormFieldsMap(true);
+		try {
+			DDMForm ddmForm = _getDDMForm();
 
-		return ddmFormFieldsMap.containsKey(fieldName);
+			for (DDMFormField ddmFormField : ddmForm.getDDMFormFields()) {
+				if (fieldName.equals(ddmFormField.getName())) {
+					return true;
+				}
+
+				for (DDMFormField nestedDDMFormField :
+						ddmFormField.getNestedDDMFormFields()) {
+
+					if (fieldName.equals(nestedDDMFormField.getName())) {
+						return true;
+					}
+				}
+			}
+
+			DDMStructure parentDDMStructure = getParentDDMStructure();
+
+			if (parentDDMStructure != null) {
+				return parentDDMStructure.hasField(fieldName);
+			}
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return false;
 	}
 
 	@Override
