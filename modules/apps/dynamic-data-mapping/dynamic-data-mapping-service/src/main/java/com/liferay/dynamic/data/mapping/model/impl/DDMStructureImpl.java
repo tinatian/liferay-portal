@@ -113,6 +113,12 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 		throws PortalException {
 
 		try {
+			DDMStructure parentDDMStructure = getParentDDMStructure();
+
+			if (parentDDMStructure != null) {
+				return parentDDMStructure.getDDMFormField(fieldName);
+			}
+
 			DDMForm ddmForm = _getDDMForm();
 
 			for (DDMFormField ddmFormField : ddmForm.getDDMFormFields()) {
@@ -127,12 +133,6 @@ public class DDMStructureImpl extends DDMStructureBaseImpl {
 						return new DDMFormField(nestedDDMFormField);
 					}
 				}
-			}
-
-			DDMStructure parentDDMStructure = getParentDDMStructure();
-
-			if (parentDDMStructure != null) {
-				return parentDDMStructure.getDDMFormField(fieldName);
 			}
 		}
 		catch (Exception e) {
