@@ -15,13 +15,21 @@
 package com.liferay.portal.kernel.settings;
 
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.resource.ResourceRetriever;
+import com.liferay.portal.kernel.resource.manager.ClassLoaderResourceManager;
 import com.liferay.portal.kernel.resource.manager.ResourceManager;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
+import java.net.URL;
+import java.net.URLConnection;
+
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Iván Zaera
@@ -113,15 +121,59 @@ public class LocationVariableResolver {
 	}
 
 	private String _resolveResource(String location) {
-		ResourceRetriever resourceRetriever =
-			_resourceManager.getResourceRetriever(location);
+		ClassLoaderResourceManager classLoaderResourceManager =
+			(ClassLoaderResourceManager)_resourceManager;
+
+		ClassLoader classLoader = classLoaderResourceManager.getClassLoader();
+
+		URL url = classLoader.getResource(location);
+
+		if (url == null) {
+			throw new SystemException("Unable to find resource " + location);
+		}
+
+		URLConnection urlConnection = null;
+		InputStream inputStream = null;
 
 		try {
-			return StringUtil.read(resourceRetriever.getInputStream());
+			urlConnection = url.openConnection();
+
+			long lastModifiedTime = urlConnection.getLastModified();
+
+			Map.Entry<Long, String> resource = _resourceContentMap.get(
+				location);
+
+			if ((resource != null) && (lastModifiedTime == resource.getKey())) {
+				return resource.getValue();
+			}
+
+			inputStream = urlConnection.getInputStream();
+
+			String resourceContent = StringUtil.read(inputStream);
+
+			_resourceContentMap.put(
+				location,
+				new AbstractMap.SimpleEntry<>(
+					lastModifiedTime, resourceContent));
+
+			return resourceContent;
 		}
 		catch (IOException ioe) {
 			throw new SystemException(
 				"Unable to read resource " + location, ioe);
+		}
+		finally {
+			try {
+				if ((inputStream == null) && (urlConnection != null)) {
+					inputStream = urlConnection.getInputStream();
+				}
+
+				if (inputStream != null) {
+					inputStream.close();
+				}
+			}
+			catch (IOException ioe) {
+			}
 		}
 	}
 
@@ -156,6 +208,8 @@ public class LocationVariableResolver {
 
 	private static final String _LOCATION_VARIABLE_START = "${";
 
+	private final Map<String, Map.Entry<Long, String>> _resourceContentMap =
+		new ConcurrentHashMap<>();
 	private final ResourceManager _resourceManager;
 	private final SettingsLocatorHelper _settingsLocatorHelper;
 
