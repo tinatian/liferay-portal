@@ -692,7 +692,8 @@ public class JournalTransformer {
 	}
 
 	private static final TemplateResource _DUMMY_TEMPLATE_RESOURCE =
-		new StringTemplateResource("DUMMY_TEMPLATE_RESOURCE", StringPool.BLANK);
+		new StringTemplateResource(
+			"DUMMY_TEMPLATE_RESOURCE", "DUMMY_TEMPLATE_RESOURCE");
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalTransformer.class);
