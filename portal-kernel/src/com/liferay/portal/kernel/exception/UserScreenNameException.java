@@ -26,35 +26,12 @@ import com.liferay.portal.kernel.util.StringUtil;
  */
 public class UserScreenNameException extends PortalException {
 
-	/**
-	 * @deprecated As of Wilberforce (7.0.x), replaced by the inner classes
-	 */
-	@Deprecated
-	public UserScreenNameException() {
-	}
-
-	/**
-	 * @deprecated As of Wilberforce (7.0.x), replaced by the inner classes
-	 */
-	@Deprecated
 	public UserScreenNameException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * @deprecated As of Wilberforce (7.0.x), replaced by the inner classes
-	 */
-	@Deprecated
 	public UserScreenNameException(String msg, Throwable cause) {
 		super(msg, cause);
-	}
-
-	/**
-	 * @deprecated As of Wilberforce (7.0.x), replaced by the inner classes
-	 */
-	@Deprecated
-	public UserScreenNameException(Throwable cause) {
-		super(cause);
 	}
 
 	public static class MustNotBeDuplicate extends UserScreenNameException {
