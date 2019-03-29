@@ -88,8 +88,7 @@ public class SoyTemplateResourceLoader implements TemplateResourceLoader {
 
 		_defaultTemplateResourceLoader = new DefaultTemplateResourceLoader(
 			TemplateConstants.LANG_TYPE_SOY, _templateResourceParsers,
-			_soyTemplateEngineConfiguration.resourceModificationCheck(),
-			_multiVMPool, _singleVMPool);
+			_soyTemplateResourceCache);
 	}
 
 	@Reference(unbind = "-")
@@ -127,6 +126,10 @@ public class SoyTemplateResourceLoader implements TemplateResourceLoader {
 
 	private MultiVMPool _multiVMPool;
 	private SingleVMPool _singleVMPool;
+
+	@Reference
+	private SoyTemplateResourceCache _soyTemplateResourceCache;
+
 	private final Set<TemplateResourceParser> _templateResourceParsers =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
 
