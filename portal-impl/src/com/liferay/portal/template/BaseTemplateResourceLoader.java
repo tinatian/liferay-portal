@@ -28,9 +28,9 @@ import java.util.Set;
 /**
  * @author Tina Tian
  */
-public class DefaultTemplateResourceLoader implements TemplateResourceLoader {
+public class BaseTemplateResourceLoader implements TemplateResourceLoader {
 
-	public DefaultTemplateResourceLoader(
+	public BaseTemplateResourceLoader(
 		String name, Set<TemplateResourceParser> templateResourceParsers,
 		TemplateResourceCache templateResourceCache) {
 
@@ -127,7 +127,7 @@ public class DefaultTemplateResourceLoader implements TemplateResourceLoader {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		DefaultTemplateResourceLoader.class);
+		BaseTemplateResourceLoader.class);
 
 	private final String _name;
 	private final TemplateResourceCache _templateResourceCache;

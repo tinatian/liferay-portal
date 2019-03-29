@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.TemplateResourceLoader;
-import com.liferay.portal.template.DefaultTemplateResourceLoader;
+import com.liferay.portal.template.BaseTemplateResourceLoader;
 import com.liferay.portal.template.TemplateResourceParser;
 import com.liferay.portal.template.velocity.configuration.VelocityEngineConfiguration;
 
@@ -54,33 +54,33 @@ public class VelocityTemplateResourceLoader implements TemplateResourceLoader {
 
 	@Override
 	public void clearCache() {
-		_defaultTemplateResourceLoader.clearCache();
+		_baseTemplateResourceLoader.clearCache();
 	}
 
 	@Override
 	public void clearCache(String templateId) {
-		_defaultTemplateResourceLoader.clearCache(templateId);
+		_baseTemplateResourceLoader.clearCache(templateId);
 	}
 
 	@Deactivate
 	@Override
 	public void destroy() {
-		_defaultTemplateResourceLoader.destroy();
+		_baseTemplateResourceLoader.destroy();
 	}
 
 	@Override
 	public String getName() {
-		return _defaultTemplateResourceLoader.getName();
+		return _baseTemplateResourceLoader.getName();
 	}
 
 	@Override
 	public TemplateResource getTemplateResource(String templateId) {
-		return _defaultTemplateResourceLoader.getTemplateResource(templateId);
+		return _baseTemplateResourceLoader.getTemplateResource(templateId);
 	}
 
 	@Override
 	public boolean hasTemplateResource(String templateId) {
-		return _defaultTemplateResourceLoader.hasTemplateResource(templateId);
+		return _baseTemplateResourceLoader.hasTemplateResource(templateId);
 	}
 
 	@Activate
@@ -89,7 +89,7 @@ public class VelocityTemplateResourceLoader implements TemplateResourceLoader {
 		_velocityEngineConfiguration = ConfigurableUtil.createConfigurable(
 			VelocityEngineConfiguration.class, properties);
 
-		_defaultTemplateResourceLoader = new DefaultTemplateResourceLoader(
+		_baseTemplateResourceLoader = new BaseTemplateResourceLoader(
 			TemplateConstants.LANG_TYPE_VM, _templateResourceParsers,
 			_velocityTemplateResourceCache);
 	}
@@ -122,8 +122,8 @@ public class VelocityTemplateResourceLoader implements TemplateResourceLoader {
 		_templateResourceParsers.remove(templateResourceParser);
 	}
 
-	private static volatile DefaultTemplateResourceLoader
-		_defaultTemplateResourceLoader;
+	private static volatile BaseTemplateResourceLoader
+		_baseTemplateResourceLoader;
 	private static volatile VelocityEngineConfiguration
 		_velocityEngineConfiguration;
 
