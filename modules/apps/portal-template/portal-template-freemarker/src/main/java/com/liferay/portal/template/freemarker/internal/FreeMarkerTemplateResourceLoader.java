@@ -91,8 +91,7 @@ public class FreeMarkerTemplateResourceLoader
 
 		_defaultTemplateResourceLoader = new DefaultTemplateResourceLoader(
 			TemplateConstants.LANG_TYPE_FTL, _templateResourceParsers,
-			_freeMarkerEngineConfiguration.resourceModificationCheck(),
-			_multiVMPool, _singleVMPool);
+			_freeMarkerTemplateResourceCache);
 	}
 
 	@Reference(unbind = "-")
@@ -127,6 +126,9 @@ public class FreeMarkerTemplateResourceLoader
 		_defaultTemplateResourceLoader;
 	private static volatile FreeMarkerEngineConfiguration
 		_freeMarkerEngineConfiguration;
+
+	@Reference
+	private FreeMarkerTemplateResourceCache _freeMarkerTemplateResourceCache;
 
 	private MultiVMPool _multiVMPool;
 	private SingleVMPool _singleVMPool;
