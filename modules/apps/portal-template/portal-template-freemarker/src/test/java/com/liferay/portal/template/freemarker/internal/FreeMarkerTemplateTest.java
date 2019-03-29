@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.template.BaseTemplateResourceCache;
 import com.liferay.portal.template.TemplateContextHelper;
 import com.liferay.portal.template.freemarker.configuration.FreeMarkerEngineConfiguration;
 import com.liferay.portal.tools.ToolDependencies;
@@ -45,6 +46,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -70,20 +72,11 @@ public class FreeMarkerTemplateTest {
 		FreeMarkerTemplateResourceLoader freeMarkerTemplateResourceLoader =
 			new FreeMarkerTemplateResourceLoader();
 
-		Registry registry = RegistryUtil.getRegistry();
-
-		freeMarkerTemplateResourceLoader.setMultiVMPool(
-			registry.getService(MultiVMPool.class));
-		freeMarkerTemplateResourceLoader.setSingleVMPool(
-			registry.getService(SingleVMPool.class));
-
 		freeMarkerTemplateResourceLoader.activate(
 			Collections.<String, Object>emptyMap());
 
 		TemplateCache templateCache = new LiferayTemplateCache(
-			_configuration, _freeMarkerEngineConfiguration,
-			freeMarkerTemplateResourceLoader,
-			registry.getService(SingleVMPool.class));
+			_configuration, freeMarkerTemplateResourceLoader, null);
 
 		ReflectionTestUtil.setFieldValue(
 			_configuration, "cache", templateCache);
@@ -98,7 +91,7 @@ public class FreeMarkerTemplateTest {
 		Template template = new FreeMarkerTemplate(
 			new MockTemplateResource(_TEMPLATE_FILE_NAME), null, null,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -118,7 +111,7 @@ public class FreeMarkerTemplateTest {
 		Template template = new FreeMarkerTemplate(
 			new MockTemplateResource(_TEMPLATE_FILE_NAME), null, null,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -140,7 +133,7 @@ public class FreeMarkerTemplateTest {
 		Template template = new FreeMarkerTemplate(
 			new MockTemplateResource(_TEMPLATE_FILE_NAME), null, null,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -158,7 +151,7 @@ public class FreeMarkerTemplateTest {
 		Template template = new FreeMarkerTemplate(
 			new MockTemplateResource(_WRONG_TEMPLATE_ID), null, null,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -182,7 +175,7 @@ public class FreeMarkerTemplateTest {
 			new StringTemplateResource(
 				_WRONG_TEMPLATE_ID, _TEST_TEMPLATE_CONTENT),
 			null, null, _configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -201,7 +194,7 @@ public class FreeMarkerTemplateTest {
 			new MockTemplateResource(_TEMPLATE_FILE_NAME),
 			new MockTemplateResource(_WRONG_ERROR_TEMPLATE_ID), null,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -219,8 +212,7 @@ public class FreeMarkerTemplateTest {
 		Template template = new FreeMarkerTemplate(
 			new MockTemplateResource(_WRONG_TEMPLATE_ID),
 			new MockTemplateResource(_TEMPLATE_FILE_NAME), null, _configuration,
-			_templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			_templateContextHelper, new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -239,7 +231,7 @@ public class FreeMarkerTemplateTest {
 			new MockTemplateResource(_WRONG_TEMPLATE_ID),
 			new MockTemplateResource(_WRONG_ERROR_TEMPLATE_ID), null,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -265,7 +257,7 @@ public class FreeMarkerTemplateTest {
 			new StringTemplateResource(
 				_WRONG_ERROR_TEMPLATE_ID, _TEST_TEMPLATE_CONTENT),
 			null, _configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		template.put(_TEST_KEY, _TEST_VALUE);
 
@@ -287,7 +279,7 @@ public class FreeMarkerTemplateTest {
 		Template template = new FreeMarkerTemplate(
 			new MockTemplateResource(_TEMPLATE_FILE_NAME), null, context,
 			_configuration, _templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			new MockTemplateResourceCache());
 
 		UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
 
@@ -394,6 +386,20 @@ public class FreeMarkerTemplateTest {
 
 		private long _lastModified = System.currentTimeMillis();
 		private String _templateId;
+
+	}
+
+	private class MockTemplateResourceCache extends BaseTemplateResourceCache {
+
+		private MockTemplateResourceCache() {
+			Registry registry = RegistryUtil.getRegistry();
+
+			init(
+				_freeMarkerEngineConfiguration.resourceModificationCheck(),
+				registry.callService(MultiVMPool.class, Function.identity()),
+				registry.callService(SingleVMPool.class, Function.identity()),
+				"MockTemplateResourceCache");
+		}
 
 	}
 
