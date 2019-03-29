@@ -36,16 +36,11 @@ public abstract class BaseTemplate implements Template {
 
 	public BaseTemplate(
 		TemplateResource errorTemplateResource, Map<String, Object> context,
-		TemplateContextHelper templateContextHelper,
-		String templateManagerName) {
+		TemplateContextHelper templateContextHelper) {
 
 		if (templateContextHelper == null) {
 			throw new IllegalArgumentException(
 				"Template context helper is null");
-		}
-
-		if (templateManagerName == null) {
-			throw new IllegalArgumentException("Template manager name is null");
 		}
 
 		this.errorTemplateResource = errorTemplateResource;
@@ -148,14 +143,6 @@ public abstract class BaseTemplate implements Template {
 	@Override
 	public Collection<Object> values() {
 		return context.values();
-	}
-
-	/**
-	 * @deprecated As of Wilberforce (7.0.x), replaced by {@link #write(Writer)}
-	 */
-	@Deprecated
-	protected void _write(Writer writer) throws TemplateException {
-		write(writer);
 	}
 
 	protected String getTemplateResourceUUID(

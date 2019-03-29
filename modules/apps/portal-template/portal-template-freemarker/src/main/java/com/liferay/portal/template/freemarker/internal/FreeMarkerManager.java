@@ -21,6 +21,7 @@ import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -262,9 +263,25 @@ public class FreeMarkerManager extends BaseSingleTemplateManager {
 			Field field = ReflectionUtil.getDeclaredField(
 				Configuration.class, "cache");
 
+			PortalCache<TemplateResource, TemplateCache.MaybeMissingTemplate>
+				portalCache = null;
+
+			if (_freeMarkerTemplateResourceCache.isEnabled()) {
+				portalCache =
+					(PortalCache
+						<TemplateResource, TemplateCache.MaybeMissingTemplate>)
+							_singleVMPool.getPortalCache(
+								StringBundler.concat(
+									TemplateResource.class.getName(),
+									StringPool.POUND,
+									TemplateConstants.LANG_TYPE_FTL));
+
+				_freeMarkerTemplateResourceCache.setSecondLevelPortalCache(
+					portalCache);
+			}
+
 			TemplateCache templateCache = new LiferayTemplateCache(
-				_configuration, _freeMarkerEngineConfiguration,
-				templateResourceLoader, _singleVMPool);
+				_configuration, templateResourceLoader, portalCache);
 
 			field.set(_configuration, templateCache);
 		}
@@ -357,7 +374,7 @@ public class FreeMarkerManager extends BaseSingleTemplateManager {
 		Template template = new FreeMarkerTemplate(
 			templateResource, errorTemplateResource, helperUtilities,
 			_configuration, templateContextHelper,
-			_freeMarkerEngineConfiguration.resourceModificationCheck());
+			_freeMarkerTemplateResourceCache);
 
 		if (restricted) {
 			template = new RestrictedTemplate(
@@ -479,6 +496,10 @@ public class FreeMarkerManager extends BaseSingleTemplateManager {
 	private volatile FreeMarkerBundleClassloader _freeMarkerBundleClassloader;
 	private volatile FreeMarkerEngineConfiguration
 		_freeMarkerEngineConfiguration;
+
+	@Reference
+	private FreeMarkerTemplateResourceCache _freeMarkerTemplateResourceCache;
+
 	private SingleVMPool _singleVMPool;
 	private final Map<String, String> _taglibMappings =
 		new ConcurrentHashMap<>();

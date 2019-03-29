@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.template.StringTemplateResource;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.TemplateResourceCache;
 import com.liferay.portal.template.BaseSingleResourceTemplate;
 import com.liferay.portal.template.TemplateContextHelper;
 import com.liferay.portal.template.TemplateResourceThreadLocal;
@@ -42,8 +43,6 @@ import freemarker.template.utility.ObjectWrapperWithAPISupport;
 import java.io.Serializable;
 import java.io.Writer;
 
-import java.security.PrivilegedExceptionAction;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,11 +56,12 @@ public class FreeMarkerTemplate extends BaseSingleResourceTemplate {
 		TemplateResource templateResource,
 		TemplateResource errorTemplateResource, Map<String, Object> context,
 		Configuration configuration,
-		TemplateContextHelper templateContextHelper, long interval) {
+		TemplateContextHelper templateContextHelper,
+		TemplateResourceCache templateResourceCache) {
 
 		super(
 			templateResource, errorTemplateResource, context,
-			templateContextHelper, TemplateConstants.LANG_TYPE_FTL, interval);
+			templateContextHelper, templateResourceCache);
 
 		_configuration = configuration;
 	}
@@ -220,26 +220,6 @@ public class FreeMarkerTemplate extends BaseSingleResourceTemplate {
 		private final Map<String, Object> _map;
 		private final ObjectWrapper _objectWrapper;
 		private final Map<String, TemplateModel> _wrappedValueMap;
-
-	}
-
-	private class TemplatePrivilegedExceptionAction
-		implements PrivilegedExceptionAction<Template> {
-
-		public TemplatePrivilegedExceptionAction(
-			TemplateResource templateResource) {
-
-			_templateResource = templateResource;
-		}
-
-		@Override
-		public Template run() throws Exception {
-			return _configuration.getTemplate(
-				getTemplateResourceUUID(_templateResource),
-				TemplateConstants.DEFAUT_ENCODING);
-		}
-
-		private final TemplateResource _templateResource;
 
 	}
 
