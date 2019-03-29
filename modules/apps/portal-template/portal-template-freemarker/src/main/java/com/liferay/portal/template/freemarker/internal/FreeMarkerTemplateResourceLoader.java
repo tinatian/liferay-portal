@@ -18,7 +18,6 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.template.TemplateConstants;
-import com.liferay.portal.kernel.template.TemplateResource;
 import com.liferay.portal.kernel.template.TemplateResourceLoader;
 import com.liferay.portal.template.BaseTemplateResourceLoader;
 import com.liferay.portal.template.TemplateResourceParser;
@@ -32,7 +31,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -50,38 +48,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 	}
 )
 public class FreeMarkerTemplateResourceLoader
-	implements TemplateResourceLoader {
-
-	@Override
-	public void clearCache() {
-		_baseTemplateResourceLoader.clearCache();
-	}
-
-	@Override
-	public void clearCache(String templateId) {
-		_baseTemplateResourceLoader.clearCache(templateId);
-	}
-
-	@Deactivate
-	@Override
-	public void destroy() {
-		_baseTemplateResourceLoader.destroy();
-	}
-
-	@Override
-	public String getName() {
-		return _baseTemplateResourceLoader.getName();
-	}
-
-	@Override
-	public TemplateResource getTemplateResource(String templateId) {
-		return _baseTemplateResourceLoader.getTemplateResource(templateId);
-	}
-
-	@Override
-	public boolean hasTemplateResource(String templateId) {
-		return _baseTemplateResourceLoader.hasTemplateResource(templateId);
-	}
+	extends BaseTemplateResourceLoader {
 
 	@Activate
 	@Modified
@@ -89,7 +56,7 @@ public class FreeMarkerTemplateResourceLoader
 		_freeMarkerEngineConfiguration = ConfigurableUtil.createConfigurable(
 			FreeMarkerEngineConfiguration.class, properties);
 
-		_baseTemplateResourceLoader = new BaseTemplateResourceLoader(
+		init(
 			TemplateConstants.LANG_TYPE_FTL, _templateResourceParsers,
 			_freeMarkerTemplateResourceCache);
 	}
@@ -122,8 +89,6 @@ public class FreeMarkerTemplateResourceLoader
 		_templateResourceParsers.remove(templateResourceParser);
 	}
 
-	private static volatile BaseTemplateResourceLoader
-		_baseTemplateResourceLoader;
 	private static volatile FreeMarkerEngineConfiguration
 		_freeMarkerEngineConfiguration;
 
