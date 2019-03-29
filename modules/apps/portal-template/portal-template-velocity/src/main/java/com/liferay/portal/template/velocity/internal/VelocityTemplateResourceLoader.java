@@ -91,8 +91,7 @@ public class VelocityTemplateResourceLoader implements TemplateResourceLoader {
 
 		_defaultTemplateResourceLoader = new DefaultTemplateResourceLoader(
 			TemplateConstants.LANG_TYPE_VM, _templateResourceParsers,
-			_velocityEngineConfiguration.resourceModificationCheckInterval(),
-			_multiVMPool, _singleVMPool);
+			_velocityTemplateResourceCache);
 	}
 
 	@Reference(unbind = "-")
@@ -132,5 +131,8 @@ public class VelocityTemplateResourceLoader implements TemplateResourceLoader {
 	private SingleVMPool _singleVMPool;
 	private final Set<TemplateResourceParser> _templateResourceParsers =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+	@Reference
+	private VelocityTemplateResourceCache _velocityTemplateResourceCache;
 
 }
