@@ -18,7 +18,7 @@ import com.liferay.petra.lang.ClassLoaderPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
-import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
+import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.cache.SingleVMPool;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.template.Template;
@@ -167,9 +167,7 @@ public class VelocityManager extends BaseSingleTemplateManager {
 
 			boolean cacheEnabled = false;
 
-			if (_velocityEngineConfiguration.
-					resourceModificationCheckInterval() != 0) {
-
+			if (_velocityTemplateResourceCache.isEnabled()) {
 				cacheEnabled = true;
 			}
 
@@ -181,11 +179,25 @@ public class VelocityManager extends BaseSingleTemplateManager {
 				"liferay." + VelocityEngine.RESOURCE_LOADER + ".class",
 				LiferayResourceLoader.class.getName());
 
-			extendedProperties.setProperty(
-				"liferay." + VelocityEngine.RESOURCE_LOADER +
-					".resourceModificationCheckInterval",
-				_velocityEngineConfiguration.
-					resourceModificationCheckInterval() + "");
+			if (cacheEnabled) {
+				PortalCache<TemplateResource, org.apache.velocity.Template>
+					portalCache =
+						(PortalCache
+							<TemplateResource, org.apache.velocity.Template>)
+								_singleVMPool.getPortalCache(
+									StringBundler.concat(
+										TemplateResource.class.getName(),
+										StringPool.POUND,
+										TemplateConstants.LANG_TYPE_VM));
+
+				extendedProperties.setProperty(
+					"liferay." + VelocityEngine.RESOURCE_LOADER +
+						"portal.cache",
+					portalCache);
+
+				_velocityTemplateResourceCache.setSecondLevelPortalCache(
+					portalCache);
+			}
 
 			extendedProperties.setProperty(
 				VelocityEngine.RESOURCE_MANAGER_CLASS,
@@ -223,9 +235,6 @@ public class VelocityManager extends BaseSingleTemplateManager {
 			extendedProperties.setProperty(
 				VelocityEngine.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL,
 				String.valueOf(!cacheEnabled));
-
-			extendedProperties.setProperty(
-				PortalCacheManagerNames.SINGLE_VM, _singleVMPool);
 
 			_velocityEngine.setExtendedProperties(extendedProperties);
 
@@ -271,7 +280,7 @@ public class VelocityManager extends BaseSingleTemplateManager {
 		Template template = new VelocityTemplate(
 			templateResource, errorTemplateResource, helperUtilities,
 			_velocityEngine, templateContextHelper,
-			_velocityEngineConfiguration.resourceModificationCheckInterval());
+			_velocityTemplateResourceCache);
 
 		if (restricted) {
 			template = new RestrictedTemplate(
@@ -324,5 +333,8 @@ public class VelocityManager extends BaseSingleTemplateManager {
 	private SingleVMPool _singleVMPool;
 
 	private VelocityEngine _velocityEngine;
+
+	@Reference
+	private VelocityTemplateResourceCache _velocityTemplateResourceCache;
 
 }
