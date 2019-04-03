@@ -410,24 +410,6 @@ public class JournalTransformer {
 		return UnknownDevice.getInstance();
 	}
 
-	protected TemplateResource getErrorTemplateResource(String langType) {
-		try {
-			return TemplateResourceLoaderUtil.getTemplateResource(
-				langType,
-				StringBundler.concat(
-					langType,
-					JournalErrorTemplateResourceParser.JOURNAL_SEPARATOR_ERROR,
-					CompanyThreadLocal.getCompanyId()));
-		}
-		catch (TemplateException te) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to find error template resource", te);
-			}
-		}
-
-		return null;
-	}
-
 	protected Template getTemplate(
 			String templateId, Map<String, String> tokens, String languageId,
 			Document document, String script, String langType)
@@ -446,8 +428,23 @@ public class JournalTransformer {
 			templateResource = new StringTemplateResource(templateId, script);
 		}
 
-		TemplateResource errorTemplateResource = getErrorTemplateResource(
-			langType);
+		TemplateResource errorTemplateResource = null;
+
+		try {
+			errorTemplateResource =
+				TemplateResourceLoaderUtil.getTemplateResource(
+					langType,
+					StringBundler.concat(
+						langType,
+						JournalErrorTemplateResourceParser.
+							JOURNAL_SEPARATOR_ERROR,
+						CompanyThreadLocal.getCompanyId()));
+		}
+		catch (TemplateException te) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to find error template resource", te);
+			}
+		}
 
 		return TemplateManagerUtil.getTemplate(
 			langType, templateResource, errorTemplateResource, _restricted);
