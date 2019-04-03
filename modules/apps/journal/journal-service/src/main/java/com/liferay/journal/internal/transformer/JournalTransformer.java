@@ -20,7 +20,6 @@ import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
-import com.liferay.journal.configuration.JournalServiceConfiguration;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringWriter;
@@ -31,7 +30,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.mobile.device.Device;
 import com.liferay.portal.kernel.mobile.device.UnknownDevice;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
@@ -39,9 +37,11 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.template.StringTemplateResource;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.template.TemplateManager;
 import com.liferay.portal.kernel.template.TemplateManagerUtil;
 import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.TemplateResourceLoaderUtil;
 import com.liferay.portal.kernel.templateparser.TemplateNode;
 import com.liferay.portal.kernel.templateparser.TransformException;
 import com.liferay.portal.kernel.templateparser.TransformerListener;
@@ -412,30 +412,17 @@ public class JournalTransformer {
 
 	protected TemplateResource getErrorTemplateResource(String langType) {
 		try {
-			long companyId = CompanyThreadLocal.getCompanyId();
-
-			JournalServiceConfiguration journalServiceConfiguration =
-				ConfigurationProviderUtil.getCompanyConfiguration(
-					JournalServiceConfiguration.class, companyId);
-
-			String template = StringPool.BLANK;
-
-			if (langType.equals(TemplateConstants.LANG_TYPE_FTL)) {
-				template = journalServiceConfiguration.errorTemplateFTL();
-			}
-			else if (langType.equals(TemplateConstants.LANG_TYPE_VM)) {
-				template = journalServiceConfiguration.errorTemplateVM();
-			}
-			else if (langType.equals(TemplateConstants.LANG_TYPE_XSL)) {
-				template = journalServiceConfiguration.errorTemplateXSL();
-			}
-			else {
-				return null;
-			}
-
-			return new StringTemplateResource(langType, template);
+			return TemplateResourceLoaderUtil.getTemplateResource(
+				langType,
+				StringBundler.concat(
+					langType,
+					JournalErrorTemplateResourceParser.JOURNAL_SEPARATOR_ERROR,
+					CompanyThreadLocal.getCompanyId()));
 		}
-		catch (Exception e) {
+		catch (TemplateException te) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to find error template resource", te);
+			}
 		}
 
 		return null;
