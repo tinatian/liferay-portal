@@ -45,7 +45,12 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 		this.templateResource = templateResource;
 
 		if (templateResourceCache.isEnabled()) {
-			cacheTemplateResource(templateResourceCache);
+			cacheTemplateResource(templateResourceCache, templateResource);
+
+			if (errorTemplateResource != null) {
+				cacheTemplateResource(
+					templateResourceCache, errorTemplateResource);
+			}
 		}
 	}
 
@@ -82,7 +87,8 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 	}
 
 	protected void cacheTemplateResource(
-		TemplateResourceCache templateResourceCache) {
+		TemplateResourceCache templateResourceCache,
+		TemplateResource templateResource) {
 
 		TemplateResource cachedTemplateResource =
 			templateResourceCache.getTemplateResource(
@@ -93,21 +99,6 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 
 			templateResourceCache.put(
 				templateResource.getTemplateId(), templateResource);
-		}
-
-		if (errorTemplateResource == null) {
-			return;
-		}
-
-		TemplateResource cachedErrorTemplateResource =
-			templateResourceCache.getTemplateResource(
-				errorTemplateResource.getTemplateId());
-
-		if ((cachedErrorTemplateResource == null) ||
-			!errorTemplateResource.equals(cachedErrorTemplateResource)) {
-
-			templateResourceCache.put(
-				errorTemplateResource.getTemplateId(), errorTemplateResource);
 		}
 	}
 
