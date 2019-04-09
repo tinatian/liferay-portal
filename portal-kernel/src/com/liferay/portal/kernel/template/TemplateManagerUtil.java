@@ -62,33 +62,12 @@ public class TemplateManagerUtil {
 	}
 
 	public static Template getTemplate(
-			String templateManagerName,
-			List<TemplateResource> templateResources,
-			TemplateResource errorTemplateResource, boolean restricted)
-		throws TemplateException {
-
-		return _instance._getTemplate(
-			templateManagerName, templateResources, errorTemplateResource,
-			restricted);
-	}
-
-	public static Template getTemplate(
 			String templateManagerName, TemplateResource templateResource,
 			boolean restricted)
 		throws TemplateException {
 
 		return _instance._getTemplate(
 			templateManagerName, templateResource, restricted);
-	}
-
-	public static Template getTemplate(
-			String templateManagerName, TemplateResource templateResource,
-			TemplateResource errorTemplateResource, boolean restricted)
-		throws TemplateException {
-
-		return _instance._getTemplate(
-			templateManagerName, templateResource, errorTemplateResource,
-			restricted);
 	}
 
 	public static TemplateManager getTemplateManager(
@@ -181,19 +160,6 @@ public class TemplateManagerUtil {
 	}
 
 	private Template _getTemplate(
-			String templateManagerName,
-			List<TemplateResource> templateResources,
-			TemplateResource errorTemplateResource, boolean restricted)
-		throws TemplateException {
-
-		TemplateManager templateManager = _getTemplateManagerChecked(
-			templateManagerName);
-
-		return templateManager.getTemplate(
-			templateResources, errorTemplateResource, restricted);
-	}
-
-	private Template _getTemplate(
 			String templateManagerName, TemplateResource templateResource,
 			boolean restricted)
 		throws TemplateException {
@@ -202,18 +168,6 @@ public class TemplateManagerUtil {
 			templateManagerName);
 
 		return templateManager.getTemplate(templateResource, restricted);
-	}
-
-	private Template _getTemplate(
-			String templateManagerName, TemplateResource templateResource,
-			TemplateResource errorTemplateResource, boolean restricted)
-		throws TemplateException {
-
-		TemplateManager templateManager = _getTemplateManagerChecked(
-			templateManagerName);
-
-		return templateManager.getTemplate(
-			templateResource, errorTemplateResource, restricted);
 	}
 
 	private TemplateManager _getTemplateManager(String templateManagerName) {

@@ -52,13 +52,10 @@ public class XSLTemplate extends BaseTemplate {
 
 	public XSLTemplate(
 		XSLTemplateResource xslTemplateResource,
-		TemplateResource errorTemplateResource,
 		TemplateContextHelper templateContextHelper,
 		XSLEngineConfiguration xslEngineConfiguration) {
 
-		super(
-			errorTemplateResource, Collections.emptyMap(),
-			templateContextHelper);
+		super(Collections.emptyMap(), templateContextHelper);
 
 		if (xslTemplateResource == null) {
 			throw new IllegalArgumentException("XSL template resource is null");

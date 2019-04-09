@@ -29,14 +29,6 @@ public abstract class BaseSingleTemplateManager extends BaseTemplateManager {
 	public Template getTemplate(
 		List<TemplateResource> templateResources, boolean restricted) {
 
-		return getTemplate(templateResources, null, restricted);
-	}
-
-	@Override
-	public Template getTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, boolean restricted) {
-
 		throw new UnsupportedOperationException(
 			"Template type does not support multi templates");
 	}
@@ -45,22 +37,12 @@ public abstract class BaseSingleTemplateManager extends BaseTemplateManager {
 	public Template getTemplate(
 		TemplateResource templateResource, boolean restricted) {
 
-		return getTemplate(templateResource, null, restricted);
-	}
-
-	@Override
-	public Template getTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, boolean restricted) {
-
 		return doGetTemplate(
-			templateResource, errorTemplateResource, restricted,
-			getHelperUtilities(restricted));
+			templateResource, restricted, getHelperUtilities(restricted));
 	}
 
 	protected abstract Template doGetTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, boolean restricted,
+		TemplateResource templateResource, boolean restricted,
 		Map<String, Object> helperUtilities);
 
 }

@@ -30,17 +30,8 @@ public abstract class BaseMultiTemplateManager extends BaseTemplateManager {
 	public Template getTemplate(
 		List<TemplateResource> templateResources, boolean restricted) {
 
-		return getTemplate(templateResources, null, restricted);
-	}
-
-	@Override
-	public Template getTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, boolean restricted) {
-
 		return doGetTemplate(
-			templateResources, errorTemplateResource, restricted,
-			getHelperUtilities(restricted));
+			templateResources, restricted, getHelperUtilities(restricted));
 	}
 
 	@Override
@@ -48,22 +39,11 @@ public abstract class BaseMultiTemplateManager extends BaseTemplateManager {
 		TemplateResource templateResource, boolean restricted) {
 
 		return getTemplate(
-			Collections.singletonList(templateResource), null, restricted);
-	}
-
-	@Override
-	public Template getTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, boolean restricted) {
-
-		return getTemplate(
-			Collections.singletonList(templateResource), errorTemplateResource,
-			restricted);
+			Collections.singletonList(templateResource), restricted);
 	}
 
 	protected abstract Template doGetTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, boolean restricted,
+		List<TemplateResource> templateResources, boolean restricted,
 		Map<String, Object> helperUtilities);
 
 }

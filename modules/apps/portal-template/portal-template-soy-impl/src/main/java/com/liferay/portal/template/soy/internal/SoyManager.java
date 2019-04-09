@@ -106,12 +106,11 @@ public class SoyManager extends BaseMultiTemplateManager {
 
 	@Override
 	protected Template doGetTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, boolean restricted,
+		List<TemplateResource> templateResources, boolean restricted,
 		Map<String, Object> helperUtilities) {
 
 		Template template = new SoyTemplate(
-			templateResources, errorTemplateResource, helperUtilities,
+			templateResources, helperUtilities,
 			(SoyTemplateContextHelper)templateContextHelper,
 			_soyTofuCacheHandler);
 

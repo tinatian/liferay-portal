@@ -32,12 +32,11 @@ import java.util.function.Supplier;
 public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 
 	public BaseSingleResourceTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, Map<String, Object> context,
+		TemplateResource templateResource, Map<String, Object> context,
 		TemplateContextHelper templateContextHelper,
 		TemplateResourceCache templateResourceCache) {
 
-		super(errorTemplateResource, context, templateContextHelper);
+		super(context, templateContextHelper);
 
 		if (templateResource == null) {
 			throw new IllegalArgumentException("Template resource is null");

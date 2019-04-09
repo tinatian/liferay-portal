@@ -67,15 +67,7 @@ public interface TemplateManager {
 		List<TemplateResource> templateResources, boolean restricted);
 
 	public Template getTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, boolean restricted);
-
-	public Template getTemplate(
 		TemplateResource templateResource, boolean restricted);
-
-	public Template getTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, boolean restricted);
 
 	public void init() throws TemplateException;
 

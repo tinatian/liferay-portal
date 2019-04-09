@@ -35,15 +35,13 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class BaseTemplate implements Template {
 
 	public BaseTemplate(
-		TemplateResource errorTemplateResource, Map<String, Object> context,
+		Map<String, Object> context,
 		TemplateContextHelper templateContextHelper) {
 
 		if (templateContextHelper == null) {
 			throw new IllegalArgumentException(
 				"Template context helper is null");
 		}
-
-		this.errorTemplateResource = errorTemplateResource;
 
 		this.context = new HashMap<>();
 
@@ -161,7 +159,6 @@ public abstract class BaseTemplate implements Template {
 		throws TemplateException;
 
 	protected Map<String, Object> context;
-	protected TemplateResource errorTemplateResource;
 
 	private final TemplateContextHelper _templateContextHelper;
 

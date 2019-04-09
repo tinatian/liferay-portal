@@ -64,14 +64,11 @@ import org.osgi.framework.wiring.BundleWiring;
 public class SoyTemplate extends BaseMultiResourceTemplate {
 
 	public SoyTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, Map<String, Object> context,
+		List<TemplateResource> templateResources, Map<String, Object> context,
 		SoyTemplateContextHelper templateContextHelper,
 		SoyTofuCacheHandler soyTofuCacheHandler) {
 
-		super(
-			templateResources, errorTemplateResource, null,
-			templateContextHelper);
+		super(templateResources, null, templateContextHelper);
 
 		_templateContextHelper = templateContextHelper;
 

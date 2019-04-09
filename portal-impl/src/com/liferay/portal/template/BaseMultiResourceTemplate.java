@@ -33,11 +33,10 @@ import java.util.function.Supplier;
 public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 
 	public BaseMultiResourceTemplate(
-		List<TemplateResource> templateResources,
-		TemplateResource errorTemplateResource, Map<String, Object> context,
+		List<TemplateResource> templateResources, Map<String, Object> context,
 		TemplateContextHelper templateContextHelper) {
 
-		super(errorTemplateResource, context, templateContextHelper);
+		super(context, templateContextHelper);
 
 		if (ListUtil.isEmpty(templateResources)) {
 			throw new IllegalArgumentException("Template resource is null");

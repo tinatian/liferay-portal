@@ -38,15 +38,14 @@ import org.apache.velocity.exception.ParseErrorException;
 public class VelocityTemplate extends BaseSingleResourceTemplate {
 
 	public VelocityTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, Map<String, Object> context,
+		TemplateResource templateResource, Map<String, Object> context,
 		VelocityEngine velocityEngine,
 		TemplateContextHelper templateContextHelper,
 		TemplateResourceCache templateResourceCache) {
 
 		super(
-			templateResource, errorTemplateResource, context,
-			templateContextHelper, templateResourceCache);
+			templateResource, context, templateContextHelper,
+			templateResourceCache);
 
 		_velocityContext = new VelocityContext(super.context);
 		_velocityEngine = velocityEngine;

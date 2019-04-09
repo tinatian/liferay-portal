@@ -53,15 +53,14 @@ import java.util.Map;
 public class FreeMarkerTemplate extends BaseSingleResourceTemplate {
 
 	public FreeMarkerTemplate(
-		TemplateResource templateResource,
-		TemplateResource errorTemplateResource, Map<String, Object> context,
+		TemplateResource templateResource, Map<String, Object> context,
 		Configuration configuration,
 		TemplateContextHelper templateContextHelper,
 		TemplateResourceCache templateResourceCache) {
 
 		super(
-			templateResource, errorTemplateResource, context,
-			templateContextHelper, templateResourceCache);
+			templateResource, context, templateContextHelper,
+			templateResourceCache);
 
 		_configuration = configuration;
 		_templateResourceCache = templateResourceCache;
