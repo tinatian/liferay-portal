@@ -51,11 +51,15 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 			processTemplates(templateResources, writer);
 		}
 		catch (Exception e) {
-			StringBuilder sb = new StringBuilder();
+			StringBundler sb = new StringBundler(
+				templateResources.size() * 2 - 1);
 
 			for (TemplateResource templateResource : templateResources) {
+				if (sb.index() > 0) {
+					sb.append(",");
+				}
+
 				sb.append(templateResource.getTemplateId());
-				sb.append(",");
 			}
 
 			throw new TemplateException(
@@ -92,11 +96,15 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 				errorTemplateResourceSupplier.get();
 
 			if (errorTemplateResource == null) {
-				StringBuilder sb = new StringBuilder();
+				StringBundler sb = new StringBundler(
+					templateResources.size() * 2 - 1);
 
 				for (TemplateResource templateResource : templateResources) {
+					if (sb.index() > 0) {
+						sb.append(",");
+					}
+
 					sb.append(templateResource.getTemplateId());
-					sb.append(",");
 				}
 
 				throw new TemplateException(
