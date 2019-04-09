@@ -342,10 +342,12 @@ public class JournalTransformer {
 				template.put("journalTemplatesPath", templatesPath);
 
 				if (propagateException) {
-					template.doProcessTemplate(unsyncStringWriter);
+					template.processTemplate(unsyncStringWriter);
 				}
 				else {
-					template.processTemplate(unsyncStringWriter);
+					template.processTemplate(
+						unsyncStringWriter,
+						() -> getErrorTemplateResource(langType));
 				}
 			}
 			catch (Exception e) {
@@ -464,11 +466,8 @@ public class JournalTransformer {
 			templateResource = new StringTemplateResource(templateId, script);
 		}
 
-		TemplateResource errorTemplateResource = getErrorTemplateResource(
-			langType);
-
 		return TemplateManagerUtil.getTemplate(
-			langType, templateResource, errorTemplateResource, _restricted);
+			langType, templateResource, _restricted);
 	}
 
 	protected String getTemplateId(
