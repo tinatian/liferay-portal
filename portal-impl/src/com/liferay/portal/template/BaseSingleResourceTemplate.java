@@ -78,7 +78,19 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 			}
 		}
 
-		write(writer);
+		Writer oldWriter = (Writer)get(TemplateConstants.WRITER);
+
+		try {
+			doProcessTemplate(writer);
+		}
+		catch (Exception e) {
+			put(TemplateConstants.WRITER, writer);
+
+			handleException(e, writer);
+		}
+		finally {
+			put(TemplateConstants.WRITER, oldWriter);
+		}
 	}
 
 	protected void cacheTemplateResource(

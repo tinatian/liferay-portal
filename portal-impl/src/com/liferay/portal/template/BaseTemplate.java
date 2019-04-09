@@ -158,22 +158,6 @@ public abstract class BaseTemplate implements Template {
 	protected abstract void handleException(Exception exception, Writer writer)
 		throws TemplateException;
 
-	protected void write(Writer writer) throws TemplateException {
-		Writer oldWriter = (Writer)get(TemplateConstants.WRITER);
-
-		try {
-			doProcessTemplate(writer);
-		}
-		catch (Exception e) {
-			put(TemplateConstants.WRITER, writer);
-
-			handleException(e, writer);
-		}
-		finally {
-			put(TemplateConstants.WRITER, oldWriter);
-		}
-	}
-
 	protected Map<String, Object> context;
 	protected TemplateResource errorTemplateResource;
 
