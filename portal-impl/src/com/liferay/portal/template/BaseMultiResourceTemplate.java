@@ -58,7 +58,8 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 				sb.append(",");
 			}
 
-			throw new TemplateException("Unable to process templates", e);
+			throw new TemplateException(
+				"Unable to process templates " + sb.toString(), e);
 		}
 	}
 
