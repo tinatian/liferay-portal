@@ -46,11 +46,6 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 
 		if (templateResourceCache.isEnabled()) {
 			cacheTemplateResource(templateResourceCache, templateResource);
-
-			if (errorTemplateResource != null) {
-				cacheTemplateResource(
-					templateResourceCache, errorTemplateResource);
-			}
 		}
 	}
 
