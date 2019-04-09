@@ -150,7 +150,62 @@ public class XSLTemplate extends BaseTemplate {
 				contextClassLoader, _TRANSFORMER_FACTORY_CLASS_LOADER));
 
 		try {
-			doProcessTemplate(writer);
+			String languageId = null;
+
+			XSLURIResolver xslURIResolver =
+				_xslTemplateResource.getXSLURIResolver();
+
+			if (xslURIResolver != null) {
+				languageId = xslURIResolver.getLanguageId();
+			}
+
+			Locale locale = LocaleUtil.fromLanguageId(languageId);
+
+			XSLErrorListener xslErrorListener = new XSLErrorListener(locale);
+
+			_transformerFactory.setErrorListener(xslErrorListener);
+
+			if (_preventLocalConnections) {
+				xslURIResolver = new XSLSecureURIResolver(xslURIResolver);
+			}
+
+			_transformerFactory.setURIResolver(xslURIResolver);
+
+			_xmlStreamSource = new StreamSource(
+				_xslTemplateResource.getXMLReader());
+
+			Transformer transformer = null;
+
+			if (errorTemplateResource == null) {
+				try {
+					transformer = _getTransformer(_xslTemplateResource);
+
+					transformer.transform(
+						_xmlStreamSource, new StreamResult(writer));
+
+					return;
+				}
+				catch (Exception e) {
+					throw new TemplateException(
+						"Unable to process XSL template " +
+							_xslTemplateResource.getTemplateId(),
+						e);
+				}
+			}
+
+			UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
+
+			transformer = _getTransformer(_xslTemplateResource);
+
+			transformer.setParameter(
+				TemplateConstants.WRITER, unsyncStringWriter);
+
+			transformer.transform(
+				_xmlStreamSource, new StreamResult(unsyncStringWriter));
+
+			StringBundler sb = unsyncStringWriter.getStringBundler();
+
+			sb.writeTo(writer);
 		}
 		catch (Exception e) {
 			handleException(e, writer);

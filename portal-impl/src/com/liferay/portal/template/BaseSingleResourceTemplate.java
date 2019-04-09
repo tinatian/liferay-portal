@@ -81,7 +81,15 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 		Writer oldWriter = (Writer)get(TemplateConstants.WRITER);
 
 		try {
-			doProcessTemplate(writer);
+			UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
+
+			put(TemplateConstants.WRITER, unsyncStringWriter);
+
+			processTemplate(templateResource, unsyncStringWriter);
+
+			StringBundler sb = unsyncStringWriter.getStringBundler();
+
+			sb.writeTo(writer);
 		}
 		catch (Exception e) {
 			put(TemplateConstants.WRITER, writer);
