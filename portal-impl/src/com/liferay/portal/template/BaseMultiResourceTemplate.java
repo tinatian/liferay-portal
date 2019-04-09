@@ -25,6 +25,7 @@ import java.io.Writer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * @author Miroslav Ligas
@@ -60,22 +61,30 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 
 	@Override
 	public void processTemplate(Writer writer) throws TemplateException {
-		if (errorTemplateResource == null) {
-			try {
-				processTemplates(templateResources, writer);
+		try {
+			processTemplates(templateResources, writer);
+		}
+		catch (Exception e) {
+			StringBuilder sb = new StringBuilder();
 
-				return;
+			for (TemplateResource templateResource : templateResources) {
+				sb.append(templateResource.getTemplateId());
+				sb.append(",");
 			}
-			catch (Exception e) {
-				StringBuilder sb = new StringBuilder();
 
-				for (TemplateResource templateResource : templateResources) {
-					sb.append(templateResource.getTemplateId());
-					sb.append(",");
-				}
+			throw new TemplateException("Unable to process templates", e);
+		}
+	}
 
-				throw new TemplateException("Unable to process templates", e);
-			}
+	public void processTemplate(
+			Writer writer,
+			Supplier<TemplateResource> errorTemplateResourceSupplier)
+		throws TemplateException {
+
+		if (errorTemplateResourceSupplier == null) {
+			processTemplate(writer);
+
+			return;
 		}
 
 		Writer oldWriter = (Writer)get(TemplateConstants.WRITER);
@@ -92,6 +101,21 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 			sb.writeTo(writer);
 		}
 		catch (Exception e) {
+			TemplateResource errorTemplateResource =
+				errorTemplateResourceSupplier.get();
+
+			if (errorTemplateResource == null) {
+				StringBuilder sb = new StringBuilder();
+
+				for (TemplateResource templateResource : templateResources) {
+					sb.append(templateResource.getTemplateId());
+					sb.append(",");
+				}
+
+				throw new TemplateException(
+					"Unable to process templates " + sb.toString(), e);
+			}
+
 			put(TemplateConstants.WRITER, writer);
 
 			handleException(errorTemplateResource, e, writer);

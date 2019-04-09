@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import java.io.Writer;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * @author Miroslav Ligas
@@ -64,18 +65,26 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 
 	@Override
 	public void processTemplate(Writer writer) throws TemplateException {
-		if (errorTemplateResource == null) {
-			try {
-				processTemplate(templateResource, writer);
+		try {
+			processTemplate(templateResource, writer);
+		}
+		catch (Exception e) {
+			throw new TemplateException(
+				"Unable to process template " +
+					templateResource.getTemplateId(),
+				e);
+		}
+	}
 
-				return;
-			}
-			catch (Exception e) {
-				throw new TemplateException(
-					"Unable to process template " +
-						templateResource.getTemplateId(),
-					e);
-			}
+	public void processTemplate(
+			Writer writer,
+			Supplier<TemplateResource> errorTemplateResourceSupplier)
+		throws TemplateException {
+
+		if (errorTemplateResourceSupplier == null) {
+			processTemplate(writer);
+
+			return;
 		}
 
 		Writer oldWriter = (Writer)get(TemplateConstants.WRITER);
@@ -92,6 +101,16 @@ public abstract class BaseSingleResourceTemplate extends BaseTemplate {
 			sb.writeTo(writer);
 		}
 		catch (Exception e) {
+			TemplateResource errorTemplateResource =
+				errorTemplateResourceSupplier.get();
+
+			if (errorTemplateResource == null) {
+				throw new TemplateException(
+					"Unable to process template " +
+						templateResource.getTemplateId(),
+					e);
+			}
+
 			put(TemplateConstants.WRITER, writer);
 
 			handleException(errorTemplateResource, e, writer);

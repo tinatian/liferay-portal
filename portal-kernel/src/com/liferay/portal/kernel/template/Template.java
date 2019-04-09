@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.template;
 import java.io.Writer;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,5 +35,10 @@ public interface Template extends Map<String, Object> {
 	public void prepare(HttpServletRequest request);
 
 	public void processTemplate(Writer writer) throws TemplateException;
+
+	public void processTemplate(
+			Writer writer,
+			Supplier<TemplateResource> errorTemplateResourceSupplier)
+		throws TemplateException;
 
 }
