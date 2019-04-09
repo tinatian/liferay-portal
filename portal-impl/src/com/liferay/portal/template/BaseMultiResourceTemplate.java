@@ -47,19 +47,6 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 	}
 
 	@Override
-	public void doProcessTemplate(Writer writer) throws Exception {
-		UnsyncStringWriter unsyncStringWriter = new UnsyncStringWriter();
-
-		put(TemplateConstants.WRITER, unsyncStringWriter);
-
-		processTemplates(templateResources, unsyncStringWriter);
-
-		StringBundler sb = unsyncStringWriter.getStringBundler();
-
-		sb.writeTo(writer);
-	}
-
-	@Override
 	public void processTemplate(Writer writer) throws TemplateException {
 		try {
 			processTemplates(templateResources, writer);
