@@ -208,7 +208,7 @@ public class XSLTemplate extends BaseTemplate {
 			sb.writeTo(writer);
 		}
 		catch (Exception e) {
-			handleException(e, writer);
+			handleException(errorTemplateResource, e, writer);
 		}
 		finally {
 			currentThread.setContextClassLoader(contextClassLoader);
@@ -216,7 +216,9 @@ public class XSLTemplate extends BaseTemplate {
 	}
 
 	@Override
-	protected void handleException(Exception exception, Writer writer)
+	protected void handleException(
+			TemplateResource errorTemplateResource, Exception exception,
+			Writer writer)
 		throws TemplateException {
 
 		Transformer errorTransformer = _getTransformer(errorTemplateResource);

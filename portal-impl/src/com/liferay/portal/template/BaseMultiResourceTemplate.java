@@ -94,7 +94,7 @@ public abstract class BaseMultiResourceTemplate extends BaseTemplate {
 		catch (Exception e) {
 			put(TemplateConstants.WRITER, writer);
 
-			handleException(e, writer);
+			handleException(errorTemplateResource, e, writer);
 		}
 		finally {
 			put(TemplateConstants.WRITER, oldWriter);

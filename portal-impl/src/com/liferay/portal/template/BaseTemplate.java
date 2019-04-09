@@ -155,7 +155,9 @@ public abstract class BaseTemplate implements Template {
 		);
 	}
 
-	protected abstract void handleException(Exception exception, Writer writer)
+	protected abstract void handleException(
+			TemplateResource errorTemplateResource, Exception exception,
+			Writer writer)
 		throws TemplateException;
 
 	protected Map<String, Object> context;
