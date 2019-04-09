@@ -64,7 +64,6 @@ public class XSLTemplate extends BaseTemplate {
 		}
 
 		_xslTemplateResource = xslTemplateResource;
-		_errorTemplateResource = errorTemplateResource;
 
 		_preventLocalConnections =
 			xslEngineConfiguration.preventLocalConnections();
@@ -109,7 +108,7 @@ public class XSLTemplate extends BaseTemplate {
 
 		Transformer transformer = null;
 
-		if (_errorTemplateResource == null) {
+		if (errorTemplateResource == null) {
 			try {
 				transformer = _getTransformer(_xslTemplateResource);
 
@@ -165,7 +164,7 @@ public class XSLTemplate extends BaseTemplate {
 	protected void handleException(Exception exception, Writer writer)
 		throws TemplateException {
 
-		Transformer errorTransformer = _getTransformer(_errorTemplateResource);
+		Transformer errorTransformer = _getTransformer(errorTemplateResource);
 
 		errorTransformer.setParameter(TemplateConstants.WRITER, writer);
 
@@ -175,9 +174,9 @@ public class XSLTemplate extends BaseTemplate {
 		errorTransformer.setParameter(
 			"exception", xslErrorListener.getMessageAndLocation());
 
-		if (_errorTemplateResource instanceof StringTemplateResource) {
+		if (errorTemplateResource instanceof StringTemplateResource) {
 			StringTemplateResource stringTemplateResource =
-				(StringTemplateResource)_errorTemplateResource;
+				(StringTemplateResource)errorTemplateResource;
 
 			errorTransformer.setParameter(
 				"script", stringTemplateResource.getContent());
@@ -197,7 +196,7 @@ public class XSLTemplate extends BaseTemplate {
 		catch (Exception e) {
 			throw new TemplateException(
 				"Unable to process XSL template " +
-					_errorTemplateResource.getTemplateId(),
+					errorTemplateResource.getTemplateId(),
 				e);
 		}
 	}
@@ -239,7 +238,6 @@ public class XSLTemplate extends BaseTemplate {
 			transformerFactoryClass.getClassLoader();
 	}
 
-	private TemplateResource _errorTemplateResource;
 	private final boolean _preventLocalConnections;
 	private final TransformerFactory _transformerFactory;
 	private StreamSource _xmlStreamSource;
