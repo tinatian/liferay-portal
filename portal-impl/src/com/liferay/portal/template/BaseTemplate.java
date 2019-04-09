@@ -110,8 +110,8 @@ public abstract class BaseTemplate implements Template {
 	}
 
 	@Override
-	public void prepare(HttpServletRequest request) {
-		_templateContextHelper.prepare(this, request);
+	public void prepare(HttpServletRequest httpServletRequest) {
+		_templateContextHelper.prepare(this, httpServletRequest);
 	}
 
 	@Override
