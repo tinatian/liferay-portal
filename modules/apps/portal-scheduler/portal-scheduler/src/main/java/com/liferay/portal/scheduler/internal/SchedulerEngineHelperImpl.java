@@ -52,6 +52,7 @@ import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.scheduler.internal.configuration.SchedulerEngineHelperConfiguration;
 import com.liferay.portal.scheduler.internal.messaging.config.ScriptingMessageListener;
