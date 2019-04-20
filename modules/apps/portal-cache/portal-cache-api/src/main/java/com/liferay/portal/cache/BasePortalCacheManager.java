@@ -54,6 +54,10 @@ public abstract class BasePortalCacheManager<K extends Serializable, V>
 		doDestroy();
 	}
 
+	public PortalCache<K, V> fetchPortalCache(String portalCacheName) {
+		return portalCaches.get(portalCacheName);
+	}
+
 	@Override
 	public PortalCache<K, V> getPortalCache(String portalCacheName)
 		throws PortalCacheException {
