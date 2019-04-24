@@ -12,76 +12,85 @@
  * details.
  */
 
-package com.liferay.portal.service.util.test;
+package com.liferay.portlet.preferences.test;
 
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletPreferences;
-import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactory;
+import com.liferay.portal.kernel.service.PortletLocalService;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.util.test.LayoutTestUtil;
+
+import org.junit.Before;
 
 /**
  * @author Cristina González
  */
-public class PortletPreferencesTestUtil {
+public abstract class BasePortletPreferencesTestCase {
 
-	public static PortletPreferences addGroupPortletPreferences(
-			Layout layout, Portlet portlet)
-		throws Exception {
+	@Before
+	public void setUp() throws Exception {
+		testGroup = GroupTestUtil.addGroup();
+
+		testLayout = LayoutTestUtil.addLayout(testGroup);
+
+		testPortlet = portletLocalService.getPortletById(
+			testLayout.getCompanyId(), getPortletId());
+	}
+
+	protected PortletPreferences addGroupPortletPreferences(
+		Layout layout, Portlet portlet) {
 
 		return addGroupPortletPreferences(layout, portlet, null);
 	}
 
-	public static PortletPreferences addGroupPortletPreferences(
-			Layout layout, Portlet portlet, String defaultPreferences)
-		throws Exception {
+	protected PortletPreferences addGroupPortletPreferences(
+		Layout layout, Portlet portlet, String defaultPreferences) {
 
-		return PortletPreferencesLocalServiceUtil.addPortletPreferences(
+		return portletPreferencesLocalService.addPortletPreferences(
 			layout.getCompanyId(), layout.getGroupId(),
 			PortletKeys.PREFS_OWNER_TYPE_GROUP, layout.getPlid(),
 			portlet.getPortletId(), portlet, defaultPreferences);
 	}
 
-	public static PortletPreferences addLayoutPortletPreferences(
+	protected PortletPreferences addLayoutPortletPreferences(
 			Layout layout, Portlet portlet)
 		throws Exception {
 
 		return addLayoutPortletPreferences(layout, portlet, null);
 	}
 
-	public static PortletPreferences addLayoutPortletPreferences(
+	protected PortletPreferences addLayoutPortletPreferences(
 			Layout layout, Portlet portlet, String defaultPreferences)
 		throws Exception {
 
-		return PortletPreferencesLocalServiceUtil.addPortletPreferences(
+		return portletPreferencesLocalService.addPortletPreferences(
 			TestPropsValues.getCompanyId(), PortletKeys.PREFS_OWNER_ID_DEFAULT,
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT, layout.getPlid(),
 			portlet.getPortletId(), portlet, defaultPreferences);
 	}
 
-	public static javax.portlet.PortletPreferences
-			fetchLayoutJxPortletPreferences(Layout layout, Portlet portlet)
+	protected javax.portlet.PortletPreferences fetchLayoutJxPortletPreferences(
+			Layout layout, Portlet portlet)
 		throws Exception {
 
-		return PortletPreferencesLocalServiceUtil.fetchPreferences(
+		return portletPreferencesLocalService.fetchPreferences(
 			TestPropsValues.getCompanyId(), PortletKeys.PREFS_OWNER_ID_DEFAULT,
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT, layout.getPlid(),
 			portlet.getPortletId());
 	}
 
-	public static String getPortletPreferencesXML() {
-		return getPortletPreferencesXML(null, null);
-	}
+	protected abstract String getPortletId();
 
-	public static String getPortletPreferencesXML(String name) {
-		return getPortletPreferencesXML(name, null);
-	}
-
-	public static String getPortletPreferencesXML(
-		String name, String[] values) {
-
+	protected String getPortletPreferencesXML(String name, String[] values) {
 		StringBundler sb = new StringBundler();
 
 		sb.append("<portlet-preferences>");
@@ -111,8 +120,22 @@ public class PortletPreferencesTestUtil {
 		return sb.toString();
 	}
 
-	public static String getPortletPreferencesXML(String[] values) {
-		return getPortletPreferencesXML(null, values);
-	}
+	@Inject
+	protected PortletLocalService portletLocalService;
+
+	@Inject
+	protected PortletPreferencesFactory portletPreferencesFactory;
+
+	@Inject
+	protected PortletPreferencesLocalService portletPreferencesLocalService;
+
+	@DeleteAfterTestRun
+	protected Group testGroup;
+
+	@DeleteAfterTestRun
+	protected Layout testLayout;
+
+	@DeleteAfterTestRun
+	protected Portlet testPortlet;
 
 }

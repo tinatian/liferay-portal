@@ -12,67 +12,49 @@
  * details.
  */
 
-package com.liferay.portlet;
+package com.liferay.portlet.preferences.test;
 
-import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.portlet.PortletIdCodec;
-import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
-import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
-import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.PortletKeys;
-import com.liferay.portal.service.util.test.PortletPreferencesTestUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.util.test.LayoutTestUtil;
 
 import javax.portlet.PortletPreferences;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author Jorge Ferrer
  */
-public class PortletPreferencesFactoryImplTest {
+@RunWith(Arquillian.class)
+public class PortletPreferencesFactoryImplTest
+	extends BasePortletPreferencesTestCase {
 
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new LiferayIntegrationTestRule();
 
-	@Before
-	public void setUp() throws Exception {
-		_group = GroupTestUtil.addGroup();
-
-		_layout = LayoutTestUtil.addLayout(_group);
-
-		_portlet = PortletLocalServiceUtil.getPortletById(
-			_layout.getCompanyId(), _PORTLET_ID);
-	}
-
 	@Test
 	public void testGetLayoutPortletSetup() throws Exception {
 		String name = RandomTestUtil.randomString(20);
 		String[] values = {RandomTestUtil.randomString(20)};
 
-		String portletPreferencesXML =
-			PortletPreferencesTestUtil.getPortletPreferencesXML(name, values);
+		String portletPreferencesXML = getPortletPreferencesXML(name, values);
 
-		PortletPreferencesTestUtil.addLayoutPortletPreferences(
-			_layout, _portlet, portletPreferencesXML);
+		addLayoutPortletPreferences(
+			testLayout, testPortlet, portletPreferencesXML);
 
 		PortletPreferences layoutPortletSetup =
-			PortletPreferencesFactoryUtil.getLayoutPortletSetup(
-				_layout, _PORTLET_ID);
+			portletPreferencesFactory.getLayoutPortletSetup(
+				testLayout, _PORTLET_ID);
 
 		Assert.assertArrayEquals(
 			layoutPortletSetup.getValues(name, null), values);
@@ -91,28 +73,26 @@ public class PortletPreferencesFactoryImplTest {
 		String name = RandomTestUtil.randomString(20);
 		String[] values = {RandomTestUtil.randomString(20)};
 
-		String portletPreferencesXML =
-			PortletPreferencesTestUtil.getPortletPreferencesXML(name, values);
+		String portletPreferencesXML = getPortletPreferencesXML(name, values);
 
-		PortletPreferencesLocalServiceUtil.addPortletPreferences(
+		portletPreferencesLocalService.addPortletPreferences(
 			TestPropsValues.getCompanyId(), ownerId, ownerType,
-			_layout.getPlid(), customizableColumnPortletId, _portlet,
+			testLayout.getPlid(), customizableColumnPortletId, testPortlet,
 			portletPreferencesXML);
 
 		PortletPreferences layoutPortletSetup =
-			PortletPreferencesFactoryUtil.getLayoutPortletSetup(
-				_layout, customizableColumnPortletId);
+			portletPreferencesFactory.getLayoutPortletSetup(
+				testLayout, customizableColumnPortletId);
 
 		Assert.assertArrayEquals(
 			layoutPortletSetup.getValues(name, null), values);
 	}
 
+	@Override
+	protected String getPortletId() {
+		return _PORTLET_ID;
+	}
+
 	private static final String _PORTLET_ID = RandomTestUtil.randomString(10);
-
-	@DeleteAfterTestRun
-	private Group _group;
-
-	private Layout _layout;
-	private Portlet _portlet;
 
 }
