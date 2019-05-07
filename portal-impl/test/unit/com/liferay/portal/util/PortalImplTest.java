@@ -305,7 +305,9 @@ public class PortalImplTest {
 			Assert.fail();
 		}
 		catch (Exception e) {
-			Assert.assertTrue(e instanceof RuntimeException);
+			Assert.assertTrue(
+				e + " should be a type of " + RuntimeException.class,
+				e instanceof RuntimeException);
 			Assert.assertEquals(
 				"Unable to unwrap the portlet request from " +
 					MockPortletRequest.class,
@@ -355,6 +357,8 @@ public class PortalImplTest {
 					(HttpServletRequest)liferayServletRequest.getRequest());
 
 			Assert.assertTrue(
+				uploadServletRequest + " should be a type of " +
+					UploadServletRequestImpl.class,
 				uploadServletRequest instanceof UploadServletRequestImpl);
 		}
 		finally {
@@ -464,7 +468,9 @@ public class PortalImplTest {
 
 			httpSession.setAttribute(WebKeys.HTTPS_INITIAL, Boolean.FALSE);
 
-			Assert.assertFalse(_portalImpl.isSecure(mockHttpServletRequest));
+			Assert.assertFalse(
+				mockHttpServletRequest + " should not be secure",
+				_portalImpl.isSecure(mockHttpServletRequest));
 		}
 		finally {
 			setPropsValuesValue(
@@ -500,7 +506,9 @@ public class PortalImplTest {
 
 			httpSession.setAttribute(WebKeys.HTTPS_INITIAL, Boolean.FALSE);
 
-			Assert.assertTrue(_portalImpl.isSecure(mockHttpServletRequest));
+			Assert.assertTrue(
+				mockHttpServletRequest + " should be secure",
+				_portalImpl.isSecure(mockHttpServletRequest));
 		}
 		finally {
 			setPropsValuesValue(
@@ -535,7 +543,9 @@ public class PortalImplTest {
 
 			httpSession.setAttribute(WebKeys.HTTPS_INITIAL, Boolean.TRUE);
 
-			Assert.assertTrue(_portalImpl.isSecure(mockHttpServletRequest));
+			Assert.assertTrue(
+				mockHttpServletRequest + " should be secure",
+				_portalImpl.isSecure(mockHttpServletRequest));
 		}
 		finally {
 			setPropsValuesValue(
@@ -574,7 +584,9 @@ public class PortalImplTest {
 				"X-Forwarded-Custom-Proto", "https");
 			mockHttpServletRequest.setSecure(false);
 
-			Assert.assertTrue(_portalImpl.isSecure(mockHttpServletRequest));
+			Assert.assertTrue(
+				mockHttpServletRequest + " should be secure",
+				_portalImpl.isSecure(mockHttpServletRequest));
 		}
 		finally {
 			setPropsValuesValue(
@@ -616,7 +628,9 @@ public class PortalImplTest {
 
 			httpSession.setAttribute(WebKeys.HTTPS_INITIAL, Boolean.TRUE);
 
-			Assert.assertTrue(_portalImpl.isSecure(mockHttpServletRequest));
+			Assert.assertTrue(
+				mockHttpServletRequest + " should be secure",
+				_portalImpl.isSecure(mockHttpServletRequest));
 		}
 		finally {
 			setPropsValuesValue(
@@ -638,24 +652,40 @@ public class PortalImplTest {
 
 		mockHttpServletRequest.setSecure(true);
 
-		Assert.assertTrue(_portalImpl.isSecure(mockHttpServletRequest));
+		Assert.assertTrue(
+			mockHttpServletRequest + " should be secure",
+			_portalImpl.isSecure(mockHttpServletRequest));
 	}
 
 	@Test
 	public void testIsValidResourceId() {
-		Assert.assertTrue(_portalImpl.isValidResourceId("/view.jsp"));
+		Assert.assertTrue(
+			"/view.jsp should be valid resource id",
+			_portalImpl.isValidResourceId("/view.jsp"));
 		Assert.assertFalse(
+			"/META-INF/MANIFEST.MF should not be valid resource id",
 			_portalImpl.isValidResourceId("/META-INF/MANIFEST.MF"));
 		Assert.assertFalse(
+			"/META-INF\\MANIFEST.MF should not be valid resource id",
 			_portalImpl.isValidResourceId("/META-INF\\MANIFEST.MF"));
 		Assert.assertFalse(
+			"\\META-INF/MANIFEST.MF should not be valid resource id",
 			_portalImpl.isValidResourceId("\\META-INF/MANIFEST.MF"));
 		Assert.assertFalse(
+			"\\META-INF\\MANIFEST.MF should not be valid resource id",
 			_portalImpl.isValidResourceId("\\META-INF\\MANIFEST.MF"));
-		Assert.assertFalse(_portalImpl.isValidResourceId("/WEB-INF/web.xml"));
-		Assert.assertFalse(_portalImpl.isValidResourceId("/WEB-INF\\web.xml"));
-		Assert.assertFalse(_portalImpl.isValidResourceId("\\WEB-INF/web.xml"));
-		Assert.assertFalse(_portalImpl.isValidResourceId("\\WEB-INF\\web.xml"));
+		Assert.assertFalse(
+			"/WEB-INF/web.xml should not be valid resource id",
+			_portalImpl.isValidResourceId("/WEB-INF/web.xml"));
+		Assert.assertFalse(
+			"/WEB-INF\\web.xml should not be valid resource id",
+			_portalImpl.isValidResourceId("/WEB-INF\\web.xml"));
+		Assert.assertFalse(
+			"\\WEB-INF/web.xml should not be valid resource id",
+			_portalImpl.isValidResourceId("\\WEB-INF/web.xml"));
+		Assert.assertFalse(
+			"\\WEB-INF\\web.xml should not be valid resource id",
+			_portalImpl.isValidResourceId("\\WEB-INF\\web.xml"));
 	}
 
 	@Test
