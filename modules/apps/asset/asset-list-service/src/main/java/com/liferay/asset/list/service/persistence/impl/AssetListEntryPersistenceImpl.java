@@ -5235,7 +5235,8 @@ public class AssetListEntryPersistenceImpl
 				assetListEntry.setNew(false);
 			}
 			else {
-				assetListEntry = (AssetListEntry)session.merge(assetListEntry);
+				session.evict(assetListEntry);
+				session.saveOrUpdate(assetListEntry);
 			}
 		}
 		catch (Exception e) {

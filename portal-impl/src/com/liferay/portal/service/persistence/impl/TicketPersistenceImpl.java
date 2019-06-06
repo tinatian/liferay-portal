@@ -1791,7 +1791,8 @@ public class TicketPersistenceImpl
 				ticket.setNew(false);
 			}
 			else {
-				ticket = (Ticket)session.merge(ticket);
+				session.evict(ticket);
+				session.saveOrUpdate(ticket);
 			}
 		}
 		catch (Exception e) {

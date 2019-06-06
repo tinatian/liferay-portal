@@ -3080,9 +3080,8 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 				ddmFormInstanceRecordVersion.setNew(false);
 			}
 			else {
-				ddmFormInstanceRecordVersion =
-					(DDMFormInstanceRecordVersion)session.merge(
-						ddmFormInstanceRecordVersion);
+				session.evict(ddmFormInstanceRecordVersion);
+				session.saveOrUpdate(ddmFormInstanceRecordVersion);
 			}
 		}
 		catch (Exception e) {

@@ -877,8 +877,8 @@ public class CTEntryAggregatePersistenceImpl
 				ctEntryAggregate.setNew(false);
 			}
 			else {
-				ctEntryAggregate = (CTEntryAggregate)session.merge(
-					ctEntryAggregate);
+				session.evict(ctEntryAggregate);
+				session.saveOrUpdate(ctEntryAggregate);
 			}
 		}
 		catch (Exception e) {

@@ -4895,7 +4895,8 @@ public class AddressPersistenceImpl
 				address.setNew(false);
 			}
 			else {
-				address = (Address)session.merge(address);
+				session.evict(address);
+				session.saveOrUpdate(address);
 			}
 		}
 		catch (Exception e) {

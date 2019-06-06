@@ -1187,8 +1187,8 @@ public class ServiceComponentPersistenceImpl
 				serviceComponent.setNew(false);
 			}
 			else {
-				serviceComponent = (ServiceComponent)session.merge(
-					serviceComponent);
+				session.evict(serviceComponent);
+				session.saveOrUpdate(serviceComponent);
 			}
 		}
 		catch (Exception e) {

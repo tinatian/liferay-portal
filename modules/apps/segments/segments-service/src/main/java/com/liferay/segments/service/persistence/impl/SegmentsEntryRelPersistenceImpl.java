@@ -2309,8 +2309,8 @@ public class SegmentsEntryRelPersistenceImpl
 				segmentsEntryRel.setNew(false);
 			}
 			else {
-				segmentsEntryRel = (SegmentsEntryRel)session.merge(
-					segmentsEntryRel);
+				session.evict(segmentsEntryRel);
+				session.saveOrUpdate(segmentsEntryRel);
 			}
 		}
 		catch (Exception e) {

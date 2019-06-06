@@ -8254,7 +8254,8 @@ public class LayoutRevisionPersistenceImpl
 				layoutRevision.setNew(false);
 			}
 			else {
-				layoutRevision = (LayoutRevision)session.merge(layoutRevision);
+				session.evict(layoutRevision);
+				session.saveOrUpdate(layoutRevision);
 			}
 		}
 		catch (Exception e) {

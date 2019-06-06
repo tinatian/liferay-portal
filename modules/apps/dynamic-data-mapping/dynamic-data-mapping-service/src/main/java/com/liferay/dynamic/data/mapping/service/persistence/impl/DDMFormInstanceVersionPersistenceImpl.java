@@ -1725,8 +1725,8 @@ public class DDMFormInstanceVersionPersistenceImpl
 				ddmFormInstanceVersion.setNew(false);
 			}
 			else {
-				ddmFormInstanceVersion = (DDMFormInstanceVersion)session.merge(
-					ddmFormInstanceVersion);
+				session.evict(ddmFormInstanceVersion);
+				session.saveOrUpdate(ddmFormInstanceVersion);
 			}
 		}
 		catch (Exception e) {

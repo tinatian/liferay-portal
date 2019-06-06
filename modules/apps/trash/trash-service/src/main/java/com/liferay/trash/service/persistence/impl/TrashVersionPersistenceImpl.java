@@ -1625,7 +1625,8 @@ public class TrashVersionPersistenceImpl
 				trashVersion.setNew(false);
 			}
 			else {
-				trashVersion = (TrashVersion)session.merge(trashVersion);
+				session.evict(trashVersion);
+				session.saveOrUpdate(trashVersion);
 			}
 		}
 		catch (Exception e) {

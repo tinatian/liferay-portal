@@ -12813,7 +12813,8 @@ public class DLFolderPersistenceImpl
 				dlFolder.setNew(false);
 			}
 			else {
-				dlFolder = (DLFolder)session.merge(dlFolder);
+				session.evict(dlFolder);
+				session.saveOrUpdate(dlFolder);
 			}
 		}
 		catch (Exception e) {

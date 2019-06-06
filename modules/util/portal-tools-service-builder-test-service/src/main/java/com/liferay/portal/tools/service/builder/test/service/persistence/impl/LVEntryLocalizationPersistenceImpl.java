@@ -1381,8 +1381,8 @@ public class LVEntryLocalizationPersistenceImpl
 				lvEntryLocalization.setNew(false);
 			}
 			else {
-				lvEntryLocalization = (LVEntryLocalization)session.merge(
-					lvEntryLocalization);
+				session.evict(lvEntryLocalization);
+				session.saveOrUpdate(lvEntryLocalization);
 			}
 		}
 		catch (Exception e) {

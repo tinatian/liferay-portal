@@ -3149,8 +3149,8 @@ public class KaleoInstanceTokenPersistenceImpl
 				kaleoInstanceToken.setNew(false);
 			}
 			else {
-				kaleoInstanceToken = (KaleoInstanceToken)session.merge(
-					kaleoInstanceToken);
+				session.evict(kaleoInstanceToken);
+				session.saveOrUpdate(kaleoInstanceToken);
 			}
 		}
 		catch (Exception e) {

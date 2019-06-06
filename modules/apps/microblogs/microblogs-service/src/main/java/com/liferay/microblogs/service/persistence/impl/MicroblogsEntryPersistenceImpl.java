@@ -8016,8 +8016,8 @@ public class MicroblogsEntryPersistenceImpl
 				microblogsEntry.setNew(false);
 			}
 			else {
-				microblogsEntry = (MicroblogsEntry)session.merge(
-					microblogsEntry);
+				session.evict(microblogsEntry);
+				session.saveOrUpdate(microblogsEntry);
 			}
 		}
 		catch (Exception e) {

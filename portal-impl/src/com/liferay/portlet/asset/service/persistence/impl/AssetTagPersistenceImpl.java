@@ -4559,7 +4559,8 @@ public class AssetTagPersistenceImpl
 				assetTag.setNew(false);
 			}
 			else {
-				assetTag = (AssetTag)session.merge(assetTag);
+				session.evict(assetTag);
+				session.saveOrUpdate(assetTag);
 			}
 		}
 		catch (Exception e) {

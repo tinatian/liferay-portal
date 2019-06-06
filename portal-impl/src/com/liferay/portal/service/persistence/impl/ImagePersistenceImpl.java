@@ -773,7 +773,8 @@ public class ImagePersistenceImpl
 				image.setNew(false);
 			}
 			else {
-				image = (Image)session.merge(image);
+				session.evict(image);
+				session.saveOrUpdate(image);
 			}
 		}
 		catch (Exception e) {

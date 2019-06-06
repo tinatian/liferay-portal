@@ -2871,8 +2871,8 @@ public class SocialActivityCounterPersistenceImpl
 				socialActivityCounter.setNew(false);
 			}
 			else {
-				socialActivityCounter = (SocialActivityCounter)session.merge(
-					socialActivityCounter);
+				session.evict(socialActivityCounter);
+				session.saveOrUpdate(socialActivityCounter);
 			}
 		}
 		catch (Exception e) {

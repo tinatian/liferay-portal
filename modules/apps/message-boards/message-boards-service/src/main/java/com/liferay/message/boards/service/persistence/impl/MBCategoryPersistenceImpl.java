@@ -11876,7 +11876,8 @@ public class MBCategoryPersistenceImpl
 				mbCategory.setNew(false);
 			}
 			else {
-				mbCategory = (MBCategory)session.merge(mbCategory);
+				session.evict(mbCategory);
+				session.saveOrUpdate(mbCategory);
 			}
 		}
 		catch (Exception e) {

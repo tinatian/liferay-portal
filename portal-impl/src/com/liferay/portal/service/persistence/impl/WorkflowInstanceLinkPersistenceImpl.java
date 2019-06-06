@@ -1582,8 +1582,8 @@ public class WorkflowInstanceLinkPersistenceImpl
 				workflowInstanceLink.setNew(false);
 			}
 			else {
-				workflowInstanceLink = (WorkflowInstanceLink)session.merge(
-					workflowInstanceLink);
+				session.evict(workflowInstanceLink);
+				session.saveOrUpdate(workflowInstanceLink);
 			}
 		}
 		catch (Exception e) {

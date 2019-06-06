@@ -1174,9 +1174,8 @@ public class JournalArticleLocalizationPersistenceImpl
 				journalArticleLocalization.setNew(false);
 			}
 			else {
-				journalArticleLocalization =
-					(JournalArticleLocalization)session.merge(
-						journalArticleLocalization);
+				session.evict(journalArticleLocalization);
+				session.saveOrUpdate(journalArticleLocalization);
 			}
 		}
 		catch (Exception e) {

@@ -1174,7 +1174,8 @@ public class ResourceActionPersistenceImpl
 				resourceAction.setNew(false);
 			}
 			else {
-				resourceAction = (ResourceAction)session.merge(resourceAction);
+				session.evict(resourceAction);
+				session.saveOrUpdate(resourceAction);
 			}
 		}
 		catch (Exception e) {

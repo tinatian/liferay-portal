@@ -2550,7 +2550,8 @@ public class MBMailingListPersistenceImpl
 				mbMailingList.setNew(false);
 			}
 			else {
-				mbMailingList = (MBMailingList)session.merge(mbMailingList);
+				session.evict(mbMailingList);
+				session.saveOrUpdate(mbMailingList);
 			}
 		}
 		catch (Exception e) {

@@ -2971,8 +2971,8 @@ public class UserGroupGroupRolePersistenceImpl
 				userGroupGroupRole.setNew(false);
 			}
 			else {
-				userGroupGroupRole = (UserGroupGroupRole)session.merge(
-					userGroupGroupRole);
+				session.evict(userGroupGroupRole);
+				session.saveOrUpdate(userGroupGroupRole);
 			}
 		}
 		catch (Exception e) {

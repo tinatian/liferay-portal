@@ -1107,7 +1107,8 @@ public class PortletPersistenceImpl
 				portlet.setNew(false);
 			}
 			else {
-				portlet = (Portlet)session.merge(portlet);
+				session.evict(portlet);
+				session.saveOrUpdate(portlet);
 			}
 		}
 		catch (Exception e) {

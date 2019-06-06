@@ -1154,8 +1154,8 @@ public class AnnouncementsDeliveryPersistenceImpl
 				announcementsDelivery.setNew(false);
 			}
 			else {
-				announcementsDelivery = (AnnouncementsDelivery)session.merge(
-					announcementsDelivery);
+				session.evict(announcementsDelivery);
+				session.saveOrUpdate(announcementsDelivery);
 			}
 		}
 		catch (Exception e) {

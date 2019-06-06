@@ -1127,7 +1127,8 @@ public class FolderPersistenceImpl
 				folder.setNew(false);
 			}
 			else {
-				folder = (Folder)session.merge(folder);
+				session.evict(folder);
+				session.saveOrUpdate(folder);
 			}
 		}
 		catch (Exception e) {

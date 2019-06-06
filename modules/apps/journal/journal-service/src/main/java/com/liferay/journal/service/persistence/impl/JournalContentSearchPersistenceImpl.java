@@ -5472,8 +5472,8 @@ public class JournalContentSearchPersistenceImpl
 				journalContentSearch.setNew(false);
 			}
 			else {
-				journalContentSearch = (JournalContentSearch)session.merge(
-					journalContentSearch);
+				session.evict(journalContentSearch);
+				session.saveOrUpdate(journalContentSearch);
 			}
 		}
 		catch (Exception e) {

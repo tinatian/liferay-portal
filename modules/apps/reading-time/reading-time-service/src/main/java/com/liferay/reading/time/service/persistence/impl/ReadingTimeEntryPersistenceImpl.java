@@ -2084,8 +2084,8 @@ public class ReadingTimeEntryPersistenceImpl
 				readingTimeEntry.setNew(false);
 			}
 			else {
-				readingTimeEntry = (ReadingTimeEntry)session.merge(
-					readingTimeEntry);
+				session.evict(readingTimeEntry);
+				session.saveOrUpdate(readingTimeEntry);
 			}
 		}
 		catch (Exception e) {

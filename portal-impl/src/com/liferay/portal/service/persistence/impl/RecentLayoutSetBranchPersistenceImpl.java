@@ -2159,8 +2159,8 @@ public class RecentLayoutSetBranchPersistenceImpl
 				recentLayoutSetBranch.setNew(false);
 			}
 			else {
-				recentLayoutSetBranch = (RecentLayoutSetBranch)session.merge(
-					recentLayoutSetBranch);
+				session.evict(recentLayoutSetBranch);
+				session.saveOrUpdate(recentLayoutSetBranch);
 			}
 		}
 		catch (Exception e) {

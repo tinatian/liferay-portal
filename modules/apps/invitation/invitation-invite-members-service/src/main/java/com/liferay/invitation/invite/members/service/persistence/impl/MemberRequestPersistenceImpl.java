@@ -1993,7 +1993,8 @@ public class MemberRequestPersistenceImpl
 				memberRequest.setNew(false);
 			}
 			else {
-				memberRequest = (MemberRequest)session.merge(memberRequest);
+				session.evict(memberRequest);
+				session.saveOrUpdate(memberRequest);
 			}
 		}
 		catch (Exception e) {

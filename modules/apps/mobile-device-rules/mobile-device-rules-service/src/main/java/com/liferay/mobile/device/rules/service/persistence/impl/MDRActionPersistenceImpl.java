@@ -2292,7 +2292,8 @@ public class MDRActionPersistenceImpl
 				mdrAction.setNew(false);
 			}
 			else {
-				mdrAction = (MDRAction)session.merge(mdrAction);
+				session.evict(mdrAction);
+				session.saveOrUpdate(mdrAction);
 			}
 		}
 		catch (Exception e) {

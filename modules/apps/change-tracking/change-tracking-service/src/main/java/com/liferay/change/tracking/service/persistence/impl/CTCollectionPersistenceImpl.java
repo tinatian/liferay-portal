@@ -1158,7 +1158,8 @@ public class CTCollectionPersistenceImpl
 				ctCollection.setNew(false);
 			}
 			else {
-				ctCollection = (CTCollection)session.merge(ctCollection);
+				session.evict(ctCollection);
+				session.saveOrUpdate(ctCollection);
 			}
 		}
 		catch (Exception e) {

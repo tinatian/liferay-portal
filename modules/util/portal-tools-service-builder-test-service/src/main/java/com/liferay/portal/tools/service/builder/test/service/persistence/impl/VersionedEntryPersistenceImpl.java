@@ -1599,7 +1599,8 @@ public class VersionedEntryPersistenceImpl
 				versionedEntry.setNew(false);
 			}
 			else {
-				versionedEntry = (VersionedEntry)session.merge(versionedEntry);
+				session.evict(versionedEntry);
+				session.saveOrUpdate(versionedEntry);
 			}
 		}
 		catch (Exception e) {

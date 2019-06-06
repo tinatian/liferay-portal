@@ -279,8 +279,8 @@ public class UADPartialEntryPersistenceImpl
 				uadPartialEntry.setNew(false);
 			}
 			else {
-				uadPartialEntry = (UADPartialEntry)session.merge(
-					uadPartialEntry);
+				session.evict(uadPartialEntry);
+				session.saveOrUpdate(uadPartialEntry);
 			}
 		}
 		catch (Exception e) {

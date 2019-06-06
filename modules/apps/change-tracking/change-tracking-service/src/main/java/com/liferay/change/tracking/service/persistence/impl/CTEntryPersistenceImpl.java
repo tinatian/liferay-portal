@@ -1122,7 +1122,8 @@ public class CTEntryPersistenceImpl
 				ctEntry.setNew(false);
 			}
 			else {
-				ctEntry = (CTEntry)session.merge(ctEntry);
+				session.evict(ctEntry);
+				session.saveOrUpdate(ctEntry);
 			}
 		}
 		catch (Exception e) {

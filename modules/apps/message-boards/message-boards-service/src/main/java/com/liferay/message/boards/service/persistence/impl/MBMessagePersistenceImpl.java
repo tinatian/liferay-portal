@@ -20592,7 +20592,8 @@ public class MBMessagePersistenceImpl
 				mbMessage.setNew(false);
 			}
 			else {
-				mbMessage = (MBMessage)session.merge(mbMessage);
+				session.evict(mbMessage);
+				session.saveOrUpdate(mbMessage);
 			}
 		}
 		catch (Exception e) {

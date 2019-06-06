@@ -2808,8 +2808,8 @@ public class DLFileEntryMetadataPersistenceImpl
 				dlFileEntryMetadata.setNew(false);
 			}
 			else {
-				dlFileEntryMetadata = (DLFileEntryMetadata)session.merge(
-					dlFileEntryMetadata);
+				session.evict(dlFileEntryMetadata);
+				session.saveOrUpdate(dlFileEntryMetadata);
 			}
 		}
 		catch (Exception e) {

@@ -7763,7 +7763,8 @@ public class JournalFolderPersistenceImpl
 				journalFolder.setNew(false);
 			}
 			else {
-				journalFolder = (JournalFolder)session.merge(journalFolder);
+				session.evict(journalFolder);
+				session.saveOrUpdate(journalFolder);
 			}
 		}
 		catch (Exception e) {

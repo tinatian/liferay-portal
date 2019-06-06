@@ -2771,7 +2771,8 @@ public class MBDiscussionPersistenceImpl
 				mbDiscussion.setNew(false);
 			}
 			else {
-				mbDiscussion = (MBDiscussion)session.merge(mbDiscussion);
+				session.evict(mbDiscussion);
+				session.saveOrUpdate(mbDiscussion);
 			}
 		}
 		catch (Exception e) {

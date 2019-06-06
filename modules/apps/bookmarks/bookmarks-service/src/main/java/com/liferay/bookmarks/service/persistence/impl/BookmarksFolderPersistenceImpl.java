@@ -7178,8 +7178,8 @@ public class BookmarksFolderPersistenceImpl
 				bookmarksFolder.setNew(false);
 			}
 			else {
-				bookmarksFolder = (BookmarksFolder)session.merge(
-					bookmarksFolder);
+				session.evict(bookmarksFolder);
+				session.saveOrUpdate(bookmarksFolder);
 			}
 		}
 		catch (Exception e) {

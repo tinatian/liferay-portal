@@ -4278,7 +4278,8 @@ public class EmailAddressPersistenceImpl
 				emailAddress.setNew(false);
 			}
 			else {
-				emailAddress = (EmailAddress)session.merge(emailAddress);
+				session.evict(emailAddress);
+				session.saveOrUpdate(emailAddress);
 			}
 		}
 		catch (Exception e) {

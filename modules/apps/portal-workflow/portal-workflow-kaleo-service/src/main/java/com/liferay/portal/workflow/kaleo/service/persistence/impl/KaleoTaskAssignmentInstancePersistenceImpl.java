@@ -4276,9 +4276,8 @@ public class KaleoTaskAssignmentInstancePersistenceImpl
 				kaleoTaskAssignmentInstance.setNew(false);
 			}
 			else {
-				kaleoTaskAssignmentInstance =
-					(KaleoTaskAssignmentInstance)session.merge(
-						kaleoTaskAssignmentInstance);
+				session.evict(kaleoTaskAssignmentInstance);
+				session.saveOrUpdate(kaleoTaskAssignmentInstance);
 			}
 		}
 		catch (Exception e) {

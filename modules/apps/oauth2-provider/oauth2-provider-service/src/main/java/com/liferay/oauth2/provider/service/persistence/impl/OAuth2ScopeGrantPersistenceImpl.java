@@ -1351,8 +1351,8 @@ public class OAuth2ScopeGrantPersistenceImpl
 				oAuth2ScopeGrant.setNew(false);
 			}
 			else {
-				oAuth2ScopeGrant = (OAuth2ScopeGrant)session.merge(
-					oAuth2ScopeGrant);
+				session.evict(oAuth2ScopeGrant);
+				session.saveOrUpdate(oAuth2ScopeGrant);
 			}
 		}
 		catch (Exception e) {

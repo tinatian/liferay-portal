@@ -4128,9 +4128,8 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 				layoutPageTemplateCollection.setNew(false);
 			}
 			else {
-				layoutPageTemplateCollection =
-					(LayoutPageTemplateCollection)session.merge(
-						layoutPageTemplateCollection);
+				session.evict(layoutPageTemplateCollection);
+				session.saveOrUpdate(layoutPageTemplateCollection);
 			}
 		}
 		catch (Exception e) {

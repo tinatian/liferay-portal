@@ -6466,7 +6466,8 @@ public class LVEntryPersistenceImpl
 				lvEntry.setNew(false);
 			}
 			else {
-				lvEntry = (LVEntry)session.merge(lvEntry);
+				session.evict(lvEntry);
+				session.saveOrUpdate(lvEntry);
 			}
 		}
 		catch (Exception e) {

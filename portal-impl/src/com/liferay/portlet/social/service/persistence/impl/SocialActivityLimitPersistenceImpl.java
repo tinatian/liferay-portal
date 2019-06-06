@@ -2325,8 +2325,8 @@ public class SocialActivityLimitPersistenceImpl
 				socialActivityLimit.setNew(false);
 			}
 			else {
-				socialActivityLimit = (SocialActivityLimit)session.merge(
-					socialActivityLimit);
+				session.evict(socialActivityLimit);
+				session.saveOrUpdate(socialActivityLimit);
 			}
 		}
 		catch (Exception e) {

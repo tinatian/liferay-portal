@@ -829,7 +829,8 @@ public class VirtualHostPersistenceImpl
 				virtualHost.setNew(false);
 			}
 			else {
-				virtualHost = (VirtualHost)session.merge(virtualHost);
+				session.evict(virtualHost);
+				session.saveOrUpdate(virtualHost);
 			}
 		}
 		catch (Exception e) {

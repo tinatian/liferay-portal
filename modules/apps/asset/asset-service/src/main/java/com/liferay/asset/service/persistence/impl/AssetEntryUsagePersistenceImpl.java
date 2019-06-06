@@ -3766,8 +3766,8 @@ public class AssetEntryUsagePersistenceImpl
 				assetEntryUsage.setNew(false);
 			}
 			else {
-				assetEntryUsage = (AssetEntryUsage)session.merge(
-					assetEntryUsage);
+				session.evict(assetEntryUsage);
+				session.saveOrUpdate(assetEntryUsage);
 			}
 		}
 		catch (Exception e) {

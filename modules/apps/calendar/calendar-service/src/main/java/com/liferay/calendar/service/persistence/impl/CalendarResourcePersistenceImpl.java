@@ -6645,8 +6645,8 @@ public class CalendarResourcePersistenceImpl
 				calendarResource.setNew(false);
 			}
 			else {
-				calendarResource = (CalendarResource)session.merge(
-					calendarResource);
+				session.evict(calendarResource);
+				session.saveOrUpdate(calendarResource);
 			}
 		}
 		catch (Exception e) {

@@ -1933,7 +1933,8 @@ public class KaleoNodePersistenceImpl
 				kaleoNode.setNew(false);
 			}
 			else {
-				kaleoNode = (KaleoNode)session.merge(kaleoNode);
+				session.evict(kaleoNode);
+				session.saveOrUpdate(kaleoNode);
 			}
 		}
 		catch (Exception e) {

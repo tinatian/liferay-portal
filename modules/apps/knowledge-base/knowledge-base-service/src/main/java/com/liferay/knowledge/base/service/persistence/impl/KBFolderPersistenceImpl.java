@@ -3374,7 +3374,8 @@ public class KBFolderPersistenceImpl
 				kbFolder.setNew(false);
 			}
 			else {
-				kbFolder = (KBFolder)session.merge(kbFolder);
+				session.evict(kbFolder);
+				session.saveOrUpdate(kbFolder);
 			}
 		}
 		catch (Exception e) {

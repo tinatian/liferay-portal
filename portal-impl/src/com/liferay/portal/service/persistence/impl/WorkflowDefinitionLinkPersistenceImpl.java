@@ -3156,8 +3156,8 @@ public class WorkflowDefinitionLinkPersistenceImpl
 				workflowDefinitionLink.setNew(false);
 			}
 			else {
-				workflowDefinitionLink = (WorkflowDefinitionLink)session.merge(
-					workflowDefinitionLink);
+				session.evict(workflowDefinitionLink);
+				session.saveOrUpdate(workflowDefinitionLink);
 			}
 		}
 		catch (Exception e) {

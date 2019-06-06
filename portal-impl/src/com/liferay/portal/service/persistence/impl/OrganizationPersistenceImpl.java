@@ -9481,7 +9481,8 @@ public class OrganizationPersistenceImpl
 				organization.setNew(false);
 			}
 			else {
-				organization = (Organization)session.merge(organization);
+				session.evict(organization);
+				session.saveOrUpdate(organization);
 			}
 		}
 		catch (Exception e) {

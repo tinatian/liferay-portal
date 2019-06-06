@@ -3820,7 +3820,8 @@ public class PasswordPolicyPersistenceImpl
 				passwordPolicy.setNew(false);
 			}
 			else {
-				passwordPolicy = (PasswordPolicy)session.merge(passwordPolicy);
+				session.evict(passwordPolicy);
+				session.saveOrUpdate(passwordPolicy);
 			}
 		}
 		catch (Exception e) {

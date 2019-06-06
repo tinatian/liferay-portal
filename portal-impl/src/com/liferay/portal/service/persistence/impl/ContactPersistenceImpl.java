@@ -1886,7 +1886,8 @@ public class ContactPersistenceImpl
 				contact.setNew(false);
 			}
 			else {
-				contact = (Contact)session.merge(contact);
+				session.evict(contact);
+				session.saveOrUpdate(contact);
 			}
 		}
 		catch (Exception e) {

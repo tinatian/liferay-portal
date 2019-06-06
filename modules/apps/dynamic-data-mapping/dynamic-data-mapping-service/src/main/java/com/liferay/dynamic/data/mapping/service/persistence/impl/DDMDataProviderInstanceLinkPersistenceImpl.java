@@ -1699,9 +1699,8 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 				ddmDataProviderInstanceLink.setNew(false);
 			}
 			else {
-				ddmDataProviderInstanceLink =
-					(DDMDataProviderInstanceLink)session.merge(
-						ddmDataProviderInstanceLink);
+				session.evict(ddmDataProviderInstanceLink);
+				session.saveOrUpdate(ddmDataProviderInstanceLink);
 			}
 		}
 		catch (Exception e) {

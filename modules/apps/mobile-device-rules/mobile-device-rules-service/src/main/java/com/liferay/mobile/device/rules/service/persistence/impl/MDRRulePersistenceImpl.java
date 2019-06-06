@@ -2274,7 +2274,8 @@ public class MDRRulePersistenceImpl
 				mdrRule.setNew(false);
 			}
 			else {
-				mdrRule = (MDRRule)session.merge(mdrRule);
+				session.evict(mdrRule);
+				session.saveOrUpdate(mdrRule);
 			}
 		}
 		catch (Exception e) {

@@ -2304,8 +2304,8 @@ public class AssetCategoryPropertyPersistenceImpl
 				assetCategoryProperty.setNew(false);
 			}
 			else {
-				assetCategoryProperty = (AssetCategoryProperty)session.merge(
-					assetCategoryProperty);
+				session.evict(assetCategoryProperty);
+				session.saveOrUpdate(assetCategoryProperty);
 			}
 		}
 		catch (Exception e) {

@@ -5401,7 +5401,8 @@ public class KBCommentPersistenceImpl
 				kbComment.setNew(false);
 			}
 			else {
-				kbComment = (KBComment)session.merge(kbComment);
+				session.evict(kbComment);
+				session.saveOrUpdate(kbComment);
 			}
 		}
 		catch (Exception e) {

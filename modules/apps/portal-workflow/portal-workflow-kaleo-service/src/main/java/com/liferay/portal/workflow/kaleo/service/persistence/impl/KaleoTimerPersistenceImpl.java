@@ -1568,7 +1568,8 @@ public class KaleoTimerPersistenceImpl
 				kaleoTimer.setNew(false);
 			}
 			else {
-				kaleoTimer = (KaleoTimer)session.merge(kaleoTimer);
+				session.evict(kaleoTimer);
+				session.saveOrUpdate(kaleoTimer);
 			}
 		}
 		catch (Exception e) {

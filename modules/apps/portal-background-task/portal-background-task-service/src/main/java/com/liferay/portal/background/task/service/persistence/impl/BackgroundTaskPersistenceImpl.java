@@ -9159,7 +9159,8 @@ public class BackgroundTaskPersistenceImpl
 				backgroundTask.setNew(false);
 			}
 			else {
-				backgroundTask = (BackgroundTask)session.merge(backgroundTask);
+				session.evict(backgroundTask);
+				session.saveOrUpdate(backgroundTask);
 			}
 		}
 		catch (Exception e) {

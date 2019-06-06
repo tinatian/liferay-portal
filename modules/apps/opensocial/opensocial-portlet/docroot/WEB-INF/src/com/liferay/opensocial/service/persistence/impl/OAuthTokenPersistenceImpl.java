@@ -1415,7 +1415,8 @@ public class OAuthTokenPersistenceImpl
 				oAuthToken.setNew(false);
 			}
 			else {
-				oAuthToken = (OAuthToken)session.merge(oAuthToken);
+				session.evict(oAuthToken);
+				session.saveOrUpdate(oAuthToken);
 			}
 		}
 		catch (Exception e) {

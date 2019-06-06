@@ -5655,8 +5655,8 @@ public class LayoutFriendlyURLPersistenceImpl
 				layoutFriendlyURL.setNew(false);
 			}
 			else {
-				layoutFriendlyURL = (LayoutFriendlyURL)session.merge(
-					layoutFriendlyURL);
+				session.evict(layoutFriendlyURL);
+				session.saveOrUpdate(layoutFriendlyURL);
 			}
 		}
 		catch (Exception e) {

@@ -3426,7 +3426,8 @@ public class DDLRecordSetPersistenceImpl
 				ddlRecordSet.setNew(false);
 			}
 			else {
-				ddlRecordSet = (DDLRecordSet)session.merge(ddlRecordSet);
+				session.evict(ddlRecordSet);
+				session.saveOrUpdate(ddlRecordSet);
 			}
 		}
 		catch (Exception e) {

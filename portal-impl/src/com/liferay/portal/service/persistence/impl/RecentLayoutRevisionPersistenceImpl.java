@@ -2184,8 +2184,8 @@ public class RecentLayoutRevisionPersistenceImpl
 				recentLayoutRevision.setNew(false);
 			}
 			else {
-				recentLayoutRevision = (RecentLayoutRevision)session.merge(
-					recentLayoutRevision);
+				session.evict(recentLayoutRevision);
+				session.saveOrUpdate(recentLayoutRevision);
 			}
 		}
 		catch (Exception e) {

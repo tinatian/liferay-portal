@@ -2705,7 +2705,8 @@ public class TrashEntryPersistenceImpl
 				trashEntry.setNew(false);
 			}
 			else {
-				trashEntry = (TrashEntry)session.merge(trashEntry);
+				session.evict(trashEntry);
+				session.saveOrUpdate(trashEntry);
 			}
 		}
 		catch (Exception e) {

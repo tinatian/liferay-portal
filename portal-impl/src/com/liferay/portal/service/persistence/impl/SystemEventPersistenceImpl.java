@@ -2591,7 +2591,8 @@ public class SystemEventPersistenceImpl
 				systemEvent.setNew(false);
 			}
 			else {
-				systemEvent = (SystemEvent)session.merge(systemEvent);
+				session.evict(systemEvent);
+				session.saveOrUpdate(systemEvent);
 			}
 		}
 		catch (Exception e) {

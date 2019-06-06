@@ -21731,7 +21731,8 @@ public class BlogsEntryPersistenceImpl
 				blogsEntry.setNew(false);
 			}
 			else {
-				blogsEntry = (BlogsEntry)session.merge(blogsEntry);
+				session.evict(blogsEntry);
+				session.saveOrUpdate(blogsEntry);
 			}
 		}
 		catch (Exception e) {

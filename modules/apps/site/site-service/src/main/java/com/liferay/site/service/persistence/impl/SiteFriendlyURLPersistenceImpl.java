@@ -3296,8 +3296,8 @@ public class SiteFriendlyURLPersistenceImpl
 				siteFriendlyURL.setNew(false);
 			}
 			else {
-				siteFriendlyURL = (SiteFriendlyURL)session.merge(
-					siteFriendlyURL);
+				session.evict(siteFriendlyURL);
+				session.saveOrUpdate(siteFriendlyURL);
 			}
 		}
 		catch (Exception e) {

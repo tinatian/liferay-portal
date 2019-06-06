@@ -6890,8 +6890,8 @@ public class ResourcePermissionPersistenceImpl
 				resourcePermission.setNew(false);
 			}
 			else {
-				resourcePermission = (ResourcePermission)session.merge(
-					resourcePermission);
+				session.evict(resourcePermission);
+				session.saveOrUpdate(resourcePermission);
 			}
 		}
 		catch (Exception e) {

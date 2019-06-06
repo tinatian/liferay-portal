@@ -822,8 +822,8 @@ public class PasswordTrackerPersistenceImpl
 				passwordTracker.setNew(false);
 			}
 			else {
-				passwordTracker = (PasswordTracker)session.merge(
-					passwordTracker);
+				session.evict(passwordTracker);
+				session.saveOrUpdate(passwordTracker);
 			}
 		}
 		catch (Exception e) {

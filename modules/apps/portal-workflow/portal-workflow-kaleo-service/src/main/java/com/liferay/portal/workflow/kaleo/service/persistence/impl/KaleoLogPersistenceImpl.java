@@ -3735,7 +3735,8 @@ public class KaleoLogPersistenceImpl
 				kaleoLog.setNew(false);
 			}
 			else {
-				kaleoLog = (KaleoLog)session.merge(kaleoLog);
+				session.evict(kaleoLog);
+				session.saveOrUpdate(kaleoLog);
 			}
 		}
 		catch (Exception e) {

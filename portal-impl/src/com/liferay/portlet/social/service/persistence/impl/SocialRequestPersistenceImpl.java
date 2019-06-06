@@ -6652,7 +6652,8 @@ public class SocialRequestPersistenceImpl
 				socialRequest.setNew(false);
 			}
 			else {
-				socialRequest = (SocialRequest)session.merge(socialRequest);
+				session.evict(socialRequest);
+				session.saveOrUpdate(socialRequest);
 			}
 		}
 		catch (Exception e) {

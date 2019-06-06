@@ -1226,7 +1226,8 @@ public class OAuthConsumerPersistenceImpl
 				oAuthConsumer.setNew(false);
 			}
 			else {
-				oAuthConsumer = (OAuthConsumer)session.merge(oAuthConsumer);
+				session.evict(oAuthConsumer);
+				session.saveOrUpdate(oAuthConsumer);
 			}
 		}
 		catch (Exception e) {

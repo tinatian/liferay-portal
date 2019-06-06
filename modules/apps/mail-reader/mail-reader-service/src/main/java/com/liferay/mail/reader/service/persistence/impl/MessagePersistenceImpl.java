@@ -1615,7 +1615,8 @@ public class MessagePersistenceImpl
 				message.setNew(false);
 			}
 			else {
-				message = (Message)session.merge(message);
+				session.evict(message);
+				session.saveOrUpdate(message);
 			}
 		}
 		catch (Exception e) {

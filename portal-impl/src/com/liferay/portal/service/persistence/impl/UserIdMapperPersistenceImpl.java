@@ -1427,7 +1427,8 @@ public class UserIdMapperPersistenceImpl
 				userIdMapper.setNew(false);
 			}
 			else {
-				userIdMapper = (UserIdMapper)session.merge(userIdMapper);
+				session.evict(userIdMapper);
+				session.saveOrUpdate(userIdMapper);
 			}
 		}
 		catch (Exception e) {

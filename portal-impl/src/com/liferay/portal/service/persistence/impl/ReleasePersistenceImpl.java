@@ -612,7 +612,8 @@ public class ReleasePersistenceImpl
 				release.setNew(false);
 			}
 			else {
-				release = (Release)session.merge(release);
+				session.evict(release);
+				session.saveOrUpdate(release);
 			}
 		}
 		catch (Exception e) {

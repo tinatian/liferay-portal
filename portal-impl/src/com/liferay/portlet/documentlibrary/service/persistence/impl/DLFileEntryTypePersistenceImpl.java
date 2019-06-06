@@ -3455,8 +3455,8 @@ public class DLFileEntryTypePersistenceImpl
 				dlFileEntryType.setNew(false);
 			}
 			else {
-				dlFileEntryType = (DLFileEntryType)session.merge(
-					dlFileEntryType);
+				session.evict(dlFileEntryType);
+				session.saveOrUpdate(dlFileEntryType);
 			}
 		}
 		catch (Exception e) {

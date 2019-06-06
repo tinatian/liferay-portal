@@ -13563,7 +13563,8 @@ public class MBThreadPersistenceImpl
 				mbThread.setNew(false);
 			}
 			else {
-				mbThread = (MBThread)session.merge(mbThread);
+				session.evict(mbThread);
+				session.saveOrUpdate(mbThread);
 			}
 		}
 		catch (Exception e) {

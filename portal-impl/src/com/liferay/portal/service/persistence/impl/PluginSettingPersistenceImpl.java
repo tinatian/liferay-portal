@@ -1186,7 +1186,8 @@ public class PluginSettingPersistenceImpl
 				pluginSetting.setNew(false);
 			}
 			else {
-				pluginSetting = (PluginSetting)session.merge(pluginSetting);
+				session.evict(pluginSetting);
+				session.saveOrUpdate(pluginSetting);
 			}
 		}
 		catch (Exception e) {

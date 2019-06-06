@@ -2620,7 +2620,8 @@ public class RepositoryPersistenceImpl
 				repository.setNew(false);
 			}
 			else {
-				repository = (Repository)session.merge(repository);
+				session.evict(repository);
+				session.saveOrUpdate(repository);
 			}
 		}
 		catch (Exception e) {

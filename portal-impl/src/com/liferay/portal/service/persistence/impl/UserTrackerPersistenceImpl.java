@@ -1866,7 +1866,8 @@ public class UserTrackerPersistenceImpl
 				userTracker.setNew(false);
 			}
 			else {
-				userTracker = (UserTracker)session.merge(userTracker);
+				session.evict(userTracker);
+				session.saveOrUpdate(userTracker);
 			}
 		}
 		catch (Exception e) {

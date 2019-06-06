@@ -2299,7 +2299,8 @@ public class LayoutBranchPersistenceImpl
 				layoutBranch.setNew(false);
 			}
 			else {
-				layoutBranch = (LayoutBranch)session.merge(layoutBranch);
+				session.evict(layoutBranch);
+				session.saveOrUpdate(layoutBranch);
 			}
 		}
 		catch (Exception e) {

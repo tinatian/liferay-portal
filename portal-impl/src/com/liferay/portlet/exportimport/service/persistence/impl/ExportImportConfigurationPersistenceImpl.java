@@ -3122,9 +3122,8 @@ public class ExportImportConfigurationPersistenceImpl
 				exportImportConfiguration.setNew(false);
 			}
 			else {
-				exportImportConfiguration =
-					(ExportImportConfiguration)session.merge(
-						exportImportConfiguration);
+				session.evict(exportImportConfiguration);
+				session.saveOrUpdate(exportImportConfiguration);
 			}
 		}
 		catch (Exception e) {

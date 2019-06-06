@@ -2678,9 +2678,8 @@ public class LayoutPageTemplateStructurePersistenceImpl
 				layoutPageTemplateStructure.setNew(false);
 			}
 			else {
-				layoutPageTemplateStructure =
-					(LayoutPageTemplateStructure)session.merge(
-						layoutPageTemplateStructure);
+				session.evict(layoutPageTemplateStructure);
+				session.saveOrUpdate(layoutPageTemplateStructure);
 			}
 		}
 		catch (Exception e) {

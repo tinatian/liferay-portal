@@ -8593,7 +8593,8 @@ public class UserPersistenceImpl
 				user.setNew(false);
 			}
 			else {
-				user = (User)session.merge(user);
+				session.evict(user);
+				session.saveOrUpdate(user);
 			}
 		}
 		catch (Exception e) {

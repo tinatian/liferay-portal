@@ -4502,7 +4502,8 @@ public class LayoutSetPersistenceImpl
 				layoutSet.setNew(false);
 			}
 			else {
-				layoutSet = (LayoutSet)session.merge(layoutSet);
+				session.evict(layoutSet);
+				session.saveOrUpdate(layoutSet);
 			}
 		}
 		catch (Exception e) {

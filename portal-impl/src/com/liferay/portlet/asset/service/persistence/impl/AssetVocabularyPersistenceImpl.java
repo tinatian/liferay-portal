@@ -5292,8 +5292,8 @@ public class AssetVocabularyPersistenceImpl
 				assetVocabulary.setNew(false);
 			}
 			else {
-				assetVocabulary = (AssetVocabulary)session.merge(
-					assetVocabulary);
+				session.evict(assetVocabulary);
+				session.saveOrUpdate(assetVocabulary);
 			}
 		}
 		catch (Exception e) {

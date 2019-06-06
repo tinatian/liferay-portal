@@ -818,7 +818,8 @@ public class AttachmentPersistenceImpl
 				attachment.setNew(false);
 			}
 			else {
-				attachment = (Attachment)session.merge(attachment);
+				session.evict(attachment);
+				session.saveOrUpdate(attachment);
 			}
 		}
 		catch (Exception e) {

@@ -2152,7 +2152,8 @@ public class MBStatsUserPersistenceImpl
 				mbStatsUser.setNew(false);
 			}
 			else {
-				mbStatsUser = (MBStatsUser)session.merge(mbStatsUser);
+				session.evict(mbStatsUser);
+				session.saveOrUpdate(mbStatsUser);
 			}
 		}
 		catch (Exception e) {

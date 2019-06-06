@@ -4250,7 +4250,8 @@ public class PhonePersistenceImpl
 				phone.setNew(false);
 			}
 			else {
-				phone = (Phone)session.merge(phone);
+				session.evict(phone);
+				session.saveOrUpdate(phone);
 			}
 		}
 		catch (Exception e) {

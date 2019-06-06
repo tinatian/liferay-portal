@@ -7357,8 +7357,8 @@ public class AnnouncementsEntryPersistenceImpl
 				announcementsEntry.setNew(false);
 			}
 			else {
-				announcementsEntry = (AnnouncementsEntry)session.merge(
-					announcementsEntry);
+				session.evict(announcementsEntry);
+				session.saveOrUpdate(announcementsEntry);
 			}
 		}
 		catch (Exception e) {

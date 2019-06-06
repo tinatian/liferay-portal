@@ -3879,9 +3879,8 @@ public class AssetListEntryAssetEntryRelPersistenceImpl
 				assetListEntryAssetEntryRel.setNew(false);
 			}
 			else {
-				assetListEntryAssetEntryRel =
-					(AssetListEntryAssetEntryRel)session.merge(
-						assetListEntryAssetEntryRel);
+				session.evict(assetListEntryAssetEntryRel);
+				session.saveOrUpdate(assetListEntryAssetEntryRel);
 			}
 		}
 		catch (Exception e) {

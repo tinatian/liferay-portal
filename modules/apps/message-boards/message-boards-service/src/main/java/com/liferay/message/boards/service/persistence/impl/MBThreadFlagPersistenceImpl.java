@@ -3042,7 +3042,8 @@ public class MBThreadFlagPersistenceImpl
 				mbThreadFlag.setNew(false);
 			}
 			else {
-				mbThreadFlag = (MBThreadFlag)session.merge(mbThreadFlag);
+				session.evict(mbThreadFlag);
+				session.saveOrUpdate(mbThreadFlag);
 			}
 		}
 		catch (Exception e) {

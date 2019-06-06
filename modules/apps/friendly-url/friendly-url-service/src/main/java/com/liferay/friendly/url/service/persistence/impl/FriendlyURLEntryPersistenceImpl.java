@@ -2394,8 +2394,8 @@ public class FriendlyURLEntryPersistenceImpl
 				friendlyURLEntry.setNew(false);
 			}
 			else {
-				friendlyURLEntry = (FriendlyURLEntry)session.merge(
-					friendlyURLEntry);
+				session.evict(friendlyURLEntry);
+				session.saveOrUpdate(friendlyURLEntry);
 			}
 		}
 		catch (Exception e) {

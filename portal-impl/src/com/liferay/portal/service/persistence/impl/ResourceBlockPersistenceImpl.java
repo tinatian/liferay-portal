@@ -1922,7 +1922,8 @@ public class ResourceBlockPersistenceImpl
 				resourceBlock.setNew(false);
 			}
 			else {
-				resourceBlock = (ResourceBlock)session.merge(resourceBlock);
+				session.evict(resourceBlock);
+				session.saveOrUpdate(resourceBlock);
 			}
 		}
 		catch (Exception e) {

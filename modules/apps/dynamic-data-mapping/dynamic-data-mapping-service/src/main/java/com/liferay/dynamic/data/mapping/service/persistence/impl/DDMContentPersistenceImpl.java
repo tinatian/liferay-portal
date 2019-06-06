@@ -2782,7 +2782,8 @@ public class DDMContentPersistenceImpl
 				ddmContent.setNew(false);
 			}
 			else {
-				ddmContent = (DDMContent)session.merge(ddmContent);
+				session.evict(ddmContent);
+				session.saveOrUpdate(ddmContent);
 			}
 		}
 		catch (Exception e) {

@@ -335,7 +335,8 @@ public class AccountPersistenceImpl
 				account.setNew(false);
 			}
 			else {
-				account = (Account)session.merge(account);
+				session.evict(account);
+				session.saveOrUpdate(account);
 			}
 		}
 		catch (Exception e) {

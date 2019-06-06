@@ -1120,8 +1120,8 @@ public class AnnouncementsFlagPersistenceImpl
 				announcementsFlag.setNew(false);
 			}
 			else {
-				announcementsFlag = (AnnouncementsFlag)session.merge(
-					announcementsFlag);
+				session.evict(announcementsFlag);
+				session.saveOrUpdate(announcementsFlag);
 			}
 		}
 		catch (Exception e) {

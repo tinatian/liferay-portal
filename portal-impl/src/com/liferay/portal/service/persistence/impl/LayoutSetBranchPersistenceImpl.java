@@ -3547,8 +3547,8 @@ public class LayoutSetBranchPersistenceImpl
 				layoutSetBranch.setNew(false);
 			}
 			else {
-				layoutSetBranch = (LayoutSetBranch)session.merge(
-					layoutSetBranch);
+				session.evict(layoutSetBranch);
+				session.saveOrUpdate(layoutSetBranch);
 			}
 		}
 		catch (Exception e) {

@@ -6521,7 +6521,8 @@ public class SocialActivityPersistenceImpl
 				socialActivity.setNew(false);
 			}
 			else {
-				socialActivity = (SocialActivity)session.merge(socialActivity);
+				session.evict(socialActivity);
+				session.saveOrUpdate(socialActivity);
 			}
 		}
 		catch (Exception e) {

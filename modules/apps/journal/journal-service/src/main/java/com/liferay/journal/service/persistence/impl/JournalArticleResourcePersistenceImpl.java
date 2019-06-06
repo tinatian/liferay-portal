@@ -2616,8 +2616,8 @@ public class JournalArticleResourcePersistenceImpl
 				journalArticleResource.setNew(false);
 			}
 			else {
-				journalArticleResource = (JournalArticleResource)session.merge(
-					journalArticleResource);
+				session.evict(journalArticleResource);
+				session.saveOrUpdate(journalArticleResource);
 			}
 		}
 		catch (Exception e) {

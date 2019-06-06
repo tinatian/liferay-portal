@@ -1685,8 +1685,8 @@ public class DDMTemplateVersionPersistenceImpl
 				ddmTemplateVersion.setNew(false);
 			}
 			else {
-				ddmTemplateVersion = (DDMTemplateVersion)session.merge(
-					ddmTemplateVersion);
+				session.evict(ddmTemplateVersion);
+				session.saveOrUpdate(ddmTemplateVersion);
 			}
 		}
 		catch (Exception e) {

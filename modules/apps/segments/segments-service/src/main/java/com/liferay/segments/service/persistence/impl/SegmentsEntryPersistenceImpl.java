@@ -8269,7 +8269,8 @@ public class SegmentsEntryPersistenceImpl
 				segmentsEntry.setNew(false);
 			}
 			else {
-				segmentsEntry = (SegmentsEntry)session.merge(segmentsEntry);
+				session.evict(segmentsEntry);
+				session.saveOrUpdate(segmentsEntry);
 			}
 		}
 		catch (Exception e) {

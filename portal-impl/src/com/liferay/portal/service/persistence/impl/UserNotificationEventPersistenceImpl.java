@@ -8616,8 +8616,8 @@ public class UserNotificationEventPersistenceImpl
 				userNotificationEvent.setNew(false);
 			}
 			else {
-				userNotificationEvent = (UserNotificationEvent)session.merge(
-					userNotificationEvent);
+				session.evict(userNotificationEvent);
+				session.saveOrUpdate(userNotificationEvent);
 			}
 		}
 		catch (Exception e) {

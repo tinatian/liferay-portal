@@ -2577,8 +2577,8 @@ public class DDMStructureLayoutPersistenceImpl
 				ddmStructureLayout.setNew(false);
 			}
 			else {
-				ddmStructureLayout = (DDMStructureLayout)session.merge(
-					ddmStructureLayout);
+				session.evict(ddmStructureLayout);
+				session.saveOrUpdate(ddmStructureLayout);
 			}
 		}
 		catch (Exception e) {

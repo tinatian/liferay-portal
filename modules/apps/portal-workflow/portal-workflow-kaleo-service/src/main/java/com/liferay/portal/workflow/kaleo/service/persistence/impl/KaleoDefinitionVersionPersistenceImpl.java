@@ -1828,8 +1828,8 @@ public class KaleoDefinitionVersionPersistenceImpl
 				kaleoDefinitionVersion.setNew(false);
 			}
 			else {
-				kaleoDefinitionVersion = (KaleoDefinitionVersion)session.merge(
-					kaleoDefinitionVersion);
+				session.evict(kaleoDefinitionVersion);
+				session.saveOrUpdate(kaleoDefinitionVersion);
 			}
 		}
 		catch (Exception e) {

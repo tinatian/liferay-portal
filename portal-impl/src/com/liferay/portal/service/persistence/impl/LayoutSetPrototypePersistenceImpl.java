@@ -4240,8 +4240,8 @@ public class LayoutSetPrototypePersistenceImpl
 				layoutSetPrototype.setNew(false);
 			}
 			else {
-				layoutSetPrototype = (LayoutSetPrototype)session.merge(
-					layoutSetPrototype);
+				session.evict(layoutSetPrototype);
+				session.saveOrUpdate(layoutSetPrototype);
 			}
 		}
 		catch (Exception e) {

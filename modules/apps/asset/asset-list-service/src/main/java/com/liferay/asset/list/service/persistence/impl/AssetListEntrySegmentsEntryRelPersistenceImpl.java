@@ -3215,9 +3215,8 @@ public class AssetListEntrySegmentsEntryRelPersistenceImpl
 				assetListEntrySegmentsEntryRel.setNew(false);
 			}
 			else {
-				assetListEntrySegmentsEntryRel =
-					(AssetListEntrySegmentsEntryRel)session.merge(
-						assetListEntrySegmentsEntryRel);
+				session.evict(assetListEntrySegmentsEntryRel);
+				session.saveOrUpdate(assetListEntrySegmentsEntryRel);
 			}
 		}
 		catch (Exception e) {

@@ -1629,7 +1629,8 @@ public class KaleoConditionPersistenceImpl
 				kaleoCondition.setNew(false);
 			}
 			else {
-				kaleoCondition = (KaleoCondition)session.merge(kaleoCondition);
+				session.evict(kaleoCondition);
+				session.saveOrUpdate(kaleoCondition);
 			}
 		}
 		catch (Exception e) {

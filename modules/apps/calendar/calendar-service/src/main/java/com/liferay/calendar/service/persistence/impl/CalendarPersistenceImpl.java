@@ -3757,7 +3757,8 @@ public class CalendarPersistenceImpl
 				calendar.setNew(false);
 			}
 			else {
-				calendar = (Calendar)session.merge(calendar);
+				session.evict(calendar);
+				session.saveOrUpdate(calendar);
 			}
 		}
 		catch (Exception e) {

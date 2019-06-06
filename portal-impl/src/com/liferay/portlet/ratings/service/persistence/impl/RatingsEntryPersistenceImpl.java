@@ -3247,7 +3247,8 @@ public class RatingsEntryPersistenceImpl
 				ratingsEntry.setNew(false);
 			}
 			else {
-				ratingsEntry = (RatingsEntry)session.merge(ratingsEntry);
+				session.evict(ratingsEntry);
+				session.saveOrUpdate(ratingsEntry);
 			}
 		}
 		catch (Exception e) {

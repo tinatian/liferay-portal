@@ -9583,8 +9583,8 @@ public class SegmentsExperiencePersistenceImpl
 				segmentsExperience.setNew(false);
 			}
 			else {
-				segmentsExperience = (SegmentsExperience)session.merge(
-					segmentsExperience);
+				session.evict(segmentsExperience);
+				session.saveOrUpdate(segmentsExperience);
 			}
 		}
 		catch (Exception e) {

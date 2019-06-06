@@ -1985,7 +1985,8 @@ public class ExpandoColumnPersistenceImpl
 				expandoColumn.setNew(false);
 			}
 			else {
-				expandoColumn = (ExpandoColumn)session.merge(expandoColumn);
+				session.evict(expandoColumn);
+				session.saveOrUpdate(expandoColumn);
 			}
 		}
 		catch (Exception e) {

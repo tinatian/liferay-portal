@@ -3219,8 +3219,8 @@ public class AssetListEntryUsagePersistenceImpl
 				assetListEntryUsage.setNew(false);
 			}
 			else {
-				assetListEntryUsage = (AssetListEntryUsage)session.merge(
-					assetListEntryUsage);
+				session.evict(assetListEntryUsage);
+				session.saveOrUpdate(assetListEntryUsage);
 			}
 		}
 		catch (Exception e) {

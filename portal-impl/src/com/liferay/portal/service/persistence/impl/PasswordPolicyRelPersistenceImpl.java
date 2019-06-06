@@ -1109,8 +1109,8 @@ public class PasswordPolicyRelPersistenceImpl
 				passwordPolicyRel.setNew(false);
 			}
 			else {
-				passwordPolicyRel = (PasswordPolicyRel)session.merge(
-					passwordPolicyRel);
+				session.evict(passwordPolicyRel);
+				session.saveOrUpdate(passwordPolicyRel);
 			}
 		}
 		catch (Exception e) {

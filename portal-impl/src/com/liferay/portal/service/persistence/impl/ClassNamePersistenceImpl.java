@@ -559,7 +559,8 @@ public class ClassNamePersistenceImpl
 				className.setNew(false);
 			}
 			else {
-				className = (ClassName)session.merge(className);
+				session.evict(className);
+				session.saveOrUpdate(className);
 			}
 		}
 		catch (Exception e) {

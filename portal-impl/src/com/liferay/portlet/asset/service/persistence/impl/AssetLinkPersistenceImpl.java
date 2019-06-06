@@ -3249,7 +3249,8 @@ public class AssetLinkPersistenceImpl
 				assetLink.setNew(false);
 			}
 			else {
-				assetLink = (AssetLink)session.merge(assetLink);
+				session.evict(assetLink);
+				session.saveOrUpdate(assetLink);
 			}
 		}
 		catch (Exception e) {

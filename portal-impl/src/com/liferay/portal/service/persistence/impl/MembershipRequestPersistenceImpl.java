@@ -2476,8 +2476,8 @@ public class MembershipRequestPersistenceImpl
 				membershipRequest.setNew(false);
 			}
 			else {
-				membershipRequest = (MembershipRequest)session.merge(
-					membershipRequest);
+				session.evict(membershipRequest);
+				session.saveOrUpdate(membershipRequest);
 			}
 		}
 		catch (Exception e) {

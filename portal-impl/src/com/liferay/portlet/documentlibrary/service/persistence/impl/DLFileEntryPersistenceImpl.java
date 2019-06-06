@@ -15044,7 +15044,8 @@ public class DLFileEntryPersistenceImpl
 				dlFileEntry.setNew(false);
 			}
 			else {
-				dlFileEntry = (DLFileEntry)session.merge(dlFileEntry);
+				session.evict(dlFileEntry);
+				session.saveOrUpdate(dlFileEntry);
 			}
 		}
 		catch (Exception e) {

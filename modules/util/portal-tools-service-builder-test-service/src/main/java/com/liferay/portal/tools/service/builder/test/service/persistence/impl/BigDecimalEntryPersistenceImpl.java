@@ -1993,8 +1993,8 @@ public class BigDecimalEntryPersistenceImpl
 				bigDecimalEntry.setNew(false);
 			}
 			else {
-				bigDecimalEntry = (BigDecimalEntry)session.merge(
-					bigDecimalEntry);
+				session.evict(bigDecimalEntry);
+				session.saveOrUpdate(bigDecimalEntry);
 			}
 		}
 		catch (Exception e) {

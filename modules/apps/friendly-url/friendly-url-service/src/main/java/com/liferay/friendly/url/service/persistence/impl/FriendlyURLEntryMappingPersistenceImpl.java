@@ -603,9 +603,8 @@ public class FriendlyURLEntryMappingPersistenceImpl
 				friendlyURLEntryMapping.setNew(false);
 			}
 			else {
-				friendlyURLEntryMapping =
-					(FriendlyURLEntryMapping)session.merge(
-						friendlyURLEntryMapping);
+				session.evict(friendlyURLEntryMapping);
+				session.saveOrUpdate(friendlyURLEntryMapping);
 			}
 		}
 		catch (Exception e) {

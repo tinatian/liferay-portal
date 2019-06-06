@@ -1563,8 +1563,8 @@ public class OAuth2ApplicationPersistenceImpl
 				oAuth2Application.setNew(false);
 			}
 			else {
-				oAuth2Application = (OAuth2Application)session.merge(
-					oAuth2Application);
+				session.evict(oAuth2Application);
+				session.saveOrUpdate(oAuth2Application);
 			}
 		}
 		catch (Exception e) {

@@ -599,7 +599,8 @@ public class WebDAVPropsPersistenceImpl
 				webDAVProps.setNew(false);
 			}
 			else {
-				webDAVProps = (WebDAVProps)session.merge(webDAVProps);
+				session.evict(webDAVProps);
+				session.saveOrUpdate(webDAVProps);
 			}
 		}
 		catch (Exception e) {

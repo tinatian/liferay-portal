@@ -1552,7 +1552,8 @@ public class CompanyPersistenceImpl
 				company.setNew(false);
 			}
 			else {
-				company = (Company)session.merge(company);
+				session.evict(company);
+				session.saveOrUpdate(company);
 			}
 		}
 		catch (Exception e) {

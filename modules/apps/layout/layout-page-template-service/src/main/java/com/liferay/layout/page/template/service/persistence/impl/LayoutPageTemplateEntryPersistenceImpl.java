@@ -21546,9 +21546,8 @@ public class LayoutPageTemplateEntryPersistenceImpl
 				layoutPageTemplateEntry.setNew(false);
 			}
 			else {
-				layoutPageTemplateEntry =
-					(LayoutPageTemplateEntry)session.merge(
-						layoutPageTemplateEntry);
+				session.evict(layoutPageTemplateEntry);
+				session.saveOrUpdate(layoutPageTemplateEntry);
 			}
 		}
 		catch (Exception e) {

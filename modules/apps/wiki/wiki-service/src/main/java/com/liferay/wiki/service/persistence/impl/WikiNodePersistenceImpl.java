@@ -4915,7 +4915,8 @@ public class WikiNodePersistenceImpl
 				wikiNode.setNew(false);
 			}
 			else {
-				wikiNode = (WikiNode)session.merge(wikiNode);
+				session.evict(wikiNode);
+				session.saveOrUpdate(wikiNode);
 			}
 		}
 		catch (Exception e) {

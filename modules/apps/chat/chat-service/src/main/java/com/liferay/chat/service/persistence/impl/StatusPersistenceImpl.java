@@ -2092,7 +2092,8 @@ public class StatusPersistenceImpl
 				status.setNew(false);
 			}
 			else {
-				status = (Status)session.merge(status);
+				session.evict(status);
+				session.saveOrUpdate(status);
 			}
 		}
 		catch (Exception e) {

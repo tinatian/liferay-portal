@@ -2947,7 +2947,8 @@ public class JournalFeedPersistenceImpl
 				journalFeed.setNew(false);
 			}
 			else {
-				journalFeed = (JournalFeed)session.merge(journalFeed);
+				session.evict(journalFeed);
+				session.saveOrUpdate(journalFeed);
 			}
 		}
 		catch (Exception e) {

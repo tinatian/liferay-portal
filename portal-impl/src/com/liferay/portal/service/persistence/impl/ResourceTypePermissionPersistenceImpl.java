@@ -1841,8 +1841,8 @@ public class ResourceTypePermissionPersistenceImpl
 				resourceTypePermission.setNew(false);
 			}
 			else {
-				resourceTypePermission = (ResourceTypePermission)session.merge(
-					resourceTypePermission);
+				session.evict(resourceTypePermission);
+				session.saveOrUpdate(resourceTypePermission);
 			}
 		}
 		catch (Exception e) {

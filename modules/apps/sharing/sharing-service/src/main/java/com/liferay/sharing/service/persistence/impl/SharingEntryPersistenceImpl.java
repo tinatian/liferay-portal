@@ -5777,7 +5777,8 @@ public class SharingEntryPersistenceImpl
 				sharingEntry.setNew(false);
 			}
 			else {
-				sharingEntry = (SharingEntry)session.merge(sharingEntry);
+				session.evict(sharingEntry);
+				session.saveOrUpdate(sharingEntry);
 			}
 		}
 		catch (Exception e) {

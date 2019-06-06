@@ -1705,8 +1705,8 @@ public class DDLRecordSetVersionPersistenceImpl
 				ddlRecordSetVersion.setNew(false);
 			}
 			else {
-				ddlRecordSetVersion = (DDLRecordSetVersion)session.merge(
-					ddlRecordSetVersion);
+				session.evict(ddlRecordSetVersion);
+				session.saveOrUpdate(ddlRecordSetVersion);
 			}
 		}
 		catch (Exception e) {

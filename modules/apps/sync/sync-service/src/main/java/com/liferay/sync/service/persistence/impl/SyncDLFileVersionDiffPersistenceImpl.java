@@ -1719,8 +1719,8 @@ public class SyncDLFileVersionDiffPersistenceImpl
 				syncDLFileVersionDiff.setNew(false);
 			}
 			else {
-				syncDLFileVersionDiff = (SyncDLFileVersionDiff)session.merge(
-					syncDLFileVersionDiff);
+				session.evict(syncDLFileVersionDiff);
+				session.saveOrUpdate(syncDLFileVersionDiff);
 			}
 		}
 		catch (Exception e) {

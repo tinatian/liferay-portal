@@ -4743,7 +4743,8 @@ public class AMImageEntryPersistenceImpl
 				amImageEntry.setNew(false);
 			}
 			else {
-				amImageEntry = (AMImageEntry)session.merge(amImageEntry);
+				session.evict(amImageEntry);
+				session.saveOrUpdate(amImageEntry);
 			}
 		}
 		catch (Exception e) {

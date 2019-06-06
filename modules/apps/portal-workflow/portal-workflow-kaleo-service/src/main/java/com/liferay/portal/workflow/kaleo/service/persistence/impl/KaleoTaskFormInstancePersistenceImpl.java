@@ -3256,8 +3256,8 @@ public class KaleoTaskFormInstancePersistenceImpl
 				kaleoTaskFormInstance.setNew(false);
 			}
 			else {
-				kaleoTaskFormInstance = (KaleoTaskFormInstance)session.merge(
-					kaleoTaskFormInstance);
+				session.evict(kaleoTaskFormInstance);
+				session.saveOrUpdate(kaleoTaskFormInstance);
 			}
 		}
 		catch (Exception e) {

@@ -2845,7 +2845,8 @@ public class LockPersistenceImpl
 				lock.setNew(false);
 			}
 			else {
-				lock = (Lock)session.merge(lock);
+				session.evict(lock);
+				session.saveOrUpdate(lock);
 			}
 		}
 		catch (Exception e) {

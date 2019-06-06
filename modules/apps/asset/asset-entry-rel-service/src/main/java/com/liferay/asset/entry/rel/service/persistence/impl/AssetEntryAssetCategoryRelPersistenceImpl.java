@@ -1686,9 +1686,8 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 				assetEntryAssetCategoryRel.setNew(false);
 			}
 			else {
-				assetEntryAssetCategoryRel =
-					(AssetEntryAssetCategoryRel)session.merge(
-						assetEntryAssetCategoryRel);
+				session.evict(assetEntryAssetCategoryRel);
+				session.saveOrUpdate(assetEntryAssetCategoryRel);
 			}
 		}
 		catch (Exception e) {

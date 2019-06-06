@@ -22479,7 +22479,8 @@ public class WikiPagePersistenceImpl
 				wikiPage.setNew(false);
 			}
 			else {
-				wikiPage = (WikiPage)session.merge(wikiPage);
+				session.evict(wikiPage);
+				session.saveOrUpdate(wikiPage);
 			}
 		}
 		catch (Exception e) {

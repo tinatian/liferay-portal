@@ -1177,7 +1177,8 @@ public class ListTypePersistenceImpl
 				listType.setNew(false);
 			}
 			else {
-				listType = (ListType)session.merge(listType);
+				session.evict(listType);
+				session.saveOrUpdate(listType);
 			}
 		}
 		catch (Exception e) {

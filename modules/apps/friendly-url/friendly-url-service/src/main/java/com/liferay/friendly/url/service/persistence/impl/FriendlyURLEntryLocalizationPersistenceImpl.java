@@ -1545,9 +1545,8 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 				friendlyURLEntryLocalization.setNew(false);
 			}
 			else {
-				friendlyURLEntryLocalization =
-					(FriendlyURLEntryLocalization)session.merge(
-						friendlyURLEntryLocalization);
+				session.evict(friendlyURLEntryLocalization);
+				session.saveOrUpdate(friendlyURLEntryLocalization);
 			}
 		}
 		catch (Exception e) {

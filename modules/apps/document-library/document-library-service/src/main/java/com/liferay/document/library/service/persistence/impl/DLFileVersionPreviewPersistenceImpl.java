@@ -1936,8 +1936,8 @@ public class DLFileVersionPreviewPersistenceImpl
 				dlFileVersionPreview.setNew(false);
 			}
 			else {
-				dlFileVersionPreview = (DLFileVersionPreview)session.merge(
-					dlFileVersionPreview);
+				session.evict(dlFileVersionPreview);
+				session.saveOrUpdate(dlFileVersionPreview);
 			}
 		}
 		catch (Exception e) {

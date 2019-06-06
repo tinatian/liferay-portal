@@ -4204,7 +4204,8 @@ public class SubscriptionPersistenceImpl
 				subscription.setNew(false);
 			}
 			else {
-				subscription = (Subscription)session.merge(subscription);
+				session.evict(subscription);
+				session.saveOrUpdate(subscription);
 			}
 		}
 		catch (Exception e) {

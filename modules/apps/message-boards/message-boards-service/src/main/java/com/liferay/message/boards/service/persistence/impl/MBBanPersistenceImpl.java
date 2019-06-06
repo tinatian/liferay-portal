@@ -3509,7 +3509,8 @@ public class MBBanPersistenceImpl
 				mbBan.setNew(false);
 			}
 			else {
-				mbBan = (MBBan)session.merge(mbBan);
+				session.evict(mbBan);
+				session.saveOrUpdate(mbBan);
 			}
 		}
 		catch (Exception e) {

@@ -3182,8 +3182,8 @@ public class AssetDisplayPageEntryPersistenceImpl
 				assetDisplayPageEntry.setNew(false);
 			}
 			else {
-				assetDisplayPageEntry = (AssetDisplayPageEntry)session.merge(
-					assetDisplayPageEntry);
+				session.evict(assetDisplayPageEntry);
+				session.saveOrUpdate(assetDisplayPageEntry);
 			}
 		}
 		catch (Exception e) {

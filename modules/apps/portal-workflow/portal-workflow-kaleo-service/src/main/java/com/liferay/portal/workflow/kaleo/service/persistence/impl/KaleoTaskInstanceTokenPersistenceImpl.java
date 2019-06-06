@@ -2827,8 +2827,8 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 				kaleoTaskInstanceToken.setNew(false);
 			}
 			else {
-				kaleoTaskInstanceToken = (KaleoTaskInstanceToken)session.merge(
-					kaleoTaskInstanceToken);
+				session.evict(kaleoTaskInstanceToken);
+				session.saveOrUpdate(kaleoTaskInstanceToken);
 			}
 		}
 		catch (Exception e) {

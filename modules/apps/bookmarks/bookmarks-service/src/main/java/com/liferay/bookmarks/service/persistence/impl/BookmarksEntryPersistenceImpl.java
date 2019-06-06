@@ -12960,7 +12960,8 @@ public class BookmarksEntryPersistenceImpl
 				bookmarksEntry.setNew(false);
 			}
 			else {
-				bookmarksEntry = (BookmarksEntry)session.merge(bookmarksEntry);
+				session.evict(bookmarksEntry);
+				session.saveOrUpdate(bookmarksEntry);
 			}
 		}
 		catch (Exception e) {

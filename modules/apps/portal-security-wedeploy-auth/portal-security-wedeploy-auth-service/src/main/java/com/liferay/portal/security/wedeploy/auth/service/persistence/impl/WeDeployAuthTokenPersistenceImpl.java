@@ -1012,8 +1012,8 @@ public class WeDeployAuthTokenPersistenceImpl
 				weDeployAuthToken.setNew(false);
 			}
 			else {
-				weDeployAuthToken = (WeDeployAuthToken)session.merge(
-					weDeployAuthToken);
+				session.evict(weDeployAuthToken);
+				session.saveOrUpdate(weDeployAuthToken);
 			}
 		}
 		catch (Exception e) {

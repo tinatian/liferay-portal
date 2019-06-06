@@ -3154,8 +3154,8 @@ public class DDMFormInstancePersistenceImpl
 				ddmFormInstance.setNew(false);
 			}
 			else {
-				ddmFormInstance = (DDMFormInstance)session.merge(
-					ddmFormInstance);
+				session.evict(ddmFormInstance);
+				session.saveOrUpdate(ddmFormInstance);
 			}
 		}
 		catch (Exception e) {

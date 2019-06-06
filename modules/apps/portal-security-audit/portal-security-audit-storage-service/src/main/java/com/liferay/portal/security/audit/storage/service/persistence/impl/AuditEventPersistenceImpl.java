@@ -807,7 +807,8 @@ public class AuditEventPersistenceImpl
 				auditEvent.setNew(false);
 			}
 			else {
-				auditEvent = (AuditEvent)session.merge(auditEvent);
+				session.evict(auditEvent);
+				session.saveOrUpdate(auditEvent);
 			}
 		}
 		catch (Exception e) {

@@ -5212,7 +5212,8 @@ public class ExpandoValuePersistenceImpl
 				expandoValue.setNew(false);
 			}
 			else {
-				expandoValue = (ExpandoValue)session.merge(expandoValue);
+				session.evict(expandoValue);
+				session.saveOrUpdate(expandoValue);
 			}
 		}
 		catch (Exception e) {

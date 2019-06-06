@@ -4261,7 +4261,8 @@ public class WebsitePersistenceImpl
 				website.setNew(false);
 			}
 			else {
-				website = (Website)session.merge(website);
+				session.evict(website);
+				session.saveOrUpdate(website);
 			}
 		}
 		catch (Exception e) {

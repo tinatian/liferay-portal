@@ -12420,7 +12420,8 @@ public class DDMTemplatePersistenceImpl
 				ddmTemplate.setNew(false);
 			}
 			else {
-				ddmTemplate = (DDMTemplate)session.merge(ddmTemplate);
+				session.evict(ddmTemplate);
+				session.saveOrUpdate(ddmTemplate);
 			}
 		}
 		catch (Exception e) {

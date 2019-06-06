@@ -2052,8 +2052,8 @@ public class WikiPageResourcePersistenceImpl
 				wikiPageResource.setNew(false);
 			}
 			else {
-				wikiPageResource = (WikiPageResource)session.merge(
-					wikiPageResource);
+				session.evict(wikiPageResource);
+				session.saveOrUpdate(wikiPageResource);
 			}
 		}
 		catch (Exception e) {

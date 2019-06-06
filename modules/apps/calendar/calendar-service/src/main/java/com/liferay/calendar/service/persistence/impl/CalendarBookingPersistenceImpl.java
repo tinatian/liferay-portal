@@ -5866,8 +5866,8 @@ public class CalendarBookingPersistenceImpl
 				calendarBooking.setNew(false);
 			}
 			else {
-				calendarBooking = (CalendarBooking)session.merge(
-					calendarBooking);
+				session.evict(calendarBooking);
+				session.saveOrUpdate(calendarBooking);
 			}
 		}
 		catch (Exception e) {

@@ -4027,8 +4027,8 @@ public class FragmentCollectionPersistenceImpl
 				fragmentCollection.setNew(false);
 			}
 			else {
-				fragmentCollection = (FragmentCollection)session.merge(
-					fragmentCollection);
+				session.evict(fragmentCollection);
+				session.saveOrUpdate(fragmentCollection);
 			}
 		}
 		catch (Exception e) {

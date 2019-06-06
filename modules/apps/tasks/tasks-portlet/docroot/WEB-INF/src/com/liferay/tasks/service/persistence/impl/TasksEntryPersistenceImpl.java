@@ -10354,7 +10354,8 @@ public class TasksEntryPersistenceImpl
 				tasksEntry.setNew(false);
 			}
 			else {
-				tasksEntry = (TasksEntry)session.merge(tasksEntry);
+				session.evict(tasksEntry);
+				session.saveOrUpdate(tasksEntry);
 			}
 		}
 		catch (Exception e) {

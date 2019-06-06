@@ -2349,9 +2349,8 @@ public class KaleoTimerInstanceTokenPersistenceImpl
 				kaleoTimerInstanceToken.setNew(false);
 			}
 			else {
-				kaleoTimerInstanceToken =
-					(KaleoTimerInstanceToken)session.merge(
-						kaleoTimerInstanceToken);
+				session.evict(kaleoTimerInstanceToken);
+				session.saveOrUpdate(kaleoTimerInstanceToken);
 			}
 		}
 		catch (Exception e) {

@@ -1596,7 +1596,8 @@ public class AssetTagStatsPersistenceImpl
 				assetTagStats.setNew(false);
 			}
 			else {
-				assetTagStats = (AssetTagStats)session.merge(assetTagStats);
+				session.evict(assetTagStats);
+				session.saveOrUpdate(assetTagStats);
 			}
 		}
 		catch (Exception e) {

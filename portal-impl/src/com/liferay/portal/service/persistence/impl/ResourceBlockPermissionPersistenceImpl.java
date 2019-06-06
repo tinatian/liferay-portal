@@ -1655,9 +1655,8 @@ public class ResourceBlockPermissionPersistenceImpl
 				resourceBlockPermission.setNew(false);
 			}
 			else {
-				resourceBlockPermission =
-					(ResourceBlockPermission)session.merge(
-						resourceBlockPermission);
+				session.evict(resourceBlockPermission);
+				session.saveOrUpdate(resourceBlockPermission);
 			}
 		}
 		catch (Exception e) {

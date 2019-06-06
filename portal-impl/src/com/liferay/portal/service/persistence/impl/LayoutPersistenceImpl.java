@@ -34274,7 +34274,8 @@ public class LayoutPersistenceImpl
 				layout.setNew(false);
 			}
 			else {
-				layout = (Layout)session.merge(layout);
+				session.evict(layout);
+				session.saveOrUpdate(layout);
 			}
 		}
 		catch (Exception e) {

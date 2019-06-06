@@ -2443,8 +2443,8 @@ public class OAuth2AuthorizationPersistenceImpl
 				oAuth2Authorization.setNew(false);
 			}
 			else {
-				oAuth2Authorization = (OAuth2Authorization)session.merge(
-					oAuth2Authorization);
+				session.evict(oAuth2Authorization);
+				session.saveOrUpdate(oAuth2Authorization);
 			}
 		}
 		catch (Exception e) {

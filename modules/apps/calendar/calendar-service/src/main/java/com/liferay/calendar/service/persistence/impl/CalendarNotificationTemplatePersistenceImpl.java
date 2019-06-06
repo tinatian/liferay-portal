@@ -2789,9 +2789,8 @@ public class CalendarNotificationTemplatePersistenceImpl
 				calendarNotificationTemplate.setNew(false);
 			}
 			else {
-				calendarNotificationTemplate =
-					(CalendarNotificationTemplate)session.merge(
-						calendarNotificationTemplate);
+				session.evict(calendarNotificationTemplate);
+				session.saveOrUpdate(calendarNotificationTemplate);
 			}
 		}
 		catch (Exception e) {

@@ -835,8 +835,8 @@ public class UserTrackerPathPersistenceImpl
 				userTrackerPath.setNew(false);
 			}
 			else {
-				userTrackerPath = (UserTrackerPath)session.merge(
-					userTrackerPath);
+				session.evict(userTrackerPath);
+				session.saveOrUpdate(userTrackerPath);
 			}
 		}
 		catch (Exception e) {

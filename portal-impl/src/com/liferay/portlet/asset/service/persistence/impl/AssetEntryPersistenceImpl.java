@@ -5379,7 +5379,8 @@ public class AssetEntryPersistenceImpl
 				assetEntry.setNew(false);
 			}
 			else {
-				assetEntry = (AssetEntry)session.merge(assetEntry);
+				session.evict(assetEntry);
+				session.saveOrUpdate(assetEntry);
 			}
 		}
 		catch (Exception e) {

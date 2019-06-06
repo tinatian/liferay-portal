@@ -2194,8 +2194,8 @@ public class DDMStructureLinkPersistenceImpl
 				ddmStructureLink.setNew(false);
 			}
 			else {
-				ddmStructureLink = (DDMStructureLink)session.merge(
-					ddmStructureLink);
+				session.evict(ddmStructureLink);
+				session.saveOrUpdate(ddmStructureLink);
 			}
 		}
 		catch (Exception e) {

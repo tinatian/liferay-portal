@@ -3302,7 +3302,8 @@ public class ChangesetEntryPersistenceImpl
 				changesetEntry.setNew(false);
 			}
 			else {
-				changesetEntry = (ChangesetEntry)session.merge(changesetEntry);
+				session.evict(changesetEntry);
+				session.saveOrUpdate(changesetEntry);
 			}
 		}
 		catch (Exception e) {

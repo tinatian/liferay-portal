@@ -9839,7 +9839,8 @@ public class FragmentEntryPersistenceImpl
 				fragmentEntry.setNew(false);
 			}
 			else {
-				fragmentEntry = (FragmentEntry)session.merge(fragmentEntry);
+				session.evict(fragmentEntry);
+				session.saveOrUpdate(fragmentEntry);
 			}
 		}
 		catch (Exception e) {

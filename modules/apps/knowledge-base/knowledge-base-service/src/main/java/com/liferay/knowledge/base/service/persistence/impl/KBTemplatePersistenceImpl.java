@@ -2683,7 +2683,8 @@ public class KBTemplatePersistenceImpl
 				kbTemplate.setNew(false);
 			}
 			else {
-				kbTemplate = (KBTemplate)session.merge(kbTemplate);
+				session.evict(kbTemplate);
+				session.saveOrUpdate(kbTemplate);
 			}
 		}
 		catch (Exception e) {

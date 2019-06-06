@@ -2936,8 +2936,8 @@ public class SocialActivitySettingPersistenceImpl
 				socialActivitySetting.setNew(false);
 			}
 			else {
-				socialActivitySetting = (SocialActivitySetting)session.merge(
-					socialActivitySetting);
+				session.evict(socialActivitySetting);
+				session.saveOrUpdate(socialActivitySetting);
 			}
 		}
 		catch (Exception e) {

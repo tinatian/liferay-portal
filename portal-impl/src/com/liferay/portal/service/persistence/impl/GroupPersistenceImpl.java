@@ -12927,7 +12927,8 @@ public class GroupPersistenceImpl
 				group.setNew(false);
 			}
 			else {
-				group = (Group)session.merge(group);
+				session.evict(group);
+				session.saveOrUpdate(group);
 			}
 		}
 		catch (Exception e) {

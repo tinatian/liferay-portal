@@ -6404,7 +6404,8 @@ public class DLFileShortcutPersistenceImpl
 				dlFileShortcut.setNew(false);
 			}
 			else {
-				dlFileShortcut = (DLFileShortcut)session.merge(dlFileShortcut);
+				session.evict(dlFileShortcut);
+				session.saveOrUpdate(dlFileShortcut);
 			}
 		}
 		catch (Exception e) {

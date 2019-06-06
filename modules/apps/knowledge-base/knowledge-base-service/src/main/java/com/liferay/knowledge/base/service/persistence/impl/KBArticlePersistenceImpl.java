@@ -34528,7 +34528,8 @@ public class KBArticlePersistenceImpl
 				kbArticle.setNew(false);
 			}
 			else {
-				kbArticle = (KBArticle)session.merge(kbArticle);
+				session.evict(kbArticle);
+				session.saveOrUpdate(kbArticle);
 			}
 		}
 		catch (Exception e) {

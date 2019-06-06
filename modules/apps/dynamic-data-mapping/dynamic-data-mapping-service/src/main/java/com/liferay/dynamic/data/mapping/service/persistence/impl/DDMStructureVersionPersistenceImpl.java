@@ -1700,8 +1700,8 @@ public class DDMStructureVersionPersistenceImpl
 				ddmStructureVersion.setNew(false);
 			}
 			else {
-				ddmStructureVersion = (DDMStructureVersion)session.merge(
-					ddmStructureVersion);
+				session.evict(ddmStructureVersion);
+				session.saveOrUpdate(ddmStructureVersion);
 			}
 		}
 		catch (Exception e) {

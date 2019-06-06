@@ -1822,7 +1822,8 @@ public class CTProcessPersistenceImpl
 				ctProcess.setNew(false);
 			}
 			else {
-				ctProcess = (CTProcess)session.merge(ctProcess);
+				session.evict(ctProcess);
+				session.saveOrUpdate(ctProcess);
 			}
 		}
 		catch (Exception e) {

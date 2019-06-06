@@ -3731,7 +3731,8 @@ public class ModulePersistenceImpl
 				module.setNew(false);
 			}
 			else {
-				module = (Module)session.merge(module);
+				session.evict(module);
+				session.saveOrUpdate(module);
 			}
 		}
 		catch (Exception e) {

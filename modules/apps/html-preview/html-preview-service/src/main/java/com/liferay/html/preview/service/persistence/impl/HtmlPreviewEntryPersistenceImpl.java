@@ -655,8 +655,8 @@ public class HtmlPreviewEntryPersistenceImpl
 				htmlPreviewEntry.setNew(false);
 			}
 			else {
-				htmlPreviewEntry = (HtmlPreviewEntry)session.merge(
-					htmlPreviewEntry);
+				session.evict(htmlPreviewEntry);
+				session.saveOrUpdate(htmlPreviewEntry);
 			}
 		}
 		catch (Exception e) {

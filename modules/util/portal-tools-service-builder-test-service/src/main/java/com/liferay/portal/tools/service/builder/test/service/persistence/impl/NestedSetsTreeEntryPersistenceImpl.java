@@ -360,8 +360,8 @@ public class NestedSetsTreeEntryPersistenceImpl
 				nestedSetsTreeEntry.setNew(false);
 			}
 			else {
-				nestedSetsTreeEntry = (NestedSetsTreeEntry)session.merge(
-					nestedSetsTreeEntry);
+				session.evict(nestedSetsTreeEntry);
+				session.saveOrUpdate(nestedSetsTreeEntry);
 			}
 		}
 		catch (Exception e) {

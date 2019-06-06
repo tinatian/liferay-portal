@@ -1914,7 +1914,8 @@ public class PortletItemPersistenceImpl
 				portletItem.setNew(false);
 			}
 			else {
-				portletItem = (PortletItem)session.merge(portletItem);
+				session.evict(portletItem);
+				session.saveOrUpdate(portletItem);
 			}
 		}
 		catch (Exception e) {

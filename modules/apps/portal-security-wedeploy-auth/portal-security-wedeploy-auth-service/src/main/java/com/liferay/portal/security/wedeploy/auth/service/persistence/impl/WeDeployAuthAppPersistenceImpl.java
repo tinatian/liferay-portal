@@ -999,8 +999,8 @@ public class WeDeployAuthAppPersistenceImpl
 				weDeployAuthApp.setNew(false);
 			}
 			else {
-				weDeployAuthApp = (WeDeployAuthApp)session.merge(
-					weDeployAuthApp);
+				session.evict(weDeployAuthApp);
+				session.saveOrUpdate(weDeployAuthApp);
 			}
 		}
 		catch (Exception e) {

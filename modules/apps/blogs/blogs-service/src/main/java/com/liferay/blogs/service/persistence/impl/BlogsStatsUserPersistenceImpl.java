@@ -3270,7 +3270,8 @@ public class BlogsStatsUserPersistenceImpl
 				blogsStatsUser.setNew(false);
 			}
 			else {
-				blogsStatsUser = (BlogsStatsUser)session.merge(blogsStatsUser);
+				session.evict(blogsStatsUser);
+				session.saveOrUpdate(blogsStatsUser);
 			}
 		}
 		catch (Exception e) {

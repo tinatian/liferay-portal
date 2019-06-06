@@ -279,7 +279,8 @@ public class LocalizedEntryPersistenceImpl
 				localizedEntry.setNew(false);
 			}
 			else {
-				localizedEntry = (LocalizedEntry)session.merge(localizedEntry);
+				session.evict(localizedEntry);
+				session.saveOrUpdate(localizedEntry);
 			}
 		}
 		catch (Exception e) {

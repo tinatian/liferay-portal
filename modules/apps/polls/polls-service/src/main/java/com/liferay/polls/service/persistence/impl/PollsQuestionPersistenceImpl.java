@@ -2671,7 +2671,8 @@ public class PollsQuestionPersistenceImpl
 				pollsQuestion.setNew(false);
 			}
 			else {
-				pollsQuestion = (PollsQuestion)session.merge(pollsQuestion);
+				session.evict(pollsQuestion);
+				session.saveOrUpdate(pollsQuestion);
 			}
 		}
 		catch (Exception e) {

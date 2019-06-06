@@ -3736,9 +3736,8 @@ public class DDMDataProviderInstancePersistenceImpl
 				ddmDataProviderInstance.setNew(false);
 			}
 			else {
-				ddmDataProviderInstance =
-					(DDMDataProviderInstance)session.merge(
-						ddmDataProviderInstance);
+				session.evict(ddmDataProviderInstance);
+				session.saveOrUpdate(ddmDataProviderInstance);
 			}
 		}
 		catch (Exception e) {

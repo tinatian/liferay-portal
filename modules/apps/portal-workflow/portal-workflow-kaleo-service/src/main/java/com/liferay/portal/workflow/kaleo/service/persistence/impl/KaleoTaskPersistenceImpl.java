@@ -1611,7 +1611,8 @@ public class KaleoTaskPersistenceImpl
 				kaleoTask.setNew(false);
 			}
 			else {
-				kaleoTask = (KaleoTask)session.merge(kaleoTask);
+				session.evict(kaleoTask);
+				session.saveOrUpdate(kaleoTask);
 			}
 		}
 		catch (Exception e) {

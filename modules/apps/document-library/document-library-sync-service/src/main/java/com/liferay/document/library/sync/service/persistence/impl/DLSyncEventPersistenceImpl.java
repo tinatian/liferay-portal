@@ -1045,7 +1045,8 @@ public class DLSyncEventPersistenceImpl
 				dlSyncEvent.setNew(false);
 			}
 			else {
-				dlSyncEvent = (DLSyncEvent)session.merge(dlSyncEvent);
+				session.evict(dlSyncEvent);
+				session.saveOrUpdate(dlSyncEvent);
 			}
 		}
 		catch (Exception e) {

@@ -1416,9 +1416,8 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 				oAuth2ApplicationScopeAliases.setNew(false);
 			}
 			else {
-				oAuth2ApplicationScopeAliases =
-					(OAuth2ApplicationScopeAliases)session.merge(
-						oAuth2ApplicationScopeAliases);
+				session.evict(oAuth2ApplicationScopeAliases);
+				session.saveOrUpdate(oAuth2ApplicationScopeAliases);
 			}
 		}
 		catch (Exception e) {

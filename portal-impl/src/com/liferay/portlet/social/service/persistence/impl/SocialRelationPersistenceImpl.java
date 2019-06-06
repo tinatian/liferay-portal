@@ -6001,7 +6001,8 @@ public class SocialRelationPersistenceImpl
 				socialRelation.setNew(false);
 			}
 			else {
-				socialRelation = (SocialRelation)session.merge(socialRelation);
+				session.evict(socialRelation);
+				session.saveOrUpdate(socialRelation);
 			}
 		}
 		catch (Exception e) {

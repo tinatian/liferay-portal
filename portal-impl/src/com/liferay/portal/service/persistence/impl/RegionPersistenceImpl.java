@@ -2145,7 +2145,8 @@ public class RegionPersistenceImpl
 				region.setNew(false);
 			}
 			else {
-				region = (Region)session.merge(region);
+				session.evict(region);
+				session.saveOrUpdate(region);
 			}
 		}
 		catch (Exception e) {

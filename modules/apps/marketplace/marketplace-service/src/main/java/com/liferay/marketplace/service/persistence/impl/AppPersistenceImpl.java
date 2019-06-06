@@ -2755,7 +2755,8 @@ public class AppPersistenceImpl
 				app.setNew(false);
 			}
 			else {
-				app = (App)session.merge(app);
+				session.evict(app);
+				session.saveOrUpdate(app);
 			}
 		}
 		catch (Exception e) {

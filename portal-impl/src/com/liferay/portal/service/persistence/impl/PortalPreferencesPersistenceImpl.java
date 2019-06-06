@@ -589,8 +589,8 @@ public class PortalPreferencesPersistenceImpl
 				portalPreferences.setNew(false);
 			}
 			else {
-				portalPreferences = (PortalPreferences)session.merge(
-					portalPreferences);
+				session.evict(portalPreferences);
+				session.saveOrUpdate(portalPreferences);
 			}
 		}
 		catch (Exception e) {

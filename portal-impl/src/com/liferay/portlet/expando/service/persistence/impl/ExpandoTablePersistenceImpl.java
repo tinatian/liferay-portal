@@ -1184,7 +1184,8 @@ public class ExpandoTablePersistenceImpl
 				expandoTable.setNew(false);
 			}
 			else {
-				expandoTable = (ExpandoTable)session.merge(expandoTable);
+				session.evict(expandoTable);
+				session.saveOrUpdate(expandoTable);
 			}
 		}
 		catch (Exception e) {

@@ -4661,7 +4661,8 @@ public class EntryPersistenceImpl
 				entry.setNew(false);
 			}
 			else {
-				entry = (Entry)session.merge(entry);
+				session.evict(entry);
+				session.saveOrUpdate(entry);
 			}
 		}
 		catch (Exception e) {

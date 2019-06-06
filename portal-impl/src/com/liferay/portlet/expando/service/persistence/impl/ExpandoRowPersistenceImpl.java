@@ -1581,7 +1581,8 @@ public class ExpandoRowPersistenceImpl
 				expandoRow.setNew(false);
 			}
 			else {
-				expandoRow = (ExpandoRow)session.merge(expandoRow);
+				session.evict(expandoRow);
+				session.saveOrUpdate(expandoRow);
 			}
 		}
 		catch (Exception e) {

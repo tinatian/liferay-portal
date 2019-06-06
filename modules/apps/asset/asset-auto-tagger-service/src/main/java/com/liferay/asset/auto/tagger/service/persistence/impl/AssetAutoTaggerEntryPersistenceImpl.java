@@ -1666,8 +1666,8 @@ public class AssetAutoTaggerEntryPersistenceImpl
 				assetAutoTaggerEntry.setNew(false);
 			}
 			else {
-				assetAutoTaggerEntry = (AssetAutoTaggerEntry)session.merge(
-					assetAutoTaggerEntry);
+				session.evict(assetAutoTaggerEntry);
+				session.saveOrUpdate(assetAutoTaggerEntry);
 			}
 		}
 		catch (Exception e) {

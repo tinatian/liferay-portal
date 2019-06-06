@@ -4469,7 +4469,8 @@ public class SAPEntryPersistenceImpl
 				sapEntry.setNew(false);
 			}
 			else {
-				sapEntry = (SAPEntry)session.merge(sapEntry);
+				session.evict(sapEntry);
+				session.saveOrUpdate(sapEntry);
 			}
 		}
 		catch (Exception e) {

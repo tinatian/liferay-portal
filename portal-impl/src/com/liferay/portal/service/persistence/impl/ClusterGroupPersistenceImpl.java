@@ -277,7 +277,8 @@ public class ClusterGroupPersistenceImpl
 				clusterGroup.setNew(false);
 			}
 			else {
-				clusterGroup = (ClusterGroup)session.merge(clusterGroup);
+				session.evict(clusterGroup);
+				session.saveOrUpdate(clusterGroup);
 			}
 		}
 		catch (Exception e) {

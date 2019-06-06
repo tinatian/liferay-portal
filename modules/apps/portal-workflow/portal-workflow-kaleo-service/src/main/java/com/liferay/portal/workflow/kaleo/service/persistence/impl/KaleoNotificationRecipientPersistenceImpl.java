@@ -1963,9 +1963,8 @@ public class KaleoNotificationRecipientPersistenceImpl
 				kaleoNotificationRecipient.setNew(false);
 			}
 			else {
-				kaleoNotificationRecipient =
-					(KaleoNotificationRecipient)session.merge(
-						kaleoNotificationRecipient);
+				session.evict(kaleoNotificationRecipient);
+				session.saveOrUpdate(kaleoNotificationRecipient);
 			}
 		}
 		catch (Exception e) {

@@ -3023,7 +3023,8 @@ public class DDMStorageLinkPersistenceImpl
 				ddmStorageLink.setNew(false);
 			}
 			else {
-				ddmStorageLink = (DDMStorageLink)session.merge(ddmStorageLink);
+				session.evict(ddmStorageLink);
+				session.saveOrUpdate(ddmStorageLink);
 			}
 		}
 		catch (Exception e) {

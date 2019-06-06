@@ -6633,7 +6633,8 @@ public class SyncDLObjectPersistenceImpl
 				syncDLObject.setNew(false);
 			}
 			else {
-				syncDLObject = (SyncDLObject)session.merge(syncDLObject);
+				session.evict(syncDLObject);
+				session.saveOrUpdate(syncDLObject);
 			}
 		}
 		catch (Exception e) {

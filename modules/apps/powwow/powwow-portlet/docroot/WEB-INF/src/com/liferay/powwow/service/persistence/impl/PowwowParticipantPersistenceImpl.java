@@ -2017,8 +2017,8 @@ public class PowwowParticipantPersistenceImpl
 				powwowParticipant.setNew(false);
 			}
 			else {
-				powwowParticipant = (PowwowParticipant)session.merge(
-					powwowParticipant);
+				session.evict(powwowParticipant);
+				session.saveOrUpdate(powwowParticipant);
 			}
 		}
 		catch (Exception e) {

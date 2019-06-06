@@ -6438,7 +6438,8 @@ public class UserGroupPersistenceImpl
 				userGroup.setNew(false);
 			}
 			else {
-				userGroup = (UserGroup)session.merge(userGroup);
+				session.evict(userGroup);
+				session.saveOrUpdate(userGroup);
 			}
 		}
 		catch (Exception e) {

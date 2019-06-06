@@ -6048,7 +6048,8 @@ public class DLFileVersionPersistenceImpl
 				dlFileVersion.setNew(false);
 			}
 			else {
-				dlFileVersion = (DLFileVersion)session.merge(dlFileVersion);
+				session.evict(dlFileVersion);
+				session.saveOrUpdate(dlFileVersion);
 			}
 		}
 		catch (Exception e) {

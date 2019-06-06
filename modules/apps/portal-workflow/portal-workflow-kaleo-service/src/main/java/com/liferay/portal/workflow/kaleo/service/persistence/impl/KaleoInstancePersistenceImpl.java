@@ -3830,7 +3830,8 @@ public class KaleoInstancePersistenceImpl
 				kaleoInstance.setNew(false);
 			}
 			else {
-				kaleoInstance = (KaleoInstance)session.merge(kaleoInstance);
+				session.evict(kaleoInstance);
+				session.saveOrUpdate(kaleoInstance);
 			}
 		}
 		catch (Exception e) {

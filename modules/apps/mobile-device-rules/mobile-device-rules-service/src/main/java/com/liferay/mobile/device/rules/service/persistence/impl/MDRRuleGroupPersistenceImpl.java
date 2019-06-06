@@ -3132,7 +3132,8 @@ public class MDRRuleGroupPersistenceImpl
 				mdrRuleGroup.setNew(false);
 			}
 			else {
-				mdrRuleGroup = (MDRRuleGroup)session.merge(mdrRuleGroup);
+				session.evict(mdrRuleGroup);
+				session.saveOrUpdate(mdrRuleGroup);
 			}
 		}
 		catch (Exception e) {

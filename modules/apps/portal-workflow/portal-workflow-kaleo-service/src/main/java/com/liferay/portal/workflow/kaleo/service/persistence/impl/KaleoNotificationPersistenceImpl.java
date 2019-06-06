@@ -2682,8 +2682,8 @@ public class KaleoNotificationPersistenceImpl
 				kaleoNotification.setNew(false);
 			}
 			else {
-				kaleoNotification = (KaleoNotification)session.merge(
-					kaleoNotification);
+				session.evict(kaleoNotification);
+				session.saveOrUpdate(kaleoNotification);
 			}
 		}
 		catch (Exception e) {

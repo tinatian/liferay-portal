@@ -939,7 +939,8 @@ public class RatingsStatsPersistenceImpl
 				ratingsStats.setNew(false);
 			}
 			else {
-				ratingsStats = (RatingsStats)session.merge(ratingsStats);
+				session.evict(ratingsStats);
+				session.saveOrUpdate(ratingsStats);
 			}
 		}
 		catch (Exception e) {

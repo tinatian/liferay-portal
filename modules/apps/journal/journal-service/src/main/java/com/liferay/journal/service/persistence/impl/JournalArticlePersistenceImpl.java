@@ -32996,7 +32996,8 @@ public class JournalArticlePersistenceImpl
 				journalArticle.setNew(false);
 			}
 			else {
-				journalArticle = (JournalArticle)session.merge(journalArticle);
+				session.evict(journalArticle);
+				session.saveOrUpdate(journalArticle);
 			}
 		}
 		catch (Exception e) {

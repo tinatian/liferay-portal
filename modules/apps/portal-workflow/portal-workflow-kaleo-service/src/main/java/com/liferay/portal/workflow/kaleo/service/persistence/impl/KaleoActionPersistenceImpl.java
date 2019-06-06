@@ -2649,7 +2649,8 @@ public class KaleoActionPersistenceImpl
 				kaleoAction.setNew(false);
 			}
 			else {
-				kaleoAction = (KaleoAction)session.merge(kaleoAction);
+				session.evict(kaleoAction);
+				session.saveOrUpdate(kaleoAction);
 			}
 		}
 		catch (Exception e) {

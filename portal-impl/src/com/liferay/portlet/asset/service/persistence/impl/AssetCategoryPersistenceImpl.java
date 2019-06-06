@@ -12448,7 +12448,8 @@ public class AssetCategoryPersistenceImpl
 				assetCategory.setNew(false);
 			}
 			else {
-				assetCategory = (AssetCategory)session.merge(assetCategory);
+				session.evict(assetCategory);
+				session.saveOrUpdate(assetCategory);
 			}
 		}
 		catch (Exception e) {

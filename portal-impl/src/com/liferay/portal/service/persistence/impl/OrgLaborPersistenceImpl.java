@@ -810,7 +810,8 @@ public class OrgLaborPersistenceImpl
 				orgLabor.setNew(false);
 			}
 			else {
-				orgLabor = (OrgLabor)session.merge(orgLabor);
+				session.evict(orgLabor);
+				session.saveOrUpdate(orgLabor);
 			}
 		}
 		catch (Exception e) {

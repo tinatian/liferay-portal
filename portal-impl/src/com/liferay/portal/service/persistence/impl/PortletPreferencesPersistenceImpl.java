@@ -5983,8 +5983,8 @@ public class PortletPreferencesPersistenceImpl
 				portletPreferences.setNew(false);
 			}
 			else {
-				portletPreferences = (PortletPreferences)session.merge(
-					portletPreferences);
+				session.evict(portletPreferences);
+				session.saveOrUpdate(portletPreferences);
 			}
 		}
 		catch (Exception e) {

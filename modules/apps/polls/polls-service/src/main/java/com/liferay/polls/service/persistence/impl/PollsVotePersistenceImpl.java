@@ -3332,7 +3332,8 @@ public class PollsVotePersistenceImpl
 				pollsVote.setNew(false);
 			}
 			else {
-				pollsVote = (PollsVote)session.merge(pollsVote);
+				session.evict(pollsVote);
+				session.saveOrUpdate(pollsVote);
 			}
 		}
 		catch (Exception e) {

@@ -629,9 +629,8 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 				dlOpenerFileEntryReference.setNew(false);
 			}
 			else {
-				dlOpenerFileEntryReference =
-					(DLOpenerFileEntryReference)session.merge(
-						dlOpenerFileEntryReference);
+				session.evict(dlOpenerFileEntryReference);
+				session.saveOrUpdate(dlOpenerFileEntryReference);
 			}
 		}
 		catch (Exception e) {

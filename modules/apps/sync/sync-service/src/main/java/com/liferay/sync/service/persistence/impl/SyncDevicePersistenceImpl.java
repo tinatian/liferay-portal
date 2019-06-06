@@ -2564,7 +2564,8 @@ public class SyncDevicePersistenceImpl
 				syncDevice.setNew(false);
 			}
 			else {
-				syncDevice = (SyncDevice)session.merge(syncDevice);
+				session.evict(syncDevice);
+				session.saveOrUpdate(syncDevice);
 			}
 		}
 		catch (Exception e) {

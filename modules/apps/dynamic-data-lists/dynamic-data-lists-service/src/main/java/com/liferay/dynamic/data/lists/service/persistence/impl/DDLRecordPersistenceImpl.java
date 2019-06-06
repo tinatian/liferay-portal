@@ -3940,7 +3940,8 @@ public class DDLRecordPersistenceImpl
 				ddlRecord.setNew(false);
 			}
 			else {
-				ddlRecord = (DDLRecord)session.merge(ddlRecord);
+				session.evict(ddlRecord);
+				session.saveOrUpdate(ddlRecord);
 			}
 		}
 		catch (Exception e) {

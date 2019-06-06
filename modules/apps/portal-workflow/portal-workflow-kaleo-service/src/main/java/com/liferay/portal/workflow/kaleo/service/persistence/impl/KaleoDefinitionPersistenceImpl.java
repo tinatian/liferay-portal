@@ -2369,8 +2369,8 @@ public class KaleoDefinitionPersistenceImpl
 				kaleoDefinition.setNew(false);
 			}
 			else {
-				kaleoDefinition = (KaleoDefinition)session.merge(
-					kaleoDefinition);
+				session.evict(kaleoDefinition);
+				session.saveOrUpdate(kaleoDefinition);
 			}
 		}
 		catch (Exception e) {

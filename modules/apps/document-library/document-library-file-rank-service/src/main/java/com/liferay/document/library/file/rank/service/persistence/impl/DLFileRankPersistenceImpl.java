@@ -2767,7 +2767,8 @@ public class DLFileRankPersistenceImpl
 				dlFileRank.setNew(false);
 			}
 			else {
-				dlFileRank = (DLFileRank)session.merge(dlFileRank);
+				session.evict(dlFileRank);
+				session.saveOrUpdate(dlFileRank);
 			}
 		}
 		catch (Exception e) {

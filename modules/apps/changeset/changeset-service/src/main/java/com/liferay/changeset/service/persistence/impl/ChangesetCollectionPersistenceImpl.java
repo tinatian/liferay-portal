@@ -2827,8 +2827,8 @@ public class ChangesetCollectionPersistenceImpl
 				changesetCollection.setNew(false);
 			}
 			else {
-				changesetCollection = (ChangesetCollection)session.merge(
-					changesetCollection);
+				session.evict(changesetCollection);
+				session.saveOrUpdate(changesetCollection);
 			}
 		}
 		catch (Exception e) {

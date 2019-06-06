@@ -4713,8 +4713,8 @@ public class FragmentEntryLinkPersistenceImpl
 				fragmentEntryLink.setNew(false);
 			}
 			else {
-				fragmentEntryLink = (FragmentEntryLink)session.merge(
-					fragmentEntryLink);
+				session.evict(fragmentEntryLink);
+				session.saveOrUpdate(fragmentEntryLink);
 			}
 		}
 		catch (Exception e) {

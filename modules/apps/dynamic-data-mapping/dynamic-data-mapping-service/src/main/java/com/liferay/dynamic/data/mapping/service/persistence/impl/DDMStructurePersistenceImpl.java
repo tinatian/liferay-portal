@@ -11082,7 +11082,8 @@ public class DDMStructurePersistenceImpl
 				ddmStructure.setNew(false);
 			}
 			else {
-				ddmStructure = (DDMStructure)session.merge(ddmStructure);
+				session.evict(ddmStructure);
+				session.saveOrUpdate(ddmStructure);
 			}
 		}
 		catch (Exception e) {

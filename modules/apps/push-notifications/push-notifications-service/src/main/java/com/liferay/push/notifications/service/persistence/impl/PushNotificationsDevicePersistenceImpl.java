@@ -1525,9 +1525,8 @@ public class PushNotificationsDevicePersistenceImpl
 				pushNotificationsDevice.setNew(false);
 			}
 			else {
-				pushNotificationsDevice =
-					(PushNotificationsDevice)session.merge(
-						pushNotificationsDevice);
+				session.evict(pushNotificationsDevice);
+				session.saveOrUpdate(pushNotificationsDevice);
 			}
 		}
 		catch (Exception e) {

@@ -2927,7 +2927,8 @@ public class TeamPersistenceImpl
 				team.setNew(false);
 			}
 			else {
-				team = (Team)session.merge(team);
+				session.evict(team);
+				session.saveOrUpdate(team);
 			}
 		}
 		catch (Exception e) {

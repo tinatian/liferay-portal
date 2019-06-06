@@ -1606,8 +1606,8 @@ public class DDMTemplateLinkPersistenceImpl
 				ddmTemplateLink.setNew(false);
 			}
 			else {
-				ddmTemplateLink = (DDMTemplateLink)session.merge(
-					ddmTemplateLink);
+				session.evict(ddmTemplateLink);
+				session.saveOrUpdate(ddmTemplateLink);
 			}
 		}
 		catch (Exception e) {

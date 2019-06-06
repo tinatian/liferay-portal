@@ -2604,8 +2604,8 @@ public class RepositoryEntryPersistenceImpl
 				repositoryEntry.setNew(false);
 			}
 			else {
-				repositoryEntry = (RepositoryEntry)session.merge(
-					repositoryEntry);
+				session.evict(repositoryEntry);
+				session.saveOrUpdate(repositoryEntry);
 			}
 		}
 		catch (Exception e) {

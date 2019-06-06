@@ -936,7 +936,8 @@ public class PowwowServerPersistenceImpl
 				powwowServer.setNew(false);
 			}
 			else {
-				powwowServer = (PowwowServer)session.merge(powwowServer);
+				session.evict(powwowServer);
+				session.saveOrUpdate(powwowServer);
 			}
 		}
 		catch (Exception e) {

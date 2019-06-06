@@ -9435,7 +9435,8 @@ public class RolePersistenceImpl
 				role.setNew(false);
 			}
 			else {
-				role = (Role)session.merge(role);
+				session.evict(role);
+				session.saveOrUpdate(role);
 			}
 		}
 		catch (Exception e) {

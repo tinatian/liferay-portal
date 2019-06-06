@@ -1245,9 +1245,8 @@ public class UserNotificationDeliveryPersistenceImpl
 				userNotificationDelivery.setNew(false);
 			}
 			else {
-				userNotificationDelivery =
-					(UserNotificationDelivery)session.merge(
-						userNotificationDelivery);
+				session.evict(userNotificationDelivery);
+				session.saveOrUpdate(userNotificationDelivery);
 			}
 		}
 		catch (Exception e) {

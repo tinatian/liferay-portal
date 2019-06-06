@@ -4035,8 +4035,8 @@ public class DDMFormInstanceRecordPersistenceImpl
 				ddmFormInstanceRecord.setNew(false);
 			}
 			else {
-				ddmFormInstanceRecord = (DDMFormInstanceRecord)session.merge(
-					ddmFormInstanceRecord);
+				session.evict(ddmFormInstanceRecord);
+				session.saveOrUpdate(ddmFormInstanceRecord);
 			}
 		}
 		catch (Exception e) {

@@ -2484,8 +2484,8 @@ public class KaleoTransitionPersistenceImpl
 				kaleoTransition.setNew(false);
 			}
 			else {
-				kaleoTransition = (KaleoTransition)session.merge(
-					kaleoTransition);
+				session.evict(kaleoTransition);
+				session.saveOrUpdate(kaleoTransition);
 			}
 		}
 		catch (Exception e) {

@@ -1553,7 +1553,8 @@ public class CountryPersistenceImpl
 				country.setNew(false);
 			}
 			else {
-				country = (Country)session.merge(country);
+				session.evict(country);
+				session.saveOrUpdate(country);
 			}
 		}
 		catch (Exception e) {

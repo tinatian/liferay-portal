@@ -5111,8 +5111,8 @@ public class MDRRuleGroupInstancePersistenceImpl
 				mdrRuleGroupInstance.setNew(false);
 			}
 			else {
-				mdrRuleGroupInstance = (MDRRuleGroupInstance)session.merge(
-					mdrRuleGroupInstance);
+				session.evict(mdrRuleGroupInstance);
+				session.saveOrUpdate(mdrRuleGroupInstance);
 			}
 		}
 		catch (Exception e) {

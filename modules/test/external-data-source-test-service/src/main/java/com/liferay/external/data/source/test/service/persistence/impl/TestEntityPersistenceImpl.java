@@ -295,7 +295,8 @@ public class TestEntityPersistenceImpl
 				testEntity.setNew(false);
 			}
 			else {
-				testEntity = (TestEntity)session.merge(testEntity);
+				session.evict(testEntity);
+				session.saveOrUpdate(testEntity);
 			}
 		}
 		catch (Exception e) {

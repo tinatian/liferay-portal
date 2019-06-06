@@ -5922,8 +5922,8 @@ public class SiteNavigationMenuPersistenceImpl
 				siteNavigationMenu.setNew(false);
 			}
 			else {
-				siteNavigationMenu = (SiteNavigationMenu)session.merge(
-					siteNavigationMenu);
+				session.evict(siteNavigationMenu);
+				session.saveOrUpdate(siteNavigationMenu);
 			}
 		}
 		catch (Exception e) {

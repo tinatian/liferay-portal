@@ -3345,7 +3345,8 @@ public class PowwowMeetingPersistenceImpl
 				powwowMeeting.setNew(false);
 			}
 			else {
-				powwowMeeting = (PowwowMeeting)session.merge(powwowMeeting);
+				session.evict(powwowMeeting);
+				session.saveOrUpdate(powwowMeeting);
 			}
 		}
 		catch (Exception e) {

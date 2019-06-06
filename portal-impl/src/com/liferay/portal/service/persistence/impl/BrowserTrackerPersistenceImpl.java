@@ -547,7 +547,8 @@ public class BrowserTrackerPersistenceImpl
 				browserTracker.setNew(false);
 			}
 			else {
-				browserTracker = (BrowserTracker)session.merge(browserTracker);
+				session.evict(browserTracker);
+				session.saveOrUpdate(browserTracker);
 			}
 		}
 		catch (Exception e) {

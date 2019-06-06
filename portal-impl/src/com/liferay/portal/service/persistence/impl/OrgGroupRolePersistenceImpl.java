@@ -1316,7 +1316,8 @@ public class OrgGroupRolePersistenceImpl
 				orgGroupRole.setNew(false);
 			}
 			else {
-				orgGroupRole = (OrgGroupRole)session.merge(orgGroupRole);
+				session.evict(orgGroupRole);
+				session.saveOrUpdate(orgGroupRole);
 			}
 		}
 		catch (Exception e) {

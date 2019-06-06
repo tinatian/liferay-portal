@@ -3487,7 +3487,8 @@ public class GadgetPersistenceImpl
 				gadget.setNew(false);
 			}
 			else {
-				gadget = (Gadget)session.merge(gadget);
+				session.evict(gadget);
+				session.saveOrUpdate(gadget);
 			}
 		}
 		catch (Exception e) {
