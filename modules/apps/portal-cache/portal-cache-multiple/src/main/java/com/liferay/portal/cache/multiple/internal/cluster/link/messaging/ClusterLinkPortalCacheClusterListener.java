@@ -38,7 +38,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Shuyang Zhou
  */
 @Component(
-	immediate = true,
+	immediate = false,
 	property = "destination.name=" + PortalCacheDestinationNames.CACHE_REPLICATION,
 	service = MessageListener.class
 )

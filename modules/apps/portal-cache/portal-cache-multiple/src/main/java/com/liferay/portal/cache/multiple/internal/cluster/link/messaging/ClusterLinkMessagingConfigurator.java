@@ -34,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.portal.cache.cluster.configuration.PortalCacheClusterConfiguration",
-	immediate = true, service = ClusterLinkMessagingConfigurator.class
+	immediate = false, service = ClusterLinkMessagingConfigurator.class
 )
 public class ClusterLinkMessagingConfigurator {
 

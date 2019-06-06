@@ -28,7 +28,7 @@ import org.osgi.service.component.annotations.Deactivate;
 /**
  * @author Tina Tian
  */
-@Component(immediate = true, service = {})
+@Component(immediate = false, service = {})
 public class PortalCacheManagerUtil {
 
 	public static PortalCacheManager<? extends Serializable, ?>

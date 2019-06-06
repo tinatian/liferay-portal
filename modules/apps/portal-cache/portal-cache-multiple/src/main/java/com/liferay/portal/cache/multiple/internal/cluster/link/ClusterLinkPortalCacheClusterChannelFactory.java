@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.portal.cache.cluster.configuration.PortalCacheClusterConfiguration",
-	immediate = true, service = PortalCacheClusterChannelFactory.class
+	immediate = false, service = PortalCacheClusterChannelFactory.class
 )
 public class ClusterLinkPortalCacheClusterChannelFactory
 	implements PortalCacheClusterChannelFactory {
