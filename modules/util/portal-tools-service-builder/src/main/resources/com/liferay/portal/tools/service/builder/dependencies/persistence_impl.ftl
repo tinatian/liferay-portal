@@ -692,14 +692,9 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			else {
 				<#if entity.versionedEntity??>
 					throw new IllegalArgumentException("${entity.name} is read only, create a new version instead");
-				<#elseif entity.hasLazyBlobEntityColumn()>
-
-					<#-- Workaround for HHH-2680 -->
-
+				<#else>
 					session.evict(${entity.varName});
 					session.saveOrUpdate(${entity.varName});
-				<#else>
-					${entity.varName} = (${entity.name})session.merge(${entity.varName});
 				</#if>
 			}
 
