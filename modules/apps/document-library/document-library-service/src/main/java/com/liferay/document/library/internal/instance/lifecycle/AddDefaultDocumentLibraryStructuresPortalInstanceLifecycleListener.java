@@ -20,6 +20,7 @@ import com.liferay.document.library.kernel.util.RawMetadataProcessor;
 import com.liferay.dynamic.data.mapping.io.DDMFormDeserializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerDeserializeRequest;
 import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerDeserializeResponse;
+import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerTracker;
 import com.liferay.dynamic.data.mapping.io.DDMFormSerializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormSerializerSerializeRequest;
 import com.liferay.dynamic.data.mapping.io.DDMFormSerializerSerializeResponse;
@@ -54,9 +55,12 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -109,8 +113,34 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 
 		Locale locale = _portal.getSiteDefaultLocale(group.getGroupId());
 
-		String xsd = buildDLRawMetadataXML(
-			RawMetadataProcessorUtil.getFields(), locale);
+		Map<String, Field[]> fields = RawMetadataProcessorUtil.getFields();
+
+		Set<String> keys = fields.keySet();
+
+		Iterator<String> iterator = keys.iterator();
+
+		while (iterator.hasNext()) {
+			DDMStructure ddmStructure =
+				_ddmStructureLocalService.fetchStructure(
+					group.getGroupId(),
+					_portal.getClassNameId(RawMetadataProcessor.class),
+					iterator.next());
+
+			if (ddmStructure != null) {
+				DDMForm ddmForm = _deserializeDefinition(
+					ddmStructure.getDefinition());
+
+				if (Objects.equals(locale, ddmForm.getDefaultLocale())) {
+					iterator.remove();
+				}
+			}
+		}
+
+		if (fields.isEmpty()) {
+			return;
+		}
+
+		String xsd = buildDLRawMetadataXML(fields, locale);
 
 		Document document = UnsecureSAXReaderUtil.read(new StringReader(xsd));
 
@@ -294,6 +324,21 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 		_userLocalService = userLocalService;
 	}
 
+	private DDMForm _deserializeDefinition(String definition) {
+		DDMFormDeserializer ddmFormDeserializer =
+			_ddmFormDeserializerTracker.getDDMFormDeserializer("json");
+
+		DDMFormDeserializerDeserializeRequest.Builder builder =
+			DDMFormDeserializerDeserializeRequest.Builder.newBuilder(
+				definition);
+
+		DDMFormDeserializerDeserializeResponse
+			ddmFormDeserializerDeserializeResponse =
+				ddmFormDeserializer.deserialize(builder.build());
+
+		return ddmFormDeserializerDeserializeResponse.getDDMForm();
+	}
+
 	private String _serializeJSONDDMForm(DDMForm ddmForm) {
 		DDMFormSerializer ddmFormSerializer =
 			_ddmFormSerializerTracker.getDDMFormSerializer("json");
@@ -309,6 +354,9 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 
 	private DDM _ddm;
 	private DDMFormDeserializer _ddmFormDeserializer;
+
+	@Reference
+	private DDMFormDeserializerTracker _ddmFormDeserializerTracker;
 
 	@Reference
 	private DDMFormSerializerTracker _ddmFormSerializerTracker;
