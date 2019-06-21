@@ -98,18 +98,7 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 	}
 
 	protected void addDLRawMetadataStructures(long companyId) throws Exception {
-		ServiceContext serviceContext = new ServiceContext();
-
-		serviceContext.setAddGuestPermissions(true);
-		serviceContext.setAddGroupPermissions(true);
-
 		Group group = _groupLocalService.getCompanyGroup(companyId);
-
-		serviceContext.setScopeGroupId(group.getGroupId());
-
-		long defaultUserId = _userLocalService.getDefaultUserId(companyId);
-
-		serviceContext.setUserId(defaultUserId);
 
 		Locale locale = _portal.getSiteDefaultLocale(group.getGroupId());
 
@@ -139,6 +128,16 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 		if (fields.isEmpty()) {
 			return;
 		}
+
+		ServiceContext serviceContext = new ServiceContext();
+
+		serviceContext.setAddGuestPermissions(true);
+		serviceContext.setAddGroupPermissions(true);
+		serviceContext.setScopeGroupId(group.getGroupId());
+
+		long defaultUserId = _userLocalService.getDefaultUserId(companyId);
+
+		serviceContext.setUserId(defaultUserId);
 
 		String xsd = buildDLRawMetadataXML(fields, locale);
 
