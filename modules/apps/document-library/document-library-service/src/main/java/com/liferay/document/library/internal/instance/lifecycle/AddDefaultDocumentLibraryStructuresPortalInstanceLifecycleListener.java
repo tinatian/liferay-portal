@@ -21,10 +21,6 @@ import com.liferay.dynamic.data.mapping.io.DDMFormDeserializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerDeserializeRequest;
 import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerDeserializeResponse;
 import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerTracker;
-import com.liferay.dynamic.data.mapping.io.DDMFormSerializer;
-import com.liferay.dynamic.data.mapping.io.DDMFormSerializerSerializeRequest;
-import com.liferay.dynamic.data.mapping.io.DDMFormSerializerSerializeResponse;
-import com.liferay.dynamic.data.mapping.io.DDMFormSerializerTracker;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
@@ -174,13 +170,9 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 				ddmFormDeserializerDeserializeResponse.getDDMForm();
 
 			if (ddmStructure != null) {
-				String definition = _serializeJSONDDMForm(ddmForm);
+				ddmStructure.setDDMForm(ddmForm);
 
-				if (!definition.equals(ddmStructure.getDefinition())) {
-					ddmStructure.setDDMForm(ddmForm);
-
-					_ddmStructureLocalService.updateDDMStructure(ddmStructure);
-				}
+				_ddmStructureLocalService.updateDDMStructure(ddmStructure);
 			}
 			else {
 				Map<Locale, String> nameMap = new HashMap<>();
@@ -338,27 +330,11 @@ public class AddDefaultDocumentLibraryStructuresPortalInstanceLifecycleListener
 		return ddmFormDeserializerDeserializeResponse.getDDMForm();
 	}
 
-	private String _serializeJSONDDMForm(DDMForm ddmForm) {
-		DDMFormSerializer ddmFormSerializer =
-			_ddmFormSerializerTracker.getDDMFormSerializer("json");
-
-		DDMFormSerializerSerializeRequest.Builder builder =
-			DDMFormSerializerSerializeRequest.Builder.newBuilder(ddmForm);
-
-		DDMFormSerializerSerializeResponse ddmFormSerializerSerializeResponse =
-			ddmFormSerializer.serialize(builder.build());
-
-		return ddmFormSerializerSerializeResponse.getContent();
-	}
-
 	private DDM _ddm;
 	private DDMFormDeserializer _ddmFormDeserializer;
 
 	@Reference
 	private DDMFormDeserializerTracker _ddmFormDeserializerTracker;
-
-	@Reference
-	private DDMFormSerializerTracker _ddmFormSerializerTracker;
 
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DefaultDDMStructureHelper _defaultDDMStructureHelper;
