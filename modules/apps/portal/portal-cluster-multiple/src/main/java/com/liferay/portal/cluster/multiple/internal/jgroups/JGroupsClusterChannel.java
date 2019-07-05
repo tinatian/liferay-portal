@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -60,7 +60,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		String channelLogicName, String channelProperties, String clusterName,
 		ClusterReceiver clusterReceiver, InetAddress bindInetAddress,
 		ClusterExecutorConfiguration clusterExecutorConfiguration,
-		Map<ClassLoader, ClassLoader> classLoaders, Props props) {
+		Map<ClassLoader, ClassLoader> classLoaders, Props props, Html html) {
 
 		if (Validator.isNull(channelProperties)) {
 			throw new NullPointerException("Channel properties is null");
@@ -77,6 +77,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		_clusterName = clusterName;
 		_clusterReceiver = clusterReceiver;
 		_props = props;
+		_html = html;
 
 		try {
 			_jChannel = new JChannel(_create(channelProperties));
@@ -238,9 +239,9 @@ public class JGroupsClusterChannel implements ClusterChannel {
 					configXML,
 					StringBundler.concat(
 						StringPool.DOLLAR_AND_OPEN_CURLY_BRACE,
-						HtmlUtil.escapeAttribute((String)entry.getKey()),
+						_html.escapeAttribute((String)entry.getKey()),
 						StringPool.CLOSE_CURLY_BRACE),
-					HtmlUtil.escapeAttribute((String)entry.getValue()));
+					_html.escapeAttribute((String)entry.getValue()));
 			}
 
 			return ConfiguratorFactory.getStackConfigurator(
@@ -310,6 +311,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 	private final String _clusterName;
 	private final ClusterReceiver _clusterReceiver;
+	private final Html _html;
 	private final JChannel _jChannel;
 	private final Address _localAddress;
 	private final Props _props;

@@ -27,6 +27,7 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.SocketUtil;
@@ -68,7 +69,7 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		return new JGroupsClusterChannel(
 			channleLogicName, channelProperties, clusterName, clusterReceiver,
 			_bindInetAddress, _clusterExecutorConfiguration, _classLoaders,
-			_props);
+			_props, _html);
 	}
 
 	@Override
@@ -239,6 +240,10 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		new ConcurrentReferenceKeyHashMap<>(
 			FinalizeManager.WEAK_REFERENCE_FACTORY);
 	private volatile ClusterExecutorConfiguration _clusterExecutorConfiguration;
+
+	@Reference
+	private Html _html;
+
 	private Props _props;
 
 }
