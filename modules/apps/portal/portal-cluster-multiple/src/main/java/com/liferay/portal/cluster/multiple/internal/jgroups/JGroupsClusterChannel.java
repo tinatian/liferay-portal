@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -60,7 +60,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		String channelLogicName, String channelProperties, String clusterName,
 		ClusterReceiver clusterReceiver, InetAddress bindInetAddress,
 		ClusterExecutorConfiguration clusterExecutorConfiguration,
-		Map<ClassLoader, ClassLoader> classLoaders) {
+		Map<ClassLoader, ClassLoader> classLoaders, Props props) {
 
 		if (Validator.isNull(channelProperties)) {
 			throw new NullPointerException("Channel properties is null");
@@ -76,6 +76,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 		_clusterName = clusterName;
 		_clusterReceiver = clusterReceiver;
+		_props = props;
 
 		try {
 			_jChannel = new JChannel(_create(channelProperties));
@@ -226,7 +227,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 			String configXML = StreamUtil.toString(inputStream);
 
-			Properties properties = PropsUtil.getProperties();
+			Properties properties = _props.getProperties();
 
 			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
 				if (!(entry.getValue() instanceof String)) {
@@ -311,5 +312,6 @@ public class JGroupsClusterChannel implements ClusterChannel {
 	private final ClusterReceiver _clusterReceiver;
 	private final JChannel _jChannel;
 	private final Address _localAddress;
+	private final Props _props;
 
 }
