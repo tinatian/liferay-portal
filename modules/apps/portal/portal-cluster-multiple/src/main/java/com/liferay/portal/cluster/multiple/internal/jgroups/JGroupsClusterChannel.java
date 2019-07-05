@@ -236,8 +236,9 @@ public class JGroupsClusterChannel implements ClusterChannel {
 				configXML = StringUtil.replace(
 					configXML,
 					StringBundler.concat(
-						"${", HtmlUtil.escapeAttribute((String)entry.getKey()),
-						"}"),
+						StringPool.DOLLAR_AND_OPEN_CURLY_BRACE,
+						HtmlUtil.escapeAttribute((String)entry.getKey()),
+						StringPool.CLOSE_CURLY_BRACE),
 					HtmlUtil.escapeAttribute((String)entry.getValue()));
 			}
 
