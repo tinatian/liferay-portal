@@ -80,7 +80,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		_html = html;
 
 		try {
-			_jChannel = new JChannel(_create(channelProperties));
+			_jChannel = new JChannel(_parseProperties(channelProperties));
 
 			if (Validator.isNotNull(channelLogicName)) {
 				_jChannel.setName(channelLogicName);
@@ -215,41 +215,6 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		}
 	}
 
-	private ProtocolStackConfigurator _create(String configXMLFile)
-		throws Exception {
-
-		try (InputStream inputStream = ConfiguratorFactory.getConfigStream(
-				configXMLFile)) {
-
-			if (inputStream == null) {
-				throw new FileNotFoundException(
-					"Config file not found: ".concat(configXMLFile));
-			}
-
-			String configXML = StreamUtil.toString(inputStream);
-
-			Properties properties = _props.getProperties();
-
-			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-				if (!(entry.getValue() instanceof String)) {
-					continue;
-				}
-
-				configXML = StringUtil.replace(
-					configXML,
-					StringBundler.concat(
-						StringPool.DOLLAR_AND_OPEN_CURLY_BRACE,
-						_html.escapeAttribute((String)entry.getKey()),
-						StringPool.CLOSE_CURLY_BRACE),
-					_html.escapeAttribute((String)entry.getValue()));
-			}
-
-			return ConfiguratorFactory.getStackConfigurator(
-				new UnsyncByteArrayInputStream(
-					configXML.getBytes(StringPool.UTF8)));
-		}
-	}
-
 	private String _getJChannelProperties(String[] excludedPropertyKeys)
 		throws ReflectiveOperationException {
 
@@ -292,6 +257,41 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		}
 
 		return sb.toString();
+	}
+
+	private ProtocolStackConfigurator _parseProperties(String configXMLFile)
+		throws Exception {
+
+		try (InputStream inputStream = ConfiguratorFactory.getConfigStream(
+				configXMLFile)) {
+
+			if (inputStream == null) {
+				throw new FileNotFoundException(
+					"Config file not found: ".concat(configXMLFile));
+			}
+
+			String configXML = StreamUtil.toString(inputStream);
+
+			Properties properties = _props.getProperties();
+
+			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+				if (!(entry.getValue() instanceof String)) {
+					continue;
+				}
+
+				configXML = StringUtil.replace(
+					configXML,
+					StringBundler.concat(
+						StringPool.DOLLAR_AND_OPEN_CURLY_BRACE,
+						_html.escapeAttribute((String)entry.getKey()),
+						StringPool.CLOSE_CURLY_BRACE),
+					_html.escapeAttribute((String)entry.getValue()));
+			}
+
+			return ConfiguratorFactory.getStackConfigurator(
+				new UnsyncByteArrayInputStream(
+					configXML.getBytes(StringPool.UTF8)));
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
