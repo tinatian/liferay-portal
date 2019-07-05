@@ -14,6 +14,8 @@
 
 package com.liferay.portal.cluster.multiple.internal.jgroups;
 
+import com.liferay.petra.io.StreamUtil;
+import com.liferay.petra.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -25,8 +27,13 @@ import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import java.lang.reflect.Method;
@@ -35,8 +42,11 @@ import java.net.InetAddress;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.jgroups.JChannel;
+import org.jgroups.conf.ConfiguratorFactory;
+import org.jgroups.conf.ProtocolStackConfigurator;
 import org.jgroups.protocols.TP;
 import org.jgroups.stack.Protocol;
 import org.jgroups.stack.ProtocolStack;
@@ -68,8 +78,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		_clusterReceiver = clusterReceiver;
 
 		try {
-			_jChannel = new JChannel(
-				JGroupsConfiguratorFactory.create(channelProperties));
+			_jChannel = new JChannel(_create(channelProperties));
 
 			if (Validator.isNotNull(channelLogicName)) {
 				_jChannel.setName(channelLogicName);
@@ -204,6 +213,37 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		}
 	}
 
+	private ProtocolStackConfigurator _create(String configXMLFile)
+		throws Exception {
+
+		try (InputStream inputStream = ConfiguratorFactory.getConfigStream(
+				configXMLFile)) {
+
+			if (inputStream == null) {
+				throw new FileNotFoundException(
+					"Config file not found: ".concat(configXMLFile));
+			}
+
+			String configXML = StreamUtil.toString(inputStream);
+
+			Properties properties = PropsUtil.getProperties();
+
+			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+				if (!(entry.getValue() instanceof String)) {
+					continue;
+				}
+
+				configXML = StringUtil.replace(
+					configXML, _getKey((String)entry.getKey()),
+					HtmlUtil.escapeAttribute((String)entry.getValue()));
+			}
+
+			return ConfiguratorFactory.getStackConfigurator(
+				new UnsyncByteArrayInputStream(
+					configXML.getBytes(StringPool.UTF8)));
+		}
+	}
+
 	private String _getJChannelProperties(String[] excludedPropertyKeys)
 		throws ReflectiveOperationException {
 
@@ -246,6 +286,14 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		}
 
 		return sb.toString();
+	}
+
+	private String _getKey(String key) {
+		return "${".concat(
+			HtmlUtil.escapeAttribute(key)
+		).concat(
+			"}"
+		);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
