@@ -234,7 +234,12 @@ public class JGroupsClusterChannel implements ClusterChannel {
 				}
 
 				configXML = StringUtil.replace(
-					configXML, _getKey((String)entry.getKey()),
+					configXML,
+					"${".concat(
+						HtmlUtil.escapeAttribute((String)entry.getKey())
+					).concat(
+						"}"
+					),
 					HtmlUtil.escapeAttribute((String)entry.getValue()));
 			}
 
@@ -286,14 +291,6 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		}
 
 		return sb.toString();
-	}
-
-	private String _getKey(String key) {
-		return "${".concat(
-			HtmlUtil.escapeAttribute(key)
-		).concat(
-			"}"
-		);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
