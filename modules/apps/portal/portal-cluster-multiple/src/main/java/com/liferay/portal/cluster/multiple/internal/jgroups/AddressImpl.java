@@ -73,7 +73,7 @@ public class AddressImpl
 	public void readExternal(ObjectInput objectInput)
 		throws ClassNotFoundException, IOException {
 
-		Util.readAddress(objectInput);
+		_address = Util.readAddress(objectInput);
 	}
 
 	@Override
