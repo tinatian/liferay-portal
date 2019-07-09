@@ -14,8 +14,6 @@
 
 package com.liferay.portal.cluster.multiple.internal.jgroups;
 
-import com.liferay.petra.io.StreamUtil;
-import com.liferay.petra.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -27,13 +25,8 @@ import com.liferay.portal.kernel.cluster.Address;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.Html;
-import com.liferay.portal.kernel.util.Props;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.Serializable;
 
 import java.lang.reflect.Method;
@@ -42,10 +35,8 @@ import java.net.InetAddress;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.jgroups.JChannel;
-import org.jgroups.conf.ConfiguratorFactory;
 import org.jgroups.conf.ProtocolStackConfigurator;
 import org.jgroups.protocols.TP;
 import org.jgroups.stack.Protocol;
@@ -57,13 +48,14 @@ import org.jgroups.stack.ProtocolStack;
 public class JGroupsClusterChannel implements ClusterChannel {
 
 	public JGroupsClusterChannel(
-		String channelLogicName, String channelProperties, String clusterName,
+		String channelLogicName,
+		ProtocolStackConfigurator protocolStackConfigurator, String clusterName,
 		ClusterReceiver clusterReceiver, InetAddress bindInetAddress,
 		ClusterExecutorConfiguration clusterExecutorConfiguration,
-		Map<ClassLoader, ClassLoader> classLoaders, Props props, Html html) {
+		Map<ClassLoader, ClassLoader> classLoaders) {
 
-		if (Validator.isNull(channelProperties)) {
-			throw new NullPointerException("Channel properties is null");
+		if (protocolStackConfigurator == null) {
+			throw new NullPointerException("ProtocolStackConfigurator is null");
 		}
 
 		if (Validator.isNull(clusterName)) {
@@ -76,11 +68,9 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 		_clusterName = clusterName;
 		_clusterReceiver = clusterReceiver;
-		_props = props;
-		_html = html;
 
 		try {
-			_jChannel = new JChannel(_parseProperties(channelProperties));
+			_jChannel = new JChannel(protocolStackConfigurator);
 
 			if (Validator.isNotNull(channelLogicName)) {
 				_jChannel.setName(channelLogicName);
@@ -259,41 +249,6 @@ public class JGroupsClusterChannel implements ClusterChannel {
 		return sb.toString();
 	}
 
-	private ProtocolStackConfigurator _parseProperties(String configXMLFile)
-		throws Exception {
-
-		try (InputStream inputStream = ConfiguratorFactory.getConfigStream(
-				configXMLFile)) {
-
-			if (inputStream == null) {
-				throw new FileNotFoundException(
-					"Config file not found: ".concat(configXMLFile));
-			}
-
-			String configXML = StreamUtil.toString(inputStream);
-
-			Properties properties = _props.getProperties();
-
-			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-				if (!(entry.getValue() instanceof String)) {
-					continue;
-				}
-
-				configXML = StringUtil.replace(
-					configXML,
-					StringBundler.concat(
-						StringPool.DOLLAR_AND_OPEN_CURLY_BRACE,
-						_html.escapeAttribute((String)entry.getKey()),
-						StringPool.CLOSE_CURLY_BRACE),
-					_html.escapeAttribute((String)entry.getValue()));
-			}
-
-			return ConfiguratorFactory.getStackConfigurator(
-				new UnsyncByteArrayInputStream(
-					configXML.getBytes(StringPool.UTF8)));
-		}
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		JGroupsClusterChannel.class);
 
@@ -311,9 +266,7 @@ public class JGroupsClusterChannel implements ClusterChannel {
 
 	private final String _clusterName;
 	private final ClusterReceiver _clusterReceiver;
-	private final Html _html;
 	private final JChannel _jChannel;
 	private final Address _localAddress;
-	private final Props _props;
 
 }
