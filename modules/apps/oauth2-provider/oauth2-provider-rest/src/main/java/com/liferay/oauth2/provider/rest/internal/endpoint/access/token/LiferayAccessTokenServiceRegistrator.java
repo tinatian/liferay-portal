@@ -61,25 +61,6 @@ public class LiferayAccessTokenServiceRegistrator {
 
 		_bundleContext = bundleContext;
 
-		_updateLiferayAccessTokenService(bundleContext);
-	}
-
-	@Deactivate
-	protected void deactivate() {
-		_enabled = false;
-
-		unregister();
-	}
-
-	protected void unregister() {
-		if (_serviceRegistration != null) {
-			_serviceRegistration.unregister();
-
-			_serviceRegistration = null;
-		}
-	}
-
-	private void _updateLiferayAccessTokenService(BundleContext bundleContext) {
 		if (!_enabled || (bundleContext == null)) {
 			return;
 		}
@@ -109,6 +90,21 @@ public class LiferayAccessTokenServiceRegistrator {
 		_serviceRegistration = bundleContext.registerService(
 			Object.class, liferayAccessTokenService,
 			liferayAccessTokenServiceProperties);
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_enabled = false;
+
+		unregister();
+	}
+
+	protected void unregister() {
+		if (_serviceRegistration != null) {
+			_serviceRegistration.unregister();
+
+			_serviceRegistration = null;
+		}
 	}
 
 	@Reference(
