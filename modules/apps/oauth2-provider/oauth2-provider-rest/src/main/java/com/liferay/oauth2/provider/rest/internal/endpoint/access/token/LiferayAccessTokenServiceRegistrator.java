@@ -84,8 +84,6 @@ public class LiferayAccessTokenServiceRegistrator {
 			"osgi.jaxrs.name", "Liferay.Access.Token.Service.");
 		liferayAccessTokenServiceProperties.put("osgi.jaxrs.resource", true);
 
-		unregister();
-
 		_serviceRegistration = bundleContext.registerService(
 			Object.class, liferayAccessTokenService,
 			liferayAccessTokenServiceProperties);
