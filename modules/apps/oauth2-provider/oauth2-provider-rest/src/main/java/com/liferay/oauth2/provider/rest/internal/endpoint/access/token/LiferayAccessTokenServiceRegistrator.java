@@ -18,10 +18,10 @@ import com.liferay.oauth2.provider.rest.internal.endpoint.liferay.LiferayOAuthDa
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.MapUtil;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.cxf.rs.security.oauth2.provider.AccessTokenGrantHandler;
 
@@ -30,6 +30,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.FieldOption;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -63,32 +64,11 @@ public class LiferayAccessTokenServiceRegistrator {
 		_updateLiferayAccessTokenService(bundleContext);
 	}
 
-	@Reference(
-		cardinality = ReferenceCardinality.AT_LEAST_ONE,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
-	protected void addAccessTokenGrantHandler(
-		AccessTokenGrantHandler accessTokenGrantHandler) {
-
-		_accessTokenGrantHandlers.add(accessTokenGrantHandler);
-
-		_updateLiferayAccessTokenService(_bundleContext);
-	}
-
 	@Deactivate
 	protected void deactivate() {
 		_enabled = false;
 
 		unregister();
-	}
-
-	protected void removeAccessTokenGrantHandler(
-		AccessTokenGrantHandler accessTokenGrantHandler) {
-
-		_accessTokenGrantHandlers.remove(accessTokenGrantHandler);
-
-		_updateLiferayAccessTokenService(_bundleContext);
 	}
 
 	protected void unregister() {
@@ -131,8 +111,14 @@ public class LiferayAccessTokenServiceRegistrator {
 			liferayAccessTokenServiceProperties);
 	}
 
-	private final List<AccessTokenGrantHandler> _accessTokenGrantHandlers =
-		new ArrayList<>();
+	@Reference(
+		cardinality = ReferenceCardinality.AT_LEAST_ONE,
+		fieldOption = FieldOption.UPDATE, policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY
+	)
+	private volatile List<AccessTokenGrantHandler> _accessTokenGrantHandlers =
+		new CopyOnWriteArrayList<>();
+
 	private boolean _blockUnsecureRequests;
 	private BundleContext _bundleContext;
 	private boolean _canSupportPublicClients;
