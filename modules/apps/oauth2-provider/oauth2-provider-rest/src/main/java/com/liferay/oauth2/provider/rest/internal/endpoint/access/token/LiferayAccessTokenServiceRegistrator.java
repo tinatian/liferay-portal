@@ -53,24 +53,17 @@ public class LiferayAccessTokenServiceRegistrator {
 	protected void activate(
 		BundleContext bundleContext, Map<String, Object> properties) {
 
-		_enabled = MapUtil.getBoolean(properties, "enabled", true);
-
-		if (!_enabled) {
+		if (!MapUtil.getBoolean(properties, "enabled", true)) {
 			return;
 		}
-
-		_blockUnsecureRequests = MapUtil.getBoolean(
-			properties, "block.unsecure.requests", true);
-		_canSupportPublicClients = MapUtil.getBoolean(
-			properties, "allow.public.clients", true);
 
 		LiferayAccessTokenService liferayAccessTokenService =
 			new LiferayAccessTokenService();
 
 		liferayAccessTokenService.setBlockUnsecureRequests(
-			_blockUnsecureRequests);
+			MapUtil.getBoolean(properties, "block.unsecure.requests", true));
 		liferayAccessTokenService.setCanSupportPublicClients(
-			_canSupportPublicClients);
+			MapUtil.getBoolean(properties, "allow.public.clients", true));
 		liferayAccessTokenService.setDataProvider(_liferayOAuthDataProvider);
 		liferayAccessTokenService.setGrantHandlers(_accessTokenGrantHandlers);
 
@@ -91,8 +84,6 @@ public class LiferayAccessTokenServiceRegistrator {
 
 	@Deactivate
 	protected void deactivate() {
-		_enabled = false;
-
 		if (_serviceRegistration != null) {
 			_serviceRegistration.unregister();
 
@@ -107,10 +98,6 @@ public class LiferayAccessTokenServiceRegistrator {
 	)
 	private volatile List<AccessTokenGrantHandler> _accessTokenGrantHandlers =
 		new CopyOnWriteArrayList<>();
-
-	private boolean _blockUnsecureRequests;
-	private boolean _canSupportPublicClients;
-	private volatile boolean _enabled;
 
 	@Reference
 	private LiferayOAuthDataProvider _liferayOAuthDataProvider;
