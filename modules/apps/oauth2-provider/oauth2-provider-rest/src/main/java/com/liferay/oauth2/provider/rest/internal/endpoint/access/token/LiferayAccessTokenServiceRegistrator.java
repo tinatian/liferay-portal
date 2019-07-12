@@ -53,17 +53,16 @@ public class LiferayAccessTokenServiceRegistrator {
 	protected void activate(
 		BundleContext bundleContext, Map<String, Object> properties) {
 
+		_enabled = MapUtil.getBoolean(properties, "enabled", true);
+
+		if (!_enabled) {
+			return;
+		}
+
 		_blockUnsecureRequests = MapUtil.getBoolean(
 			properties, "block.unsecure.requests", true);
 		_canSupportPublicClients = MapUtil.getBoolean(
 			properties, "allow.public.clients", true);
-		_enabled = MapUtil.getBoolean(properties, "enabled", true);
-
-		_bundleContext = bundleContext;
-
-		if (!_enabled || (bundleContext == null)) {
-			return;
-		}
 
 		LiferayAccessTokenService liferayAccessTokenService =
 			new LiferayAccessTokenService();
@@ -116,7 +115,6 @@ public class LiferayAccessTokenServiceRegistrator {
 		new CopyOnWriteArrayList<>();
 
 	private boolean _blockUnsecureRequests;
-	private BundleContext _bundleContext;
 	private boolean _canSupportPublicClients;
 	private volatile boolean _enabled;
 
