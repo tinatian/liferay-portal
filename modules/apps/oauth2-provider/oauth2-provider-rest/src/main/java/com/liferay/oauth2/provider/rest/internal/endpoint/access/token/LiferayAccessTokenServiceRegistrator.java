@@ -93,10 +93,6 @@ public class LiferayAccessTokenServiceRegistrator {
 	protected void deactivate() {
 		_enabled = false;
 
-		unregister();
-	}
-
-	protected void unregister() {
 		if (_serviceRegistration != null) {
 			_serviceRegistration.unregister();
 
