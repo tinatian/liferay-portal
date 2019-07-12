@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.apache.cxf.rs.security.oauth2.common.Client;
 import org.apache.cxf.rs.security.oauth2.services.AccessTokenService;
+import org.apache.cxf.rs.security.oauth2.utils.OAuthUtils;
 
 /**
  * @author Tomas Polesovsky
@@ -86,6 +87,12 @@ public class LiferayAccessTokenService extends AccessTokenService {
 			remoteHost);
 
 		return client;
+	}
+
+	@Override
+	protected void injectContextIntoOAuthProviders() {
+		OAuthUtils.injectContextIntoOAuthProvider(
+			getMessageContext(), getDataProvider());
 	}
 
 }
