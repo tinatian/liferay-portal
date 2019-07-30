@@ -5702,16 +5702,52 @@ public class PortalImpl implements Portal {
 	public User getUser(HttpServletRequest httpServletRequest)
 		throws PortalException {
 
+		StackTraceElement[] stackTraceElements =
+			Thread.currentThread().getStackTrace();
+
+		if(stackTraceElements.length > 3) {
+			String content = stackTraceElements[3].toString();
+
+			if(content.startsWith(
+				"com.liferay.portal.security.auth.test.JAASTest." +
+					"testGetUser")) {
+				System.out.println(
+					" ###### PORTAL_JAAS_ENABLE 0: " +
+						PropsValues.PORTAL_JAAS_ENABLE);
+			}
+		}
+
 		User user = (User)httpServletRequest.getAttribute(WebKeys.USER);
+
+		if(stackTraceElements.length > 3) {
+			String content = stackTraceElements[3].toString();
+
+			if(content.startsWith(
+				"com.liferay.portal.security.auth.test.JAASTest." +
+					"testGetUser")) {
+				System.out.println(
+					" ###### PORTAL_JAAS_ENABLE 1: " +
+						PropsValues.PORTAL_JAAS_ENABLE);
+			}
+		}
 
 		if (user != null) {
 			return user;
 		}
 
-		long userId = getUserId(httpServletRequest);
+		if(stackTraceElements.length > 3) {
+			String content = stackTraceElements[3].toString();
 
-		StackTraceElement[] stackTraceElements =
-			Thread.currentThread().getStackTrace();
+			if(content.startsWith(
+				"com.liferay.portal.security.auth.test.JAASTest." +
+					"testGetUser")) {
+				System.out.println(
+					" ###### PORTAL_JAAS_ENABLE 2: " +
+						PropsValues.PORTAL_JAAS_ENABLE);
+			}
+		}
+
+		long userId = getUserId(httpServletRequest);
 
 		if(stackTraceElements.length > 3) {
 			String content = stackTraceElements[3].toString();
@@ -5725,7 +5761,7 @@ public class PortalImpl implements Portal {
 					" ###### remoteUser: " +
 						httpServletRequest.getRemoteUser());
 				System.out.println(
-					" ###### PORTAL_JAAS_ENABLE: " +
+					" ###### PORTAL_JAAS_ENABLE 3: " +
 						PropsValues.PORTAL_JAAS_ENABLE);
 			}
 		}
