@@ -40,6 +40,7 @@ import com.liferay.portal.util.PropsValues;
 
 import java.lang.reflect.Field;
 
+import java.lang.reflect.Modifier;
 import java.security.Principal;
 
 import java.util.Date;
@@ -95,6 +96,17 @@ public class JAASTest {
 
 		_jaasEnabledField = ReflectionUtil.getDeclaredField(
 			PropsValues.class, "PORTAL_JAAS_ENABLE");
+
+		Field modifiersField = Field.class.getDeclaredField("modifiers");
+
+		modifiersField.setAccessible(true);
+
+		int modifiers = _jaasEnabledField.getModifiers();
+
+		if ((modifiers & Modifier.VOLATILE) != Modifier.VOLATILE) {
+			modifiersField.setInt(
+				_jaasEnabledField, modifiers & Modifier.VOLATILE);
+		}
 
 		_jaasEnabled = (Boolean)_jaasEnabledField.get(null);
 
