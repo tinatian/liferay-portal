@@ -43,7 +43,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
-import com.liferay.portal.kernel.messaging.MessageBusUtil;
+import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -66,12 +66,15 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Scott Lee
  * @author Ryan Park
  * @author Peter Fellwock
  */
+@Component(immediate = true, service = {})
 public class MailManager {
 
 	public static MailManager getInstance(HttpServletRequest httpServletRequest)
@@ -566,7 +569,7 @@ public class MailManager {
 		message.put("flag", MailConstants.FLAG_SEEN);
 		message.put("flagValue", true);
 
-		MessageBusUtil.sendMessage(DestinationNames.MAIL_SYNCHRONIZER, message);
+		_messageBus.sendMessage(DestinationNames.MAIL_SYNCHRONIZER, message);
 	}
 
 	public JSONObject moveMessages(long folderId, long[] messageIds)
@@ -898,7 +901,7 @@ public class MailManager {
 		message.put("pageNumber", pageNumber);
 		message.put("messagesPerPage", messagesPerPage);
 
-		MessageBusUtil.sendMessage(DestinationNames.MAIL_SYNCHRONIZER, message);
+		_messageBus.sendMessage(DestinationNames.MAIL_SYNCHRONIZER, message);
 	}
 
 	private static Mailbox _getMailbox(
@@ -932,6 +935,9 @@ public class MailManager {
 
 	private static final ServiceTrackerMap<String, MailboxFactory>
 		_mailboxFactories;
+
+	@Reference
+	private static MessageBus _messageBus;
 
 	static {
 		Bundle bundle = FrameworkUtil.getBundle(MailManager.class);
