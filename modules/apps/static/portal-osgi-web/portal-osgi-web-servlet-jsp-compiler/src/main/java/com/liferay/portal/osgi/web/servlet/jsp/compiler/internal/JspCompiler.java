@@ -23,12 +23,14 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.StreamUtil;
 import com.liferay.portal.osgi.web.servlet.jsp.compiler.internal.util.ClassPathUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
-import java.net.URI;
 import java.net.URL;
 
 import java.security.AccessController;
@@ -47,8 +49,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 
-import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
+import javax.tools.FileObject;
+import javax.tools.ForwardingJavaFileManager;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
@@ -57,13 +60,15 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.apache.jasper.Constants;
+import org.apache.jasper.EmbeddedServletOptions;
 import org.apache.jasper.JasperException;
 import org.apache.jasper.JspCompilationContext;
 import org.apache.jasper.Options;
 import org.apache.jasper.compiler.ErrorDispatcher;
-import org.apache.jasper.compiler.JavacErrorDetail;
-import org.apache.jasper.compiler.Jsr199JavaCompiler;
-import org.apache.jasper.compiler.Node;
+import org.apache.jasper.compiler.TldCache;
+import org.apache.tomcat.util.descriptor.tld.TaglibXml;
+import org.apache.tomcat.util.descriptor.tld.TldParser;
+import org.apache.tomcat.util.descriptor.tld.TldResourcePath;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -74,22 +79,24 @@ import org.osgi.framework.wiring.BundleWire;
 import org.osgi.framework.wiring.BundleWiring;
 import org.osgi.util.tracker.ServiceTracker;
 
+import org.xml.sax.SAXException;
+
 /**
  * @author Raymond Augé
  * @author Miguel Pastor
  */
-public class JspCompiler extends Jsr199JavaCompiler {
+public class JspCompiler {
 
-	@Override
-	public JavacErrorDetail[] compile(String className, Node.Nodes pageNodes)
+	public DiagnosticCollector<JavaFileObject> compile(
+			String className, ErrorDispatcher errorDispatcher)
 		throws JasperException {
 
-		classFiles = new ArrayList<>();
+		_bytecodeJavaFileObjects = new ArrayList<>();
 
 		JavaCompiler javaCompiler = ToolProvider.getSystemJavaCompiler();
 
 		if (javaCompiler == null) {
-			errDispatcher.jspError("jsp.error.nojdk");
+			errorDispatcher.jspError("jsp.error.nojdk");
 
 			throw new JasperException("Unable to find Java compiler");
 		}
@@ -103,32 +110,38 @@ public class JspCompiler extends Jsr199JavaCompiler {
 
 		try {
 			standardJavaFileManager.setLocation(
-				StandardLocation.CLASS_PATH, cpath);
+				StandardLocation.CLASS_PATH, _classPath);
 		}
 		catch (IOException ioe) {
 			throw new JasperException(ioe);
 		}
 
-		try (JavaFileManager javaFileManager = getJavaFileManager(
-				standardJavaFileManager)) {
+		try (JavaFileManager javaFileManager = new JavaFileManagerWrapper(
+				new BundleJavaFileManager(
+					_classLoader, standardJavaFileManager,
+					_javaFileObjectResolvers))) {
 
 			JavaCompiler.CompilationTask compilationTask = javaCompiler.getTask(
-				null, javaFileManager, diagnosticCollector, options, null,
+				null, javaFileManager, diagnosticCollector, _compilerOptions,
+				null,
 				Arrays.asList(
 					new StringJavaFileObject(
-						className.substring(className.lastIndexOf('.') + 1),
-						charArrayWriter.toString())));
+						className.substring(
+							className.lastIndexOf(CharPool.PERIOD) + 1),
+						FileUtil.read(
+							_jspCompilationContext.getServletJavaFileName()))));
 
 			if (_log.isDebugEnabled()) {
-				_log.debug("Compiling JSP: ".concat(className));
+				_log.debug(
+					"Compiling JSP: ".concat(_jspCompilationContext.getFQCN()));
 			}
 
 			if (compilationTask.call()) {
-				for (BytecodeFile bytecodeFile : classFiles) {
-					rtctxt.setBytecode(
-						bytecodeFile.getClassName(),
-						bytecodeFile.getBytecode());
-				}
+				saveClassFile(
+					_jspCompilationContext.getFQCN(),
+					_jspCompilationContext.getClassFileName());
+
+				_bytecodeJavaFileObjects = null;
 
 				return null;
 			}
@@ -137,33 +150,35 @@ public class JspCompiler extends Jsr199JavaCompiler {
 			throw new JasperException(ioe);
 		}
 
-		List<Diagnostic<? extends JavaFileObject>> diagnostics =
-			diagnosticCollector.getDiagnostics();
-
-		JavacErrorDetail[] javacErrorDetails =
-			new JavacErrorDetail[diagnostics.size()];
-
-		for (int i = 0; i < diagnostics.size(); i++) {
-			Diagnostic<? extends JavaFileObject> diagnostic = diagnostics.get(
-				i);
-
-			javacErrorDetails[i] = ErrorDispatcher.createJavacError(
-				javaFileName, pageNodes,
-				new StringBuilder(diagnostic.getMessage(null)),
-				(int)diagnostic.getLineNumber());
-		}
-
-		return javacErrorDetails;
+		return diagnosticCollector;
 	}
 
-	@Override
-	public void init(
-		JspCompilationContext jspCompilationContext,
-		ErrorDispatcher errorDispatcher, boolean suppressLogging) {
+	public void init(JspCompilationContext jspCompilationContext) {
+		_compilerOptions.add("-XDuseUnsharedTable");
 
-		options.add("-XDuseUnsharedTable");
+		_compilerOptions.add("-proc:none");
+
+		String extDirs = System.getProperty("java.ext.dirs");
+
+		if (extDirs != null) {
+			_compilerOptions.add("-extdirs");
+			_compilerOptions.add(extDirs);
+		}
 
 		Options options = jspCompilationContext.getOptions();
+
+		if (options.getClassDebugInfo()) {
+			_compilerOptions.add("-g");
+		}
+		else {
+			_compilerOptions.add("-g:none");
+		}
+
+		_compilerOptions.add("-source");
+		_compilerOptions.add(options.getCompilerSourceVM());
+
+		_compilerOptions.add("-target");
+		_compilerOptions.add(options.getCompilerTargetVM());
 
 		_classPath.add(options.getScratchDir());
 
@@ -235,11 +250,45 @@ public class JspCompiler extends Jsr199JavaCompiler {
 
 		jspCompilationContext.setClassLoader(jspBundleClassloader);
 
-		initClassPath(servletContext);
-		initTLDMappings(
-			servletContext, jspCompilationContext.getTagFileJarUrls());
+		initClassPath();
+		initTLDMappings(servletContext, options);
 
-		super.init(jspCompilationContext, errorDispatcher, suppressLogging);
+		_jspCompilationContext = jspCompilationContext;
+	}
+
+	public void saveClassFile(String className, String classFileName) {
+		for (BytecodeJavaFileObject bytecodeJavaFileObject :
+				_bytecodeJavaFileObjects) {
+
+			String bytecodeFileClassName =
+				bytecodeJavaFileObject.getClassName();
+			String outputFileName = classFileName;
+
+			if (!className.equals(bytecodeFileClassName)) {
+				outputFileName = outputFileName.substring(
+					0, outputFileName.lastIndexOf(File.separator) + 1);
+
+				outputFileName = outputFileName.concat(
+					bytecodeFileClassName.substring(
+						bytecodeFileClassName.lastIndexOf(CharPool.PERIOD) + 1)
+				).concat(
+					".class"
+				);
+			}
+
+			try (FileOutputStream fileOutputStream = new FileOutputStream(
+					outputFileName)) {
+
+				StreamUtil.transfer(
+					bytecodeJavaFileObject.openInputStream(), fileOutputStream);
+			}
+			catch (IOException ioe) {
+				ServletContext servletContext =
+					_jspCompilationContext.getServletContext();
+
+				servletContext.log("Unable to save class file", ioe);
+			}
+		}
 	}
 
 	protected void addDependenciesToClassPath() {
@@ -293,7 +342,8 @@ public class JspCompiler extends Jsr199JavaCompiler {
 	}
 
 	protected void collectTLDMappings(
-			Map<String, String[]> tldMappings, Map<String, URL> tagFileJarUrls,
+			Map<String, TldResourcePath> uriTldResourcePathMap,
+			Map<TldResourcePath, TaglibXml> tldResourcePathTaglibXmlMap,
 			Bundle bundle)
 		throws IOException {
 
@@ -313,84 +363,34 @@ public class JspCompiler extends Jsr199JavaCompiler {
 			String uri = TldURIUtil.getTldURI(url);
 
 			if (uri != null) {
-				String absoluteResourcePath = StringPool.SLASH.concat(
-					resourcePath);
+				try {
+					String absoluteResourcePath = StringPool.SLASH.concat(
+						resourcePath);
 
-				tldMappings.put(
-					uri.trim(), new String[] {absoluteResourcePath, null});
+					TldResourcePath tldResourcePath = new TldResourcePath(
+						url, absoluteResourcePath);
 
-				String urlString = url.toExternalForm();
+					uriTldResourcePathMap.put(uri, tldResourcePath);
 
-				tagFileJarUrls.put(
-					absoluteResourcePath,
-					new URL(
-						urlString.substring(
-							0, urlString.length() - resourcePath.length())));
+					TldParser tldParser = new TldParser(true, false, true);
+
+					tldResourcePathTaglibXmlMap.put(
+						tldResourcePath, tldParser.parse(tldResourcePath));
+				}
+				catch (SAXException saxe) {
+					_log.error(saxe, saxe);
+				}
 			}
 		}
 	}
 
-	@Override
-	protected JavaFileManager getJavaFileManager(
-		JavaFileManager javaFileManager) {
-
-		if (javaFileManager instanceof StandardJavaFileManager) {
-			StandardJavaFileManager standardJavaFileManager =
-				(StandardJavaFileManager)javaFileManager;
-
-			try {
-				standardJavaFileManager.setLocation(
-					StandardLocation.CLASS_PATH, _classPath);
-			}
-			catch (IOException ioe) {
-				_log.error(ioe.getMessage(), ioe);
-			}
-
-			javaFileManager = new BundleJavaFileManager(
-				_classLoader, standardJavaFileManager,
-				_javaFileObjectResolvers);
-		}
-
-		return super.getJavaFileManager(javaFileManager);
-	}
-
-	@Override
-	protected JavaFileObject getOutputFile(String className, URI uri) {
-		Map<String, Map<String, JavaFileObject>> packageMap =
-			rtctxt.getPackageMap();
-
-		String packageName = className.substring(
-			0, className.lastIndexOf(CharPool.PERIOD));
-
-		// Swap the parent class's packageJavaFileObjects reference from a plain
-		// HashMap to a thread safe ConcurrentHashMap
-
-		Map<String, JavaFileObject> packageJavaFileObjects = packageMap.get(
-			packageName);
-
-		JavaFileObject javaFileObject = super.getOutputFile(className, uri);
-
-		if (packageJavaFileObjects == null) {
-			packageMap.put(
-				packageName,
-				new ConcurrentHashMap<>(packageMap.get(packageName)));
-		}
-
-		return javaFileObject;
-	}
-
-	protected void initClassPath(ServletContext servletContext) {
+	protected void initClassPath() {
 		if (System.getSecurityManager() != null) {
 			AccessController.doPrivileged(
-				new PrivilegedAction<Void>() {
+				(PrivilegedAction<Void>)() -> {
+					addDependenciesToClassPath();
 
-					@Override
-					public Void run() {
-						addDependenciesToClassPath();
-
-						return null;
-					}
-
+					return null;
 				});
 		}
 		else {
@@ -400,21 +400,16 @@ public class JspCompiler extends Jsr199JavaCompiler {
 
 	@SuppressWarnings("unchecked")
 	protected void initTLDMappings(
-		ServletContext servletContext, Map<String, URL> tagFileJarUrls) {
+		ServletContext servletContext, Options options) {
 
-		Map<String, String[]> tldMappings =
-			(Map<String, String[]>)servletContext.getAttribute(
-				Constants.JSP_TLD_URI_TO_LOCATION_MAP);
-
-		if (tldMappings != null) {
-			return;
-		}
-
-		tldMappings = new HashMap<>();
+		Map<String, TldResourcePath> uriTldResourcePathMap = new HashMap<>();
+		Map<TldResourcePath, TaglibXml> tldResourcePathTaglibXmlMap =
+			new HashMap<>();
 
 		try {
 			for (Bundle bundle : _allParticipatingBundles) {
-				collectTLDMappings(tldMappings, tagFileJarUrls, bundle);
+				collectTLDMappings(
+					uriTldResourcePathMap, tldResourcePathTaglibXmlMap, bundle);
 			}
 		}
 		catch (Exception e) {
@@ -427,13 +422,40 @@ public class JspCompiler extends Jsr199JavaCompiler {
 
 		if (map != null) {
 			for (Map.Entry<String, String> entry : map.entrySet()) {
-				tldMappings.put(
-					entry.getKey(), new String[] {entry.getValue(), null});
+				try {
+					URL url = servletContext.getResource(entry.getValue());
+
+					if (url != null) {
+						TldResourcePath tldResourcePath = new TldResourcePath(
+							url, entry.getValue());
+
+						uriTldResourcePathMap.put(
+							entry.getValue(), tldResourcePath);
+
+						TldParser tldParser = new TldParser(true, false, true);
+
+						tldResourcePathTaglibXmlMap.put(
+							tldResourcePath, tldParser.parse(tldResourcePath));
+					}
+				}
+				catch (Exception e) {
+					_log.error(e, e);
+				}
 			}
 		}
 
+		TldCache tldCache = new TldCache(
+			servletContext, uriTldResourcePathMap, tldResourcePathTaglibXmlMap);
+
 		servletContext.setAttribute(
-			Constants.JSP_TLD_URI_TO_LOCATION_MAP, tldMappings);
+			TldCache.SERVLET_CONTEXT_ATTRIBUTE_NAME, tldCache);
+
+		if (options instanceof EmbeddedServletOptions) {
+			EmbeddedServletOptions embeddedServletOptions =
+				(EmbeddedServletOptions)options;
+
+			embeddedServletOptions.setTldCache(tldCache);
+		}
 	}
 
 	private static Set<String> _collectPackageNames(BundleWiring bundleWiring) {
@@ -510,9 +532,89 @@ public class JspCompiler extends Jsr199JavaCompiler {
 	private Bundle[] _allParticipatingBundles;
 	private final Map<BundleWiring, Set<String>> _bundleWiringPackageNames =
 		new HashMap<>(_jspBundleWiringPackageNames);
+	private List<BytecodeJavaFileObject> _bytecodeJavaFileObjects;
 	private ClassLoader _classLoader;
 	private final List<File> _classPath = new ArrayList<>();
+	private final List<String> _compilerOptions = new ArrayList<>();
 	private final List<JavaFileObjectResolver> _javaFileObjectResolvers =
 		new ArrayList<>();
+	private JspCompilationContext _jspCompilationContext;
+	private final Map<String, Map<String, JavaFileObject>> _packageMap =
+		new ConcurrentHashMap<>();
+
+	private class JavaFileManagerWrapper
+		extends ForwardingJavaFileManager<JavaFileManager> {
+
+		public JavaFileManagerWrapper(JavaFileManager fileManager) {
+			super(fileManager);
+		}
+
+		@Override
+		public JavaFileObject getJavaFileForOutput(
+			Location location, String className, JavaFileObject.Kind kind,
+			FileObject sibling) {
+
+			Map<String, Map<String, JavaFileObject>> packageMap = _packageMap;
+
+			String packageName = className.substring(
+				0, className.lastIndexOf(CharPool.PERIOD));
+
+			Map<String, JavaFileObject> packageJavaFileObjects = packageMap.get(
+				packageName);
+
+			BytecodeJavaFileObject bytecodeJavaFileObject =
+				new BytecodeJavaFileObject(className);
+
+			if (packageJavaFileObjects == null) {
+				packageJavaFileObjects = new ConcurrentHashMap<>();
+
+				packageMap.put(packageName, packageJavaFileObjects);
+			}
+
+			packageJavaFileObjects.put(className, bytecodeJavaFileObject);
+
+			_bytecodeJavaFileObjects.add(bytecodeJavaFileObject);
+
+			return bytecodeJavaFileObject;
+		}
+
+		@Override
+		public String inferBinaryName(
+			Location location, JavaFileObject javaFileObject) {
+
+			if (javaFileObject instanceof BytecodeJavaFileObject) {
+				BytecodeJavaFileObject bytecodeJavaFileObject =
+					(BytecodeJavaFileObject)javaFileObject;
+
+				return bytecodeJavaFileObject.getClassName();
+			}
+
+			return super.inferBinaryName(location, javaFileObject);
+		}
+
+		@Override
+		public Iterable<JavaFileObject> list(
+				Location location, String packageName,
+				Set<JavaFileObject.Kind> kinds, boolean recurse)
+			throws IOException {
+
+			if ((location == StandardLocation.CLASS_PATH) &&
+				packageName.startsWith(Constants.JSP_PACKAGE_NAME)) {
+
+				Map<String, Map<String, JavaFileObject>> packageMap =
+					_packageMap;
+
+				Map<String, JavaFileObject> packageFiles = packageMap.get(
+					packageName);
+
+				if (packageFiles != null) {
+					return packageFiles.values();
+				}
+			}
+
+			return super.list(location, packageName, kinds, recurse);
+		}
+
+	}
 
 }
