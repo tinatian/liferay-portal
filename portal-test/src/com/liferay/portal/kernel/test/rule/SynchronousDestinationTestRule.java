@@ -187,6 +187,9 @@ public class SynchronousDestinationTestRule
 			if (schedulerEnabled) {
 				replaceDestination("liferay/kaleo_graph_walker");
 			}
+			else {
+				new Exception("Scheduler is disabled").printStackTrace();
+			}
 
 			for (String searchEngineId :
 					SearchEngineHelperUtil.getSearchEngineIds()) {
@@ -207,6 +210,14 @@ public class SynchronousDestinationTestRule
 
 			if (schedulerDestination == null) {
 				return;
+			}
+			else {
+				if (schedulerEnabled) {
+					new Exception("Unable to find scheduler destination").printStackTrace();
+				}
+				else {
+					System.out.println("#### Scheduler is disabled");
+				}
 			}
 
 			for (MessageListener messageListener :
