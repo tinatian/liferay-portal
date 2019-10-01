@@ -85,10 +85,10 @@ public class WorkflowTaskManagerImplTest
 		throws Exception {
 
 		if (GetterUtil.getBoolean(PropsUtil.get(PropsKeys.SCHEDULER_ENABLED))) {
-			new Exception("Scheduler is enabled");
+			new Exception("Scheduler is enabled").printStackTrace();
 		}
 		else {
-			new Exception("Scheduler is disabled");
+			new Exception("Scheduler is disabled").printStackTrace();
 		}
 
 		activateSingleApproverWorkflow(DLFolder.class.getName(), 0, -1);
