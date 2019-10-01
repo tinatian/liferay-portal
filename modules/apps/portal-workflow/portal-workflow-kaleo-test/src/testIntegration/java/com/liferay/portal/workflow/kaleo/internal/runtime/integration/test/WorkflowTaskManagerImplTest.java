@@ -49,6 +49,9 @@ import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.util.Constants;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowTask;
@@ -80,6 +83,13 @@ public class WorkflowTaskManagerImplTest
 	@Test
 	public void testApproveDLFileEntryInDLFolderWhenHomeDLFolderHasWorkflow()
 		throws Exception {
+
+		if (GetterUtil.getBoolean(PropsUtil.get(PropsKeys.SCHEDULER_ENABLED))) {
+			new Exception("Scheduler is enabled");
+		}
+		else {
+			new Exception("Scheduler is disabled");
+		}
 
 		activateSingleApproverWorkflow(DLFolder.class.getName(), 0, -1);
 
