@@ -286,8 +286,6 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		removeDestination(oldDestination.getName(), closeOnRemove);
 
 		doAddDestination(destination);
-
-		destination.open();
 	}
 
 	@Override
@@ -403,6 +401,8 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		for (MessageListener messageListener : messageListeners) {
 			destination.register(messageListener);
 		}
+
+		destination.open();
 	}
 
 	@Reference(
