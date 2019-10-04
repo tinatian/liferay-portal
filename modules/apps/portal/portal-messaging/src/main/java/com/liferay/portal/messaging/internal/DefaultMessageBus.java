@@ -143,7 +143,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	 */
 	@Deprecated
 	@Override
-	public synchronized void addDestination(Destination destination) {
+	public void addDestination(Destination destination) {
 		_addDestination(destination);
 	}
 
@@ -204,34 +204,43 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	}
 
 	@Override
-	public synchronized boolean registerMessageListener(
+	public boolean registerMessageListener(
 		String destinationName, MessageListener messageListener) {
 
-		Destination destination = _destinations.get(destinationName);
+		boolean[] registered = {false};
 
-		if (destination != null) {
-			return destination.register(messageListener);
-		}
+		_destinations.compute(
+			destinationName,
+			(key, value) -> {
+				if (value != null) {
+					value.register(messageListener);
 
-		List<MessageListener> queuedMessageListeners =
-			_queuedMessageListeners.get(destinationName);
+					registered[0] = true;
+				}
+				else {
+					List<MessageListener> queuedMessageListeners =
+						_queuedMessageListeners.get(destinationName);
 
-		if (queuedMessageListeners == null) {
-			queuedMessageListeners = new ArrayList<>();
+					if (queuedMessageListeners == null) {
+						queuedMessageListeners = new ArrayList<>();
 
-			_queuedMessageListeners.put(
-				destinationName, queuedMessageListeners);
-		}
+						_queuedMessageListeners.put(
+							destinationName, queuedMessageListeners);
+					}
 
-		queuedMessageListeners.add(messageListener);
+					queuedMessageListeners.add(messageListener);
 
-		if (_log.isWarnEnabled()) {
-			_log.warn(
-				"Queuing message listener until destination " +
-					destinationName + " is added");
-		}
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							"Queuing message listener until destination " +
+								destinationName + " is added");
+					}
+				}
 
-		return false;
+				return value;
+			});
+
+		return registered[0];
 	}
 
 	/**
@@ -248,7 +257,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	 */
 	@Deprecated
 	@Override
-	public synchronized Destination removeDestination(
+	public Destination removeDestination(
 		String destinationName, boolean closeOnRemove) {
 
 		return _removeDestination(destinationName);
@@ -275,9 +284,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	 */
 	@Deprecated
 	@Override
-	public synchronized void replace(
-		Destination destination, boolean closeOnRemove) {
-
+	public void replace(Destination destination, boolean closeOnRemove) {
 		_addDestination(destination);
 	}
 
@@ -305,30 +312,38 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	}
 
 	@Override
-	public synchronized void shutdown(boolean force) {
+	public void shutdown(boolean force) {
 		for (Destination destination : _destinations.values()) {
 			destination.close(force);
 		}
 	}
 
 	@Override
-	public synchronized boolean unregisterMessageListener(
+	public boolean unregisterMessageListener(
 		String destinationName, MessageListener messageListener) {
 
-		Destination destination = _destinations.get(destinationName);
+		boolean[] removed = {false};
 
-		if (destination != null) {
-			return destination.unregister(messageListener);
-		}
+		_destinations.compute(
+			destinationName,
+			(key, value) -> {
+				if (value != null) {
+					removed[0] = value.unregister(messageListener);
+				}
+				else {
+					List<MessageListener> queuedMessageListeners =
+						_queuedMessageListeners.get(destinationName);
 
-		List<MessageListener> queuedMessageListeners =
-			_queuedMessageListeners.get(destinationName);
+					if (!ListUtil.isEmpty(queuedMessageListeners)) {
+						removed[0] = queuedMessageListeners.remove(
+							messageListener);
+					}
+				}
 
-		if (ListUtil.isEmpty(queuedMessageListeners)) {
-			return false;
-		}
+				return value;
+			});
 
-		return queuedMessageListeners.remove(messageListener);
+		return removed[0];
 	}
 
 	@Override
@@ -373,7 +388,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		policyOption = ReferencePolicyOption.GREEDY,
 		target = "(destination.name=*)"
 	)
-	protected synchronized void registerDestination(
+	protected void registerDestination(
 		Destination destination, Map<String, Object> properties) {
 
 		String destinationName = MapUtil.getString(
@@ -400,26 +415,29 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		policyOption = ReferencePolicyOption.GREEDY,
 		target = "(destination.name=*)"
 	)
-	protected synchronized void registerDestinationEventListener(
+	protected void registerDestinationEventListener(
 		DestinationEventListener destinationEventListener,
 		Map<String, Object> properties) {
 
 		String destinationName = MapUtil.getString(
 			properties, "destination.name");
 
-		Destination destination = _destinations.get(destinationName);
+		_destinations.compute(
+			destinationName,
+			(key, value) -> {
+				if (value == null) {
+					if (_log.isInfoEnabled()) {
+						_log.info(
+							"Unable to unregister destination event listener " +
+								"for " + destinationName);
+					}
+				}
+				else {
+					value.addDestinationEventListener(destinationEventListener);
+				}
 
-		if (destination == null) {
-			if (_log.isInfoEnabled()) {
-				_log.info(
-					"Unable to unregister destination event listener for " +
-						destinationName);
-			}
-
-			return;
-		}
-
-		destination.addDestinationEventListener(destinationEventListener);
+				return value;
+			});
 	}
 
 	@Reference(
@@ -433,32 +451,36 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		addMessageBusEventListener(messageBusEventListener);
 	}
 
-	protected synchronized void unregisterDestination(
+	protected void unregisterDestination(
 		Destination destination, Map<String, Object> properties) {
 
 		_removeDestination(destination.getName());
 	}
 
-	protected synchronized void unregisterDestinationEventListener(
+	protected void unregisterDestinationEventListener(
 		DestinationEventListener destinationEventListener,
 		Map<String, Object> properties) {
 
 		String destinationName = MapUtil.getString(
 			properties, "destination.name");
 
-		Destination destination = _destinations.get(destinationName);
+		_destinations.compute(
+			destinationName,
+			(key, value) -> {
+				if (value == null) {
+					if (_log.isInfoEnabled()) {
+						_log.info(
+							"Unable to unregister destination event listener " +
+								"for " + destinationName);
+					}
+				}
+				else {
+					value.removeDestinationEventListener(
+						destinationEventListener);
+				}
 
-		if (destination == null) {
-			if (_log.isInfoEnabled()) {
-				_log.info(
-					"Unable to unregister destination event listener for " +
-						destinationName);
-			}
-
-			return;
-		}
-
-		destination.removeDestinationEventListener(destinationEventListener);
+				return value;
+			});
 	}
 
 	protected void unregisterMessageBusEventListener(
@@ -489,41 +511,48 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	}
 
 	private void _addDestination(Destination destination) {
-		Destination oldDestination = _destinations.put(
-			destination.getName(), destination);
+		_destinations.compute(
+			destination.getName(),
+			(key, value) -> {
+				if (value != null) {
+					value.copyDestinationEventListeners(destination);
+					value.copyMessageListeners(destination);
 
-		if (oldDestination != null) {
-			oldDestination.copyDestinationEventListeners(destination);
-			oldDestination.copyMessageListeners(destination);
+					value.destroy();
 
-			_removeDestination(oldDestination.getName());
-		}
+					for (MessageBusEventListener messageBusEventListener :
+							_messageBusEventListeners) {
 
-		destination.open();
+						messageBusEventListener.destinationRemoved(value);
+					}
+				}
+
+				List<MessageListener> messageListeners =
+					_queuedMessageListeners.remove(destination.getName());
+
+				if (!ListUtil.isEmpty(messageListeners)) {
+					if (_log.isDebugEnabled()) {
+						_log.debug(
+							StringBundler.concat(
+								"Registering ", messageListeners.size(),
+								" queued message listeners for destination ",
+								destination.getName()));
+					}
+
+					for (MessageListener messageListener : messageListeners) {
+						destination.register(messageListener);
+					}
+				}
+
+				destination.open();
+
+				return destination;
+			});
 
 		for (MessageBusEventListener messageBusEventListener :
 				_messageBusEventListeners) {
 
 			messageBusEventListener.destinationAdded(destination);
-		}
-
-		List<MessageListener> messageListeners = _queuedMessageListeners.remove(
-			destination.getName());
-
-		if (ListUtil.isEmpty(messageListeners)) {
-			return;
-		}
-
-		if (_log.isDebugEnabled()) {
-			_log.debug(
-				StringBundler.concat(
-					"Registering ", messageListeners.size(),
-					" queued message listeners for destination ",
-					destination.getName()));
-		}
-
-		for (MessageListener messageListener : messageListeners) {
-			destination.register(messageListener);
 		}
 	}
 
@@ -548,7 +577,8 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultMessageBus.class);
 
-	private final Map<String, Destination> _destinations = new HashMap<>();
+	private final Map<String, Destination> _destinations =
+		new ConcurrentHashMap<>();
 	private final Map<String, DestinationWorkerConfiguration>
 		_destinationWorkerConfigurations = new ConcurrentHashMap<>();
 	private final Map<String, String> _factoryPidsToDestinationName =
