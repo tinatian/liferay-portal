@@ -37,8 +37,10 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -148,7 +150,7 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	@Deprecated
 	@Override
 	public synchronized void addDestination(Destination destination) {
-		_addDestination(destination);
+		_addDestination(destination, 0);
 	}
 
 	@Override
@@ -168,22 +170,42 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 
 	@Override
 	public Destination getDestination(String destinationName) {
-		return _destinations.get(destinationName);
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
+
+		if (destinationMap == null) {
+			return null;
+		}
+
+		Map.Entry<Integer, Destination> lastEntry = destinationMap.lastEntry();
+
+		return lastEntry.getValue();
 	}
 
 	@Override
 	public int getDestinationCount() {
-		return _destinations.size();
+		return _destinationMaps.size();
 	}
 
 	@Override
 	public Collection<String> getDestinationNames() {
-		return _destinations.keySet();
+		return _destinationMaps.keySet();
 	}
 
 	@Override
 	public Collection<Destination> getDestinations() {
-		return _destinations.values();
+		Collection<Destination> destinations = new ArrayList<>();
+
+		for (NavigableMap<Integer, Destination> destinationMap :
+				_destinationMaps.values()) {
+
+			Map.Entry<Integer, Destination> lastEntry =
+				destinationMap.lastEntry();
+
+			destinations.add(lastEntry.getValue());
+		}
+
+		return destinations;
 	}
 
 	@Override
@@ -193,12 +215,12 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 
 	@Override
 	public boolean hasDestination(String destinationName) {
-		return _destinations.containsKey(destinationName);
+		return _destinationMaps.containsKey(destinationName);
 	}
 
 	@Override
 	public boolean hasMessageListener(String destinationName) {
-		Destination destination = _destinations.get(destinationName);
+		Destination destination = getDestination(destinationName);
 
 		if ((destination != null) && destination.isRegistered()) {
 			return true;
@@ -211,10 +233,17 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	public synchronized boolean registerMessageListener(
 		String destinationName, MessageListener messageListener) {
 
-		Destination destination = _destinations.get(destinationName);
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
 
-		if (destination != null) {
-			return destination.register(messageListener);
+		if (destinationMap != null) {
+			boolean added = false;
+
+			for (Destination destination : destinationMap.values()) {
+				added = destination.register(messageListener);
+			}
+
+			return added;
 		}
 
 		List<MessageListener> queuedMessageListeners =
@@ -255,7 +284,18 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	public synchronized Destination removeDestination(
 		String destinationName, boolean closeOnRemove) {
 
-		return _removeDestination(destinationName);
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
+
+		if (destinationMap == null) {
+			return null;
+		}
+
+		Map.Entry<Integer, Destination> lastEntry = destinationMap.lastEntry();
+
+		_removeDestination(destinationName, lastEntry.getKey());
+
+		return lastEntry.getValue();
 	}
 
 	@Override
@@ -282,12 +322,12 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	public synchronized void replace(
 		Destination destination, boolean closeOnRemove) {
 
-		_addDestination(destination);
+		_addDestination(destination, 0);
 	}
 
 	@Override
 	public void sendMessage(String destinationName, Message message) {
-		Destination destination = _destinations.get(destinationName);
+		Destination destination = getDestination(destinationName);
 
 		if (destination == null) {
 			if (_log.isWarnEnabled()) {
@@ -310,8 +350,12 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 
 	@Override
 	public synchronized void shutdown(boolean force) {
-		for (Destination destination : _destinations.values()) {
-			destination.close(force);
+		for (NavigableMap<Integer, Destination> destinationMap :
+				_destinationMaps.values()) {
+
+			for (Destination destination : destinationMap.values()) {
+				destination.close(force);
+			}
 		}
 	}
 
@@ -319,10 +363,17 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	public synchronized boolean unregisterMessageListener(
 		String destinationName, MessageListener messageListener) {
 
-		Destination destination = _destinations.get(destinationName);
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
 
-		if (destination != null) {
-			return destination.unregister(messageListener);
+		if (destinationMap != null) {
+			boolean removed = false;
+
+			for (Destination destination : destinationMap.values()) {
+				removed = destination.unregister(messageListener);
+			}
+
+			return removed;
 		}
 
 		List<MessageListener> queuedMessageListeners =
@@ -350,10 +401,15 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 			destinationWorkerConfiguration.destinationName(),
 			destinationWorkerConfiguration);
 
-		Destination destination = _destinations.get(
-			destinationWorkerConfiguration.destinationName());
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(
+				destinationWorkerConfiguration.destinationName());
 
-		updateDestination(destination, destinationWorkerConfiguration);
+		if (destinationMap != null) {
+			for (Destination destination : destinationMap.values()) {
+				updateDestination(destination, destinationWorkerConfiguration);
+			}
+		}
 	}
 
 	@Deactivate
@@ -362,13 +418,17 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 
 		shutdown(true);
 
-		for (Destination destination : _destinations.values()) {
-			destination.destroy();
+		for (NavigableMap<Integer, Destination> destinationMap :
+				_destinationMaps.values()) {
+
+			for (Destination destination : destinationMap.values()) {
+				destination.destroy();
+			}
 		}
 
 		_messageBusEventListeners.clear();
 
-		_destinations.clear();
+		_destinationMaps.clear();
 	}
 
 	@Reference(
@@ -390,7 +450,8 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 			baseDestination.afterPropertiesSet();
 		}
 
-		_addDestination(destination);
+		_addDestination(
+			destination, MapUtil.getInteger(properties, "service.ranking"));
 
 		DestinationWorkerConfiguration destinationWorkerConfiguration =
 			_destinationWorkerConfigurations.get(destinationName);
@@ -411,19 +472,22 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		String destinationName = MapUtil.getString(
 			properties, "destination.name");
 
-		Destination destination = _destinations.get(destinationName);
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
 
-		if (destination == null) {
+		if (destinationMap == null) {
 			if (_log.isInfoEnabled()) {
 				_log.info(
-					"Unable to unregister destination event listener for " +
+					"Unable to register destination event listener for " +
 						destinationName);
 			}
 
 			return;
 		}
 
-		destination.addDestinationEventListener(destinationEventListener);
+		for (Destination destination : destinationMap.values()) {
+			destination.addDestinationEventListener(destinationEventListener);
+		}
 	}
 
 	@Reference(
@@ -440,7 +504,9 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 	protected synchronized void unregisterDestination(
 		Destination destination, Map<String, Object> properties) {
 
-		_removeDestination(destination.getName());
+		_removeDestination(
+			destination.getName(),
+			MapUtil.getInteger(properties, "service.ranking"));
 	}
 
 	protected synchronized void unregisterDestinationEventListener(
@@ -450,9 +516,10 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		String destinationName = MapUtil.getString(
 			properties, "destination.name");
 
-		Destination destination = _destinations.get(destinationName);
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
 
-		if (destination == null) {
+		if (destinationMap == null) {
 			if (_log.isInfoEnabled()) {
 				_log.info(
 					"Unable to unregister destination event listener for " +
@@ -462,7 +529,10 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 			return;
 		}
 
-		destination.removeDestinationEventListener(destinationEventListener);
+		for (Destination destination : destinationMap.values()) {
+			destination.removeDestinationEventListener(
+				destinationEventListener);
+		}
 	}
 
 	protected void unregisterMessageBusEventListener(
@@ -492,10 +562,22 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 		}
 	}
 
-	private void _addDestination(Destination destination) {
-		Destination oldDestination = _destinations.get(destination.getName());
+	private void _addDestination(Destination destination, int serviceRanking) {
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destination.getName());
 
-		if (oldDestination != null) {
+		Map.Entry<Integer, Destination> lastEntry = null;
+
+		if (destinationMap != null) {
+			lastEntry = destinationMap.lastEntry();
+		}
+		else {
+			destinationMap = new ConcurrentSkipListMap<>();
+		}
+
+		if (lastEntry != null) {
+			Destination oldDestination = lastEntry.getValue();
+
 			oldDestination.copyDestinationEventListeners(destination);
 			oldDestination.copyMessageListeners(destination);
 		}
@@ -520,48 +602,81 @@ public class DefaultMessageBus implements ManagedServiceFactory, MessageBus {
 
 		destination.open();
 
-		_destinations.put(destination.getName(), destination);
+		destinationMap.put(serviceRanking, destination);
 
-		if (oldDestination != null) {
-			oldDestination.destroy();
+		if (lastEntry != null) {
+			if (serviceRanking > lastEntry.getKey()) {
+				for (MessageBusEventListener messageBusEventListener :
+						_messageBusEventListeners) {
+
+					messageBusEventListener.destinationRemoved(
+						lastEntry.getValue());
+					messageBusEventListener.destinationAdded(destination);
+				}
+			}
+		}
+		else {
+			_destinationMaps.put(destination.getName(), destinationMap);
 
 			for (MessageBusEventListener messageBusEventListener :
 					_messageBusEventListeners) {
 
-				messageBusEventListener.destinationRemoved(oldDestination);
+				messageBusEventListener.destinationAdded(destination);
 			}
-		}
-
-		for (MessageBusEventListener messageBusEventListener :
-				_messageBusEventListeners) {
-
-			messageBusEventListener.destinationAdded(destination);
 		}
 	}
 
-	private Destination _removeDestination(String destinationName) {
-		Destination destination = _destinations.remove(destinationName);
+	private void _removeDestination(
+		String destinationName, int serviceRanking) {
+
+		NavigableMap<Integer, Destination> destinationMap =
+			_destinationMaps.get(destinationName);
+
+		if (destinationMap == null) {
+			return;
+		}
+
+		Destination destination = destinationMap.get(serviceRanking);
 
 		if (destination == null) {
-			return null;
+			return;
 		}
+
+		if (destinationMap.size() == 1) {
+			_destinationMaps.remove(destinationName);
+		}
+
+		destinationMap.remove(serviceRanking);
 
 		destination.destroy();
 
-		for (MessageBusEventListener messageBusEventListener :
-				_messageBusEventListeners) {
+		Map.Entry<Integer, Destination> lastEntry = destinationMap.lastEntry();
 
-			messageBusEventListener.destinationRemoved(destination);
+		if (lastEntry != null) {
+			if (serviceRanking > lastEntry.getKey()) {
+				for (MessageBusEventListener messageBusEventListener :
+						_messageBusEventListeners) {
+
+					messageBusEventListener.destinationRemoved(destination);
+					messageBusEventListener.destinationAdded(
+						lastEntry.getValue());
+				}
+			}
 		}
+		else {
+			for (MessageBusEventListener messageBusEventListener :
+					_messageBusEventListeners) {
 
-		return destination;
+				messageBusEventListener.destinationRemoved(destination);
+			}
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultMessageBus.class);
 
-	private final Map<String, Destination> _destinations =
-		new ConcurrentHashMap<>();
+	private final Map<String, NavigableMap<Integer, Destination>>
+		_destinationMaps = new ConcurrentHashMap<>();
 	private final Map<String, DestinationWorkerConfiguration>
 		_destinationWorkerConfigurations = new ConcurrentHashMap<>();
 	private final Map<String, String> _factoryPidsToDestinationName =
