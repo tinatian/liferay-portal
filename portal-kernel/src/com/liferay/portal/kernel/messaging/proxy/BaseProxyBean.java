@@ -36,10 +36,12 @@ public abstract class BaseProxyBean {
 		_destinationName = destinationName;
 	}
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), with no direct replacement
+	 */
+	@Deprecated
 	public void setSynchronousDestinationName(
 		String synchronousDestinationName) {
-
-		_synchronousDestinationName = synchronousDestinationName;
 	}
 
 	public void setSynchronousMessageSenderMode(
@@ -58,7 +60,7 @@ public abstract class BaseProxyBean {
 
 		ProxyResponse proxyResponse =
 			(ProxyResponse)synchronousMessageSender.send(
-				_synchronousDestinationName, buildMessage(proxyRequest));
+				_destinationName, buildMessage(proxyRequest));
 
 		if (proxyResponse == null) {
 			return proxyRequest.execute(this);
@@ -110,7 +112,6 @@ public abstract class BaseProxyBean {
 			MessageBus.class, BaseProxyBean.class, "_messageBus", true);
 
 	private String _destinationName;
-	private String _synchronousDestinationName;
 	private SynchronousMessageSender.Mode _synchronousMessageSenderMode;
 
 }

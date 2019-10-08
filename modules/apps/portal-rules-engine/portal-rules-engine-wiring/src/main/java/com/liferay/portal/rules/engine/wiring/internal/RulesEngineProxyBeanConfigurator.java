@@ -49,8 +49,6 @@ public class RulesEngineProxyBeanConfigurator {
 
 		rulesEngineProxyBean.setDestinationName(
 			RulesEngineConstants.DESTINATION_NAME);
-		rulesEngineProxyBean.setSynchronousDestinationName(
-			RulesEngineConstants.DESTINATION_NAME);
 		rulesEngineProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
 

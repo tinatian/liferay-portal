@@ -49,8 +49,6 @@ public class AuditRouterProxyBeanConfigurator {
 		AuditRouterProxyBean auditRouterProxyBean = new AuditRouterProxyBean();
 
 		auditRouterProxyBean.setDestinationName(DestinationNames.AUDIT);
-		auditRouterProxyBean.setSynchronousDestinationName(
-			DestinationNames.AUDIT);
 		auditRouterProxyBean.setSynchronousMessageSenderMode(
 			SynchronousMessageSender.Mode.DIRECT);
 
