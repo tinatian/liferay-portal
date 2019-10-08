@@ -44,10 +44,12 @@ public abstract class BaseProxyBean {
 		String synchronousDestinationName) {
 	}
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), with no direct replacement
+	 */
+	@Deprecated
 	public void setSynchronousMessageSenderMode(
 		SynchronousMessageSender.Mode synchronousMessageSenderMode) {
-
-		_synchronousMessageSenderMode = synchronousMessageSenderMode;
 	}
 
 	public Object synchronousSend(ProxyRequest proxyRequest) throws Exception {
@@ -55,11 +57,8 @@ public abstract class BaseProxyBean {
 			return proxyRequest.execute(this);
 		}
 
-		SynchronousMessageSender synchronousMessageSender =
-			_getSynchronousMessageSender();
-
 		ProxyResponse proxyResponse =
-			(ProxyResponse)synchronousMessageSender.send(
+			(ProxyResponse)_directSynchronousMessageSender.send(
 				_destinationName, buildMessage(proxyRequest));
 
 		if (proxyResponse == null) {
@@ -87,21 +86,6 @@ public abstract class BaseProxyBean {
 		return message;
 	}
 
-	private SynchronousMessageSender _getSynchronousMessageSender() {
-		if (_synchronousMessageSenderMode ==
-				SynchronousMessageSender.Mode.DEFAULT) {
-
-			return _defaultSynchronousMessageSender;
-		}
-
-		return _directSynchronousMessageSender;
-	}
-
-	private static volatile SynchronousMessageSender
-		_defaultSynchronousMessageSender =
-			ServiceProxyFactory.newServiceTrackedInstance(
-				SynchronousMessageSender.class, BaseProxyBean.class,
-				"_defaultSynchronousMessageSender", "(mode=DEFAULT)", true);
 	private static volatile SynchronousMessageSender
 		_directSynchronousMessageSender =
 			ServiceProxyFactory.newServiceTrackedInstance(
@@ -112,6 +96,5 @@ public abstract class BaseProxyBean {
 			MessageBus.class, BaseProxyBean.class, "_messageBus", true);
 
 	private String _destinationName;
-	private SynchronousMessageSender.Mode _synchronousMessageSenderMode;
 
 }

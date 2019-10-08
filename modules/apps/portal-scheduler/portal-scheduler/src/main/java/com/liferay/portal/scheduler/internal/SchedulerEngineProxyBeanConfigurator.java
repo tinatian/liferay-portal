@@ -16,7 +16,6 @@ package com.liferay.portal.scheduler.internal;
 
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.proxy.MessagingProxyInvocationHandler;
-import com.liferay.portal.kernel.messaging.sender.SynchronousMessageSender;
 import com.liferay.portal.kernel.scheduler.SchedulerEngine;
 import com.liferay.portal.kernel.spring.aop.InvocationHandlerFactory;
 import com.liferay.portal.kernel.util.HashMapDictionary;
@@ -45,8 +44,6 @@ public class SchedulerEngineProxyBeanConfigurator {
 
 		schedulerEngineProxyBean.setDestinationName(
 			DestinationNames.SCHEDULER_ENGINE);
-		schedulerEngineProxyBean.setSynchronousMessageSenderMode(
-			SynchronousMessageSender.Mode.DIRECT);
 
 		InvocationHandlerFactory invocationHandlerFactory =
 			MessagingProxyInvocationHandler.getInvocationHandlerFactory();
