@@ -14,8 +14,10 @@
 
 package com.liferay.portal.scheduler.internal;
 
+import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.messaging.proxy.BaseProxyBean;
+import com.liferay.portal.kernel.messaging.aop.Messaging;
 import com.liferay.portal.kernel.scheduler.SchedulerEngine;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.Trigger;
@@ -23,11 +25,17 @@ import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
 
 import java.util.List;
 
+import org.osgi.service.component.annotations.Component;
+
 /**
  * @author Tina Tian
  */
-public class SchedulerEngineProxyBean
-	extends BaseProxyBean implements SchedulerEngine {
+@Component(
+	immediate = true, property = "scheduler.engine.proxy.bean=true",
+	service = AopService.class
+)
+@Messaging(destinationName = DestinationNames.SCHEDULER_ENGINE)
+public class SchedulerEngineProxyBean implements AopService, SchedulerEngine {
 
 	@Override
 	public void delete(String groupName, StorageType storageType) {
