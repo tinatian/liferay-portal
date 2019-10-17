@@ -15,8 +15,7 @@
 package com.liferay.portal.kernel.scheduler;
 
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.messaging.proxy.MessagingProxy;
-import com.liferay.portal.kernel.messaging.proxy.ProxyMode;
+import com.liferay.portal.kernel.messaging.async.Async;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
 
 import java.util.List;
@@ -69,71 +68,71 @@ public interface SchedulerEngine {
 
 	public static final String STORAGE_TYPE = "STORAGE_TYPE";
 
+	@Async
 	public void delete(String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void delete(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public SchedulerResponse getScheduledJob(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public List<SchedulerResponse> getScheduledJobs() throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public List<SchedulerResponse> getScheduledJobs(StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public List<SchedulerResponse> getScheduledJobs(
 			String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void pause(String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void pause(String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void resume(String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void resume(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void schedule(
 			Trigger trigger, String description, String destinationName,
 			Message message, StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(local = true, mode = ProxyMode.SYNC)
 	public void shutdown() throws SchedulerException;
 
-	@MessagingProxy(local = true, mode = ProxyMode.SYNC)
 	public void start() throws SchedulerException;
 
+	@Async
 	public void suppressError(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void unschedule(String groupName, StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void unschedule(
 			String jobName, String groupName, StorageType storageType)
 		throws SchedulerException;
 
+	@Async
 	public void update(Trigger trigger, StorageType storageType)
 		throws SchedulerException;
 
-	@MessagingProxy(mode = ProxyMode.SYNC)
 	public void validateTrigger(Trigger trigger, StorageType storageType)
 		throws SchedulerException;
 

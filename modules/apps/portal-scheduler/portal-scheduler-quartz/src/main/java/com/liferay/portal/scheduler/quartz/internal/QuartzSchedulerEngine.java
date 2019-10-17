@@ -16,6 +16,7 @@ package com.liferay.portal.scheduler.quartz.internal;
 
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -82,11 +83,8 @@ import org.quartz.spi.OperableTrigger;
  * @author Tina Tian
  * @author Edward C. Han
  */
-@Component(
-	enabled = false, immediate = true,
-	service = {QuartzSchedulerEngine.class, SchedulerEngine.class}
-)
-public class QuartzSchedulerEngine implements SchedulerEngine {
+@Component(enabled = false, immediate = true, service = AopService.class)
+public class QuartzSchedulerEngine implements AopService, SchedulerEngine {
 
 	@Override
 	public void delete(String groupName, StorageType storageType)
