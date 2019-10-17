@@ -100,7 +100,7 @@ public class ClusterSchedulerEngineConfigurator {
 		_props = props;
 	}
 
-	@Reference(target = "(scheduler.engine.proxy.bean=true)", unbind = "-")
+	@Reference(unbind = "-")
 	protected void setSchedulerEngine(SchedulerEngine schedulerEngine) {
 		_schedulerEngine = schedulerEngine;
 	}

@@ -111,6 +111,10 @@ public interface DestinationNames {
 	public static final String SCHEDULER_DISPATCH =
 		"liferay/scheduler_dispatch";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final String SCHEDULER_ENGINE = "liferay/scheduler_engine";
 
 	public static final String SCHEDULER_SCRIPTING =

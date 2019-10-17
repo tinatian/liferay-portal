@@ -872,13 +872,6 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 		_destinationFactory = destinationFactory;
 	}
 
-	@Reference(
-		target = "(&(destination.name=" + DestinationNames.SCHEDULER_ENGINE + ")(destination.ready=true))",
-		unbind = "-"
-	)
-	protected void setDestinationReady(Object object) {
-	}
-
 	@Reference(unbind = "-")
 	protected void setJsonFactory(JSONFactory jsonFactory) {
 		_jsonFactory = jsonFactory;
