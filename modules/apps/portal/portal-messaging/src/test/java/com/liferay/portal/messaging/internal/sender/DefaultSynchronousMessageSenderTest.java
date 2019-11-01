@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.messaging.internal.DefaultMessageBus;
+import com.liferay.portal.messaging.internal.MessageBusThreadLocalHelper;
 import com.liferay.portal.messaging.internal.SerialDestination;
 import com.liferay.portal.messaging.internal.SynchronousDestination;
 import com.liferay.registry.Registry;
@@ -80,6 +81,12 @@ public class DefaultSynchronousMessageSenderTest {
 
 		_messageBus = new DefaultMessageBus();
 
+		_messageBusThreadLocalHelper = new MessageBusThreadLocalHelper();
+
+		ReflectionTestUtil.setFieldValue(
+			_messageBus, "_messageBusThreadLocalHelper",
+			_messageBusThreadLocalHelper);
+
 		_destinations = ReflectionTestUtil.getFieldValue(
 			_messageBus, "_destinations");
 
@@ -132,6 +139,8 @@ public class DefaultSynchronousMessageSenderTest {
 	public void testSendToAsyncDestination() throws MessageBusException {
 		SerialDestination serialDestination = new SerialDestination();
 
+		serialDestination.setMessageBusThreadLocalHelper(
+			_messageBusThreadLocalHelper);
 		serialDestination.setName("testSerialDestination");
 		serialDestination.setPortalExecutorManager(_portalExecutorManager);
 
@@ -181,6 +190,7 @@ public class DefaultSynchronousMessageSenderTest {
 	private DefaultSynchronousMessageSender _defaultSynchronousMessageSender;
 	private Map<String, Destination> _destinations;
 	private MessageBus _messageBus;
+	private MessageBusThreadLocalHelper _messageBusThreadLocalHelper;
 	private PortalExecutorManager _portalExecutorManager;
 
 	private class ReplayMessageListener implements MessageListener {
