@@ -36,7 +36,7 @@ public class PermissionCheckerFactoryImpl implements PermissionCheckerFactory {
 			(Class<PermissionChecker>)Class.forName(
 				PropsValues.PERMISSIONS_CHECKER);
 
-		_permissionChecker = clazz.newInstance();
+		_permissionChecker = new StagingPermissionChecker(clazz.newInstance());
 	}
 
 	public void afterPropertiesSet() {
