@@ -41,7 +41,9 @@ public class CTMessageBusInterceptor implements MessageBusInterceptor {
 
 		long ctCollectionId = CTCollectionThreadLocal.getCTCollectionId();
 
-		if (ctCollectionId == CTConstants.CT_COLLECTION_ID_PRODUCTION) {
+		if ((ctCollectionId == CTConstants.CT_COLLECTION_ID_PRODUCTION) ||
+			!CTServiceThreadLocal.isCTService()) {
+
 			return false;
 		}
 
