@@ -1013,8 +1013,6 @@ This target has been renamed to "snapshot-bundle". Please call "snapshot-bundle"
 				</resourcecount>
 				<then>
 					<ant antfile="${project.dir}/build-test-elasticsearch7.xml" inheritAll="false" target="setup-elasticsearch" />
-
-					<ant antfile="${project.dir}/build-test-elasticsearch7.xml" inheritAll="false" target="deploy-elasticsearch7" />
 				</then>
 			</elseif>
 		</if>
