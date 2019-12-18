@@ -788,6 +788,33 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		<echo>Finished adding LTR linear regression model.</echo>
 	</target>
 
+	<target name="clean-elasticsearch">
+		<for param="elasticsearch.dir">
+			<path>
+				<dirset
+					dir="${app.server.parent.dir}"
+				>
+					<include name="elasticsearch-*" />
+				</dirset>
+			</path>
+
+			<sequential>
+				<delete dir="@{elasticsearch.dir}" />
+			</sequential>
+		</for>
+
+		<for param="elasticsearch.file">
+			<fileset
+				dir="${app.server.parent.dir}"
+			>
+				<include name="elasticsearch-*" />
+			</fileset>
+			<sequential>
+				<delete file="@{elasticsearch.file}" />
+			</sequential>
+		</for>
+	</target>
+
 	<target name="configure-elasticsearch-cluster-properties">
 		<math
 			datatype="int"
@@ -871,7 +898,7 @@ xpack.monitoring.collection.enabled: true</echo>
 		<echo>Restoring snapshot.${line.separator}${curl.output}</echo>
 	</target>
 
-	<target name="setup-elasticsearch">
+	<target depends="clean-elasticsearch" name="setup-elasticsearch">
 		<lstopwatch action="start" name="start.elasticsearch" />
 
 		<if>
