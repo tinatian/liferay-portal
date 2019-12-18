@@ -117,6 +117,8 @@ message.
 		<antcall target="clean" />
 		<antcall target="compile" />
 		<antcall target="deploy" />
+
+		<antcall target="setup-elasticsearch" />
 	</target>
 
 	<target name="baseline-current-branch">
