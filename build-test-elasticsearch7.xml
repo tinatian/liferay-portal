@@ -855,7 +855,7 @@ xpack.monitoring.collection.enabled: true</echo>
 		<echo>Restoring snapshot.${line.separator}${curl.output}</echo>
 	</target>
 
-	<target name="start-elasticsearch">
+	<target name="setup-elasticsearch">
 		<lstopwatch action="start" name="start.elasticsearch" />
 
 		<get-testcase-property property.name="remote.elasticsearch.ltr.enabled" />
@@ -935,6 +935,10 @@ xpack.monitoring.collection.enabled: true</echo>
 		<antcall target="configure-elasticsearch-cluster-properties" />
 
 		<antcall target="prepare-additional-elasticsearch-dirs" />
+	</target>
+
+	<target name="start-elasticsearch">
+		<antcall target="setup-elasticsearch" />
 
 		<antcall target="start-elasticsearch-node" />
 
