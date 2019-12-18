@@ -729,7 +729,14 @@ xpack.monitoring.collection.enabled: true</echo>
 	<target name="setup-elasticsearch">
 		<lstopwatch action="start" name="start.elasticsearch" />
 
-		<get-testcase-property property.name="remote.elasticsearch.ltr.enabled" />
+		<if>
+			<not>
+				<isset property="remote.elasticsearch.ltr.enabled" />
+			</not>
+			<then>
+				<get-testcase-property property.name="remote.elasticsearch.ltr.enabled" />
+			</then>
+		</if>
 
 		<if>
 			<equals arg1="${remote.elasticsearch.ltr.enabled}" arg2="true" />

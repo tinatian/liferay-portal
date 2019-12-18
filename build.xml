@@ -1002,7 +1002,9 @@ This target has been renamed to "snapshot-bundle". Please call "snapshot-bundle"
 				/>
 			</resourcecount>
 			<then>
-				<ant antfile="${project.dir}/build-test-elasticsearch6.xml" inheritAll="false" target="setup-elasticsearch" />
+				<ant antfile="${project.dir}/build-test-elasticsearch6.xml" inheritAll="false" target="setup-elasticsearch">
+					<property name="remote.elasticsearch.ltr.enabled" value="true" />
+				</ant>
 			</then>
 			<elseif>
 				<resourcecount count="0" when="gt">
@@ -1012,7 +1014,9 @@ This target has been renamed to "snapshot-bundle". Please call "snapshot-bundle"
 					/>
 				</resourcecount>
 				<then>
-					<ant antfile="${project.dir}/build-test-elasticsearch7.xml" inheritAll="false" target="setup-elasticsearch" />
+					<ant antfile="${project.dir}/build-test-elasticsearch7.xml" inheritAll="false" target="setup-elasticsearch">
+						<property name="remote.elasticsearch.ltr.enabled" value="true" />
+					</ant>
 				</then>
 			</elseif>
 		</if>
