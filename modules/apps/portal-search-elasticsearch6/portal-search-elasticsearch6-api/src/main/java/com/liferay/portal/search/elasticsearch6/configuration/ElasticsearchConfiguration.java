@@ -194,4 +194,10 @@ public interface ElasticsearchConfiguration {
 	)
 	public String overrideTypeMappings();
 
+	@Meta.AD(
+		deflt = "elasticsearch6", description = "sidecar-home-help",
+		name = "sidecar-home", required = false
+	)
+	public String sidecarHome();
+
 }

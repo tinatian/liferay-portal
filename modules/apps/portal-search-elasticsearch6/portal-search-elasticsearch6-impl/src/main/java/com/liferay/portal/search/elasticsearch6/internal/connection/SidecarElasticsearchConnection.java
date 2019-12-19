@@ -14,24 +14,25 @@
 
 package com.liferay.portal.search.elasticsearch6.internal.connection;
 
+import com.liferay.petra.process.ProcessExecutor;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.Props;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.elasticsearch6.internal.index.IndexFactory;
+import com.liferay.portal.search.elasticsearch6.internal.sidecar.Sidecar;
+import com.liferay.portal.search.elasticsearch6.internal.sidecar.SidecarConfig;
 import com.liferay.portal.search.elasticsearch6.settings.SettingsContributor;
 import com.liferay.portal.search.elasticsearch6.settings.XPackSecuritySettings;
+import com.liferay.portal.util.PropsValues;
+
+import java.io.File;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -49,13 +50,14 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
- * @author Michael C. Han
+ * @author Tina Tian
  */
 @Component(
 	enabled = false, property = "operation.mode=REMOTE",
 	service = ElasticsearchConnection.class
 )
-public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
+public class SidecarElasticsearchConnection
+	extends BaseElasticsearchConnection {
 
 	@Override
 	public OperationMode getOperationMode() {
@@ -73,10 +75,23 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 		elasticsearchConfiguration =
 			_remoteConnectionSelector.getElasticsearchConfiguration();
 
-		String[] transportAddresses =
-			elasticsearchConfiguration.transportAddresses();
+		File sidecarHome = new File(
+			PropsValues.LIFERAY_HOME, elasticsearchConfiguration.sidecarHome());
 
-		_transportAddresses = SetUtil.fromArray(transportAddresses);
+		if (!sidecarHome.exists()) {
+			sidecarHome = new File(elasticsearchConfiguration.sidecarHome());
+
+			if (!sidecarHome.exists()) {
+				throw new IllegalStateException(
+					"Sidecar home does not exist" +
+						elasticsearchConfiguration.sidecarHome());
+			}
+		}
+
+		_sidecar = new Sidecar(
+			_processExecutor, new SidecarConfig(sidecarHome, _clusterExecutor));
+
+		_sidecar.start();
 	}
 
 	@Override
@@ -92,30 +107,8 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 		super.addSettingsContributor(settingsContributor);
 	}
 
-	protected void addTransportAddress(
-			TransportClient transportClient, String transportAddress)
-		throws UnknownHostException {
-
-		String[] transportAddressParts = StringUtil.split(
-			transportAddress, StringPool.COLON);
-
-		String host = transportAddressParts[0];
-
-		int port = GetterUtil.getInteger(transportAddressParts[1]);
-
-		InetAddress inetAddress = InetAddressUtil.getInetAddressByName(host);
-
-		transportClient.addTransportAddress(
-			new TransportAddress(inetAddress, port));
-	}
-
 	@Override
 	protected Client createClient() {
-		if (_transportAddresses.isEmpty()) {
-			throw new IllegalStateException(
-				"There must be at least one transport address");
-		}
-
 		Thread thread = Thread.currentThread();
 
 		ClassLoader contextClassLoader = thread.getContextClassLoader();
@@ -127,17 +120,38 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 		try {
 			TransportClient transportClient = createTransportClient();
 
-			for (String transportAddress : _transportAddresses) {
-				try {
-					addTransportAddress(transportClient, transportAddress);
+			String transportAddress = null;
+
+			try {
+				transportAddress = _sidecar.getNetworkHostAddress();
+			}
+			catch (Exception e) {
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to get transport address", e);
 				}
-				catch (Exception e) {
-					if (_log.isWarnEnabled()) {
-						_log.warn(
-							"Unable to add transport address " +
-								transportAddress,
-							e);
-					}
+			}
+
+			try {
+				transportAddress = _sidecar.getNetworkHostAddress();
+
+				String[] transportAddressParts = StringUtil.split(
+					transportAddress, StringPool.COLON);
+
+				String host = transportAddressParts[0];
+
+				int port = GetterUtil.getInteger(transportAddressParts[1]);
+
+				InetAddress inetAddress = InetAddressUtil.getInetAddressByName(
+					host);
+
+				transportClient.addTransportAddress(
+					new TransportAddress(inetAddress, port));
+			}
+			catch (Exception e) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"Unable to add transport address " + transportAddress,
+						e);
 				}
 			}
 
@@ -165,8 +179,10 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 	}
 
 	@Deactivate
-	protected void deactivate(Map<String, Object> properties) {
+	protected void deactivate() {
 		close();
+
+		_sidecar.stop();
 	}
 
 	@Override
@@ -204,11 +220,17 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 	protected volatile XPackSecuritySettings xPackSecuritySettings;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		RemoteElasticsearchConnection.class);
+		SidecarElasticsearchConnection.class);
+
+	@Reference
+	private ClusterExecutor _clusterExecutor;
+
+	@Reference
+	private ProcessExecutor _processExecutor;
 
 	@Reference
 	private RemoteConnectionSelector _remoteConnectionSelector;
 
-	private Set<String> _transportAddresses = new HashSet<>();
+	private Sidecar _sidecar;
 
 }
