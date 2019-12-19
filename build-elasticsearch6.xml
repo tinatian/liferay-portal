@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<project basedir="." name="portal-elasticsearch6">
+	<target name="clean-elasticsearch">
+	</target>
+
+	<target depends="clean-elasticsearch" name="setup-elasticsearch">
+	</target>
+</project>

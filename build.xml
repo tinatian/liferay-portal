@@ -117,6 +117,8 @@ message.
 		<antcall target="clean" />
 		<antcall target="compile" />
 		<antcall target="deploy" />
+
+		<antcall target="setup-elasticsearch" />
 	</target>
 
 	<target name="baseline-current-branch">
@@ -989,6 +991,31 @@ This target has been renamed to "snapshot-bundle". Please call "snapshot-bundle"
 		<ant dir="util-java" inheritAll="false" target="restore-latest-artifact-version" />
 		<ant dir="util-slf4j" inheritAll="false" target="restore-latest-artifact-version" />
 		<ant dir="util-taglib" inheritAll="false" target="restore-latest-artifact-version" />
+	</target>
+
+	<target name="setup-elasticsearch">
+		<if>
+			<resourcecount count="0" when="gt">
+				<fileset
+					dir="${project.dir}/modules/apps/portal-search-elasticsearch6"
+					includes="**/.lfrbuild-portal"
+				/>
+			</resourcecount>
+			<then>
+				<ant antfile="${project.dir}/build-elasticsearch6.xml" inheritAll="false" target="setup-elasticsearch" />
+			</then>
+			<elseif>
+				<resourcecount count="0" when="gt">
+					<fileset
+						dir="${project.dir}/modules/apps/portal-search-elasticsearch7"
+						includes="**/.lfrbuild-portal"
+					/>
+				</resourcecount>
+				<then>
+					<ant antfile="${project.dir}/build-elasticsearch7.xml" inheritAll="false" target="setup-elasticsearch" />
+				</then>
+			</elseif>
+		</if>
 	</target>
 
 	<target depends="setup-jrebel-properties" name="setup-jrebel">
