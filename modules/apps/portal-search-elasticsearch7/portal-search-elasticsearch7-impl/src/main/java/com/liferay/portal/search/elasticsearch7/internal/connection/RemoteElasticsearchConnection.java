@@ -103,7 +103,8 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 						getSidecarHeartbeatInterval(),
 					_elasticsearchConnectionConfigurationWrapper.
 						getSidecarJVMOptions(),
-					_clusterExecutor));
+					_clusterExecutor),
+				this);
 
 			_sidecar.start();
 		}

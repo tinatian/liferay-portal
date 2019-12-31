@@ -24,6 +24,7 @@ import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.search.elasticsearch7.internal.connection.RemoteElasticsearchConnection;
 import com.liferay.portal.search.elasticsearch7.internal.util.ResourceUtil;
 import com.liferay.portal.util.PropsValues;
 
@@ -60,10 +61,12 @@ import org.elasticsearch.gateway.MetaDataStateFormat;
 public class Sidecar {
 
 	public Sidecar(
-		ProcessExecutor processExecutor, SidecarConfig sidecarConfig) {
+		ProcessExecutor processExecutor, SidecarConfig sidecarConfig,
+		RemoteElasticsearchConnection remoteElasticsearchConnection) {
 
 		_processExecutor = processExecutor;
 		_sidecarConfig = sidecarConfig;
+		_remoteElasticsearchConnection = remoteElasticsearchConnection;
 	}
 
 	public synchronized String getNetworkHostAddress() throws Exception {
@@ -190,9 +193,9 @@ public class Sidecar {
 
 		_setFieldValue(
 			manifest, "globalGeneration",
-			metaDataMetaDataStateFormat.write(metaData, nodePath));
+			metaDataMetaDataStateFormat.writeAndCleanup(metaData, nodePath));
 
-		manifestMetaDataStateFormat.write(manifest, nodePath);
+		manifestMetaDataStateFormat.writeAndCleanup(manifest, nodePath);
 	}
 
 	private String _createClasspath() throws Exception {
@@ -385,6 +388,7 @@ public class Sidecar {
 	private final ProcessExecutor _processExecutor;
 	private RestartFutureListener _restartFutureListener;
 	private final SidecarConfig _sidecarConfig;
+	private final RemoteElasticsearchConnection _remoteElasticsearchConnection;
 
 	private class RestartFutureListener
 		implements FutureListener<Serializable> {
@@ -406,6 +410,10 @@ public class Sidecar {
 						_restartInterval + " milliseconds");
 			}
 
+			_remoteElasticsearchConnection.close();
+
+			stop();
+
 			try {
 				Thread.sleep(_restartInterval);
 			}
@@ -416,9 +424,9 @@ public class Sidecar {
 					ie);
 			}
 
-			stop();
-
 			start();
+
+			_remoteElasticsearchConnection.connect();
 		}
 
 		private RestartFutureListener(long restartInterval) {
