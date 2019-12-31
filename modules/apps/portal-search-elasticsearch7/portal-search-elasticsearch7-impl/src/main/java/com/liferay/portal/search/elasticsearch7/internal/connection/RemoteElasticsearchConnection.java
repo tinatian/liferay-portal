@@ -14,9 +14,15 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.connection;
 
+import com.liferay.petra.process.ProcessExecutor;
+import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConnectionConfigurationWrapper;
+import com.liferay.portal.search.elasticsearch7.internal.sidecar.Sidecar;
+import com.liferay.portal.search.elasticsearch7.internal.sidecar.SidecarConfig;
 import com.liferay.portal.search.elasticsearch7.internal.util.ClassLoaderUtil;
+import com.liferay.portal.util.PropsValues;
 
+import java.io.File;
 import java.io.InputStream;
 
 import java.nio.file.Files;
@@ -24,6 +30,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.security.KeyStore;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 import javax.net.ssl.SSLContext;
 
@@ -43,6 +52,64 @@ import org.elasticsearch.client.RestHighLevelClient;
  * @author Michael C. Han
  */
 public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
+
+	public RemoteElasticsearchConnection(
+		ProcessExecutor processExecutor, ClusterExecutor clusterExecutor,
+		String elasticsearchClusterName) {
+
+		_processExecutor = processExecutor;
+		_clusterExecutor = clusterExecutor;
+		_elasticsearchClusterName = elasticsearchClusterName;
+	}
+
+	@Override
+	public void close() {
+		super.close();
+
+		if (_sidecar != null) {
+			_sidecar.stop();
+		}
+	}
+
+	@Override
+	public void connect() {
+		if (Arrays.equals(
+				_elasticsearchConnectionConfigurationWrapper.
+					getNetworkHostAddresses(),
+				new String[] {"http://localhost:9200"}) &&
+			Objects.equals(
+				_elasticsearchClusterName, "LiferayElasticsearchCluster")) {
+
+			String sidecarHome =
+				_elasticsearchConnectionConfigurationWrapper.getSidecarHome();
+
+			File sidecarHomeFolder = new File(
+				PropsValues.LIFERAY_HOME, sidecarHome);
+
+			if (!sidecarHomeFolder.exists()) {
+				sidecarHomeFolder = new File(sidecarHome);
+
+				if (!sidecarHomeFolder.exists()) {
+					throw new IllegalStateException(
+						"Sidecar home " + sidecarHome + " does not exist");
+				}
+			}
+
+			_sidecar = new Sidecar(
+				_processExecutor,
+				new SidecarConfig(
+					sidecarHomeFolder,
+					_elasticsearchConnectionConfigurationWrapper.
+						getSidecarHeartbeatInterval(),
+					_elasticsearchConnectionConfigurationWrapper.
+						getSidecarJVMOptions(),
+					_clusterExecutor));
+
+			_sidecar.start();
+		}
+
+		super.connect();
+	}
 
 	@Override
 	public OperationMode getOperationMode() {
@@ -88,9 +155,24 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 
 	@Override
 	protected RestHighLevelClient createRestHighLevelClient() {
-		String[] networkHostAddresses =
-			_elasticsearchConnectionConfigurationWrapper.
-				getNetworkHostAddresses();
+		String[] networkHostAddresses;
+
+		if (_sidecar == null) {
+			networkHostAddresses =
+				_elasticsearchConnectionConfigurationWrapper.
+					getNetworkHostAddresses();
+		}
+		else {
+			try {
+				networkHostAddresses = new String[] {
+					_sidecar.getNetworkHostAddress()
+				};
+			}
+			catch (Exception e) {
+				throw new RuntimeException(
+					"Unable to get network host address", e);
+			}
+		}
 
 		HttpHost[] httpHosts = new HttpHost[networkHostAddresses.length];
 
@@ -142,7 +224,11 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 		}
 	}
 
+	private final ClusterExecutor _clusterExecutor;
+	private final String _elasticsearchClusterName;
 	private ElasticsearchConnectionConfigurationWrapper
 		_elasticsearchConnectionConfigurationWrapper;
+	private final ProcessExecutor _processExecutor;
+	private Sidecar _sidecar;
 
 }

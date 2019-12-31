@@ -15,7 +15,9 @@
 package com.liferay.portal.search.elasticsearch7.internal.connection;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.petra.process.ProcessExecutor;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -269,6 +271,10 @@ public class ElasticsearchConnectionManager
 		ElasticsearchConnectionManager.class);
 
 	private BundleContext _bundleContext;
+
+	@Reference
+	private ClusterExecutor _clusterExecutor;
+
 	private final Map<Long, Long> _companyIds = new HashMap<>();
 	private volatile ElasticsearchConfiguration _elasticsearchConfiguration;
 	private final Map<String, ElasticsearchConnection>
@@ -277,6 +283,9 @@ public class ElasticsearchConnectionManager
 	private volatile ServiceTracker
 		<ElasticsearchConnectionConfigurationWrapper,
 		 ElasticsearchConnectionConfigurationWrapper> _serviceTracker;
+
+	@Reference
+	private ProcessExecutor _processExecutor;
 
 	private class
 		ElasticsearchConnectionConfigurationWrapperServiceTrackerCustomizer
@@ -342,7 +351,9 @@ public class ElasticsearchConnectionManager
 			}
 
 			RemoteElasticsearchConnection remoteElasticsearchConnection =
-				new RemoteElasticsearchConnection();
+				new RemoteElasticsearchConnection(
+					_processExecutor, _clusterExecutor,
+					_elasticsearchConfiguration.clusterName());
 
 			remoteElasticsearchConnection.setConnectionId(connectionId);
 			remoteElasticsearchConnection.

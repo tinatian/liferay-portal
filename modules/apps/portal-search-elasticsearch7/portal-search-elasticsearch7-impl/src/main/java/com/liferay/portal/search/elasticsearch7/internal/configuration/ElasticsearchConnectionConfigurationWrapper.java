@@ -45,6 +45,18 @@ public class ElasticsearchConnectionConfigurationWrapper {
 		return _elasticsearchConnectionConfiguration.password();
 	}
 
+	public long getSidecarHeartbeatInterval() {
+		return _elasticsearchConnectionConfiguration.sidecarHeartbeatInterval();
+	}
+
+	public String getSidecarHome() {
+		return _elasticsearchConnectionConfiguration.sidecarHome();
+	}
+
+	public String[] getSidecarJVMOptions() {
+		return _elasticsearchConnectionConfiguration.sidecarJVMOptions();
+	}
+
 	public String getTruststorePassword() {
 		return _elasticsearchConnectionConfiguration.truststorePassword();
 	}
