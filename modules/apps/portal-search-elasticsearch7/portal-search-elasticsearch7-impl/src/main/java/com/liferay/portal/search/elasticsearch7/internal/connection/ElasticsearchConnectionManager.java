@@ -170,14 +170,21 @@ public class ElasticsearchConnectionManager
 		BundleContext bundleContext, Map<String, Object> properties) {
 
 		_bundleContext = bundleContext;
+
 		_elasticsearchConfiguration = ConfigurableUtil.createConfigurable(
 			ElasticsearchConfiguration.class, properties);
-		_serviceTracker = ServiceTrackerFactory.open(
-			bundleContext, ElasticsearchConnectionConfigurationWrapper.class,
-			new ElasticsearchConnectionConfigurationWrapperServiceTrackerCustomizer());
 
-		setOperationMode(
-			translate(_elasticsearchConfiguration.operationMode()));
+		OperationMode operationMode = translate(
+			_elasticsearchConfiguration.operationMode());
+
+		if (operationMode == OperationMode.REMOTE) {
+			_serviceTracker = ServiceTrackerFactory.open(
+				bundleContext,
+				ElasticsearchConnectionConfigurationWrapper.class,
+				new ElasticsearchConnectionConfigurationWrapperServiceTrackerCustomizer());
+		}
+
+		setOperationMode(operationMode);
 		LogUtil.setRestClientLoggerLevel(
 			_elasticsearchConfiguration.restClientLoggerLevel());
 	}
@@ -212,7 +219,9 @@ public class ElasticsearchConnectionManager
 			elasticsearchConnection.close();
 		}
 
-		_serviceTracker.close();
+		if (_serviceTracker != null) {
+			_serviceTracker.close();
+		}
 	}
 
 	protected boolean isCrossClusterReplicationEnabled() {
@@ -228,15 +237,16 @@ public class ElasticsearchConnectionManager
 	}
 
 	@Modified
-	protected synchronized void modified(Map<String, Object> properties) {
-		_elasticsearchConfiguration = ConfigurableUtil.createConfigurable(
-			ElasticsearchConfiguration.class, properties);
+	protected synchronized void modified(
+		BundleContext bundleContext, Map<String, Object> properties) {
 
-		setOperationMode(
-			translate(_elasticsearchConfiguration.operationMode()));
+		if (_serviceTracker != null) {
+			_serviceTracker.close();
 
-		LogUtil.setRestClientLoggerLevel(
-			_elasticsearchConfiguration.restClientLoggerLevel());
+			_serviceTracker = null;
+		}
+
+		activate(bundleContext, properties);
 
 		createCompanyIndexes();
 	}
@@ -264,7 +274,7 @@ public class ElasticsearchConnectionManager
 	private final Map<String, ElasticsearchConnection>
 		_elasticsearchConnections = new ConcurrentHashMap<>();
 	private OperationMode _operationMode;
-	private ServiceTracker
+	private volatile ServiceTracker
 		<ElasticsearchConnectionConfigurationWrapper,
 		 ElasticsearchConnectionConfigurationWrapper> _serviceTracker;
 
