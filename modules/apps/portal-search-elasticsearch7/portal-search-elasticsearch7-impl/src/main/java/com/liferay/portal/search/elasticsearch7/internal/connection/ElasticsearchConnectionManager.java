@@ -307,8 +307,14 @@ public class ElasticsearchConnectionManager
 			ElasticsearchConnectionConfigurationWrapper
 				elasticsearchConnectionConfigurationWrapper) {
 
-			_elasticsearchConnections.remove(
-				elasticsearchConnectionConfigurationWrapper.getConnectionId());
+			ElasticsearchConnection elasticsearchConnection =
+				_elasticsearchConnections.remove(
+					elasticsearchConnectionConfigurationWrapper.
+						getConnectionId());
+
+			if (elasticsearchConnection != null) {
+				elasticsearchConnection.close();
+			}
 		}
 
 		private void _putElasticsearchConnection(
