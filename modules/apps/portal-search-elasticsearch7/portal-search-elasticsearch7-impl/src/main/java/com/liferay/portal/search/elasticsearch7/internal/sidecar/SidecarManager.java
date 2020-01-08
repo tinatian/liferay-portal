@@ -27,6 +27,9 @@ import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfi
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnection;
 import com.liferay.portal.search.elasticsearch7.internal.connection.OperationMode;
 import com.liferay.portal.search.elasticsearch7.internal.connection.SidecarElasticsearchConnection;
+import com.liferay.portal.search.elasticsearch7.internal.settings.BaseIndexSettingsContributor;
+import com.liferay.portal.search.elasticsearch7.settings.IndexSettingsContributor;
+import com.liferay.portal.search.elasticsearch7.settings.IndexSettingsHelper;
 
 import java.io.Serializable;
 
@@ -63,6 +66,23 @@ public class SidecarManager {
 			new RestartFutureListener(
 				bundleContext, properties,
 				elasticsearchConfiguration.sidecarHeartbeatInterval()));
+
+		if (_clusterExecutor.isEnabled()) {
+			bundleContext.registerService(
+				IndexSettingsContributor.class,
+				new BaseIndexSettingsContributor(Integer.MAX_VALUE) {
+
+					@Override
+					public void populate(
+						IndexSettingsHelper indexSettingsHelper) {
+
+						indexSettingsHelper.put(
+							"index.auto_expand_replicas", "0-all");
+					}
+
+				},
+				null);
+		}
 
 		ElasticsearchConnection elasticsearchConnection =
 			new SidecarElasticsearchConnection(sidecar);
