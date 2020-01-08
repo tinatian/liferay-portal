@@ -105,8 +105,18 @@ public class Sidecar {
 				"Unable to find sidecar process, it may not be started");
 		}
 
+		SidecarStatusProcessCallable sidecarStatusProcessCallable;
+
+		if (_clusterExecutor.isEnabled()) {
+			sidecarStatusProcessCallable = new SidecarStatusProcessCallable(
+				_elasticsearchConfiguration.sidecarHeartbeatInterval());
+		}
+		else {
+			sidecarStatusProcessCallable = new SidecarStatusProcessCallable();
+		}
+
 		NoticeableFuture<String> noticeableFuture = _processChannel.write(
-			new SidecarStatusProcessCallable());
+			sidecarStatusProcessCallable);
 
 		return noticeableFuture.get();
 	}
