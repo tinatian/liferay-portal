@@ -60,23 +60,10 @@ import org.elasticsearch.node.NodeValidationException;
 import org.elasticsearch.threadpool.ThreadPool;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Michael C. Han
  */
-@Component(
-	configurationPid = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration",
-	immediate = true, property = "operation.mode=EMBEDDED",
-	service = ElasticsearchConnection.class
-)
 public class EmbeddedElasticsearchConnection
 	extends BaseElasticsearchConnection {
 
@@ -158,8 +145,6 @@ public class EmbeddedElasticsearchConnection
 		return OperationMode.EMBEDDED;
 	}
 
-	@Activate
-	@Modified
 	protected void activate(
 		BundleContext bundleContext, Map<String, Object> properties) {
 
@@ -173,19 +158,13 @@ public class EmbeddedElasticsearchConnection
 		close();
 
 		if (elasticsearchConfiguration.operationMode() ==
-				com.liferay.portal.search.elasticsearch7.configuration.
-					OperationMode.EMBEDDED) {
+			com.liferay.portal.search.elasticsearch7.configuration.
+				OperationMode.EMBEDDED) {
 
 			connect();
 		}
 	}
 
-	@Reference(
-		cardinality = ReferenceCardinality.MULTIPLE,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY,
-		target = "(operation.mode=EMBEDDED)"
-	)
 	protected void addSettingsContributor(
 		SettingsContributor settingsContributor) {
 
@@ -282,8 +261,8 @@ public class EmbeddedElasticsearchConnection
 	}
 
 	protected EmbeddedElasticsearchPluginManager
-		createEmbeddedElasticsearchPluginManager(
-			String name, Settings settings) {
+	createEmbeddedElasticsearchPluginManager(
+		String name, Settings settings) {
 
 		return new EmbeddedElasticsearchPluginManager(
 			name,
@@ -338,11 +317,6 @@ public class EmbeddedElasticsearchConnection
 						elasticsearchConfiguration.embeddedHttpPort(),
 						"http"))),
 			clazz);
-	}
-
-	@Deactivate
-	protected void deactivate(Map<String, Object> properties) {
-		close();
 	}
 
 	protected void installPlugin(String name, Settings settings) {
@@ -477,7 +451,7 @@ public class EmbeddedElasticsearchConnection
 		if (_log.isDebugEnabled()) {
 			_log.debug(
 				"Starting embedded Elasticsearch cluster " +
-					elasticsearchConfiguration.clusterName());
+				elasticsearchConfiguration.clusterName());
 		}
 
 		_node = createNode(settings);
@@ -501,14 +475,9 @@ public class EmbeddedElasticsearchConnection
 
 	protected static final String JNA_TMP_DIR = "elasticSearch-tmpDir";
 
-	@Reference
 	protected ClusterSettingsContext clusterSettingsContext;
-
 	protected volatile ElasticsearchConfiguration elasticsearchConfiguration;
-
-	@Reference
 	protected Props props;
-
 	protected SettingsBuilder settingsBuilder = new SettingsBuilder(
 		Settings.builder());
 
@@ -538,9 +507,7 @@ public class EmbeddedElasticsearchConnection
 
 	private static String _jnaTmpDirName;
 
-	@Reference
 	private File _file;
-
 	private Node _node;
 	private final Set<SettingsContributor> _settingsContributors =
 		new ConcurrentSkipListSet<>();
