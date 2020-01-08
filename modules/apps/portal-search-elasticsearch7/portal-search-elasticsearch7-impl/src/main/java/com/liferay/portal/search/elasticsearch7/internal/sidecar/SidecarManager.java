@@ -1,0 +1,146 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.liferay.portal.search.elasticsearch7.internal.sidecar;
+
+import com.liferay.petra.concurrent.FutureListener;
+import com.liferay.petra.process.ProcessExecutor;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.cluster.ClusterExecutor;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.Props;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration;
+import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnection;
+import com.liferay.portal.search.elasticsearch7.internal.connection.OperationMode;
+import com.liferay.portal.search.elasticsearch7.internal.connection.SidecarElasticsearchConnection;
+
+import java.io.Serializable;
+
+import java.util.Map;
+import java.util.concurrent.Future;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+
+/**
+ * @author Tina Tian
+ */
+@Component(
+	configurationPid = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration",
+	immediate = true, service = {}
+)
+public class SidecarManager {
+
+	@Activate
+	protected synchronized void activate(
+		BundleContext bundleContext, Map<String, Object> properties) {
+
+		ElasticsearchConfiguration elasticsearchConfiguration =
+			ConfigurableUtil.createConfigurable(
+				ElasticsearchConfiguration.class, properties);
+
+		Sidecar sidecar = new Sidecar(
+			_clusterExecutor, _processExecutor, elasticsearchConfiguration,
+			_props.get(PropsKeys.LIFERAY_HOME),
+			new RestartFutureListener(
+				bundleContext, properties,
+				elasticsearchConfiguration.sidecarHeartbeatInterval()));
+
+		ElasticsearchConnection elasticsearchConnection =
+			new SidecarElasticsearchConnection(sidecar);
+
+		_serviceRegistration = bundleContext.registerService(
+			ElasticsearchConnection.class, elasticsearchConnection,
+			MapUtil.singletonDictionary(
+				"operation.mode", String.valueOf(OperationMode.EMBEDDED)));
+	}
+
+	@Deactivate
+	protected synchronized void deactivate() {
+		if (_serviceRegistration != null) {
+			_serviceRegistration.unregister();
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(SidecarManager.class);
+
+	@Reference
+	private ClusterExecutor _clusterExecutor;
+
+	@Reference
+	private ProcessExecutor _processExecutor;
+
+	@Reference
+	private Props _props;
+
+	private ServiceRegistration<ElasticsearchConnection> _serviceRegistration;
+
+	private class RestartFutureListener
+		implements FutureListener<Serializable> {
+
+		@Override
+		public void complete(Future<Serializable> future) {
+			try {
+				future.get();
+			}
+			catch (Exception e) {
+				if (_log.isDebugEnabled()) {
+					_log.debug("Sidecar process is aborted", e);
+				}
+			}
+
+			deactivate();
+
+			if (_log.isInfoEnabled()) {
+				_log.info(
+					"Sidecar process exited, will restart in " +
+						_restartInterval + " milliseconds");
+			}
+
+			try {
+				Thread.sleep(_restartInterval);
+			}
+			catch (InterruptedException ie) {
+				throw new RuntimeException(
+					"Unable to wait for " + _restartInterval +
+						" milliseconds to restart sidecar process",
+					ie);
+			}
+
+			activate(_bundleContext, _properties);
+		}
+
+		private RestartFutureListener(
+			BundleContext bundleContext, Map<String, Object> properties,
+			long restartInterval) {
+
+			_bundleContext = bundleContext;
+			_properties = properties;
+			_restartInterval = restartInterval;
+		}
+
+		private final BundleContext _bundleContext;
+		private final Map<String, Object> _properties;
+		private final long _restartInterval;
+
+	}
+
+}
