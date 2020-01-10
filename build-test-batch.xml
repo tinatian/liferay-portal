@@ -1029,6 +1029,8 @@ app.server.type=@{app.server.type}]]></echo>
 			<antcall if:set="env.JENKINS_HOME" inheritAll="false" target="clean-up-db2-processes" />
 			<antcall if:set="env.JENKINS_HOME" inheritAll="false" target="clean-up-java-processes" />
 
+			<ant antfile="build-test-elasticsearch7.xml" target="unzip-elasticsearch-basic" />
+
 			<if>
 				<and>
 					<equals arg1="@{app.server.type}" arg2="tomcat" />
