@@ -920,6 +920,8 @@ app.server.type=@{app.server.type}]]></echo>
 
 			<prepare-elasticsearch-configuration />
 
+			<ant antfile="build-test-elasticsearch7.xml" target="unzip-elasticsearch-basic" />
+
 			<lstopwatch action="start" name="prepare-test-build-dist.bundles.@{app.server.type}.compile-test" />
 
 			<antcall inheritAll="false" target="compile-test" />
@@ -1028,8 +1030,6 @@ app.server.type=@{app.server.type}]]></echo>
 
 			<antcall if:set="env.JENKINS_HOME" inheritAll="false" target="clean-up-db2-processes" />
 			<antcall if:set="env.JENKINS_HOME" inheritAll="false" target="clean-up-java-processes" />
-
-			<ant antfile="build-test-elasticsearch7.xml" target="unzip-elasticsearch-basic" />
 
 			<if>
 				<and>
