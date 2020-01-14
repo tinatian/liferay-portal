@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.elasticsearch.cluster.ClusterModule;
 import org.elasticsearch.cluster.coordination.CoordinationMetaData;
@@ -390,6 +391,10 @@ public class Sidecar {
 		Map<String, String> environments = new HashMap<>();
 
 		environments.putAll(System.getenv());
+
+		if (Objects.equals(environments.get("USER"), "root")) {
+			environments.put("USER", "shutdown");
+		}
 
 		if (_clusterExecutor.isEnabled()) {
 			environments.put(
