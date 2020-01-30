@@ -23,6 +23,8 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Map;
+
 /**
  * @author Tina Tian
  */
@@ -30,12 +32,10 @@ public class SidecarMainProcessCallable
 	implements ProcessCallable<Serializable> {
 
 	public SidecarMainProcessCallable(
-		long heartbeatInterval, String modifiedClassName,
-		byte[] modifiedClassBytes) {
+		long heartbeatInterval, Map<String, byte[]> modifiedClasses) {
 
 		_heartbeatInterval = heartbeatInterval;
-		_modifiedClassName = modifiedClassName;
-		_modifiedClassBytes = modifiedClassBytes;
+		_modifiedClasses = modifiedClasses;
 	}
 
 	@Override
@@ -49,12 +49,11 @@ public class SidecarMainProcessCallable
 			});
 
 		try {
-			_loadModifiedClass();
+			_loadModifiedClasses();
 		}
 		catch (Exception exception) {
 			throw new ProcessException(
-				"Unable to load modified class " + _modifiedClassName,
-				exception);
+				"Unable to load modified classes", exception);
 		}
 
 		try {
@@ -68,7 +67,7 @@ public class SidecarMainProcessCallable
 		return null;
 	}
 
-	private void _loadModifiedClass() throws Exception {
+	private void _loadModifiedClasses() throws Exception {
 		Thread thread = Thread.currentThread();
 
 		ClassLoader classLoader = thread.getContextClassLoader();
@@ -76,27 +75,31 @@ public class SidecarMainProcessCallable
 		Method findLoadedClassMethod = ReflectionUtil.getDeclaredMethod(
 			ClassLoader.class, "findLoadedClass", String.class);
 
-		Class<?> clazz = (Class<?>)findLoadedClassMethod.invoke(
-			classLoader, _modifiedClassName);
+		for (Map.Entry<String, byte[]> entry : _modifiedClasses.entrySet()) {
+			String modifiedClassName = entry.getKey();
+			byte[] modifiedClassBytes = entry.getValue();
 
-		if (clazz != null) {
-			throw new IllegalStateException(
-				_modifiedClassName + " has been loaded");
+			Class<?> clazz = (Class<?>)findLoadedClassMethod.invoke(
+				classLoader, modifiedClassName);
+
+			if (clazz != null) {
+				throw new IllegalStateException(
+					modifiedClassName + " has been loaded");
+			}
+
+			Method defineClassMethod = ReflectionUtil.getDeclaredMethod(
+				ClassLoader.class, "defineClass", String.class, byte[].class,
+				int.class, int.class);
+
+			defineClassMethod.invoke(
+				classLoader, modifiedClassName, modifiedClassBytes, 0,
+				modifiedClassBytes.length);
 		}
-
-		Method defineClassMethod = ReflectionUtil.getDeclaredMethod(
-			ClassLoader.class, "defineClass", String.class, byte[].class,
-			int.class, int.class);
-
-		defineClassMethod.invoke(
-			classLoader, _modifiedClassName, _modifiedClassBytes, 0,
-			_modifiedClassBytes.length);
 	}
 
 	private static final long serialVersionUID = 1L;
 
 	private final long _heartbeatInterval;
-	private final byte[] _modifiedClassBytes;
-	private final String _modifiedClassName;
+	private final Map<String, byte[]> _modifiedClasses;
 
 }

@@ -136,19 +136,38 @@ public class Sidecar {
 			_log.error("Unable to clean up cluster meta data", exception);
 		}
 
+		Map<String, byte[]> modifiedClasses = new HashMap<>();
+
+		try {
+			modifiedClasses.put(
+				_MODIFIED_CLASS_NAME_NATIVES,
+				_getModifiedClassBytes(
+					_MODIFIED_CLASS_NAME_NATIVES, "definitelyRunningAsRoot",
+					methodVisitor -> {
+						methodVisitor.visitCode();
+						methodVisitor.visitInsn(Opcodes.ICONST_0);
+						methodVisitor.visitInsn(Opcodes.IRETURN);
+					}));
+
+			modifiedClasses.put(
+				_MODIFIED_CLASS_NAME_KEY_STORE_WRAPPER,
+				_getModifiedClassBytes(
+					_MODIFIED_CLASS_NAME_KEY_STORE_WRAPPER, "save",
+					methodVisitor -> {
+						methodVisitor.visitCode();
+						methodVisitor.visitInsn(Opcodes.RETURN);
+					}));
+		}
+		catch (Exception exception) {
+			_log.error("Unable to modify class", exception);
+		}
+
 		try {
 			_processChannel = _processExecutor.execute(
 				_createProcessConfig(),
 				new SidecarMainProcessCallable(
 					_elasticsearchConfiguration.sidecarHeartbeatInterval(),
-					_MODIFIED_CLASS_NAME,
-					_getModifiedClassBytes(
-						_MODIFIED_CLASS_NAME, "definitelyRunningAsRoot",
-						methodVisitor -> {
-							methodVisitor.visitCode();
-							methodVisitor.visitInsn(Opcodes.ICONST_0);
-							methodVisitor.visitInsn(Opcodes.IRETURN);
-						})));
+					modifiedClasses));
 
 			NoticeableFuture<Serializable> noticeableFuture =
 				_processChannel.getProcessNoticeableFuture();
@@ -636,7 +655,10 @@ public class Sidecar {
 
 	private static final String _DEFAULT_NODE_NAME = "liferay";
 
-	private static final String _MODIFIED_CLASS_NAME =
+	private static final String _MODIFIED_CLASS_NAME_KEY_STORE_WRAPPER =
+		"org.elasticsearch.common.settings.KeyStoreWrapper";
+
+	private static final String _MODIFIED_CLASS_NAME_NATIVES =
 		"org.elasticsearch.bootstrap.Natives";
 
 	private static final Log _log = LogFactoryUtil.getLog(Sidecar.class);
