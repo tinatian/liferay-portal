@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.elasticsearch.cluster.ClusterModule;
 import org.elasticsearch.cluster.coordination.CoordinationMetaData;
@@ -140,7 +141,14 @@ public class Sidecar {
 				_createProcessConfig(),
 				new SidecarMainProcessCallable(
 					_elasticsearchConfiguration.sidecarHeartbeatInterval(),
-					_MODIFIED_CLASS_NAME, _getModifiedClassBytes()));
+					_MODIFIED_CLASS_NAME,
+					_getModifiedClassBytes(
+						_MODIFIED_CLASS_NAME, "definitelyRunningAsRoot",
+						methodVisitor -> {
+							methodVisitor.visitCode();
+							methodVisitor.visitInsn(Opcodes.ICONST_0);
+							methodVisitor.visitInsn(Opcodes.IRETURN);
+						})));
 
 			NoticeableFuture<Serializable> noticeableFuture =
 				_processChannel.getProcessNoticeableFuture();
@@ -447,7 +455,11 @@ public class Sidecar {
 		return arguments;
 	}
 
-	private byte[] _getModifiedClassBytes() throws Exception {
+	private byte[] _getModifiedClassBytes(
+			String className, String methodName,
+			Consumer<MethodVisitor> methodVisitorConsumer)
+		throws Exception {
+
 		File libFolder = new File(_sidecarHome, "lib");
 
 		File[] libFiles = libFolder.listFiles();
@@ -464,7 +476,7 @@ public class Sidecar {
 
 		ClassLoader classLoader = new URLClassLoader(urls, null);
 
-		Class<?> clazz = classLoader.loadClass(_MODIFIED_CLASS_NAME);
+		Class<?> clazz = classLoader.loadClass(className);
 
 		try (InputStream inputStream = clazz.getResourceAsStream(
 				clazz.getSimpleName() + ".class")) {
@@ -485,7 +497,7 @@ public class Sidecar {
 						MethodVisitor methodVisitor = super.visitMethod(
 							access, name, description, signature, exceptions);
 
-						if (!name.equals("definitelyRunningAsRoot")) {
+						if (!name.equals(methodName)) {
 							return methodVisitor;
 						}
 
@@ -493,9 +505,7 @@ public class Sidecar {
 
 							@Override
 							public void visitCode() {
-								methodVisitor.visitCode();
-								methodVisitor.visitInsn(Opcodes.ICONST_0);
-								methodVisitor.visitInsn(Opcodes.IRETURN);
+								methodVisitorConsumer.accept(methodVisitor);
 							}
 
 							@Override
