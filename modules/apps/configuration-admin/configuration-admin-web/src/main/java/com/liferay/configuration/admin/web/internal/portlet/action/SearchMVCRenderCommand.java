@@ -31,11 +31,13 @@ import com.liferay.configuration.admin.web.internal.util.ConfigurationModelItera
 import com.liferay.configuration.admin.web.internal.util.ConfigurationModelRetriever;
 import com.liferay.configuration.admin.web.internal.util.ResourceBundleLoaderProvider;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
-import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.kernel.cluster.ClusterMasterExecutor;
+import com.liferay.portal.kernel.concurrent.NoticeableFuture;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServiceUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Hits;
@@ -45,6 +47,8 @@ import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -79,20 +83,30 @@ import org.osgi.util.tracker.BundleTrackerCustomizer;
 		"javax.portlet.name=" + ConfigurationAdminPortletKeys.SYSTEM_SETTINGS,
 		"mvc.command.name=/search"
 	},
-	service = MVCRenderCommand.class
+	service = {IdentifiableOSGiService.class, MVCRenderCommand.class}
 )
-public class SearchMVCRenderCommand implements MVCRenderCommand {
+public class SearchMVCRenderCommand
+	implements IdentifiableOSGiService, MVCRenderCommand {
+
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return SearchMVCRenderCommand.class.getName();
+	}
 
 	@Override
 	public String render(
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws PortletException {
 
-		BundleTracker<ConfigurationModelIterator> bundleTracker =
-			_bundleTracker;
-
-		if (bundleTracker != null) {
-			_initialize();
+		if (!_initialized) {
+			try {
+				_initialize();
+			}
+			catch (Exception exception) {
+				throw new PortletException(
+					"Unable to initialize configuration model index",
+					exception);
+			}
 		}
 
 		Indexer indexer = _indexerRegistry.nullSafeGetIndexer(
@@ -206,10 +220,6 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 	@Activate
 	protected void activate(BundleContext bundleContext) {
 		_bundleContext = bundleContext;
-
-		if (_clusterExecutor.isEnabled()) {
-			_initialize();
-		}
 	}
 
 	@Deactivate
@@ -217,6 +227,17 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 		if (_bundleTracker != null) {
 			_bundleTracker.close();
 		}
+	}
+
+	private static void _initialize(String osgiServiceIdentifier)
+		throws Exception {
+
+		SearchMVCRenderCommand searchMVCRenderCommand =
+			(SearchMVCRenderCommand)
+				IdentifiableOSGiServiceUtil.getIdentifiableOSGiService(
+					osgiServiceIdentifier);
+
+		searchMVCRenderCommand._initialize();
 	}
 
 	private void _commit(Indexer<ConfigurationModel> indexer) {
@@ -230,8 +251,8 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 		}
 	}
 
-	private synchronized void _initialize() {
-		if (_bundleTracker != null) {
+	private synchronized void _initialize() throws Exception {
+		if (_initialized) {
 			return;
 		}
 
@@ -260,23 +281,33 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 			_configurationModelIndexer.reindex(configurationModelsList);
 
 			_commit(_configurationModelIndexer);
+
+			_bundleTracker = new BundleTracker<>(
+				_bundleContext, Bundle.ACTIVE,
+				new ConfigurationModelsBundleTrackerCustomizer());
+
+			_bundleTracker.open();
+		}
+		else {
+			NoticeableFuture<Void> noticeableFuture =
+				_clusterMasterExecutor.executeOnMaster(
+					new MethodHandler(
+						_initializeMethodKey, getOSGiServiceIdentifier()));
+
+			noticeableFuture.get();
 		}
 
-		_bundleTracker = new BundleTracker<>(
-			_bundleContext, Bundle.ACTIVE,
-			new ConfigurationModelsBundleTrackerCustomizer());
-
-		_bundleTracker.open();
+		_initialized = true;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchMVCRenderCommand.class);
 
-	private BundleContext _bundleContext;
-	private volatile BundleTracker<ConfigurationModelIterator> _bundleTracker;
+	private static final MethodKey _initializeMethodKey = new MethodKey(
+		SearchMVCRenderCommand.class, "_initialize", String.class);
 
-	@Reference
-	private ClusterExecutor _clusterExecutor;
+	private BundleContext _bundleContext;
+	private BundleTracker<ConfigurationModelIterator> _bundleTracker;
 
 	@Reference
 	private ClusterMasterExecutor _clusterMasterExecutor;
@@ -299,6 +330,8 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 	@Reference
 	private IndexWriterHelper _indexWriterHelper;
 
+	private volatile boolean _initialized;
+
 	@Reference
 	private ResourceBundleLoaderProvider _resourceBundleLoaderProvider;
 
@@ -308,10 +341,6 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 		@Override
 		public ConfigurationModelIterator addingBundle(
 			Bundle bundle, BundleEvent bundleEvent) {
-
-			if (!_clusterMasterExecutor.isMaster()) {
-				return null;
-			}
 
 			Collection<ConfigurationModel> configurationModels =
 				_configurationModelsMap.remove(bundle.getSymbolicName());
@@ -354,10 +383,6 @@ public class SearchMVCRenderCommand implements MVCRenderCommand {
 		public void removedBundle(
 			Bundle bundle, BundleEvent bundleEvent,
 			ConfigurationModelIterator configurationModelIterator) {
-
-			if (!_clusterMasterExecutor.isMaster()) {
-				return;
-			}
 
 			for (ConfigurationModel configurationModel :
 					configurationModelIterator.getResults()) {
