@@ -72,7 +72,7 @@ public class SynonymSetIndexCreationPortalInstanceLifecycleListener
 	private IndexNameBuilder _indexNameBuilder;
 
 	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
+		cardinality = ReferenceCardinality.AT_LEAST_ONE,
 		policy = ReferencePolicy.DYNAMIC,
 		policyOption = ReferencePolicyOption.GREEDY
 	)
