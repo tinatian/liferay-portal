@@ -46,7 +46,7 @@ public class QuartzTriggerFactory implements TriggerFactory {
 	@Override
 	public Trigger createTrigger(
 		String jobName, String groupName, Date startDate, Date endDate,
-		int interval, TimeUnit timeUnit) {
+		int interval, boolean startImmediately, TimeUnit timeUnit) {
 
 		if (interval < 0) {
 			if (_log.isWarnEnabled()) {
@@ -62,6 +62,11 @@ public class QuartzTriggerFactory implements TriggerFactory {
 		if (interval <= 0) {
 			return createTrigger(
 				jobName, groupName, startDate, endDate, (ScheduleBuilder)null);
+		}
+
+		if (!startImmediately) {
+			startDate = DateBuilder.futureDate(
+				interval, DateBuilder.IntervalUnit.valueOf(timeUnit.name()));
 		}
 
 		if (timeUnit == TimeUnit.MILLISECOND) {
@@ -85,6 +90,15 @@ public class QuartzTriggerFactory implements TriggerFactory {
 		return createTrigger(
 			jobName, groupName, startDate, endDate,
 			calendarIntervalScheduleBuilder);
+	}
+
+	@Override
+	public Trigger createTrigger(
+		String jobName, String groupName, Date startDate, Date endDate,
+		int interval, TimeUnit timeUnit) {
+
+		return createTrigger(
+			jobName, groupName, startDate, endDate, interval, false, timeUnit);
 	}
 
 	@Override
