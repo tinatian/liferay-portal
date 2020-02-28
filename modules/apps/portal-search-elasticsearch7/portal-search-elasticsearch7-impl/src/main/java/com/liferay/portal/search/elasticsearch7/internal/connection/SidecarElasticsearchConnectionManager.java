@@ -43,7 +43,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration",
-	enabled = false, immediate = true, service = {}
+	immediate = true, service = {}
 )
 public class SidecarElasticsearchConnectionManager {
 
