@@ -272,6 +272,10 @@ public class Sidecar {
 		return _dataHome;
 	}
 
+	protected String getLogProperties() {
+		return StringPool.BLANK;
+	}
+
 	protected String getNodeName() {
 		return _DEFAULT_NODE_NAME;
 	}
@@ -414,7 +418,7 @@ public class Sidecar {
 						"BootstrapChecks",
 					"logger.bootstrapchecks.level=error",
 					"logger.deprecation.name=org.elasticsearch.deprecation",
-					"logger.deprecation.level=error",
+					"logger.deprecation.level=error", getLogProperties(),
 					ResourceUtil.getResourceAsString(
 						Sidecar.class, "/log4j2.properties")));
 		}

@@ -195,6 +195,14 @@ public class ClusterableSidecar
 		_stopCountDownLatch.countDown();
 	}
 
+	protected String getLogProperties() {
+		return StringBundler.concat(
+			"logger.cluster.name=org.elasticsearch.cluster\n",
+			"logger.cluster.level=error\n",
+			"logger.transport.name=org.elasticsearch.transport\n",
+			"logger.transport.level=error\n");
+	}
+
 	@Override
 	protected String getNodeName() {
 		return _nodeName;
