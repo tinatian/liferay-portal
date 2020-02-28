@@ -14,9 +14,14 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.sidecar;
 
+import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.petra.concurrent.DefaultNoticeableFuture;
 import com.liferay.petra.process.ProcessExecutor;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.cluster.ClusterEvent;
+import com.liferay.portal.kernel.cluster.ClusterEventListener;
+import com.liferay.portal.kernel.cluster.ClusterEventType;
 import com.liferay.portal.kernel.cluster.ClusterExecutor;
 import com.liferay.portal.kernel.cluster.ClusterMasterExecutor;
 import com.liferay.portal.kernel.cluster.ClusterNode;
@@ -34,7 +39,9 @@ import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration;
+import com.liferay.portal.search.elasticsearch7.internal.connection.SidecarElasticsearchConnectionManager;
 import com.liferay.portal.search.elasticsearch7.internal.settings.SettingsBuilder;
 
 import java.io.IOException;
@@ -48,6 +55,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 
 import org.apache.http.HttpHost;
 import org.apache.http.util.EntityUtils;
@@ -64,7 +72,14 @@ import org.elasticsearch.common.xcontent.NamedXContentRegistry;
 import org.elasticsearch.env.NodeEnvironment;
 import org.elasticsearch.gateway.MetaDataStateFormat;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.runtime.ServiceComponentRuntime;
+import org.osgi.util.tracker.ServiceTracker;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
  * @author Tina Tian
@@ -121,6 +136,12 @@ public class ClusterableSidecar
 			HttpHost.create(getNetworkHostAddress()));
 
 		_restClient = restClientBuilder.build();
+
+		_clusterEventListener = new SidecarClusterEventListener();
+
+		_clusterExecutor.addClusterEventListener(_clusterEventListener);
+
+		_startCountDownLatch.countDown();
 	}
 
 	@Override
@@ -165,7 +186,11 @@ public class ClusterableSidecar
 			_restClient = null;
 		}
 
+		_clusterExecutor.removeClusterEventListener(_clusterEventListener);
+
 		super.stop();
+
+		_stopCountDownLatch.countDown();
 	}
 
 	@Override
@@ -220,6 +245,93 @@ public class ClusterableSidecar
 		JSONObject jsonObject = nodesJSONObject.getJSONObject(iterator.next());
 
 		return GetterUtil.getString(jsonObject.get("transport_address"));
+	}
+
+	private static void _syncStart() throws Exception {
+		Bundle bundle = FrameworkUtil.getBundle(ClusterableSidecar.class);
+
+		BundleContext bundleContext = bundle.getBundleContext();
+
+		DefaultNoticeableFuture<ClusterableSidecar> defaultNoticeableFuture =
+			new DefaultNoticeableFuture<>();
+
+		ServiceTracker<ClusterableSidecar, ClusterableSidecar> serviceTracker =
+			ServiceTrackerFactory.open(
+				bundleContext, ClusterableSidecar.class,
+				new ServiceTrackerCustomizer
+					<ClusterableSidecar, ClusterableSidecar>() {
+
+					@Override
+					public ClusterableSidecar addingService(
+						ServiceReference<ClusterableSidecar> serviceReference) {
+
+						ClusterableSidecar clusterableSidecar =
+							bundleContext.getService(serviceReference);
+
+						defaultNoticeableFuture.set(clusterableSidecar);
+
+						return clusterableSidecar;
+					}
+
+					@Override
+					public void modifiedService(
+						ServiceReference<ClusterableSidecar> serviceReference,
+						ClusterableSidecar clusterableSidecar) {
+					}
+
+					@Override
+					public void removedService(
+						ServiceReference<ClusterableSidecar> serviceReference,
+						ClusterableSidecar clusterableSidecar) {
+
+						bundleContext.ungetService(serviceReference);
+					}
+
+				});
+
+		ServiceReference<ServiceComponentRuntime> serviceReference =
+			bundleContext.getServiceReference(ServiceComponentRuntime.class);
+
+		ServiceComponentRuntime serviceComponentRuntime =
+			bundleContext.getService(serviceReference);
+
+		serviceComponentRuntime.enableComponent(
+			serviceComponentRuntime.getComponentDescriptionDTO(
+				bundle, SidecarElasticsearchConnectionManager.class.getName()));
+
+		bundleContext.ungetService(serviceReference);
+
+		try {
+			ClusterableSidecar clusterableSidecar =
+				defaultNoticeableFuture.get();
+
+			CountDownLatch countDownLatch =
+				clusterableSidecar._startCountDownLatch;
+
+			countDownLatch.await();
+		}
+		finally {
+			serviceTracker.close();
+		}
+	}
+
+	private static void _syncStop(String osgiServiceIdentifier)
+		throws Exception {
+
+		ClusterableSidecar clusterableSidecar =
+			(ClusterableSidecar)
+				IdentifiableOSGiServiceUtil.getIdentifiableOSGiService(
+					osgiServiceIdentifier);
+
+		ComponentContext componentContext =
+			clusterableSidecar.getComponentContext();
+
+		componentContext.disableComponent(
+			clusterableSidecar.getComponentName());
+
+		CountDownLatch countDownLatch = clusterableSidecar._stopCountDownLatch;
+
+		countDownLatch.await();
 	}
 
 	private void _cleanUpClusterMetaData() throws Exception {
@@ -347,12 +459,98 @@ public class ClusterableSidecar
 		new MethodKey(
 			ClusterableSidecar.class, "_getMasterNodeTransportAddress",
 			String.class);
+	private static final MethodKey _syncStartMethodKey = new MethodKey(
+		ClusterableSidecar.class, "_syncStart");
+	private static final MethodKey _syncStopMethodKey = new MethodKey(
+		ClusterableSidecar.class, "_syncStop", String.class);
 
+	private ClusterEventListener _clusterEventListener;
 	private final ClusterExecutor _clusterExecutor;
 	private final ClusterMasterExecutor _clusterMasterExecutor;
 	private String _initialMasterNodeTransportAddress;
 	private final JSONFactory _jsonFactory;
 	private final String _nodeName;
 	private RestClient _restClient;
+	private final CountDownLatch _startCountDownLatch = new CountDownLatch(1);
+	private final CountDownLatch _stopCountDownLatch = new CountDownLatch(1);
+
+	private class SidecarClusterEventListener implements ClusterEventListener {
+
+		@Override
+		public void processClusterEvent(ClusterEvent clusterEvent) {
+			if (!_clusterMasterExecutor.isMaster() ||
+				(clusterEvent.getClusterEventType() !=
+					ClusterEventType.DEPART)) {
+
+				return;
+			}
+
+			try {
+				Response response = _restClient.performRequest(
+					new Request("GET", "_cat/master?h=node"));
+
+				String masterNodeId = StringUtil.removeSubstring(
+					EntityUtils.toString(response.getEntity()), "\n");
+
+				for (ClusterNode clusterNode : clusterEvent.getClusterNodes()) {
+					if (masterNodeId.endsWith(clusterNode.getClusterNodeId())) {
+						masterNodeId = null;
+
+						break;
+					}
+				}
+
+				if (Validator.isNotNull(masterNodeId)) {
+					return;
+				}
+			}
+			catch (IOException ioException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(ioException, ioException);
+				}
+			}
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to find master node in elasticsearch cluster, " +
+						"will remove all data and restart");
+			}
+
+			try {
+				_syncStop(getOSGiServiceIdentifier());
+
+				if (!_isOneNodeCluster()) {
+					FutureClusterResponses futureClusterResponses =
+						_clusterExecutor.execute(
+							ClusterRequest.createMulticastRequest(
+								new MethodHandler(
+									_syncStopMethodKey,
+									getOSGiServiceIdentifier()),
+								true));
+
+					futureClusterResponses.get();
+				}
+
+				deleteDir(getDataHome());
+
+				_syncStart();
+
+				if (!_isOneNodeCluster()) {
+					FutureClusterResponses futureClusterResponses =
+						_clusterExecutor.execute(
+							ClusterRequest.createMulticastRequest(
+								new MethodHandler(_syncStartMethodKey), true));
+
+					futureClusterResponses.get();
+				}
+			}
+			catch (Exception exception) {
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to restart sidecar", exception);
+				}
+			}
+		}
+
+	}
 
 }
