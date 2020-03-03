@@ -44,6 +44,8 @@ import com.liferay.portal.search.elasticsearch7.internal.settings.SettingsBuilde
 import java.io.IOException;
 
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -87,6 +89,7 @@ public class ClusterableSidecar
 
 		super(elasticsearchConfiguration, processExecutor, props);
 
+		_elasticsearchConfiguration = elasticsearchConfiguration;
 		_clusterExecutor = clusterExecutor;
 		_clusterMasterExecutor = clusterMasterExecutor;
 		_jsonFactory = jsonFactory;
@@ -427,6 +430,7 @@ public class ClusterableSidecar
 	private ClusterEventListener _clusterEventListener;
 	private final ClusterExecutor _clusterExecutor;
 	private final ClusterMasterExecutor _clusterMasterExecutor;
+	private final ElasticsearchConfiguration _elasticsearchConfiguration;
 	private String _initialMasterNodeTransportAddress;
 	private final JSONFactory _jsonFactory;
 	private final String _nodeName;
@@ -441,6 +445,22 @@ public class ClusterableSidecar
 			if (!_clusterMasterExecutor.isMaster() ||
 				(clusterEvent.getClusterEventType() !=
 					ClusterEventType.DEPART)) {
+
+				return;
+			}
+
+			String address = getNetworkHostAddress();
+
+			if (!_isAddressReachable(address)) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						StringBundler.concat(
+							"Unable to connect to sidecar at ", address,
+							", there might be a network issue causing cluster ",
+							"node leaving, skip restarting and wait for ",
+							"sidecar recovering by itself when network issue ",
+							"is fixed"));
+				}
 
 				return;
 			}
@@ -500,6 +520,27 @@ public class ClusterableSidecar
 				if (_log.isWarnEnabled()) {
 					_log.warn("Unable to restart sidecar", exception);
 				}
+			}
+		}
+
+		private boolean _isAddressReachable(String address) {
+			int index = address.indexOf(StringPool.COLON);
+
+			if (index == -1) {
+				throw new IllegalStateException(
+					"Unable to parse address " + address);
+			}
+
+			try (Socket socket = new Socket()) {
+				socket.connect(
+					new InetSocketAddress(
+						InetAddress.getByName(address.substring(0, index)),
+						GetterUtil.getInteger(address.substring(index + 1))));
+
+				return true;
+			}
+			catch (IOException ioException) {
+				return false;
 			}
 		}
 
