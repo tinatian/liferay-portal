@@ -470,3 +470,4 @@ public class VersionRange implements Serializable
         return new VersionRange( false, floor, ceiling, openCeiling );
     }
 }
+/* @generated */
