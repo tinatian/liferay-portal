@@ -58,15 +58,8 @@ public class LiferayExtension {
 
 		};
 
-		_appServerType = new Callable<String>() {
-
-			@Override
-			public String call() throws Exception {
-				return GradleUtil.getProperty(
-					project, "app.server.type", "tomcat");
-			}
-
-		};
+		_appServerType = GradleUtil.getProperty(
+			project, "app.server.type", "tomcat");
 
 		_appServers = project.container(
 			AppServer.class, new AppServerFactory(project));
@@ -272,7 +265,7 @@ public class LiferayExtension {
 
 	private Object _appServerParentDir;
 	private final NamedDomainObjectContainer<AppServer> _appServers;
-	private Object _appServerType;
+	private String _appServerType;
 	private final Map<String, Object> _defaultVersions = new HashMap<>();
 	private Object _deployDir;
 	private Closure<String> _deployedFileNameClosure;
