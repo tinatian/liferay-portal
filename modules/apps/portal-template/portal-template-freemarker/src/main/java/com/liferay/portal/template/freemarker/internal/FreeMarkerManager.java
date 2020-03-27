@@ -109,6 +109,10 @@ import org.osgi.util.tracker.BundleTrackerCustomizer;
 )
 public class FreeMarkerManager extends BaseTemplateManager {
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static BeansWrapper getBeansWrapper() {
 		Thread currentThread = Thread.currentThread();
 
