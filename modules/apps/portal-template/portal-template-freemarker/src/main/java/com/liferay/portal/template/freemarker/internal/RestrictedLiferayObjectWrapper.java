@@ -169,7 +169,13 @@ public class RestrictedLiferayObjectWrapper extends LiferayObjectWrapper {
 		String className = clazz.getName();
 
 		if (!_allowAllClasses) {
-			_checkClassIsRestricted(clazz);
+			ClassRestrictionInformation classRestrictionInformation =
+				_getClassRestrictionInformation(clazz);
+
+			if (classRestrictionInformation.isRestricted()) {
+				return _LIFERAY_FREEMARKER_BEAN_MODEL_FACTORY.create(
+					object, this);
+			}
 		}
 
 		if (_restrictedMethodNames.containsKey(className)) {
@@ -186,58 +192,50 @@ public class RestrictedLiferayObjectWrapper extends LiferayObjectWrapper {
 		return super.wrap(object);
 	}
 
-	private void _checkClassIsRestricted(Class<?> clazz)
-		throws TemplateModelException {
+	private ClassRestrictionInformation _getClassRestrictionInformation(
+		Class<?> clazz) {
 
-		ClassRestrictionInformation classRestrictionInformation =
-			_classRestrictionInformations.computeIfAbsent(
-				clazz.getName(),
-				className -> {
-					if (_allowedClassNames.contains(className)) {
-						return _nullInstance;
-					}
-
-					for (Class<?> restrictedClass : _restrictedClasses) {
-						if (!restrictedClass.isAssignableFrom(clazz)) {
-							continue;
-						}
-
-						return new ClassRestrictionInformation(
-							StringBundler.concat(
-								"Denied resolving class ", className, " by ",
-								restrictedClass.getName()));
-					}
-
-					int index = className.lastIndexOf(StringPool.PERIOD);
-
-					if (index == -1) {
-						return _nullInstance;
-					}
-
-					String packageName = className.substring(0, index);
-
-					packageName = packageName.concat(StringPool.PERIOD);
-
-					for (String restrictedPackageName :
-							_restrictedPackageNames) {
-
-						if (!packageName.startsWith(restrictedPackageName)) {
-							continue;
-						}
-
-						return new ClassRestrictionInformation(
-							StringBundler.concat(
-								"Denied resolving class ", className, " by ",
-								restrictedPackageName));
-					}
-
+		return _classRestrictionInformations.computeIfAbsent(
+			clazz.getName(),
+			className -> {
+				if (_allowedClassNames.contains(className)) {
 					return _nullInstance;
-				});
+				}
 
-		if (classRestrictionInformation.isRestricted()) {
-			throw new TemplateModelException(
-				classRestrictionInformation.getDescription());
-		}
+				for (Class<?> restrictedClass : _restrictedClasses) {
+					if (!restrictedClass.isAssignableFrom(clazz)) {
+						continue;
+					}
+
+					return new ClassRestrictionInformation(
+						StringBundler.concat(
+							"Denied resolving class ", className, " by ",
+							restrictedClass.getName()));
+				}
+
+				int index = className.lastIndexOf(StringPool.PERIOD);
+
+				if (index == -1) {
+					return _nullInstance;
+				}
+
+				String packageName = className.substring(0, index);
+
+				packageName = packageName.concat(StringPool.PERIOD);
+
+				for (String restrictedPackageName : _restrictedPackageNames) {
+					if (!packageName.startsWith(restrictedPackageName)) {
+						continue;
+					}
+
+					return new ClassRestrictionInformation(
+						StringBundler.concat(
+							"Denied resolving class ", className, " by ",
+							restrictedPackageName));
+				}
+
+				return _nullInstance;
+			});
 	}
 
 	private static final ModelFactory _LIFERAY_FREEMARKER_BEAN_MODEL_FACTORY =
