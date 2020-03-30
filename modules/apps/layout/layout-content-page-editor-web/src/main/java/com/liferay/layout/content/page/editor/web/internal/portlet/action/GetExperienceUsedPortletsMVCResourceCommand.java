@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
@@ -76,7 +77,7 @@ public class GetExperienceUsedPortletsMVCResourceCommand
 
 				if (portletSegmentsExperienceId == segmentsExperienceId) {
 					jsonArray.put(
-						SegmentsExperiencePortletUtil.decodePortletName(
+						PortletIdCodec.decodePortletName(
 							portletPreferences.getPortletId()));
 				}
 			});
