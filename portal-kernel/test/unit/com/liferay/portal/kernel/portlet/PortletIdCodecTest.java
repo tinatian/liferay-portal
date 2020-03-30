@@ -14,6 +14,7 @@
 
 package com.liferay.portal.kernel.portlet;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.test.rule.CodeCoverageAssertor;
 import com.liferay.portal.kernel.util.ObjectValuePair;
@@ -32,6 +33,64 @@ public class PortletIdCodecTest {
 	@ClassRule
 	public static final CodeCoverageAssertor codeCoverageAssertor =
 		CodeCoverageAssertor.INSTANCE;
+
+	@Test
+	public void testDecodeInstanceIdWithSegmentedPortletId() {
+		String portletId = _TEST_PORTLET_NAME + _SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(null, PortletIdCodec.decodeInstanceId(portletId));
+
+		String testInstanceId = "1234";
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, testInstanceId) +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			testInstanceId, PortletIdCodec.decodeInstanceId(portletId));
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234) +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(null, PortletIdCodec.decodeInstanceId(portletId));
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234, testInstanceId) +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			testInstanceId, PortletIdCodec.decodeInstanceId(portletId));
+	}
+
+	@Test
+	public void testDecodePortletNameWithSegmentedPortletId() {
+		String portletId = _TEST_PORTLET_NAME + _SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, "1234") +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234) +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234, "1234") +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
+	}
 
 	@Test
 	public void testEncodeDecode() {
@@ -374,7 +433,32 @@ public class PortletIdCodecTest {
 					"\" must not contain the keyword _INSTANCE_",
 				invalidParameterException.getMessage());
 		}
+
+		// Test 6
+
+		String segmentedPortletName =
+			portletName + _SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		try {
+			PortletIdCodec.validatePortletName(segmentedPortletName);
+
+			Assert.fail();
+		}
+		catch (InvalidParameterException invalidParameterException) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append("The portlet name \"");
+			sb.append(segmentedPortletName);
+			sb.append("\" must not contain the keyword ");
+			sb.append(_SEGMENTS_EXPERIENCE_SEPARATOR);
+
+			Assert.assertEquals(
+				sb.toString(), invalidParameterException.getMessage());
+		}
 	}
+
+	private static final String _SEGMENTS_EXPERIENCE_SEPARATOR =
+		"_SEGMENTS_EXPERIENCE_";
 
 	private static final String _TEST_PORTLET_NAME =
 		"com_liferay_test_portlet_TestPortlet";
