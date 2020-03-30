@@ -23,14 +23,13 @@ import com.liferay.segments.constants.SegmentsExperienceConstants;
  */
 public class SegmentsExperiencePortletUtil {
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 * 		PortletIdCodec#decodePortletName(String)}
+	 */
+	@Deprecated
 	public static String decodePortletName(String portletId) {
-		int index = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
-
-		if (index == -1) {
-			return PortletIdCodec.decodePortletName(portletId);
-		}
-
-		return PortletIdCodec.decodePortletName(portletId.substring(0, index));
+		return PortletIdCodec.decodePortletName(portletId);
 	}
 
 	public static long getSegmentsExperienceId(String portletId) {
