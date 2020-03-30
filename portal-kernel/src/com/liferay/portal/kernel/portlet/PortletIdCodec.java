@@ -41,7 +41,14 @@ public class PortletIdCodec {
 			return null;
 		}
 
-		return portletId.substring(index + _INSTANCE_SEPARATOR.length());
+		int index2 = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
+
+		if (index2 == -1) {
+			index2 = portletId.length();
+		}
+
+		return portletId.substring(
+			index + _INSTANCE_SEPARATOR.length(), index2);
 	}
 
 	public static String decodePortletName(String portletId) {
@@ -55,6 +62,12 @@ public class PortletIdCodec {
 
 		if (y != -1) {
 			return portletId.substring(0, y);
+		}
+
+		int z = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
+
+		if (z != -1) {
+			return portletId.substring(0, z);
 		}
 
 		return portletId;
@@ -196,6 +209,9 @@ public class PortletIdCodec {
 		if (portletName.contains(_INSTANCE_SEPARATOR)) {
 			keyword = _INSTANCE_SEPARATOR;
 		}
+		else if (portletName.contains(_SEGMENTS_EXPERIENCE_SEPARATOR)) {
+			keyword = _SEGMENTS_EXPERIENCE_SEPARATOR;
+		}
 		else if (portletName.contains(_USER_SEPARATOR)) {
 			keyword = _USER_SEPARATOR;
 		}
@@ -209,6 +225,9 @@ public class PortletIdCodec {
 	}
 
 	private static final String _INSTANCE_SEPARATOR = "_INSTANCE_";
+
+	private static final String _SEGMENTS_EXPERIENCE_SEPARATOR =
+		"_SEGMENTS_EXPERIENCE_";
 
 	private static final String _USER_SEPARATOR = "_USER_";
 
