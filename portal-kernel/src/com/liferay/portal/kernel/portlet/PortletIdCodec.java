@@ -35,39 +35,41 @@ public class PortletIdCodec {
 				PortletIdCodec._USER_SEPARATOR.length() + 31);
 
 	public static String decodeInstanceId(String portletId) {
-		int index = portletId.indexOf(_INSTANCE_SEPARATOR);
+		int indexInstanceSeparator = portletId.indexOf(_INSTANCE_SEPARATOR);
 
-		if (index == -1) {
+		if (indexInstanceSeparator == -1) {
 			return null;
 		}
 
-		int index2 = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
+		int indexSegmentsExperienceSeparator = portletId.indexOf(
+			_SEGMENTS_EXPERIENCE_SEPARATOR);
 
-		if (index2 == -1) {
-			index2 = portletId.length();
+		if (indexSegmentsExperienceSeparator == -1) {
+			indexSegmentsExperienceSeparator = portletId.length();
 		}
 
 		return portletId.substring(
-			index + _INSTANCE_SEPARATOR.length(), index2);
+			indexInstanceSeparator + _INSTANCE_SEPARATOR.length(),
+			indexSegmentsExperienceSeparator);
 	}
 
 	public static String decodePortletName(String portletId) {
-		int x = portletId.indexOf(_USER_SEPARATOR);
+		int index = portletId.indexOf(_USER_SEPARATOR);
 
-		if (x != -1) {
-			return portletId.substring(0, x);
+		if (index != -1) {
+			return portletId.substring(0, index);
 		}
 
-		int y = portletId.indexOf(_INSTANCE_SEPARATOR);
+		index = portletId.indexOf(_INSTANCE_SEPARATOR);
 
-		if (y != -1) {
-			return portletId.substring(0, y);
+		if (index != -1) {
+			return portletId.substring(0, index);
 		}
 
-		int z = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
+		index = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
 
-		if (z != -1) {
-			return portletId.substring(0, z);
+		if (index != -1) {
+			return portletId.substring(0, index);
 		}
 
 		return portletId;
