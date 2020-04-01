@@ -38,29 +38,31 @@ public class PortletIdCodecTest {
 	public void testDecodeInstanceIdWithSegmentedPortletId() {
 		String portletId = _TEST_PORTLET_NAME + _SEGMENTS_EXPERIENCE_SEPARATOR;
 
-		Assert.assertEquals(null, PortletIdCodec.decodeInstanceId(portletId));
+		Assert.assertNull(PortletIdCodec.decodeInstanceId(portletId));
 
-		String testInstanceId = "1234";
+		String instanceId = "1234";
 
 		portletId =
-			PortletIdCodec.encode(_TEST_PORTLET_NAME, testInstanceId) +
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, instanceId) +
 				_SEGMENTS_EXPERIENCE_SEPARATOR;
 
 		Assert.assertEquals(
-			testInstanceId, PortletIdCodec.decodeInstanceId(portletId));
+			instanceId, PortletIdCodec.decodeInstanceId(portletId));
+
+		int userId = 1234;
 
 		portletId =
-			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234) +
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, userId) +
 				_SEGMENTS_EXPERIENCE_SEPARATOR;
 
-		Assert.assertEquals(null, PortletIdCodec.decodeInstanceId(portletId));
+		Assert.assertNull(PortletIdCodec.decodeInstanceId(portletId));
 
 		portletId =
-			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234, testInstanceId) +
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, userId, instanceId) +
 				_SEGMENTS_EXPERIENCE_SEPARATOR;
 
 		Assert.assertEquals(
-			testInstanceId, PortletIdCodec.decodeInstanceId(portletId));
+			instanceId, PortletIdCodec.decodeInstanceId(portletId));
 	}
 
 	@Test
@@ -70,22 +72,26 @@ public class PortletIdCodecTest {
 		Assert.assertEquals(
 			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
 
+		String instanceId = "1234";
+
 		portletId =
-			PortletIdCodec.encode(_TEST_PORTLET_NAME, "1234") +
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, instanceId) +
+				_SEGMENTS_EXPERIENCE_SEPARATOR;
+
+		Assert.assertEquals(
+			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
+
+		int userId = 1234;
+
+		portletId =
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, userId) +
 				_SEGMENTS_EXPERIENCE_SEPARATOR;
 
 		Assert.assertEquals(
 			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
 
 		portletId =
-			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234) +
-				_SEGMENTS_EXPERIENCE_SEPARATOR;
-
-		Assert.assertEquals(
-			_TEST_PORTLET_NAME, PortletIdCodec.decodePortletName(portletId));
-
-		portletId =
-			PortletIdCodec.encode(_TEST_PORTLET_NAME, 1234, "1234") +
+			PortletIdCodec.encode(_TEST_PORTLET_NAME, userId, instanceId) +
 				_SEGMENTS_EXPERIENCE_SEPARATOR;
 
 		Assert.assertEquals(
