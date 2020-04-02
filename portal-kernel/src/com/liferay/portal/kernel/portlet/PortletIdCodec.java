@@ -35,22 +35,19 @@ public class PortletIdCodec {
 				PortletIdCodec._USER_SEPARATOR.length() + 31);
 
 	public static String decodeInstanceId(String portletId) {
-		int indexInstanceSeparator = portletId.indexOf(_INSTANCE_SEPARATOR);
+		int x = portletId.indexOf(_INSTANCE_SEPARATOR);
 
-		if (indexInstanceSeparator == -1) {
+		if (x == -1) {
 			return null;
 		}
 
-		int indexSegmentsExperienceSeparator = portletId.indexOf(
-			_SEGMENTS_EXPERIENCE_SEPARATOR);
+		int y = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
 
-		if (indexSegmentsExperienceSeparator == -1) {
-			indexSegmentsExperienceSeparator = portletId.length();
+		if (y == -1) {
+			y = portletId.length();
 		}
 
-		return portletId.substring(
-			indexInstanceSeparator + _INSTANCE_SEPARATOR.length(),
-			indexSegmentsExperienceSeparator);
+		return portletId.substring(x + _INSTANCE_SEPARATOR.length(), y);
 	}
 
 	public static String decodePortletName(String portletId) {
