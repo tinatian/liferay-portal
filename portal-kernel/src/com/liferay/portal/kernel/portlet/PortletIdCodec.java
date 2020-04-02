@@ -46,7 +46,7 @@ public class PortletIdCodec {
 		int y = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR, x);
 
 		if (y == -1) {
-			y = portletId.length();
+			return portletId.substring(x);
 		}
 
 		return portletId.substring(x, y);
