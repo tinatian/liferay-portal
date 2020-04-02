@@ -41,13 +41,15 @@ public class PortletIdCodec {
 			return null;
 		}
 
-		int y = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR);
+		x += _INSTANCE_SEPARATOR.length();
+
+		int y = portletId.indexOf(_SEGMENTS_EXPERIENCE_SEPARATOR, x);
 
 		if (y == -1) {
 			y = portletId.length();
 		}
 
-		return portletId.substring(x + _INSTANCE_SEPARATOR.length(), y);
+		return portletId.substring(x, y);
 	}
 
 	public static String decodePortletName(String portletId) {
