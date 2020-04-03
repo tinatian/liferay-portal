@@ -173,6 +173,8 @@ deploySidecar {
 
 	destinationDir = sidecarDir
 
+	enabled = !sidecarDir.exists()
+
 	ext {
 		autoClean = false
 	}
