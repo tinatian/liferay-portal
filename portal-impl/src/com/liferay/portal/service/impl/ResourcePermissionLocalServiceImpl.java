@@ -72,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Provides the local service for accessing, adding, checking, deleting,
@@ -1235,27 +1236,46 @@ public class ResourcePermissionLocalServiceImpl
 
 			validate(modelResource, false);
 
-			List<String> groupModelActionIds = null;
+			PortalException[] portalExceptionArray = new PortalException[1];
 
-			if (Objects.equals(rootModelResource, modelResource)) {
-				groupModelActionIds =
-					ResourceActionsUtil.getModelResourceGroupDefaultActions(
-						rootModelResource);
+			_placeHolderMap.computeIfAbsent(
+				modelResource,
+				key -> {
+					List<String> groupModelActionIds = null;
+
+					if (Objects.equals(rootModelResource, modelResource)) {
+						groupModelActionIds =
+							ResourceActionsUtil.
+								getModelResourceGroupDefaultActions(
+									rootModelResource);
+					}
+
+					List<String> guestModelActionIds =
+						ResourceActionsUtil.getModelResourceGuestDefaultActions(
+							modelResource);
+
+					List<String> ownerModelActionIds =
+						ResourceActionsUtil.getModelResourceActions(
+							modelResource);
+
+					filterOwnerActions(modelResource, ownerModelActionIds);
+
+					try {
+						_initPortletDefaultPermissions(
+							portlet.getCompanyId(), modelResource, guestRole,
+							ownerRole, siteMemberRole, guestModelActionIds,
+							ownerModelActionIds, groupModelActionIds);
+					}
+					catch (PortalException portalException) {
+						portalExceptionArray[0] = portalException;
+					}
+
+					return null;
+				});
+
+			if (portalExceptionArray[0] != null) {
+				throw portalExceptionArray[0];
 			}
-
-			List<String> guestModelActionIds =
-				ResourceActionsUtil.getModelResourceGuestDefaultActions(
-					modelResource);
-
-			List<String> ownerModelActionIds =
-				ResourceActionsUtil.getModelResourceActions(modelResource);
-
-			filterOwnerActions(modelResource, ownerModelActionIds);
-
-			_initPortletDefaultPermissions(
-				portlet.getCompanyId(), modelResource, guestRole, ownerRole,
-				siteMemberRole, guestModelActionIds, ownerModelActionIds,
-				groupModelActionIds);
 		}
 	}
 
@@ -2114,5 +2134,8 @@ public class ResourcePermissionLocalServiceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ResourcePermissionLocalServiceImpl.class);
+
+	private final Map<String, Object> _placeHolderMap =
+		new ConcurrentHashMap<>();
 
 }
