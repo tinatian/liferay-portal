@@ -37,6 +37,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 
+import java.io.File;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -341,7 +343,11 @@ public class PropsUtil {
 
 		pos = path.lastIndexOf(CharPool.SLASH, pos);
 
-		return path.substring(0, pos + 1);
+		path = path.substring(0, pos + 1);
+
+		File file = new File(path);
+
+		return file.getAbsolutePath();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(PropsUtil.class);
