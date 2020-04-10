@@ -167,15 +167,7 @@ public class TableReferenceDefinitionManager {
 						currentTableReferenceDefinition.getTable(),
 						key -> new ArrayList<>());
 
-				for (TableJoinHolder currentParentJoinHolder :
-						currentParentJoinHolders) {
-
-					combinedChildJoinHolders.add(
-						new TableJoinHolder(
-							currentParentJoinHolder.getJoinPKColumn(),
-							currentParentJoinHolder.getFromPKColumn(),
-							currentParentJoinHolder.getJoinFunction()));
-				}
+				combinedChildJoinHolders.addAll(currentParentJoinHolders);
 			}
 
 			Map<Table<?>, List<TableJoinHolder>> currentChildJoinHoldersMap =
@@ -190,15 +182,7 @@ public class TableReferenceDefinitionManager {
 						currentTableReferenceDefinition.getTable(),
 						key -> new ArrayList<>());
 
-				for (TableJoinHolder currentChildJoinHolder :
-						currentChildJoinHolders) {
-
-					combinedParentJoinHolders.add(
-						new TableJoinHolder(
-							currentChildJoinHolder.getJoinPKColumn(),
-							currentChildJoinHolder.getFromPKColumn(),
-							currentChildJoinHolder.getJoinFunction()));
-				}
+				combinedParentJoinHolders.addAll(currentChildJoinHolders);
 			}
 		}
 
