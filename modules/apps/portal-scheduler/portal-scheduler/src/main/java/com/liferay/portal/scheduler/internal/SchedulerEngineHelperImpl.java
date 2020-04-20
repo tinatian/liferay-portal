@@ -17,7 +17,6 @@ package com.liferay.portal.scheduler.internal;
 import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
-import com.liferay.portal.db.partition.DBPartitionUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.cal.DayAndPosition;
@@ -47,14 +46,18 @@ import com.liferay.portal.kernel.scheduler.TriggerState;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerEventMessageListener;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerEventMessageListenerWrapper;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.scheduler.internal.configuration.SchedulerEngineHelperConfiguration;
+import com.liferay.portal.scheduler.internal.messaging.CompanyScopeMessageListenerWrapper;
 import com.liferay.portal.scheduler.internal.messaging.config.ScriptingMessageListener;
 
 import java.util.ArrayList;
@@ -567,6 +570,16 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 		MessageListener messageListener, SchedulerEntry schedulerEntry,
 		String destinationName) {
 
+		register(
+			messageListener, schedulerEntry, destinationName,
+			_databasePartitionEnabled);
+	}
+
+	@Override
+	public void register(
+		MessageListener messageListener, SchedulerEntry schedulerEntry,
+		String destinationName, boolean companyScope) {
+
 		Dictionary<String, Object> properties = new HashMapDictionary<>();
 
 		properties.put("destination.name", destinationName);
@@ -591,7 +604,10 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 			return;
 		}
 
-		messageListener = DBPartitionUtil.wrapMessageListener(messageListener);
+		if (companyScope) {
+			messageListener = new CompanyScopeMessageListenerWrapper(
+				messageListener, _companyLocalService);
+		}
 
 		SchedulerEventMessageListenerWrapper
 			schedulerEventMessageListenerWrapper =
@@ -756,6 +772,9 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 	protected void activate(ComponentContext componentContext)
 		throws Exception {
 
+		_databasePartitionEnabled = GetterUtil.getBoolean(
+			_props.get("database.partition.enabled"));
+
 		_schedulerEngineHelperConfiguration =
 			ConfigurableUtil.createConfigurable(
 				SchedulerEngineHelperConfiguration.class,
@@ -903,6 +922,11 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 	private volatile AuditRouter _auditRouter;
 
 	private volatile BundleContext _bundleContext;
+
+	@Reference
+	private CompanyLocalService _companyLocalService;
+
+	private boolean _databasePartitionEnabled;
 	private DestinationFactory _destinationFactory;
 	private final Set<ServiceRegistration<Destination>>
 		_destinationServiceRegistrations = new HashSet<>();
@@ -912,6 +936,9 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private Props _props;
 
 	private SchedulerEngine _schedulerEngine;
 	private volatile SchedulerEngineHelperConfiguration

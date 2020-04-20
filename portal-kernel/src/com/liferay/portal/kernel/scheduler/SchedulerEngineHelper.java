@@ -25,9 +25,12 @@ import java.util.List;
 
 import javax.portlet.PortletRequest;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * @author Michael C. Han
  */
+@ProviderType
 public interface SchedulerEngineHelper {
 
 	public void addScriptingJob(
@@ -119,6 +122,10 @@ public interface SchedulerEngineHelper {
 	public void register(
 		MessageListener messageListener, SchedulerEntry schedulerEntry,
 		String destinationName);
+
+	public void register(
+		MessageListener messageListener, SchedulerEntry schedulerEntry,
+		String destinationName, boolean companyScope);
 
 	public void resume(String groupName, StorageType storageType)
 		throws SchedulerException;
