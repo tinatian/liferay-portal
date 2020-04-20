@@ -82,9 +82,9 @@ public class FileInstallConfigTest {
 
 			_updateConfiguration(
 				() -> {
-					StringBundler stringBundler = new StringBundler(configs);
+					StringBundler sb = new StringBundler(configs);
 
-					String content = stringBundler.toString();
+					String content = sb.toString();
 
 					Files.write(path, content.getBytes());
 				});
