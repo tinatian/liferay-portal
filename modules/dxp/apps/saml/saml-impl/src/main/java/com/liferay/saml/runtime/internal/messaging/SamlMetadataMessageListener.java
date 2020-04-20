@@ -18,7 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListenerCompanyScope;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.saml.persistence.model.SamlIdpSpConnection;
@@ -54,8 +55,7 @@ import org.osgi.service.component.annotations.Reference;
 	configurationPolicy = ConfigurationPolicy.OPTIONAL, immediate = true,
 	service = SamlMetadataMessageListener.class
 )
-public class SamlMetadataMessageListener
-	extends BaseMessageListenerCompanyScope {
+public class SamlMetadataMessageListener extends BaseMessageListener {
 
 	@Activate
 	protected void activate(Map<String, Object> properties) {
@@ -75,7 +75,7 @@ public class SamlMetadataMessageListener
 			className, trigger);
 
 		_schedulerEngineHelper.register(
-			this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+			this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH, true);
 	}
 
 	@Deactivate
@@ -83,7 +83,10 @@ public class SamlMetadataMessageListener
 		_schedulerEngineHelper.unregister(this);
 	}
 
-	protected void doReceive(Message message, long companyId) throws Exception {
+	@Override
+	protected void doReceive(Message message) throws Exception {
+		long companyId = CompanyThreadLocal.getCompanyId();
+
 		Thread currentThread = Thread.currentThread();
 
 		ClassLoader classLoader = currentThread.getContextClassLoader();

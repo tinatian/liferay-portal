@@ -19,7 +19,7 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListener;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListenerCompanyScope;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.security.ldap.configuration.ConfigurationProvider;
 import com.liferay.portal.security.ldap.exportimport.LDAPUserImporter;
@@ -57,8 +58,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 	}
 )
 public class UserImportMessageListener
-	extends BaseMessageListenerCompanyScope
-	implements ConfigurationModelListener {
+	extends BaseMessageListener implements ConfigurationModelListener {
 
 	@Override
 	public void onAfterSave(String pid, Dictionary<String, Object> properties) {
@@ -87,7 +87,9 @@ public class UserImportMessageListener
 	}
 
 	@Override
-	protected void doReceive(Message message, long companyId) throws Exception {
+	protected void doReceive(Message message) throws Exception {
+		long companyId = CompanyThreadLocal.getCompanyId();
+
 		long time =
 			System.currentTimeMillis() - _ldapUserImporter.getLastImportTime();
 
@@ -194,7 +196,7 @@ public class UserImportMessageListener
 
 		_schedulerEngineHelper.register(
 			this, schedulerEntry,
-			LDAPDestinationNames.SCHEDULED_USER_LDAP_IMPORT);
+			LDAPDestinationNames.SCHEDULED_USER_LDAP_IMPORT, true);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

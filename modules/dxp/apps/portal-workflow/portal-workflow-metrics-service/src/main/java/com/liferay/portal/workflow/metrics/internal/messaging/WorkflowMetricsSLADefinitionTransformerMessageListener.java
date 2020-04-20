@@ -17,7 +17,7 @@ package com.liferay.portal.workflow.metrics.internal.messaging;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListenerCompanyScope;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageListener;
@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.index.IndicesExistsIndexRequest;
@@ -65,7 +66,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 	}
 )
 public class WorkflowMetricsSLADefinitionTransformerMessageListener
-	extends BaseMessageListenerCompanyScope {
+	extends BaseMessageListener {
 
 	@Activate
 	@Modified
@@ -81,7 +82,7 @@ public class WorkflowMetricsSLADefinitionTransformerMessageListener
 			className, trigger);
 
 		_schedulerEngineHelper.register(
-			this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+			this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH, true);
 	}
 
 	@Deactivate
@@ -90,10 +91,12 @@ public class WorkflowMetricsSLADefinitionTransformerMessageListener
 	}
 
 	@Override
-	protected void doReceive(Message message, long companyId) throws Exception {
+	protected void doReceive(Message message) throws Exception {
 		if (_searchEngineAdapter == null) {
 			return;
 		}
+
+		long companyId = CompanyThreadLocal.getCompanyId();
 
 		if (!_hasIndex(companyId)) {
 			return;
