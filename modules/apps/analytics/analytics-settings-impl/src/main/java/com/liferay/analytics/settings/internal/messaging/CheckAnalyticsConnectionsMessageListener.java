@@ -19,7 +19,7 @@ import com.liferay.analytics.settings.configuration.AnalyticsConfiguration;
 import com.liferay.analytics.settings.configuration.AnalyticsConfigurationTracker;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListenerGlobal;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
@@ -45,7 +45,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true, service = CheckAnalyticsConnectionsMessageListener.class
 )
 public class CheckAnalyticsConnectionsMessageListener
-	extends BaseMessageListenerGlobal {
+	extends BaseMessageListener {
 
 	@Activate
 	@Modified
@@ -61,7 +61,7 @@ public class CheckAnalyticsConnectionsMessageListener
 			className, trigger);
 
 		_schedulerEngineHelper.register(
-			this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+			this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH, false);
 	}
 
 	@Deactivate
