@@ -39,13 +39,19 @@ public class ClassNameLocalServiceImpl
 		ClassName className = classNamePersistence.fetchByValue(value);
 
 		if (className == null) {
-			long classNameId = counterLocalService.increment();
+			synchronized (("ClassName." + value).intern()) {
+				className = classNamePersistence.fetchByValue(value);
 
-			className = classNamePersistence.create(classNameId);
+				if (className == null) {
+					long classNameId = counterLocalService.increment();
 
-			className.setValue(value);
+					className = classNamePersistence.create(classNameId);
 
-			className = classNamePersistence.update(className);
+					className.setValue(value);
+
+					className = classNamePersistence.update(className);
+				}
+			}
 		}
 
 		return className;
