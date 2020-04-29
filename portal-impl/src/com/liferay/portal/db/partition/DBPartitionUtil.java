@@ -105,6 +105,10 @@ public class DBPartitionUtil {
 		return true;
 	}
 
+	public static boolean isDBPartitionEnabled() {
+		return _DATABASE_PARTITION_ENABLED;
+	}
+
 	public static boolean removeDBPartition(long companyId) {
 		return _DATABASE_PARTITION_ENABLED;
 	}
