@@ -22,9 +22,9 @@ import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.DestinationConfiguration;
 import com.liferay.portal.kernel.messaging.DestinationFactoryUtil;
-import com.liferay.portal.kernel.messaging.DestinationInterceptor;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBus;
+import com.liferay.portal.kernel.messaging.MessageBusInterceptor;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
@@ -74,16 +74,16 @@ public class DBPartitionMessageBusInterceptorTest
 
 		_currentDatabasePartitionEnabled =
 			ReflectionTestUtil.getAndSetFieldValue(
-				_dbPartitionDestinationInterceptor, "_databasePartitionEnabled",
+				_dbPartitionMessageBusInterceptor, "_databasePartitionEnabled",
 				true);
 
 		_currentExcludedMessageBusDestinationNames =
 			ReflectionTestUtil.getFieldValue(
-				_dbPartitionDestinationInterceptor,
+				_dbPartitionMessageBusInterceptor,
 				"_excludedMessageBusDestinationNames");
 
 		_currentExcludedSchedulerJobNames = ReflectionTestUtil.getFieldValue(
-			_dbPartitionDestinationInterceptor, "_excludedSchedulerJobNames");
+			_dbPartitionMessageBusInterceptor, "_excludedSchedulerJobNames");
 	}
 
 	@AfterClass
@@ -99,7 +99,7 @@ public class DBPartitionMessageBusInterceptorTest
 		DBPartitionTestUtil.disableDBPartition();
 
 		ReflectionTestUtil.setFieldValue(
-			_dbPartitionDestinationInterceptor, "_databasePartitionEnabled",
+			_dbPartitionMessageBusInterceptor, "_databasePartitionEnabled",
 			true);
 
 		getDB().runSQL(
@@ -117,12 +117,12 @@ public class DBPartitionMessageBusInterceptorTest
 	@After
 	public void tearDown() {
 		ReflectionTestUtil.setFieldValue(
-			_dbPartitionDestinationInterceptor,
+			_dbPartitionMessageBusInterceptor,
 			"_excludedMessageBusDestinationNames",
 			_currentExcludedMessageBusDestinationNames);
 
 		ReflectionTestUtil.setFieldValue(
-			_dbPartitionDestinationInterceptor, "_excludedSchedulerJobNames",
+			_dbPartitionMessageBusInterceptor, "_excludedSchedulerJobNames",
 			_currentExcludedSchedulerJobNames);
 
 		Destination destination = _bundleContext.getService(
@@ -151,7 +151,7 @@ public class DBPartitionMessageBusInterceptorTest
 		long currentCompanyId = CompanyThreadLocal.getCompanyId();
 
 		ReflectionTestUtil.setFieldValue(
-			_dbPartitionDestinationInterceptor,
+			_dbPartitionMessageBusInterceptor,
 			"_excludedMessageBusDestinationNames",
 			new HashSet<String>() {
 				{
@@ -174,7 +174,7 @@ public class DBPartitionMessageBusInterceptorTest
 			TestDBPartitionMessageListener.class;
 
 		ReflectionTestUtil.setFieldValue(
-			_dbPartitionDestinationInterceptor, "_excludedSchedulerJobNames",
+			_dbPartitionMessageBusInterceptor, "_excludedSchedulerJobNames",
 			new HashSet<String>() {
 				{
 					add(testDBPartitionMessageListenerClass.toString());
@@ -248,8 +248,10 @@ public class DBPartitionMessageBusInterceptorTest
 	private static Set<String> _currentExcludedMessageBusDestinationNames;
 	private static Set<String> _currentExcludedSchedulerJobNames;
 
-	@Inject
-	private static DestinationInterceptor _dbPartitionDestinationInterceptor;
+	@Inject(
+		filter = "component.name=com.liferay.portal.db.partition.internal.messaging.DBPartitionMessageBusInterceptor"
+	)
+	private static MessageBusInterceptor _dbPartitionMessageBusInterceptor;
 
 	@Inject
 	private static MessageBus _messageBus;
