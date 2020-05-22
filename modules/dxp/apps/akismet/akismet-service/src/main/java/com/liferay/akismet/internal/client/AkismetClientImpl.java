@@ -12,14 +12,16 @@
  *
  */
 
-package com.liferay.akismet.client;
+package com.liferay.akismet.internal.client;
 
-import com.liferay.akismet.client.constants.AkismetConstants;
-import com.liferay.akismet.client.util.AkismetServiceConfigurationUtil;
+import com.liferay.akismet.client.AkismetClient;
+import com.liferay.akismet.internal.client.constants.AkismetConstants;
+import com.liferay.akismet.internal.configuration.AkismetServiceConfiguration;
 import com.liferay.akismet.model.AkismetEntry;
 import com.liferay.akismet.service.AkismetEntryLocalService;
 import com.liferay.message.boards.model.MBMessage;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -39,15 +41,23 @@ import java.io.IOException;
 
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Jamie Sammons
  */
-@Component(immediate = true, service = AkismetClient.class)
-public class AkismetClient {
+@Component(
+	configurationPid = "com.liferay.akismet.internal.configuration.AkismetServiceConfiguration",
+	configurationPolicy = ConfigurationPolicy.REQUIRE, immediate = true,
+	service = AkismetClient.class
+)
+public class AkismetClientImpl implements AkismetClient {
 
+	@Override
 	public boolean hasRequiredInfo(String userIP, Map<String, String> headers) {
 		if (headers == null) {
 			return false;
@@ -67,6 +77,7 @@ public class AkismetClient {
 		return true;
 	}
 
+	@Override
 	public boolean isSpam(
 			long userId, String content, AkismetEntry akismetEntry)
 		throws PortalException {
@@ -74,7 +85,7 @@ public class AkismetClient {
 		StringBundler sb = new StringBundler(5);
 
 		sb.append(Http.HTTP_WITH_SLASH);
-		sb.append(AkismetServiceConfigurationUtil.getAPIKey());
+		sb.append(_akismetServiceConfiguration.akismetApiKey());
 		sb.append(StringPool.PERIOD);
 		sb.append(AkismetConstants.URL_REST);
 		sb.append(AkismetConstants.PATH_CHECK_SPAM);
@@ -109,6 +120,7 @@ public class AkismetClient {
 		return false;
 	}
 
+	@Override
 	public void submitHam(
 			long companyId, String ipAddress, String userAgent, String referrer,
 			String permalink, String commentType, String userName,
@@ -122,7 +134,7 @@ public class AkismetClient {
 		StringBundler sb = new StringBundler(5);
 
 		sb.append(Http.HTTP_WITH_SLASH);
-		sb.append(AkismetServiceConfigurationUtil.getAPIKey());
+		sb.append(_akismetServiceConfiguration.akismetApiKey());
 		sb.append(StringPool.PERIOD);
 		sb.append(AkismetConstants.URL_REST);
 		sb.append(AkismetConstants.PATH_SUBMIT_HAM);
@@ -138,6 +150,7 @@ public class AkismetClient {
 		}
 	}
 
+	@Override
 	public void submitHam(MBMessage mbMessage) throws PortalException {
 		AkismetEntry akismetEntry = _akismetEntryLocalService.fetchAkismetEntry(
 			MBMessage.class.getName(), mbMessage.getMessageId());
@@ -157,11 +170,16 @@ public class AkismetClient {
 			user.getFullName(), user.getEmailAddress(), content);
 	}
 
+	@Override
 	public void submitSpam(
 			long companyId, String ipAddress, String userAgent, String referrer,
 			String permalink, String commentType, String userName,
 			String emailAddress, String content)
 		throws PortalException {
+
+		if (!_akismetServiceConfiguration.messageBoardsEnabled()) {
+			return;
+		}
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Submitting message as spam: " + permalink);
@@ -170,7 +188,7 @@ public class AkismetClient {
 		StringBundler sb = new StringBundler(5);
 
 		sb.append(Http.HTTP_WITH_SLASH);
-		sb.append(AkismetServiceConfigurationUtil.getAPIKey());
+		sb.append(_akismetServiceConfiguration.akismetApiKey());
 		sb.append(StringPool.PERIOD);
 		sb.append(AkismetConstants.URL_REST);
 		sb.append(AkismetConstants.PATH_SUBMIT_SPAM);
@@ -183,12 +201,13 @@ public class AkismetClient {
 
 		if (Validator.isNull(response) ||
 			!verifyApiKey(
-				companyId, AkismetServiceConfigurationUtil.getAPIKey())) {
+				companyId, _akismetServiceConfiguration.akismetApiKey())) {
 
 			_log.error("There was an issue submitting message as spam");
 		}
 	}
 
+	@Override
 	public void submitSpam(MBMessage mbMessage) throws PortalException {
 		AkismetEntry akismetData = _akismetEntryLocalService.fetchAkismetEntry(
 			MBMessage.class.getName(), mbMessage.getMessageId());
@@ -208,6 +227,7 @@ public class AkismetClient {
 			user.getFullName(), user.getEmailAddress(), content);
 	}
 
+	@Override
 	public boolean verifyApiKey(long companyId, String apiKey)
 		throws PortalException {
 
@@ -228,6 +248,13 @@ public class AkismetClient {
 		}
 
 		return false;
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_akismetServiceConfiguration = ConfigurableUtil.createConfigurable(
+			AkismetServiceConfiguration.class, properties);
 	}
 
 	private String _getPortalURL(long companyId) throws PortalException {
@@ -285,10 +312,13 @@ public class AkismetClient {
 		return StringPool.BLANK;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(AkismetClient.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AkismetClientImpl.class);
 
 	@Reference
 	private AkismetEntryLocalService _akismetEntryLocalService;
+
+	private volatile AkismetServiceConfiguration _akismetServiceConfiguration;
 
 	@Reference
 	private CompanyLocalService _companyLocalService;

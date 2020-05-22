@@ -14,15 +14,15 @@
 
 package com.liferay.akismet.internal.messaging;
 
-import com.liferay.akismet.client.util.AkismetServiceConfigurationUtil;
+import com.liferay.akismet.internal.configuration.AkismetServiceConfiguration;
 import com.liferay.message.boards.exception.NoSuchMessageException;
 import com.liferay.message.boards.model.MBMessage;
 import com.liferay.message.boards.service.MBMessageLocalService;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -36,8 +36,7 @@ import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
@@ -46,6 +45,7 @@ import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
@@ -54,15 +54,18 @@ import org.osgi.service.component.annotations.Reference;
  * @author Jamie Sammons
  */
 @Component(
-	immediate = true, property = "cron.expression=0 0 0 * * ?",
+	configurationPid = "com.liferay.akismet.internal.configuration.AkismetServiceConfiguration",
+	configurationPolicy = ConfigurationPolicy.REQUIRE, immediate = true,
+	property = "cron.expression=0 0 0 * * ?",
 	service = DeleteMBMessagesListener.class
 )
 public class DeleteMBMessagesListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
-	protected void activate(Map<String, Object> properties)
-		throws SchedulerException {
+	protected void activate(Map<String, Object> properties) {
+		_akismetServiceConfiguration = ConfigurableUtil.createConfigurable(
+			AkismetServiceConfiguration.class, properties);
 
 		String cronExpression = GetterUtil.getString(
 			properties.get("cron.expression"), _DEFAULT_CRON_EXPRESSION);
@@ -108,9 +111,12 @@ public class DeleteMBMessagesListener extends BaseMessageListener {
 		_initialized = false;
 	}
 
-	protected void deleteSpam(long companyId) throws PortalException {
+	@Override
+	protected void doReceive(Message message) throws Exception {
+		Class<?> clazz = _mbMessageLocalService.getClass();
+
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
-			MBMessage.class, PortalClassLoaderUtil.getClassLoader());
+			MBMessage.class, clazz.getClassLoader());
 
 		Property statusProperty = PropertyFactoryUtil.forName("status");
 
@@ -118,9 +124,12 @@ public class DeleteMBMessagesListener extends BaseMessageListener {
 
 		Property statusDateProperty = PropertyFactoryUtil.forName("statusDate");
 
+		long retainSpamTime =
+			_akismetServiceConfiguration.akismetRetainSpamTime() * Time.DAY;
+
 		dynamicQuery.add(
 			statusDateProperty.lt(
-				AkismetServiceConfigurationUtil.getRetainSpamTime()));
+				new Date(System.currentTimeMillis() - retainSpamTime)));
 
 		List<MBMessage> mbMessages = _mbMessageLocalService.dynamicQuery(
 			dynamicQuery);
@@ -138,47 +147,26 @@ public class DeleteMBMessagesListener extends BaseMessageListener {
 		}
 	}
 
-	@Override
-	protected void doReceive(Message message) throws Exception {
-		long[] companyIds = _portal.getCompanyIds();
-
-		for (long companyId : companyIds) {
-			deleteSpam(companyId);
-		}
-	}
-
-	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
-	protected void setModuleServiceLifecycle(
-		ModuleServiceLifecycle moduleServiceLifecycle) {
-	}
-
-	@Reference(unbind = "-")
-	protected void setSchedulerEngineHelper(
-		SchedulerEngineHelper schedulerEngineHelper) {
-
-		_schedulerEngineHelper = schedulerEngineHelper;
-	}
-
-	@Reference(unbind = "-")
-	protected void setTriggerFactory(TriggerFactory triggerFactory) {
-		_triggerFactory = triggerFactory;
-	}
-
 	private static final String _DEFAULT_CRON_EXPRESSION = "0 0 0 * * ?";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DeleteMBMessagesListener.class);
 
+	private volatile AkismetServiceConfiguration _akismetServiceConfiguration;
 	private volatile boolean _initialized;
 
 	@Reference
 	private MBMessageLocalService _mbMessageLocalService;
 
-	@Reference
-	private Portal _portal;
+	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
+	private ModuleServiceLifecycle _moduleServiceLifecycle;
 
+	@Reference
 	private SchedulerEngineHelper _schedulerEngineHelper;
+
 	private SchedulerEntryImpl _schedulerEntryImpl;
+
+	@Reference
 	private TriggerFactory _triggerFactory;
 
 }

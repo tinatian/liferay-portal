@@ -15,7 +15,6 @@
 package com.liferay.akismet.internal.portlet.action;
 
 import com.liferay.akismet.client.AkismetClient;
-import com.liferay.akismet.client.util.AkismetServiceConfigurationUtil;
 import com.liferay.message.boards.constants.MBPortletKeys;
 import com.liferay.message.boards.model.MBMessage;
 import com.liferay.message.boards.service.MBMessageLocalService;
@@ -36,8 +35,6 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import java.io.Serializable;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,6 +48,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Jamie Sammons
  */
 @Component(
+	enabled = false,
 	property = {
 		"javax.portlet.name=" + MBPortletKeys.MESSAGE_BOARDS,
 		"mvc.command.name=/message_boards/edit_message",
@@ -119,7 +117,7 @@ public class AkismetEditMessageMVCActionCommand extends BaseMVCActionCommand {
 			MBMessage message = _mbMessageLocalService.updateStatus(
 				themeDisplay.getUserId(), messageId,
 				WorkflowConstants.STATUS_DENIED, serviceContext,
-				new HashMap<String, Serializable>());
+				new HashMap<>());
 
 			List<MBMessage> threadMessages =
 				_mbMessageLocalService.getThreadMessages(
@@ -132,19 +130,15 @@ public class AkismetEditMessageMVCActionCommand extends BaseMVCActionCommand {
 				}
 			}
 
-			if (AkismetServiceConfigurationUtil.isMessageBoardsEnabled()) {
-				_akismetClient.submitSpam(message);
-			}
+			_akismetClient.submitSpam(message);
 		}
 		else {
 			MBMessage message = _mbMessageLocalService.updateStatus(
 				themeDisplay.getUserId(), messageId,
 				WorkflowConstants.STATUS_APPROVED, serviceContext,
-				new HashMap<String, Serializable>());
+				new HashMap<>());
 
-			if (AkismetServiceConfigurationUtil.isMessageBoardsEnabled()) {
-				_akismetClient.submitHam(message);
-			}
+			_akismetClient.submitHam(message);
 		}
 	}
 

@@ -15,8 +15,8 @@
 package com.liferay.akismet.internal.service;
 
 import com.liferay.akismet.client.AkismetClient;
-import com.liferay.akismet.client.constants.AkismetConstants;
-import com.liferay.akismet.client.util.AkismetServiceConfigurationUtil;
+import com.liferay.akismet.internal.client.constants.AkismetConstants;
+import com.liferay.akismet.internal.configuration.AkismetServiceConfiguration;
 import com.liferay.akismet.model.AkismetEntry;
 import com.liferay.akismet.service.AkismetEntryLocalService;
 import com.liferay.message.boards.constants.MBMessageConstants;
@@ -24,6 +24,7 @@ import com.liferay.message.boards.model.MBMessage;
 import com.liferay.message.boards.service.MBMessageLocalService;
 import com.liferay.message.boards.service.MBMessageLocalServiceWrapper;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
@@ -35,19 +36,25 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.InputStream;
-import java.io.Serializable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Jamie Sammons
  */
-@Component(immediate = true, property = {}, service = ServiceWrapper.class)
+@Component(
+	configurationPid = "com.liferay.akismet.internal.configuration.AkismetServiceConfiguration",
+	configurationPolicy = ConfigurationPolicy.REQUIRE, immediate = true,
+	property = {}, service = ServiceWrapper.class
+)
 public class AkismetMBMessageLocalServiceWrapper
 	extends MBMessageLocalServiceWrapper {
 
@@ -84,7 +91,7 @@ public class AkismetMBMessageLocalServiceWrapper
 		else {
 			super.updateStatus(
 				userId, message.getMessageId(), status, serviceContext,
-				new HashMap<String, Serializable>());
+				new HashMap<>());
 		}
 
 		return message;
@@ -104,6 +111,13 @@ public class AkismetMBMessageLocalServiceWrapper
 			MBMessageConstants.DEFAULT_PARENT_MESSAGE_ID, subject, body, format,
 			inputStreamOVPs, anonymous, priority, allowPingbacks,
 			serviceContext);
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_akismetServiceConfiguration = ConfigurableUtil.createConfigurable(
+			AkismetServiceConfiguration.class, properties);
 	}
 
 	private int _checkSpam(long messageId, ServiceContext serviceContext)
@@ -149,10 +163,9 @@ public class AkismetMBMessageLocalServiceWrapper
 	}
 
 	private boolean _isCheckSpamEnabled(
-			long userId, long groupId, ServiceContext serviceContext)
-		throws PortalException {
+		long userId, long groupId, ServiceContext serviceContext) {
 
-		if (!AkismetServiceConfigurationUtil.isMessageBoardsEnabled()) {
+		if (!_akismetServiceConfiguration.messageBoardsEnabled()) {
 			return false;
 		}
 
@@ -163,7 +176,7 @@ public class AkismetMBMessageLocalServiceWrapper
 		}
 
 		int checkThreshold =
-			AkismetServiceConfigurationUtil.getAkismetCheckThreshold();
+			_akismetServiceConfiguration.akismetCheckThreshold();
 
 		if (checkThreshold > 0) {
 			int count = super.getGroupMessagesCount(
@@ -201,6 +214,8 @@ public class AkismetMBMessageLocalServiceWrapper
 
 	@Reference
 	private AkismetEntryLocalService _akismetEntryLocalService;
+
+	private volatile AkismetServiceConfiguration _akismetServiceConfiguration;
 
 	@Reference
 	private MBMessageLocalService _mbMessageLocalService;
