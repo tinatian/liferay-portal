@@ -340,10 +340,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	@Override
 	public void clearCache() {
 		${entityCache}.clearCache(${entity.name}Impl.class);
-
-		${finderCache}.clearCache(FINDER_CLASS_NAME_ENTITY);
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -356,26 +352,12 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	@Override
 	public void clearCache(${entity.name} ${entity.varName}) {
 		${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}.getPrimaryKey());
-
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		<#if entity.uniqueEntityFinders?size &gt; 0>
-			clearUniqueFindersCache((${entity.name}ModelImpl)${entity.varName}, true);
-		</#if>
 	}
 
 	@Override
 	public void clearCache(List<${entity.name}> ${entity.pluralVarName}) {
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (${entity.name} ${entity.varName} : ${entity.pluralVarName}) {
 			${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}.getPrimaryKey());
-
-			<#if entity.uniqueEntityFinders?size &gt; 0>
-				clearUniqueFindersCache((${entity.name}ModelImpl)${entity.varName}, true);
-			</#if>
 		}
 	}
 
@@ -383,10 +365,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		@Override
 	</#if>
 	public void clearCache(Set<Serializable> primaryKeys) {
-		${finderCache}.clearCache(FINDER_CLASS_NAME_ENTITY);
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, primaryKey);
 		}
@@ -418,73 +396,6 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 
 				${finderCache}.putResult(_finderPathCountBy${uniqueEntityFinder.name}, args, Long.valueOf(1), false);
 				${finderCache}.putResult(_finderPathFetchBy${uniqueEntityFinder.name}, args, ${entity.varName}ModelImpl, false);
-			</#list>
-		}
-
-		protected void clearUniqueFindersCache(${entity.name}ModelImpl ${entity.varName}ModelImpl, boolean clearCurrent) {
-			<#list entity.uniqueEntityFinders as uniqueEntityFinder>
-				<#assign entityColumns = uniqueEntityFinder.entityColumns />
-
-				if (clearCurrent) {
-					Object[] args = new Object[] {
-						<#list entityColumns as entityColumn>
-							<#if stringUtil.equals(entityColumn.type, "boolean")>
-								${entity.varName}ModelImpl.is${entityColumn.methodName}()
-							<#elseif stringUtil.equals(entityColumn.type, "Date")>
-								_getTime(${entity.varName}ModelImpl.get${entityColumn.methodName}())
-							<#else>
-								${entity.varName}ModelImpl.get${entityColumn.methodName}()
-							</#if>
-
-							<#if entityColumn_has_next>
-								,
-							</#if>
-						</#list>
-					};
-
-					${finderCache}.removeResult(_finderPathCountBy${uniqueEntityFinder.name}, args);
-					${finderCache}.removeResult(_finderPathFetchBy${uniqueEntityFinder.name}, args);
-				}
-
-				if (
-					<#if columnBitmaskEnabled>
-						(${entity.varName}ModelImpl.getColumnBitmask() & _finderPathFetchBy${uniqueEntityFinder.name}.getColumnBitmask()) != 0
-					<#else>
-						<#list entityColumns as entityColumn>
-							<#if entityColumn.isPrimitiveType()>
-								<#if stringUtil.equals(entityColumn.type, "boolean")>
-									(${entity.varName}ModelImpl.is${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-								<#else>
-									(${entity.varName}ModelImpl.get${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-								</#if>
-							<#else>
-								!Objects.equals(${entity.varName}ModelImpl.get${entityColumn.methodName}(), ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-							</#if>
-
-							<#if entityColumn_has_next>
-								||
-							</#if>
-						</#list>
-					</#if>
-					) {
-
-					Object[] args = new Object[] {
-						<#list entityColumns as entityColumn>
-							<#if stringUtil.equals(entityColumn.type, "Date")>
-								_getTime(${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-							<#else>
-								${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}()
-							</#if>
-
-							<#if entityColumn_has_next>
-								,
-							</#if>
-						</#list>
-					};
-
-					${finderCache}.removeResult(_finderPathCountBy${uniqueEntityFinder.name}, args);
-					${finderCache}.removeResult(_finderPathFetchBy${uniqueEntityFinder.name}, args);
-				}
 			</#list>
 		}
 	</#if>
@@ -809,112 +720,9 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			}
 		</#if>
 
-		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		<#if columnBitmaskEnabled>
-			if (!${columnBitmaskCacheEnabled}) {
-				${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-			}
-			else
-		</#if>
-
-		if (isNew) {
-			<#if entity.finderEntityColumns?size &gt; 64>
-				${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-			<#else>
-				<#if columnBitmaskEnabled && (entity.collectionEntityFinders?size != 0)>
-					Object[]
-					<#list entity.collectionEntityFinders as entityFinder>
-						<#assign entityColumns = entityFinder.entityColumns />
-
-						args = new Object[] {
-							<#list entityColumns as entityColumn>
-								<#if stringUtil.equals(entityColumn.type, "boolean")>
-									${entity.varName}ModelImpl.is${entityColumn.methodName}()
-								<#else>
-									${entity.varName}ModelImpl.get${entityColumn.methodName}()
-								</#if>
-
-								<#if entityColumn_has_next>
-									,
-								</#if>
-							</#list>
-						};
-
-						${finderCache}.removeResult(_finderPathCountBy${entityFinder.name}, args);
-						${finderCache}.removeResult(_finderPathWithoutPaginationFindBy${entityFinder.name}, args);
-					</#list>
-				</#if>
-
-				${finderCache}.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-				${finderCache}.removeResult(_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-			</#if>
-		}
-
-		<#if entity.collectionEntityFinders?size != 0>
-			else {
-				<#list entity.collectionEntityFinders as entityFinder>
-					<#assign entityColumns = entityFinder.entityColumns />
-					if (
-						<#if columnBitmaskEnabled>
-							(${entity.varName}ModelImpl.getColumnBitmask() & _finderPathWithoutPaginationFindBy${entityFinder.name}.getColumnBitmask()) != 0
-						<#else>
-							<#list entityColumns as entityColumn>
-								<#if entityColumn.isPrimitiveType()>
-									<#if stringUtil.equals(entityColumn.type, "boolean")>
-										(${entity.varName}.is${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-									<#else>
-										(${entity.varName}.get${entityColumn.methodName}() != ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-									</#if>
-								<#else>
-									!Objects.equals(${entity.varName}.get${entityColumn.methodName}(), ${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}())
-								</#if>
-
-								<#if entityColumn_has_next>
-									||
-								</#if>
-							</#list>
-						</#if>
-						) {
-
-						Object[] args = new Object[] {
-							<#list entityColumns as entityColumn>
-								${entity.varName}ModelImpl.getOriginal${entityColumn.methodName}()
-
-								<#if entityColumn_has_next>
-									,
-								</#if>
-							</#list>
-						};
-
-						${finderCache}.removeResult(_finderPathCountBy${entityFinder.name}, args);
-						${finderCache}.removeResult(_finderPathWithoutPaginationFindBy${entityFinder.name}, args);
-
-						args = new Object[] {
-							<#list entityColumns as entityColumn>
-								<#if stringUtil.equals(entityColumn.type, "boolean")>
-									${entity.varName}ModelImpl.is${entityColumn.methodName}()
-								<#else>
-									${entity.varName}ModelImpl.get${entityColumn.methodName}()
-								</#if>
-
-								<#if entityColumn_has_next>
-									,
-								</#if>
-							</#list>
-						};
-
-						${finderCache}.removeResult(_finderPathCountBy${entityFinder.name}, args);
-						${finderCache}.removeResult(_finderPathWithoutPaginationFindBy${entityFinder.name}, args);
-					}
-				</#list>
-			}
-		</#if>
-
 		${entityCache}.putResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}.getPrimaryKey(), ${entity.varName}, false);
 
 		<#if entity.uniqueEntityFinders?size &gt; 0>
-			clearUniqueFindersCache(${entity.varName}ModelImpl, false);
 			cacheUniqueFindersCache(${entity.varName}ModelImpl);
 		</#if>
 
