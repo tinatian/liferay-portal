@@ -1485,10 +1485,6 @@ public class SyncDLFileVersionDiffPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SyncDLFileVersionDiffImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1503,37 +1499,21 @@ public class SyncDLFileVersionDiffPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SyncDLFileVersionDiffImpl.class,
 			syncDLFileVersionDiff.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SyncDLFileVersionDiffModelImpl)syncDLFileVersionDiff, true);
 	}
 
 	@Override
 	public void clearCache(List<SyncDLFileVersionDiff> syncDLFileVersionDiffs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SyncDLFileVersionDiff syncDLFileVersionDiff :
 				syncDLFileVersionDiffs) {
 
 			entityCache.removeResult(
 				entityCacheEnabled, SyncDLFileVersionDiffImpl.class,
 				syncDLFileVersionDiff.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SyncDLFileVersionDiffModelImpl)syncDLFileVersionDiff, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SyncDLFileVersionDiffImpl.class,
@@ -1555,35 +1535,6 @@ public class SyncDLFileVersionDiffPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByF_S_T, args, syncDLFileVersionDiffModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SyncDLFileVersionDiffModelImpl syncDLFileVersionDiffModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				syncDLFileVersionDiffModelImpl.getFileEntryId(),
-				syncDLFileVersionDiffModelImpl.getSourceFileVersionId(),
-				syncDLFileVersionDiffModelImpl.getTargetFileVersionId()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_S_T, args);
-			finderCache.removeResult(_finderPathFetchByF_S_T, args);
-		}
-
-		if ((syncDLFileVersionDiffModelImpl.getColumnBitmask() &
-			 _finderPathFetchByF_S_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				syncDLFileVersionDiffModelImpl.getOriginalFileEntryId(),
-				syncDLFileVersionDiffModelImpl.getOriginalSourceFileVersionId(),
-				syncDLFileVersionDiffModelImpl.getOriginalTargetFileVersionId()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_S_T, args);
-			finderCache.removeResult(_finderPathFetchByF_S_T, args);
-		}
 	}
 
 	/**
@@ -1744,53 +1695,11 @@ public class SyncDLFileVersionDiffPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				syncDLFileVersionDiffModelImpl.getFileEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByFileEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByFileEntryId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((syncDLFileVersionDiffModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFileEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					syncDLFileVersionDiffModelImpl.getOriginalFileEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFileEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFileEntryId, args);
-
-				args = new Object[] {
-					syncDLFileVersionDiffModelImpl.getFileEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFileEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFileEntryId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SyncDLFileVersionDiffImpl.class,
 			syncDLFileVersionDiff.getPrimaryKey(), syncDLFileVersionDiff,
 			false);
 
-		clearUniqueFindersCache(syncDLFileVersionDiffModelImpl, false);
 		cacheUniqueFindersCache(syncDLFileVersionDiffModelImpl);
 
 		syncDLFileVersionDiff.resetOriginalValues();

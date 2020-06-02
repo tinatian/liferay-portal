@@ -1592,10 +1592,6 @@ public class TicketPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(TicketImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1610,33 +1606,19 @@ public class TicketPersistenceImpl
 		EntityCacheUtil.removeResult(
 			TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
 			ticket.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((TicketModelImpl)ticket, true);
 	}
 
 	@Override
 	public void clearCache(List<Ticket> tickets) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Ticket ticket : tickets) {
 			EntityCacheUtil.removeResult(
 				TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
 				ticket.getPrimaryKey());
-
-			clearUniqueFindersCache((TicketModelImpl)ticket, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
@@ -1651,26 +1633,6 @@ public class TicketPersistenceImpl
 			_finderPathCountByKey, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByKey, args, ticketModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		TicketModelImpl ticketModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {ticketModelImpl.getKey()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByKey, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByKey, args);
-		}
-
-		if ((ticketModelImpl.getColumnBitmask() &
-			 _finderPathFetchByKey.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {ticketModelImpl.getOriginalKey()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByKey, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByKey, args);
-		}
 	}
 
 	/**
@@ -1814,94 +1776,10 @@ public class TicketPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!TicketModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				ticketModelImpl.getClassNameId(), ticketModelImpl.getClassPK(),
-				ticketModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C_T, args);
-
-			args = new Object[] {
-				ticketModelImpl.getCompanyId(),
-				ticketModelImpl.getClassNameId(), ticketModelImpl.getClassPK(),
-				ticketModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C_C_T, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ticketModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ticketModelImpl.getOriginalClassNameId(),
-					ticketModelImpl.getOriginalClassPK(),
-					ticketModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_T, args);
-
-				args = new Object[] {
-					ticketModelImpl.getClassNameId(),
-					ticketModelImpl.getClassPK(), ticketModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_T, args);
-			}
-
-			if ((ticketModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_C_T.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ticketModelImpl.getOriginalCompanyId(),
-					ticketModelImpl.getOriginalClassNameId(),
-					ticketModelImpl.getOriginalClassPK(),
-					ticketModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C_T, args);
-
-				args = new Object[] {
-					ticketModelImpl.getCompanyId(),
-					ticketModelImpl.getClassNameId(),
-					ticketModelImpl.getClassPK(), ticketModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C_T, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
 			ticket.getPrimaryKey(), ticket, false);
 
-		clearUniqueFindersCache(ticketModelImpl, false);
 		cacheUniqueFindersCache(ticketModelImpl);
 
 		ticket.resetOriginalValues();

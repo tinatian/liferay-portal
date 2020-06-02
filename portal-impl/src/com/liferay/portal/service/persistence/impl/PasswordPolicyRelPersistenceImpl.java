@@ -886,10 +886,6 @@ public class PasswordPolicyRelPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(PasswordPolicyRelImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -904,35 +900,19 @@ public class PasswordPolicyRelPersistenceImpl
 		EntityCacheUtil.removeResult(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelImpl.class, passwordPolicyRel.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(PasswordPolicyRelModelImpl)passwordPolicyRel, true);
 	}
 
 	@Override
 	public void clearCache(List<PasswordPolicyRel> passwordPolicyRels) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PasswordPolicyRel passwordPolicyRel : passwordPolicyRels) {
 			EntityCacheUtil.removeResult(
 				PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 				PasswordPolicyRelImpl.class, passwordPolicyRel.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(PasswordPolicyRelModelImpl)passwordPolicyRel, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
@@ -952,33 +932,6 @@ public class PasswordPolicyRelPersistenceImpl
 			_finderPathCountByC_C, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByC_C, args, passwordPolicyRelModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PasswordPolicyRelModelImpl passwordPolicyRelModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				passwordPolicyRelModelImpl.getClassNameId(),
-				passwordPolicyRelModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_C, args);
-		}
-
-		if ((passwordPolicyRelModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				passwordPolicyRelModelImpl.getOriginalClassNameId(),
-				passwordPolicyRelModelImpl.getOriginalClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_C, args);
-		}
 	}
 
 	/**
@@ -1134,58 +1087,11 @@ public class PasswordPolicyRelPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PasswordPolicyRelModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				passwordPolicyRelModelImpl.getPasswordPolicyId()
-			};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByPasswordPolicyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPasswordPolicyId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((passwordPolicyRelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPasswordPolicyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					passwordPolicyRelModelImpl.getOriginalPasswordPolicyId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByPasswordPolicyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPasswordPolicyId, args);
-
-				args = new Object[] {
-					passwordPolicyRelModelImpl.getPasswordPolicyId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByPasswordPolicyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPasswordPolicyId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelImpl.class, passwordPolicyRel.getPrimaryKey(),
 			passwordPolicyRel, false);
 
-		clearUniqueFindersCache(passwordPolicyRelModelImpl, false);
 		cacheUniqueFindersCache(passwordPolicyRelModelImpl);
 
 		passwordPolicyRel.resetOriginalValues();

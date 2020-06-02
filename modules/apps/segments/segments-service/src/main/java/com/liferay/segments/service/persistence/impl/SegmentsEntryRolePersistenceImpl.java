@@ -1396,10 +1396,6 @@ public class SegmentsEntryRolePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SegmentsEntryRoleImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1414,35 +1410,19 @@ public class SegmentsEntryRolePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SegmentsEntryRoleImpl.class,
 			segmentsEntryRole.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SegmentsEntryRoleModelImpl)segmentsEntryRole, true);
 	}
 
 	@Override
 	public void clearCache(List<SegmentsEntryRole> segmentsEntryRoles) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SegmentsEntryRole segmentsEntryRole : segmentsEntryRoles) {
 			entityCache.removeResult(
 				entityCacheEnabled, SegmentsEntryRoleImpl.class,
 				segmentsEntryRole.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SegmentsEntryRoleModelImpl)segmentsEntryRole, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SegmentsEntryRoleImpl.class, primaryKey);
@@ -1461,33 +1441,6 @@ public class SegmentsEntryRolePersistenceImpl
 			_finderPathCountByS_R, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByS_R, args, segmentsEntryRoleModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SegmentsEntryRoleModelImpl segmentsEntryRoleModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				segmentsEntryRoleModelImpl.getSegmentsEntryId(),
-				segmentsEntryRoleModelImpl.getRoleId()
-			};
-
-			finderCache.removeResult(_finderPathCountByS_R, args);
-			finderCache.removeResult(_finderPathFetchByS_R, args);
-		}
-
-		if ((segmentsEntryRoleModelImpl.getColumnBitmask() &
-			 _finderPathFetchByS_R.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				segmentsEntryRoleModelImpl.getOriginalSegmentsEntryId(),
-				segmentsEntryRoleModelImpl.getOriginalRoleId()
-			};
-
-			finderCache.removeResult(_finderPathCountByS_R, args);
-			finderCache.removeResult(_finderPathFetchByS_R, args);
-		}
 	}
 
 	/**
@@ -1668,79 +1621,10 @@ public class SegmentsEntryRolePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				segmentsEntryRoleModelImpl.getSegmentsEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountBySegmentsEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBySegmentsEntryId, args);
-
-			args = new Object[] {segmentsEntryRoleModelImpl.getRoleId()};
-
-			finderCache.removeResult(_finderPathCountByRoleId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByRoleId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((segmentsEntryRoleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySegmentsEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsEntryRoleModelImpl.getOriginalSegmentsEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountBySegmentsEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySegmentsEntryId, args);
-
-				args = new Object[] {
-					segmentsEntryRoleModelImpl.getSegmentsEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountBySegmentsEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySegmentsEntryId, args);
-			}
-
-			if ((segmentsEntryRoleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRoleId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsEntryRoleModelImpl.getOriginalRoleId()
-				};
-
-				finderCache.removeResult(_finderPathCountByRoleId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRoleId, args);
-
-				args = new Object[] {segmentsEntryRoleModelImpl.getRoleId()};
-
-				finderCache.removeResult(_finderPathCountByRoleId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRoleId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SegmentsEntryRoleImpl.class,
 			segmentsEntryRole.getPrimaryKey(), segmentsEntryRole, false);
 
-		clearUniqueFindersCache(segmentsEntryRoleModelImpl, false);
 		cacheUniqueFindersCache(segmentsEntryRoleModelImpl);
 
 		segmentsEntryRole.resetOriginalValues();

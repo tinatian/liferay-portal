@@ -941,10 +941,6 @@ public class LazyBlobEntityPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(LazyBlobEntityImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -959,34 +955,19 @@ public class LazyBlobEntityPersistenceImpl
 		entityCache.removeResult(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityImpl.class, lazyBlobEntity.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((LazyBlobEntityModelImpl)lazyBlobEntity, true);
 	}
 
 	@Override
 	public void clearCache(List<LazyBlobEntity> lazyBlobEntities) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (LazyBlobEntity lazyBlobEntity : lazyBlobEntities) {
 			entityCache.removeResult(
 				LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 				LazyBlobEntityImpl.class, lazyBlobEntity.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(LazyBlobEntityModelImpl)lazyBlobEntity, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
@@ -1006,32 +987,6 @@ public class LazyBlobEntityPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, lazyBlobEntityModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LazyBlobEntityModelImpl lazyBlobEntityModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				lazyBlobEntityModelImpl.getUuid(),
-				lazyBlobEntityModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((lazyBlobEntityModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				lazyBlobEntityModelImpl.getOriginalUuid(),
-				lazyBlobEntityModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -1195,49 +1150,11 @@ public class LazyBlobEntityPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!LazyBlobEntityModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {lazyBlobEntityModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((lazyBlobEntityModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					lazyBlobEntityModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {lazyBlobEntityModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityImpl.class, lazyBlobEntity.getPrimaryKey(),
 			lazyBlobEntity, false);
 
-		clearUniqueFindersCache(lazyBlobEntityModelImpl, false);
 		cacheUniqueFindersCache(lazyBlobEntityModelImpl);
 
 		lazyBlobEntity.resetOriginalValues();

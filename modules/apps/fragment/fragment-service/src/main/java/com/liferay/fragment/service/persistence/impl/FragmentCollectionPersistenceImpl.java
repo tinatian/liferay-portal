@@ -3474,10 +3474,6 @@ public class FragmentCollectionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(FragmentCollectionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3492,35 +3488,19 @@ public class FragmentCollectionPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, FragmentCollectionImpl.class,
 			fragmentCollection.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(FragmentCollectionModelImpl)fragmentCollection, true);
 	}
 
 	@Override
 	public void clearCache(List<FragmentCollection> fragmentCollections) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (FragmentCollection fragmentCollection : fragmentCollections) {
 			entityCache.removeResult(
 				entityCacheEnabled, FragmentCollectionImpl.class,
 				fragmentCollection.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(FragmentCollectionModelImpl)fragmentCollection, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, FragmentCollectionImpl.class, primaryKey);
@@ -3549,55 +3529,6 @@ public class FragmentCollectionPersistenceImpl
 			_finderPathCountByG_FCK, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_FCK, args, fragmentCollectionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		FragmentCollectionModelImpl fragmentCollectionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getUuid(),
-				fragmentCollectionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((fragmentCollectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalUuid(),
-				fragmentCollectionModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getGroupId(),
-				fragmentCollectionModelImpl.getFragmentCollectionKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_FCK, args);
-			finderCache.removeResult(_finderPathFetchByG_FCK, args);
-		}
-
-		if ((fragmentCollectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_FCK.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getOriginalGroupId(),
-				fragmentCollectionModelImpl.getOriginalFragmentCollectionKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_FCK, args);
-			finderCache.removeResult(_finderPathFetchByG_FCK, args);
-		}
 	}
 
 	/**
@@ -3790,107 +3721,10 @@ public class FragmentCollectionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				fragmentCollectionModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				fragmentCollectionModelImpl.getUuid(),
-				fragmentCollectionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {fragmentCollectionModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((fragmentCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {fragmentCollectionModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((fragmentCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalUuid(),
-					fragmentCollectionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					fragmentCollectionModelImpl.getUuid(),
-					fragmentCollectionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((fragmentCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					fragmentCollectionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {fragmentCollectionModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, FragmentCollectionImpl.class,
 			fragmentCollection.getPrimaryKey(), fragmentCollection, false);
 
-		clearUniqueFindersCache(fragmentCollectionModelImpl, false);
 		cacheUniqueFindersCache(fragmentCollectionModelImpl);
 
 		fragmentCollection.resetOriginalValues();

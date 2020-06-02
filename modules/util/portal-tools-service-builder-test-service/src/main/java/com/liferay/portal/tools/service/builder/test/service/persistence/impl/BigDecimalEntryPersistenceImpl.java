@@ -1788,10 +1788,6 @@ public class BigDecimalEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(BigDecimalEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1806,16 +1802,10 @@ public class BigDecimalEntryPersistenceImpl
 		entityCache.removeResult(
 			BigDecimalEntryModelImpl.ENTITY_CACHE_ENABLED,
 			BigDecimalEntryImpl.class, bigDecimalEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<BigDecimalEntry> bigDecimalEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BigDecimalEntry bigDecimalEntry : bigDecimalEntries) {
 			entityCache.removeResult(
 				BigDecimalEntryModelImpl.ENTITY_CACHE_ENABLED,
@@ -1825,10 +1815,6 @@ public class BigDecimalEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				BigDecimalEntryModelImpl.ENTITY_CACHE_ENABLED,
@@ -1987,49 +1973,6 @@ public class BigDecimalEntryPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!BigDecimalEntryModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				bigDecimalEntryModelImpl.getBigDecimalValue()
-			};
-
-			finderCache.removeResult(_finderPathCountByBigDecimalValue, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBigDecimalValue, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((bigDecimalEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBigDecimalValue.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					bigDecimalEntryModelImpl.getOriginalBigDecimalValue()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBigDecimalValue, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBigDecimalValue, args);
-
-				args = new Object[] {
-					bigDecimalEntryModelImpl.getBigDecimalValue()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBigDecimalValue, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBigDecimalValue, args);
-			}
 		}
 
 		entityCache.putResult(

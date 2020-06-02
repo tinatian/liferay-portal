@@ -5117,10 +5117,6 @@ public class ExpandoValuePersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(ExpandoValueImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5135,33 +5131,19 @@ public class ExpandoValuePersistenceImpl
 		EntityCacheUtil.removeResult(
 			ExpandoValueModelImpl.ENTITY_CACHE_ENABLED, ExpandoValueImpl.class,
 			expandoValue.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ExpandoValueModelImpl)expandoValue, true);
 	}
 
 	@Override
 	public void clearCache(List<ExpandoValue> expandoValues) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ExpandoValue expandoValue : expandoValues) {
 			EntityCacheUtil.removeResult(
 				ExpandoValueModelImpl.ENTITY_CACHE_ENABLED,
 				ExpandoValueImpl.class, expandoValue.getPrimaryKey());
-
-			clearUniqueFindersCache((ExpandoValueModelImpl)expandoValue, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				ExpandoValueModelImpl.ENTITY_CACHE_ENABLED,
@@ -5192,56 +5174,6 @@ public class ExpandoValuePersistenceImpl
 			_finderPathCountByT_C_C, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByT_C_C, args, expandoValueModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ExpandoValueModelImpl expandoValueModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				expandoValueModelImpl.getColumnId(),
-				expandoValueModelImpl.getRowId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_R, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_R, args);
-		}
-
-		if ((expandoValueModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_R.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				expandoValueModelImpl.getOriginalColumnId(),
-				expandoValueModelImpl.getOriginalRowId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_R, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_R, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				expandoValueModelImpl.getTableId(),
-				expandoValueModelImpl.getColumnId(),
-				expandoValueModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByT_C_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByT_C_C, args);
-		}
-
-		if ((expandoValueModelImpl.getColumnBitmask() &
-			 _finderPathFetchByT_C_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				expandoValueModelImpl.getOriginalTableId(),
-				expandoValueModelImpl.getOriginalColumnId(),
-				expandoValueModelImpl.getOriginalClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByT_C_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByT_C_C, args);
-		}
 	}
 
 	/**
@@ -5410,263 +5342,10 @@ public class ExpandoValuePersistenceImpl
 			return expandoValue;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ExpandoValueModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {expandoValueModelImpl.getTableId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByTableId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByTableId, args);
-
-			args = new Object[] {expandoValueModelImpl.getColumnId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByColumnId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByColumnId, args);
-
-			args = new Object[] {expandoValueModelImpl.getRowId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByRowId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByRowId, args);
-
-			args = new Object[] {
-				expandoValueModelImpl.getTableId(),
-				expandoValueModelImpl.getColumnId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByT_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByT_C, args);
-
-			args = new Object[] {
-				expandoValueModelImpl.getTableId(),
-				expandoValueModelImpl.getRowId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByT_R, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByT_R, args);
-
-			args = new Object[] {
-				expandoValueModelImpl.getTableId(),
-				expandoValueModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByT_CPK, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByT_CPK, args);
-
-			args = new Object[] {
-				expandoValueModelImpl.getClassNameId(),
-				expandoValueModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			args = new Object[] {
-				expandoValueModelImpl.getTableId(),
-				expandoValueModelImpl.getColumnId(),
-				expandoValueModelImpl.getData()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByT_C_D, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByT_C_D, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTableId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByTableId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByTableId, args);
-
-				args = new Object[] {expandoValueModelImpl.getTableId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByTableId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByTableId, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByColumnId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalColumnId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByColumnId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByColumnId, args);
-
-				args = new Object[] {expandoValueModelImpl.getColumnId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByColumnId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByColumnId, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRowId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalRowId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByRowId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByRowId, args);
-
-				args = new Object[] {expandoValueModelImpl.getRowId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByRowId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByRowId, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByT_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalColumnId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_C, args);
-
-				args = new Object[] {
-					expandoValueModelImpl.getTableId(),
-					expandoValueModelImpl.getColumnId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_C, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByT_R.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalRowId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_R, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_R, args);
-
-				args = new Object[] {
-					expandoValueModelImpl.getTableId(),
-					expandoValueModelImpl.getRowId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_R, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_R, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByT_CPK.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_CPK, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_CPK, args);
-
-				args = new Object[] {
-					expandoValueModelImpl.getTableId(),
-					expandoValueModelImpl.getClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_CPK, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_CPK, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalClassNameId(),
-					expandoValueModelImpl.getOriginalClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					expandoValueModelImpl.getClassNameId(),
-					expandoValueModelImpl.getClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
-
-			if ((expandoValueModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByT_C_D.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					expandoValueModelImpl.getOriginalTableId(),
-					expandoValueModelImpl.getOriginalColumnId(),
-					expandoValueModelImpl.getOriginalData()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_C_D, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_C_D, args);
-
-				args = new Object[] {
-					expandoValueModelImpl.getTableId(),
-					expandoValueModelImpl.getColumnId(),
-					expandoValueModelImpl.getData()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByT_C_D, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByT_C_D, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			ExpandoValueModelImpl.ENTITY_CACHE_ENABLED, ExpandoValueImpl.class,
 			expandoValue.getPrimaryKey(), expandoValue, false);
 
-		clearUniqueFindersCache(expandoValueModelImpl, false);
 		cacheUniqueFindersCache(expandoValueModelImpl);
 
 		expandoValue.resetOriginalValues();

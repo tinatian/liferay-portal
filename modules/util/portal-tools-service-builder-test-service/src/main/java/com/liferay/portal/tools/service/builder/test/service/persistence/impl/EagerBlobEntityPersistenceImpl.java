@@ -943,10 +943,6 @@ public class EagerBlobEntityPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(EagerBlobEntityImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -961,35 +957,19 @@ public class EagerBlobEntityPersistenceImpl
 		entityCache.removeResult(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityImpl.class, eagerBlobEntity.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(EagerBlobEntityModelImpl)eagerBlobEntity, true);
 	}
 
 	@Override
 	public void clearCache(List<EagerBlobEntity> eagerBlobEntities) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (EagerBlobEntity eagerBlobEntity : eagerBlobEntities) {
 			entityCache.removeResult(
 				EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 				EagerBlobEntityImpl.class, eagerBlobEntity.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(EagerBlobEntityModelImpl)eagerBlobEntity, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
@@ -1009,36 +989,6 @@ public class EagerBlobEntityPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, eagerBlobEntityModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		EagerBlobEntityModelImpl eagerBlobEntityModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				eagerBlobEntityModelImpl.getUuid(),
-				eagerBlobEntityModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (!Objects.equals(
-				eagerBlobEntityModelImpl.getUuid(),
-				eagerBlobEntityModelImpl.getOriginalUuid()) ||
-			(eagerBlobEntityModelImpl.getGroupId() !=
-				eagerBlobEntityModelImpl.getOriginalGroupId())) {
-
-			Object[] args = new Object[] {
-				eagerBlobEntityModelImpl.getOriginalUuid(),
-				eagerBlobEntityModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -1199,40 +1149,11 @@ public class EagerBlobEntityPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if (!Objects.equals(
-					eagerBlobEntity.getUuid(),
-					eagerBlobEntityModelImpl.getOriginalUuid())) {
-
-				Object[] args = new Object[] {
-					eagerBlobEntityModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {eagerBlobEntityModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityImpl.class, eagerBlobEntity.getPrimaryKey(),
 			eagerBlobEntity, false);
 
-		clearUniqueFindersCache(eagerBlobEntityModelImpl, false);
 		cacheUniqueFindersCache(eagerBlobEntityModelImpl);
 
 		eagerBlobEntity.resetOriginalValues();

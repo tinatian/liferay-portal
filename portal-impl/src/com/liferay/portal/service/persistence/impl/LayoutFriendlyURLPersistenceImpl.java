@@ -5496,10 +5496,6 @@ public class LayoutFriendlyURLPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(LayoutFriendlyURLImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5514,35 +5510,19 @@ public class LayoutFriendlyURLPersistenceImpl
 		EntityCacheUtil.removeResult(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLImpl.class, layoutFriendlyURL.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(LayoutFriendlyURLModelImpl)layoutFriendlyURL, true);
 	}
 
 	@Override
 	public void clearCache(List<LayoutFriendlyURL> layoutFriendlyURLs) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (LayoutFriendlyURL layoutFriendlyURL : layoutFriendlyURLs) {
 			EntityCacheUtil.removeResult(
 				LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 				LayoutFriendlyURLImpl.class, layoutFriendlyURL.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(LayoutFriendlyURLModelImpl)layoutFriendlyURL, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
@@ -5584,81 +5564,6 @@ public class LayoutFriendlyURLPersistenceImpl
 			_finderPathCountByG_P_F_L, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_P_F_L, args, layoutFriendlyURLModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LayoutFriendlyURLModelImpl layoutFriendlyURLModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getUuid(),
-				layoutFriendlyURLModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalUuid(),
-				layoutFriendlyURLModelImpl.getOriginalGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getPlid(),
-				layoutFriendlyURLModelImpl.getLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByP_L, args);
-		}
-
-		if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByP_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalPlid(),
-				layoutFriendlyURLModelImpl.getOriginalLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByP_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getGroupId(),
-				layoutFriendlyURLModelImpl.isPrivateLayout(),
-				layoutFriendlyURLModelImpl.getFriendlyURL(),
-				layoutFriendlyURLModelImpl.getLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_F_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_P_F_L, args);
-		}
-
-		if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_P_F_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalGroupId(),
-				layoutFriendlyURLModelImpl.getOriginalPrivateLayout(),
-				layoutFriendlyURLModelImpl.getOriginalFriendlyURL(),
-				layoutFriendlyURLModelImpl.getOriginalLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_F_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_P_F_L, args);
-		}
 	}
 
 	/**
@@ -5870,257 +5775,11 @@ public class LayoutFriendlyURLPersistenceImpl
 			return layoutFriendlyURL;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!LayoutFriendlyURLModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {layoutFriendlyURLModelImpl.getUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getUuid(),
-				layoutFriendlyURLModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {layoutFriendlyURLModelImpl.getGroupId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {layoutFriendlyURLModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {layoutFriendlyURLModelImpl.getPlid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPlid, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getPlid(),
-				layoutFriendlyURLModelImpl.getFriendlyURL()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByP_F, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getPlid(),
-				layoutFriendlyURLModelImpl.getLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByP_L, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getGroupId(),
-				layoutFriendlyURLModelImpl.isPrivateLayout(),
-				layoutFriendlyURLModelImpl.getFriendlyURL()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_P_F, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalUuid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalUuid(),
-					layoutFriendlyURLModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getUuid(),
-					layoutFriendlyURLModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPlid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPlid, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getPlid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPlid, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByP_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid(),
-					layoutFriendlyURLModelImpl.getOriginalFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_F, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getPlid(),
-					layoutFriendlyURLModelImpl.getFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_F, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByP_L.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid(),
-					layoutFriendlyURLModelImpl.getOriginalLanguageId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_L, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getPlid(),
-					layoutFriendlyURLModelImpl.getLanguageId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_L, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_P_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalGroupId(),
-					layoutFriendlyURLModelImpl.getOriginalPrivateLayout(),
-					layoutFriendlyURLModelImpl.getOriginalFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_P_F, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getGroupId(),
-					layoutFriendlyURLModelImpl.isPrivateLayout(),
-					layoutFriendlyURLModelImpl.getFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_P_F, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLImpl.class, layoutFriendlyURL.getPrimaryKey(),
 			layoutFriendlyURL, false);
 
-		clearUniqueFindersCache(layoutFriendlyURLModelImpl, false);
 		cacheUniqueFindersCache(layoutFriendlyURLModelImpl);
 
 		layoutFriendlyURL.resetOriginalValues();

@@ -3241,10 +3241,6 @@ public class SocialActivityAchievementPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(SocialActivityAchievementImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3262,21 +3258,11 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
 			socialActivityAchievement.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SocialActivityAchievementModelImpl)socialActivityAchievement,
-			true);
 	}
 
 	@Override
 	public void clearCache(
 		List<SocialActivityAchievement> socialActivityAchievements) {
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (SocialActivityAchievement socialActivityAchievement :
 				socialActivityAchievements) {
@@ -3285,19 +3271,11 @@ public class SocialActivityAchievementPersistenceImpl
 				SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 				SocialActivityAchievementImpl.class,
 				socialActivityAchievement.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SocialActivityAchievementModelImpl)socialActivityAchievement,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
@@ -3319,35 +3297,6 @@ public class SocialActivityAchievementPersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_U_N, args, socialActivityAchievementModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SocialActivityAchievementModelImpl socialActivityAchievementModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				socialActivityAchievementModelImpl.getGroupId(),
-				socialActivityAchievementModelImpl.getUserId(),
-				socialActivityAchievementModelImpl.getName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U_N, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_U_N, args);
-		}
-
-		if ((socialActivityAchievementModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_U_N.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				socialActivityAchievementModelImpl.getOriginalGroupId(),
-				socialActivityAchievementModelImpl.getOriginalUserId(),
-				socialActivityAchievementModelImpl.getOriginalName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U_N, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_U_N, args);
-		}
 	}
 
 	/**
@@ -3511,187 +3460,12 @@ public class SocialActivityAchievementPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!SocialActivityAchievementModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				socialActivityAchievementModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				socialActivityAchievementModelImpl.getGroupId(),
-				socialActivityAchievementModelImpl.getUserId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_U, args);
-
-			args = new Object[] {
-				socialActivityAchievementModelImpl.getGroupId(),
-				socialActivityAchievementModelImpl.getName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_N, args);
-
-			args = new Object[] {
-				socialActivityAchievementModelImpl.getGroupId(),
-				socialActivityAchievementModelImpl.isFirstInGroup()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_F, args);
-
-			args = new Object[] {
-				socialActivityAchievementModelImpl.getGroupId(),
-				socialActivityAchievementModelImpl.getUserId(),
-				socialActivityAchievementModelImpl.isFirstInGroup()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U_F, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_U_F, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((socialActivityAchievementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					socialActivityAchievementModelImpl.getGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((socialActivityAchievementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-
-				args = new Object[] {
-					socialActivityAchievementModelImpl.getGroupId(),
-					socialActivityAchievementModelImpl.getUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-			}
-
-			if ((socialActivityAchievementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_N.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalName()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_N, args);
-
-				args = new Object[] {
-					socialActivityAchievementModelImpl.getGroupId(),
-					socialActivityAchievementModelImpl.getName()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_N, args);
-			}
-
-			if ((socialActivityAchievementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalFirstInGroup()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_F, args);
-
-				args = new Object[] {
-					socialActivityAchievementModelImpl.getGroupId(),
-					socialActivityAchievementModelImpl.isFirstInGroup()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_F, args);
-			}
-
-			if ((socialActivityAchievementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialActivityAchievementModelImpl.getOriginalGroupId(),
-					socialActivityAchievementModelImpl.getOriginalUserId(),
-					socialActivityAchievementModelImpl.getOriginalFirstInGroup()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U_F, args);
-
-				args = new Object[] {
-					socialActivityAchievementModelImpl.getGroupId(),
-					socialActivityAchievementModelImpl.getUserId(),
-					socialActivityAchievementModelImpl.isFirstInGroup()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U_F, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
 			socialActivityAchievement.getPrimaryKey(),
 			socialActivityAchievement, false);
 
-		clearUniqueFindersCache(socialActivityAchievementModelImpl, false);
 		cacheUniqueFindersCache(socialActivityAchievementModelImpl);
 
 		socialActivityAchievement.resetOriginalValues();

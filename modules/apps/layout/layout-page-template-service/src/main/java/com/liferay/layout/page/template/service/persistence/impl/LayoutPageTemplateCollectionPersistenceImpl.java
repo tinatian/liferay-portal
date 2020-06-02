@@ -4082,10 +4082,6 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(LayoutPageTemplateCollectionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -4102,21 +4098,11 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, LayoutPageTemplateCollectionImpl.class,
 			layoutPageTemplateCollection.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(LayoutPageTemplateCollectionModelImpl)layoutPageTemplateCollection,
-			true);
 	}
 
 	@Override
 	public void clearCache(
 		List<LayoutPageTemplateCollection> layoutPageTemplateCollections) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (LayoutPageTemplateCollection layoutPageTemplateCollection :
 				layoutPageTemplateCollections) {
@@ -4124,20 +4110,11 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, LayoutPageTemplateCollectionImpl.class,
 				layoutPageTemplateCollection.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(LayoutPageTemplateCollectionModelImpl)
-					layoutPageTemplateCollection,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, LayoutPageTemplateCollectionImpl.class,
@@ -4182,80 +4159,6 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByG_N, args, layoutPageTemplateCollectionModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LayoutPageTemplateCollectionModelImpl
-			layoutPageTemplateCollectionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getUuid(),
-				layoutPageTemplateCollectionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((layoutPageTemplateCollectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getOriginalUuid(),
-				layoutPageTemplateCollectionModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getGroupId(),
-				layoutPageTemplateCollectionModelImpl.
-					getLayoutPageTemplateCollectionKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_LPTCK, args);
-			finderCache.removeResult(_finderPathFetchByG_LPTCK, args);
-		}
-
-		if ((layoutPageTemplateCollectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_LPTCK.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getOriginalGroupId(),
-				layoutPageTemplateCollectionModelImpl.
-					getOriginalLayoutPageTemplateCollectionKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_LPTCK, args);
-			finderCache.removeResult(_finderPathFetchByG_LPTCK, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getGroupId(),
-				layoutPageTemplateCollectionModelImpl.getName()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_N, args);
-			finderCache.removeResult(_finderPathFetchByG_N, args);
-		}
-
-		if ((layoutPageTemplateCollectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getOriginalGroupId(),
-				layoutPageTemplateCollectionModelImpl.getOriginalName()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_N, args);
-			finderCache.removeResult(_finderPathFetchByG_N, args);
-		}
 	}
 
 	/**
@@ -4462,114 +4365,11 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getUuid(),
-				layoutPageTemplateCollectionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				layoutPageTemplateCollectionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((layoutPageTemplateCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutPageTemplateCollectionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {
-					layoutPageTemplateCollectionModelImpl.getUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((layoutPageTemplateCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutPageTemplateCollectionModelImpl.getOriginalUuid(),
-					layoutPageTemplateCollectionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					layoutPageTemplateCollectionModelImpl.getUuid(),
-					layoutPageTemplateCollectionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((layoutPageTemplateCollectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					layoutPageTemplateCollectionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					layoutPageTemplateCollectionModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, LayoutPageTemplateCollectionImpl.class,
 			layoutPageTemplateCollection.getPrimaryKey(),
 			layoutPageTemplateCollection, false);
 
-		clearUniqueFindersCache(layoutPageTemplateCollectionModelImpl, false);
 		cacheUniqueFindersCache(layoutPageTemplateCollectionModelImpl);
 
 		layoutPageTemplateCollection.resetOriginalValues();

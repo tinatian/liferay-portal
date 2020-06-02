@@ -2512,10 +2512,6 @@ public class AppPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AppImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2529,32 +2525,18 @@ public class AppPersistenceImpl
 	public void clearCache(App app) {
 		entityCache.removeResult(
 			entityCacheEnabled, AppImpl.class, app.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((AppModelImpl)app, true);
 	}
 
 	@Override
 	public void clearCache(List<App> apps) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (App app : apps) {
 			entityCache.removeResult(
 				entityCacheEnabled, AppImpl.class, app.getPrimaryKey());
-
-			clearUniqueFindersCache((AppModelImpl)app, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AppImpl.class, primaryKey);
@@ -2568,28 +2550,6 @@ public class AppPersistenceImpl
 			_finderPathCountByRemoteAppId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByRemoteAppId, args, appModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AppModelImpl appModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {appModelImpl.getRemoteAppId()};
-
-			finderCache.removeResult(_finderPathCountByRemoteAppId, args);
-			finderCache.removeResult(_finderPathFetchByRemoteAppId, args);
-		}
-
-		if ((appModelImpl.getColumnBitmask() &
-			 _finderPathFetchByRemoteAppId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				appModelImpl.getOriginalRemoteAppId()
-			};
-
-			finderCache.removeResult(_finderPathCountByRemoteAppId, args);
-			finderCache.removeResult(_finderPathFetchByRemoteAppId, args);
-		}
 	}
 
 	/**
@@ -2765,125 +2725,9 @@ public class AppPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {appModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				appModelImpl.getUuid(), appModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {appModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {appModelImpl.getCategory()};
-
-			finderCache.removeResult(_finderPathCountByCategory, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCategory, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((appModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {appModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {appModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((appModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					appModelImpl.getOriginalUuid(),
-					appModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					appModelImpl.getUuid(), appModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((appModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					appModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {appModelImpl.getCompanyId()};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((appModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCategory.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					appModelImpl.getOriginalCategory()
-				};
-
-				finderCache.removeResult(_finderPathCountByCategory, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCategory, args);
-
-				args = new Object[] {appModelImpl.getCategory()};
-
-				finderCache.removeResult(_finderPathCountByCategory, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCategory, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, AppImpl.class, app.getPrimaryKey(), app, false);
 
-		clearUniqueFindersCache(appModelImpl, false);
 		cacheUniqueFindersCache(appModelImpl);
 
 		app.resetOriginalValues();

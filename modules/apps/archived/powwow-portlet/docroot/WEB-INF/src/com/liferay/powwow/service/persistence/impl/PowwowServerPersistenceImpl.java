@@ -727,10 +727,6 @@ public class PowwowServerPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(PowwowServerImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -745,16 +741,10 @@ public class PowwowServerPersistenceImpl
 		EntityCacheUtil.removeResult(
 			PowwowServerModelImpl.ENTITY_CACHE_ENABLED, PowwowServerImpl.class,
 			powwowServer.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<PowwowServer> powwowServers) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PowwowServer powwowServer : powwowServers) {
 			EntityCacheUtil.removeResult(
 				PowwowServerModelImpl.ENTITY_CACHE_ENABLED,
@@ -764,10 +754,6 @@ public class PowwowServerPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				PowwowServerModelImpl.ENTITY_CACHE_ENABLED,
@@ -945,52 +931,6 @@ public class PowwowServerPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PowwowServerModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				powwowServerModelImpl.getProviderType(),
-				powwowServerModelImpl.isActive()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByPT_A, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPT_A, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((powwowServerModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPT_A.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					powwowServerModelImpl.getOriginalProviderType(),
-					powwowServerModelImpl.getOriginalActive()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPT_A, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPT_A, args);
-
-				args = new Object[] {
-					powwowServerModelImpl.getProviderType(),
-					powwowServerModelImpl.isActive()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPT_A, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPT_A, args);
-			}
 		}
 
 		EntityCacheUtil.putResult(

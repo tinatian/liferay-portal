@@ -133,10 +133,6 @@ public class TestEntityPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(TestEntityImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -151,16 +147,10 @@ public class TestEntityPersistenceImpl
 		entityCache.removeResult(
 			TestEntityModelImpl.ENTITY_CACHE_ENABLED, TestEntityImpl.class,
 			testEntity.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<TestEntity> testEntities) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (TestEntity testEntity : testEntities) {
 			entityCache.removeResult(
 				TestEntityModelImpl.ENTITY_CACHE_ENABLED, TestEntityImpl.class,
@@ -170,10 +160,6 @@ public class TestEntityPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				TestEntityModelImpl.ENTITY_CACHE_ENABLED, TestEntityImpl.class,
@@ -303,14 +289,6 @@ public class TestEntityPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(

@@ -2644,10 +2644,6 @@ public class DEDataListViewPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DEDataListViewImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2662,34 +2658,19 @@ public class DEDataListViewPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, DEDataListViewImpl.class,
 			deDataListView.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((DEDataListViewModelImpl)deDataListView, true);
 	}
 
 	@Override
 	public void clearCache(List<DEDataListView> deDataListViews) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DEDataListView deDataListView : deDataListViews) {
 			entityCache.removeResult(
 				entityCacheEnabled, DEDataListViewImpl.class,
 				deDataListView.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DEDataListViewModelImpl)deDataListView, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DEDataListViewImpl.class, primaryKey);
@@ -2708,32 +2689,6 @@ public class DEDataListViewPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, deDataListViewModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DEDataListViewModelImpl deDataListViewModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				deDataListViewModelImpl.getUuid(),
-				deDataListViewModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((deDataListViewModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				deDataListViewModelImpl.getOriginalUuid(),
-				deDataListViewModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -2919,144 +2874,10 @@ public class DEDataListViewPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {deDataListViewModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				deDataListViewModelImpl.getUuid(),
-				deDataListViewModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {deDataListViewModelImpl.getDdmStructureId()};
-
-			finderCache.removeResult(_finderPathCountByDDMStructureId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByDDMStructureId, args);
-
-			args = new Object[] {
-				deDataListViewModelImpl.getGroupId(),
-				deDataListViewModelImpl.getCompanyId(),
-				deDataListViewModelImpl.getDdmStructureId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C_DDMSI, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((deDataListViewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {deDataListViewModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((deDataListViewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalUuid(),
-					deDataListViewModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					deDataListViewModelImpl.getUuid(),
-					deDataListViewModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((deDataListViewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByDDMStructureId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalDdmStructureId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByDDMStructureId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDDMStructureId, args);
-
-				args = new Object[] {
-					deDataListViewModelImpl.getDdmStructureId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByDDMStructureId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDDMStructureId, args);
-			}
-
-			if ((deDataListViewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_DDMSI.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					deDataListViewModelImpl.getOriginalGroupId(),
-					deDataListViewModelImpl.getOriginalCompanyId(),
-					deDataListViewModelImpl.getOriginalDdmStructureId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_DDMSI, args);
-
-				args = new Object[] {
-					deDataListViewModelImpl.getGroupId(),
-					deDataListViewModelImpl.getCompanyId(),
-					deDataListViewModelImpl.getDdmStructureId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_DDMSI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_DDMSI, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DEDataListViewImpl.class,
 			deDataListView.getPrimaryKey(), deDataListView, false);
 
-		clearUniqueFindersCache(deDataListViewModelImpl, false);
 		cacheUniqueFindersCache(deDataListViewModelImpl);
 
 		deDataListView.resetOriginalValues();

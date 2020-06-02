@@ -2056,10 +2056,6 @@ public class DDMStructureLinkPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DDMStructureLinkImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2074,35 +2070,19 @@ public class DDMStructureLinkPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, DDMStructureLinkImpl.class,
 			ddmStructureLink.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DDMStructureLinkModelImpl)ddmStructureLink, true);
 	}
 
 	@Override
 	public void clearCache(List<DDMStructureLink> ddmStructureLinks) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DDMStructureLink ddmStructureLink : ddmStructureLinks) {
 			entityCache.removeResult(
 				entityCacheEnabled, DDMStructureLinkImpl.class,
 				ddmStructureLink.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DDMStructureLinkModelImpl)ddmStructureLink, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DDMStructureLinkImpl.class, primaryKey);
@@ -2122,35 +2102,6 @@ public class DDMStructureLinkPersistenceImpl
 			_finderPathCountByC_C_S, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_C_S, args, ddmStructureLinkModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DDMStructureLinkModelImpl ddmStructureLinkModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ddmStructureLinkModelImpl.getClassNameId(),
-				ddmStructureLinkModelImpl.getClassPK(),
-				ddmStructureLinkModelImpl.getStructureId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_S, args);
-			finderCache.removeResult(_finderPathFetchByC_C_S, args);
-		}
-
-		if ((ddmStructureLinkModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C_S.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ddmStructureLinkModelImpl.getOriginalClassNameId(),
-				ddmStructureLinkModelImpl.getOriginalClassPK(),
-				ddmStructureLinkModelImpl.getOriginalStructureId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_S, args);
-			finderCache.removeResult(_finderPathFetchByC_C_S, args);
-		}
 	}
 
 	/**
@@ -2324,111 +2275,10 @@ public class DDMStructureLinkPersistenceImpl
 			return ddmStructureLink;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				ddmStructureLinkModelImpl.getClassNameId()
-			};
-
-			finderCache.removeResult(_finderPathCountByClassNameId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByClassNameId, args);
-
-			args = new Object[] {ddmStructureLinkModelImpl.getStructureId()};
-
-			finderCache.removeResult(_finderPathCountByStructureId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStructureId, args);
-
-			args = new Object[] {
-				ddmStructureLinkModelImpl.getClassNameId(),
-				ddmStructureLinkModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ddmStructureLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByClassNameId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmStructureLinkModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByClassNameId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByClassNameId, args);
-
-				args = new Object[] {
-					ddmStructureLinkModelImpl.getClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByClassNameId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByClassNameId, args);
-			}
-
-			if ((ddmStructureLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStructureId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmStructureLinkModelImpl.getOriginalStructureId()
-				};
-
-				finderCache.removeResult(_finderPathCountByStructureId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStructureId, args);
-
-				args = new Object[] {
-					ddmStructureLinkModelImpl.getStructureId()
-				};
-
-				finderCache.removeResult(_finderPathCountByStructureId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStructureId, args);
-			}
-
-			if ((ddmStructureLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ddmStructureLinkModelImpl.getOriginalClassNameId(),
-					ddmStructureLinkModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					ddmStructureLinkModelImpl.getClassNameId(),
-					ddmStructureLinkModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DDMStructureLinkImpl.class,
 			ddmStructureLink.getPrimaryKey(), ddmStructureLink, false);
 
-		clearUniqueFindersCache(ddmStructureLinkModelImpl, false);
 		cacheUniqueFindersCache(ddmStructureLinkModelImpl);
 
 		ddmStructureLink.resetOriginalValues();

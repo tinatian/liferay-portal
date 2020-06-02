@@ -5903,10 +5903,6 @@ public class SegmentsExperimentPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SegmentsExperimentImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5921,35 +5917,19 @@ public class SegmentsExperimentPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SegmentsExperimentImpl.class,
 			segmentsExperiment.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SegmentsExperimentModelImpl)segmentsExperiment, true);
 	}
 
 	@Override
 	public void clearCache(List<SegmentsExperiment> segmentsExperiments) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SegmentsExperiment segmentsExperiment : segmentsExperiments) {
 			entityCache.removeResult(
 				entityCacheEnabled, SegmentsExperimentImpl.class,
 				segmentsExperiment.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SegmentsExperimentModelImpl)segmentsExperiment, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SegmentsExperimentImpl.class, primaryKey);
@@ -5978,55 +5958,6 @@ public class SegmentsExperimentPersistenceImpl
 			_finderPathCountByG_S, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_S, args, segmentsExperimentModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SegmentsExperimentModelImpl segmentsExperimentModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getUuid(),
-				segmentsExperimentModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((segmentsExperimentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getOriginalUuid(),
-				segmentsExperimentModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getGroupId(),
-				segmentsExperimentModelImpl.getSegmentsExperimentKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(_finderPathFetchByG_S, args);
-		}
-
-		if ((segmentsExperimentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getOriginalGroupId(),
-				segmentsExperimentModelImpl.getOriginalSegmentsExperimentKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(_finderPathFetchByG_S, args);
-		}
 	}
 
 	/**
@@ -6219,252 +6150,10 @@ public class SegmentsExperimentPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getUuid(),
-				segmentsExperimentModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {segmentsExperimentModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getSegmentsExperimentKey()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountBySegmentsExperimentKey, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBySegmentsExperimentKey, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getGroupId(),
-				segmentsExperimentModelImpl.getClassNameId(),
-				segmentsExperimentModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C_C, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getSegmentsExperienceId(),
-				segmentsExperimentModelImpl.getClassNameId(),
-				segmentsExperimentModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByS_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByS_C_C, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getSegmentsExperienceId(),
-				segmentsExperimentModelImpl.getClassNameId(),
-				segmentsExperimentModelImpl.getClassPK(),
-				segmentsExperimentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByS_C_C_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByS_C_C_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {segmentsExperimentModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalUuid(),
-					segmentsExperimentModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getUuid(),
-					segmentsExperimentModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {segmentsExperimentModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySegmentsExperimentKey.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperimentKey()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountBySegmentsExperimentKey, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySegmentsExperimentKey,
-					args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getSegmentsExperimentKey()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountBySegmentsExperimentKey, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySegmentsExperimentKey,
-					args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalGroupId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_C, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getGroupId(),
-					segmentsExperimentModelImpl.getClassNameId(),
-					segmentsExperimentModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_C, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByS_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getClassNameId(),
-					segmentsExperimentModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByS_C_C_S.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK(),
-					segmentsExperimentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C_S, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getClassNameId(),
-					segmentsExperimentModelImpl.getClassPK(),
-					segmentsExperimentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SegmentsExperimentImpl.class,
 			segmentsExperiment.getPrimaryKey(), segmentsExperiment, false);
 
-		clearUniqueFindersCache(segmentsExperimentModelImpl, false);
 		cacheUniqueFindersCache(segmentsExperimentModelImpl);
 
 		segmentsExperiment.resetOriginalValues();

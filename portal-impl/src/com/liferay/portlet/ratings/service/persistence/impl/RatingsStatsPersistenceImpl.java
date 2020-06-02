@@ -777,10 +777,6 @@ public class RatingsStatsPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(RatingsStatsImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -795,33 +791,19 @@ public class RatingsStatsPersistenceImpl
 		EntityCacheUtil.removeResult(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED, RatingsStatsImpl.class,
 			ratingsStats.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((RatingsStatsModelImpl)ratingsStats, true);
 	}
 
 	@Override
 	public void clearCache(List<RatingsStats> ratingsStatses) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (RatingsStats ratingsStats : ratingsStatses) {
 			EntityCacheUtil.removeResult(
 				RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 				RatingsStatsImpl.class, ratingsStats.getPrimaryKey());
-
-			clearUniqueFindersCache((RatingsStatsModelImpl)ratingsStats, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
@@ -841,32 +823,6 @@ public class RatingsStatsPersistenceImpl
 			_finderPathCountByC_C, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByC_C, args, ratingsStatsModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RatingsStatsModelImpl ratingsStatsModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ratingsStatsModelImpl.getClassNameId(),
-				ratingsStatsModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_C, args);
-		}
-
-		if ((ratingsStatsModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ratingsStatsModelImpl.getOriginalClassNameId(),
-				ratingsStatsModelImpl.getOriginalClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_C, args);
-		}
 	}
 
 	/**
@@ -1059,57 +1015,10 @@ public class RatingsStatsPersistenceImpl
 			return ratingsStats;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!RatingsStatsModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				ratingsStatsModelImpl.getClassNameId(),
-				ratingsStatsModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ratingsStatsModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ratingsStatsModelImpl.getOriginalClassNameId(),
-					ratingsStatsModelImpl.getOriginalClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					ratingsStatsModelImpl.getClassNameId(),
-					ratingsStatsModelImpl.getClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED, RatingsStatsImpl.class,
 			ratingsStats.getPrimaryKey(), ratingsStats, false);
 
-		clearUniqueFindersCache(ratingsStatsModelImpl, false);
 		cacheUniqueFindersCache(ratingsStatsModelImpl);
 
 		ratingsStats.resetOriginalValues();

@@ -759,10 +759,6 @@ public class WeDeployAuthAppPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(WeDeployAuthAppImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -777,35 +773,19 @@ public class WeDeployAuthAppPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, WeDeployAuthAppImpl.class,
 			weDeployAuthApp.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(WeDeployAuthAppModelImpl)weDeployAuthApp, true);
 	}
 
 	@Override
 	public void clearCache(List<WeDeployAuthApp> weDeployAuthApps) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (WeDeployAuthApp weDeployAuthApp : weDeployAuthApps) {
 			entityCache.removeResult(
 				entityCacheEnabled, WeDeployAuthAppImpl.class,
 				weDeployAuthApp.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(WeDeployAuthAppModelImpl)weDeployAuthApp, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, WeDeployAuthAppImpl.class, primaryKey);
@@ -834,55 +814,6 @@ public class WeDeployAuthAppPersistenceImpl
 			_finderPathCountByCI_CS, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByCI_CS, args, weDeployAuthAppModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		WeDeployAuthAppModelImpl weDeployAuthAppModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				weDeployAuthAppModelImpl.getRedirectURI(),
-				weDeployAuthAppModelImpl.getClientId()
-			};
-
-			finderCache.removeResult(_finderPathCountByRU_CI, args);
-			finderCache.removeResult(_finderPathFetchByRU_CI, args);
-		}
-
-		if ((weDeployAuthAppModelImpl.getColumnBitmask() &
-			 _finderPathFetchByRU_CI.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				weDeployAuthAppModelImpl.getOriginalRedirectURI(),
-				weDeployAuthAppModelImpl.getOriginalClientId()
-			};
-
-			finderCache.removeResult(_finderPathCountByRU_CI, args);
-			finderCache.removeResult(_finderPathFetchByRU_CI, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				weDeployAuthAppModelImpl.getClientId(),
-				weDeployAuthAppModelImpl.getClientSecret()
-			};
-
-			finderCache.removeResult(_finderPathCountByCI_CS, args);
-			finderCache.removeResult(_finderPathFetchByCI_CS, args);
-		}
-
-		if ((weDeployAuthAppModelImpl.getColumnBitmask() &
-			 _finderPathFetchByCI_CS.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				weDeployAuthAppModelImpl.getOriginalClientId(),
-				weDeployAuthAppModelImpl.getOriginalClientSecret()
-			};
-
-			finderCache.removeResult(_finderPathCountByCI_CS, args);
-			finderCache.removeResult(_finderPathFetchByCI_CS, args);
-		}
 	}
 
 	/**
@@ -1060,22 +991,10 @@ public class WeDeployAuthAppPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, WeDeployAuthAppImpl.class,
 			weDeployAuthApp.getPrimaryKey(), weDeployAuthApp, false);
 
-		clearUniqueFindersCache(weDeployAuthAppModelImpl, false);
 		cacheUniqueFindersCache(weDeployAuthAppModelImpl);
 
 		weDeployAuthApp.resetOriginalValues();

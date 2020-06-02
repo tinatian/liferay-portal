@@ -1405,10 +1405,6 @@ public class AnnouncementsFlagPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(AnnouncementsFlagImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1423,35 +1419,19 @@ public class AnnouncementsFlagPersistenceImpl
 		EntityCacheUtil.removeResult(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagImpl.class, announcementsFlag.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(AnnouncementsFlagModelImpl)announcementsFlag, true);
 	}
 
 	@Override
 	public void clearCache(List<AnnouncementsFlag> announcementsFlags) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AnnouncementsFlag announcementsFlag : announcementsFlags) {
 			EntityCacheUtil.removeResult(
 				AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 				AnnouncementsFlagImpl.class, announcementsFlag.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(AnnouncementsFlagModelImpl)announcementsFlag, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
@@ -1472,35 +1452,6 @@ public class AnnouncementsFlagPersistenceImpl
 			_finderPathCountByU_E_V, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByU_E_V, args, announcementsFlagModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AnnouncementsFlagModelImpl announcementsFlagModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				announcementsFlagModelImpl.getUserId(),
-				announcementsFlagModelImpl.getEntryId(),
-				announcementsFlagModelImpl.getValue()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_E_V, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_E_V, args);
-		}
-
-		if ((announcementsFlagModelImpl.getColumnBitmask() &
-			 _finderPathFetchByU_E_V.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				announcementsFlagModelImpl.getOriginalUserId(),
-				announcementsFlagModelImpl.getOriginalEntryId(),
-				announcementsFlagModelImpl.getOriginalValue()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_E_V, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_E_V, args);
-		}
 	}
 
 	/**
@@ -1654,78 +1605,11 @@ public class AnnouncementsFlagPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!AnnouncementsFlagModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				announcementsFlagModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {announcementsFlagModelImpl.getEntryId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByEntryId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByEntryId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((announcementsFlagModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					announcementsFlagModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {announcementsFlagModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((announcementsFlagModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					announcementsFlagModelImpl.getOriginalEntryId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByEntryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByEntryId, args);
-
-				args = new Object[] {announcementsFlagModelImpl.getEntryId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByEntryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByEntryId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagImpl.class, announcementsFlag.getPrimaryKey(),
 			announcementsFlag, false);
 
-		clearUniqueFindersCache(announcementsFlagModelImpl, false);
 		cacheUniqueFindersCache(announcementsFlagModelImpl);
 
 		announcementsFlag.resetOriginalValues();

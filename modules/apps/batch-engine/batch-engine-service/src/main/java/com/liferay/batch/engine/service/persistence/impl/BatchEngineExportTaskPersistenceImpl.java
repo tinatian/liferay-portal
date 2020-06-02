@@ -1856,10 +1856,6 @@ public class BatchEngineExportTaskPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(BatchEngineExportTaskImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1874,16 +1870,10 @@ public class BatchEngineExportTaskPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, BatchEngineExportTaskImpl.class,
 			batchEngineExportTask.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<BatchEngineExportTask> batchEngineExportTasks) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BatchEngineExportTask batchEngineExportTask :
 				batchEngineExportTasks) {
 
@@ -1895,10 +1885,6 @@ public class BatchEngineExportTaskPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, BatchEngineExportTaskImpl.class,
@@ -2100,106 +2086,6 @@ public class BatchEngineExportTaskPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				batchEngineExportTaskModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				batchEngineExportTaskModelImpl.getUuid(),
-				batchEngineExportTaskModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				batchEngineExportTaskModelImpl.getExecuteStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByExecuteStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByExecuteStatus, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((batchEngineExportTaskModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					batchEngineExportTaskModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {batchEngineExportTaskModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((batchEngineExportTaskModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					batchEngineExportTaskModelImpl.getOriginalUuid(),
-					batchEngineExportTaskModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					batchEngineExportTaskModelImpl.getUuid(),
-					batchEngineExportTaskModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((batchEngineExportTaskModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByExecuteStatus.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					batchEngineExportTaskModelImpl.getOriginalExecuteStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByExecuteStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByExecuteStatus, args);
-
-				args = new Object[] {
-					batchEngineExportTaskModelImpl.getExecuteStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByExecuteStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByExecuteStatus, args);
-			}
 		}
 
 		entityCache.putResult(

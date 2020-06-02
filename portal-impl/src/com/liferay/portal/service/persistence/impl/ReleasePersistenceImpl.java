@@ -388,10 +388,6 @@ public class ReleasePersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(ReleaseImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -406,33 +402,19 @@ public class ReleasePersistenceImpl
 		EntityCacheUtil.removeResult(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED, ReleaseImpl.class,
 			release.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ReleaseModelImpl)release, true);
 	}
 
 	@Override
 	public void clearCache(List<Release> releases) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Release release : releases) {
 			EntityCacheUtil.removeResult(
 				ReleaseModelImpl.ENTITY_CACHE_ENABLED, ReleaseImpl.class,
 				release.getPrimaryKey());
-
-			clearUniqueFindersCache((ReleaseModelImpl)release, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				ReleaseModelImpl.ENTITY_CACHE_ENABLED, ReleaseImpl.class,
@@ -448,34 +430,6 @@ public class ReleasePersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByServletContextName, args, releaseModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ReleaseModelImpl releaseModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				releaseModelImpl.getServletContextName()
-			};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByServletContextName, args);
-			FinderCacheUtil.removeResult(
-				_finderPathFetchByServletContextName, args);
-		}
-
-		if ((releaseModelImpl.getColumnBitmask() &
-			 _finderPathFetchByServletContextName.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				releaseModelImpl.getOriginalServletContextName()
-			};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByServletContextName, args);
-			FinderCacheUtil.removeResult(
-				_finderPathFetchByServletContextName, args);
-		}
 	}
 
 	/**
@@ -643,24 +597,10 @@ public class ReleasePersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ReleaseModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		EntityCacheUtil.putResult(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED, ReleaseImpl.class,
 			release.getPrimaryKey(), release, false);
 
-		clearUniqueFindersCache(releaseModelImpl, false);
 		cacheUniqueFindersCache(releaseModelImpl);
 
 		release.resetOriginalValues();

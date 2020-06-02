@@ -1678,10 +1678,6 @@ public class DLFileVersionPreviewPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DLFileVersionPreviewImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1696,37 +1692,21 @@ public class DLFileVersionPreviewPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, DLFileVersionPreviewImpl.class,
 			dlFileVersionPreview.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DLFileVersionPreviewModelImpl)dlFileVersionPreview, true);
 	}
 
 	@Override
 	public void clearCache(List<DLFileVersionPreview> dlFileVersionPreviews) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DLFileVersionPreview dlFileVersionPreview :
 				dlFileVersionPreviews) {
 
 			entityCache.removeResult(
 				entityCacheEnabled, DLFileVersionPreviewImpl.class,
 				dlFileVersionPreview.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DLFileVersionPreviewModelImpl)dlFileVersionPreview, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DLFileVersionPreviewImpl.class, primaryKey);
@@ -1757,57 +1737,6 @@ public class DLFileVersionPreviewPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByF_F_P, args, dlFileVersionPreviewModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DLFileVersionPreviewModelImpl dlFileVersionPreviewModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getFileEntryId(),
-				dlFileVersionPreviewModelImpl.getFileVersionId()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_F, args);
-			finderCache.removeResult(_finderPathFetchByF_F, args);
-		}
-
-		if ((dlFileVersionPreviewModelImpl.getColumnBitmask() &
-			 _finderPathFetchByF_F.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getOriginalFileEntryId(),
-				dlFileVersionPreviewModelImpl.getOriginalFileVersionId()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_F, args);
-			finderCache.removeResult(_finderPathFetchByF_F, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getFileEntryId(),
-				dlFileVersionPreviewModelImpl.getFileVersionId(),
-				dlFileVersionPreviewModelImpl.getPreviewStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_F_P, args);
-			finderCache.removeResult(_finderPathFetchByF_F_P, args);
-		}
-
-		if ((dlFileVersionPreviewModelImpl.getColumnBitmask() &
-			 _finderPathFetchByF_F_P.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getOriginalFileEntryId(),
-				dlFileVersionPreviewModelImpl.getOriginalFileVersionId(),
-				dlFileVersionPreviewModelImpl.getOriginalPreviewStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_F_P, args);
-			finderCache.removeResult(_finderPathFetchByF_F_P, args);
-		}
 	}
 
 	/**
@@ -1966,81 +1895,10 @@ public class DLFileVersionPreviewPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				dlFileVersionPreviewModelImpl.getFileEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByFileEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByFileEntryId, args);
-
-			args = new Object[] {
-				dlFileVersionPreviewModelImpl.getFileVersionId()
-			};
-
-			finderCache.removeResult(_finderPathCountByFileVersionId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByFileVersionId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((dlFileVersionPreviewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFileEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					dlFileVersionPreviewModelImpl.getOriginalFileEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFileEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFileEntryId, args);
-
-				args = new Object[] {
-					dlFileVersionPreviewModelImpl.getFileEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFileEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFileEntryId, args);
-			}
-
-			if ((dlFileVersionPreviewModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFileVersionId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					dlFileVersionPreviewModelImpl.getOriginalFileVersionId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFileVersionId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFileVersionId, args);
-
-				args = new Object[] {
-					dlFileVersionPreviewModelImpl.getFileVersionId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFileVersionId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFileVersionId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DLFileVersionPreviewImpl.class,
 			dlFileVersionPreview.getPrimaryKey(), dlFileVersionPreview, false);
 
-		clearUniqueFindersCache(dlFileVersionPreviewModelImpl, false);
 		cacheUniqueFindersCache(dlFileVersionPreviewModelImpl);
 
 		dlFileVersionPreview.resetOriginalValues();

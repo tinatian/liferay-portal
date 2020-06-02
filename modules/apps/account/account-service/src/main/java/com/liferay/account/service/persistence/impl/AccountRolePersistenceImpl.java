@@ -1629,10 +1629,6 @@ public class AccountRolePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AccountRoleImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1647,33 +1643,19 @@ public class AccountRolePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, AccountRoleImpl.class,
 			accountRole.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((AccountRoleModelImpl)accountRole, true);
 	}
 
 	@Override
 	public void clearCache(List<AccountRole> accountRoles) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AccountRole accountRole : accountRoles) {
 			entityCache.removeResult(
 				entityCacheEnabled, AccountRoleImpl.class,
 				accountRole.getPrimaryKey());
-
-			clearUniqueFindersCache((AccountRoleModelImpl)accountRole, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AccountRoleImpl.class, primaryKey);
@@ -1689,28 +1671,6 @@ public class AccountRolePersistenceImpl
 			_finderPathCountByRoleId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByRoleId, args, accountRoleModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AccountRoleModelImpl accountRoleModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {accountRoleModelImpl.getRoleId()};
-
-			finderCache.removeResult(_finderPathCountByRoleId, args);
-			finderCache.removeResult(_finderPathFetchByRoleId, args);
-		}
-
-		if ((accountRoleModelImpl.getColumnBitmask() &
-			 _finderPathFetchByRoleId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				accountRoleModelImpl.getOriginalRoleId()
-			};
-
-			finderCache.removeResult(_finderPathCountByRoleId, args);
-			finderCache.removeResult(_finderPathFetchByRoleId, args);
-		}
 	}
 
 	/**
@@ -1858,75 +1818,10 @@ public class AccountRolePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {accountRoleModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {accountRoleModelImpl.getAccountEntryId()};
-
-			finderCache.removeResult(_finderPathCountByAccountEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAccountEntryId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((accountRoleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					accountRoleModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {accountRoleModelImpl.getCompanyId()};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((accountRoleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAccountEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					accountRoleModelImpl.getOriginalAccountEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAccountEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAccountEntryId, args);
-
-				args = new Object[] {accountRoleModelImpl.getAccountEntryId()};
-
-				finderCache.removeResult(
-					_finderPathCountByAccountEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAccountEntryId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, AccountRoleImpl.class,
 			accountRole.getPrimaryKey(), accountRole, false);
 
-		clearUniqueFindersCache(accountRoleModelImpl, false);
 		cacheUniqueFindersCache(accountRoleModelImpl);
 
 		accountRole.resetOriginalValues();

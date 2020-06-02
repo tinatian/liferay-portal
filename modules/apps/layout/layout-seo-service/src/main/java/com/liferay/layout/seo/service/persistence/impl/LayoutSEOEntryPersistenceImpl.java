@@ -1804,10 +1804,6 @@ public class LayoutSEOEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(LayoutSEOEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1822,34 +1818,19 @@ public class LayoutSEOEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, LayoutSEOEntryImpl.class,
 			layoutSEOEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((LayoutSEOEntryModelImpl)layoutSEOEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<LayoutSEOEntry> layoutSEOEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (LayoutSEOEntry layoutSEOEntry : layoutSEOEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, LayoutSEOEntryImpl.class,
 				layoutSEOEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(LayoutSEOEntryModelImpl)layoutSEOEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, LayoutSEOEntryImpl.class, primaryKey);
@@ -1879,56 +1860,6 @@ public class LayoutSEOEntryPersistenceImpl
 			_finderPathCountByG_P_L, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_P_L, args, layoutSEOEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LayoutSEOEntryModelImpl layoutSEOEntryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutSEOEntryModelImpl.getUuid(),
-				layoutSEOEntryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((layoutSEOEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutSEOEntryModelImpl.getOriginalUuid(),
-				layoutSEOEntryModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutSEOEntryModelImpl.getGroupId(),
-				layoutSEOEntryModelImpl.isPrivateLayout(),
-				layoutSEOEntryModelImpl.getLayoutId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_P_L, args);
-			finderCache.removeResult(_finderPathFetchByG_P_L, args);
-		}
-
-		if ((layoutSEOEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_P_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutSEOEntryModelImpl.getOriginalGroupId(),
-				layoutSEOEntryModelImpl.getOriginalPrivateLayout(),
-				layoutSEOEntryModelImpl.getOriginalLayoutId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_P_L, args);
-			finderCache.removeResult(_finderPathFetchByG_P_L, args);
-		}
 	}
 
 	/**
@@ -2114,80 +2045,10 @@ public class LayoutSEOEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {layoutSEOEntryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				layoutSEOEntryModelImpl.getUuid(),
-				layoutSEOEntryModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((layoutSEOEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutSEOEntryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {layoutSEOEntryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((layoutSEOEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutSEOEntryModelImpl.getOriginalUuid(),
-					layoutSEOEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					layoutSEOEntryModelImpl.getUuid(),
-					layoutSEOEntryModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, LayoutSEOEntryImpl.class,
 			layoutSEOEntry.getPrimaryKey(), layoutSEOEntry, false);
 
-		clearUniqueFindersCache(layoutSEOEntryModelImpl, false);
 		cacheUniqueFindersCache(layoutSEOEntryModelImpl);
 
 		layoutSEOEntry.resetOriginalValues();

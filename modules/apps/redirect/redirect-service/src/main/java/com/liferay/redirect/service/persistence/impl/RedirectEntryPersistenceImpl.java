@@ -3718,10 +3718,6 @@ public class RedirectEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(RedirectEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3736,34 +3732,19 @@ public class RedirectEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, RedirectEntryImpl.class,
 			redirectEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((RedirectEntryModelImpl)redirectEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<RedirectEntry> redirectEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (RedirectEntry redirectEntry : redirectEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, RedirectEntryImpl.class,
 				redirectEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(RedirectEntryModelImpl)redirectEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, RedirectEntryImpl.class, primaryKey);
@@ -3792,54 +3773,6 @@ public class RedirectEntryPersistenceImpl
 			_finderPathCountByG_S, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_S, args, redirectEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RedirectEntryModelImpl redirectEntryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				redirectEntryModelImpl.getUuid(),
-				redirectEntryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((redirectEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				redirectEntryModelImpl.getOriginalUuid(),
-				redirectEntryModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				redirectEntryModelImpl.getGroupId(),
-				redirectEntryModelImpl.getSourceURL()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(_finderPathFetchByG_S, args);
-		}
-
-		if ((redirectEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				redirectEntryModelImpl.getOriginalGroupId(),
-				redirectEntryModelImpl.getOriginalSourceURL()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(_finderPathFetchByG_S, args);
-		}
 	}
 
 	/**
@@ -4057,137 +3990,10 @@ public class RedirectEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {redirectEntryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				redirectEntryModelImpl.getUuid(),
-				redirectEntryModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {redirectEntryModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				redirectEntryModelImpl.getGroupId(),
-				redirectEntryModelImpl.getDestinationURL()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_D, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_D, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((redirectEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {redirectEntryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((redirectEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalUuid(),
-					redirectEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					redirectEntryModelImpl.getUuid(),
-					redirectEntryModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((redirectEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {redirectEntryModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((redirectEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_D.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					redirectEntryModelImpl.getOriginalGroupId(),
-					redirectEntryModelImpl.getOriginalDestinationURL()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D, args);
-
-				args = new Object[] {
-					redirectEntryModelImpl.getGroupId(),
-					redirectEntryModelImpl.getDestinationURL()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, RedirectEntryImpl.class,
 			redirectEntry.getPrimaryKey(), redirectEntry, false);
 
-		clearUniqueFindersCache(redirectEntryModelImpl, false);
 		cacheUniqueFindersCache(redirectEntryModelImpl);
 
 		redirectEntry.resetOriginalValues();

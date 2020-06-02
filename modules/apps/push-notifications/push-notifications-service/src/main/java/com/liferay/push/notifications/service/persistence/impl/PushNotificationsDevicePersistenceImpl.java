@@ -1292,10 +1292,6 @@ public class PushNotificationsDevicePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(PushNotificationsDeviceImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1310,20 +1306,11 @@ public class PushNotificationsDevicePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, PushNotificationsDeviceImpl.class,
 			pushNotificationsDevice.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(PushNotificationsDeviceModelImpl)pushNotificationsDevice, true);
 	}
 
 	@Override
 	public void clearCache(
 		List<PushNotificationsDevice> pushNotificationsDevices) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (PushNotificationsDevice pushNotificationsDevice :
 				pushNotificationsDevices) {
@@ -1331,19 +1318,11 @@ public class PushNotificationsDevicePersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, PushNotificationsDeviceImpl.class,
 				pushNotificationsDevice.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(PushNotificationsDeviceModelImpl)pushNotificationsDevice,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, PushNotificationsDeviceImpl.class,
@@ -1363,31 +1342,6 @@ public class PushNotificationsDevicePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByToken, args, pushNotificationsDeviceModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PushNotificationsDeviceModelImpl pushNotificationsDeviceModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getToken()
-			};
-
-			finderCache.removeResult(_finderPathCountByToken, args);
-			finderCache.removeResult(_finderPathFetchByToken, args);
-		}
-
-		if ((pushNotificationsDeviceModelImpl.getColumnBitmask() &
-			 _finderPathFetchByToken.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getOriginalToken()
-			};
-
-			finderCache.removeResult(_finderPathCountByToken, args);
-			finderCache.removeResult(_finderPathFetchByToken, args);
-		}
 	}
 
 	/**
@@ -1549,56 +1503,11 @@ public class PushNotificationsDevicePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getUserId(),
-				pushNotificationsDeviceModelImpl.getPlatform()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByU_P, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((pushNotificationsDeviceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_P.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					pushNotificationsDeviceModelImpl.getOriginalUserId(),
-					pushNotificationsDeviceModelImpl.getOriginalPlatform()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_P, args);
-
-				args = new Object[] {
-					pushNotificationsDeviceModelImpl.getUserId(),
-					pushNotificationsDeviceModelImpl.getPlatform()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_P, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, PushNotificationsDeviceImpl.class,
 			pushNotificationsDevice.getPrimaryKey(), pushNotificationsDevice,
 			false);
 
-		clearUniqueFindersCache(pushNotificationsDeviceModelImpl, false);
 		cacheUniqueFindersCache(pushNotificationsDeviceModelImpl);
 
 		pushNotificationsDevice.resetOriginalValues();

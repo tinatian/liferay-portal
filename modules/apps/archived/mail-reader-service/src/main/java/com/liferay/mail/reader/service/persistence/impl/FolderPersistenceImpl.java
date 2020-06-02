@@ -913,10 +913,6 @@ public class FolderPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(FolderImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -930,32 +926,18 @@ public class FolderPersistenceImpl
 	public void clearCache(Folder folder) {
 		entityCache.removeResult(
 			entityCacheEnabled, FolderImpl.class, folder.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((FolderModelImpl)folder, true);
 	}
 
 	@Override
 	public void clearCache(List<Folder> folders) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Folder folder : folders) {
 			entityCache.removeResult(
 				entityCacheEnabled, FolderImpl.class, folder.getPrimaryKey());
-
-			clearUniqueFindersCache((FolderModelImpl)folder, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, FolderImpl.class, primaryKey);
@@ -971,31 +953,6 @@ public class FolderPersistenceImpl
 			_finderPathCountByA_F, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByA_F, args, folderModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		FolderModelImpl folderModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				folderModelImpl.getAccountId(), folderModelImpl.getFullName()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_F, args);
-			finderCache.removeResult(_finderPathFetchByA_F, args);
-		}
-
-		if ((folderModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_F.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				folderModelImpl.getOriginalAccountId(),
-				folderModelImpl.getOriginalFullName()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_F, args);
-			finderCache.removeResult(_finderPathFetchByA_F, args);
-		}
 	}
 
 	/**
@@ -1162,48 +1119,10 @@ public class FolderPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {folderModelImpl.getAccountId()};
-
-			finderCache.removeResult(_finderPathCountByAccountId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAccountId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((folderModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAccountId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					folderModelImpl.getOriginalAccountId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAccountId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAccountId, args);
-
-				args = new Object[] {folderModelImpl.getAccountId()};
-
-				finderCache.removeResult(_finderPathCountByAccountId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAccountId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, FolderImpl.class, folder.getPrimaryKey(),
 			folder, false);
 
-		clearUniqueFindersCache(folderModelImpl, false);
 		cacheUniqueFindersCache(folderModelImpl);
 
 		folder.resetOriginalValues();

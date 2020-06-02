@@ -2463,10 +2463,6 @@ public class CalendarNotificationTemplatePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(CalendarNotificationTemplateImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2483,21 +2479,11 @@ public class CalendarNotificationTemplatePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, CalendarNotificationTemplateImpl.class,
 			calendarNotificationTemplate.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(CalendarNotificationTemplateModelImpl)calendarNotificationTemplate,
-			true);
 	}
 
 	@Override
 	public void clearCache(
 		List<CalendarNotificationTemplate> calendarNotificationTemplates) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (CalendarNotificationTemplate calendarNotificationTemplate :
 				calendarNotificationTemplates) {
@@ -2505,20 +2491,11 @@ public class CalendarNotificationTemplatePersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, CalendarNotificationTemplateImpl.class,
 				calendarNotificationTemplate.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(CalendarNotificationTemplateModelImpl)
-					calendarNotificationTemplate,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, CalendarNotificationTemplateImpl.class,
@@ -2552,61 +2529,6 @@ public class CalendarNotificationTemplatePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_NT_NTT, args,
 			calendarNotificationTemplateModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CalendarNotificationTemplateModelImpl
-			calendarNotificationTemplateModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getUuid(),
-				calendarNotificationTemplateModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((calendarNotificationTemplateModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getOriginalUuid(),
-				calendarNotificationTemplateModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getCalendarId(),
-				calendarNotificationTemplateModelImpl.getNotificationType(),
-				calendarNotificationTemplateModelImpl.
-					getNotificationTemplateType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_NT_NTT, args);
-			finderCache.removeResult(_finderPathFetchByC_NT_NTT, args);
-		}
-
-		if ((calendarNotificationTemplateModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_NT_NTT.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getOriginalCalendarId(),
-				calendarNotificationTemplateModelImpl.
-					getOriginalNotificationType(),
-				calendarNotificationTemplateModelImpl.
-					getOriginalNotificationTemplateType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_NT_NTT, args);
-			finderCache.removeResult(_finderPathFetchByC_NT_NTT, args);
-		}
 	}
 
 	/**
@@ -2813,115 +2735,11 @@ public class CalendarNotificationTemplatePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				calendarNotificationTemplateModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				calendarNotificationTemplateModelImpl.getUuid(),
-				calendarNotificationTemplateModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				calendarNotificationTemplateModelImpl.getCalendarId()
-			};
-
-			finderCache.removeResult(_finderPathCountByCalendarId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCalendarId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((calendarNotificationTemplateModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					calendarNotificationTemplateModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {
-					calendarNotificationTemplateModelImpl.getUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((calendarNotificationTemplateModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					calendarNotificationTemplateModelImpl.getOriginalUuid(),
-					calendarNotificationTemplateModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					calendarNotificationTemplateModelImpl.getUuid(),
-					calendarNotificationTemplateModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((calendarNotificationTemplateModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCalendarId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					calendarNotificationTemplateModelImpl.
-						getOriginalCalendarId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCalendarId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCalendarId, args);
-
-				args = new Object[] {
-					calendarNotificationTemplateModelImpl.getCalendarId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCalendarId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCalendarId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, CalendarNotificationTemplateImpl.class,
 			calendarNotificationTemplate.getPrimaryKey(),
 			calendarNotificationTemplate, false);
 
-		clearUniqueFindersCache(calendarNotificationTemplateModelImpl, false);
 		cacheUniqueFindersCache(calendarNotificationTemplateModelImpl);
 
 		calendarNotificationTemplate.resetOriginalValues();

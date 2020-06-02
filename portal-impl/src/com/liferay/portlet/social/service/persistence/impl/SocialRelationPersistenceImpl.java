@@ -5714,10 +5714,6 @@ public class SocialRelationPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(SocialRelationImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5732,34 +5728,19 @@ public class SocialRelationPersistenceImpl
 		EntityCacheUtil.removeResult(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationImpl.class, socialRelation.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((SocialRelationModelImpl)socialRelation, true);
 	}
 
 	@Override
 	public void clearCache(List<SocialRelation> socialRelations) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SocialRelation socialRelation : socialRelations) {
 			EntityCacheUtil.removeResult(
 				SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 				SocialRelationImpl.class, socialRelation.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SocialRelationModelImpl)socialRelation, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
@@ -5780,34 +5761,6 @@ public class SocialRelationPersistenceImpl
 			_finderPathCountByU1_U2_T, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByU1_U2_T, args, socialRelationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SocialRelationModelImpl socialRelationModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				socialRelationModelImpl.getUserId1(),
-				socialRelationModelImpl.getUserId2(),
-				socialRelationModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU1_U2_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU1_U2_T, args);
-		}
-
-		if ((socialRelationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByU1_U2_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				socialRelationModelImpl.getOriginalUserId1(),
-				socialRelationModelImpl.getOriginalUserId2(),
-				socialRelationModelImpl.getOriginalType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU1_U2_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU1_U2_T, args);
-		}
 	}
 
 	/**
@@ -5969,311 +5922,11 @@ public class SocialRelationPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!SocialRelationModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {socialRelationModelImpl.getUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				socialRelationModelImpl.getUuid(),
-				socialRelationModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {socialRelationModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {socialRelationModelImpl.getUserId1()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId1, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId1, args);
-
-			args = new Object[] {socialRelationModelImpl.getUserId2()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId2, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId2, args);
-
-			args = new Object[] {socialRelationModelImpl.getType()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByType, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByType, args);
-
-			args = new Object[] {
-				socialRelationModelImpl.getCompanyId(),
-				socialRelationModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_T, args);
-
-			args = new Object[] {
-				socialRelationModelImpl.getUserId1(),
-				socialRelationModelImpl.getUserId2()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU1_U2, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByU1_U2, args);
-
-			args = new Object[] {
-				socialRelationModelImpl.getUserId1(),
-				socialRelationModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU1_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByU1_T, args);
-
-			args = new Object[] {
-				socialRelationModelImpl.getUserId2(),
-				socialRelationModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU2_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByU2_T, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUuid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {socialRelationModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUuid(),
-					socialRelationModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					socialRelationModelImpl.getUuid(),
-					socialRelationModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {socialRelationModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId1.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId1()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId1, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId1, args);
-
-				args = new Object[] {socialRelationModelImpl.getUserId1()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId1, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId1, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId2.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId2()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId2, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId2, args);
-
-				args = new Object[] {socialRelationModelImpl.getUserId2()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId2, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId2, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByType.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByType, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByType, args);
-
-				args = new Object[] {socialRelationModelImpl.getType()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByType, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByType, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalCompanyId(),
-					socialRelationModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_T, args);
-
-				args = new Object[] {
-					socialRelationModelImpl.getCompanyId(),
-					socialRelationModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_T, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU1_U2.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId1(),
-					socialRelationModelImpl.getOriginalUserId2()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU1_U2, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU1_U2, args);
-
-				args = new Object[] {
-					socialRelationModelImpl.getUserId1(),
-					socialRelationModelImpl.getUserId2()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU1_U2, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU1_U2, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU1_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId1(),
-					socialRelationModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU1_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU1_T, args);
-
-				args = new Object[] {
-					socialRelationModelImpl.getUserId1(),
-					socialRelationModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU1_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU1_T, args);
-			}
-
-			if ((socialRelationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU2_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialRelationModelImpl.getOriginalUserId2(),
-					socialRelationModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU2_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU2_T, args);
-
-				args = new Object[] {
-					socialRelationModelImpl.getUserId2(),
-					socialRelationModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU2_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU2_T, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationImpl.class, socialRelation.getPrimaryKey(),
 			socialRelation, false);
 
-		clearUniqueFindersCache(socialRelationModelImpl, false);
 		cacheUniqueFindersCache(socialRelationModelImpl);
 
 		socialRelation.resetOriginalValues();

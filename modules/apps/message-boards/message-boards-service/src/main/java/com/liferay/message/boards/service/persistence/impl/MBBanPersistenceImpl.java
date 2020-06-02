@@ -3234,10 +3234,6 @@ public class MBBanPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(MBBanImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3251,32 +3247,18 @@ public class MBBanPersistenceImpl
 	public void clearCache(MBBan mbBan) {
 		entityCache.removeResult(
 			entityCacheEnabled, MBBanImpl.class, mbBan.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((MBBanModelImpl)mbBan, true);
 	}
 
 	@Override
 	public void clearCache(List<MBBan> mbBans) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (MBBan mbBan : mbBans) {
 			entityCache.removeResult(
 				entityCacheEnabled, MBBanImpl.class, mbBan.getPrimaryKey());
-
-			clearUniqueFindersCache((MBBanModelImpl)mbBan, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, MBBanImpl.class, primaryKey);
@@ -3301,52 +3283,6 @@ public class MBBanPersistenceImpl
 			_finderPathCountByG_B, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_B, args, mbBanModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MBBanModelImpl mbBanModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mbBanModelImpl.getUuid(), mbBanModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((mbBanModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mbBanModelImpl.getOriginalUuid(),
-				mbBanModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mbBanModelImpl.getGroupId(), mbBanModelImpl.getBanUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_B, args);
-			finderCache.removeResult(_finderPathFetchByG_B, args);
-		}
-
-		if ((mbBanModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_B.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mbBanModelImpl.getOriginalGroupId(),
-				mbBanModelImpl.getOriginalBanUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_B, args);
-			finderCache.removeResult(_finderPathFetchByG_B, args);
-		}
 	}
 
 	/**
@@ -3523,151 +3459,10 @@ public class MBBanPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {mbBanModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				mbBanModelImpl.getUuid(), mbBanModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {mbBanModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {mbBanModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {mbBanModelImpl.getBanUserId()};
-
-			finderCache.removeResult(_finderPathCountByBanUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBanUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {mbBanModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {mbBanModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalUuid(),
-					mbBanModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					mbBanModelImpl.getUuid(), mbBanModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {mbBanModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {mbBanModelImpl.getUserId()};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBanUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalBanUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByBanUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBanUserId, args);
-
-				args = new Object[] {mbBanModelImpl.getBanUserId()};
-
-				finderCache.removeResult(_finderPathCountByBanUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBanUserId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, MBBanImpl.class, mbBan.getPrimaryKey(), mbBan,
 			false);
 
-		clearUniqueFindersCache(mbBanModelImpl, false);
 		cacheUniqueFindersCache(mbBanModelImpl);
 
 		mbBan.resetOriginalValues();

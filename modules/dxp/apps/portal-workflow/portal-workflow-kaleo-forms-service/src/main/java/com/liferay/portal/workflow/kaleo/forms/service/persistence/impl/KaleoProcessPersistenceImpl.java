@@ -2638,10 +2638,6 @@ public class KaleoProcessPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(KaleoProcessImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2656,33 +2652,19 @@ public class KaleoProcessPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, KaleoProcessImpl.class,
 			kaleoProcess.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((KaleoProcessModelImpl)kaleoProcess, true);
 	}
 
 	@Override
 	public void clearCache(List<KaleoProcess> kaleoProcesses) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (KaleoProcess kaleoProcess : kaleoProcesses) {
 			entityCache.removeResult(
 				entityCacheEnabled, KaleoProcessImpl.class,
 				kaleoProcess.getPrimaryKey());
-
-			clearUniqueFindersCache((KaleoProcessModelImpl)kaleoProcess, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, KaleoProcessImpl.class, primaryKey);
@@ -2708,52 +2690,6 @@ public class KaleoProcessPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByDDLRecordSetId, args, kaleoProcessModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		KaleoProcessModelImpl kaleoProcessModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				kaleoProcessModelImpl.getUuid(),
-				kaleoProcessModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((kaleoProcessModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				kaleoProcessModelImpl.getOriginalUuid(),
-				kaleoProcessModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				kaleoProcessModelImpl.getDDLRecordSetId()
-			};
-
-			finderCache.removeResult(_finderPathCountByDDLRecordSetId, args);
-			finderCache.removeResult(_finderPathFetchByDDLRecordSetId, args);
-		}
-
-		if ((kaleoProcessModelImpl.getColumnBitmask() &
-			 _finderPathFetchByDDLRecordSetId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				kaleoProcessModelImpl.getOriginalDDLRecordSetId()
-			};
-
-			finderCache.removeResult(_finderPathCountByDDLRecordSetId, args);
-			finderCache.removeResult(_finderPathFetchByDDLRecordSetId, args);
-		}
 	}
 
 	/**
@@ -2938,105 +2874,10 @@ public class KaleoProcessPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {kaleoProcessModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				kaleoProcessModelImpl.getUuid(),
-				kaleoProcessModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {kaleoProcessModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((kaleoProcessModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kaleoProcessModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {kaleoProcessModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((kaleoProcessModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kaleoProcessModelImpl.getOriginalUuid(),
-					kaleoProcessModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					kaleoProcessModelImpl.getUuid(),
-					kaleoProcessModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((kaleoProcessModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					kaleoProcessModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {kaleoProcessModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, KaleoProcessImpl.class,
 			kaleoProcess.getPrimaryKey(), kaleoProcess, false);
 
-		clearUniqueFindersCache(kaleoProcessModelImpl, false);
 		cacheUniqueFindersCache(kaleoProcessModelImpl);
 
 		kaleoProcess.resetOriginalValues();

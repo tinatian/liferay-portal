@@ -3036,10 +3036,6 @@ public class AssetListEntryUsagePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AssetListEntryUsageImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3054,35 +3050,19 @@ public class AssetListEntryUsagePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, AssetListEntryUsageImpl.class,
 			assetListEntryUsage.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(AssetListEntryUsageModelImpl)assetListEntryUsage, true);
 	}
 
 	@Override
 	public void clearCache(List<AssetListEntryUsage> assetListEntryUsages) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AssetListEntryUsage assetListEntryUsage : assetListEntryUsages) {
 			entityCache.removeResult(
 				entityCacheEnabled, AssetListEntryUsageImpl.class,
 				assetListEntryUsage.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(AssetListEntryUsageModelImpl)assetListEntryUsage, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AssetListEntryUsageImpl.class, primaryKey);
@@ -3113,57 +3093,6 @@ public class AssetListEntryUsagePersistenceImpl
 			_finderPathCountByC_C_P, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_C_P, args, assetListEntryUsageModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AssetListEntryUsageModelImpl assetListEntryUsageModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getUuid(),
-				assetListEntryUsageModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((assetListEntryUsageModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getOriginalUuid(),
-				assetListEntryUsageModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getClassNameId(),
-				assetListEntryUsageModelImpl.getClassPK(),
-				assetListEntryUsageModelImpl.getPortletId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_P, args);
-			finderCache.removeResult(_finderPathFetchByC_C_P, args);
-		}
-
-		if ((assetListEntryUsageModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C_P.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getOriginalClassNameId(),
-				assetListEntryUsageModelImpl.getOriginalClassPK(),
-				assetListEntryUsageModelImpl.getOriginalPortletId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_P, args);
-			finderCache.removeResult(_finderPathFetchByC_C_P, args);
-		}
 	}
 
 	/**
@@ -3377,145 +3306,10 @@ public class AssetListEntryUsagePersistenceImpl
 			return assetListEntryUsage;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				assetListEntryUsageModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				assetListEntryUsageModelImpl.getUuid(),
-				assetListEntryUsageModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				assetListEntryUsageModelImpl.getAssetListEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAssetListEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAssetListEntryId, args);
-
-			args = new Object[] {
-				assetListEntryUsageModelImpl.getAssetListEntryId(),
-				assetListEntryUsageModelImpl.getClassNameId()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByA_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((assetListEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {assetListEntryUsageModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((assetListEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalUuid(),
-					assetListEntryUsageModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					assetListEntryUsageModelImpl.getUuid(),
-					assetListEntryUsageModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((assetListEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAssetListEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalAssetListEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAssetListEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetListEntryId, args);
-
-				args = new Object[] {
-					assetListEntryUsageModelImpl.getAssetListEntryId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAssetListEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetListEntryId, args);
-			}
-
-			if ((assetListEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByA_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetListEntryUsageModelImpl.getOriginalAssetListEntryId(),
-					assetListEntryUsageModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByA_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByA_C, args);
-
-				args = new Object[] {
-					assetListEntryUsageModelImpl.getAssetListEntryId(),
-					assetListEntryUsageModelImpl.getClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByA_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByA_C, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, AssetListEntryUsageImpl.class,
 			assetListEntryUsage.getPrimaryKey(), assetListEntryUsage, false);
 
-		clearUniqueFindersCache(assetListEntryUsageModelImpl, false);
 		cacheUniqueFindersCache(assetListEntryUsageModelImpl);
 
 		assetListEntryUsage.resetOriginalValues();

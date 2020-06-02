@@ -1331,10 +1331,6 @@ public class CompanyPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(CompanyImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1349,33 +1345,19 @@ public class CompanyPersistenceImpl
 		EntityCacheUtil.removeResult(
 			CompanyModelImpl.ENTITY_CACHE_ENABLED, CompanyImpl.class,
 			company.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CompanyModelImpl)company, true);
 	}
 
 	@Override
 	public void clearCache(List<Company> companies) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Company company : companies) {
 			EntityCacheUtil.removeResult(
 				CompanyModelImpl.ENTITY_CACHE_ENABLED, CompanyImpl.class,
 				company.getPrimaryKey());
-
-			clearUniqueFindersCache((CompanyModelImpl)company, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				CompanyModelImpl.ENTITY_CACHE_ENABLED, CompanyImpl.class,
@@ -1404,58 +1386,6 @@ public class CompanyPersistenceImpl
 			_finderPathCountByLogoId, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByLogoId, args, companyModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CompanyModelImpl companyModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {companyModelImpl.getWebId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByWebId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByWebId, args);
-		}
-
-		if ((companyModelImpl.getColumnBitmask() &
-			 _finderPathFetchByWebId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {companyModelImpl.getOriginalWebId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByWebId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByWebId, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {companyModelImpl.getMx()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByMx, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByMx, args);
-		}
-
-		if ((companyModelImpl.getColumnBitmask() &
-			 _finderPathFetchByMx.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {companyModelImpl.getOriginalMx()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByMx, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByMx, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {companyModelImpl.getLogoId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByLogoId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByLogoId, args);
-		}
-
-		if ((companyModelImpl.getColumnBitmask() &
-			 _finderPathFetchByLogoId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {companyModelImpl.getOriginalLogoId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByLogoId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByLogoId, args);
-		}
 	}
 
 	/**
@@ -1600,50 +1530,10 @@ public class CompanyPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CompanyModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {companyModelImpl.isSystem()};
-
-			FinderCacheUtil.removeResult(_finderPathCountBySystem, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindBySystem, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((companyModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySystem.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					companyModelImpl.getOriginalSystem()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountBySystem, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindBySystem, args);
-
-				args = new Object[] {companyModelImpl.isSystem()};
-
-				FinderCacheUtil.removeResult(_finderPathCountBySystem, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindBySystem, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			CompanyModelImpl.ENTITY_CACHE_ENABLED, CompanyImpl.class,
 			company.getPrimaryKey(), company, false);
 
-		clearUniqueFindersCache(companyModelImpl, false);
 		cacheUniqueFindersCache(companyModelImpl);
 
 		company.resetOriginalValues();

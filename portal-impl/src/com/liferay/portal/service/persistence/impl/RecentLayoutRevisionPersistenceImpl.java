@@ -1937,10 +1937,6 @@ public class RecentLayoutRevisionPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(RecentLayoutRevisionImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1956,19 +1952,10 @@ public class RecentLayoutRevisionPersistenceImpl
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionImpl.class,
 			recentLayoutRevision.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(RecentLayoutRevisionModelImpl)recentLayoutRevision, true);
 	}
 
 	@Override
 	public void clearCache(List<RecentLayoutRevision> recentLayoutRevisions) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (RecentLayoutRevision recentLayoutRevision :
 				recentLayoutRevisions) {
 
@@ -1976,18 +1963,11 @@ public class RecentLayoutRevisionPersistenceImpl
 				RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 				RecentLayoutRevisionImpl.class,
 				recentLayoutRevision.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(RecentLayoutRevisionModelImpl)recentLayoutRevision, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
@@ -2009,35 +1989,6 @@ public class RecentLayoutRevisionPersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByU_L_P, args, recentLayoutRevisionModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RecentLayoutRevisionModelImpl recentLayoutRevisionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				recentLayoutRevisionModelImpl.getUserId(),
-				recentLayoutRevisionModelImpl.getLayoutSetBranchId(),
-				recentLayoutRevisionModelImpl.getPlid()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_L_P, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_L_P, args);
-		}
-
-		if ((recentLayoutRevisionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByU_L_P.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				recentLayoutRevisionModelImpl.getOriginalUserId(),
-				recentLayoutRevisionModelImpl.getOriginalLayoutSetBranchId(),
-				recentLayoutRevisionModelImpl.getOriginalPlid()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_L_P, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_L_P, args);
-		}
 	}
 
 	/**
@@ -2196,112 +2147,11 @@ public class RecentLayoutRevisionPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!RecentLayoutRevisionModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				recentLayoutRevisionModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {recentLayoutRevisionModelImpl.getUserId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {
-				recentLayoutRevisionModelImpl.getLayoutRevisionId()
-			};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByLayoutRevisionId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByLayoutRevisionId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((recentLayoutRevisionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					recentLayoutRevisionModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					recentLayoutRevisionModelImpl.getGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((recentLayoutRevisionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					recentLayoutRevisionModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {recentLayoutRevisionModelImpl.getUserId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((recentLayoutRevisionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByLayoutRevisionId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					recentLayoutRevisionModelImpl.getOriginalLayoutRevisionId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByLayoutRevisionId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByLayoutRevisionId, args);
-
-				args = new Object[] {
-					recentLayoutRevisionModelImpl.getLayoutRevisionId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByLayoutRevisionId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByLayoutRevisionId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionImpl.class,
 			recentLayoutRevision.getPrimaryKey(), recentLayoutRevision, false);
 
-		clearUniqueFindersCache(recentLayoutRevisionModelImpl, false);
 		cacheUniqueFindersCache(recentLayoutRevisionModelImpl);
 
 		recentLayoutRevision.resetOriginalValues();

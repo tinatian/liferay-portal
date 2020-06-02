@@ -1737,10 +1737,6 @@ public class MemberRequestPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(MemberRequestImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1755,34 +1751,19 @@ public class MemberRequestPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, MemberRequestImpl.class,
 			memberRequest.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((MemberRequestModelImpl)memberRequest, true);
 	}
 
 	@Override
 	public void clearCache(List<MemberRequest> memberRequests) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (MemberRequest memberRequest : memberRequests) {
 			entityCache.removeResult(
 				entityCacheEnabled, MemberRequestImpl.class,
 				memberRequest.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(MemberRequestModelImpl)memberRequest, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, MemberRequestImpl.class, primaryKey);
@@ -1809,52 +1790,6 @@ public class MemberRequestPersistenceImpl
 			_finderPathCountByG_R_S, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_R_S, args, memberRequestModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MemberRequestModelImpl memberRequestModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {memberRequestModelImpl.getKey()};
-
-			finderCache.removeResult(_finderPathCountByKey, args);
-			finderCache.removeResult(_finderPathFetchByKey, args);
-		}
-
-		if ((memberRequestModelImpl.getColumnBitmask() &
-			 _finderPathFetchByKey.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				memberRequestModelImpl.getOriginalKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByKey, args);
-			finderCache.removeResult(_finderPathFetchByKey, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				memberRequestModelImpl.getGroupId(),
-				memberRequestModelImpl.getReceiverUserId(),
-				memberRequestModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_R_S, args);
-			finderCache.removeResult(_finderPathFetchByG_R_S, args);
-		}
-
-		if ((memberRequestModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_R_S.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				memberRequestModelImpl.getOriginalGroupId(),
-				memberRequestModelImpl.getOriginalReceiverUserId(),
-				memberRequestModelImpl.getOriginalStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_R_S, args);
-			finderCache.removeResult(_finderPathFetchByG_R_S, args);
-		}
 	}
 
 	/**
@@ -2029,86 +1964,10 @@ public class MemberRequestPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				memberRequestModelImpl.getReceiverUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByReceiverUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByReceiverUserId, args);
-
-			args = new Object[] {
-				memberRequestModelImpl.getReceiverUserId(),
-				memberRequestModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByR_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByR_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((memberRequestModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByReceiverUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					memberRequestModelImpl.getOriginalReceiverUserId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByReceiverUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByReceiverUserId, args);
-
-				args = new Object[] {
-					memberRequestModelImpl.getReceiverUserId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByReceiverUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByReceiverUserId, args);
-			}
-
-			if ((memberRequestModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByR_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					memberRequestModelImpl.getOriginalReceiverUserId(),
-					memberRequestModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByR_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByR_S, args);
-
-				args = new Object[] {
-					memberRequestModelImpl.getReceiverUserId(),
-					memberRequestModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByR_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByR_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, MemberRequestImpl.class,
 			memberRequest.getPrimaryKey(), memberRequest, false);
 
-		clearUniqueFindersCache(memberRequestModelImpl, false);
 		cacheUniqueFindersCache(memberRequestModelImpl);
 
 		memberRequest.resetOriginalValues();

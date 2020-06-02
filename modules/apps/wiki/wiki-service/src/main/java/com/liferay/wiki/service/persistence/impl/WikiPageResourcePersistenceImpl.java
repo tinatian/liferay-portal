@@ -1800,10 +1800,6 @@ public class WikiPageResourcePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(WikiPageResourceImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1818,35 +1814,19 @@ public class WikiPageResourcePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, WikiPageResourceImpl.class,
 			wikiPageResource.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(WikiPageResourceModelImpl)wikiPageResource, true);
 	}
 
 	@Override
 	public void clearCache(List<WikiPageResource> wikiPageResources) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (WikiPageResource wikiPageResource : wikiPageResources) {
 			entityCache.removeResult(
 				entityCacheEnabled, WikiPageResourceImpl.class,
 				wikiPageResource.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(WikiPageResourceModelImpl)wikiPageResource, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, WikiPageResourceImpl.class, primaryKey);
@@ -1875,55 +1855,6 @@ public class WikiPageResourcePersistenceImpl
 			_finderPathCountByN_T, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByN_T, args, wikiPageResourceModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		WikiPageResourceModelImpl wikiPageResourceModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				wikiPageResourceModelImpl.getUuid(),
-				wikiPageResourceModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((wikiPageResourceModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				wikiPageResourceModelImpl.getOriginalUuid(),
-				wikiPageResourceModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				wikiPageResourceModelImpl.getNodeId(),
-				wikiPageResourceModelImpl.getTitle()
-			};
-
-			finderCache.removeResult(_finderPathCountByN_T, args);
-			finderCache.removeResult(_finderPathFetchByN_T, args);
-		}
-
-		if ((wikiPageResourceModelImpl.getColumnBitmask() &
-			 _finderPathFetchByN_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				wikiPageResourceModelImpl.getOriginalNodeId(),
-				wikiPageResourceModelImpl.getOriginalTitle()
-			};
-
-			finderCache.removeResult(_finderPathCountByN_T, args);
-			finderCache.removeResult(_finderPathFetchByN_T, args);
-		}
 	}
 
 	/**
@@ -2086,80 +2017,10 @@ public class WikiPageResourcePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {wikiPageResourceModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				wikiPageResourceModelImpl.getUuid(),
-				wikiPageResourceModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((wikiPageResourceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					wikiPageResourceModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {wikiPageResourceModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((wikiPageResourceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					wikiPageResourceModelImpl.getOriginalUuid(),
-					wikiPageResourceModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					wikiPageResourceModelImpl.getUuid(),
-					wikiPageResourceModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, WikiPageResourceImpl.class,
 			wikiPageResource.getPrimaryKey(), wikiPageResource, false);
 
-		clearUniqueFindersCache(wikiPageResourceModelImpl, false);
 		cacheUniqueFindersCache(wikiPageResourceModelImpl);
 
 		wikiPageResource.resetOriginalValues();

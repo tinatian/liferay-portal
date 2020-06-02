@@ -974,10 +974,6 @@ public class ListTypePersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(ListTypeImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -992,33 +988,19 @@ public class ListTypePersistenceImpl
 		EntityCacheUtil.removeResult(
 			ListTypeModelImpl.ENTITY_CACHE_ENABLED, ListTypeImpl.class,
 			listType.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ListTypeModelImpl)listType, true);
 	}
 
 	@Override
 	public void clearCache(List<ListType> listTypes) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ListType listType : listTypes) {
 			EntityCacheUtil.removeResult(
 				ListTypeModelImpl.ENTITY_CACHE_ENABLED, ListTypeImpl.class,
 				listType.getPrimaryKey());
-
-			clearUniqueFindersCache((ListTypeModelImpl)listType, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				ListTypeModelImpl.ENTITY_CACHE_ENABLED, ListTypeImpl.class,
@@ -1037,31 +1019,6 @@ public class ListTypePersistenceImpl
 			_finderPathCountByN_T, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByN_T, args, listTypeModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ListTypeModelImpl listTypeModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				listTypeModelImpl.getName(), listTypeModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByN_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByN_T, args);
-		}
-
-		if ((listTypeModelImpl.getColumnBitmask() &
-			 _finderPathFetchByN_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				listTypeModelImpl.getOriginalName(),
-				listTypeModelImpl.getOriginalType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByN_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByN_T, args);
-		}
 	}
 
 	/**
@@ -1206,50 +1163,10 @@ public class ListTypePersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ListTypeModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {listTypeModelImpl.getType()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByType, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByType, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((listTypeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByType.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					listTypeModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByType, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByType, args);
-
-				args = new Object[] {listTypeModelImpl.getType()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByType, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByType, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			ListTypeModelImpl.ENTITY_CACHE_ENABLED, ListTypeImpl.class,
 			listType.getPrimaryKey(), listType, false);
 
-		clearUniqueFindersCache(listTypeModelImpl, false);
 		cacheUniqueFindersCache(listTypeModelImpl);
 
 		listType.resetOriginalValues();

@@ -1804,10 +1804,6 @@ public class ReadingTimeEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(ReadingTimeEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1822,35 +1818,19 @@ public class ReadingTimeEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, ReadingTimeEntryImpl.class,
 			readingTimeEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(ReadingTimeEntryModelImpl)readingTimeEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<ReadingTimeEntry> readingTimeEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ReadingTimeEntry readingTimeEntry : readingTimeEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, ReadingTimeEntryImpl.class,
 				readingTimeEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(ReadingTimeEntryModelImpl)readingTimeEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, ReadingTimeEntryImpl.class, primaryKey);
@@ -1880,57 +1860,6 @@ public class ReadingTimeEntryPersistenceImpl
 			_finderPathCountByG_C_C, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_C_C, args, readingTimeEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ReadingTimeEntryModelImpl readingTimeEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				readingTimeEntryModelImpl.getUuid(),
-				readingTimeEntryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((readingTimeEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				readingTimeEntryModelImpl.getOriginalUuid(),
-				readingTimeEntryModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				readingTimeEntryModelImpl.getGroupId(),
-				readingTimeEntryModelImpl.getClassNameId(),
-				readingTimeEntryModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_C, args);
-			finderCache.removeResult(_finderPathFetchByG_C_C, args);
-		}
-
-		if ((readingTimeEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_C_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				readingTimeEntryModelImpl.getOriginalGroupId(),
-				readingTimeEntryModelImpl.getOriginalClassNameId(),
-				readingTimeEntryModelImpl.getOriginalClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_C, args);
-			finderCache.removeResult(_finderPathFetchByG_C_C, args);
-		}
 	}
 
 	/**
@@ -2118,80 +2047,10 @@ public class ReadingTimeEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {readingTimeEntryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				readingTimeEntryModelImpl.getUuid(),
-				readingTimeEntryModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((readingTimeEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					readingTimeEntryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {readingTimeEntryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((readingTimeEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					readingTimeEntryModelImpl.getOriginalUuid(),
-					readingTimeEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					readingTimeEntryModelImpl.getUuid(),
-					readingTimeEntryModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, ReadingTimeEntryImpl.class,
 			readingTimeEntry.getPrimaryKey(), readingTimeEntry, false);
 
-		clearUniqueFindersCache(readingTimeEntryModelImpl, false);
 		cacheUniqueFindersCache(readingTimeEntryModelImpl);
 
 		readingTimeEntry.resetOriginalValues();

@@ -21208,10 +21208,6 @@ public class BlogsEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(BlogsEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -21226,33 +21222,19 @@ public class BlogsEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, BlogsEntryImpl.class,
 			blogsEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((BlogsEntryModelImpl)blogsEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<BlogsEntry> blogsEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BlogsEntry blogsEntry : blogsEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, BlogsEntryImpl.class,
 				blogsEntry.getPrimaryKey());
-
-			clearUniqueFindersCache((BlogsEntryModelImpl)blogsEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, BlogsEntryImpl.class, primaryKey);
@@ -21279,53 +21261,6 @@ public class BlogsEntryPersistenceImpl
 			_finderPathCountByG_UT, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_UT, args, blogsEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		BlogsEntryModelImpl blogsEntryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				blogsEntryModelImpl.getUuid(), blogsEntryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((blogsEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				blogsEntryModelImpl.getOriginalUuid(),
-				blogsEntryModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				blogsEntryModelImpl.getGroupId(),
-				blogsEntryModelImpl.getUrlTitle()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_UT, args);
-			finderCache.removeResult(_finderPathFetchByG_UT, args);
-		}
-
-		if ((blogsEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_UT.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				blogsEntryModelImpl.getOriginalGroupId(),
-				blogsEntryModelImpl.getOriginalUrlTitle()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_UT, args);
-			finderCache.removeResult(_finderPathFetchByG_UT, args);
-		}
 	}
 
 	/**
@@ -21543,329 +21478,10 @@ public class BlogsEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {blogsEntryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getUuid(),
-				blogsEntryModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {blogsEntryModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {blogsEntryModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getGroupId(),
-				blogsEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_S, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getCompanyId(),
-				blogsEntryModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_U, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_U, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getCompanyId(),
-				blogsEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_S, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getGroupId(),
-				blogsEntryModelImpl.getUserId(), blogsEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_U_S, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getGroupId(),
-				blogsEntryModelImpl.getDisplayDate(),
-				blogsEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_D_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_D_S, args);
-
-			args = new Object[] {
-				blogsEntryModelImpl.getCompanyId(),
-				blogsEntryModelImpl.getUserId(), blogsEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_U_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_U_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {blogsEntryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalUuid(),
-					blogsEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getUuid(),
-					blogsEntryModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {blogsEntryModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {blogsEntryModelImpl.getCompanyId()};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getGroupId(),
-					blogsEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_U.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_U, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_U, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getCompanyId(),
-					blogsEntryModelImpl.getUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_U, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_U, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_S, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getCompanyId(),
-					blogsEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_S, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalUserId(),
-					blogsEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U_S, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getGroupId(),
-					blogsEntryModelImpl.getUserId(),
-					blogsEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U_S, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_D_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalGroupId(),
-					blogsEntryModelImpl.getOriginalDisplayDate(),
-					blogsEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D_S, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getGroupId(),
-					blogsEntryModelImpl.getDisplayDate(),
-					blogsEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_D_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_D_S, args);
-			}
-
-			if ((blogsEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_U_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					blogsEntryModelImpl.getOriginalCompanyId(),
-					blogsEntryModelImpl.getOriginalUserId(),
-					blogsEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_U_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_U_S, args);
-
-				args = new Object[] {
-					blogsEntryModelImpl.getCompanyId(),
-					blogsEntryModelImpl.getUserId(),
-					blogsEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_U_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_U_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, BlogsEntryImpl.class,
 			blogsEntry.getPrimaryKey(), blogsEntry, false);
 
-		clearUniqueFindersCache(blogsEntryModelImpl, false);
 		cacheUniqueFindersCache(blogsEntryModelImpl);
 
 		blogsEntry.resetOriginalValues();

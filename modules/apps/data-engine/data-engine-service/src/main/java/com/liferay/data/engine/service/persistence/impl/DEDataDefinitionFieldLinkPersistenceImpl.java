@@ -4643,10 +4643,6 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DEDataDefinitionFieldLinkImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -4663,21 +4659,11 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, DEDataDefinitionFieldLinkImpl.class,
 			deDataDefinitionFieldLink.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DEDataDefinitionFieldLinkModelImpl)deDataDefinitionFieldLink,
-			true);
 	}
 
 	@Override
 	public void clearCache(
 		List<DEDataDefinitionFieldLink> deDataDefinitionFieldLinks) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (DEDataDefinitionFieldLink deDataDefinitionFieldLink :
 				deDataDefinitionFieldLinks) {
@@ -4685,19 +4671,11 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, DEDataDefinitionFieldLinkImpl.class,
 				deDataDefinitionFieldLink.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DEDataDefinitionFieldLinkModelImpl)deDataDefinitionFieldLink,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DEDataDefinitionFieldLinkImpl.class,
@@ -4731,59 +4709,6 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_C_DDMSI_F, args,
 			deDataDefinitionFieldLinkModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DEDataDefinitionFieldLinkModelImpl deDataDefinitionFieldLinkModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getUuid(),
-				deDataDefinitionFieldLinkModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getOriginalUuid(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-				deDataDefinitionFieldLinkModelImpl.getClassPK(),
-				deDataDefinitionFieldLinkModelImpl.getDdmStructureId(),
-				deDataDefinitionFieldLinkModelImpl.getFieldName()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_DDMSI_F, args);
-			finderCache.removeResult(_finderPathFetchByC_C_DDMSI_F, args);
-		}
-
-		if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C_DDMSI_F.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalClassPK(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalDdmStructureId(),
-				deDataDefinitionFieldLinkModelImpl.getOriginalFieldName()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_DDMSI_F, args);
-			finderCache.removeResult(_finderPathFetchByC_C_DDMSI_F, args);
-		}
 	}
 
 	/**
@@ -4982,218 +4907,11 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getUuid(),
-				deDataDefinitionFieldLinkModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getDdmStructureId()
-			};
-
-			finderCache.removeResult(_finderPathCountByDDMStructureId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByDDMStructureId, args);
-
-			args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-				deDataDefinitionFieldLinkModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-				deDataDefinitionFieldLinkModelImpl.getDdmStructureId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_DDMSI, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_DDMSI, args);
-
-			args = new Object[] {
-				deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-				deDataDefinitionFieldLinkModelImpl.getDdmStructureId(),
-				deDataDefinitionFieldLinkModelImpl.getFieldName()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_DDMSI_F, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_DDMSI_F, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalUuid(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getUuid(),
-					deDataDefinitionFieldLinkModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByDDMStructureId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByDDMStructureId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDDMStructureId, args);
-
-				args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getDdmStructureId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByDDMStructureId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDDMStructureId, args);
-			}
-
-			if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
-
-			if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_DDMSI.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_DDMSI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_DDMSI, args);
-
-				args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.getDdmStructureId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_DDMSI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_DDMSI, args);
-			}
-
-			if ((deDataDefinitionFieldLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_DDMSI_F.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getOriginalClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.
-						getOriginalDdmStructureId(),
-					deDataDefinitionFieldLinkModelImpl.getOriginalFieldName()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_DDMSI_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_DDMSI_F, args);
-
-				args = new Object[] {
-					deDataDefinitionFieldLinkModelImpl.getClassNameId(),
-					deDataDefinitionFieldLinkModelImpl.getDdmStructureId(),
-					deDataDefinitionFieldLinkModelImpl.getFieldName()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_DDMSI_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_DDMSI_F, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DEDataDefinitionFieldLinkImpl.class,
 			deDataDefinitionFieldLink.getPrimaryKey(),
 			deDataDefinitionFieldLink, false);
 
-		clearUniqueFindersCache(deDataDefinitionFieldLinkModelImpl, false);
 		cacheUniqueFindersCache(deDataDefinitionFieldLinkModelImpl);
 
 		deDataDefinitionFieldLink.resetOriginalValues();

@@ -926,10 +926,6 @@ public class RedirectNotFoundEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(RedirectNotFoundEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -944,20 +940,11 @@ public class RedirectNotFoundEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, RedirectNotFoundEntryImpl.class,
 			redirectNotFoundEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(RedirectNotFoundEntryModelImpl)redirectNotFoundEntry, true);
 	}
 
 	@Override
 	public void clearCache(
 		List<RedirectNotFoundEntry> redirectNotFoundEntries) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (RedirectNotFoundEntry redirectNotFoundEntry :
 				redirectNotFoundEntries) {
@@ -965,18 +952,11 @@ public class RedirectNotFoundEntryPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, RedirectNotFoundEntryImpl.class,
 				redirectNotFoundEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(RedirectNotFoundEntryModelImpl)redirectNotFoundEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, RedirectNotFoundEntryImpl.class,
@@ -996,33 +976,6 @@ public class RedirectNotFoundEntryPersistenceImpl
 			_finderPathCountByG_U, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_U, args, redirectNotFoundEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RedirectNotFoundEntryModelImpl redirectNotFoundEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				redirectNotFoundEntryModelImpl.getGroupId(),
-				redirectNotFoundEntryModelImpl.getUrl()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U, args);
-			finderCache.removeResult(_finderPathFetchByG_U, args);
-		}
-
-		if ((redirectNotFoundEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_U.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				redirectNotFoundEntryModelImpl.getOriginalGroupId(),
-				redirectNotFoundEntryModelImpl.getOriginalUrl()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U, args);
-			finderCache.removeResult(_finderPathFetchByG_U, args);
-		}
 	}
 
 	/**
@@ -1235,53 +1188,11 @@ public class RedirectNotFoundEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				redirectNotFoundEntryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((redirectNotFoundEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					redirectNotFoundEntryModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					redirectNotFoundEntryModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, RedirectNotFoundEntryImpl.class,
 			redirectNotFoundEntry.getPrimaryKey(), redirectNotFoundEntry,
 			false);
 
-		clearUniqueFindersCache(redirectNotFoundEntryModelImpl, false);
 		cacheUniqueFindersCache(redirectNotFoundEntryModelImpl);
 
 		redirectNotFoundEntry.resetOriginalValues();

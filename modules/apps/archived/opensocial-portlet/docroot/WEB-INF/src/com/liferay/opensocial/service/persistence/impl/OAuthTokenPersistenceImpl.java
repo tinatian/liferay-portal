@@ -1173,10 +1173,6 @@ public class OAuthTokenPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(OAuthTokenImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1191,33 +1187,19 @@ public class OAuthTokenPersistenceImpl
 		EntityCacheUtil.removeResult(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED, OAuthTokenImpl.class,
 			oAuthToken.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((OAuthTokenModelImpl)oAuthToken, true);
 	}
 
 	@Override
 	public void clearCache(List<OAuthToken> oAuthTokens) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (OAuthToken oAuthToken : oAuthTokens) {
 			EntityCacheUtil.removeResult(
 				OAuthTokenModelImpl.ENTITY_CACHE_ENABLED, OAuthTokenImpl.class,
 				oAuthToken.getPrimaryKey());
-
-			clearUniqueFindersCache((OAuthTokenModelImpl)oAuthToken, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				OAuthTokenModelImpl.ENTITY_CACHE_ENABLED, OAuthTokenImpl.class,
@@ -1239,38 +1221,6 @@ public class OAuthTokenPersistenceImpl
 			_finderPathCountByU_G_S_M_T, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByU_G_S_M_T, args, oAuthTokenModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		OAuthTokenModelImpl oAuthTokenModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				oAuthTokenModelImpl.getUserId(),
-				oAuthTokenModelImpl.getGadgetKey(),
-				oAuthTokenModelImpl.getServiceName(),
-				oAuthTokenModelImpl.getModuleId(),
-				oAuthTokenModelImpl.getTokenName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_G_S_M_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_G_S_M_T, args);
-		}
-
-		if ((oAuthTokenModelImpl.getColumnBitmask() &
-			 _finderPathFetchByU_G_S_M_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				oAuthTokenModelImpl.getOriginalUserId(),
-				oAuthTokenModelImpl.getOriginalGadgetKey(),
-				oAuthTokenModelImpl.getOriginalServiceName(),
-				oAuthTokenModelImpl.getOriginalModuleId(),
-				oAuthTokenModelImpl.getOriginalTokenName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_G_S_M_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_G_S_M_T, args);
-		}
 	}
 
 	/**
@@ -1443,57 +1393,10 @@ public class OAuthTokenPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!OAuthTokenModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				oAuthTokenModelImpl.getGadgetKey(),
-				oAuthTokenModelImpl.getServiceName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_S, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((oAuthTokenModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					oAuthTokenModelImpl.getOriginalGadgetKey(),
-					oAuthTokenModelImpl.getOriginalServiceName()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-
-				args = new Object[] {
-					oAuthTokenModelImpl.getGadgetKey(),
-					oAuthTokenModelImpl.getServiceName()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED, OAuthTokenImpl.class,
 			oAuthToken.getPrimaryKey(), oAuthToken, false);
 
-		clearUniqueFindersCache(oAuthTokenModelImpl, false);
 		cacheUniqueFindersCache(oAuthTokenModelImpl);
 
 		oAuthToken.resetOriginalValues();

@@ -2046,10 +2046,6 @@ public class MDRActionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(MDRActionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2063,33 +2059,19 @@ public class MDRActionPersistenceImpl
 	public void clearCache(MDRAction mdrAction) {
 		entityCache.removeResult(
 			entityCacheEnabled, MDRActionImpl.class, mdrAction.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((MDRActionModelImpl)mdrAction, true);
 	}
 
 	@Override
 	public void clearCache(List<MDRAction> mdrActions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (MDRAction mdrAction : mdrActions) {
 			entityCache.removeResult(
 				entityCacheEnabled, MDRActionImpl.class,
 				mdrAction.getPrimaryKey());
-
-			clearUniqueFindersCache((MDRActionModelImpl)mdrAction, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, MDRActionImpl.class, primaryKey);
@@ -2107,31 +2089,6 @@ public class MDRActionPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, mdrActionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MDRActionModelImpl mdrActionModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mdrActionModelImpl.getUuid(), mdrActionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((mdrActionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mdrActionModelImpl.getOriginalUuid(),
-				mdrActionModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -2311,111 +2268,10 @@ public class MDRActionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {mdrActionModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				mdrActionModelImpl.getUuid(), mdrActionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {mdrActionModelImpl.getRuleGroupInstanceId()};
-
-			finderCache.removeResult(
-				_finderPathCountByRuleGroupInstanceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByRuleGroupInstanceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((mdrActionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mdrActionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {mdrActionModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((mdrActionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mdrActionModelImpl.getOriginalUuid(),
-					mdrActionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					mdrActionModelImpl.getUuid(),
-					mdrActionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((mdrActionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRuleGroupInstanceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					mdrActionModelImpl.getOriginalRuleGroupInstanceId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByRuleGroupInstanceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRuleGroupInstanceId,
-					args);
-
-				args = new Object[] {
-					mdrActionModelImpl.getRuleGroupInstanceId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByRuleGroupInstanceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRuleGroupInstanceId,
-					args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, MDRActionImpl.class, mdrAction.getPrimaryKey(),
 			mdrAction, false);
 
-		clearUniqueFindersCache(mdrActionModelImpl, false);
 		cacheUniqueFindersCache(mdrActionModelImpl);
 
 		mdrAction.resetOriginalValues();

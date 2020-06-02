@@ -632,10 +632,6 @@ public class OrgLaborPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(OrgLaborImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -650,16 +646,10 @@ public class OrgLaborPersistenceImpl
 		EntityCacheUtil.removeResult(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED, OrgLaborImpl.class,
 			orgLabor.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<OrgLabor> orgLabors) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (OrgLabor orgLabor : orgLabors) {
 			EntityCacheUtil.removeResult(
 				OrgLaborModelImpl.ENTITY_CACHE_ENABLED, OrgLaborImpl.class,
@@ -669,10 +659,6 @@ public class OrgLaborPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				OrgLaborModelImpl.ENTITY_CACHE_ENABLED, OrgLaborImpl.class,
@@ -822,50 +808,6 @@ public class OrgLaborPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!OrgLaborModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				orgLaborModelImpl.getOrganizationId()
-			};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByOrganizationId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByOrganizationId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((orgLaborModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOrganizationId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					orgLaborModelImpl.getOriginalOrganizationId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByOrganizationId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByOrganizationId, args);
-
-				args = new Object[] {orgLaborModelImpl.getOrganizationId()};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByOrganizationId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByOrganizationId, args);
-			}
 		}
 
 		EntityCacheUtil.putResult(

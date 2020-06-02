@@ -363,10 +363,6 @@ public class ClassNamePersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(ClassNameImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -381,33 +377,19 @@ public class ClassNamePersistenceImpl
 		EntityCacheUtil.removeResult(
 			ClassNameModelImpl.ENTITY_CACHE_ENABLED, ClassNameImpl.class,
 			className.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ClassNameModelImpl)className, true);
 	}
 
 	@Override
 	public void clearCache(List<ClassName> classNames) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ClassName className : classNames) {
 			EntityCacheUtil.removeResult(
 				ClassNameModelImpl.ENTITY_CACHE_ENABLED, ClassNameImpl.class,
 				className.getPrimaryKey());
-
-			clearUniqueFindersCache((ClassNameModelImpl)className, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				ClassNameModelImpl.ENTITY_CACHE_ENABLED, ClassNameImpl.class,
@@ -424,28 +406,6 @@ public class ClassNamePersistenceImpl
 			_finderPathCountByValue, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByValue, args, classNameModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ClassNameModelImpl classNameModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {classNameModelImpl.getValue()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByValue, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByValue, args);
-		}
-
-		if ((classNameModelImpl.getColumnBitmask() &
-			 _finderPathFetchByValue.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				classNameModelImpl.getOriginalValue()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByValue, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByValue, args);
-		}
 	}
 
 	/**
@@ -590,24 +550,10 @@ public class ClassNamePersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ClassNameModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		EntityCacheUtil.putResult(
 			ClassNameModelImpl.ENTITY_CACHE_ENABLED, ClassNameImpl.class,
 			className.getPrimaryKey(), className, false);
 
-		clearUniqueFindersCache(classNameModelImpl, false);
 		cacheUniqueFindersCache(classNameModelImpl);
 
 		className.resetOriginalValues();

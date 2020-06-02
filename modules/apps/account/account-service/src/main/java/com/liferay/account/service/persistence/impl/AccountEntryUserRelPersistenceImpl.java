@@ -1429,10 +1429,6 @@ public class AccountEntryUserRelPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AccountEntryUserRelImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1447,35 +1443,19 @@ public class AccountEntryUserRelPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, AccountEntryUserRelImpl.class,
 			accountEntryUserRel.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(AccountEntryUserRelModelImpl)accountEntryUserRel, true);
 	}
 
 	@Override
 	public void clearCache(List<AccountEntryUserRel> accountEntryUserRels) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AccountEntryUserRel accountEntryUserRel : accountEntryUserRels) {
 			entityCache.removeResult(
 				entityCacheEnabled, AccountEntryUserRelImpl.class,
 				accountEntryUserRel.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(AccountEntryUserRelModelImpl)accountEntryUserRel, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AccountEntryUserRelImpl.class, primaryKey);
@@ -1495,33 +1475,6 @@ public class AccountEntryUserRelPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByAEI_AUI, args, accountEntryUserRelModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AccountEntryUserRelModelImpl accountEntryUserRelModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getAccountEntryId(),
-				accountEntryUserRelModelImpl.getAccountUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAEI_AUI, args);
-			finderCache.removeResult(_finderPathFetchByAEI_AUI, args);
-		}
-
-		if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-			 _finderPathFetchByAEI_AUI.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getOriginalAccountEntryId(),
-				accountEntryUserRelModelImpl.getOriginalAccountUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAEI_AUI, args);
-			finderCache.removeResult(_finderPathFetchByAEI_AUI, args);
-		}
 	}
 
 	/**
@@ -1679,81 +1632,10 @@ public class AccountEntryUserRelPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getAccountEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAEI, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAEI, args);
-
-			args = new Object[] {
-				accountEntryUserRelModelImpl.getAccountUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAUI, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAUI, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAEI.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					accountEntryUserRelModelImpl.getOriginalAccountEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAEI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAEI, args);
-
-				args = new Object[] {
-					accountEntryUserRelModelImpl.getAccountEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAEI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAEI, args);
-			}
-
-			if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAUI.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					accountEntryUserRelModelImpl.getOriginalAccountUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAUI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAUI, args);
-
-				args = new Object[] {
-					accountEntryUserRelModelImpl.getAccountUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAUI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAUI, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, AccountEntryUserRelImpl.class,
 			accountEntryUserRel.getPrimaryKey(), accountEntryUserRel, false);
 
-		clearUniqueFindersCache(accountEntryUserRelModelImpl, false);
 		cacheUniqueFindersCache(accountEntryUserRelModelImpl);
 
 		accountEntryUserRel.resetOriginalValues();

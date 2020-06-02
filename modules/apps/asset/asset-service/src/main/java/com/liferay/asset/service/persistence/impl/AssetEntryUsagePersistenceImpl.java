@@ -4209,10 +4209,6 @@ public class AssetEntryUsagePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AssetEntryUsageImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -4227,35 +4223,19 @@ public class AssetEntryUsagePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, AssetEntryUsageImpl.class,
 			assetEntryUsage.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(AssetEntryUsageModelImpl)assetEntryUsage, true);
 	}
 
 	@Override
 	public void clearCache(List<AssetEntryUsage> assetEntryUsages) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AssetEntryUsage assetEntryUsage : assetEntryUsages) {
 			entityCache.removeResult(
 				entityCacheEnabled, AssetEntryUsageImpl.class,
 				assetEntryUsage.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(AssetEntryUsageModelImpl)assetEntryUsage, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AssetEntryUsageImpl.class, primaryKey);
@@ -4286,59 +4266,6 @@ public class AssetEntryUsagePersistenceImpl
 			_finderPathCountByA_C_C_P, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByA_C_C_P, args, assetEntryUsageModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AssetEntryUsageModelImpl assetEntryUsageModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				assetEntryUsageModelImpl.getUuid(),
-				assetEntryUsageModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((assetEntryUsageModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				assetEntryUsageModelImpl.getOriginalUuid(),
-				assetEntryUsageModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				assetEntryUsageModelImpl.getAssetEntryId(),
-				assetEntryUsageModelImpl.getContainerType(),
-				assetEntryUsageModelImpl.getContainerKey(),
-				assetEntryUsageModelImpl.getPlid()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_C_C_P, args);
-			finderCache.removeResult(_finderPathFetchByA_C_C_P, args);
-		}
-
-		if ((assetEntryUsageModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_C_C_P.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				assetEntryUsageModelImpl.getOriginalAssetEntryId(),
-				assetEntryUsageModelImpl.getOriginalContainerType(),
-				assetEntryUsageModelImpl.getOriginalContainerKey(),
-				assetEntryUsageModelImpl.getOriginalPlid()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_C_C_P, args);
-			finderCache.removeResult(_finderPathFetchByA_C_C_P, args);
-		}
 	}
 
 	/**
@@ -4547,199 +4474,10 @@ public class AssetEntryUsagePersistenceImpl
 			return assetEntryUsage;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {assetEntryUsageModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				assetEntryUsageModelImpl.getUuid(),
-				assetEntryUsageModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {assetEntryUsageModelImpl.getAssetEntryId()};
-
-			finderCache.removeResult(_finderPathCountByAssetEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAssetEntryId, args);
-
-			args = new Object[] {assetEntryUsageModelImpl.getPlid()};
-
-			finderCache.removeResult(_finderPathCountByPlid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPlid, args);
-
-			args = new Object[] {
-				assetEntryUsageModelImpl.getAssetEntryId(),
-				assetEntryUsageModelImpl.getType()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_T, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByA_T, args);
-
-			args = new Object[] {
-				assetEntryUsageModelImpl.getContainerType(),
-				assetEntryUsageModelImpl.getContainerKey(),
-				assetEntryUsageModelImpl.getPlid()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_C_P, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((assetEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {assetEntryUsageModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((assetEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalUuid(),
-					assetEntryUsageModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					assetEntryUsageModelImpl.getUuid(),
-					assetEntryUsageModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((assetEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAssetEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalAssetEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetEntryId, args);
-
-				args = new Object[] {
-					assetEntryUsageModelImpl.getAssetEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetEntryId, args);
-			}
-
-			if ((assetEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPlid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalPlid()
-				};
-
-				finderCache.removeResult(_finderPathCountByPlid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlid, args);
-
-				args = new Object[] {assetEntryUsageModelImpl.getPlid()};
-
-				finderCache.removeResult(_finderPathCountByPlid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlid, args);
-			}
-
-			if ((assetEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByA_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalAssetEntryId(),
-					assetEntryUsageModelImpl.getOriginalType()
-				};
-
-				finderCache.removeResult(_finderPathCountByA_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByA_T, args);
-
-				args = new Object[] {
-					assetEntryUsageModelImpl.getAssetEntryId(),
-					assetEntryUsageModelImpl.getType()
-				};
-
-				finderCache.removeResult(_finderPathCountByA_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByA_T, args);
-			}
-
-			if ((assetEntryUsageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_P.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetEntryUsageModelImpl.getOriginalContainerType(),
-					assetEntryUsageModelImpl.getOriginalContainerKey(),
-					assetEntryUsageModelImpl.getOriginalPlid()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C_P, args);
-
-				args = new Object[] {
-					assetEntryUsageModelImpl.getContainerType(),
-					assetEntryUsageModelImpl.getContainerKey(),
-					assetEntryUsageModelImpl.getPlid()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C_P, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, AssetEntryUsageImpl.class,
 			assetEntryUsage.getPrimaryKey(), assetEntryUsage, false);
 
-		clearUniqueFindersCache(assetEntryUsageModelImpl, false);
 		cacheUniqueFindersCache(assetEntryUsageModelImpl);
 
 		assetEntryUsage.resetOriginalValues();

@@ -421,10 +421,6 @@ public class HtmlPreviewEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(HtmlPreviewEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -439,35 +435,19 @@ public class HtmlPreviewEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, HtmlPreviewEntryImpl.class,
 			htmlPreviewEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(HtmlPreviewEntryModelImpl)htmlPreviewEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<HtmlPreviewEntry> htmlPreviewEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (HtmlPreviewEntry htmlPreviewEntry : htmlPreviewEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, HtmlPreviewEntryImpl.class,
 				htmlPreviewEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(HtmlPreviewEntryModelImpl)htmlPreviewEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, HtmlPreviewEntryImpl.class, primaryKey);
@@ -487,35 +467,6 @@ public class HtmlPreviewEntryPersistenceImpl
 			_finderPathCountByG_C_C, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_C_C, args, htmlPreviewEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		HtmlPreviewEntryModelImpl htmlPreviewEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				htmlPreviewEntryModelImpl.getGroupId(),
-				htmlPreviewEntryModelImpl.getClassNameId(),
-				htmlPreviewEntryModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_C, args);
-			finderCache.removeResult(_finderPathFetchByG_C_C, args);
-		}
-
-		if ((htmlPreviewEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_C_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				htmlPreviewEntryModelImpl.getOriginalGroupId(),
-				htmlPreviewEntryModelImpl.getOriginalClassNameId(),
-				htmlPreviewEntryModelImpl.getOriginalClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_C, args);
-			finderCache.removeResult(_finderPathFetchByG_C_C, args);
-		}
 	}
 
 	/**
@@ -693,22 +644,10 @@ public class HtmlPreviewEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, HtmlPreviewEntryImpl.class,
 			htmlPreviewEntry.getPrimaryKey(), htmlPreviewEntry, false);
 
-		clearUniqueFindersCache(htmlPreviewEntryModelImpl, false);
 		cacheUniqueFindersCache(htmlPreviewEntryModelImpl);
 
 		htmlPreviewEntry.resetOriginalValues();

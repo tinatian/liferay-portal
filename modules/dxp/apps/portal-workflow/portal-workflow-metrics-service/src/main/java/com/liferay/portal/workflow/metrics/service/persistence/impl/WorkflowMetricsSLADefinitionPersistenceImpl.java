@@ -5036,10 +5036,6 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(WorkflowMetricsSLADefinitionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5056,21 +5052,11 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, WorkflowMetricsSLADefinitionImpl.class,
 			workflowMetricsSLADefinition.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(WorkflowMetricsSLADefinitionModelImpl)workflowMetricsSLADefinition,
-			true);
 	}
 
 	@Override
 	public void clearCache(
 		List<WorkflowMetricsSLADefinition> workflowMetricsSLADefinitions) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (WorkflowMetricsSLADefinition workflowMetricsSLADefinition :
 				workflowMetricsSLADefinitions) {
@@ -5078,20 +5064,11 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, WorkflowMetricsSLADefinitionImpl.class,
 				workflowMetricsSLADefinition.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(WorkflowMetricsSLADefinitionModelImpl)
-					workflowMetricsSLADefinition,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, WorkflowMetricsSLADefinitionImpl.class,
@@ -5125,58 +5102,6 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByWMSLAD_A, args,
 			workflowMetricsSLADefinitionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		WorkflowMetricsSLADefinitionModelImpl
-			workflowMetricsSLADefinitionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getUuid(),
-				workflowMetricsSLADefinitionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getOriginalUuid(),
-				workflowMetricsSLADefinitionModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.
-					getWorkflowMetricsSLADefinitionId(),
-				workflowMetricsSLADefinitionModelImpl.isActive()
-			};
-
-			finderCache.removeResult(_finderPathCountByWMSLAD_A, args);
-			finderCache.removeResult(_finderPathFetchByWMSLAD_A, args);
-		}
-
-		if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByWMSLAD_A.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.
-					getOriginalWorkflowMetricsSLADefinitionId(),
-				workflowMetricsSLADefinitionModelImpl.getOriginalActive()
-			};
-
-			finderCache.removeResult(_finderPathCountByWMSLAD_A, args);
-			finderCache.removeResult(_finderPathFetchByWMSLAD_A, args);
-		}
 	}
 
 	/**
@@ -5383,233 +5308,11 @@ public class WorkflowMetricsSLADefinitionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getUuid(),
-				workflowMetricsSLADefinitionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-				workflowMetricsSLADefinitionModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_S, args);
-
-			args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-				workflowMetricsSLADefinitionModelImpl.isActive(),
-				workflowMetricsSLADefinitionModelImpl.getProcessId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_A_P, args);
-
-			args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-				workflowMetricsSLADefinitionModelImpl.isActive(),
-				workflowMetricsSLADefinitionModelImpl.getName(),
-				workflowMetricsSLADefinitionModelImpl.getProcessId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_N_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_A_N_P, args);
-
-			args = new Object[] {
-				workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-				workflowMetricsSLADefinitionModelImpl.isActive(),
-				workflowMetricsSLADefinitionModelImpl.getProcessId(),
-				workflowMetricsSLADefinitionModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_P_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_A_P_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getOriginalUuid(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getUuid(),
-					workflowMetricsSLADefinitionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_S, args);
-
-				args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_S, args);
-			}
-
-			if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_A_P.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalActive(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalProcessId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_A_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_A_P, args);
-
-				args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.isActive(),
-					workflowMetricsSLADefinitionModelImpl.getProcessId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_A_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_A_P, args);
-			}
-
-			if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_A_N_P.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalActive(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalName(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalProcessId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_A_N_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_A_N_P, args);
-
-				args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.isActive(),
-					workflowMetricsSLADefinitionModelImpl.getName(),
-					workflowMetricsSLADefinitionModelImpl.getProcessId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_A_N_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_A_N_P, args);
-			}
-
-			if ((workflowMetricsSLADefinitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_A_P_S.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.
-						getOriginalCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalActive(),
-					workflowMetricsSLADefinitionModelImpl.
-						getOriginalProcessId(),
-					workflowMetricsSLADefinitionModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_A_P_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_A_P_S, args);
-
-				args = new Object[] {
-					workflowMetricsSLADefinitionModelImpl.getCompanyId(),
-					workflowMetricsSLADefinitionModelImpl.isActive(),
-					workflowMetricsSLADefinitionModelImpl.getProcessId(),
-					workflowMetricsSLADefinitionModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_A_P_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_A_P_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, WorkflowMetricsSLADefinitionImpl.class,
 			workflowMetricsSLADefinition.getPrimaryKey(),
 			workflowMetricsSLADefinition, false);
 
-		clearUniqueFindersCache(workflowMetricsSLADefinitionModelImpl, false);
 		cacheUniqueFindersCache(workflowMetricsSLADefinitionModelImpl);
 
 		workflowMetricsSLADefinition.resetOriginalValues();

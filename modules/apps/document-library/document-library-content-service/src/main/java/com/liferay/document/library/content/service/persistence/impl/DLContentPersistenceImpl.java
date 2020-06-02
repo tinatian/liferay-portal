@@ -2361,10 +2361,6 @@ public class DLContentPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DLContentImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2378,33 +2374,19 @@ public class DLContentPersistenceImpl
 	public void clearCache(DLContent dlContent) {
 		entityCache.removeResult(
 			entityCacheEnabled, DLContentImpl.class, dlContent.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((DLContentModelImpl)dlContent, true);
 	}
 
 	@Override
 	public void clearCache(List<DLContent> dlContents) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DLContent dlContent : dlContents) {
 			entityCache.removeResult(
 				entityCacheEnabled, DLContentImpl.class,
 				dlContent.getPrimaryKey());
-
-			clearUniqueFindersCache((DLContentModelImpl)dlContent, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DLContentImpl.class, primaryKey);
@@ -2424,35 +2406,6 @@ public class DLContentPersistenceImpl
 			_finderPathCountByC_R_P_V, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_R_P_V, args, dlContentModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DLContentModelImpl dlContentModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				dlContentModelImpl.getCompanyId(),
-				dlContentModelImpl.getRepositoryId(),
-				dlContentModelImpl.getPath(), dlContentModelImpl.getVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_P_V, args);
-			finderCache.removeResult(_finderPathFetchByC_R_P_V, args);
-		}
-
-		if ((dlContentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_R_P_V.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				dlContentModelImpl.getOriginalCompanyId(),
-				dlContentModelImpl.getOriginalRepositoryId(),
-				dlContentModelImpl.getOriginalPath(),
-				dlContentModelImpl.getOriginalVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_P_V, args);
-			finderCache.removeResult(_finderPathFetchByC_R_P_V, args);
-		}
 	}
 
 	/**
@@ -2622,90 +2575,10 @@ public class DLContentPersistenceImpl
 			return dlContent;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				dlContentModelImpl.getCompanyId(),
-				dlContentModelImpl.getRepositoryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_R, args);
-
-			args = new Object[] {
-				dlContentModelImpl.getCompanyId(),
-				dlContentModelImpl.getRepositoryId(),
-				dlContentModelImpl.getPath()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_R_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_R_P, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((dlContentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_R.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					dlContentModelImpl.getOriginalCompanyId(),
-					dlContentModelImpl.getOriginalRepositoryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R, args);
-
-				args = new Object[] {
-					dlContentModelImpl.getCompanyId(),
-					dlContentModelImpl.getRepositoryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R, args);
-			}
-
-			if ((dlContentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_R_P.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					dlContentModelImpl.getOriginalCompanyId(),
-					dlContentModelImpl.getOriginalRepositoryId(),
-					dlContentModelImpl.getOriginalPath()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R_P, args);
-
-				args = new Object[] {
-					dlContentModelImpl.getCompanyId(),
-					dlContentModelImpl.getRepositoryId(),
-					dlContentModelImpl.getPath()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_R_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_R_P, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DLContentImpl.class, dlContent.getPrimaryKey(),
 			dlContent, false);
 
-		clearUniqueFindersCache(dlContentModelImpl, false);
 		cacheUniqueFindersCache(dlContentModelImpl);
 
 		dlContent.resetOriginalValues();

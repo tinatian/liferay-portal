@@ -2320,10 +2320,6 @@ public class OAuth2AuthorizationPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(OAuth2AuthorizationImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2338,16 +2334,10 @@ public class OAuth2AuthorizationPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, OAuth2AuthorizationImpl.class,
 			oAuth2Authorization.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<OAuth2Authorization> oAuth2Authorizations) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (OAuth2Authorization oAuth2Authorization : oAuth2Authorizations) {
 			entityCache.removeResult(
 				entityCacheEnabled, OAuth2AuthorizationImpl.class,
@@ -2357,10 +2347,6 @@ public class OAuth2AuthorizationPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, OAuth2AuthorizationImpl.class, primaryKey);
@@ -2524,157 +2510,6 @@ public class OAuth2AuthorizationPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				oAuth2AuthorizationModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {
-				oAuth2AuthorizationModelImpl.getOAuth2ApplicationId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByOAuth2ApplicationId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByOAuth2ApplicationId, args);
-
-			args = new Object[] {
-				oAuth2AuthorizationModelImpl.getCompanyId(),
-				oAuth2AuthorizationModelImpl.getAccessTokenContentHash()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByAccessTokenContentHash, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAccessTokenContentHash, args);
-
-			args = new Object[] {
-				oAuth2AuthorizationModelImpl.getCompanyId(),
-				oAuth2AuthorizationModelImpl.getRefreshTokenContentHash()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByRefreshTokenContentHash, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByRefreshTokenContentHash,
-				args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((oAuth2AuthorizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {oAuth2AuthorizationModelImpl.getUserId()};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((oAuth2AuthorizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOAuth2ApplicationId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.
-						getOriginalOAuth2ApplicationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByOAuth2ApplicationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOAuth2ApplicationId,
-					args);
-
-				args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOAuth2ApplicationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByOAuth2ApplicationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOAuth2ApplicationId,
-					args);
-			}
-
-			if ((oAuth2AuthorizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAccessTokenContentHash.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOriginalCompanyId(),
-					oAuth2AuthorizationModelImpl.
-						getOriginalAccessTokenContentHash()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAccessTokenContentHash, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAccessTokenContentHash,
-					args);
-
-				args = new Object[] {
-					oAuth2AuthorizationModelImpl.getCompanyId(),
-					oAuth2AuthorizationModelImpl.getAccessTokenContentHash()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAccessTokenContentHash, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAccessTokenContentHash,
-					args);
-			}
-
-			if ((oAuth2AuthorizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRefreshTokenContentHash.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					oAuth2AuthorizationModelImpl.getOriginalCompanyId(),
-					oAuth2AuthorizationModelImpl.
-						getOriginalRefreshTokenContentHash()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByRefreshTokenContentHash, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRefreshTokenContentHash,
-					args);
-
-				args = new Object[] {
-					oAuth2AuthorizationModelImpl.getCompanyId(),
-					oAuth2AuthorizationModelImpl.getRefreshTokenContentHash()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByRefreshTokenContentHash, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRefreshTokenContentHash,
-					args);
-			}
 		}
 
 		entityCache.putResult(

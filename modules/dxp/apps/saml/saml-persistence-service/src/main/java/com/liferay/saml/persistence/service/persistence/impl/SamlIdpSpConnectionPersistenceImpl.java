@@ -945,10 +945,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SamlIdpSpConnectionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -963,35 +959,19 @@ public class SamlIdpSpConnectionPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SamlIdpSpConnectionImpl.class,
 			samlIdpSpConnection.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SamlIdpSpConnectionModelImpl)samlIdpSpConnection, true);
 	}
 
 	@Override
 	public void clearCache(List<SamlIdpSpConnection> samlIdpSpConnections) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SamlIdpSpConnection samlIdpSpConnection : samlIdpSpConnections) {
 			entityCache.removeResult(
 				entityCacheEnabled, SamlIdpSpConnectionImpl.class,
 				samlIdpSpConnection.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SamlIdpSpConnectionModelImpl)samlIdpSpConnection, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SamlIdpSpConnectionImpl.class, primaryKey);
@@ -1011,33 +991,6 @@ public class SamlIdpSpConnectionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_SSEI, args, samlIdpSpConnectionModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SamlIdpSpConnectionModelImpl samlIdpSpConnectionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				samlIdpSpConnectionModelImpl.getCompanyId(),
-				samlIdpSpConnectionModelImpl.getSamlSpEntityId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_SSEI, args);
-			finderCache.removeResult(_finderPathFetchByC_SSEI, args);
-		}
-
-		if ((samlIdpSpConnectionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_SSEI.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				samlIdpSpConnectionModelImpl.getOriginalCompanyId(),
-				samlIdpSpConnectionModelImpl.getOriginalSamlSpEntityId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_SSEI, args);
-			finderCache.removeResult(_finderPathFetchByC_SSEI, args);
-		}
 	}
 
 	/**
@@ -1220,52 +1173,10 @@ public class SamlIdpSpConnectionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				samlIdpSpConnectionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((samlIdpSpConnectionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					samlIdpSpConnectionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {
-					samlIdpSpConnectionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SamlIdpSpConnectionImpl.class,
 			samlIdpSpConnection.getPrimaryKey(), samlIdpSpConnection, false);
 
-		clearUniqueFindersCache(samlIdpSpConnectionModelImpl, false);
 		cacheUniqueFindersCache(samlIdpSpConnectionModelImpl);
 
 		samlIdpSpConnection.resetOriginalValues();

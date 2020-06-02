@@ -762,10 +762,6 @@ public class WeDeployAuthTokenPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(WeDeployAuthTokenImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -780,35 +776,19 @@ public class WeDeployAuthTokenPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, WeDeployAuthTokenImpl.class,
 			weDeployAuthToken.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(WeDeployAuthTokenModelImpl)weDeployAuthToken, true);
 	}
 
 	@Override
 	public void clearCache(List<WeDeployAuthToken> weDeployAuthTokens) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (WeDeployAuthToken weDeployAuthToken : weDeployAuthTokens) {
 			entityCache.removeResult(
 				entityCacheEnabled, WeDeployAuthTokenImpl.class,
 				weDeployAuthToken.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(WeDeployAuthTokenModelImpl)weDeployAuthToken, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, WeDeployAuthTokenImpl.class, primaryKey);
@@ -838,57 +818,6 @@ public class WeDeployAuthTokenPersistenceImpl
 			_finderPathCountByCI_T_T, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByCI_T_T, args, weDeployAuthTokenModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		WeDeployAuthTokenModelImpl weDeployAuthTokenModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				weDeployAuthTokenModelImpl.getToken(),
-				weDeployAuthTokenModelImpl.getType()
-			};
-
-			finderCache.removeResult(_finderPathCountByT_T, args);
-			finderCache.removeResult(_finderPathFetchByT_T, args);
-		}
-
-		if ((weDeployAuthTokenModelImpl.getColumnBitmask() &
-			 _finderPathFetchByT_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				weDeployAuthTokenModelImpl.getOriginalToken(),
-				weDeployAuthTokenModelImpl.getOriginalType()
-			};
-
-			finderCache.removeResult(_finderPathCountByT_T, args);
-			finderCache.removeResult(_finderPathFetchByT_T, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				weDeployAuthTokenModelImpl.getClientId(),
-				weDeployAuthTokenModelImpl.getToken(),
-				weDeployAuthTokenModelImpl.getType()
-			};
-
-			finderCache.removeResult(_finderPathCountByCI_T_T, args);
-			finderCache.removeResult(_finderPathFetchByCI_T_T, args);
-		}
-
-		if ((weDeployAuthTokenModelImpl.getColumnBitmask() &
-			 _finderPathFetchByCI_T_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				weDeployAuthTokenModelImpl.getOriginalClientId(),
-				weDeployAuthTokenModelImpl.getOriginalToken(),
-				weDeployAuthTokenModelImpl.getOriginalType()
-			};
-
-			finderCache.removeResult(_finderPathCountByCI_T_T, args);
-			finderCache.removeResult(_finderPathFetchByCI_T_T, args);
-		}
 	}
 
 	/**
@@ -1069,22 +998,10 @@ public class WeDeployAuthTokenPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, WeDeployAuthTokenImpl.class,
 			weDeployAuthToken.getPrimaryKey(), weDeployAuthToken, false);
 
-		clearUniqueFindersCache(weDeployAuthTokenModelImpl, false);
 		cacheUniqueFindersCache(weDeployAuthTokenModelImpl);
 
 		weDeployAuthToken.resetOriginalValues();

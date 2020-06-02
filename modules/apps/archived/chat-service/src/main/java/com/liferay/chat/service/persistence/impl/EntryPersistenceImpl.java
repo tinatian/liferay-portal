@@ -4452,10 +4452,6 @@ public class EntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(EntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -4469,16 +4465,10 @@ public class EntryPersistenceImpl
 	public void clearCache(Entry entry) {
 		entityCache.removeResult(
 			entityCacheEnabled, EntryImpl.class, entry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<Entry> entries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Entry entry : entries) {
 			entityCache.removeResult(
 				entityCacheEnabled, EntryImpl.class, entry.getPrimaryKey());
@@ -4487,10 +4477,6 @@ public class EntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, EntryImpl.class, primaryKey);
@@ -4634,250 +4620,6 @@ public class EntryPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {entryModelImpl.getCreateDate()};
-
-			finderCache.removeResult(_finderPathCountByCreateDate, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCreateDate, args);
-
-			args = new Object[] {entryModelImpl.getFromUserId()};
-
-			finderCache.removeResult(_finderPathCountByFromUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByFromUserId, args);
-
-			args = new Object[] {entryModelImpl.getToUserId()};
-
-			finderCache.removeResult(_finderPathCountByToUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByToUserId, args);
-
-			args = new Object[] {
-				entryModelImpl.getCreateDate(), entryModelImpl.getFromUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_F, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_F, args);
-
-			args = new Object[] {
-				entryModelImpl.getCreateDate(), entryModelImpl.getToUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_T, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_T, args);
-
-			args = new Object[] {
-				entryModelImpl.getFromUserId(), entryModelImpl.getToUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_T, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByF_T, args);
-
-			args = new Object[] {
-				entryModelImpl.getCreateDate(), entryModelImpl.getFromUserId(),
-				entryModelImpl.getToUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_F_T, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_F_T, args);
-
-			args = new Object[] {
-				entryModelImpl.getFromUserId(), entryModelImpl.getToUserId(),
-				entryModelImpl.getContent()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_T_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByF_T_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCreateDate.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate()
-				};
-
-				finderCache.removeResult(_finderPathCountByCreateDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCreateDate, args);
-
-				args = new Object[] {entryModelImpl.getCreateDate()};
-
-				finderCache.removeResult(_finderPathCountByCreateDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCreateDate, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFromUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalFromUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByFromUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFromUserId, args);
-
-				args = new Object[] {entryModelImpl.getFromUserId()};
-
-				finderCache.removeResult(_finderPathCountByFromUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFromUserId, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByToUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByToUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByToUserId, args);
-
-				args = new Object[] {entryModelImpl.getToUserId()};
-
-				finderCache.removeResult(_finderPathCountByToUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByToUserId, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate(),
-					entryModelImpl.getOriginalFromUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_F, args);
-
-				args = new Object[] {
-					entryModelImpl.getCreateDate(),
-					entryModelImpl.getFromUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_F, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate(),
-					entryModelImpl.getOriginalToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_T, args);
-
-				args = new Object[] {
-					entryModelImpl.getCreateDate(), entryModelImpl.getToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_T, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByF_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalFromUserId(),
-					entryModelImpl.getOriginalToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByF_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByF_T, args);
-
-				args = new Object[] {
-					entryModelImpl.getFromUserId(), entryModelImpl.getToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByF_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByF_T, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_F_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalCreateDate(),
-					entryModelImpl.getOriginalFromUserId(),
-					entryModelImpl.getOriginalToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_F_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_F_T, args);
-
-				args = new Object[] {
-					entryModelImpl.getCreateDate(),
-					entryModelImpl.getFromUserId(), entryModelImpl.getToUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_F_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_F_T, args);
-			}
-
-			if ((entryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByF_T_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					entryModelImpl.getOriginalFromUserId(),
-					entryModelImpl.getOriginalToUserId(),
-					entryModelImpl.getOriginalContent()
-				};
-
-				finderCache.removeResult(_finderPathCountByF_T_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByF_T_C, args);
-
-				args = new Object[] {
-					entryModelImpl.getFromUserId(),
-					entryModelImpl.getToUserId(), entryModelImpl.getContent()
-				};
-
-				finderCache.removeResult(_finderPathCountByF_T_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByF_T_C, args);
-			}
 		}
 
 		entityCache.putResult(

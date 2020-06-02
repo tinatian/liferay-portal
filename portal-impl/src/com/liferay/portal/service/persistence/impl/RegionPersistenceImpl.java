@@ -1928,10 +1928,6 @@ public class RegionPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(RegionImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1946,33 +1942,19 @@ public class RegionPersistenceImpl
 		EntityCacheUtil.removeResult(
 			RegionModelImpl.ENTITY_CACHE_ENABLED, RegionImpl.class,
 			region.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((RegionModelImpl)region, true);
 	}
 
 	@Override
 	public void clearCache(List<Region> regions) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Region region : regions) {
 			EntityCacheUtil.removeResult(
 				RegionModelImpl.ENTITY_CACHE_ENABLED, RegionImpl.class,
 				region.getPrimaryKey());
-
-			clearUniqueFindersCache((RegionModelImpl)region, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				RegionModelImpl.ENTITY_CACHE_ENABLED, RegionImpl.class,
@@ -1989,31 +1971,6 @@ public class RegionPersistenceImpl
 			_finderPathCountByC_R, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByC_R, args, regionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RegionModelImpl regionModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				regionModelImpl.getCountryId(), regionModelImpl.getRegionCode()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_R, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_R, args);
-		}
-
-		if ((regionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_R.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				regionModelImpl.getOriginalCountryId(),
-				regionModelImpl.getOriginalRegionCode()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_R, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_R, args);
-		}
 	}
 
 	/**
@@ -2155,105 +2112,10 @@ public class RegionPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!RegionModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {regionModelImpl.getCountryId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCountryId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCountryId, args);
-
-			args = new Object[] {regionModelImpl.isActive()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByActive, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByActive, args);
-
-			args = new Object[] {
-				regionModelImpl.getCountryId(), regionModelImpl.isActive()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_A, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_A, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((regionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCountryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					regionModelImpl.getOriginalCountryId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCountryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCountryId, args);
-
-				args = new Object[] {regionModelImpl.getCountryId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCountryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCountryId, args);
-			}
-
-			if ((regionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByActive.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					regionModelImpl.getOriginalActive()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByActive, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByActive, args);
-
-				args = new Object[] {regionModelImpl.isActive()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByActive, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByActive, args);
-			}
-
-			if ((regionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_A.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					regionModelImpl.getOriginalCountryId(),
-					regionModelImpl.getOriginalActive()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_A, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_A, args);
-
-				args = new Object[] {
-					regionModelImpl.getCountryId(), regionModelImpl.isActive()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_A, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_A, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			RegionModelImpl.ENTITY_CACHE_ENABLED, RegionImpl.class,
 			region.getPrimaryKey(), region, false);
 
-		clearUniqueFindersCache(regionModelImpl, false);
 		cacheUniqueFindersCache(regionModelImpl);
 
 		region.resetOriginalValues();

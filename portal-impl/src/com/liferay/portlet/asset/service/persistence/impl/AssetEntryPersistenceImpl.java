@@ -5265,10 +5265,6 @@ public class AssetEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(AssetEntryImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5283,33 +5279,19 @@ public class AssetEntryPersistenceImpl
 		EntityCacheUtil.removeResult(
 			AssetEntryModelImpl.ENTITY_CACHE_ENABLED, AssetEntryImpl.class,
 			assetEntry.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((AssetEntryModelImpl)assetEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<AssetEntry> assetEntries) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AssetEntry assetEntry : assetEntries) {
 			EntityCacheUtil.removeResult(
 				AssetEntryModelImpl.ENTITY_CACHE_ENABLED, AssetEntryImpl.class,
 				assetEntry.getPrimaryKey());
-
-			clearUniqueFindersCache((AssetEntryModelImpl)assetEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				AssetEntryModelImpl.ENTITY_CACHE_ENABLED, AssetEntryImpl.class,
@@ -5338,54 +5320,6 @@ public class AssetEntryPersistenceImpl
 			_finderPathCountByC_C, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByC_C, args, assetEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AssetEntryModelImpl assetEntryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				assetEntryModelImpl.getGroupId(),
-				assetEntryModelImpl.getClassUuid()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_CU, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_CU, args);
-		}
-
-		if ((assetEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_CU.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				assetEntryModelImpl.getOriginalGroupId(),
-				assetEntryModelImpl.getOriginalClassUuid()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_CU, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_CU, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				assetEntryModelImpl.getClassNameId(),
-				assetEntryModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_C, args);
-		}
-
-		if ((assetEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				assetEntryModelImpl.getOriginalClassNameId(),
-				assetEntryModelImpl.getOriginalClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_C, args);
-		}
 	}
 
 	/**
@@ -5581,255 +5515,10 @@ public class AssetEntryPersistenceImpl
 			return assetEntry;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!AssetEntryModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {assetEntryModelImpl.getGroupId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {assetEntryModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {assetEntryModelImpl.isVisible()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByVisible, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByVisible, args);
-
-			args = new Object[] {assetEntryModelImpl.getPublishDate()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByPublishDate, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPublishDate, args);
-
-			args = new Object[] {assetEntryModelImpl.getExpirationDate()};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByExpirationDate, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByExpirationDate, args);
-
-			args = new Object[] {assetEntryModelImpl.getLayoutUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByLayoutUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByLayoutUuid, args);
-
-			args = new Object[] {
-				assetEntryModelImpl.getGroupId(),
-				assetEntryModelImpl.getClassNameId(),
-				assetEntryModelImpl.isVisible()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_C_V, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_C_V, args);
-
-			args = new Object[] {
-				assetEntryModelImpl.getGroupId(),
-				assetEntryModelImpl.getClassNameId(),
-				assetEntryModelImpl.getPublishDate(),
-				assetEntryModelImpl.getExpirationDate()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_C_P_E, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_C_P_E, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {assetEntryModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {assetEntryModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByVisible.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalVisible()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByVisible, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByVisible, args);
-
-				args = new Object[] {assetEntryModelImpl.isVisible()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByVisible, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByVisible, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublishDate.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalPublishDate()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByPublishDate, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPublishDate, args);
-
-				args = new Object[] {assetEntryModelImpl.getPublishDate()};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByPublishDate, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPublishDate, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByExpirationDate.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalExpirationDate()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByExpirationDate, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByExpirationDate, args);
-
-				args = new Object[] {assetEntryModelImpl.getExpirationDate()};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByExpirationDate, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByExpirationDate, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByLayoutUuid.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalLayoutUuid()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByLayoutUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByLayoutUuid, args);
-
-				args = new Object[] {assetEntryModelImpl.getLayoutUuid()};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByLayoutUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByLayoutUuid, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_V.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalGroupId(),
-					assetEntryModelImpl.getOriginalClassNameId(),
-					assetEntryModelImpl.getOriginalVisible()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_C_V, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_C_V, args);
-
-				args = new Object[] {
-					assetEntryModelImpl.getGroupId(),
-					assetEntryModelImpl.getClassNameId(),
-					assetEntryModelImpl.isVisible()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_C_V, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_C_V, args);
-			}
-
-			if ((assetEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_P_E.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					assetEntryModelImpl.getOriginalGroupId(),
-					assetEntryModelImpl.getOriginalClassNameId(),
-					assetEntryModelImpl.getOriginalPublishDate(),
-					assetEntryModelImpl.getOriginalExpirationDate()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_C_P_E, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_C_P_E, args);
-
-				args = new Object[] {
-					assetEntryModelImpl.getGroupId(),
-					assetEntryModelImpl.getClassNameId(),
-					assetEntryModelImpl.getPublishDate(),
-					assetEntryModelImpl.getExpirationDate()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_C_P_E, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_C_P_E, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			AssetEntryModelImpl.ENTITY_CACHE_ENABLED, AssetEntryImpl.class,
 			assetEntry.getPrimaryKey(), assetEntry, false);
 
-		clearUniqueFindersCache(assetEntryModelImpl, false);
 		cacheUniqueFindersCache(assetEntryModelImpl);
 
 		assetEntry.resetOriginalValues();

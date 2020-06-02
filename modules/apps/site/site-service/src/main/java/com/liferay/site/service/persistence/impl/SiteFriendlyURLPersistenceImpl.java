@@ -2961,10 +2961,6 @@ public class SiteFriendlyURLPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SiteFriendlyURLImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2979,35 +2975,19 @@ public class SiteFriendlyURLPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SiteFriendlyURLImpl.class,
 			siteFriendlyURL.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SiteFriendlyURLModelImpl)siteFriendlyURL, true);
 	}
 
 	@Override
 	public void clearCache(List<SiteFriendlyURL> siteFriendlyURLs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SiteFriendlyURL siteFriendlyURL : siteFriendlyURLs) {
 			entityCache.removeResult(
 				entityCacheEnabled, SiteFriendlyURLImpl.class,
 				siteFriendlyURL.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SiteFriendlyURLModelImpl)siteFriendlyURL, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SiteFriendlyURLImpl.class, primaryKey);
@@ -3058,103 +3038,6 @@ public class SiteFriendlyURLPersistenceImpl
 			_finderPathCountByC_F_L, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_F_L, args, siteFriendlyURLModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SiteFriendlyURLModelImpl siteFriendlyURLModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getUuid(),
-				siteFriendlyURLModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalUuid(),
-				siteFriendlyURLModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getCompanyId(),
-				siteFriendlyURLModelImpl.getFriendlyURL()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_F, args);
-			finderCache.removeResult(_finderPathFetchByC_F, args);
-		}
-
-		if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_F.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalCompanyId(),
-				siteFriendlyURLModelImpl.getOriginalFriendlyURL()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_F, args);
-			finderCache.removeResult(_finderPathFetchByC_F, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getCompanyId(),
-				siteFriendlyURLModelImpl.getGroupId(),
-				siteFriendlyURLModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_G_L, args);
-			finderCache.removeResult(_finderPathFetchByC_G_L, args);
-		}
-
-		if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_G_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalCompanyId(),
-				siteFriendlyURLModelImpl.getOriginalGroupId(),
-				siteFriendlyURLModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_G_L, args);
-			finderCache.removeResult(_finderPathFetchByC_G_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getCompanyId(),
-				siteFriendlyURLModelImpl.getFriendlyURL(),
-				siteFriendlyURLModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_F_L, args);
-			finderCache.removeResult(_finderPathFetchByC_F_L, args);
-		}
-
-		if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_F_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				siteFriendlyURLModelImpl.getOriginalCompanyId(),
-				siteFriendlyURLModelImpl.getOriginalFriendlyURL(),
-				siteFriendlyURLModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_F_L, args);
-			finderCache.removeResult(_finderPathFetchByC_F_L, args);
-		}
 	}
 
 	/**
@@ -3342,112 +3225,10 @@ public class SiteFriendlyURLPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {siteFriendlyURLModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				siteFriendlyURLModelImpl.getUuid(),
-				siteFriendlyURLModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				siteFriendlyURLModelImpl.getCompanyId(),
-				siteFriendlyURLModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_G, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_G, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					siteFriendlyURLModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {siteFriendlyURLModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					siteFriendlyURLModelImpl.getOriginalUuid(),
-					siteFriendlyURLModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					siteFriendlyURLModelImpl.getUuid(),
-					siteFriendlyURLModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((siteFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_G.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					siteFriendlyURLModelImpl.getOriginalCompanyId(),
-					siteFriendlyURLModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_G, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_G, args);
-
-				args = new Object[] {
-					siteFriendlyURLModelImpl.getCompanyId(),
-					siteFriendlyURLModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_G, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_G, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SiteFriendlyURLImpl.class,
 			siteFriendlyURL.getPrimaryKey(), siteFriendlyURL, false);
 
-		clearUniqueFindersCache(siteFriendlyURLModelImpl, false);
 		cacheUniqueFindersCache(siteFriendlyURLModelImpl);
 
 		siteFriendlyURL.resetOriginalValues();

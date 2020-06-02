@@ -964,10 +964,6 @@ public class PluginSettingPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(PluginSettingImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -982,34 +978,19 @@ public class PluginSettingPersistenceImpl
 		EntityCacheUtil.removeResult(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingImpl.class, pluginSetting.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((PluginSettingModelImpl)pluginSetting, true);
 	}
 
 	@Override
 	public void clearCache(List<PluginSetting> pluginSettings) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PluginSetting pluginSetting : pluginSettings) {
 			EntityCacheUtil.removeResult(
 				PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 				PluginSettingImpl.class, pluginSetting.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(PluginSettingModelImpl)pluginSetting, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
@@ -1030,34 +1011,6 @@ public class PluginSettingPersistenceImpl
 			_finderPathCountByC_I_T, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByC_I_T, args, pluginSettingModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PluginSettingModelImpl pluginSettingModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				pluginSettingModelImpl.getCompanyId(),
-				pluginSettingModelImpl.getPluginId(),
-				pluginSettingModelImpl.getPluginType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_I_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_I_T, args);
-		}
-
-		if ((pluginSettingModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_I_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				pluginSettingModelImpl.getOriginalCompanyId(),
-				pluginSettingModelImpl.getOriginalPluginId(),
-				pluginSettingModelImpl.getOriginalPluginType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_I_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByC_I_T, args);
-		}
 	}
 
 	/**
@@ -1208,53 +1161,11 @@ public class PluginSettingPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PluginSettingModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				pluginSettingModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((pluginSettingModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					pluginSettingModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {pluginSettingModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingImpl.class, pluginSetting.getPrimaryKey(),
 			pluginSetting, false);
 
-		clearUniqueFindersCache(pluginSettingModelImpl, false);
 		cacheUniqueFindersCache(pluginSettingModelImpl);
 
 		pluginSetting.resetOriginalValues();

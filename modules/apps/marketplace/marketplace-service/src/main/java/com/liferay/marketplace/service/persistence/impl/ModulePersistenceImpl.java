@@ -3474,10 +3474,6 @@ public class ModulePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(ModuleImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3491,32 +3487,18 @@ public class ModulePersistenceImpl
 	public void clearCache(Module module) {
 		entityCache.removeResult(
 			entityCacheEnabled, ModuleImpl.class, module.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ModuleModelImpl)module, true);
 	}
 
 	@Override
 	public void clearCache(List<Module> modules) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Module module : modules) {
 			entityCache.removeResult(
 				entityCacheEnabled, ModuleImpl.class, module.getPrimaryKey());
-
-			clearUniqueFindersCache((ModuleModelImpl)module, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, ModuleImpl.class, primaryKey);
@@ -3542,55 +3524,6 @@ public class ModulePersistenceImpl
 			_finderPathCountByA_BSN_BV, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByA_BSN_BV, args, moduleModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ModuleModelImpl moduleModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				moduleModelImpl.getAppId(), moduleModelImpl.getContextName()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_CN, args);
-			finderCache.removeResult(_finderPathFetchByA_CN, args);
-		}
-
-		if ((moduleModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_CN.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				moduleModelImpl.getOriginalAppId(),
-				moduleModelImpl.getOriginalContextName()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_CN, args);
-			finderCache.removeResult(_finderPathFetchByA_CN, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				moduleModelImpl.getAppId(),
-				moduleModelImpl.getBundleSymbolicName(),
-				moduleModelImpl.getBundleVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_BSN_BV, args);
-			finderCache.removeResult(_finderPathFetchByA_BSN_BV, args);
-		}
-
-		if ((moduleModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_BSN_BV.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				moduleModelImpl.getOriginalAppId(),
-				moduleModelImpl.getOriginalBundleSymbolicName(),
-				moduleModelImpl.getOriginalBundleVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_BSN_BV, args);
-			finderCache.removeResult(_finderPathFetchByA_BSN_BV, args);
-		}
 	}
 
 	/**
@@ -3744,156 +3677,10 @@ public class ModulePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {moduleModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				moduleModelImpl.getUuid(), moduleModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {moduleModelImpl.getAppId()};
-
-			finderCache.removeResult(_finderPathCountByAppId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAppId, args);
-
-			args = new Object[] {moduleModelImpl.getBundleSymbolicName()};
-
-			finderCache.removeResult(
-				_finderPathCountByBundleSymbolicName, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBundleSymbolicName, args);
-
-			args = new Object[] {moduleModelImpl.getContextName()};
-
-			finderCache.removeResult(_finderPathCountByContextName, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByContextName, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((moduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {moduleModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((moduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalUuid(),
-					moduleModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					moduleModelImpl.getUuid(), moduleModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((moduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAppId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalAppId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAppId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAppId, args);
-
-				args = new Object[] {moduleModelImpl.getAppId()};
-
-				finderCache.removeResult(_finderPathCountByAppId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAppId, args);
-			}
-
-			if ((moduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBundleSymbolicName.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalBundleSymbolicName()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBundleSymbolicName, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBundleSymbolicName, args);
-
-				args = new Object[] {moduleModelImpl.getBundleSymbolicName()};
-
-				finderCache.removeResult(
-					_finderPathCountByBundleSymbolicName, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBundleSymbolicName, args);
-			}
-
-			if ((moduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByContextName.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					moduleModelImpl.getOriginalContextName()
-				};
-
-				finderCache.removeResult(_finderPathCountByContextName, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByContextName, args);
-
-				args = new Object[] {moduleModelImpl.getContextName()};
-
-				finderCache.removeResult(_finderPathCountByContextName, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByContextName, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, ModuleImpl.class, module.getPrimaryKey(),
 			module, false);
 
-		clearUniqueFindersCache(moduleModelImpl, false);
 		cacheUniqueFindersCache(moduleModelImpl);
 
 		module.resetOriginalValues();

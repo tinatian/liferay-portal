@@ -1885,10 +1885,6 @@ public class StatusPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(StatusImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1902,32 +1898,18 @@ public class StatusPersistenceImpl
 	public void clearCache(Status status) {
 		entityCache.removeResult(
 			entityCacheEnabled, StatusImpl.class, status.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((StatusModelImpl)status, true);
 	}
 
 	@Override
 	public void clearCache(List<Status> statuses) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Status status : statuses) {
 			entityCache.removeResult(
 				entityCacheEnabled, StatusImpl.class, status.getPrimaryKey());
-
-			clearUniqueFindersCache((StatusModelImpl)status, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, StatusImpl.class, primaryKey);
@@ -1941,26 +1923,6 @@ public class StatusPersistenceImpl
 			_finderPathCountByUserId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUserId, args, statusModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		StatusModelImpl statusModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {statusModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
-
-		if ((statusModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {statusModelImpl.getOriginalUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
 	}
 
 	/**
@@ -2102,104 +2064,10 @@ public class StatusPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {statusModelImpl.getModifiedDate()};
-
-			finderCache.removeResult(_finderPathCountByModifiedDate, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByModifiedDate, args);
-
-			args = new Object[] {statusModelImpl.isOnline()};
-
-			finderCache.removeResult(_finderPathCountByOnline, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByOnline, args);
-
-			args = new Object[] {
-				statusModelImpl.getModifiedDate(), statusModelImpl.isOnline()
-			};
-
-			finderCache.removeResult(_finderPathCountByM_O, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByM_O, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((statusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByModifiedDate.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate()
-				};
-
-				finderCache.removeResult(_finderPathCountByModifiedDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByModifiedDate, args);
-
-				args = new Object[] {statusModelImpl.getModifiedDate()};
-
-				finderCache.removeResult(_finderPathCountByModifiedDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByModifiedDate, args);
-			}
-
-			if ((statusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOnline.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					statusModelImpl.getOriginalOnline()
-				};
-
-				finderCache.removeResult(_finderPathCountByOnline, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOnline, args);
-
-				args = new Object[] {statusModelImpl.isOnline()};
-
-				finderCache.removeResult(_finderPathCountByOnline, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOnline, args);
-			}
-
-			if ((statusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByM_O.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					statusModelImpl.getOriginalModifiedDate(),
-					statusModelImpl.getOriginalOnline()
-				};
-
-				finderCache.removeResult(_finderPathCountByM_O, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByM_O, args);
-
-				args = new Object[] {
-					statusModelImpl.getModifiedDate(),
-					statusModelImpl.isOnline()
-				};
-
-				finderCache.removeResult(_finderPathCountByM_O, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByM_O, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, StatusImpl.class, status.getPrimaryKey(),
 			status, false);
 
-		clearUniqueFindersCache(statusModelImpl, false);
 		cacheUniqueFindersCache(statusModelImpl);
 
 		status.resetOriginalValues();

@@ -648,10 +648,6 @@ public class AttachmentPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AttachmentImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -666,16 +662,10 @@ public class AttachmentPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, AttachmentImpl.class,
 			attachment.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<Attachment> attachments) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Attachment attachment : attachments) {
 			entityCache.removeResult(
 				entityCacheEnabled, AttachmentImpl.class,
@@ -685,10 +675,6 @@ public class AttachmentPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AttachmentImpl.class, primaryKey);
@@ -840,43 +826,6 @@ public class AttachmentPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {attachmentModelImpl.getMessageId()};
-
-			finderCache.removeResult(_finderPathCountByMessageId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByMessageId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((attachmentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByMessageId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					attachmentModelImpl.getOriginalMessageId()
-				};
-
-				finderCache.removeResult(_finderPathCountByMessageId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByMessageId, args);
-
-				args = new Object[] {attachmentModelImpl.getMessageId()};
-
-				finderCache.removeResult(_finderPathCountByMessageId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByMessageId, args);
-			}
 		}
 
 		entityCache.putResult(

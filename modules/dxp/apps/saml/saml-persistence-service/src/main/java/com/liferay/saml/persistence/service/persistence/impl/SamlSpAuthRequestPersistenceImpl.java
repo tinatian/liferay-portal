@@ -1007,10 +1007,6 @@ public class SamlSpAuthRequestPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SamlSpAuthRequestImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1025,35 +1021,19 @@ public class SamlSpAuthRequestPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SamlSpAuthRequestImpl.class,
 			samlSpAuthRequest.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SamlSpAuthRequestModelImpl)samlSpAuthRequest, true);
 	}
 
 	@Override
 	public void clearCache(List<SamlSpAuthRequest> samlSpAuthRequests) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SamlSpAuthRequest samlSpAuthRequest : samlSpAuthRequests) {
 			entityCache.removeResult(
 				entityCacheEnabled, SamlSpAuthRequestImpl.class,
 				samlSpAuthRequest.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SamlSpAuthRequestModelImpl)samlSpAuthRequest, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SamlSpAuthRequestImpl.class, primaryKey);
@@ -1073,33 +1053,6 @@ public class SamlSpAuthRequestPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchBySIEI_SSARK, args, samlSpAuthRequestModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SamlSpAuthRequestModelImpl samlSpAuthRequestModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				samlSpAuthRequestModelImpl.getSamlIdpEntityId(),
-				samlSpAuthRequestModelImpl.getSamlSpAuthRequestKey()
-			};
-
-			finderCache.removeResult(_finderPathCountBySIEI_SSARK, args);
-			finderCache.removeResult(_finderPathFetchBySIEI_SSARK, args);
-		}
-
-		if ((samlSpAuthRequestModelImpl.getColumnBitmask() &
-			 _finderPathFetchBySIEI_SSARK.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				samlSpAuthRequestModelImpl.getOriginalSamlIdpEntityId(),
-				samlSpAuthRequestModelImpl.getOriginalSamlSpAuthRequestKey()
-			};
-
-			finderCache.removeResult(_finderPathCountBySIEI_SSARK, args);
-			finderCache.removeResult(_finderPathFetchBySIEI_SSARK, args);
-		}
 	}
 
 	/**
@@ -1255,22 +1208,10 @@ public class SamlSpAuthRequestPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SamlSpAuthRequestImpl.class,
 			samlSpAuthRequest.getPrimaryKey(), samlSpAuthRequest, false);
 
-		clearUniqueFindersCache(samlSpAuthRequestModelImpl, false);
 		cacheUniqueFindersCache(samlSpAuthRequestModelImpl);
 
 		samlSpAuthRequest.resetOriginalValues();

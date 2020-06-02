@@ -1661,10 +1661,6 @@ public class JournalArticleLocalizationPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(JournalArticleLocalizationImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1681,21 +1677,11 @@ public class JournalArticleLocalizationPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, JournalArticleLocalizationImpl.class,
 			journalArticleLocalization.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(JournalArticleLocalizationModelImpl)journalArticleLocalization,
-			true);
 	}
 
 	@Override
 	public void clearCache(
 		List<JournalArticleLocalization> journalArticleLocalizations) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (JournalArticleLocalization journalArticleLocalization :
 				journalArticleLocalizations) {
@@ -1703,19 +1689,11 @@ public class JournalArticleLocalizationPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, JournalArticleLocalizationImpl.class,
 				journalArticleLocalization.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(JournalArticleLocalizationModelImpl)journalArticleLocalization,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, JournalArticleLocalizationImpl.class,
@@ -1762,83 +1740,6 @@ public class JournalArticleLocalizationPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_A_T_L, args,
 			journalArticleLocalizationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		JournalArticleLocalizationModelImpl journalArticleLocalizationModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getArticlePK(),
-				journalArticleLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_L, args);
-			finderCache.removeResult(_finderPathFetchByA_L, args);
-		}
-
-		if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_L, args);
-			finderCache.removeResult(_finderPathFetchByA_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getCompanyId(),
-				journalArticleLocalizationModelImpl.getArticlePK(),
-				journalArticleLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_L, args);
-		}
-
-		if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_A_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalCompanyId(),
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getCompanyId(),
-				journalArticleLocalizationModelImpl.getArticlePK(),
-				journalArticleLocalizationModelImpl.getTitle(),
-				journalArticleLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_T_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_T_L, args);
-		}
-
-		if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_A_T_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalCompanyId(),
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalTitle(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_T_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_T_L, args);
-		}
 	}
 
 	/**
@@ -2024,53 +1925,11 @@ public class JournalArticleLocalizationPersistenceImpl
 			return journalArticleLocalization;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getArticlePK()
-			};
-
-			finderCache.removeResult(_finderPathCountByArticlePK, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByArticlePK, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByArticlePK.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					journalArticleLocalizationModelImpl.getOriginalArticlePK()
-				};
-
-				finderCache.removeResult(_finderPathCountByArticlePK, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByArticlePK, args);
-
-				args = new Object[] {
-					journalArticleLocalizationModelImpl.getArticlePK()
-				};
-
-				finderCache.removeResult(_finderPathCountByArticlePK, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByArticlePK, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, JournalArticleLocalizationImpl.class,
 			journalArticleLocalization.getPrimaryKey(),
 			journalArticleLocalization, false);
 
-		clearUniqueFindersCache(journalArticleLocalizationModelImpl, false);
 		cacheUniqueFindersCache(journalArticleLocalizationModelImpl);
 
 		journalArticleLocalization.resetOriginalValues();
