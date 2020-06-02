@@ -34,21 +34,22 @@ public class FinderPath {
 
 	public FinderPath(
 		boolean entityCacheEnabled, boolean finderCacheEnabled,
-		Class<?> resultClass, String cacheName, String methodName,
-		String[] params) {
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params) {
 
 		this(
-			entityCacheEnabled, finderCacheEnabled, resultClass, cacheName,
-			methodName, params, -1);
+			entityCacheEnabled, finderCacheEnabled, modelImplClass, resultClass,
+			cacheName, methodName, params, -1);
 	}
 
 	public FinderPath(
 		boolean entityCacheEnabled, boolean finderCacheEnabled,
-		Class<?> resultClass, String cacheName, String methodName,
-		String[] params, long columnBitmask) {
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params, long columnBitmask) {
 
 		_entityCacheEnabled = entityCacheEnabled;
 		_finderCacheEnabled = finderCacheEnabled;
+		_modelImplClass = modelImplClass;
 		_resultClass = resultClass;
 		_cacheName = cacheName;
 		_columnBitmask = columnBitmask;
@@ -149,6 +150,10 @@ public class FinderPath {
 		return _columnBitmask;
 	}
 
+	public Class<?> getModelImplClass() {
+		return _modelImplClass;
+	}
+
 	public Class<?> getResultClass() {
 		return _resultClass;
 	}
@@ -230,6 +235,7 @@ public class FinderPath {
 	private final long _columnBitmask;
 	private final boolean _entityCacheEnabled;
 	private final boolean _finderCacheEnabled;
+	private final Class<?> _modelImplClass;
 	private final Class<?> _resultClass;
 
 }

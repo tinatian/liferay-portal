@@ -1950,6 +1950,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			${entityCacheEnabled},
 			${finderCacheEnabled},
 			${entity.name}Impl.class,
+			${entity.name}Impl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
@@ -1957,12 +1958,14 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			${entityCacheEnabled},
 			${finderCacheEnabled},
 			${entity.name}Impl.class,
+			${entity.name}Impl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			${entityCacheEnabled},
 			${finderCacheEnabled},
+			${entity.name}Impl.class,
 			Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countAll", new String[0]);
@@ -1971,6 +1974,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			_finderPathWithPaginationCountAncestors = new FinderPath(
 				${entityCacheEnabled},
 				${finderCacheEnabled},
+				${entity.name}Impl.class,
 				Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countAncestors",
@@ -1979,6 +1983,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			_finderPathWithPaginationCountDescendants = new FinderPath(
 				${entityCacheEnabled},
 				${finderCacheEnabled},
+				${entity.name}Impl.class,
 				Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countDescendants",
@@ -1988,6 +1993,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				${entityCacheEnabled},
 				${finderCacheEnabled},
 				${entity.name}Impl.class,
+				${entity.name}Impl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"getAncestors",
 				new String[] {Long.class.getName(), Long.class.getName(), Long.class.getName()});
@@ -1995,6 +2001,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			_finderPathWithPaginationGetDescendants = new FinderPath(
 				${entityCacheEnabled},
 				${finderCacheEnabled},
+				${entity.name}Impl.class,
 				${entity.name}Impl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"getDescendants",
@@ -2008,6 +2015,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				_finderPathWithPaginationFindBy${entityFinder.name} = new FinderPath(
 					${entityCacheEnabled},
 					${finderCacheEnabled},
+					${entity.name}Impl.class,
 					${entity.name}Impl.class,
 					FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 					"findBy${entityFinder.name}",
@@ -2023,6 +2031,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					_finderPathWithoutPaginationFindBy${entityFinder.name} = new FinderPath(
 						${entityCacheEnabled},
 						${finderCacheEnabled},
+						${entity.name}Impl.class,
 						${entity.name}Impl.class,
 						FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 						"findBy${entityFinder.name}",
@@ -2065,6 +2074,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					${entityCacheEnabled},
 					${finderCacheEnabled},
 					${entity.name}Impl.class,
+					${entity.name}Impl.class,
 					FINDER_CLASS_NAME_ENTITY,
 					"fetchBy${entityFinder.name}",
 					new String[] {
@@ -2096,6 +2106,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				_finderPathCountBy${entityFinder.name} = new FinderPath(
 					${entityCacheEnabled},
 					${finderCacheEnabled},
+					${entity.name}Impl.class,
 					Long.class,
 					FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 					"countBy${entityFinder.name}",
@@ -2114,6 +2125,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				_finderPathWithPaginationCountBy${entityFinder.name} = new FinderPath(
 					${entityCacheEnabled},
 					${finderCacheEnabled},
+					${entity.name}Impl.class,
 					Long.class,
 					FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 					"countBy${entityFinder.name}",
