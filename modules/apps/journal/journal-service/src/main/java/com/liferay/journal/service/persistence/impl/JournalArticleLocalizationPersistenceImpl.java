@@ -2413,21 +2413,25 @@ public class JournalArticleLocalizationPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			JournalArticleLocalizationImpl.class,
+			JournalArticleLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			JournalArticleLocalizationImpl.class,
+			JournalArticleLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByArticlePK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class,
 			JournalArticleLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByArticlePK",
 			new String[] {
@@ -2438,17 +2442,20 @@ public class JournalArticleLocalizationPersistenceImpl
 		_finderPathWithoutPaginationFindByArticlePK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			JournalArticleLocalizationImpl.class,
+			JournalArticleLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByArticlePK",
 			new String[] {Long.class.getName()},
 			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK);
 
 		_finderPathCountByArticlePK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByArticlePK",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByA_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class,
 			JournalArticleLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByA_L",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -2456,12 +2463,14 @@ public class JournalArticleLocalizationPersistenceImpl
 			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByA_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_L",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByC_A_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class,
 			JournalArticleLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByC_A_L",
 			new String[] {
@@ -2473,7 +2482,8 @@ public class JournalArticleLocalizationPersistenceImpl
 			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByC_A_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2482,6 +2492,7 @@ public class JournalArticleLocalizationPersistenceImpl
 
 		_finderPathFetchByC_A_T_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class,
 			JournalArticleLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByC_A_T_L",
 			new String[] {
@@ -2494,7 +2505,8 @@ public class JournalArticleLocalizationPersistenceImpl
 			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByC_A_T_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			JournalArticleLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A_T_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

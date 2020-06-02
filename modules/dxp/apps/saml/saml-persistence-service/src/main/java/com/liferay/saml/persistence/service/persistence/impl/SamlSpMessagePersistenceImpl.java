@@ -1477,41 +1477,45 @@ public class SamlSpMessagePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SamlSpMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			SamlSpMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByExpirationDate = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByExpirationDate",
+			SamlSpMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByExpirationDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithPaginationCountByExpirationDate = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByExpirationDate",
-			new String[] {Date.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByExpirationDate", new String[] {Date.class.getName()});
 
 		_finderPathFetchBySIEI_SIRK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySIEI_SIRK",
+			SamlSpMessageImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySIEI_SIRK",
 			new String[] {String.class.getName(), String.class.getName()},
 			SamlSpMessageModelImpl.SAMLIDPENTITYID_COLUMN_BITMASK |
 			SamlSpMessageModelImpl.SAMLIDPRESPONSEKEY_COLUMN_BITMASK);
 
 		_finderPathCountBySIEI_SIRK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIEI_SIRK",
+			entityCacheEnabled, finderCacheEnabled, SamlSpMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySIEI_SIRK",
 			new String[] {String.class.getName(), String.class.getName()});
 	}
 

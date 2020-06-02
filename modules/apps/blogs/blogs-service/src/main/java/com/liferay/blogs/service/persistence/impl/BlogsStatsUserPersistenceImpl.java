@@ -3501,21 +3501,23 @@ public class BlogsStatsUserPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3523,19 +3525,20 @@ public class BlogsStatsUserPersistenceImpl
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupId", new String[] {Long.class.getName()},
 			BlogsStatsUserModelImpl.GROUPID_COLUMN_BITMASK |
 			BlogsStatsUserModelImpl.ENTRYCOUNT_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3543,31 +3546,32 @@ public class BlogsStatsUserPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			BlogsStatsUserModelImpl.USERID_COLUMN_BITMASK |
 			BlogsStatsUserModelImpl.ENTRYCOUNT_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_U",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			BlogsStatsUserModelImpl.GROUPID_COLUMN_BITMASK |
 			BlogsStatsUserModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByG_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_NotE = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_NotE",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_NotE",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3575,13 +3579,14 @@ public class BlogsStatsUserPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByG_NotE = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotE",
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotE",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByC_NotE = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_NotE",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_NotE",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3589,13 +3594,14 @@ public class BlogsStatsUserPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByC_NotE = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_NotE",
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_NotE",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByU_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_L",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_L",
 			new String[] {
 				Long.class.getName(), Date.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3604,15 +3610,16 @@ public class BlogsStatsUserPersistenceImpl
 
 		_finderPathWithoutPaginationFindByU_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_L",
+			BlogsStatsUserImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_L",
 			new String[] {Long.class.getName(), Date.class.getName()},
 			BlogsStatsUserModelImpl.USERID_COLUMN_BITMASK |
 			BlogsStatsUserModelImpl.LASTPOSTDATE_COLUMN_BITMASK |
 			BlogsStatsUserModelImpl.ENTRYCOUNT_COLUMN_BITMASK);
 
 		_finderPathCountByU_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_L",
+			entityCacheEnabled, finderCacheEnabled, BlogsStatsUserImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_L",
 			new String[] {Long.class.getName(), Date.class.getName()});
 	}
 

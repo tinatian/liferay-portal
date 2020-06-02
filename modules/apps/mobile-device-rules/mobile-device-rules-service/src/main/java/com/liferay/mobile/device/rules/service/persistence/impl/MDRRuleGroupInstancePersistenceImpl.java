@@ -5336,23 +5336,24 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -5361,32 +5362,34 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			MDRRuleGroupInstanceModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			MDRRuleGroupInstanceModelImpl.UUID_COLUMN_BITMASK |
 			MDRRuleGroupInstanceModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -5396,20 +5399,21 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			MDRRuleGroupInstanceModelImpl.UUID_COLUMN_BITMASK |
 			MDRRuleGroupInstanceModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -5418,19 +5422,20 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			MDRRuleGroupInstanceModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByRuleGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRuleGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -5439,19 +5444,20 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithoutPaginationFindByRuleGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRuleGroupId",
 			new String[] {Long.class.getName()},
 			MDRRuleGroupInstanceModelImpl.RULEGROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByRuleGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRuleGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5461,20 +5467,21 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MDRRuleGroupInstanceModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			MDRRuleGroupInstanceModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_C_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5484,7 +5491,7 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class,
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -5494,7 +5501,8 @@ public class MDRRuleGroupInstancePersistenceImpl
 			MDRRuleGroupInstanceModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -5502,8 +5510,8 @@ public class MDRRuleGroupInstancePersistenceImpl
 
 		_finderPathFetchByC_C_R = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			MDRRuleGroupInstanceImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByC_C_R",
+			MDRRuleGroupInstanceImpl.class, MDRRuleGroupInstanceImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_R",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -5512,7 +5520,8 @@ public class MDRRuleGroupInstancePersistenceImpl
 			MDRRuleGroupInstanceModelImpl.RULEGROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByC_C_R = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			MDRRuleGroupInstanceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_R",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()

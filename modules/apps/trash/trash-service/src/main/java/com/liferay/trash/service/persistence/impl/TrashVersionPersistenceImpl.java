@@ -1884,21 +1884,23 @@ public class TrashVersionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntryId",
+			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1906,18 +1908,19 @@ public class TrashVersionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEntryId",
-			new String[] {Long.class.getName()},
+			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByEntryId", new String[] {Long.class.getName()},
 			TrashVersionModelImpl.ENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEntryId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByEntryId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByE_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE_C",
+			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByE_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -1926,26 +1929,27 @@ public class TrashVersionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByE_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE_C",
+			TrashVersionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByE_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			TrashVersionModelImpl.ENTRYID_COLUMN_BITMASK |
 			TrashVersionModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
 		_finderPathCountByE_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_C",
+			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			TrashVersionImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			TrashVersionModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			TrashVersionModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			entityCacheEnabled, finderCacheEnabled, TrashVersionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

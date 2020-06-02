@@ -1277,24 +1277,26 @@ public class ImagePersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			ImageModelImpl.ENTITY_CACHE_ENABLED,
 			ImageModelImpl.FINDER_CACHE_ENABLED, ImageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			ImageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			ImageModelImpl.ENTITY_CACHE_ENABLED,
 			ImageModelImpl.FINDER_CACHE_ENABLED, ImageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			ImageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			ImageModelImpl.ENTITY_CACHE_ENABLED,
-			ImageModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ImageModelImpl.FINDER_CACHE_ENABLED, ImageImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByLtSize = new FinderPath(
 			ImageModelImpl.ENTITY_CACHE_ENABLED,
 			ImageModelImpl.FINDER_CACHE_ENABLED, ImageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLtSize",
+			ImageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByLtSize",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1302,7 +1304,7 @@ public class ImagePersistenceImpl
 
 		_finderPathWithPaginationCountByLtSize = new FinderPath(
 			ImageModelImpl.ENTITY_CACHE_ENABLED,
-			ImageModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ImageModelImpl.FINDER_CACHE_ENABLED, ImageImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLtSize",
 			new String[] {Integer.class.getName()});
 	}

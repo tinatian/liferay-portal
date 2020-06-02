@@ -1108,21 +1108,23 @@ public class AttachmentPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AttachmentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AttachmentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, AttachmentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByMessageId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AttachmentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByMessageId",
+			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByMessageId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1130,14 +1132,14 @@ public class AttachmentPersistenceImpl
 
 		_finderPathWithoutPaginationFindByMessageId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AttachmentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByMessageId",
-			new String[] {Long.class.getName()},
+			AttachmentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByMessageId", new String[] {Long.class.getName()},
 			AttachmentModelImpl.MESSAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByMessageId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByMessageId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, AttachmentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByMessageId", new String[] {Long.class.getName()});
 	}
 
 	@Deactivate

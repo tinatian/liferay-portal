@@ -2135,21 +2135,24 @@ public class DDMTemplateLinkPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByClassNameId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByClassNameId",
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByClassNameId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2157,18 +2160,20 @@ public class DDMTemplateLinkPersistenceImpl
 
 		_finderPathWithoutPaginationFindByClassNameId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByClassNameId",
 			new String[] {Long.class.getName()},
 			DDMTemplateLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
 		_finderPathCountByClassNameId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByClassNameId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByClassNameId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByTemplateId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTemplateId",
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByTemplateId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2176,25 +2181,26 @@ public class DDMTemplateLinkPersistenceImpl
 
 		_finderPathWithoutPaginationFindByTemplateId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateId",
 			new String[] {Long.class.getName()},
 			DDMTemplateLinkModelImpl.TEMPLATEID_COLUMN_BITMASK);
 
 		_finderPathCountByTemplateId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTemplateId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByTemplateId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DDMTemplateLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			DDMTemplateLinkModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

@@ -1431,26 +1431,28 @@ public class LazyBlobEntityPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			LazyBlobEntityImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			LazyBlobEntityImpl.class, LazyBlobEntityImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			LazyBlobEntityImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			LazyBlobEntityImpl.class, LazyBlobEntityImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
-			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
+			LazyBlobEntityImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			LazyBlobEntityImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			LazyBlobEntityImpl.class, LazyBlobEntityImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1459,27 +1461,31 @@ public class LazyBlobEntityPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			LazyBlobEntityImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
+			LazyBlobEntityImpl.class, LazyBlobEntityImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
 			LazyBlobEntityModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
-			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
+			LazyBlobEntityImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			LazyBlobEntityImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			LazyBlobEntityImpl.class, LazyBlobEntityImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			LazyBlobEntityModelImpl.UUID_COLUMN_BITMASK |
 			LazyBlobEntityModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
 			LazyBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
-			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LazyBlobEntityModelImpl.FINDER_CACHE_ENABLED,
+			LazyBlobEntityImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 	}

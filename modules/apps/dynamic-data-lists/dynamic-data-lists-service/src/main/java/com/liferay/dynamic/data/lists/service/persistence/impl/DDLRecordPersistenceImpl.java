@@ -4759,21 +4759,23 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4781,30 +4783,32 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			DDLRecordModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DDLRecordModelImpl.UUID_COLUMN_BITMASK |
 			DDLRecordModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4813,19 +4817,22 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DDLRecordModelImpl.UUID_COLUMN_BITMASK |
 			DDLRecordModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4833,18 +4840,19 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompanyId", new String[] {Long.class.getName()},
 			DDLRecordModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByRecordSetId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRecordSetId",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByRecordSetId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4852,18 +4860,19 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByRecordSetId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRecordSetId",
-			new String[] {Long.class.getName()},
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByRecordSetId", new String[] {Long.class.getName()},
 			DDLRecordModelImpl.RECORDSETID_COLUMN_BITMASK);
 
 		_finderPathCountByRecordSetId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRecordSetId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByRecordSetId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByR_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_U",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByR_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4872,19 +4881,21 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByR_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_U",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByR_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DDLRecordModelImpl.RECORDSETID_COLUMN_BITMASK |
 			DDLRecordModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByR_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_U",
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByR_R = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_R",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByR_R",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4893,19 +4904,21 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByR_R = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_R",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByR_R",
 			new String[] {Long.class.getName(), String.class.getName()},
 			DDLRecordModelImpl.RECORDSETID_COLUMN_BITMASK |
 			DDLRecordModelImpl.RECORDSETVERSION_COLUMN_BITMASK);
 
 		_finderPathCountByR_R = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_R",
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_R",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4914,14 +4927,15 @@ public class DDLRecordPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			DDLRecordImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DDLRecordModelImpl.CLASSNAME_COLUMN_BITMASK |
 			DDLRecordModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			entityCacheEnabled, finderCacheEnabled, DDLRecordImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 	}
 

@@ -13348,26 +13348,28 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13376,36 +13378,40 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
 			AssetCategoryModelImpl.UUID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			AssetCategoryModelImpl.UUID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13415,8 +13421,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid_C",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			AssetCategoryModelImpl.UUID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -13424,15 +13430,16 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathCountByUuid_C = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13441,22 +13448,24 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
 			AssetCategoryModelImpl.GROUPID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByParentCategoryId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByParentCategoryId",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByParentCategoryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13465,22 +13474,24 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByParentCategoryId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByParentCategoryId", new String[] {Long.class.getName()},
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByParentCategoryId",
+			new String[] {Long.class.getName()},
 			AssetCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByParentCategoryId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByParentCategoryId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByVocabularyId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByVocabularyId",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByVocabularyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13489,22 +13500,24 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByVocabularyId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByVocabularyId", new String[] {Long.class.getName()},
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByVocabularyId",
+			new String[] {Long.class.getName()},
 			AssetCategoryModelImpl.VOCABULARYID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByVocabularyId = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByVocabularyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_P = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_P",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13514,8 +13527,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByG_P = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByG_P",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AssetCategoryModelImpl.GROUPID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
@@ -13523,15 +13536,16 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathCountByG_P = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13541,8 +13555,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByG_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByG_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_V",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AssetCategoryModelImpl.GROUPID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.VOCABULARYID_COLUMN_BITMASK |
@@ -13550,21 +13564,23 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathCountByG_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_V",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationCountByG_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_V",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByP_N = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByP_N",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_N",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13574,23 +13590,24 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByP_N = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByP_N",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			AssetCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByP_N = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByP_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByP_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13600,8 +13617,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByP_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByP_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_V",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AssetCategoryModelImpl.PARENTCATEGORYID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.VOCABULARYID_COLUMN_BITMASK |
@@ -13609,15 +13626,16 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathCountByP_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_V",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByN_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByN_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByN_V",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13627,23 +13645,24 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByN_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByN_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByN_V",
 			new String[] {String.class.getName(), Long.class.getName()},
 			AssetCategoryModelImpl.NAME_COLUMN_BITMASK |
 			AssetCategoryModelImpl.VOCABULARYID_COLUMN_BITMASK);
 
 		_finderPathCountByN_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByN_V",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_P_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_P_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -13653,8 +13672,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithoutPaginationFindByG_P_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByG_P_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -13665,7 +13684,8 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathCountByG_P_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -13674,8 +13694,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithPaginationFindByG_LikeT_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_LikeT_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_LikeT_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -13684,7 +13704,8 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathWithPaginationCountByG_LikeT_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_LikeT_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -13694,8 +13715,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathWithPaginationFindByG_LikeN_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_LikeN_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_LikeN_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -13704,7 +13725,8 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathWithPaginationCountByG_LikeN_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_LikeN_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -13714,7 +13736,8 @@ public class AssetCategoryPersistenceImpl
 		_finderPathFetchByP_N_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByP_N_V",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByP_N_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName()
@@ -13725,7 +13748,8 @@ public class AssetCategoryPersistenceImpl
 
 		_finderPathCountByP_N_V = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_N_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -13735,14 +13759,16 @@ public class AssetCategoryPersistenceImpl
 		_finderPathFetchByC_ERC = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
-			AssetCategoryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC",
+			AssetCategoryImpl.class, AssetCategoryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()},
 			AssetCategoryModelImpl.COMPANYID_COLUMN_BITMASK |
 			AssetCategoryModelImpl.EXTERNALREFERENCECODE_COLUMN_BITMASK);
 
 		_finderPathCountByC_ERC = new FinderPath(
 			AssetCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			AssetCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AssetCategoryModelImpl.FINDER_CACHE_ENABLED,
+			AssetCategoryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

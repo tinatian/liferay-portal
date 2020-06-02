@@ -6203,26 +6203,28 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6231,21 +6233,23 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
 			SocialRelationModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6255,23 +6259,24 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid_C",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SocialRelationModelImpl.UUID_COLUMN_BITMASK |
 			SocialRelationModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCompanyId",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6280,21 +6285,23 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByCompanyId", new String[] {Long.class.getName()},
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
+			new String[] {Long.class.getName()},
 			SocialRelationModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId1 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUserId1",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId1",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6303,21 +6310,23 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId1 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUserId1", new String[] {Long.class.getName()},
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId1",
+			new String[] {Long.class.getName()},
 			SocialRelationModelImpl.USERID1_COLUMN_BITMASK);
 
 		_finderPathCountByUserId1 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId1",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId2 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUserId2",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId2",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6326,21 +6335,23 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId2 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUserId2", new String[] {Long.class.getName()},
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId2",
+			new String[] {Long.class.getName()},
 			SocialRelationModelImpl.USERID2_COLUMN_BITMASK);
 
 		_finderPathCountByUserId2 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId2",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByType = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByType",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6349,21 +6360,23 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByType = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByType", new String[] {Integer.class.getName()},
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
+			new String[] {Integer.class.getName()},
 			SocialRelationModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByType = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
 			new String[] {Integer.class.getName()});
 
 		_finderPathWithPaginationFindByC_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByC_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6373,23 +6386,24 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByC_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByC_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			SocialRelationModelImpl.COMPANYID_COLUMN_BITMASK |
 			SocialRelationModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByC_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByU1_U2 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByU1_U2",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU1_U2",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6399,23 +6413,24 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByU1_U2 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByU1_U2",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU1_U2",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SocialRelationModelImpl.USERID1_COLUMN_BITMASK |
 			SocialRelationModelImpl.USERID2_COLUMN_BITMASK);
 
 		_finderPathCountByU1_U2 = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU1_U2",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByU1_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByU1_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU1_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6425,23 +6440,24 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByU1_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByU1_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU1_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			SocialRelationModelImpl.USERID1_COLUMN_BITMASK |
 			SocialRelationModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByU1_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU1_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByU2_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByU2_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU2_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6451,23 +6467,24 @@ public class SocialRelationPersistenceImpl
 		_finderPathWithoutPaginationFindByU2_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByU2_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU2_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			SocialRelationModelImpl.USERID2_COLUMN_BITMASK |
 			SocialRelationModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByU2_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU2_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathFetchByU1_U2_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
 			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
-			SocialRelationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByU1_U2_T",
+			SocialRelationImpl.class, SocialRelationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByU1_U2_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -6478,7 +6495,8 @@ public class SocialRelationPersistenceImpl
 
 		_finderPathCountByU1_U2_T = new FinderPath(
 			SocialRelationModelImpl.ENTITY_CACHE_ENABLED,
-			SocialRelationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialRelationModelImpl.FINDER_CACHE_ENABLED,
+			SocialRelationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU1_U2_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

@@ -6048,21 +6048,24 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6070,6 +6073,7 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			CalendarBookingModelImpl.UUID_COLUMN_BITMASK |
@@ -6077,25 +6081,28 @@ public class CalendarBookingPersistenceImpl
 			CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			CalendarBookingModelImpl.UUID_COLUMN_BITMASK |
 			CalendarBookingModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6104,6 +6111,7 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			CalendarBookingModelImpl.UUID_COLUMN_BITMASK |
@@ -6112,13 +6120,15 @@ public class CalendarBookingPersistenceImpl
 			CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCalendarId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCalendarId",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCalendarId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6126,6 +6136,7 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCalendarId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCalendarId",
 			new String[] {Long.class.getName()},
 			CalendarBookingModelImpl.CALENDARID_COLUMN_BITMASK |
@@ -6133,13 +6144,14 @@ public class CalendarBookingPersistenceImpl
 			CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByCalendarId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCalendarId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCalendarId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByCalendarResourceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCalendarResourceId",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCalendarResourceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -6147,6 +6159,7 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCalendarResourceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByCalendarResourceId", new String[] {Long.class.getName()},
 			CalendarBookingModelImpl.CALENDARRESOURCEID_COLUMN_BITMASK |
@@ -6154,13 +6167,13 @@ public class CalendarBookingPersistenceImpl
 			CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByCalendarResourceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCalendarResourceId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByParentCalendarBookingId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByParentCalendarBookingId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -6170,7 +6183,7 @@ public class CalendarBookingPersistenceImpl
 		_finderPathWithoutPaginationFindByParentCalendarBookingId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				CalendarBookingImpl.class,
+				CalendarBookingImpl.class, CalendarBookingImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByParentCalendarBookingId",
 				new String[] {Long.class.getName()},
@@ -6180,15 +6193,15 @@ public class CalendarBookingPersistenceImpl
 				CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByParentCalendarBookingId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByParentCalendarBookingId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByRecurringCalendarBookingId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				CalendarBookingImpl.class,
+				CalendarBookingImpl.class, CalendarBookingImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByRecurringCalendarBookingId",
 				new String[] {
@@ -6199,7 +6212,7 @@ public class CalendarBookingPersistenceImpl
 		_finderPathWithoutPaginationFindByRecurringCalendarBookingId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				CalendarBookingImpl.class,
+				CalendarBookingImpl.class, CalendarBookingImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByRecurringCalendarBookingId",
 				new String[] {Long.class.getName()},
@@ -6209,38 +6222,39 @@ public class CalendarBookingPersistenceImpl
 				CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByRecurringCalendarBookingId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByRecurringCalendarBookingId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_P",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			CalendarBookingModelImpl.CALENDARID_COLUMN_BITMASK |
 			CalendarBookingModelImpl.PARENTCALENDARBOOKINGID_COLUMN_BITMASK);
 
 		_finderPathCountByC_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_P",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_P",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByC_V = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_V",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_V",
 			new String[] {Long.class.getName(), String.class.getName()},
 			CalendarBookingModelImpl.CALENDARID_COLUMN_BITMASK |
 			CalendarBookingModelImpl.VEVENTUID_COLUMN_BITMASK);
 
 		_finderPathCountByC_V = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_V",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_V",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByC_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_S",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6249,6 +6263,7 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			CalendarBookingModelImpl.CALENDARID_COLUMN_BITMASK |
@@ -6257,18 +6272,19 @@ public class CalendarBookingPersistenceImpl
 			CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByC_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationCountByC_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_S",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByP_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_S",
+			CalendarBookingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByP_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -6277,6 +6293,7 @@ public class CalendarBookingPersistenceImpl
 
 		_finderPathWithoutPaginationFindByP_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			CalendarBookingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			CalendarBookingModelImpl.PARENTCALENDARBOOKINGID_COLUMN_BITMASK |
@@ -6285,8 +6302,8 @@ public class CalendarBookingPersistenceImpl
 			CalendarBookingModelImpl.TITLE_COLUMN_BITMASK);
 
 		_finderPathCountByP_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_S",
+			entityCacheEnabled, finderCacheEnabled, CalendarBookingImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 	}
 

@@ -21440,21 +21440,23 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21462,31 +21464,33 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			MBMessageModelImpl.UUID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			MBMessageImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.UUID_COLUMN_BITMASK |
 			MBMessageModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21495,20 +21499,23 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.UUID_COLUMN_BITMASK |
 			MBMessageModelImpl.COMPANYID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21516,19 +21523,20 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupId", new String[] {Long.class.getName()},
 			MBMessageModelImpl.GROUPID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21536,19 +21544,20 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompanyId", new String[] {Long.class.getName()},
 			MBMessageModelImpl.COMPANYID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21556,19 +21565,20 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			MBMessageModelImpl.USERID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByThreadId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByThreadId",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByThreadId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21576,19 +21586,20 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByThreadId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByThreadId",
-			new String[] {Long.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByThreadId", new String[] {Long.class.getName()},
 			MBMessageModelImpl.THREADID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByThreadId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByThreadId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByThreadId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByThreadReplies = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByThreadReplies",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByThreadReplies",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21596,19 +21607,20 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByThreadReplies = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByThreadReplies",
-			new String[] {Long.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByThreadReplies", new String[] {Long.class.getName()},
 			MBMessageModelImpl.THREADID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByThreadReplies = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByThreadReplies",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByThreadReplies", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByParentMessageId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByParentMessageId",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByParentMessageId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -21616,19 +21628,20 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByParentMessageId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByParentMessageId",
-			new String[] {Long.class.getName()},
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByParentMessageId", new String[] {Long.class.getName()},
 			MBMessageModelImpl.PARENTMESSAGEID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByParentMessageId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByParentMessageId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByParentMessageId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21637,20 +21650,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.GROUPID_COLUMN_BITMASK |
 			MBMessageModelImpl.USERID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21659,32 +21674,35 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.GROUPID_COLUMN_BITMASK |
 			MBMessageModelImpl.CATEGORYID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByG_US = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_US",
+			MBMessageImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_US",
 			new String[] {Long.class.getName(), String.class.getName()},
 			MBMessageModelImpl.GROUPID_COLUMN_BITMASK |
 			MBMessageModelImpl.URLSUBJECT_COLUMN_BITMASK);
 
 		_finderPathCountByG_US = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_US",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_US",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByG_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21693,20 +21711,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			MBMessageModelImpl.GROUPID_COLUMN_BITMASK |
 			MBMessageModelImpl.STATUS_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByC_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21715,20 +21735,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			MBMessageModelImpl.COMPANYID_COLUMN_BITMASK |
 			MBMessageModelImpl.STATUS_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByC_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByU_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21737,25 +21759,27 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByU_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.USERID_COLUMN_BITMASK |
 			MBMessageModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByU_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationCountByU_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_C",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21764,20 +21788,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			MBMessageModelImpl.CLASSPK_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByT_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_P",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByT_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21786,20 +21812,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByT_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_P",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByT_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MBMessageModelImpl.THREADID_COLUMN_BITMASK |
 			MBMessageModelImpl.PARENTMESSAGEID_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByT_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_P",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_P",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByT_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_A",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByT_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21808,20 +21836,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByT_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_A",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByT_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			MBMessageModelImpl.THREADID_COLUMN_BITMASK |
 			MBMessageModelImpl.ANSWER_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByT_A = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_A",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
 		_finderPathWithPaginationFindByT_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByT_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21830,20 +21860,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByT_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByT_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			MBMessageModelImpl.THREADID_COLUMN_BITMASK |
 			MBMessageModelImpl.STATUS_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByT_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByT_notS = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_notS",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByT_notS",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21851,13 +21883,14 @@ public class MBMessagePersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByT_notS = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByT_notS",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByT_notS",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByTR_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTR_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByTR_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21866,20 +21899,23 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByTR_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTR_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByTR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			MBMessageModelImpl.THREADID_COLUMN_BITMASK |
 			MBMessageModelImpl.STATUS_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByTR_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTR_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByTR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByP_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByP_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21888,20 +21924,22 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByP_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByP_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			MBMessageModelImpl.PARENTMESSAGEID_COLUMN_BITMASK |
 			MBMessageModelImpl.STATUS_COLUMN_BITMASK |
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByP_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByG_U_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21910,7 +21948,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_U_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -21921,8 +21960,9 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_U_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -21930,7 +21970,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindByG_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_T",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -21939,7 +21980,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_T",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -21949,15 +21991,17 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_T",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
 		_finderPathWithPaginationFindByG_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -21966,7 +22010,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -21977,8 +22022,9 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -21986,7 +22032,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindByU_C_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -21995,7 +22042,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByU_C_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C_C",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -22005,15 +22053,17 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByU_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C_C",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
 		_finderPathWithPaginationFindByU_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -22022,7 +22072,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByU_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -22033,16 +22084,17 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByU_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			});
 
 		_finderPathWithPaginationCountByU_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_C_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -22050,7 +22102,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindByC_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -22059,7 +22112,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -22070,8 +22124,9 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByC_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -22079,7 +22134,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindByG_C_T_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_T_A",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_T_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName(),
@@ -22089,7 +22145,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_T_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_T_A",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_T_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName()
@@ -22101,8 +22158,9 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_T_A = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_T_A",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_T_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName()
@@ -22110,7 +22168,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindByG_C_T_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_T_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_T_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -22120,7 +22179,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_T_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_T_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_T_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
@@ -22132,8 +22192,9 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_T_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_T_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_T_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
@@ -22141,7 +22202,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithPaginationFindByU_C_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -22151,7 +22213,8 @@ public class MBMessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByU_C_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C_C_S",
+			MBMessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
@@ -22163,8 +22226,9 @@ public class MBMessagePersistenceImpl
 			MBMessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByU_C_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C_C_S",
+			entityCacheEnabled, finderCacheEnabled, MBMessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()

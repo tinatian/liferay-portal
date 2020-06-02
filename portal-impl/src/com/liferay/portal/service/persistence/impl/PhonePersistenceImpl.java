@@ -4489,24 +4489,26 @@ public class PhonePersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4515,21 +4517,22 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			PhoneModelImpl.UUID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4539,7 +4542,8 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			PhoneModelImpl.UUID_COLUMN_BITMASK |
 			PhoneModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -4547,14 +4551,15 @@ public class PhonePersistenceImpl
 
 		_finderPathCountByUuid_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4563,21 +4568,22 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompanyId", new String[] {Long.class.getName()},
 			PhoneModelImpl.COMPANYID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4586,21 +4592,22 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			PhoneModelImpl.USERID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4610,7 +4617,8 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			PhoneModelImpl.COMPANYID_COLUMN_BITMASK |
 			PhoneModelImpl.CLASSNAMEID_COLUMN_BITMASK |
@@ -4618,14 +4626,15 @@ public class PhonePersistenceImpl
 
 		_finderPathCountByC_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_C_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -4635,7 +4644,8 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByC_C_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -4646,7 +4656,7 @@ public class PhonePersistenceImpl
 
 		_finderPathCountByC_C_C = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -4655,7 +4665,8 @@ public class PhonePersistenceImpl
 		_finderPathWithPaginationFindByC_C_C_P = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C_P",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_C_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName(),
@@ -4666,7 +4677,8 @@ public class PhonePersistenceImpl
 		_finderPathWithoutPaginationFindByC_C_C_P = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C_P",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_C_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName()
@@ -4679,7 +4691,7 @@ public class PhonePersistenceImpl
 
 		_finderPathCountByC_C_C_P = new FinderPath(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

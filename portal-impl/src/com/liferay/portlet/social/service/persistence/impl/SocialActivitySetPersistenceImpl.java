@@ -4032,27 +4032,28 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4061,7 +4062,7 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			SocialActivitySetModelImpl.GROUPID_COLUMN_BITMASK |
@@ -4069,15 +4070,16 @@ public class SocialActivitySetPersistenceImpl
 
 		_finderPathCountByGroupId = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUserId",
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4086,7 +4088,7 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
 			SocialActivitySetModelImpl.USERID_COLUMN_BITMASK |
@@ -4094,15 +4096,16 @@ public class SocialActivitySetPersistenceImpl
 
 		_finderPathCountByUserId = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_U_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_U_T",
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4112,7 +4115,7 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithoutPaginationFindByG_U_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4125,7 +4128,8 @@ public class SocialActivitySetPersistenceImpl
 
 		_finderPathCountByG_U_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4135,8 +4139,8 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithPaginationFindByC_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByC_C_T",
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -4146,7 +4150,7 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithoutPaginationFindByC_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4159,7 +4163,8 @@ public class SocialActivitySetPersistenceImpl
 
 		_finderPathCountByC_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4169,8 +4174,8 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithPaginationFindByG_U_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_U_C_T",
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -4181,7 +4186,7 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithoutPaginationFindByG_U_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4195,7 +4200,8 @@ public class SocialActivitySetPersistenceImpl
 
 		_finderPathCountByG_U_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4205,8 +4211,8 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithPaginationFindByU_C_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByU_C_C_T",
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -4217,7 +4223,7 @@ public class SocialActivitySetPersistenceImpl
 		_finderPathWithoutPaginationFindByU_C_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
-			SocialActivitySetImpl.class,
+			SocialActivitySetImpl.class, SocialActivitySetImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4231,7 +4237,8 @@ public class SocialActivitySetPersistenceImpl
 
 		_finderPathCountByU_C_C_T = new FinderPath(
 			SocialActivitySetModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivitySetModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivitySetImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

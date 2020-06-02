@@ -2431,23 +2431,24 @@ public class DepotEntryGroupRelPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DepotEntryGroupRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByDepotEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDepotEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2456,19 +2457,20 @@ public class DepotEntryGroupRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByDepotEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDepotEntryId",
 			new String[] {Long.class.getName()},
 			DepotEntryGroupRelModelImpl.DEPOTENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByDepotEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DepotEntryGroupRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepotEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByToGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByToGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2477,32 +2479,34 @@ public class DepotEntryGroupRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByToGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByToGroupId",
 			new String[] {Long.class.getName()},
 			DepotEntryGroupRelModelImpl.TOGROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByToGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DepotEntryGroupRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByToGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByD_TGI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByD_TGI",
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByD_TGI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DepotEntryGroupRelModelImpl.DEPOTENTRYID_COLUMN_BITMASK |
 			DepotEntryGroupRelModelImpl.TOGROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByD_TGI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DepotEntryGroupRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByD_TGI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByS_TGI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_TGI",
 			new String[] {
 				Boolean.class.getName(), Long.class.getName(),
@@ -2512,14 +2516,15 @@ public class DepotEntryGroupRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByS_TGI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DepotEntryGroupRelImpl.class,
+			DepotEntryGroupRelImpl.class, DepotEntryGroupRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_TGI",
 			new String[] {Boolean.class.getName(), Long.class.getName()},
 			DepotEntryGroupRelModelImpl.SEARCHABLE_COLUMN_BITMASK |
 			DepotEntryGroupRelModelImpl.TOGROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByS_TGI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DepotEntryGroupRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_TGI",
 			new String[] {Boolean.class.getName(), Long.class.getName()});
 	}

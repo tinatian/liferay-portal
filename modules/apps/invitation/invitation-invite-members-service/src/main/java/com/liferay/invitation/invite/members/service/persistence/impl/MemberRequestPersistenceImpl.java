@@ -2247,32 +2247,34 @@ public class MemberRequestPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByKey = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByKey",
+			MemberRequestImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByKey",
 			new String[] {String.class.getName()},
 			MemberRequestModelImpl.KEY_COLUMN_BITMASK);
 
 		_finderPathCountByKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey",
+			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByReceiverUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByReceiverUserId",
+			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByReceiverUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2280,19 +2282,20 @@ public class MemberRequestPersistenceImpl
 
 		_finderPathWithoutPaginationFindByReceiverUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByReceiverUserId",
-			new String[] {Long.class.getName()},
+			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByReceiverUserId", new String[] {Long.class.getName()},
 			MemberRequestModelImpl.RECEIVERUSERID_COLUMN_BITMASK |
 			MemberRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByReceiverUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByReceiverUserId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByReceiverUserId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByR_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_S",
+			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByR_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2301,20 +2304,21 @@ public class MemberRequestPersistenceImpl
 
 		_finderPathWithoutPaginationFindByR_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_S",
+			MemberRequestImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			MemberRequestModelImpl.RECEIVERUSERID_COLUMN_BITMASK |
 			MemberRequestModelImpl.STATUS_COLUMN_BITMASK |
 			MemberRequestModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByR_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_S",
+			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathFetchByG_R_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_R_S",
+			MemberRequestImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -2324,8 +2328,9 @@ public class MemberRequestPersistenceImpl
 			MemberRequestModelImpl.STATUS_COLUMN_BITMASK);
 
 		_finderPathCountByG_R_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_R_S",
+			entityCacheEnabled, finderCacheEnabled, MemberRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()

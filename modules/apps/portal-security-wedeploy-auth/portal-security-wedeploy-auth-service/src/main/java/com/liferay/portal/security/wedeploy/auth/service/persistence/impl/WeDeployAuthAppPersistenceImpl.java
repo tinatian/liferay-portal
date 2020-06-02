@@ -1270,40 +1270,44 @@ public class WeDeployAuthAppPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			WeDeployAuthAppImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
+			WeDeployAuthAppImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByRU_CI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByRU_CI",
+			WeDeployAuthAppImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByRU_CI",
 			new String[] {String.class.getName(), String.class.getName()},
 			WeDeployAuthAppModelImpl.REDIRECTURI_COLUMN_BITMASK |
 			WeDeployAuthAppModelImpl.CLIENTID_COLUMN_BITMASK);
 
 		_finderPathCountByRU_CI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRU_CI",
+			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByRU_CI",
 			new String[] {String.class.getName(), String.class.getName()});
 
 		_finderPathFetchByCI_CS = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByCI_CS",
+			WeDeployAuthAppImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByCI_CS",
 			new String[] {String.class.getName(), String.class.getName()},
 			WeDeployAuthAppModelImpl.CLIENTID_COLUMN_BITMASK |
 			WeDeployAuthAppModelImpl.CLIENTSECRET_COLUMN_BITMASK);
 
 		_finderPathCountByCI_CS = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCI_CS",
+			entityCacheEnabled, finderCacheEnabled, WeDeployAuthAppImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCI_CS",
 			new String[] {String.class.getName(), String.class.getName()});
 	}
 

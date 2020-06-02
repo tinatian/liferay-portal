@@ -1692,21 +1692,23 @@ public class DispatchLogPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DispatchLogImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			DispatchLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByDispatchTriggerId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDispatchTriggerId",
+			DispatchLogImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByDispatchTriggerId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1714,19 +1716,20 @@ public class DispatchLogPersistenceImpl
 
 		_finderPathWithoutPaginationFindByDispatchTriggerId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			DispatchLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByDispatchTriggerId", new String[] {Long.class.getName()},
 			DispatchLogModelImpl.DISPATCHTRIGGERID_COLUMN_BITMASK |
 			DispatchLogModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
 
 		_finderPathCountByDispatchTriggerId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByDispatchTriggerId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByDTI_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDTI_S",
+			DispatchLogImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByDTI_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -1735,15 +1738,17 @@ public class DispatchLogPersistenceImpl
 
 		_finderPathWithoutPaginationFindByDTI_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDTI_S",
+			DispatchLogImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByDTI_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			DispatchLogModelImpl.DISPATCHTRIGGERID_COLUMN_BITMASK |
 			DispatchLogModelImpl.STATUS_COLUMN_BITMASK |
 			DispatchLogModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
 
 		_finderPathCountByDTI_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDTI_S",
+			entityCacheEnabled, finderCacheEnabled, DispatchLogImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByDTI_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 	}
 

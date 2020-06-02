@@ -1431,27 +1431,28 @@ public class EagerBlobEntityPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			EagerBlobEntityImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			EagerBlobEntityImpl.class, EagerBlobEntityImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			EagerBlobEntityImpl.class,
+			EagerBlobEntityImpl.class, EagerBlobEntityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
-			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
+			EagerBlobEntityImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			EagerBlobEntityImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			EagerBlobEntityImpl.class, EagerBlobEntityImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1460,26 +1461,28 @@ public class EagerBlobEntityPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			EagerBlobEntityImpl.class,
+			EagerBlobEntityImpl.class, EagerBlobEntityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathCountByUuid = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
-			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
+			EagerBlobEntityImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
 			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
-			EagerBlobEntityImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			EagerBlobEntityImpl.class, EagerBlobEntityImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathCountByUUID_G = new FinderPath(
 			EagerBlobEntityModelImpl.ENTITY_CACHE_ENABLED,
-			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			EagerBlobEntityModelImpl.FINDER_CACHE_ENABLED,
+			EagerBlobEntityImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 	}

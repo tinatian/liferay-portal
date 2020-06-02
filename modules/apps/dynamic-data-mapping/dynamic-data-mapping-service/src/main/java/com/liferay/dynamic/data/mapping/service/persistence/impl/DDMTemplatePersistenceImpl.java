@@ -13116,21 +13116,23 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13138,30 +13140,32 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			DDMTemplateModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DDMTemplateModelImpl.UUID_COLUMN_BITMASK |
 			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13170,19 +13174,22 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DDMTemplateModelImpl.UUID_COLUMN_BITMASK |
 			DDMTemplateModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13190,18 +13197,19 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupId", new String[] {Long.class.getName()},
 			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByClassPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByClassPK",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByClassPK",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13209,18 +13217,19 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByClassPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByClassPK",
-			new String[] {Long.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByClassPK", new String[] {Long.class.getName()},
 			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByClassPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByClassPK",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByClassPK", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByTemplateKey = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTemplateKey",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByTemplateKey",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13228,18 +13237,19 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByTemplateKey = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateKey",
-			new String[] {String.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByTemplateKey", new String[] {String.class.getName()},
 			DDMTemplateModelImpl.TEMPLATEKEY_COLUMN_BITMASK);
 
 		_finderPathCountByTemplateKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTemplateKey",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByTemplateKey", new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByType = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByType",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13247,18 +13257,19 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByType = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
-			new String[] {String.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByType", new String[] {String.class.getName()},
 			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByType = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByType", new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByLanguage = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLanguage",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByLanguage",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -13266,29 +13277,30 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByLanguage = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLanguage",
-			new String[] {String.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByLanguage", new String[] {String.class.getName()},
 			DDMTemplateModelImpl.LANGUAGE_COLUMN_BITMASK);
 
 		_finderPathCountByLanguage = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLanguage",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByLanguage", new String[] {String.class.getName()});
 
 		_finderPathFetchBySmallImageId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySmallImageId",
-			new String[] {Long.class.getName()},
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySmallImageId", new String[] {Long.class.getName()},
 			DDMTemplateModelImpl.SMALLIMAGEID_COLUMN_BITMASK);
 
 		_finderPathCountBySmallImageId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySmallImageId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySmallImageId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13297,19 +13309,21 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
 			DDMTemplateModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
 		_finderPathCountByG_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_CPK",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -13318,24 +13332,27 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_CPK",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DDMTemplateModelImpl.GROUPID_COLUMN_BITMASK |
 			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByG_CPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_CPK",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationCountByG_CPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_CPK",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_C_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -13344,7 +13361,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -13353,22 +13371,23 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
 		_finderPathWithPaginationCountByG_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_C_C",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
 		_finderPathFetchByG_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_C_T",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -13378,8 +13397,9 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateModelImpl.TEMPLATEKEY_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_T",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -13387,7 +13407,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithPaginationFindByC_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_T",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), Integer.class.getName(),
@@ -13396,7 +13417,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_T",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -13406,8 +13428,9 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByC_C_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -13415,7 +13438,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithPaginationFindByG_C_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_T",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName(),
@@ -13425,7 +13449,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_C_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_T",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName()
@@ -13436,8 +13461,9 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_C_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_T",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName()
@@ -13445,7 +13471,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithPaginationFindByG_C_C_T_M = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_T_M",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C_C_T_M",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName(),
@@ -13455,7 +13482,8 @@ public class DDMTemplatePersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_C_C_T_M = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_T_M",
+			DDMTemplateImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C_C_T_M",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName(),
@@ -13468,8 +13496,9 @@ public class DDMTemplatePersistenceImpl
 			DDMTemplateModelImpl.MODE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_C_T_M = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_T_M",
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_C_C_T_M",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), String.class.getName(),

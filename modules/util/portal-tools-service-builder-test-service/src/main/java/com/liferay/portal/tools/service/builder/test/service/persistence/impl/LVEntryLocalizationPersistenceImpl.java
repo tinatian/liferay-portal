@@ -1623,26 +1623,27 @@ public class LVEntryLocalizationPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			LVEntryLocalizationImpl.class,
+			LVEntryLocalizationImpl.class, LVEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			LVEntryLocalizationImpl.class,
+			LVEntryLocalizationImpl.class, LVEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
-			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LVEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByLvEntryId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			LVEntryLocalizationImpl.class,
+			LVEntryLocalizationImpl.class, LVEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLvEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1652,29 +1653,31 @@ public class LVEntryLocalizationPersistenceImpl
 		_finderPathWithoutPaginationFindByLvEntryId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			LVEntryLocalizationImpl.class,
+			LVEntryLocalizationImpl.class, LVEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLvEntryId",
 			new String[] {Long.class.getName()},
 			LVEntryLocalizationModelImpl.LVENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByLvEntryId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
-			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LVEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLvEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByLvEntryId_LanguageId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			LVEntryLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByLvEntryId_LanguageId",
+			LVEntryLocalizationImpl.class, LVEntryLocalizationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByLvEntryId_LanguageId",
 			new String[] {Long.class.getName(), String.class.getName()},
 			LVEntryLocalizationModelImpl.LVENTRYID_COLUMN_BITMASK |
 			LVEntryLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByLvEntryId_LanguageId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
-			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LVEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLvEntryId_LanguageId",
 			new String[] {Long.class.getName(), String.class.getName()});
@@ -1682,13 +1685,15 @@ public class LVEntryLocalizationPersistenceImpl
 		_finderPathFetchByHeadId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			LVEntryLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByHeadId", new String[] {Long.class.getName()},
+			LVEntryLocalizationImpl.class, LVEntryLocalizationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByHeadId",
+			new String[] {Long.class.getName()},
 			LVEntryLocalizationModelImpl.HEADID_COLUMN_BITMASK);
 
 		_finderPathCountByHeadId = new FinderPath(
 			LVEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
-			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LVEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LVEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHeadId",
 			new String[] {Long.class.getName()});
 	}

@@ -3509,21 +3509,24 @@ public class SiteFriendlyURLPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			SiteFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3531,30 +3534,34 @@ public class SiteFriendlyURLPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			SiteFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			SiteFriendlyURLModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SiteFriendlyURLModelImpl.UUID_COLUMN_BITMASK |
 			SiteFriendlyURLModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3563,19 +3570,22 @@ public class SiteFriendlyURLPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			SiteFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SiteFriendlyURLModelImpl.UUID_COLUMN_BITMASK |
 			SiteFriendlyURLModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_G",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_G",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3584,31 +3594,32 @@ public class SiteFriendlyURLPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			SiteFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_G",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SiteFriendlyURLModelImpl.COMPANYID_COLUMN_BITMASK |
 			SiteFriendlyURLModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByC_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_G",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_G",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByC_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_F",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_F",
 			new String[] {Long.class.getName(), String.class.getName()},
 			SiteFriendlyURLModelImpl.COMPANYID_COLUMN_BITMASK |
 			SiteFriendlyURLModelImpl.FRIENDLYURL_COLUMN_BITMASK);
 
 		_finderPathCountByC_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_F",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_F",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByC_G_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_G_L",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_G_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -3618,8 +3629,9 @@ public class SiteFriendlyURLPersistenceImpl
 			SiteFriendlyURLModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByC_G_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_G_L",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_G_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -3627,7 +3639,7 @@ public class SiteFriendlyURLPersistenceImpl
 
 		_finderPathFetchByC_F_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_F_L",
+			SiteFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_F_L",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()
@@ -3637,8 +3649,9 @@ public class SiteFriendlyURLPersistenceImpl
 			SiteFriendlyURLModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByC_F_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_F_L",
+			entityCacheEnabled, finderCacheEnabled, SiteFriendlyURLImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_F_L",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()

@@ -3656,21 +3656,25 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMFormInstanceRecordVersionImpl.class,
+			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMFormInstanceRecordVersionImpl.class,
+			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByFormInstanceRecordId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class,
 			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByFormInstanceRecordId",
@@ -3682,18 +3686,21 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByFormInstanceRecordId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMFormInstanceRecordVersionImpl.class,
+			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByFormInstanceRecordId", new String[] {Long.class.getName()},
 			DDMFormInstanceRecordVersionModelImpl.
 				FORMINSTANCERECORDID_COLUMN_BITMASK);
 
 		_finderPathCountByFormInstanceRecordId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByFormInstanceRecordId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByF_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class,
 			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_F",
 			new String[] {
@@ -3705,6 +3712,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByF_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMFormInstanceRecordVersionImpl.class,
+			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByF_F",
 			new String[] {Long.class.getName(), String.class.getName()},
 			DDMFormInstanceRecordVersionModelImpl.
@@ -3713,12 +3721,14 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 				FORMINSTANCEVERSION_COLUMN_BITMASK);
 
 		_finderPathCountByF_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_F",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByF_V = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class,
 			DDMFormInstanceRecordVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByF_V",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -3727,12 +3737,14 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			DDMFormInstanceRecordVersionModelImpl.VERSION_COLUMN_BITMASK);
 
 		_finderPathCountByF_V = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_V",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByF_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class,
 			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_S",
 			new String[] {
@@ -3744,6 +3756,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByF_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMFormInstanceRecordVersionImpl.class,
+			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByF_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			DDMFormInstanceRecordVersionModelImpl.
@@ -3751,12 +3764,14 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			DDMFormInstanceRecordVersionModelImpl.STATUS_COLUMN_BITMASK);
 
 		_finderPathCountByF_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByU_F_F_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class,
 			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_F_F_S",
 			new String[] {
@@ -3768,6 +3783,7 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByU_F_F_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class,
 			DDMFormInstanceRecordVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_F_F_S",
 			new String[] {
@@ -3782,7 +3798,8 @@ public class DDMFormInstanceRecordVersionPersistenceImpl
 			DDMFormInstanceRecordVersionModelImpl.STATUS_COLUMN_BITMASK);
 
 		_finderPathCountByU_F_F_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceRecordVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_F_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

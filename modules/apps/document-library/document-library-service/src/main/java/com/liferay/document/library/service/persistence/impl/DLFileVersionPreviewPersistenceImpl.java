@@ -2176,23 +2176,24 @@ public class DLFileVersionPreviewPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class,
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class,
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLFileVersionPreviewImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class,
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFileEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2201,19 +2202,20 @@ public class DLFileVersionPreviewPersistenceImpl
 
 		_finderPathWithoutPaginationFindByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class,
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFileEntryId",
 			new String[] {Long.class.getName()},
 			DLFileVersionPreviewModelImpl.FILEENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByFileEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLFileVersionPreviewImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByFileVersionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class,
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFileVersionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2222,33 +2224,35 @@ public class DLFileVersionPreviewPersistenceImpl
 
 		_finderPathWithoutPaginationFindByFileVersionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class,
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFileVersionId",
 			new String[] {Long.class.getName()},
 			DLFileVersionPreviewModelImpl.FILEVERSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByFileVersionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLFileVersionPreviewImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileVersionId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByF_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByF_F",
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByF_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DLFileVersionPreviewModelImpl.FILEENTRYID_COLUMN_BITMASK |
 			DLFileVersionPreviewModelImpl.FILEVERSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByF_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLFileVersionPreviewImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_F",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByF_F_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DLFileVersionPreviewImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByF_F_P",
+			DLFileVersionPreviewImpl.class, DLFileVersionPreviewImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByF_F_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -2258,7 +2262,8 @@ public class DLFileVersionPreviewPersistenceImpl
 			DLFileVersionPreviewModelImpl.PREVIEWSTATUS_COLUMN_BITMASK);
 
 		_finderPathCountByF_F_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLFileVersionPreviewImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_F_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

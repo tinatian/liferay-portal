@@ -2377,23 +2377,24 @@ public class BatchEngineImportTaskPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			BatchEngineImportTaskImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -2402,19 +2403,20 @@ public class BatchEngineImportTaskPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			BatchEngineImportTaskImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -2424,20 +2426,21 @@ public class BatchEngineImportTaskPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK |
 			BatchEngineImportTaskModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			BatchEngineImportTaskImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByExecuteStatus = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByExecuteStatus",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -2446,13 +2449,14 @@ public class BatchEngineImportTaskPersistenceImpl
 
 		_finderPathWithoutPaginationFindByExecuteStatus = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			BatchEngineImportTaskImpl.class,
+			BatchEngineImportTaskImpl.class, BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByExecuteStatus",
 			new String[] {String.class.getName()},
 			BatchEngineImportTaskModelImpl.EXECUTESTATUS_COLUMN_BITMASK);
 
 		_finderPathCountByExecuteStatus = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			BatchEngineImportTaskImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByExecuteStatus",
 			new String[] {String.class.getName()});
 	}

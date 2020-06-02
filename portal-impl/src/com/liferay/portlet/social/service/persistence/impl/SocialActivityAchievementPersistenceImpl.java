@@ -3745,24 +3745,28 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class,
 			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
@@ -3774,19 +3778,22 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			SocialActivityAchievementModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_U = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class,
 			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
 			new String[] {
@@ -3799,6 +3806,7 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SocialActivityAchievementModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3806,13 +3814,15 @@ public class SocialActivityAchievementPersistenceImpl
 
 		_finderPathCountByG_U = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_N = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class,
 			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_N",
 			new String[] {
@@ -3825,6 +3835,7 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			SocialActivityAchievementModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3832,13 +3843,15 @@ public class SocialActivityAchievementPersistenceImpl
 
 		_finderPathCountByG_N = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByG_F = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class,
 			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F",
 			new String[] {
@@ -3851,6 +3864,7 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			SocialActivityAchievementModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3858,13 +3872,15 @@ public class SocialActivityAchievementPersistenceImpl
 
 		_finderPathCountByG_F = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
 		_finderPathFetchByG_U_N = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class,
 			SocialActivityAchievementImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByG_U_N",
 			new String[] {
@@ -3877,7 +3893,8 @@ public class SocialActivityAchievementPersistenceImpl
 
 		_finderPathCountByG_U_N = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_N",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3887,6 +3904,7 @@ public class SocialActivityAchievementPersistenceImpl
 		_finderPathWithPaginationFindByG_U_F = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class,
 			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_F",
 			new String[] {
@@ -3899,6 +3917,7 @@ public class SocialActivityAchievementPersistenceImpl
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityAchievementImpl.class,
+			SocialActivityAchievementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3910,7 +3929,8 @@ public class SocialActivityAchievementPersistenceImpl
 
 		_finderPathCountByG_U_F = new FinderPath(
 			SocialActivityAchievementModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			SocialActivityAchievementModelImpl.FINDER_CACHE_ENABLED,
+			SocialActivityAchievementImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

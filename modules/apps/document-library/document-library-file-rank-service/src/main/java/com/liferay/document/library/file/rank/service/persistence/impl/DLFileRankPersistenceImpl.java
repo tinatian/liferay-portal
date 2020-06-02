@@ -3015,21 +3015,23 @@ public class DLFileRankPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3037,19 +3039,20 @@ public class DLFileRankPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			DLFileRankModelImpl.USERID_COLUMN_BITMASK |
 			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFileEntryId",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByFileEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3057,19 +3060,20 @@ public class DLFileRankPersistenceImpl
 
 		_finderPathWithoutPaginationFindByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFileEntryId",
-			new String[] {Long.class.getName()},
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByFileEntryId", new String[] {Long.class.getName()},
 			DLFileRankModelImpl.FILEENTRYID_COLUMN_BITMASK |
 			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByFileEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileEntryId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByFileEntryId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3078,20 +3082,22 @@ public class DLFileRankPersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DLFileRankModelImpl.GROUPID_COLUMN_BITMASK |
 			DLFileRankModelImpl.USERID_COLUMN_BITMASK |
 			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
+			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_U_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_A",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -3100,7 +3106,8 @@ public class DLFileRankPersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_U_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_A",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
@@ -3111,8 +3118,9 @@ public class DLFileRankPersistenceImpl
 			DLFileRankModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByG_U_A = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_A",
+			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_U_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
@@ -3120,7 +3128,7 @@ public class DLFileRankPersistenceImpl
 
 		_finderPathFetchByC_U_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_U_F",
+			DLFileRankImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_U_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -3129,8 +3137,9 @@ public class DLFileRankPersistenceImpl
 			DLFileRankModelImpl.FILEENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByC_U_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U_F",
+			entityCacheEnabled, finderCacheEnabled, DLFileRankImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_U_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});

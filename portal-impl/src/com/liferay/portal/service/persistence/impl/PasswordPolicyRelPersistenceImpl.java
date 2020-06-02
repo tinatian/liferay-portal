@@ -1364,27 +1364,28 @@ public class PasswordPolicyRelPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
-			PasswordPolicyRelImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			PasswordPolicyRelImpl.class, PasswordPolicyRelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
-			PasswordPolicyRelImpl.class,
+			PasswordPolicyRelImpl.class, PasswordPolicyRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
-			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
+			PasswordPolicyRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByPasswordPolicyId = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
-			PasswordPolicyRelImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPasswordPolicyId",
+			PasswordPolicyRelImpl.class, PasswordPolicyRelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPasswordPolicyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1393,28 +1394,31 @@ public class PasswordPolicyRelPersistenceImpl
 		_finderPathWithoutPaginationFindByPasswordPolicyId = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
-			PasswordPolicyRelImpl.class,
+			PasswordPolicyRelImpl.class, PasswordPolicyRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPasswordPolicyId",
 			new String[] {Long.class.getName()},
 			PasswordPolicyRelModelImpl.PASSWORDPOLICYID_COLUMN_BITMASK);
 
 		_finderPathCountByPasswordPolicyId = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
-			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
+			PasswordPolicyRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPasswordPolicyId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_C = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
 			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
-			PasswordPolicyRelImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			PasswordPolicyRelImpl.class, PasswordPolicyRelImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			PasswordPolicyRelModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			PasswordPolicyRelModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
 			PasswordPolicyRelModelImpl.ENTITY_CACHE_ENABLED,
-			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PasswordPolicyRelModelImpl.FINDER_CACHE_ENABLED,
+			PasswordPolicyRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

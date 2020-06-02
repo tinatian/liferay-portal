@@ -2258,27 +2258,28 @@ public class PowwowParticipantPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class,
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
-			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
+			PowwowParticipantImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByPowwowMeetingId = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPowwowMeetingId",
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPowwowMeetingId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2287,52 +2288,55 @@ public class PowwowParticipantPersistenceImpl
 		_finderPathWithoutPaginationFindByPowwowMeetingId = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class,
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPowwowMeetingId",
 			new String[] {Long.class.getName()},
 			PowwowParticipantModelImpl.POWWOWMEETINGID_COLUMN_BITMASK);
 
 		_finderPathCountByPowwowMeetingId = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
-			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
+			PowwowParticipantImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPowwowMeetingId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByPMI_PUI = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPMI_PUI",
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByPMI_PUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			PowwowParticipantModelImpl.POWWOWMEETINGID_COLUMN_BITMASK |
 			PowwowParticipantModelImpl.PARTICIPANTUSERID_COLUMN_BITMASK);
 
 		_finderPathCountByPMI_PUI = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
-			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
+			PowwowParticipantImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPMI_PUI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByPMI_EA = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPMI_EA",
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByPMI_EA",
 			new String[] {Long.class.getName(), String.class.getName()},
 			PowwowParticipantModelImpl.POWWOWMEETINGID_COLUMN_BITMASK |
 			PowwowParticipantModelImpl.EMAILADDRESS_COLUMN_BITMASK);
 
 		_finderPathCountByPMI_EA = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
-			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
+			PowwowParticipantImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPMI_EA",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByPMI_T = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPMI_T",
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPMI_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2342,7 +2346,7 @@ public class PowwowParticipantPersistenceImpl
 		_finderPathWithoutPaginationFindByPMI_T = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
 			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
-			PowwowParticipantImpl.class,
+			PowwowParticipantImpl.class, PowwowParticipantImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPMI_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			PowwowParticipantModelImpl.POWWOWMEETINGID_COLUMN_BITMASK |
@@ -2350,7 +2354,8 @@ public class PowwowParticipantPersistenceImpl
 
 		_finderPathCountByPMI_T = new FinderPath(
 			PowwowParticipantModelImpl.ENTITY_CACHE_ENABLED,
-			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PowwowParticipantModelImpl.FINDER_CACHE_ENABLED,
+			PowwowParticipantImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPMI_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 	}

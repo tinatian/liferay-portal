@@ -4520,26 +4520,27 @@ public class LayoutSetPrototypePersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetPrototypeImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -4549,21 +4550,22 @@ public class LayoutSetPrototypePersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			LayoutSetPrototypeModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetPrototypeImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -4574,7 +4576,7 @@ public class LayoutSetPrototypePersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			LayoutSetPrototypeModelImpl.UUID_COLUMN_BITMASK |
@@ -4582,14 +4584,15 @@ public class LayoutSetPrototypePersistenceImpl
 
 		_finderPathCountByUuid_C = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetPrototypeImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -4599,21 +4602,22 @@ public class LayoutSetPrototypePersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			LayoutSetPrototypeModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetPrototypeImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_A = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -4624,7 +4628,7 @@ public class LayoutSetPrototypePersistenceImpl
 		_finderPathWithoutPaginationFindByC_A = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetPrototypeImpl.class,
+			LayoutSetPrototypeImpl.class, LayoutSetPrototypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			LayoutSetPrototypeModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -4632,7 +4636,8 @@ public class LayoutSetPrototypePersistenceImpl
 
 		_finderPathCountByC_A = new FinderPath(
 			LayoutSetPrototypeModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetPrototypeModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetPrototypeImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 	}

@@ -1458,11 +1458,13 @@ public class LocalizedEntryLocalizationPersistenceImpl
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
 			LocalizedEntryLocalizationImpl.class,
+			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LocalizedEntryLocalizationImpl.class,
 			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
@@ -1470,12 +1472,14 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		_finderPathCountAll = new FinderPath(
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			LocalizedEntryLocalizationImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByLocalizedEntryId = new FinderPath(
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LocalizedEntryLocalizationImpl.class,
 			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLocalizedEntryId",
 			new String[] {
@@ -1487,6 +1491,7 @@ public class LocalizedEntryLocalizationPersistenceImpl
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
 			LocalizedEntryLocalizationImpl.class,
+			LocalizedEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLocalizedEntryId",
 			new String[] {Long.class.getName()},
 			LocalizedEntryLocalizationModelImpl.
@@ -1495,12 +1500,14 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		_finderPathCountByLocalizedEntryId = new FinderPath(
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			LocalizedEntryLocalizationImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLocalizedEntryId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByLocalizedEntryId_LanguageId = new FinderPath(
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
+			LocalizedEntryLocalizationImpl.class,
 			LocalizedEntryLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByLocalizedEntryId_LanguageId",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -1511,7 +1518,8 @@ public class LocalizedEntryLocalizationPersistenceImpl
 		_finderPathCountByLocalizedEntryId_LanguageId = new FinderPath(
 			LocalizedEntryLocalizationModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryLocalizationModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			LocalizedEntryLocalizationImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLocalizedEntryId_LanguageId",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

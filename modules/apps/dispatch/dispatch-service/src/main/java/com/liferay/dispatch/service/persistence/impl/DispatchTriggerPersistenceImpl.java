@@ -2839,21 +2839,24 @@ public class DispatchTriggerPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2861,31 +2864,33 @@ public class DispatchTriggerPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
 			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
 			DispatchTriggerModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByC_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByC_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_T",
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2894,6 +2899,7 @@ public class DispatchTriggerPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -2901,8 +2907,8 @@ public class DispatchTriggerPersistenceImpl
 			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
 
 		_finderPathCountByC_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_T",
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_T",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
 

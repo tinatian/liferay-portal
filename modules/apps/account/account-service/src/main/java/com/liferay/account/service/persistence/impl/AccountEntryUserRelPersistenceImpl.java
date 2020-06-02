@@ -1912,23 +1912,24 @@ public class AccountEntryUserRelPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByAEI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAEI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1937,19 +1938,20 @@ public class AccountEntryUserRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByAEI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAEI",
 			new String[] {Long.class.getName()},
 			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByAEI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAEI",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByAUI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAUI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1958,26 +1960,28 @@ public class AccountEntryUserRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByAUI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAUI",
 			new String[] {Long.class.getName()},
 			AccountEntryUserRelModelImpl.ACCOUNTUSERID_COLUMN_BITMASK);
 
 		_finderPathCountByAUI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAUI",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByAEI_AUI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByAEI_AUI",
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByAEI_AUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK |
 			AccountEntryUserRelModelImpl.ACCOUNTUSERID_COLUMN_BITMASK);
 
 		_finderPathCountByAEI_AUI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAEI_AUI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

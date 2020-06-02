@@ -4662,21 +4662,25 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateCollectionImpl.class,
+			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateCollectionImpl.class,
+			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
@@ -4687,18 +4691,21 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateCollectionImpl.class,
+			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			LayoutPageTemplateCollectionModelImpl.UUID_COLUMN_BITMASK |
 			LayoutPageTemplateCollectionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
@@ -4706,12 +4713,14 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			LayoutPageTemplateCollectionModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
@@ -4723,6 +4732,7 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateCollectionImpl.class,
+			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			LayoutPageTemplateCollectionModelImpl.UUID_COLUMN_BITMASK |
@@ -4730,12 +4740,14 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			LayoutPageTemplateCollectionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
@@ -4746,18 +4758,21 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateCollectionImpl.class,
+			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			LayoutPageTemplateCollectionModelImpl.GROUPID_COLUMN_BITMASK |
 			LayoutPageTemplateCollectionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByG_LPTCK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByG_LPTCK",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -4766,12 +4781,14 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 				LAYOUTPAGETEMPLATECOLLECTIONKEY_COLUMN_BITMASK);
 
 		_finderPathCountByG_LPTCK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_LPTCK",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByG_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByG_N",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -4779,12 +4796,14 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			LayoutPageTemplateCollectionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByG_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByG_LikeN = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class,
 			LayoutPageTemplateCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_LikeN",
 			new String[] {
@@ -4794,7 +4813,8 @@ public class LayoutPageTemplateCollectionPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByG_LikeN = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_LikeN",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

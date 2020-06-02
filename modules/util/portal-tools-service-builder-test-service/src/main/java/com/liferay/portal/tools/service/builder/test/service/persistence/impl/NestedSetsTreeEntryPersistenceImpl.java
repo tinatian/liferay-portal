@@ -923,25 +923,27 @@ public class NestedSetsTreeEntryPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
 			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
-			NestedSetsTreeEntryImpl.class,
+			NestedSetsTreeEntryImpl.class, NestedSetsTreeEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
 			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
-			NestedSetsTreeEntryImpl.class,
+			NestedSetsTreeEntryImpl.class, NestedSetsTreeEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
-			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
+			NestedSetsTreeEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationCountAncestors = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
-			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
+			NestedSetsTreeEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countAncestors",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -949,7 +951,8 @@ public class NestedSetsTreeEntryPersistenceImpl
 
 		_finderPathWithPaginationCountDescendants = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
-			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
+			NestedSetsTreeEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countDescendants",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -958,7 +961,7 @@ public class NestedSetsTreeEntryPersistenceImpl
 		_finderPathWithPaginationGetAncestors = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
 			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
-			NestedSetsTreeEntryImpl.class,
+			NestedSetsTreeEntryImpl.class, NestedSetsTreeEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getAncestors",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -967,7 +970,7 @@ public class NestedSetsTreeEntryPersistenceImpl
 		_finderPathWithPaginationGetDescendants = new FinderPath(
 			NestedSetsTreeEntryModelImpl.ENTITY_CACHE_ENABLED,
 			NestedSetsTreeEntryModelImpl.FINDER_CACHE_ENABLED,
-			NestedSetsTreeEntryImpl.class,
+			NestedSetsTreeEntryImpl.class, NestedSetsTreeEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getDescendants",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()

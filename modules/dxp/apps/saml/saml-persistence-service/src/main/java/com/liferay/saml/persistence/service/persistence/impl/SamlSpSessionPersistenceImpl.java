@@ -1971,43 +1971,45 @@ public class SamlSpSessionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchBySamlSpSessionKey = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySamlSpSessionKey",
-			new String[] {String.class.getName()},
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySamlSpSessionKey", new String[] {String.class.getName()},
 			SamlSpSessionModelImpl.SAMLSPSESSIONKEY_COLUMN_BITMASK);
 
 		_finderPathCountBySamlSpSessionKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySamlSpSessionKey", new String[] {String.class.getName()});
 
 		_finderPathFetchByJSessionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByJSessionId",
-			new String[] {String.class.getName()},
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByJSessionId", new String[] {String.class.getName()},
 			SamlSpSessionModelImpl.JSESSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByJSessionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByJSessionId",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByJSessionId", new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByNameIdValue = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByNameIdValue",
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByNameIdValue",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2015,25 +2017,25 @@ public class SamlSpSessionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByNameIdValue = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByNameIdValue",
-			new String[] {String.class.getName()},
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByNameIdValue", new String[] {String.class.getName()},
 			SamlSpSessionModelImpl.NAMEIDVALUE_COLUMN_BITMASK);
 
 		_finderPathCountByNameIdValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByNameIdValue",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByNameIdValue", new String[] {String.class.getName()});
 
 		_finderPathFetchBySessionIndex = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySessionIndex",
-			new String[] {String.class.getName()},
+			SamlSpSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySessionIndex", new String[] {String.class.getName()},
 			SamlSpSessionModelImpl.SESSIONINDEX_COLUMN_BITMASK);
 
 		_finderPathCountBySessionIndex = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySessionIndex",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySessionIndex", new String[] {String.class.getName()});
 	}
 
 	@Deactivate

@@ -2785,21 +2785,25 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			FriendlyURLEntryLocalizationImpl.class,
+			FriendlyURLEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			FriendlyURLEntryLocalizationImpl.class,
+			FriendlyURLEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByFriendlyURLEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class,
 			FriendlyURLEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFriendlyURLEntryId",
 			new String[] {
@@ -2810,18 +2814,21 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		_finderPathWithoutPaginationFindByFriendlyURLEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			FriendlyURLEntryLocalizationImpl.class,
+			FriendlyURLEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByFriendlyURLEntryId", new String[] {Long.class.getName()},
 			FriendlyURLEntryLocalizationModelImpl.
 				FRIENDLYURLENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByFriendlyURLEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByFriendlyURLEntryId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByFriendlyURLEntryId_LanguageId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class,
 			FriendlyURLEntryLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByFriendlyURLEntryId_LanguageId",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -2830,13 +2837,15 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 			FriendlyURLEntryLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByFriendlyURLEntryId_LanguageId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByFriendlyURLEntryId_LanguageId",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByG_C_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class,
 			FriendlyURLEntryLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByG_C_U",
 			new String[] {
@@ -2848,7 +2857,8 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 			FriendlyURLEntryLocalizationModelImpl.URLTITLE_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2857,6 +2867,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 
 		_finderPathWithPaginationFindByG_C_C_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class,
 			FriendlyURLEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C_L",
 			new String[] {
@@ -2869,6 +2880,7 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		_finderPathWithoutPaginationFindByG_C_C_L = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			FriendlyURLEntryLocalizationImpl.class,
+			FriendlyURLEntryLocalizationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2880,7 +2892,8 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 			FriendlyURLEntryLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByG_C_C_L = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryLocalizationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

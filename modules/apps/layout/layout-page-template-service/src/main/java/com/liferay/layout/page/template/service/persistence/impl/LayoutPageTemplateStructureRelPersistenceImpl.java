@@ -3512,21 +3512,25 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateStructureRelImpl.class,
+			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateStructureRelImpl.class,
+			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class,
 			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
@@ -3537,17 +3541,20 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateStructureRelImpl.class,
+			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			LayoutPageTemplateStructureRelModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class,
 			LayoutPageTemplateStructureRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
@@ -3555,12 +3562,14 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			LayoutPageTemplateStructureRelModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class,
 			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
@@ -3572,19 +3581,22 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateStructureRelImpl.class,
+			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			LayoutPageTemplateStructureRelModelImpl.UUID_COLUMN_BITMASK |
 			LayoutPageTemplateStructureRelModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByLayoutPageTemplateStructureId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
+				LayoutPageTemplateStructureRelImpl.class,
 				LayoutPageTemplateStructureRelImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByLayoutPageTemplateStructureId",
@@ -3597,6 +3609,7 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
 				LayoutPageTemplateStructureRelImpl.class,
+				LayoutPageTemplateStructureRelImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByLayoutPageTemplateStructureId",
 				new String[] {Long.class.getName()},
@@ -3604,13 +3617,15 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 					LAYOUTPAGETEMPLATESTRUCTUREID_COLUMN_BITMASK);
 
 		_finderPathCountByLayoutPageTemplateStructureId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLayoutPageTemplateStructureId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindBySegmentsExperienceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class,
 			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findBySegmentsExperienceId",
@@ -3622,18 +3637,21 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 		_finderPathWithoutPaginationFindBySegmentsExperienceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			LayoutPageTemplateStructureRelImpl.class,
+			LayoutPageTemplateStructureRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findBySegmentsExperienceId", new String[] {Long.class.getName()},
 			LayoutPageTemplateStructureRelModelImpl.
 				SEGMENTSEXPERIENCEID_COLUMN_BITMASK);
 
 		_finderPathCountBySegmentsExperienceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySegmentsExperienceId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByL_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class,
 			LayoutPageTemplateStructureRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByL_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
@@ -3643,7 +3661,8 @@ public class LayoutPageTemplateStructureRelPersistenceImpl
 				SEGMENTSEXPERIENCEID_COLUMN_BITMASK);
 
 		_finderPathCountByL_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			LayoutPageTemplateStructureRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByL_S",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

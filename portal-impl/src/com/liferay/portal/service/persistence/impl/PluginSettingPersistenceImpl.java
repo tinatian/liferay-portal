@@ -1442,26 +1442,28 @@ public class PluginSettingPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
-			PluginSettingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			PluginSettingImpl.class, PluginSettingImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
-			PluginSettingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			PluginSettingImpl.class, PluginSettingImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
-			PluginSettingModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
+			PluginSettingImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
-			PluginSettingImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCompanyId",
+			PluginSettingImpl.class, PluginSettingImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1470,20 +1472,23 @@ public class PluginSettingPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
-			PluginSettingImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByCompanyId", new String[] {Long.class.getName()},
+			PluginSettingImpl.class, PluginSettingImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
+			new String[] {Long.class.getName()},
 			PluginSettingModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
-			PluginSettingModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
+			PluginSettingImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_I_T = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
 			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
-			PluginSettingImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_I_T",
+			PluginSettingImpl.class, PluginSettingImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_I_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()
@@ -1494,7 +1499,8 @@ public class PluginSettingPersistenceImpl
 
 		_finderPathCountByC_I_T = new FinderPath(
 			PluginSettingModelImpl.ENTITY_CACHE_ENABLED,
-			PluginSettingModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PluginSettingModelImpl.FINDER_CACHE_ENABLED,
+			PluginSettingImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_I_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),

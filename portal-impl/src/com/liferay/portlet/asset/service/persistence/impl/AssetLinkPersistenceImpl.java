@@ -3800,24 +3800,26 @@ public class AssetLinkPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByE1 = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE1",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByE1",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3826,21 +3828,22 @@ public class AssetLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByE1 = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE1",
-			new String[] {Long.class.getName()},
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByE1", new String[] {Long.class.getName()},
 			AssetLinkModelImpl.ENTRYID1_COLUMN_BITMASK |
 			AssetLinkModelImpl.WEIGHT_COLUMN_BITMASK);
 
 		_finderPathCountByE1 = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE1",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE1",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByE2 = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE2",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByE2",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3849,21 +3852,22 @@ public class AssetLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByE2 = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE2",
-			new String[] {Long.class.getName()},
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByE2", new String[] {Long.class.getName()},
 			AssetLinkModelImpl.ENTRYID2_COLUMN_BITMASK |
 			AssetLinkModelImpl.WEIGHT_COLUMN_BITMASK);
 
 		_finderPathCountByE2 = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE2",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE2",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByE_E = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE_E",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByE_E",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3873,7 +3877,8 @@ public class AssetLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByE_E = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE_E",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByE_E",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AssetLinkModelImpl.ENTRYID1_COLUMN_BITMASK |
 			AssetLinkModelImpl.ENTRYID2_COLUMN_BITMASK |
@@ -3881,14 +3886,15 @@ public class AssetLinkPersistenceImpl
 
 		_finderPathCountByE_E = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_E",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_E",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByE1_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE1_T",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByE1_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3898,7 +3904,8 @@ public class AssetLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByE1_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE1_T",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByE1_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			AssetLinkModelImpl.ENTRYID1_COLUMN_BITMASK |
 			AssetLinkModelImpl.TYPE_COLUMN_BITMASK |
@@ -3906,14 +3913,16 @@ public class AssetLinkPersistenceImpl
 
 		_finderPathCountByE1_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE1_T",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByE1_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByE2_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByE2_T",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByE2_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3923,7 +3932,8 @@ public class AssetLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByE2_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByE2_T",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByE2_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			AssetLinkModelImpl.ENTRYID2_COLUMN_BITMASK |
 			AssetLinkModelImpl.TYPE_COLUMN_BITMASK |
@@ -3931,14 +3941,15 @@ public class AssetLinkPersistenceImpl
 
 		_finderPathCountByE2_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE2_T",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByE2_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathFetchByE_E_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
 			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByE_E_T",
+			AssetLinkImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByE_E_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -3949,8 +3960,9 @@ public class AssetLinkPersistenceImpl
 
 		_finderPathCountByE_E_T = new FinderPath(
 			AssetLinkModelImpl.ENTITY_CACHE_ENABLED,
-			AssetLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByE_E_T",
+			AssetLinkModelImpl.FINDER_CACHE_ENABLED, AssetLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByE_E_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()

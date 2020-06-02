@@ -1946,37 +1946,39 @@ public class VirtualHostPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
 			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			VirtualHostImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
 			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			VirtualHostImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
-			VirtualHostModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByHostname = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
 			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByHostname",
+			VirtualHostImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByHostname",
 			new String[] {String.class.getName()},
 			VirtualHostModelImpl.HOSTNAME_COLUMN_BITMASK);
 
 		_finderPathCountByHostname = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
-			VirtualHostModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHostname",
-			new String[] {String.class.getName()});
+			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByHostname", new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByC_L = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
 			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_L",
+			VirtualHostImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -1986,21 +1988,22 @@ public class VirtualHostPersistenceImpl
 		_finderPathWithoutPaginationFindByC_L = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
 			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_L",
+			VirtualHostImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			VirtualHostModelImpl.COMPANYID_COLUMN_BITMASK |
 			VirtualHostModelImpl.LAYOUTSETID_COLUMN_BITMASK);
 
 		_finderPathCountByC_L = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
-			VirtualHostModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
+			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByC_L_D = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
 			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_L_D",
+			VirtualHostImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_L_D",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
@@ -2011,8 +2014,9 @@ public class VirtualHostPersistenceImpl
 
 		_finderPathCountByC_L_D = new FinderPath(
 			VirtualHostModelImpl.ENTITY_CACHE_ENABLED,
-			VirtualHostModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_L_D",
+			VirtualHostModelImpl.FINDER_CACHE_ENABLED, VirtualHostImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_L_D",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()

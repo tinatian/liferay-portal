@@ -1882,21 +1882,23 @@ public class MessagePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1904,19 +1906,20 @@ public class MessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
+			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompanyId", new String[] {Long.class.getName()},
 			MessageModelImpl.COMPANYID_COLUMN_BITMASK |
 			MessageModelImpl.SENTDATE_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByFolderId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFolderId",
+			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByFolderId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1924,26 +1927,26 @@ public class MessagePersistenceImpl
 
 		_finderPathWithoutPaginationFindByFolderId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFolderId",
-			new String[] {Long.class.getName()},
+			MessageImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByFolderId", new String[] {Long.class.getName()},
 			MessageModelImpl.FOLDERID_COLUMN_BITMASK |
 			MessageModelImpl.SENTDATE_COLUMN_BITMASK);
 
 		_finderPathCountByFolderId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFolderId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByFolderId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByF_R = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByF_R",
+			MessageImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByF_R",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			MessageModelImpl.FOLDERID_COLUMN_BITMASK |
 			MessageModelImpl.REMOTEMESSAGEID_COLUMN_BITMASK);
 
 		_finderPathCountByF_R = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_R",
+			entityCacheEnabled, finderCacheEnabled, MessageImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_R",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

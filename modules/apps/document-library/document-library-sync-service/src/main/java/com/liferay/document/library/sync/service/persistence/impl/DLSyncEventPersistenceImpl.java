@@ -1310,41 +1310,43 @@ public class DLSyncEventPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DLSyncEventImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			DLSyncEventImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByModifiedTime = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByModifiedTime",
+			DLSyncEventImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByModifiedTime",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithPaginationCountByModifiedTime = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByModifiedTime",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByModifiedTime", new String[] {Long.class.getName()});
 
 		_finderPathFetchByTypePK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByTypePK",
+			DLSyncEventImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByTypePK",
 			new String[] {Long.class.getName()},
 			DLSyncEventModelImpl.TYPEPK_COLUMN_BITMASK);
 
 		_finderPathCountByTypePK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTypePK",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, DLSyncEventImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByTypePK", new String[] {Long.class.getName()});
 	}
 
 	@Deactivate

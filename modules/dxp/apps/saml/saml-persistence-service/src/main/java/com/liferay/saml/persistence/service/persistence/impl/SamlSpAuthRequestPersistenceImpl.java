@@ -1487,41 +1487,46 @@ public class SamlSpAuthRequestPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SamlSpAuthRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
+			SamlSpAuthRequestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCreateDate = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCreateDate",
+			SamlSpAuthRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCreateDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithPaginationCountByCreateDate = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByCreateDate",
-			new String[] {Date.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByCreateDate", new String[] {Date.class.getName()});
 
 		_finderPathFetchBySIEI_SSARK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySIEI_SSARK",
+			SamlSpAuthRequestImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySIEI_SSARK",
 			new String[] {String.class.getName(), String.class.getName()},
 			SamlSpAuthRequestModelImpl.SAMLIDPENTITYID_COLUMN_BITMASK |
 			SamlSpAuthRequestModelImpl.SAMLSPAUTHREQUESTKEY_COLUMN_BITMASK);
 
 		_finderPathCountBySIEI_SSARK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIEI_SSARK",
+			entityCacheEnabled, finderCacheEnabled, SamlSpAuthRequestImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySIEI_SSARK",
 			new String[] {String.class.getName(), String.class.getName()});
 	}
 

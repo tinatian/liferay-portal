@@ -2455,26 +2455,27 @@ public class VersionedEntryVersionPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
-			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
+			VersionedEntryVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByVersionedEntryId = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByVersionedEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2484,7 +2485,7 @@ public class VersionedEntryVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByVersionedEntryId = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByVersionedEntryId",
 			new String[] {Long.class.getName()},
 			VersionedEntryVersionModelImpl.VERSIONEDENTRYID_COLUMN_BITMASK |
@@ -2492,22 +2493,24 @@ public class VersionedEntryVersionPersistenceImpl
 
 		_finderPathCountByVersionedEntryId = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
-			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
+			VersionedEntryVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByVersionedEntryId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByVersionedEntryId_Version = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByVersionedEntryId_Version",
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByVersionedEntryId_Version",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			VersionedEntryVersionModelImpl.VERSIONEDENTRYID_COLUMN_BITMASK |
 			VersionedEntryVersionModelImpl.VERSION_COLUMN_BITMASK);
 
 		_finderPathCountByVersionedEntryId_Version = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
-			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
+			VersionedEntryVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByVersionedEntryId_Version",
 			new String[] {Long.class.getName(), Integer.class.getName()});
@@ -2515,7 +2518,7 @@ public class VersionedEntryVersionPersistenceImpl
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2525,7 +2528,7 @@ public class VersionedEntryVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			VersionedEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
@@ -2533,14 +2536,15 @@ public class VersionedEntryVersionPersistenceImpl
 
 		_finderPathCountByGroupId = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
-			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
+			VersionedEntryVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId_Version = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId_Version",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2551,7 +2555,7 @@ public class VersionedEntryVersionPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId_Version = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
 			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
-			VersionedEntryVersionImpl.class,
+			VersionedEntryVersionImpl.class, VersionedEntryVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId_Version",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			VersionedEntryVersionModelImpl.GROUPID_COLUMN_BITMASK |
@@ -2559,7 +2563,8 @@ public class VersionedEntryVersionPersistenceImpl
 
 		_finderPathCountByGroupId_Version = new FinderPath(
 			VersionedEntryVersionModelImpl.ENTITY_CACHE_ENABLED,
-			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			VersionedEntryVersionModelImpl.FINDER_CACHE_ENABLED,
+			VersionedEntryVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId_Version",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 	}

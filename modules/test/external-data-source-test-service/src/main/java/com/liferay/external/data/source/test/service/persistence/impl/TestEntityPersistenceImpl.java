@@ -568,18 +568,19 @@ public class TestEntityPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			TestEntityModelImpl.ENTITY_CACHE_ENABLED,
 			TestEntityModelImpl.FINDER_CACHE_ENABLED, TestEntityImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			TestEntityImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			TestEntityModelImpl.ENTITY_CACHE_ENABLED,
 			TestEntityModelImpl.FINDER_CACHE_ENABLED, TestEntityImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			TestEntityImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			TestEntityModelImpl.ENTITY_CACHE_ENABLED,
-			TestEntityModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			TestEntityModelImpl.FINDER_CACHE_ENABLED, TestEntityImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 	}
 

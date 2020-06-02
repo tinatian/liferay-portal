@@ -1968,21 +1968,25 @@ public class AccountEntryOrganizationRelPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AccountEntryOrganizationRelImpl.class,
+			AccountEntryOrganizationRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AccountEntryOrganizationRelImpl.class,
+			AccountEntryOrganizationRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByAccountEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class,
 			AccountEntryOrganizationRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAccountEntryId",
 			new String[] {
@@ -1993,17 +1997,20 @@ public class AccountEntryOrganizationRelPersistenceImpl
 		_finderPathWithoutPaginationFindByAccountEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AccountEntryOrganizationRelImpl.class,
+			AccountEntryOrganizationRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAccountEntryId",
 			new String[] {Long.class.getName()},
 			AccountEntryOrganizationRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByAccountEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAccountEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByOrganizationId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class,
 			AccountEntryOrganizationRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOrganizationId",
 			new String[] {
@@ -2014,17 +2021,20 @@ public class AccountEntryOrganizationRelPersistenceImpl
 		_finderPathWithoutPaginationFindByOrganizationId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AccountEntryOrganizationRelImpl.class,
+			AccountEntryOrganizationRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrganizationId",
 			new String[] {Long.class.getName()},
 			AccountEntryOrganizationRelModelImpl.ORGANIZATIONID_COLUMN_BITMASK);
 
 		_finderPathCountByOrganizationId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrganizationId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByA_O = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class,
 			AccountEntryOrganizationRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByA_O",
 			new String[] {Long.class.getName(), Long.class.getName()},
@@ -2032,7 +2042,8 @@ public class AccountEntryOrganizationRelPersistenceImpl
 			AccountEntryOrganizationRelModelImpl.ORGANIZATIONID_COLUMN_BITMASK);
 
 		_finderPathCountByA_O = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryOrganizationRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_O",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

@@ -1474,23 +1474,24 @@ public class RedirectNotFoundEntryPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			RedirectNotFoundEntryImpl.class,
+			RedirectNotFoundEntryImpl.class, RedirectNotFoundEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			RedirectNotFoundEntryImpl.class,
+			RedirectNotFoundEntryImpl.class, RedirectNotFoundEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			RedirectNotFoundEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			RedirectNotFoundEntryImpl.class,
+			RedirectNotFoundEntryImpl.class, RedirectNotFoundEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1499,26 +1500,28 @@ public class RedirectNotFoundEntryPersistenceImpl
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			RedirectNotFoundEntryImpl.class,
+			RedirectNotFoundEntryImpl.class, RedirectNotFoundEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			RedirectNotFoundEntryModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			RedirectNotFoundEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			RedirectNotFoundEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByG_U",
+			RedirectNotFoundEntryImpl.class, RedirectNotFoundEntryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_U",
 			new String[] {Long.class.getName(), String.class.getName()},
 			RedirectNotFoundEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			RedirectNotFoundEntryModelImpl.URL_COLUMN_BITMASK);
 
 		_finderPathCountByG_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			RedirectNotFoundEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

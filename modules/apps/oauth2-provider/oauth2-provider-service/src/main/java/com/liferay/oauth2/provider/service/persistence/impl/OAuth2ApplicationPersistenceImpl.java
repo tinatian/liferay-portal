@@ -1833,21 +1833,24 @@ public class OAuth2ApplicationPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			OAuth2ApplicationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
+			OAuth2ApplicationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByC = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC",
+			OAuth2ApplicationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1855,25 +1858,26 @@ public class OAuth2ApplicationPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
+			OAuth2ApplicationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC",
 			new String[] {Long.class.getName()},
 			OAuth2ApplicationModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByC = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC",
+			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			OAuth2ApplicationImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), String.class.getName()},
 			OAuth2ApplicationModelImpl.COMPANYID_COLUMN_BITMASK |
 			OAuth2ApplicationModelImpl.CLIENTID_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			entityCacheEnabled, finderCacheEnabled, OAuth2ApplicationImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
 

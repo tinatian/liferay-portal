@@ -1667,24 +1667,26 @@ public class OAuthTokenPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
 			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			OAuthTokenImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
 			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			OAuthTokenImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
-			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByG_S = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
 			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
+			OAuthTokenImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_S",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -1694,21 +1696,22 @@ public class OAuthTokenPersistenceImpl
 		_finderPathWithoutPaginationFindByG_S = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
 			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
+			OAuthTokenImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_S",
 			new String[] {String.class.getName(), String.class.getName()},
 			OAuthTokenModelImpl.GADGETKEY_COLUMN_BITMASK |
 			OAuthTokenModelImpl.SERVICENAME_COLUMN_BITMASK);
 
 		_finderPathCountByG_S = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
-			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
+			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {String.class.getName(), String.class.getName()});
 
 		_finderPathFetchByU_G_S_M_T = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
 			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByU_G_S_M_T",
+			OAuthTokenImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByU_G_S_M_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName(), Long.class.getName(),
@@ -1722,8 +1725,9 @@ public class OAuthTokenPersistenceImpl
 
 		_finderPathCountByU_G_S_M_T = new FinderPath(
 			OAuthTokenModelImpl.ENTITY_CACHE_ENABLED,
-			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_G_S_M_T",
+			OAuthTokenModelImpl.FINDER_CACHE_ENABLED, OAuthTokenImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_G_S_M_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName(), Long.class.getName(),

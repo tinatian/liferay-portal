@@ -1470,24 +1470,26 @@ public class RatingsStatsPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			RatingsStatsImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			RatingsStatsImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
-			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByC_C = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			RatingsStatsImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -1497,7 +1499,8 @@ public class RatingsStatsPersistenceImpl
 		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			RatingsStatsImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			RatingsStatsModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			RatingsStatsModelImpl.CLASSPK_COLUMN_BITMASK);
@@ -1505,21 +1508,21 @@ public class RatingsStatsPersistenceImpl
 		_finderPathFetchByC_C = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
 			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			RatingsStatsImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			RatingsStatsModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			RatingsStatsModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
-			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationCountByC_C = new FinderPath(
 			RatingsStatsModelImpl.ENTITY_CACHE_ENABLED,
-			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C",
+			RatingsStatsModelImpl.FINDER_CACHE_ENABLED, RatingsStatsImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

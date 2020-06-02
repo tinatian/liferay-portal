@@ -2237,21 +2237,25 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMDataProviderInstanceLinkImpl.class,
+			DDMDataProviderInstanceLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMDataProviderInstanceLinkImpl.class,
+			DDMDataProviderInstanceLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByDataProviderInstanceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class,
 			DDMDataProviderInstanceLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByDataProviderInstanceId",
@@ -2264,6 +2268,7 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
 				DDMDataProviderInstanceLinkImpl.class,
+				DDMDataProviderInstanceLinkImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByDataProviderInstanceId",
 				new String[] {Long.class.getName()},
@@ -2271,13 +2276,15 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 					DATAPROVIDERINSTANCEID_COLUMN_BITMASK);
 
 		_finderPathCountByDataProviderInstanceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByDataProviderInstanceId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByStructureId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class,
 			DDMDataProviderInstanceLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStructureId",
 			new String[] {
@@ -2288,17 +2295,20 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByStructureId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DDMDataProviderInstanceLinkImpl.class,
+			DDMDataProviderInstanceLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStructureId",
 			new String[] {Long.class.getName()},
 			DDMDataProviderInstanceLinkModelImpl.STRUCTUREID_COLUMN_BITMASK);
 
 		_finderPathCountByStructureId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStructureId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByD_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class,
 			DDMDataProviderInstanceLinkImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByD_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
@@ -2307,7 +2317,8 @@ public class DDMDataProviderInstanceLinkPersistenceImpl
 			DDMDataProviderInstanceLinkModelImpl.STRUCTUREID_COLUMN_BITMASK);
 
 		_finderPathCountByD_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMDataProviderInstanceLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByD_S",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

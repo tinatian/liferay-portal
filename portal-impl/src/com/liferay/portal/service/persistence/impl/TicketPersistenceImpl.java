@@ -2053,37 +2053,39 @@ public class TicketPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			TicketImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			TicketImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByKey = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByKey",
+			TicketImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByKey",
 			new String[] {String.class.getName()},
 			TicketModelImpl.KEY_COLUMN_BITMASK);
 
 		_finderPathCountByKey = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByC_C_T = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_T",
+			TicketImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2093,7 +2095,8 @@ public class TicketPersistenceImpl
 		_finderPathWithoutPaginationFindByC_C_T = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_T",
+			TicketImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -2104,7 +2107,7 @@ public class TicketPersistenceImpl
 
 		_finderPathCountByC_C_T = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2114,7 +2117,8 @@ public class TicketPersistenceImpl
 		_finderPathWithPaginationFindByC_C_C_T = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C_T",
+			TicketImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -2125,7 +2129,8 @@ public class TicketPersistenceImpl
 		_finderPathWithoutPaginationFindByC_C_C_T = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
 			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C_T",
+			TicketImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
@@ -2137,7 +2142,7 @@ public class TicketPersistenceImpl
 
 		_finderPathCountByC_C_C_T = new FinderPath(
 			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

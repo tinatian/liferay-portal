@@ -1708,21 +1708,25 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			OAuth2ApplicationScopeAliasesImpl.class,
+			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			OAuth2ApplicationScopeAliasesImpl.class,
+			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			OAuth2ApplicationScopeAliasesImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByC = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			OAuth2ApplicationScopeAliasesImpl.class,
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC",
 			new String[] {
@@ -1733,17 +1737,20 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		_finderPathWithoutPaginationFindByC = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			OAuth2ApplicationScopeAliasesImpl.class,
+			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC",
 			new String[] {Long.class.getName()},
 			OAuth2ApplicationScopeAliasesModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByC = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			OAuth2ApplicationScopeAliasesImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByOAuth2ApplicationId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			OAuth2ApplicationScopeAliasesImpl.class,
 			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOAuth2ApplicationId",
 			new String[] {
@@ -1754,13 +1761,15 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		_finderPathWithoutPaginationFindByOAuth2ApplicationId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			OAuth2ApplicationScopeAliasesImpl.class,
+			OAuth2ApplicationScopeAliasesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByOAuth2ApplicationId", new String[] {Long.class.getName()},
 			OAuth2ApplicationScopeAliasesModelImpl.
 				OAUTH2APPLICATIONID_COLUMN_BITMASK);
 
 		_finderPathCountByOAuth2ApplicationId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			OAuth2ApplicationScopeAliasesImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByOAuth2ApplicationId", new String[] {Long.class.getName()});
 	}

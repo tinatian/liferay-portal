@@ -1282,33 +1282,36 @@ public class WeDeployAuthTokenPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			WeDeployAuthTokenImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
+			WeDeployAuthTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByT_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByT_T",
+			WeDeployAuthTokenImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByT_T",
 			new String[] {String.class.getName(), Integer.class.getName()},
 			WeDeployAuthTokenModelImpl.TOKEN_COLUMN_BITMASK |
 			WeDeployAuthTokenModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByT_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_T",
+			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_T",
 			new String[] {String.class.getName(), Integer.class.getName()});
 
 		_finderPathFetchByCI_T_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByCI_T_T",
+			WeDeployAuthTokenImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByCI_T_T",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Integer.class.getName()
@@ -1318,8 +1321,9 @@ public class WeDeployAuthTokenPersistenceImpl
 			WeDeployAuthTokenModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByCI_T_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCI_T_T",
+			entityCacheEnabled, finderCacheEnabled, WeDeployAuthTokenImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCI_T_T",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Integer.class.getName()

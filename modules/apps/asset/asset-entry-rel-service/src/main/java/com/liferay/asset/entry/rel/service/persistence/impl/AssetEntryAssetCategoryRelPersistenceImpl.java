@@ -2240,21 +2240,25 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AssetEntryAssetCategoryRelImpl.class,
+			AssetEntryAssetCategoryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AssetEntryAssetCategoryRelImpl.class,
+			AssetEntryAssetCategoryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByAssetEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class,
 			AssetEntryAssetCategoryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetEntryId",
 			new String[] {
@@ -2265,17 +2269,20 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		_finderPathWithoutPaginationFindByAssetEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AssetEntryAssetCategoryRelImpl.class,
+			AssetEntryAssetCategoryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetEntryId",
 			new String[] {Long.class.getName()},
 			AssetEntryAssetCategoryRelModelImpl.ASSETENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByAssetEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByAssetCategoryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class,
 			AssetEntryAssetCategoryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetCategoryId",
 			new String[] {
@@ -2286,17 +2293,20 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 		_finderPathWithoutPaginationFindByAssetCategoryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AssetEntryAssetCategoryRelImpl.class,
+			AssetEntryAssetCategoryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetCategoryId",
 			new String[] {Long.class.getName()},
 			AssetEntryAssetCategoryRelModelImpl.ASSETCATEGORYID_COLUMN_BITMASK);
 
 		_finderPathCountByAssetCategoryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetCategoryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByA_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class,
 			AssetEntryAssetCategoryRelImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByA_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
@@ -2304,7 +2314,8 @@ public class AssetEntryAssetCategoryRelPersistenceImpl
 			AssetEntryAssetCategoryRelModelImpl.ASSETCATEGORYID_COLUMN_BITMASK);
 
 		_finderPathCountByA_A = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetEntryAssetCategoryRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_A",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

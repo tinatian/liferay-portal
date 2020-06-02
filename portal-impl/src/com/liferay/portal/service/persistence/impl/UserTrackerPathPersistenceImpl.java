@@ -1116,27 +1116,28 @@ public class UserTrackerPathPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class,
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
-			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
+			UserTrackerPathImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUserTrackerId = new FinderPath(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUserTrackerId",
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserTrackerId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1145,14 +1146,15 @@ public class UserTrackerPathPersistenceImpl
 		_finderPathWithoutPaginationFindByUserTrackerId = new FinderPath(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class,
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserTrackerId",
 			new String[] {Long.class.getName()},
 			UserTrackerPathModelImpl.USERTRACKERID_COLUMN_BITMASK);
 
 		_finderPathCountByUserTrackerId = new FinderPath(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
-			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
+			UserTrackerPathImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserTrackerId",
 			new String[] {Long.class.getName()});
 	}

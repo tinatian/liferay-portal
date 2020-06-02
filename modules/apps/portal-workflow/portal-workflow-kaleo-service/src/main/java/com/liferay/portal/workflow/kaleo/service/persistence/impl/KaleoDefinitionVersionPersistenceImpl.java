@@ -2090,23 +2090,24 @@ public class KaleoDefinitionVersionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class,
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class,
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoDefinitionVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class,
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2115,19 +2116,20 @@ public class KaleoDefinitionVersionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class,
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			KaleoDefinitionVersionModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoDefinitionVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class,
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_N",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -2137,21 +2139,22 @@ public class KaleoDefinitionVersionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class,
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			KaleoDefinitionVersionModelImpl.COMPANYID_COLUMN_BITMASK |
 			KaleoDefinitionVersionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByC_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoDefinitionVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByC_N_V = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoDefinitionVersionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByC_N_V",
+			KaleoDefinitionVersionImpl.class, KaleoDefinitionVersionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_N_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()
@@ -2161,7 +2164,8 @@ public class KaleoDefinitionVersionPersistenceImpl
 			KaleoDefinitionVersionModelImpl.VERSION_COLUMN_BITMASK);
 
 		_finderPathCountByC_N_V = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoDefinitionVersionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),

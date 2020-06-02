@@ -1792,32 +1792,38 @@ public class PushNotificationsDevicePersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			PushNotificationsDeviceImpl.class,
+			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			PushNotificationsDeviceImpl.class,
+			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByToken = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByToken", new String[] {String.class.getName()},
 			PushNotificationsDeviceModelImpl.TOKEN_COLUMN_BITMASK);
 
 		_finderPathCountByToken = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByToken",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByU_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_P",
 			new String[] {
@@ -1829,18 +1835,21 @@ public class PushNotificationsDevicePersistenceImpl
 		_finderPathWithoutPaginationFindByU_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			PushNotificationsDeviceImpl.class,
+			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_P",
 			new String[] {Long.class.getName(), String.class.getName()},
 			PushNotificationsDeviceModelImpl.USERID_COLUMN_BITMASK |
 			PushNotificationsDeviceModelImpl.PLATFORM_COLUMN_BITMASK);
 
 		_finderPathCountByU_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_P",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationCountByU_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_P",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

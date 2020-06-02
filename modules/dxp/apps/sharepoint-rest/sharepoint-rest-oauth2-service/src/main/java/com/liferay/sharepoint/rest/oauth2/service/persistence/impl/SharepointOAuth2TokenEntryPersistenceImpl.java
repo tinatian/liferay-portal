@@ -1442,21 +1442,25 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			SharepointOAuth2TokenEntryImpl.class,
+			SharepointOAuth2TokenEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			SharepointOAuth2TokenEntryImpl.class,
+			SharepointOAuth2TokenEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SharepointOAuth2TokenEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			SharepointOAuth2TokenEntryImpl.class,
 			SharepointOAuth2TokenEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
@@ -1467,17 +1471,20 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			SharepointOAuth2TokenEntryImpl.class,
+			SharepointOAuth2TokenEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
 			SharepointOAuth2TokenEntryModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SharepointOAuth2TokenEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByU_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			SharepointOAuth2TokenEntryImpl.class,
 			SharepointOAuth2TokenEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByU_C",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -1486,7 +1493,8 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 				CONFIGURATIONPID_COLUMN_BITMASK);
 
 		_finderPathCountByU_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SharepointOAuth2TokenEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

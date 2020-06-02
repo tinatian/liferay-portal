@@ -1672,24 +1672,26 @@ public class UserIdMapperPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
 			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			UserIdMapperImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
 			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			UserIdMapperImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
-			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
 			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			UserIdMapperImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1698,42 +1700,42 @@ public class UserIdMapperPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
 			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			UserIdMapperImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			UserIdMapperModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
-			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByU_T = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
 			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByU_T",
+			UserIdMapperImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByU_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			UserIdMapperModelImpl.USERID_COLUMN_BITMASK |
 			UserIdMapperModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByU_T = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
-			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T",
+			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByT_E = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
 			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByT_E",
+			UserIdMapperImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByT_E",
 			new String[] {String.class.getName(), String.class.getName()},
 			UserIdMapperModelImpl.TYPE_COLUMN_BITMASK |
 			UserIdMapperModelImpl.EXTERNALUSERID_COLUMN_BITMASK);
 
 		_finderPathCountByT_E = new FinderPath(
 			UserIdMapperModelImpl.ENTITY_CACHE_ENABLED,
-			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_E",
+			UserIdMapperModelImpl.FINDER_CACHE_ENABLED, UserIdMapperImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_E",
 			new String[] {String.class.getName(), String.class.getName()});
 	}
 

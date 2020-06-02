@@ -3387,24 +3387,28 @@ public class ExportImportConfigurationPersistenceImpl
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
 			ExportImportConfigurationImpl.class,
+			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
 			ExportImportConfigurationImpl.class,
+			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
-			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class,
 			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
@@ -3416,6 +3420,7 @@ public class ExportImportConfigurationPersistenceImpl
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
 			ExportImportConfigurationImpl.class,
+			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			ExportImportConfigurationModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3423,13 +3428,15 @@ public class ExportImportConfigurationPersistenceImpl
 
 		_finderPathCountByGroupId = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
-			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class,
 			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
@@ -3441,6 +3448,7 @@ public class ExportImportConfigurationPersistenceImpl
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
 			ExportImportConfigurationImpl.class,
+			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			ExportImportConfigurationModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -3448,13 +3456,15 @@ public class ExportImportConfigurationPersistenceImpl
 
 		_finderPathCountByCompanyId = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
-			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_T = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class,
 			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_T",
 			new String[] {
@@ -3467,6 +3477,7 @@ public class ExportImportConfigurationPersistenceImpl
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
 			ExportImportConfigurationImpl.class,
+			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			ExportImportConfigurationModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3475,13 +3486,15 @@ public class ExportImportConfigurationPersistenceImpl
 
 		_finderPathCountByG_T = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
-			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByG_S = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class,
 			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
 			new String[] {
@@ -3494,6 +3507,7 @@ public class ExportImportConfigurationPersistenceImpl
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
 			ExportImportConfigurationImpl.class,
+			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			ExportImportConfigurationModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3502,13 +3516,15 @@ public class ExportImportConfigurationPersistenceImpl
 
 		_finderPathCountByG_S = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
-			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByG_T_S = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class,
 			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_T_S",
 			new String[] {
@@ -3520,6 +3536,7 @@ public class ExportImportConfigurationPersistenceImpl
 		_finderPathWithoutPaginationFindByG_T_S = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
 			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class,
 			ExportImportConfigurationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_T_S",
 			new String[] {
@@ -3533,7 +3550,8 @@ public class ExportImportConfigurationPersistenceImpl
 
 		_finderPathCountByG_T_S = new FinderPath(
 			ExportImportConfigurationModelImpl.ENTITY_CACHE_ENABLED,
-			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ExportImportConfigurationModelImpl.FINDER_CACHE_ENABLED,
+			ExportImportConfigurationImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_T_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),

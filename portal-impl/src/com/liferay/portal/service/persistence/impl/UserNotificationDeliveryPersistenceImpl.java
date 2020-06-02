@@ -1502,24 +1502,28 @@ public class UserNotificationDeliveryPersistenceImpl
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
 			UserNotificationDeliveryImpl.class,
+			UserNotificationDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
 			UserNotificationDeliveryImpl.class,
+			UserNotificationDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationDeliveryImpl.class,
 			UserNotificationDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
@@ -1531,19 +1535,22 @@ public class UserNotificationDeliveryPersistenceImpl
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
 			UserNotificationDeliveryImpl.class,
+			UserNotificationDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
 			UserNotificationDeliveryModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByU_P_C_N_D = new FinderPath(
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationDeliveryImpl.class,
 			UserNotificationDeliveryImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByU_P_C_N_D",
 			new String[] {
@@ -1559,7 +1566,8 @@ public class UserNotificationDeliveryPersistenceImpl
 
 		_finderPathCountByU_P_C_N_D = new FinderPath(
 			UserNotificationDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_P_C_N_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),

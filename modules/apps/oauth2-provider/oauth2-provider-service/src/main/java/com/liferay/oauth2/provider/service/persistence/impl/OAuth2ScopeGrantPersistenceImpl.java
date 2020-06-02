@@ -1958,22 +1958,24 @@ public class OAuth2ScopeGrantPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ScopeGrantImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			OAuth2ScopeGrantImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ScopeGrantImpl.class,
+			OAuth2ScopeGrantImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, OAuth2ScopeGrantImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByOAuth2ApplicationScopeAliasesId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				OAuth2ScopeGrantImpl.class,
+				OAuth2ScopeGrantImpl.class, OAuth2ScopeGrantImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByOAuth2ApplicationScopeAliasesId",
 				new String[] {
@@ -1984,7 +1986,7 @@ public class OAuth2ScopeGrantPersistenceImpl
 		_finderPathWithoutPaginationFindByOAuth2ApplicationScopeAliasesId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				OAuth2ScopeGrantImpl.class,
+				OAuth2ScopeGrantImpl.class, OAuth2ScopeGrantImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByOAuth2ApplicationScopeAliasesId",
 				new String[] {Long.class.getName()},
@@ -1992,14 +1994,15 @@ public class OAuth2ScopeGrantPersistenceImpl
 					OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_BITMASK);
 
 		_finderPathCountByOAuth2ApplicationScopeAliasesId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, OAuth2ScopeGrantImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByOAuth2ApplicationScopeAliasesId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_O_A_B_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, OAuth2ScopeGrantImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_O_A_B_S",
+			OAuth2ScopeGrantImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByC_O_A_B_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -2013,8 +2016,9 @@ public class OAuth2ScopeGrantPersistenceImpl
 			OAuth2ScopeGrantModelImpl.SCOPE_COLUMN_BITMASK);
 
 		_finderPathCountByC_O_A_B_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_O_A_B_S",
+			entityCacheEnabled, finderCacheEnabled, OAuth2ScopeGrantImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_O_A_B_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),

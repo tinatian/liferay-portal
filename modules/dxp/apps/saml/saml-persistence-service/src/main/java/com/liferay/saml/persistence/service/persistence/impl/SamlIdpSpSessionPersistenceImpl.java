@@ -2001,34 +2001,38 @@ public class SamlIdpSpSessionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SamlIdpSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
+			SamlIdpSpSessionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCreateDate = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCreateDate",
+			SamlIdpSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCreateDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithPaginationCountByCreateDate = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByCreateDate",
-			new String[] {Date.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByCreateDate", new String[] {Date.class.getName()});
 
 		_finderPathWithPaginationFindBySamlIdpSsoSessionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySamlIdpSsoSessionId",
+			SamlIdpSpSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBySamlIdpSsoSessionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2036,25 +2040,28 @@ public class SamlIdpSpSessionPersistenceImpl
 
 		_finderPathWithoutPaginationFindBySamlIdpSsoSessionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
+			SamlIdpSpSessionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findBySamlIdpSsoSessionId", new String[] {Long.class.getName()},
 			SamlIdpSpSessionModelImpl.SAMLIDPSSOSESSIONID_COLUMN_BITMASK);
 
 		_finderPathCountBySamlIdpSsoSessionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySamlIdpSsoSessionId", new String[] {Long.class.getName()});
 
 		_finderPathFetchBySISSI_SSEI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySISSI_SSEI",
+			SamlIdpSpSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySISSI_SSEI",
 			new String[] {Long.class.getName(), String.class.getName()},
 			SamlIdpSpSessionModelImpl.SAMLIDPSSOSESSIONID_COLUMN_BITMASK |
 			SamlIdpSpSessionModelImpl.SAMLSPENTITYID_COLUMN_BITMASK);
 
 		_finderPathCountBySISSI_SSEI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySISSI_SSEI",
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSpSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySISSI_SSEI",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
 

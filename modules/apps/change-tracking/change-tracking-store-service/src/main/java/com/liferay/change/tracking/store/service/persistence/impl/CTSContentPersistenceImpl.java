@@ -3352,21 +3352,23 @@ public class CTSContentPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByC_R_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_S",
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), Integer.class.getName(),
@@ -3375,7 +3377,8 @@ public class CTSContentPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_R_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_S",
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -3386,8 +3389,9 @@ public class CTSContentPersistenceImpl
 			CTSContentModelImpl.VERSION_COLUMN_BITMASK);
 
 		_finderPathCountByC_R_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_S",
+			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_R_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
@@ -3395,7 +3399,8 @@ public class CTSContentPersistenceImpl
 
 		_finderPathWithPaginationFindByC_R_P_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_P_S",
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3405,7 +3410,8 @@ public class CTSContentPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_R_P_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_R_P_S",
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -3417,8 +3423,9 @@ public class CTSContentPersistenceImpl
 			CTSContentModelImpl.VERSION_COLUMN_BITMASK);
 
 		_finderPathCountByC_R_P_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_S",
+			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_R_P_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -3426,7 +3433,8 @@ public class CTSContentPersistenceImpl
 
 		_finderPathWithPaginationFindByC_R_LikeP_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_R_LikeP_S",
+			CTSContentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_R_LikeP_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3435,8 +3443,9 @@ public class CTSContentPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByC_R_LikeP_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_R_LikeP_S",
+			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByC_R_LikeP_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -3444,7 +3453,7 @@ public class CTSContentPersistenceImpl
 
 		_finderPathFetchByC_R_P_V_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_R_P_V_S",
+			CTSContentImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_R_P_V_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),
@@ -3457,8 +3466,9 @@ public class CTSContentPersistenceImpl
 			CTSContentModelImpl.STORETYPE_COLUMN_BITMASK);
 
 		_finderPathCountByC_R_P_V_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_R_P_V_S",
+			entityCacheEnabled, finderCacheEnabled, CTSContentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_R_P_V_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName(),

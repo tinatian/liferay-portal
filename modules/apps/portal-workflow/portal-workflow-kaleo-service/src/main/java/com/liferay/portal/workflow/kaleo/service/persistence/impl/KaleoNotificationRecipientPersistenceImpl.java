@@ -2249,21 +2249,25 @@ public class KaleoNotificationRecipientPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			KaleoNotificationRecipientImpl.class,
+			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			KaleoNotificationRecipientImpl.class,
+			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class,
 			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
@@ -2274,18 +2278,21 @@ public class KaleoNotificationRecipientPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			KaleoNotificationRecipientImpl.class,
+			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			KaleoNotificationRecipientModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoDefinitionVersionId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
+				KaleoNotificationRecipientImpl.class,
 				KaleoNotificationRecipientImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByKaleoDefinitionVersionId",
@@ -2298,6 +2305,7 @@ public class KaleoNotificationRecipientPersistenceImpl
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
 				KaleoNotificationRecipientImpl.class,
+				KaleoNotificationRecipientImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {Long.class.getName()},
@@ -2305,13 +2313,15 @@ public class KaleoNotificationRecipientPersistenceImpl
 					KALEODEFINITIONVERSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByKaleoDefinitionVersionId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoNotificationId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class,
 			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByKaleoNotificationId",
 			new String[] {
@@ -2322,13 +2332,15 @@ public class KaleoNotificationRecipientPersistenceImpl
 		_finderPathWithoutPaginationFindByKaleoNotificationId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			KaleoNotificationRecipientImpl.class,
+			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByKaleoNotificationId", new String[] {Long.class.getName()},
 			KaleoNotificationRecipientModelImpl.
 				KALEONOTIFICATIONID_COLUMN_BITMASK);
 
 		_finderPathCountByKaleoNotificationId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByKaleoNotificationId", new String[] {Long.class.getName()});
 	}

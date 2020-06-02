@@ -1900,21 +1900,24 @@ public class SegmentsEntryRolePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SegmentsEntryRoleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			SegmentsEntryRoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindBySegmentsEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySegmentsEntryId",
+			SegmentsEntryRoleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBySegmentsEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1922,18 +1925,20 @@ public class SegmentsEntryRolePersistenceImpl
 
 		_finderPathWithoutPaginationFindBySegmentsEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			SegmentsEntryRoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySegmentsEntryId",
 			new String[] {Long.class.getName()},
 			SegmentsEntryRoleModelImpl.SEGMENTSENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountBySegmentsEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySegmentsEntryId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySegmentsEntryId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByRoleId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRoleId",
+			SegmentsEntryRoleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByRoleId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1941,25 +1946,26 @@ public class SegmentsEntryRolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByRoleId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			SegmentsEntryRoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRoleId",
 			new String[] {Long.class.getName()},
 			SegmentsEntryRoleModelImpl.ROLEID_COLUMN_BITMASK);
 
 		_finderPathCountByRoleId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRoleId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByRoleId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByS_R = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByS_R",
+			SegmentsEntryRoleImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByS_R",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SegmentsEntryRoleModelImpl.SEGMENTSENTRYID_COLUMN_BITMASK |
 			SegmentsEntryRoleModelImpl.ROLEID_COLUMN_BITMASK);
 
 		_finderPathCountByS_R = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_R",
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRoleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_R",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

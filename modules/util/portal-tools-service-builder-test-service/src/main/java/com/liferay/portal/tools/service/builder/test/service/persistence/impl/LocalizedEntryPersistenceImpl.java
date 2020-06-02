@@ -562,18 +562,20 @@ public class LocalizedEntryPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			LocalizedEntryModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryModelImpl.FINDER_CACHE_ENABLED,
-			LocalizedEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			LocalizedEntryImpl.class, LocalizedEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			LocalizedEntryModelImpl.ENTITY_CACHE_ENABLED,
 			LocalizedEntryModelImpl.FINDER_CACHE_ENABLED,
-			LocalizedEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			LocalizedEntryImpl.class, LocalizedEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			LocalizedEntryModelImpl.ENTITY_CACHE_ENABLED,
-			LocalizedEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LocalizedEntryModelImpl.FINDER_CACHE_ENABLED,
+			LocalizedEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 	}

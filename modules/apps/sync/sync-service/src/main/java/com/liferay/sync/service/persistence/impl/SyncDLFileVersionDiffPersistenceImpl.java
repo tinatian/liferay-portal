@@ -1986,23 +1986,24 @@ public class SyncDLFileVersionDiffPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SyncDLFileVersionDiffImpl.class,
+			SyncDLFileVersionDiffImpl.class, SyncDLFileVersionDiffImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SyncDLFileVersionDiffImpl.class,
+			SyncDLFileVersionDiffImpl.class, SyncDLFileVersionDiffImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SyncDLFileVersionDiffImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SyncDLFileVersionDiffImpl.class,
+			SyncDLFileVersionDiffImpl.class, SyncDLFileVersionDiffImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFileEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2011,19 +2012,20 @@ public class SyncDLFileVersionDiffPersistenceImpl
 
 		_finderPathWithoutPaginationFindByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SyncDLFileVersionDiffImpl.class,
+			SyncDLFileVersionDiffImpl.class, SyncDLFileVersionDiffImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFileEntryId",
 			new String[] {Long.class.getName()},
 			SyncDLFileVersionDiffModelImpl.FILEENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByFileEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SyncDLFileVersionDiffImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByExpirationDate = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SyncDLFileVersionDiffImpl.class,
+			SyncDLFileVersionDiffImpl.class, SyncDLFileVersionDiffImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByExpirationDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
@@ -2031,14 +2033,15 @@ public class SyncDLFileVersionDiffPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByExpirationDate = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SyncDLFileVersionDiffImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByExpirationDate",
 			new String[] {Date.class.getName()});
 
 		_finderPathFetchByF_S_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SyncDLFileVersionDiffImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByF_S_T",
+			SyncDLFileVersionDiffImpl.class, SyncDLFileVersionDiffImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByF_S_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -2047,7 +2050,8 @@ public class SyncDLFileVersionDiffPersistenceImpl
 			SyncDLFileVersionDiffModelImpl.TARGETFILEVERSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByF_S_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SyncDLFileVersionDiffImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_S_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()

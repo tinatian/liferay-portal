@@ -3797,27 +3797,28 @@ public class LayoutSetBranchPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class,
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetBranchImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3826,7 +3827,7 @@ public class LayoutSetBranchPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class,
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			LayoutSetBranchModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3834,15 +3835,16 @@ public class LayoutSetBranchPersistenceImpl
 
 		_finderPathCountByGroupId = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetBranchImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_P = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_P",
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3852,7 +3854,7 @@ public class LayoutSetBranchPersistenceImpl
 		_finderPathWithoutPaginationFindByG_P = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class,
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			LayoutSetBranchModelImpl.GROUPID_COLUMN_BITMASK |
@@ -3861,14 +3863,16 @@ public class LayoutSetBranchPersistenceImpl
 
 		_finderPathCountByG_P = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetBranchImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
 		_finderPathFetchByG_P_N = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_P_N",
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_P_N",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				String.class.getName()
@@ -3879,7 +3883,8 @@ public class LayoutSetBranchPersistenceImpl
 
 		_finderPathCountByG_P_N = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetBranchImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_N",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -3889,8 +3894,8 @@ public class LayoutSetBranchPersistenceImpl
 		_finderPathWithPaginationFindByG_P_M = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_P_M",
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P_M",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				Boolean.class.getName(), Integer.class.getName(),
@@ -3900,7 +3905,7 @@ public class LayoutSetBranchPersistenceImpl
 		_finderPathWithoutPaginationFindByG_P_M = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
-			LayoutSetBranchImpl.class,
+			LayoutSetBranchImpl.class, LayoutSetBranchImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P_M",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -3913,7 +3918,8 @@ public class LayoutSetBranchPersistenceImpl
 
 		_finderPathCountByG_P_M = new FinderPath(
 			LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutSetBranchModelImpl.FINDER_CACHE_ENABLED,
+			LayoutSetBranchImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_M",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),

@@ -1394,21 +1394,23 @@ public class FolderPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FolderImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FolderImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByAccountId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAccountId",
+			FolderImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByAccountId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1416,26 +1418,26 @@ public class FolderPersistenceImpl
 
 		_finderPathWithoutPaginationFindByAccountId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAccountId",
-			new String[] {Long.class.getName()},
+			FolderImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByAccountId", new String[] {Long.class.getName()},
 			FolderModelImpl.ACCOUNTID_COLUMN_BITMASK |
 			FolderModelImpl.FULLNAME_COLUMN_BITMASK);
 
 		_finderPathCountByAccountId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAccountId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAccountId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByA_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByA_F",
+			FolderImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByA_F",
 			new String[] {Long.class.getName(), String.class.getName()},
 			FolderModelImpl.ACCOUNTID_COLUMN_BITMASK |
 			FolderModelImpl.FULLNAME_COLUMN_BITMASK);
 
 		_finderPathCountByA_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_F",
+			entityCacheEnabled, finderCacheEnabled, FolderImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_F",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
 

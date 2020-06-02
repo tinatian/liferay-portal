@@ -1145,28 +1145,31 @@ public class DDMFormInstanceReportPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceReportImpl.class,
+			DDMFormInstanceReportImpl.class, DDMFormInstanceReportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceReportImpl.class,
+			DDMFormInstanceReportImpl.class, DDMFormInstanceReportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceReportImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByFormInstanceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceReportImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByFormInstanceId", new String[] {Long.class.getName()},
+			DDMFormInstanceReportImpl.class, DDMFormInstanceReportImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByFormInstanceId",
+			new String[] {Long.class.getName()},
 			DDMFormInstanceReportModelImpl.FORMINSTANCEID_COLUMN_BITMASK);
 
 		_finderPathCountByFormInstanceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DDMFormInstanceReportImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFormInstanceId",
 			new String[] {Long.class.getName()});
 	}

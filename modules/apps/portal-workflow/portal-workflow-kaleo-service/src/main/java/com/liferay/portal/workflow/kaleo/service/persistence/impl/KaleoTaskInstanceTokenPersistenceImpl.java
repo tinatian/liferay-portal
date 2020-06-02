@@ -3087,23 +3087,24 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoTaskInstanceTokenImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3112,19 +3113,21 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			KaleoTaskInstanceTokenModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoTaskInstanceTokenImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoDefinitionVersionId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
+				KaleoTaskInstanceTokenImpl.class,
 				KaleoTaskInstanceTokenImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByKaleoDefinitionVersionId",
@@ -3137,6 +3140,7 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
 				KaleoTaskInstanceTokenImpl.class,
+				KaleoTaskInstanceTokenImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {Long.class.getName()},
@@ -3144,14 +3148,15 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 					KALEODEFINITIONVERSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoTaskInstanceTokenImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByKaleoDefinitionVersionId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoInstanceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByKaleoInstanceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3160,32 +3165,34 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 
 		_finderPathWithoutPaginationFindByKaleoInstanceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByKaleoInstanceId",
 			new String[] {Long.class.getName()},
 			KaleoTaskInstanceTokenModelImpl.KALEOINSTANCEID_COLUMN_BITMASK);
 
 		_finderPathCountByKaleoInstanceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoTaskInstanceTokenImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKaleoInstanceId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByKII_KTI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByKII_KTI",
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByKII_KTI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			KaleoTaskInstanceTokenModelImpl.KALEOINSTANCEID_COLUMN_BITMASK |
 			KaleoTaskInstanceTokenModelImpl.KALEOTASKID_COLUMN_BITMASK);
 
 		_finderPathCountByKII_KTI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoTaskInstanceTokenImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKII_KTI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCN_CPK",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -3195,14 +3202,15 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			KaleoTaskInstanceTokenImpl.class,
+			KaleoTaskInstanceTokenImpl.class, KaleoTaskInstanceTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCN_CPK",
 			new String[] {String.class.getName(), Long.class.getName()},
 			KaleoTaskInstanceTokenModelImpl.CLASSNAME_COLUMN_BITMASK |
 			KaleoTaskInstanceTokenModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByCN_CPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoTaskInstanceTokenImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCN_CPK",
 			new String[] {String.class.getName(), Long.class.getName()});
 	}

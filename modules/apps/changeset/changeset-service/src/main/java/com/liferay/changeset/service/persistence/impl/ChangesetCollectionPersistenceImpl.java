@@ -3067,23 +3067,24 @@ public class ChangesetCollectionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			ChangesetCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3092,19 +3093,20 @@ public class ChangesetCollectionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			ChangesetCollectionModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			ChangesetCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3113,19 +3115,20 @@ public class ChangesetCollectionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			ChangesetCollectionModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			ChangesetCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -3135,33 +3138,35 @@ public class ChangesetCollectionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			ChangesetCollectionModelImpl.GROUPID_COLUMN_BITMASK |
 			ChangesetCollectionModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByG_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			ChangesetCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByG_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByG_N",
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			ChangesetCollectionModelImpl.GROUPID_COLUMN_BITMASK |
 			ChangesetCollectionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByG_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			ChangesetCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByC_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_N",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -3171,14 +3176,15 @@ public class ChangesetCollectionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			ChangesetCollectionImpl.class,
+			ChangesetCollectionImpl.class, ChangesetCollectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			ChangesetCollectionModelImpl.COMPANYID_COLUMN_BITMASK |
 			ChangesetCollectionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByC_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			ChangesetCollectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

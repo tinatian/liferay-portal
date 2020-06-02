@@ -2557,21 +2557,24 @@ public class SegmentsEntryRelPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SegmentsEntryRelImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			SegmentsEntryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindBySegmentsEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySegmentsEntryId",
+			SegmentsEntryRelImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBySegmentsEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2579,18 +2582,20 @@ public class SegmentsEntryRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindBySegmentsEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			SegmentsEntryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySegmentsEntryId",
 			new String[] {Long.class.getName()},
 			SegmentsEntryRelModelImpl.SEGMENTSENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountBySegmentsEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySegmentsEntryId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySegmentsEntryId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByCN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCN_CPK",
+			SegmentsEntryRelImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCN_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -2599,19 +2604,22 @@ public class SegmentsEntryRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			SegmentsEntryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCN_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SegmentsEntryRelModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			SegmentsEntryRelModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByCN_CPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCN_CPK",
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCN_CPK",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_CN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_CN_CPK",
+			SegmentsEntryRelImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_CN_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -2620,6 +2628,7 @@ public class SegmentsEntryRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindByG_CN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			SegmentsEntryRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_CN_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -2629,15 +2638,17 @@ public class SegmentsEntryRelPersistenceImpl
 			SegmentsEntryRelModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByG_CN_CPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_CN_CPK",
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_CN_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
 		_finderPathFetchByS_CN_CPK = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByS_CN_CPK",
+			SegmentsEntryRelImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByS_CN_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -2646,8 +2657,9 @@ public class SegmentsEntryRelPersistenceImpl
 			SegmentsEntryRelModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByS_CN_CPK = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_CN_CPK",
+			entityCacheEnabled, finderCacheEnabled, SegmentsEntryRelImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByS_CN_CPK",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});

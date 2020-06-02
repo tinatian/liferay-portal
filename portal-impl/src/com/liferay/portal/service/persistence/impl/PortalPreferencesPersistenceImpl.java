@@ -857,33 +857,36 @@ public class PortalPreferencesPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			PortalPreferencesModelImpl.ENTITY_CACHE_ENABLED,
 			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED,
-			PortalPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			PortalPreferencesImpl.class, PortalPreferencesImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			PortalPreferencesModelImpl.ENTITY_CACHE_ENABLED,
 			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED,
-			PortalPreferencesImpl.class,
+			PortalPreferencesImpl.class, PortalPreferencesImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			PortalPreferencesModelImpl.ENTITY_CACHE_ENABLED,
-			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED,
+			PortalPreferencesImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByO_O = new FinderPath(
 			PortalPreferencesModelImpl.ENTITY_CACHE_ENABLED,
 			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED,
-			PortalPreferencesImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByO_O",
+			PortalPreferencesImpl.class, PortalPreferencesImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByO_O",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			PortalPreferencesModelImpl.OWNERID_COLUMN_BITMASK |
 			PortalPreferencesModelImpl.OWNERTYPE_COLUMN_BITMASK);
 
 		_finderPathCountByO_O = new FinderPath(
 			PortalPreferencesModelImpl.ENTITY_CACHE_ENABLED,
-			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PortalPreferencesModelImpl.FINDER_CACHE_ENABLED,
+			PortalPreferencesImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 	}

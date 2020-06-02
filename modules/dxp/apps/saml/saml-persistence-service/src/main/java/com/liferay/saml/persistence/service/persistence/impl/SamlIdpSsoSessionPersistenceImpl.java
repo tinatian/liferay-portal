@@ -1463,40 +1463,44 @@ public class SamlIdpSsoSessionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			SamlIdpSsoSessionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCreateDate = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCreateDate",
+			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCreateDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithPaginationCountByCreateDate = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByCreateDate",
-			new String[] {Date.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByCreateDate", new String[] {Date.class.getName()});
 
 		_finderPathFetchBySamlIdpSsoSessionKey = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySamlIdpSsoSessionKey",
+			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySamlIdpSsoSessionKey",
 			new String[] {String.class.getName()},
 			SamlIdpSsoSessionModelImpl.SAMLIDPSSOSESSIONKEY_COLUMN_BITMASK);
 
 		_finderPathCountBySamlIdpSsoSessionKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySamlIdpSsoSessionKey",
 			new String[] {String.class.getName()});
 	}

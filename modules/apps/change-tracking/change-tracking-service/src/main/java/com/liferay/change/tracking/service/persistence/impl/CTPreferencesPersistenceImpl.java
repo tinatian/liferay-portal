@@ -1876,21 +1876,23 @@ public class CTPreferencesPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCollectionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCollectionId",
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCollectionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1898,18 +1900,18 @@ public class CTPreferencesPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCollectionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCollectionId",
-			new String[] {Long.class.getName()},
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCollectionId", new String[] {Long.class.getName()},
 			CTPreferencesModelImpl.CTCOLLECTIONID_COLUMN_BITMASK);
 
 		_finderPathCountByCollectionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCollectionId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCollectionId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByPreviousCollectionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByPreviousCollectionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1918,25 +1920,25 @@ public class CTPreferencesPersistenceImpl
 
 		_finderPathWithoutPaginationFindByPreviousCollectionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByPreviousCollectionId", new String[] {Long.class.getName()},
 			CTPreferencesModelImpl.PREVIOUSCTCOLLECTIONID_COLUMN_BITMASK);
 
 		_finderPathCountByPreviousCollectionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPreviousCollectionId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_U",
+			CTPreferencesImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			CTPreferencesModelImpl.COMPANYID_COLUMN_BITMASK |
 			CTPreferencesModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByC_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U",
+			entityCacheEnabled, finderCacheEnabled, CTPreferencesImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

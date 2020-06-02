@@ -5201,21 +5201,25 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
@@ -5226,17 +5230,20 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			DEDataDefinitionFieldLinkModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
@@ -5244,12 +5251,14 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			DEDataDefinitionFieldLinkModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
@@ -5261,18 +5270,21 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DEDataDefinitionFieldLinkModelImpl.UUID_COLUMN_BITMASK |
 			DEDataDefinitionFieldLinkModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByDDMStructureId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDDMStructureId",
 			new String[] {
@@ -5283,17 +5295,20 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByDDMStructureId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDDMStructureId",
 			new String[] {Long.class.getName()},
 			DEDataDefinitionFieldLinkModelImpl.DDMSTRUCTUREID_COLUMN_BITMASK);
 
 		_finderPathCountByDDMStructureId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDDMStructureId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
 			new String[] {
@@ -5305,18 +5320,21 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByC_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DEDataDefinitionFieldLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			DEDataDefinitionFieldLinkModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_DDMSI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_DDMSI",
 			new String[] {
@@ -5328,18 +5346,21 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByC_DDMSI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_DDMSI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DEDataDefinitionFieldLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			DEDataDefinitionFieldLinkModelImpl.DDMSTRUCTUREID_COLUMN_BITMASK);
 
 		_finderPathCountByC_DDMSI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_DDMSI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByC_DDMSI_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_DDMSI_F",
 			new String[] {
@@ -5351,6 +5372,7 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 		_finderPathWithoutPaginationFindByC_DDMSI_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DEDataDefinitionFieldLinkImpl.class,
+			DEDataDefinitionFieldLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_DDMSI_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5361,7 +5383,8 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			DEDataDefinitionFieldLinkModelImpl.FIELDNAME_COLUMN_BITMASK);
 
 		_finderPathCountByC_DDMSI_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_DDMSI_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5369,7 +5392,8 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByC_DDMSI_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_DDMSI_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5378,6 +5402,7 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 
 		_finderPathFetchByC_C_DDMSI_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class,
 			DEDataDefinitionFieldLinkImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByC_C_DDMSI_F",
 			new String[] {
@@ -5390,7 +5415,8 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			DEDataDefinitionFieldLinkModelImpl.FIELDNAME_COLUMN_BITMASK);
 
 		_finderPathCountByC_C_DDMSI_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_DDMSI_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -5398,7 +5424,8 @@ public class DEDataDefinitionFieldLinkPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByC_C_DDMSI_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DEDataDefinitionFieldLinkImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_DDMSI_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

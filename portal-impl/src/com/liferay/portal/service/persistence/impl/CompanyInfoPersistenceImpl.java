@@ -818,32 +818,33 @@ public class CompanyInfoPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			CompanyInfoImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			CompanyInfoImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
-			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByCompanyId = new FinderPath(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByCompanyId",
+			CompanyInfoImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByCompanyId",
 			new String[] {Long.class.getName()},
 			CompanyInfoModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
-			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {

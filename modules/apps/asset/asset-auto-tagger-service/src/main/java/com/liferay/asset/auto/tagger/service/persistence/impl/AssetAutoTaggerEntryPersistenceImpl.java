@@ -2197,23 +2197,24 @@ public class AssetAutoTaggerEntryPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class,
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class,
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetAutoTaggerEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByAssetEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class,
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2222,20 +2223,21 @@ public class AssetAutoTaggerEntryPersistenceImpl
 
 		_finderPathWithoutPaginationFindByAssetEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class,
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetEntryId",
 			new String[] {Long.class.getName()},
 			AssetAutoTaggerEntryModelImpl.ASSETENTRYID_COLUMN_BITMASK |
 			AssetAutoTaggerEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByAssetEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetAutoTaggerEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByAssetTagId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class,
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetTagId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2244,27 +2246,29 @@ public class AssetAutoTaggerEntryPersistenceImpl
 
 		_finderPathWithoutPaginationFindByAssetTagId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class,
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetTagId",
 			new String[] {Long.class.getName()},
 			AssetAutoTaggerEntryModelImpl.ASSETTAGID_COLUMN_BITMASK |
 			AssetAutoTaggerEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByAssetTagId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetAutoTaggerEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetTagId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByA_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			AssetAutoTaggerEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByA_A",
+			AssetAutoTaggerEntryImpl.class, AssetAutoTaggerEntryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByA_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AssetAutoTaggerEntryModelImpl.ASSETENTRYID_COLUMN_BITMASK |
 			AssetAutoTaggerEntryModelImpl.ASSETTAGID_COLUMN_BITMASK);
 
 		_finderPathCountByA_A = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AssetAutoTaggerEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_A",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

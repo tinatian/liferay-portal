@@ -3577,21 +3577,23 @@ public class PollsVotePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3599,30 +3601,32 @@ public class PollsVotePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			PollsVoteModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			PollsVoteModelImpl.UUID_COLUMN_BITMASK |
 			PollsVoteModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3631,19 +3635,22 @@ public class PollsVotePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			PollsVoteModelImpl.UUID_COLUMN_BITMASK |
 			PollsVoteModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByQuestionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByQuestionId",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByQuestionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3651,18 +3658,19 @@ public class PollsVotePersistenceImpl
 
 		_finderPathWithoutPaginationFindByQuestionId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByQuestionId",
-			new String[] {Long.class.getName()},
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByQuestionId", new String[] {Long.class.getName()},
 			PollsVoteModelImpl.QUESTIONID_COLUMN_BITMASK);
 
 		_finderPathCountByQuestionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByQuestionId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByQuestionId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByChoiceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByChoiceId",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByChoiceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3670,18 +3678,19 @@ public class PollsVotePersistenceImpl
 
 		_finderPathWithoutPaginationFindByChoiceId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByChoiceId",
-			new String[] {Long.class.getName()},
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByChoiceId", new String[] {Long.class.getName()},
 			PollsVoteModelImpl.CHOICEID_COLUMN_BITMASK);
 
 		_finderPathCountByChoiceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByChoiceId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByChoiceId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByQ_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByQ_U",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByQ_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3690,14 +3699,15 @@ public class PollsVotePersistenceImpl
 
 		_finderPathWithoutPaginationFindByQ_U = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByQ_U",
+			PollsVoteImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByQ_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			PollsVoteModelImpl.QUESTIONID_COLUMN_BITMASK |
 			PollsVoteModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByQ_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByQ_U",
+			entityCacheEnabled, finderCacheEnabled, PollsVoteImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByQ_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

@@ -1195,32 +1195,38 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DLOpenerFileEntryReferenceImpl.class,
+			DLOpenerFileEntryReferenceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			DLOpenerFileEntryReferenceImpl.class,
+			DLOpenerFileEntryReferenceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLOpenerFileEntryReferenceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByFileEntryId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DLOpenerFileEntryReferenceImpl.class,
 			DLOpenerFileEntryReferenceImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByFileEntryId", new String[] {Long.class.getName()},
 			DLOpenerFileEntryReferenceModelImpl.FILEENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByFileEntryId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLOpenerFileEntryReferenceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByR_F = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			DLOpenerFileEntryReferenceImpl.class,
 			DLOpenerFileEntryReferenceImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByR_F",
 			new String[] {String.class.getName(), Long.class.getName()},
@@ -1228,7 +1234,8 @@ public class DLOpenerFileEntryReferencePersistenceImpl
 			DLOpenerFileEntryReferenceModelImpl.FILEENTRYID_COLUMN_BITMASK);
 
 		_finderPathCountByR_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			DLOpenerFileEntryReferenceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_F",
 			new String[] {String.class.getName(), Long.class.getName()});
 	}

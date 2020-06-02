@@ -1468,21 +1468,25 @@ public class AppBuilderAppDeploymentPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AppBuilderAppDeploymentImpl.class,
+			AppBuilderAppDeploymentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AppBuilderAppDeploymentImpl.class,
+			AppBuilderAppDeploymentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AppBuilderAppDeploymentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByAppBuilderAppId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AppBuilderAppDeploymentImpl.class,
 			AppBuilderAppDeploymentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAppBuilderAppId",
 			new String[] {
@@ -1493,17 +1497,20 @@ public class AppBuilderAppDeploymentPersistenceImpl
 		_finderPathWithoutPaginationFindByAppBuilderAppId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
 			AppBuilderAppDeploymentImpl.class,
+			AppBuilderAppDeploymentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAppBuilderAppId",
 			new String[] {Long.class.getName()},
 			AppBuilderAppDeploymentModelImpl.APPBUILDERAPPID_COLUMN_BITMASK);
 
 		_finderPathCountByAppBuilderAppId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AppBuilderAppDeploymentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAppBuilderAppId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByA_T = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
+			AppBuilderAppDeploymentImpl.class,
 			AppBuilderAppDeploymentImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByA_T",
 			new String[] {Long.class.getName(), String.class.getName()},
@@ -1511,7 +1518,8 @@ public class AppBuilderAppDeploymentPersistenceImpl
 			AppBuilderAppDeploymentModelImpl.TYPE_COLUMN_BITMASK);
 
 		_finderPathCountByA_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			AppBuilderAppDeploymentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_T",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

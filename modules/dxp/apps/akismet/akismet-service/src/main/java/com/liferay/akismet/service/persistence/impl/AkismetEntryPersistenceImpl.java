@@ -1396,24 +1396,26 @@ public class AkismetEntryPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
 			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			AkismetEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
 			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			AkismetEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
-			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByLtModifiedDate = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
 			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLtModifiedDate",
+			AkismetEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByLtModifiedDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1421,22 +1423,22 @@ public class AkismetEntryPersistenceImpl
 
 		_finderPathWithPaginationCountByLtModifiedDate = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
-			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLtModifiedDate",
-			new String[] {Date.class.getName()});
+			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByLtModifiedDate", new String[] {Date.class.getName()});
 
 		_finderPathFetchByC_C = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
 			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			AkismetEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AkismetEntryModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			AkismetEntryModelImpl.CLASSPK_COLUMN_BITMASK);
 
 		_finderPathCountByC_C = new FinderPath(
 			AkismetEntryModelImpl.ENTITY_CACHE_ENABLED,
-			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			AkismetEntryModelImpl.FINDER_CACHE_ENABLED, AkismetEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

@@ -1439,23 +1439,24 @@ public class SegmentsExperimentRelPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentRelImpl.class,
+			SegmentsExperimentRelImpl.class, SegmentsExperimentRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentRelImpl.class,
+			SegmentsExperimentRelImpl.class, SegmentsExperimentRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindBySegmentsExperimentId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentRelImpl.class,
+			SegmentsExperimentRelImpl.class, SegmentsExperimentRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findBySegmentsExperimentId",
 			new String[] {
@@ -1465,26 +1466,28 @@ public class SegmentsExperimentRelPersistenceImpl
 
 		_finderPathWithoutPaginationFindBySegmentsExperimentId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentRelImpl.class,
+			SegmentsExperimentRelImpl.class, SegmentsExperimentRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findBySegmentsExperimentId", new String[] {Long.class.getName()},
 			SegmentsExperimentRelModelImpl.SEGMENTSEXPERIMENTID_COLUMN_BITMASK);
 
 		_finderPathCountBySegmentsExperimentId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySegmentsExperimentId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByS_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentRelImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByS_S",
+			SegmentsExperimentRelImpl.class, SegmentsExperimentRelImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByS_S",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SegmentsExperimentRelModelImpl.SEGMENTSEXPERIMENTID_COLUMN_BITMASK |
 			SegmentsExperimentRelModelImpl.SEGMENTSEXPERIENCEID_COLUMN_BITMASK);
 
 		_finderPathCountByS_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

@@ -876,31 +876,32 @@ public class ReleasePersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 			ReleaseModelImpl.FINDER_CACHE_ENABLED, ReleaseImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			ReleaseImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 			ReleaseModelImpl.FINDER_CACHE_ENABLED, ReleaseImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			ReleaseImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED,
-			ReleaseModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			ReleaseModelImpl.FINDER_CACHE_ENABLED, ReleaseImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathFetchByServletContextName = new FinderPath(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED,
 			ReleaseModelImpl.FINDER_CACHE_ENABLED, ReleaseImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByServletContextName",
-			new String[] {String.class.getName()},
+			ReleaseImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByServletContextName", new String[] {String.class.getName()},
 			ReleaseModelImpl.SERVLETCONTEXTNAME_COLUMN_BITMASK);
 
 		_finderPathCountByServletContextName = new FinderPath(
 			ReleaseModelImpl.ENTITY_CACHE_ENABLED,
-			ReleaseModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			ReleaseModelImpl.FINDER_CACHE_ENABLED, ReleaseImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByServletContextName", new String[] {String.class.getName()});
 	}
 

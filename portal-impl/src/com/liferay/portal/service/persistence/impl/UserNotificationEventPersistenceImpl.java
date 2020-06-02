@@ -12097,26 +12097,27 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -12126,7 +12127,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			UserNotificationEventModelImpl.UUID_COLUMN_BITMASK |
@@ -12134,14 +12135,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByUuid = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -12152,7 +12154,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			UserNotificationEventModelImpl.UUID_COLUMN_BITMASK |
@@ -12161,14 +12163,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByUuid_C = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12178,7 +12181,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
 			UserNotificationEventModelImpl.USERID_COLUMN_BITMASK |
@@ -12186,14 +12189,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByUserId = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByType = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -12203,7 +12207,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByType = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
 			new String[] {String.class.getName()},
 			UserNotificationEventModelImpl.TYPE_COLUMN_BITMASK |
@@ -12211,14 +12215,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByType = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByU_DT = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12229,7 +12234,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			UserNotificationEventModelImpl.USERID_COLUMN_BITMASK |
@@ -12238,14 +12243,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByU_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12256,7 +12262,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			UserNotificationEventModelImpl.USERID_COLUMN_BITMASK |
@@ -12265,14 +12271,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
 		_finderPathWithPaginationFindByU_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12283,7 +12290,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			UserNotificationEventModelImpl.USERID_COLUMN_BITMASK |
@@ -12292,14 +12299,15 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
 		_finderPathWithPaginationFindByU_DT_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12310,7 +12318,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12323,7 +12331,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12333,7 +12342,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_DT_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12344,7 +12353,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12357,7 +12366,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12367,7 +12377,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_D_AR = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_AR",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12378,7 +12388,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_D_AR = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_AR",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12391,7 +12401,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_D_AR = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_AR",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12401,7 +12412,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12412,7 +12423,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12425,7 +12436,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12435,7 +12447,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12446,7 +12458,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12459,7 +12471,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12469,7 +12482,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_T_DT_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_T_DT_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -12481,7 +12494,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_T_DT_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_T_DT_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -12495,7 +12508,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_T_DT_D = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T_DT_D",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -12505,7 +12519,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_DT_D_AR = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_AR",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12517,7 +12531,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT_D_AR = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_AR",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12531,7 +12545,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT_D_AR = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_AR",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12541,7 +12556,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_DT_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12553,7 +12568,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12567,7 +12582,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12577,7 +12593,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_DT_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12589,7 +12605,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12603,7 +12619,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12613,7 +12630,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_D_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_D_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12625,7 +12642,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_D_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_D_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12639,7 +12656,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_D_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_D_AR_A",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -12649,7 +12667,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_T_DT_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_T_DT_D_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -12661,7 +12679,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_T_DT_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_T_DT_D_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -12677,7 +12695,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_T_DT_D_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T_DT_D_A",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -12688,7 +12707,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithPaginationFindByU_DT_D_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_DT_D_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12700,7 +12719,7 @@ public class UserNotificationEventPersistenceImpl
 		_finderPathWithoutPaginationFindByU_DT_D_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationEventImpl.class,
+			UserNotificationEventImpl.class, UserNotificationEventImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_DT_D_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -12716,7 +12735,8 @@ public class UserNotificationEventPersistenceImpl
 
 		_finderPathCountByU_DT_D_AR_A = new FinderPath(
 			UserNotificationEventModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserNotificationEventModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationEventImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_DT_D_AR_A",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),

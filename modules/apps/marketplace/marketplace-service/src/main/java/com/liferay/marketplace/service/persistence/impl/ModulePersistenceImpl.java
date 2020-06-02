@@ -3957,21 +3957,23 @@ public class ModulePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
+			new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -3979,18 +3981,19 @@ public class ModulePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			ModuleModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
@@ -3999,19 +4002,22 @@ public class ModulePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			ModuleModelImpl.UUID_COLUMN_BITMASK |
 			ModuleModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByAppId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAppId",
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByAppId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4019,18 +4025,19 @@ public class ModulePersistenceImpl
 
 		_finderPathWithoutPaginationFindByAppId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAppId",
-			new String[] {Long.class.getName()},
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByAppId", new String[] {Long.class.getName()},
 			ModuleModelImpl.APPID_COLUMN_BITMASK);
 
 		_finderPathCountByAppId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAppId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAppId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByBundleSymbolicName = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBundleSymbolicName",
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByBundleSymbolicName",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4038,18 +4045,19 @@ public class ModulePersistenceImpl
 
 		_finderPathWithoutPaginationFindByBundleSymbolicName = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByBundleSymbolicName", new String[] {String.class.getName()},
 			ModuleModelImpl.BUNDLESYMBOLICNAME_COLUMN_BITMASK);
 
 		_finderPathCountByBundleSymbolicName = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByBundleSymbolicName", new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByContextName = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByContextName",
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByContextName",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -4057,30 +4065,31 @@ public class ModulePersistenceImpl
 
 		_finderPathWithoutPaginationFindByContextName = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByContextName",
-			new String[] {String.class.getName()},
+			ModuleImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByContextName", new String[] {String.class.getName()},
 			ModuleModelImpl.CONTEXTNAME_COLUMN_BITMASK);
 
 		_finderPathCountByContextName = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByContextName",
-			new String[] {String.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByContextName", new String[] {String.class.getName()});
 
 		_finderPathFetchByA_CN = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByA_CN",
+			ModuleImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByA_CN",
 			new String[] {Long.class.getName(), String.class.getName()},
 			ModuleModelImpl.APPID_COLUMN_BITMASK |
 			ModuleModelImpl.CONTEXTNAME_COLUMN_BITMASK);
 
 		_finderPathCountByA_CN = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_CN",
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByA_CN",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByA_BSN_BV = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByA_BSN_BV",
+			ModuleImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByA_BSN_BV",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()
@@ -4090,8 +4099,9 @@ public class ModulePersistenceImpl
 			ModuleModelImpl.BUNDLEVERSION_COLUMN_BITMASK);
 
 		_finderPathCountByA_BSN_BV = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_BSN_BV",
+			entityCacheEnabled, finderCacheEnabled, ModuleImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByA_BSN_BV",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName()

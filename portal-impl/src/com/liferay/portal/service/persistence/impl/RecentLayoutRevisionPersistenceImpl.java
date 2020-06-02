@@ -2426,26 +2426,27 @@ public class RecentLayoutRevisionPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
-			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
+			RecentLayoutRevisionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2455,21 +2456,22 @@ public class RecentLayoutRevisionPersistenceImpl
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			RecentLayoutRevisionModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
-			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
+			RecentLayoutRevisionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2479,21 +2481,22 @@ public class RecentLayoutRevisionPersistenceImpl
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
 			RecentLayoutRevisionModelImpl.USERID_COLUMN_BITMASK);
 
 		_finderPathCountByUserId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
-			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
+			RecentLayoutRevisionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByLayoutRevisionId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLayoutRevisionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -2503,22 +2506,23 @@ public class RecentLayoutRevisionPersistenceImpl
 		_finderPathWithoutPaginationFindByLayoutRevisionId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class,
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLayoutRevisionId",
 			new String[] {Long.class.getName()},
 			RecentLayoutRevisionModelImpl.LAYOUTREVISIONID_COLUMN_BITMASK);
 
 		_finderPathCountByLayoutRevisionId = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
-			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
+			RecentLayoutRevisionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByLayoutRevisionId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByU_L_P = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
 			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
-			RecentLayoutRevisionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByU_L_P",
+			RecentLayoutRevisionImpl.class, RecentLayoutRevisionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByU_L_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -2528,7 +2532,8 @@ public class RecentLayoutRevisionPersistenceImpl
 
 		_finderPathCountByU_L_P = new FinderPath(
 			RecentLayoutRevisionModelImpl.ENTITY_CACHE_ENABLED,
-			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RecentLayoutRevisionModelImpl.FINDER_CACHE_ENABLED,
+			RecentLayoutRevisionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_L_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()

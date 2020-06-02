@@ -4336,23 +4336,24 @@ public class SiteNavigationMenuItemPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -4361,32 +4362,34 @@ public class SiteNavigationMenuItemPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			SiteNavigationMenuItemModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByUUID_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SiteNavigationMenuItemModelImpl.UUID_COLUMN_BITMASK |
 			SiteNavigationMenuItemModelImpl.GROUPID_COLUMN_BITMASK);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -4396,20 +4399,21 @@ public class SiteNavigationMenuItemPersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SiteNavigationMenuItemModelImpl.UUID_COLUMN_BITMASK |
 			SiteNavigationMenuItemModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindBySiteNavigationMenuId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findBySiteNavigationMenuId",
 			new String[] {
@@ -4419,20 +4423,22 @@ public class SiteNavigationMenuItemPersistenceImpl
 
 		_finderPathWithoutPaginationFindBySiteNavigationMenuId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findBySiteNavigationMenuId", new String[] {Long.class.getName()},
 			SiteNavigationMenuItemModelImpl.
 				SITENAVIGATIONMENUID_COLUMN_BITMASK);
 
 		_finderPathCountBySiteNavigationMenuId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySiteNavigationMenuId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByParentSiteNavigationMenuItemId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
+				SiteNavigationMenuItemImpl.class,
 				SiteNavigationMenuItemImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByParentSiteNavigationMenuItemId",
@@ -4445,6 +4451,7 @@ public class SiteNavigationMenuItemPersistenceImpl
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
 				SiteNavigationMenuItemImpl.class,
+				SiteNavigationMenuItemImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByParentSiteNavigationMenuItemId",
 				new String[] {Long.class.getName()},
@@ -4452,14 +4459,15 @@ public class SiteNavigationMenuItemPersistenceImpl
 					PARENTSITENAVIGATIONMENUITEMID_COLUMN_BITMASK);
 
 		_finderPathCountByParentSiteNavigationMenuItemId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByParentSiteNavigationMenuItemId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByS_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4469,7 +4477,7 @@ public class SiteNavigationMenuItemPersistenceImpl
 
 		_finderPathWithoutPaginationFindByS_P = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_P",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SiteNavigationMenuItemModelImpl.
@@ -4478,13 +4486,14 @@ public class SiteNavigationMenuItemPersistenceImpl
 				PARENTSITENAVIGATIONMENUITEMID_COLUMN_BITMASK);
 
 		_finderPathCountByS_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_P",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByS_LikeN = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SiteNavigationMenuItemImpl.class,
+			SiteNavigationMenuItemImpl.class, SiteNavigationMenuItemImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_LikeN",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -4493,7 +4502,8 @@ public class SiteNavigationMenuItemPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByS_LikeN = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SiteNavigationMenuItemImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByS_LikeN",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

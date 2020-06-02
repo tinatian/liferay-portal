@@ -564,19 +564,20 @@ public class UADPartialEntryPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
-			UADPartialEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			UADPartialEntryImpl.class, UADPartialEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
-			UADPartialEntryImpl.class,
+			UADPartialEntryImpl.class, UADPartialEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
-			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
+			UADPartialEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 	}

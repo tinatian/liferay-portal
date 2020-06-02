@@ -11494,24 +11494,24 @@ public class RolePersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -11520,7 +11520,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			RoleModelImpl.UUID_COLUMN_BITMASK |
@@ -11528,13 +11528,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountByUuid = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -11544,7 +11544,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			RoleModelImpl.UUID_COLUMN_BITMASK |
@@ -11553,13 +11553,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountByUuid_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -11568,7 +11568,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			RoleModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -11576,13 +11576,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountByCompanyId = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByName = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByName",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -11591,20 +11591,20 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByName = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByName",
 			new String[] {String.class.getName()},
 			RoleModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByName = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByType = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
@@ -11613,7 +11613,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByType = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
 			new String[] {Integer.class.getName()},
 			RoleModelImpl.TYPE_COLUMN_BITMASK |
@@ -11621,13 +11621,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountByType = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
 			new String[] {Integer.class.getName()});
 
 		_finderPathWithPaginationFindBySubtype = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubtype",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -11636,7 +11636,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindBySubtype = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubtype",
 			new String[] {String.class.getName()},
 			RoleModelImpl.SUBTYPE_COLUMN_BITMASK |
@@ -11644,13 +11644,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountBySubtype = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubtype",
 			new String[] {String.class.getName()});
 
 		_finderPathFetchByC_N = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			RoleModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -11658,13 +11658,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountByC_N = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByC_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_T",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -11674,7 +11674,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_T",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			RoleModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -11683,19 +11683,19 @@ public class RolePersistenceImpl
 
 		_finderPathCountByC_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationCountByC_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_T",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
 		_finderPathWithPaginationFindByT_S = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByT_S",
 			new String[] {
 				Integer.class.getName(), String.class.getName(),
@@ -11705,7 +11705,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByT_S = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByT_S",
 			new String[] {Integer.class.getName(), String.class.getName()},
 			RoleModelImpl.TYPE_COLUMN_BITMASK |
@@ -11714,13 +11714,13 @@ public class RolePersistenceImpl
 
 		_finderPathCountByT_S = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByT_S",
 			new String[] {Integer.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindByC_C_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -11730,7 +11730,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -11742,7 +11742,7 @@ public class RolePersistenceImpl
 
 		_finderPathFetchByC_C_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -11753,7 +11753,7 @@ public class RolePersistenceImpl
 
 		_finderPathCountByC_C_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -11761,7 +11761,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithPaginationCountByC_C_C = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -11769,7 +11769,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithPaginationFindByC_C_C_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -11780,7 +11780,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithoutPaginationFindByC_C_C_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -11794,7 +11794,7 @@ public class RolePersistenceImpl
 
 		_finderPathFetchByC_C_C_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, RoleImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -11807,7 +11807,7 @@ public class RolePersistenceImpl
 
 		_finderPathCountByC_C_C_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -11816,7 +11816,7 @@ public class RolePersistenceImpl
 
 		_finderPathWithPaginationCountByC_C_C_T = new FinderPath(
 			RoleModelImpl.ENTITY_CACHE_ENABLED,
-			RoleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RoleModelImpl.FINDER_CACHE_ENABLED, RoleImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_C_T",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

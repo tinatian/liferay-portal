@@ -1082,24 +1082,26 @@ public class OrgLaborPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED,
 			OrgLaborModelImpl.FINDER_CACHE_ENABLED, OrgLaborImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			OrgLaborImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED,
 			OrgLaborModelImpl.FINDER_CACHE_ENABLED, OrgLaborImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			OrgLaborImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED,
-			OrgLaborModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			OrgLaborModelImpl.FINDER_CACHE_ENABLED, OrgLaborImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByOrganizationId = new FinderPath(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED,
 			OrgLaborModelImpl.FINDER_CACHE_ENABLED, OrgLaborImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOrganizationId",
+			OrgLaborImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByOrganizationId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1108,16 +1110,16 @@ public class OrgLaborPersistenceImpl
 		_finderPathWithoutPaginationFindByOrganizationId = new FinderPath(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED,
 			OrgLaborModelImpl.FINDER_CACHE_ENABLED, OrgLaborImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrganizationId",
-			new String[] {Long.class.getName()},
+			OrgLaborImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByOrganizationId", new String[] {Long.class.getName()},
 			OrgLaborModelImpl.ORGANIZATIONID_COLUMN_BITMASK |
 			OrgLaborModelImpl.TYPEID_COLUMN_BITMASK);
 
 		_finderPathCountByOrganizationId = new FinderPath(
 			OrgLaborModelImpl.ENTITY_CACHE_ENABLED,
-			OrgLaborModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrganizationId",
-			new String[] {Long.class.getName()});
+			OrgLaborModelImpl.FINDER_CACHE_ENABLED, OrgLaborImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByOrganizationId", new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {

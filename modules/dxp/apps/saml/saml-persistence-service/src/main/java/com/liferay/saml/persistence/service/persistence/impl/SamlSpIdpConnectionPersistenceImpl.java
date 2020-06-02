@@ -1454,23 +1454,24 @@ public class SamlSpIdpConnectionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SamlSpIdpConnectionImpl.class,
+			SamlSpIdpConnectionImpl.class, SamlSpIdpConnectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SamlSpIdpConnectionImpl.class,
+			SamlSpIdpConnectionImpl.class, SamlSpIdpConnectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SamlSpIdpConnectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SamlSpIdpConnectionImpl.class,
+			SamlSpIdpConnectionImpl.class, SamlSpIdpConnectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -1479,26 +1480,28 @@ public class SamlSpIdpConnectionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SamlSpIdpConnectionImpl.class,
+			SamlSpIdpConnectionImpl.class, SamlSpIdpConnectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			SamlSpIdpConnectionModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SamlSpIdpConnectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByC_SIEI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
-			SamlSpIdpConnectionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByC_SIEI",
+			SamlSpIdpConnectionImpl.class, SamlSpIdpConnectionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_SIEI",
 			new String[] {Long.class.getName(), String.class.getName()},
 			SamlSpIdpConnectionModelImpl.COMPANYID_COLUMN_BITMASK |
 			SamlSpIdpConnectionModelImpl.SAMLIDPENTITYID_COLUMN_BITMASK);
 
 		_finderPathCountByC_SIEI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			entityCacheEnabled, finderCacheEnabled,
+			SamlSpIdpConnectionImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_SIEI",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

@@ -2734,21 +2734,24 @@ public class KaleoTransitionPersistenceImpl
 
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			KaleoTransitionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			KaleoTransitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			KaleoTransitionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2756,19 +2759,20 @@ public class KaleoTransitionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			KaleoTransitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			KaleoTransitionModelImpl.COMPANYID_COLUMN_BITMASK);
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoDefinitionVersionId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				KaleoTransitionImpl.class,
+				KaleoTransitionImpl.class, KaleoTransitionImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {
@@ -2779,7 +2783,7 @@ public class KaleoTransitionPersistenceImpl
 		_finderPathWithoutPaginationFindByKaleoDefinitionVersionId =
 			new FinderPath(
 				entityCacheEnabled, finderCacheEnabled,
-				KaleoTransitionImpl.class,
+				KaleoTransitionImpl.class, KaleoTransitionImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
 				new String[] {Long.class.getName()},
@@ -2787,14 +2791,15 @@ public class KaleoTransitionPersistenceImpl
 					KALEODEFINITIONVERSIONID_COLUMN_BITMASK);
 
 		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByKaleoDefinitionVersionId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoNodeId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByKaleoNodeId",
+			KaleoTransitionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByKaleoNodeId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -2802,37 +2807,41 @@ public class KaleoTransitionPersistenceImpl
 
 		_finderPathWithoutPaginationFindByKaleoNodeId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			KaleoTransitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByKaleoNodeId",
 			new String[] {Long.class.getName()},
 			KaleoTransitionModelImpl.KALEONODEID_COLUMN_BITMASK);
 
 		_finderPathCountByKaleoNodeId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKaleoNodeId",
-			new String[] {Long.class.getName()});
+			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByKaleoNodeId", new String[] {Long.class.getName()});
 
 		_finderPathFetchByKNI_N = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByKNI_N",
+			KaleoTransitionImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByKNI_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			KaleoTransitionModelImpl.KALEONODEID_COLUMN_BITMASK |
 			KaleoTransitionModelImpl.NAME_COLUMN_BITMASK);
 
 		_finderPathCountByKNI_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKNI_N",
+			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByKNI_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathFetchByKNI_DT = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByKNI_DT",
+			KaleoTransitionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByKNI_DT",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
 			KaleoTransitionModelImpl.KALEONODEID_COLUMN_BITMASK |
 			KaleoTransitionModelImpl.DEFAULTTRANSITION_COLUMN_BITMASK);
 
 		_finderPathCountByKNI_DT = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKNI_DT",
+			entityCacheEnabled, finderCacheEnabled, KaleoTransitionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByKNI_DT",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 	}
 

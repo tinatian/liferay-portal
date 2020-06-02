@@ -1882,27 +1882,28 @@ public class AnnouncementsFlagPersistenceImpl
 		_finderPathWithPaginationFindAll = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class,
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsFlagImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCompanyId",
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1911,7 +1912,7 @@ public class AnnouncementsFlagPersistenceImpl
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class,
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			AnnouncementsFlagModelImpl.COMPANYID_COLUMN_BITMASK |
@@ -1920,15 +1921,16 @@ public class AnnouncementsFlagPersistenceImpl
 
 		_finderPathCountByCompanyId = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsFlagImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByEntryId = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByEntryId",
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
@@ -1937,7 +1939,7 @@ public class AnnouncementsFlagPersistenceImpl
 		_finderPathWithoutPaginationFindByEntryId = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class,
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEntryId",
 			new String[] {Long.class.getName()},
 			AnnouncementsFlagModelImpl.ENTRYID_COLUMN_BITMASK |
@@ -1946,15 +1948,16 @@ public class AnnouncementsFlagPersistenceImpl
 
 		_finderPathCountByEntryId = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsFlagImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEntryId",
 			new String[] {Long.class.getName()});
 
 		_finderPathFetchByU_E_V = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsFlagImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByU_E_V",
+			AnnouncementsFlagImpl.class, AnnouncementsFlagImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByU_E_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -1965,7 +1968,8 @@ public class AnnouncementsFlagPersistenceImpl
 
 		_finderPathCountByU_E_V = new FinderPath(
 			AnnouncementsFlagModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsFlagModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsFlagImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_E_V",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
