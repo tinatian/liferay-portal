@@ -128,8 +128,7 @@ public class FinderCacheImpl
 		if (cacheValue == null) {
 			PortalCache<Serializable, Serializable> portalCache =
 				_getPortalCache(
-					finderPath.getCacheName(),
-					basePersistenceImpl.getModelClass());
+					finderPath.getCacheName(), finderPath.getModelImplClass());
 
 			cacheValue = portalCache.get(cacheKey);
 
@@ -218,14 +217,11 @@ public class FinderCacheImpl
 		}
 
 		Serializable cacheValue = (Serializable)result;
-		Class<?> modelClass = null;
 
 		if (result instanceof BaseModel<?>) {
 			BaseModel<?> model = (BaseModel<?>)result;
 
 			cacheValue = model.getPrimaryKeyObj();
-
-			modelClass = model.getModelClass();
 		}
 		else if (result instanceof List<?>) {
 			List<BaseModel<?>> baseModels = (List<BaseModel<?>>)result;
@@ -246,10 +242,6 @@ public class FinderCacheImpl
 					baseModels.size());
 
 				for (BaseModel<?> baseModel : baseModels) {
-					if (modelClass == null) {
-						modelClass = baseModel.getModelClass();
-					}
-
 					primaryKeys.add(baseModel.getPrimaryKeyObj());
 				}
 
@@ -268,7 +260,7 @@ public class FinderCacheImpl
 		}
 
 		PortalCache<Serializable, Serializable> portalCache = _getPortalCache(
-			finderPath.getCacheName(), modelClass);
+			finderPath.getCacheName(), finderPath.getModelImplClass());
 
 		if (quiet) {
 			PortalCacheHelperUtil.putWithoutReplicator(
@@ -357,7 +349,7 @@ public class FinderCacheImpl
 	}
 
 	private PortalCache<Serializable, Serializable> _getPortalCache(
-		String className, Class<?> modelClass) {
+		String className, Class<?> modelImplClass) {
 
 		PortalCache<Serializable, Serializable> portalCache = _portalCaches.get(
 			className);
@@ -366,7 +358,7 @@ public class FinderCacheImpl
 			return portalCache;
 		}
 
-		if (modelClass == null) {
+		if (modelImplClass == null) {
 			return null;
 		}
 
@@ -384,7 +376,7 @@ public class FinderCacheImpl
 		}
 
 		PortalCache<?, ?> entityPortalCache = _entityCache.getPortalCache(
-			modelClass);
+			modelImplClass);
 
 		FinderPortalCacheListener finderPortalCacheListener =
 			new FinderPortalCacheListener(
