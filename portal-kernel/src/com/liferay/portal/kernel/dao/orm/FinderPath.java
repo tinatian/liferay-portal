@@ -76,6 +76,34 @@ public class FinderPath {
 	}
 
 	/**
+	 * @deprecated As of Athanasius (7.3.x)
+	 */
+	@Deprecated
+	public FinderPath(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> resultClass, String cacheName, String methodName,
+		String[] params) {
+
+		this(
+			entityCacheEnabled, finderCacheEnabled, null, resultClass,
+			cacheName, methodName, params, -1);
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x)
+	 */
+	@Deprecated
+	public FinderPath(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> resultClass, String cacheName, String methodName,
+		String[] params, long columnBitmask) {
+
+		this(
+			entityCacheEnabled, finderCacheEnabled, null, resultClass,
+			cacheName, methodName, params, columnBitmask);
+	}
+
+	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #encodeCacheKey(
 	 *             Object[])}
 	 */
