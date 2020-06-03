@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -1292,10 +1293,6 @@ public class PushNotificationsDevicePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(PushNotificationsDeviceImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1310,20 +1307,11 @@ public class PushNotificationsDevicePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, PushNotificationsDeviceImpl.class,
 			pushNotificationsDevice.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(PushNotificationsDeviceModelImpl)pushNotificationsDevice, true);
 	}
 
 	@Override
 	public void clearCache(
 		List<PushNotificationsDevice> pushNotificationsDevices) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (PushNotificationsDevice pushNotificationsDevice :
 				pushNotificationsDevices) {
@@ -1331,19 +1319,11 @@ public class PushNotificationsDevicePersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, PushNotificationsDeviceImpl.class,
 				pushNotificationsDevice.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(PushNotificationsDeviceModelImpl)pushNotificationsDevice,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, PushNotificationsDeviceImpl.class,
@@ -1363,31 +1343,6 @@ public class PushNotificationsDevicePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByToken, args, pushNotificationsDeviceModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PushNotificationsDeviceModelImpl pushNotificationsDeviceModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getToken()
-			};
-
-			finderCache.removeResult(_finderPathCountByToken, args);
-			finderCache.removeResult(_finderPathFetchByToken, args);
-		}
-
-		if ((pushNotificationsDeviceModelImpl.getColumnBitmask() &
-			 _finderPathFetchByToken.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getOriginalToken()
-			};
-
-			finderCache.removeResult(_finderPathCountByToken, args);
-			finderCache.removeResult(_finderPathFetchByToken, args);
-		}
 	}
 
 	/**
@@ -1549,56 +1504,11 @@ public class PushNotificationsDevicePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				pushNotificationsDeviceModelImpl.getUserId(),
-				pushNotificationsDeviceModelImpl.getPlatform()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByU_P, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((pushNotificationsDeviceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_P.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					pushNotificationsDeviceModelImpl.getOriginalUserId(),
-					pushNotificationsDeviceModelImpl.getOriginalPlatform()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_P, args);
-
-				args = new Object[] {
-					pushNotificationsDeviceModelImpl.getUserId(),
-					pushNotificationsDeviceModelImpl.getPlatform()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_P, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_P, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, PushNotificationsDeviceImpl.class,
 			pushNotificationsDevice.getPrimaryKey(), pushNotificationsDevice,
 			false);
 
-		clearUniqueFindersCache(pushNotificationsDeviceModelImpl, false);
 		cacheUniqueFindersCache(pushNotificationsDeviceModelImpl);
 
 		pushNotificationsDevice.resetOriginalValues();
@@ -1880,35 +1790,41 @@ public class PushNotificationsDevicePersistenceImpl
 		PushNotificationsDeviceModelImpl.setFinderCacheEnabled(
 			finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByToken = new FinderPath(
+		_finderPathFetchByToken = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByToken", new String[] {String.class.getName()},
 			PushNotificationsDeviceModelImpl.TOKEN_COLUMN_BITMASK);
 
-		_finderPathCountByToken = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByToken = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByToken",
 			new String[] {String.class.getName()});
 
-		_finderPathWithPaginationFindByU_P = new FinderPath(
+		_finderPathWithPaginationFindByU_P = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_P",
 			new String[] {
@@ -1917,21 +1833,24 @@ public class PushNotificationsDevicePersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByU_P = new FinderPath(
+		_finderPathWithoutPaginationFindByU_P = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class,
 			PushNotificationsDeviceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_P",
 			new String[] {Long.class.getName(), String.class.getName()},
 			PushNotificationsDeviceModelImpl.USERID_COLUMN_BITMASK |
 			PushNotificationsDeviceModelImpl.PLATFORM_COLUMN_BITMASK);
 
-		_finderPathCountByU_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByU_P = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_P",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathWithPaginationCountByU_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathWithPaginationCountByU_P = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			PushNotificationsDeviceImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_P",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

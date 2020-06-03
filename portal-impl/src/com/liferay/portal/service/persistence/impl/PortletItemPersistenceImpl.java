@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -1668,10 +1669,6 @@ public class PortletItemPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(PortletItemImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1686,33 +1683,19 @@ public class PortletItemPersistenceImpl
 		EntityCacheUtil.removeResult(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED, PortletItemImpl.class,
 			portletItem.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((PortletItemModelImpl)portletItem, true);
 	}
 
 	@Override
 	public void clearCache(List<PortletItem> portletItems) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PortletItem portletItem : portletItems) {
 			EntityCacheUtil.removeResult(
 				PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 				PortletItemImpl.class, portletItem.getPrimaryKey());
-
-			clearUniqueFindersCache((PortletItemModelImpl)portletItem, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				PortletItemModelImpl.ENTITY_CACHE_ENABLED,
@@ -1733,36 +1716,6 @@ public class PortletItemPersistenceImpl
 			_finderPathCountByG_N_P_C, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_N_P_C, args, portletItemModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PortletItemModelImpl portletItemModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				portletItemModelImpl.getGroupId(),
-				portletItemModelImpl.getName(),
-				portletItemModelImpl.getPortletId(),
-				portletItemModelImpl.getClassNameId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_N_P_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_N_P_C, args);
-		}
-
-		if ((portletItemModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_N_P_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				portletItemModelImpl.getOriginalGroupId(),
-				portletItemModelImpl.getOriginalName(),
-				portletItemModelImpl.getOriginalPortletId(),
-				portletItemModelImpl.getOriginalClassNameId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_N_P_C, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_N_P_C, args);
-		}
 	}
 
 	/**
@@ -1936,92 +1889,10 @@ public class PortletItemPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PortletItemModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				portletItemModelImpl.getGroupId(),
-				portletItemModelImpl.getClassNameId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_C, args);
-
-			args = new Object[] {
-				portletItemModelImpl.getGroupId(),
-				portletItemModelImpl.getPortletId(),
-				portletItemModelImpl.getClassNameId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_P_C, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((portletItemModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					portletItemModelImpl.getOriginalGroupId(),
-					portletItemModelImpl.getOriginalClassNameId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_C, args);
-
-				args = new Object[] {
-					portletItemModelImpl.getGroupId(),
-					portletItemModelImpl.getClassNameId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_C, args);
-			}
-
-			if ((portletItemModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_P_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					portletItemModelImpl.getOriginalGroupId(),
-					portletItemModelImpl.getOriginalPortletId(),
-					portletItemModelImpl.getOriginalClassNameId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_P_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_P_C, args);
-
-				args = new Object[] {
-					portletItemModelImpl.getGroupId(),
-					portletItemModelImpl.getPortletId(),
-					portletItemModelImpl.getClassNameId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_P_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_P_C, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED, PortletItemImpl.class,
 			portletItem.getPrimaryKey(), portletItem, false);
 
-		clearUniqueFindersCache(portletItemModelImpl, false);
 		cacheUniqueFindersCache(portletItemModelImpl);
 
 		portletItem.resetOriginalValues();
@@ -2289,61 +2160,66 @@ public class PortletItemPersistenceImpl
 	 * Initializes the portlet item persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			PortletItemImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			PortletItemImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPathUtil.create(
+			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
+			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
-			PortletItemModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByG_C = new FinderPath(
+		_finderPathWithPaginationFindByG_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C",
+			PortletItemImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_C = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C",
+			PortletItemImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			PortletItemModelImpl.GROUPID_COLUMN_BITMASK |
 			PortletItemModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
-		_finderPathCountByG_C = new FinderPath(
-			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
-			PortletItemModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
-			new String[] {Long.class.getName(), Long.class.getName()});
-
-		_finderPathWithPaginationFindByG_P_C = new FinderPath(
+		_finderPathCountByG_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByG_P_C = FinderPathUtil.create(
+			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
+			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
+			PortletItemImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_P_C",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_P_C = new FinderPath(
+		_finderPathWithoutPaginationFindByG_P_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P_C",
+			PortletItemImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_P_C",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName()
@@ -2352,19 +2228,20 @@ public class PortletItemPersistenceImpl
 			PortletItemModelImpl.PORTLETID_COLUMN_BITMASK |
 			PortletItemModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
-		_finderPathCountByG_P_C = new FinderPath(
+		_finderPathCountByG_P_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
-			PortletItemModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_C",
+			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_P_C",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Long.class.getName()
 			});
 
-		_finderPathFetchByG_N_P_C = new FinderPath(
+		_finderPathFetchByG_N_P_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
 			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_N_P_C",
+			PortletItemImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByG_N_P_C",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName(), Long.class.getName()
@@ -2374,10 +2251,11 @@ public class PortletItemPersistenceImpl
 			PortletItemModelImpl.PORTLETID_COLUMN_BITMASK |
 			PortletItemModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
-		_finderPathCountByG_N_P_C = new FinderPath(
+		_finderPathCountByG_N_P_C = FinderPathUtil.create(
 			PortletItemModelImpl.ENTITY_CACHE_ENABLED,
-			PortletItemModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N_P_C",
+			PortletItemModelImpl.FINDER_CACHE_ENABLED, PortletItemImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_N_P_C",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName(), Long.class.getName()

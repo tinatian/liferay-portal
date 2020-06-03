@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -4006,10 +4007,6 @@ public class PhonePersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(PhoneImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -4024,16 +4021,10 @@ public class PhonePersistenceImpl
 		EntityCacheUtil.removeResult(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED, PhoneImpl.class,
 			phone.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<Phone> phones) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Phone phone : phones) {
 			EntityCacheUtil.removeResult(
 				PhoneModelImpl.ENTITY_CACHE_ENABLED, PhoneImpl.class,
@@ -4043,10 +4034,6 @@ public class PhonePersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				PhoneModelImpl.ENTITY_CACHE_ENABLED, PhoneImpl.class,
@@ -4226,222 +4213,6 @@ public class PhonePersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PhoneModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {phoneModelImpl.getUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				phoneModelImpl.getUuid(), phoneModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {phoneModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {phoneModelImpl.getUserId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {
-				phoneModelImpl.getCompanyId(), phoneModelImpl.getClassNameId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			args = new Object[] {
-				phoneModelImpl.getCompanyId(), phoneModelImpl.getClassNameId(),
-				phoneModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C_C, args);
-
-			args = new Object[] {
-				phoneModelImpl.getCompanyId(), phoneModelImpl.getClassNameId(),
-				phoneModelImpl.getClassPK(), phoneModelImpl.isPrimary()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C_C_P, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {phoneModelImpl.getOriginalUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {phoneModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalUuid(),
-					phoneModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					phoneModelImpl.getUuid(), phoneModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {phoneModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {phoneModelImpl.getUserId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId(),
-					phoneModelImpl.getOriginalClassNameId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					phoneModelImpl.getCompanyId(),
-					phoneModelImpl.getClassNameId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
-
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId(),
-					phoneModelImpl.getOriginalClassNameId(),
-					phoneModelImpl.getOriginalClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C, args);
-
-				args = new Object[] {
-					phoneModelImpl.getCompanyId(),
-					phoneModelImpl.getClassNameId(), phoneModelImpl.getClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C, args);
-			}
-
-			if ((phoneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_C_P.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					phoneModelImpl.getOriginalCompanyId(),
-					phoneModelImpl.getOriginalClassNameId(),
-					phoneModelImpl.getOriginalClassPK(),
-					phoneModelImpl.getOriginalPrimary()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C_P, args);
-
-				args = new Object[] {
-					phoneModelImpl.getCompanyId(),
-					phoneModelImpl.getClassNameId(),
-					phoneModelImpl.getClassPK(), phoneModelImpl.isPrimary()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_P, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C_P, args);
-			}
 		}
 
 		EntityCacheUtil.putResult(
@@ -4716,156 +4487,166 @@ public class PhonePersistenceImpl
 	 * Initializes the phone persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-
-		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPathUtil.create(
+			PhoneModelImpl.ENTITY_CACHE_ENABLED,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			PhoneModelImpl.UUID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByUuid = new FinderPath(
+		_finderPathCountByUuid = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithPaginationFindByUuid_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			PhoneModelImpl.UUID_COLUMN_BITMASK |
 			PhoneModelImpl.COMPANYID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByUuid_C = new FinderPath(
+		_finderPathCountByUuid_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompanyId", new String[] {Long.class.getName()},
 			PhoneModelImpl.COMPANYID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByCompanyId = new FinderPath(
+		_finderPathCountByCompanyId = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+		_finderPathWithPaginationFindByUserId = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			PhoneModelImpl.USERID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByUserId = new FinderPath(
+		_finderPathCountByUserId = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByC_C = new FinderPath(
+		_finderPathWithPaginationFindByC_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			PhoneModelImpl.COMPANYID_COLUMN_BITMASK |
 			PhoneModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByC_C = new FinderPath(
+		_finderPathCountByC_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByC_C_C = new FinderPath(
+		_finderPathWithPaginationFindByC_C_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C_C = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -4874,18 +4655,19 @@ public class PhonePersistenceImpl
 			PhoneModelImpl.CLASSPK_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByC_C_C = new FinderPath(
+		_finderPathCountByC_C_C = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_finderPathWithPaginationFindByC_C_C_P = new FinderPath(
+		_finderPathWithPaginationFindByC_C_C_P = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C_P",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_C_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName(),
@@ -4893,10 +4675,11 @@ public class PhonePersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C_C_P = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C_C_P = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
 			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C_P",
+			PhoneImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_C_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Boolean.class.getName()
@@ -4907,9 +4690,9 @@ public class PhonePersistenceImpl
 			PhoneModelImpl.PRIMARY_COLUMN_BITMASK |
 			PhoneModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByC_C_C_P = new FinderPath(
+		_finderPathCountByC_C_C_P = FinderPathUtil.create(
 			PhoneModelImpl.ENTITY_CACHE_ENABLED,
-			PhoneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			PhoneModelImpl.FINDER_CACHE_ENABLED, PhoneImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C_P",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -417,10 +418,6 @@ public class FriendlyURLEntryMappingPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(FriendlyURLEntryMappingImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -435,20 +432,11 @@ public class FriendlyURLEntryMappingPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, FriendlyURLEntryMappingImpl.class,
 			friendlyURLEntryMapping.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(FriendlyURLEntryMappingModelImpl)friendlyURLEntryMapping, true);
 	}
 
 	@Override
 	public void clearCache(
 		List<FriendlyURLEntryMapping> friendlyURLEntryMappings) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (FriendlyURLEntryMapping friendlyURLEntryMapping :
 				friendlyURLEntryMappings) {
@@ -456,19 +444,11 @@ public class FriendlyURLEntryMappingPersistenceImpl
 			entityCache.removeResult(
 				entityCacheEnabled, FriendlyURLEntryMappingImpl.class,
 				friendlyURLEntryMapping.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(FriendlyURLEntryMappingModelImpl)friendlyURLEntryMapping,
-				true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, FriendlyURLEntryMappingImpl.class,
@@ -489,33 +469,6 @@ public class FriendlyURLEntryMappingPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_C, args, friendlyURLEntryMappingModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		FriendlyURLEntryMappingModelImpl friendlyURLEntryMappingModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				friendlyURLEntryMappingModelImpl.getClassNameId(),
-				friendlyURLEntryMappingModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(_finderPathFetchByC_C, args);
-		}
-
-		if ((friendlyURLEntryMappingModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				friendlyURLEntryMappingModelImpl.getOriginalClassNameId(),
-				friendlyURLEntryMappingModelImpl.getOriginalClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(_finderPathFetchByC_C, args);
-		}
 	}
 
 	/**
@@ -698,23 +651,11 @@ public class FriendlyURLEntryMappingPersistenceImpl
 			return friendlyURLEntryMapping;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, FriendlyURLEntryMappingImpl.class,
 			friendlyURLEntryMapping.getPrimaryKey(), friendlyURLEntryMapping,
 			false);
 
-		clearUniqueFindersCache(friendlyURLEntryMappingModelImpl, false);
 		cacheUniqueFindersCache(friendlyURLEntryMappingModelImpl);
 
 		friendlyURLEntryMapping.resetOriginalValues();
@@ -1183,32 +1124,37 @@ public class FriendlyURLEntryMappingPersistenceImpl
 		FriendlyURLEntryMappingModelImpl.setFinderCacheEnabled(
 			finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryMappingImpl.class,
 			FriendlyURLEntryMappingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryMappingImpl.class,
 			FriendlyURLEntryMappingImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryMappingImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByC_C = new FinderPath(
+		_finderPathFetchByC_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryMappingImpl.class,
 			FriendlyURLEntryMappingImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			FriendlyURLEntryMappingModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			FriendlyURLEntryMappingModelImpl.CLASSPK_COLUMN_BITMASK);
 
-		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByC_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			FriendlyURLEntryMappingImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

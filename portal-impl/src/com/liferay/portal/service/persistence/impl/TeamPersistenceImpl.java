@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -2751,10 +2752,6 @@ public class TeamPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(TeamImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2769,33 +2766,19 @@ public class TeamPersistenceImpl
 		EntityCacheUtil.removeResult(
 			TeamModelImpl.ENTITY_CACHE_ENABLED, TeamImpl.class,
 			team.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((TeamModelImpl)team, true);
 	}
 
 	@Override
 	public void clearCache(List<Team> teams) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Team team : teams) {
 			EntityCacheUtil.removeResult(
 				TeamModelImpl.ENTITY_CACHE_ENABLED, TeamImpl.class,
 				team.getPrimaryKey());
-
-			clearUniqueFindersCache((TeamModelImpl)team, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				TeamModelImpl.ENTITY_CACHE_ENABLED, TeamImpl.class, primaryKey);
@@ -2820,52 +2803,6 @@ public class TeamPersistenceImpl
 			_finderPathCountByG_N, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_N, args, teamModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		TeamModelImpl teamModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				teamModelImpl.getUuid(), teamModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((teamModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				teamModelImpl.getOriginalUuid(),
-				teamModelImpl.getOriginalGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				teamModelImpl.getGroupId(), teamModelImpl.getName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_N, args);
-		}
-
-		if ((teamModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				teamModelImpl.getOriginalGroupId(),
-				teamModelImpl.getOriginalName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_N, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_N, args);
-		}
 	}
 
 	/**
@@ -3067,103 +3004,10 @@ public class TeamPersistenceImpl
 			return team;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!TeamModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {teamModelImpl.getUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				teamModelImpl.getUuid(), teamModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {teamModelImpl.getGroupId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((teamModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {teamModelImpl.getOriginalUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {teamModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((teamModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					teamModelImpl.getOriginalUuid(),
-					teamModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					teamModelImpl.getUuid(), teamModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((teamModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					teamModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {teamModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			TeamModelImpl.ENTITY_CACHE_ENABLED, TeamImpl.class,
 			team.getPrimaryKey(), team, false);
 
-		clearUniqueFindersCache(teamModelImpl, false);
 		cacheUniqueFindersCache(teamModelImpl);
 
 		team.resetOriginalValues();
@@ -4256,63 +4100,63 @@ public class TeamPersistenceImpl
 			"UserGroups_Teams", "companyId", "teamId", "userGroupId", this,
 			userGroupPersistence);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			TeamModelImpl.UUID_COLUMN_BITMASK |
 			TeamModelImpl.NAME_COLUMN_BITMASK);
 
-		_finderPathCountByUuid = new FinderPath(
+		_finderPathCountByUuid = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathFetchByUUID_G = new FinderPath(
+		_finderPathFetchByUUID_G = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			TeamModelImpl.UUID_COLUMN_BITMASK |
 			TeamModelImpl.GROUPID_COLUMN_BITMASK);
 
-		_finderPathCountByUUID_G = new FinderPath(
+		_finderPathCountByUUID_G = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithPaginationFindByUuid_C = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -4320,55 +4164,55 @@ public class TeamPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			TeamModelImpl.UUID_COLUMN_BITMASK |
 			TeamModelImpl.COMPANYID_COLUMN_BITMASK |
 			TeamModelImpl.NAME_COLUMN_BITMASK);
 
-		_finderPathCountByUuid_C = new FinderPath(
+		_finderPathCountByUuid_C = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			TeamModelImpl.GROUPID_COLUMN_BITMASK |
 			TeamModelImpl.NAME_COLUMN_BITMASK);
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
-		_finderPathFetchByG_N = new FinderPath(
+		_finderPathFetchByG_N = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, TeamImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			TeamModelImpl.GROUPID_COLUMN_BITMASK |
 			TeamModelImpl.NAME_COLUMN_BITMASK);
 
-		_finderPathCountByG_N = new FinderPath(
+		_finderPathCountByG_N = FinderPathUtil.create(
 			TeamModelImpl.ENTITY_CACHE_ENABLED,
-			TeamModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			TeamModelImpl.FINDER_CACHE_ENABLED, TeamImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}

@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -1731,10 +1732,6 @@ public class KaleoNotificationRecipientPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(KaleoNotificationRecipientImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1751,17 +1748,11 @@ public class KaleoNotificationRecipientPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, KaleoNotificationRecipientImpl.class,
 			kaleoNotificationRecipient.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(
 		List<KaleoNotificationRecipient> kaleoNotificationRecipients) {
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (KaleoNotificationRecipient kaleoNotificationRecipient :
 				kaleoNotificationRecipients) {
@@ -1774,10 +1765,6 @@ public class KaleoNotificationRecipientPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, KaleoNotificationRecipientImpl.class,
@@ -1972,120 +1959,6 @@ public class KaleoNotificationRecipientPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				kaleoNotificationRecipientModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				kaleoNotificationRecipientModelImpl.
-					getKaleoDefinitionVersionId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByKaleoDefinitionVersionId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByKaleoDefinitionVersionId,
-				args);
-
-			args = new Object[] {
-				kaleoNotificationRecipientModelImpl.getKaleoNotificationId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByKaleoNotificationId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByKaleoNotificationId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((kaleoNotificationRecipientModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					kaleoNotificationRecipientModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {
-					kaleoNotificationRecipientModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((kaleoNotificationRecipientModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByKaleoDefinitionVersionId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					kaleoNotificationRecipientModelImpl.
-						getOriginalKaleoDefinitionVersionId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByKaleoDefinitionVersionId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByKaleoDefinitionVersionId,
-					args);
-
-				args = new Object[] {
-					kaleoNotificationRecipientModelImpl.
-						getKaleoDefinitionVersionId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByKaleoDefinitionVersionId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByKaleoDefinitionVersionId,
-					args);
-			}
-
-			if ((kaleoNotificationRecipientModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByKaleoNotificationId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					kaleoNotificationRecipientModelImpl.
-						getOriginalKaleoNotificationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByKaleoNotificationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByKaleoNotificationId,
-					args);
-
-				args = new Object[] {
-					kaleoNotificationRecipientModelImpl.getKaleoNotificationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByKaleoNotificationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByKaleoNotificationId,
-					args);
-			}
 		}
 
 		entityCache.putResult(
@@ -2374,24 +2247,28 @@ public class KaleoNotificationRecipientPersistenceImpl
 		KaleoNotificationRecipientModelImpl.setFinderCacheEnabled(
 			finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class,
 			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class,
 			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class,
 			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
@@ -2399,21 +2276,24 @@ public class KaleoNotificationRecipientPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class,
 			KaleoNotificationRecipientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			KaleoNotificationRecipientModelImpl.COMPANYID_COLUMN_BITMASK);
 
-		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByCompanyId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByKaleoDefinitionVersionId =
-			new FinderPath(
+			FinderPathUtil.create(
 				entityCacheEnabled, finderCacheEnabled,
+				KaleoNotificationRecipientImpl.class,
 				KaleoNotificationRecipientImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByKaleoDefinitionVersionId",
@@ -2423,8 +2303,9 @@ public class KaleoNotificationRecipientPersistenceImpl
 				});
 
 		_finderPathWithoutPaginationFindByKaleoDefinitionVersionId =
-			new FinderPath(
+			FinderPathUtil.create(
 				entityCacheEnabled, finderCacheEnabled,
+				KaleoNotificationRecipientImpl.class,
 				KaleoNotificationRecipientImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByKaleoDefinitionVersionId",
@@ -2432,31 +2313,39 @@ public class KaleoNotificationRecipientPersistenceImpl
 				KaleoNotificationRecipientModelImpl.
 					KALEODEFINITIONVERSIONID_COLUMN_BITMASK);
 
-		_finderPathCountByKaleoDefinitionVersionId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByKaleoDefinitionVersionId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByKaleoDefinitionVersionId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByKaleoNotificationId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			KaleoNotificationRecipientImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByKaleoNotificationId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+		_finderPathWithPaginationFindByKaleoNotificationId =
+			FinderPathUtil.create(
+				entityCacheEnabled, finderCacheEnabled,
+				KaleoNotificationRecipientImpl.class,
+				KaleoNotificationRecipientImpl.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByKaleoNotificationId",
+				new String[] {
+					Long.class.getName(), Integer.class.getName(),
+					Integer.class.getName(), OrderByComparator.class.getName()
+				});
 
-		_finderPathWithoutPaginationFindByKaleoNotificationId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			KaleoNotificationRecipientImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByKaleoNotificationId", new String[] {Long.class.getName()},
-			KaleoNotificationRecipientModelImpl.
-				KALEONOTIFICATIONID_COLUMN_BITMASK);
+		_finderPathWithoutPaginationFindByKaleoNotificationId =
+			FinderPathUtil.create(
+				entityCacheEnabled, finderCacheEnabled,
+				KaleoNotificationRecipientImpl.class,
+				KaleoNotificationRecipientImpl.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByKaleoNotificationId",
+				new String[] {Long.class.getName()},
+				KaleoNotificationRecipientModelImpl.
+					KALEONOTIFICATIONID_COLUMN_BITMASK);
 
-		_finderPathCountByKaleoNotificationId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByKaleoNotificationId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			KaleoNotificationRecipientImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByKaleoNotificationId", new String[] {Long.class.getName()});
 	}

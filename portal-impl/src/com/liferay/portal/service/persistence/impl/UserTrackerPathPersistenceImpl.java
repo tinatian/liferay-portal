@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -652,10 +653,6 @@ public class UserTrackerPathPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(UserTrackerPathImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -670,16 +667,10 @@ public class UserTrackerPathPersistenceImpl
 		EntityCacheUtil.removeResult(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathImpl.class, userTrackerPath.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<UserTrackerPath> userTrackerPaths) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (UserTrackerPath userTrackerPath : userTrackerPaths) {
 			EntityCacheUtil.removeResult(
 				UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
@@ -689,10 +680,6 @@ public class UserTrackerPathPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
@@ -848,51 +835,6 @@ public class UserTrackerPathPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!UserTrackerPathModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				userTrackerPathModelImpl.getUserTrackerId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserTrackerId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserTrackerId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((userTrackerPathModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserTrackerId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userTrackerPathModelImpl.getOriginalUserTrackerId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByUserTrackerId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserTrackerId, args);
-
-				args = new Object[] {
-					userTrackerPathModelImpl.getUserTrackerId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByUserTrackerId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserTrackerId, args);
-			}
 		}
 
 		EntityCacheUtil.putResult(
@@ -1172,46 +1114,48 @@ public class UserTrackerPathPersistenceImpl
 	 * Initializes the user tracker path persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class,
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPathUtil.create(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
-			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
+			UserTrackerPathImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUserTrackerId = new FinderPath(
+		_finderPathWithPaginationFindByUserTrackerId = FinderPathUtil.create(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUserTrackerId",
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserTrackerId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserTrackerId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserTrackerId = FinderPathUtil.create(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
 			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
-			UserTrackerPathImpl.class,
+			UserTrackerPathImpl.class, UserTrackerPathImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserTrackerId",
 			new String[] {Long.class.getName()},
 			UserTrackerPathModelImpl.USERTRACKERID_COLUMN_BITMASK);
 
-		_finderPathCountByUserTrackerId = new FinderPath(
+		_finderPathCountByUserTrackerId = FinderPathUtil.create(
 			UserTrackerPathModelImpl.ENTITY_CACHE_ENABLED,
-			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UserTrackerPathModelImpl.FINDER_CACHE_ENABLED,
+			UserTrackerPathImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserTrackerId",
 			new String[] {Long.class.getName()});
 	}

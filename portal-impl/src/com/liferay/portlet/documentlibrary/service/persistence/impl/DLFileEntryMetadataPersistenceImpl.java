@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -2657,10 +2658,6 @@ public class DLFileEntryMetadataPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(DLFileEntryMetadataImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2675,36 +2672,20 @@ public class DLFileEntryMetadataPersistenceImpl
 		EntityCacheUtil.removeResult(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataImpl.class, dlFileEntryMetadata.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DLFileEntryMetadataModelImpl)dlFileEntryMetadata, true);
 	}
 
 	@Override
 	public void clearCache(List<DLFileEntryMetadata> dlFileEntryMetadatas) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DLFileEntryMetadata dlFileEntryMetadata : dlFileEntryMetadatas) {
 			EntityCacheUtil.removeResult(
 				DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 				DLFileEntryMetadataImpl.class,
 				dlFileEntryMetadata.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DLFileEntryMetadataModelImpl)dlFileEntryMetadata, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
@@ -2724,33 +2705,6 @@ public class DLFileEntryMetadataPersistenceImpl
 			_finderPathCountByD_F, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByD_F, args, dlFileEntryMetadataModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DLFileEntryMetadataModelImpl dlFileEntryMetadataModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				dlFileEntryMetadataModelImpl.getDDMStructureId(),
-				dlFileEntryMetadataModelImpl.getFileVersionId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByD_F, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByD_F, args);
-		}
-
-		if ((dlFileEntryMetadataModelImpl.getColumnBitmask() &
-			 _finderPathFetchByD_F.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				dlFileEntryMetadataModelImpl.getOriginalDDMStructureId(),
-				dlFileEntryMetadataModelImpl.getOriginalFileVersionId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByD_F, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByD_F, args);
-		}
 	}
 
 	/**
@@ -2939,145 +2893,11 @@ public class DLFileEntryMetadataPersistenceImpl
 			return dlFileEntryMetadata;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!DLFileEntryMetadataModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				dlFileEntryMetadataModelImpl.getUuid()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				dlFileEntryMetadataModelImpl.getUuid(),
-				dlFileEntryMetadataModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {dlFileEntryMetadataModelImpl.getFileEntryId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByFileEntryId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByFileEntryId, args);
-
-			args = new Object[] {
-				dlFileEntryMetadataModelImpl.getFileVersionId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByFileVersionId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByFileVersionId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((dlFileEntryMetadataModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalUuid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {dlFileEntryMetadataModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((dlFileEntryMetadataModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalUuid(),
-					dlFileEntryMetadataModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					dlFileEntryMetadataModelImpl.getUuid(),
-					dlFileEntryMetadataModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((dlFileEntryMetadataModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFileEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalFileEntryId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByFileEntryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByFileEntryId, args);
-
-				args = new Object[] {
-					dlFileEntryMetadataModelImpl.getFileEntryId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByFileEntryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByFileEntryId, args);
-			}
-
-			if ((dlFileEntryMetadataModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFileVersionId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					dlFileEntryMetadataModelImpl.getOriginalFileVersionId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByFileVersionId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByFileVersionId, args);
-
-				args = new Object[] {
-					dlFileEntryMetadataModelImpl.getFileVersionId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByFileVersionId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByFileVersionId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataImpl.class, dlFileEntryMetadata.getPrimaryKey(),
 			dlFileEntryMetadata, false);
 
-		clearUniqueFindersCache(dlFileEntryMetadataModelImpl, false);
 		cacheUniqueFindersCache(dlFileEntryMetadataModelImpl);
 
 		dlFileEntryMetadata.resetOriginalValues();
@@ -3543,53 +3363,55 @@ public class DLFileEntryMetadataPersistenceImpl
 	 * Initializes the document library file entry metadata persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
-			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
+			DLFileEntryMetadataImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			DLFileEntryMetadataModelImpl.UUID_COLUMN_BITMASK);
 
-		_finderPathCountByUuid = new FinderPath(
+		_finderPathCountByUuid = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
-			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
+			DLFileEntryMetadataImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithPaginationFindByUuid_C = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -3597,81 +3419,85 @@ public class DLFileEntryMetadataPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			DLFileEntryMetadataModelImpl.UUID_COLUMN_BITMASK |
 			DLFileEntryMetadataModelImpl.COMPANYID_COLUMN_BITMASK);
 
-		_finderPathCountByUuid_C = new FinderPath(
+		_finderPathCountByUuid_C = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
-			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
+			DLFileEntryMetadataImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByFileEntryId = new FinderPath(
+		_finderPathWithPaginationFindByFileEntryId = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFileEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByFileEntryId = new FinderPath(
+		_finderPathWithoutPaginationFindByFileEntryId = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFileEntryId",
 			new String[] {Long.class.getName()},
 			DLFileEntryMetadataModelImpl.FILEENTRYID_COLUMN_BITMASK);
 
-		_finderPathCountByFileEntryId = new FinderPath(
+		_finderPathCountByFileEntryId = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
-			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
+			DLFileEntryMetadataImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileEntryId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByFileVersionId = new FinderPath(
+		_finderPathWithPaginationFindByFileVersionId = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFileVersionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByFileVersionId = new FinderPath(
+		_finderPathWithoutPaginationFindByFileVersionId = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class,
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFileVersionId",
 			new String[] {Long.class.getName()},
 			DLFileEntryMetadataModelImpl.FILEVERSIONID_COLUMN_BITMASK);
 
-		_finderPathCountByFileVersionId = new FinderPath(
+		_finderPathCountByFileVersionId = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
-			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
+			DLFileEntryMetadataImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFileVersionId",
 			new String[] {Long.class.getName()});
 
-		_finderPathFetchByD_F = new FinderPath(
+		_finderPathFetchByD_F = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
 			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
-			DLFileEntryMetadataImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByD_F",
+			DLFileEntryMetadataImpl.class, DLFileEntryMetadataImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByD_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DLFileEntryMetadataModelImpl.DDMSTRUCTUREID_COLUMN_BITMASK |
 			DLFileEntryMetadataModelImpl.FILEVERSIONID_COLUMN_BITMASK);
 
-		_finderPathCountByD_F = new FinderPath(
+		_finderPathCountByD_F = FinderPathUtil.create(
 			DLFileEntryMetadataModelImpl.ENTITY_CACHE_ENABLED,
-			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			DLFileEntryMetadataModelImpl.FINDER_CACHE_ENABLED,
+			DLFileEntryMetadataImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByD_F",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

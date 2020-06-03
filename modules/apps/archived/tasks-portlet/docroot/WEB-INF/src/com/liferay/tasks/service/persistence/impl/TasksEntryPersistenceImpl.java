@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -10024,10 +10025,6 @@ public class TasksEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(TasksEntryImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -10042,16 +10039,10 @@ public class TasksEntryPersistenceImpl
 		EntityCacheUtil.removeResult(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED, TasksEntryImpl.class,
 			tasksEntry.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<TasksEntry> tasksEntries) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (TasksEntry tasksEntry : tasksEntries) {
 			EntityCacheUtil.removeResult(
 				TasksEntryModelImpl.ENTITY_CACHE_ENABLED, TasksEntryImpl.class,
@@ -10061,10 +10052,6 @@ public class TasksEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				TasksEntryModelImpl.ENTITY_CACHE_ENABLED, TasksEntryImpl.class,
@@ -10240,354 +10227,6 @@ public class TasksEntryPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!TasksEntryModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {tasksEntryModelImpl.getGroupId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {tasksEntryModelImpl.getUserId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {tasksEntryModelImpl.getAssigneeUserId()};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByAssigneeUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByAssigneeUserId, args);
-
-			args = new Object[] {tasksEntryModelImpl.getResolverUserId()};
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountByResolverUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByResolverUserId, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getGroupId(),
-				tasksEntryModelImpl.getUserId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_U, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getGroupId(),
-				tasksEntryModelImpl.getAssigneeUserId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_A, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_A, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getGroupId(),
-				tasksEntryModelImpl.getResolverUserId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_R, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_R, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getUserId(), tasksEntryModelImpl.getStatus()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByU_S, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getAssigneeUserId(),
-				tasksEntryModelImpl.getStatus()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByA_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByA_S, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getGroupId(),
-				tasksEntryModelImpl.getUserId(), tasksEntryModelImpl.getStatus()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_U_S, args);
-
-			args = new Object[] {
-				tasksEntryModelImpl.getGroupId(),
-				tasksEntryModelImpl.getAssigneeUserId(),
-				tasksEntryModelImpl.getStatus()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_A_S, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_A_S, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {tasksEntryModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {tasksEntryModelImpl.getUserId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAssigneeUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalAssigneeUserId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByAssigneeUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByAssigneeUserId, args);
-
-				args = new Object[] {tasksEntryModelImpl.getAssigneeUserId()};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByAssigneeUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByAssigneeUserId, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByResolverUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalResolverUserId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByResolverUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByResolverUserId, args);
-
-				args = new Object[] {tasksEntryModelImpl.getResolverUserId()};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByResolverUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByResolverUserId, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getGroupId(),
-					tasksEntryModelImpl.getUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_A.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalAssigneeUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_A, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_A, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getGroupId(),
-					tasksEntryModelImpl.getAssigneeUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_A, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_A, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_R.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalResolverUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_R, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_R, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getGroupId(),
-					tasksEntryModelImpl.getResolverUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_R, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_R, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU_S, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getUserId(),
-					tasksEntryModelImpl.getStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByU_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByU_S, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByA_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalAssigneeUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByA_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByA_S, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getAssigneeUserId(),
-					tasksEntryModelImpl.getStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByA_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByA_S, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U_S, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getGroupId(),
-					tasksEntryModelImpl.getUserId(),
-					tasksEntryModelImpl.getStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_U_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_U_S, args);
-			}
-
-			if ((tasksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_A_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tasksEntryModelImpl.getOriginalGroupId(),
-					tasksEntryModelImpl.getOriginalAssigneeUserId(),
-					tasksEntryModelImpl.getOriginalStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_A_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_A_S, args);
-
-				args = new Object[] {
-					tasksEntryModelImpl.getGroupId(),
-					tasksEntryModelImpl.getAssigneeUserId(),
-					tasksEntryModelImpl.getStatus()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_A_S, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_A_S, args);
-			}
 		}
 
 		EntityCacheUtil.putResult(
@@ -10859,137 +10498,146 @@ public class TasksEntryPersistenceImpl
 	 * Initializes the tasks entry persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupId", new String[] {Long.class.getName()},
 			TasksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			TasksEntryModelImpl.PRIORITY_COLUMN_BITMASK |
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByGroupId = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+		_finderPathCountByGroupId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByUserId = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			TasksEntryModelImpl.USERID_COLUMN_BITMASK |
 			TasksEntryModelImpl.PRIORITY_COLUMN_BITMASK |
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByUserId = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByAssigneeUserId = new FinderPath(
+		_finderPathCountByUserId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssigneeUserId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByAssigneeUserId = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByAssigneeUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByAssigneeUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByAssigneeUserId =
+			FinderPathUtil.create(
+				TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+				TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+				TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByAssigneeUserId", new String[] {Long.class.getName()},
+				TasksEntryModelImpl.ASSIGNEEUSERID_COLUMN_BITMASK |
+				TasksEntryModelImpl.PRIORITY_COLUMN_BITMASK |
+				TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
+				TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+
+		_finderPathCountByAssigneeUserId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssigneeUserId",
-			new String[] {Long.class.getName()},
-			TasksEntryModelImpl.ASSIGNEEUSERID_COLUMN_BITMASK |
-			TasksEntryModelImpl.PRIORITY_COLUMN_BITMASK |
-			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
-			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAssigneeUserId", new String[] {Long.class.getName()});
 
-		_finderPathCountByAssigneeUserId = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssigneeUserId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByResolverUserId = new FinderPath(
+		_finderPathWithPaginationFindByResolverUserId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByResolverUserId",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByResolverUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByResolverUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByResolverUserId =
+			FinderPathUtil.create(
+				TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+				TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+				TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"findByResolverUserId", new String[] {Long.class.getName()},
+				TasksEntryModelImpl.RESOLVERUSERID_COLUMN_BITMASK |
+				TasksEntryModelImpl.PRIORITY_COLUMN_BITMASK |
+				TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
+				TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+
+		_finderPathCountByResolverUserId = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByResolverUserId",
-			new String[] {Long.class.getName()},
-			TasksEntryModelImpl.RESOLVERUSERID_COLUMN_BITMASK |
-			TasksEntryModelImpl.PRIORITY_COLUMN_BITMASK |
-			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
-			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByResolverUserId", new String[] {Long.class.getName()});
 
-		_finderPathCountByResolverUserId = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByResolverUserId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByG_U = new FinderPath(
+		_finderPathWithPaginationFindByG_U = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_U = new FinderPath(
+		_finderPathWithoutPaginationFindByG_U = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			TasksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			TasksEntryModelImpl.USERID_COLUMN_BITMASK |
@@ -10997,26 +10645,28 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_U = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
-			new String[] {Long.class.getName(), Long.class.getName()});
-
-		_finderPathWithPaginationFindByG_A = new FinderPath(
+		_finderPathCountByG_U = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_A",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByG_A = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_A",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_A = new FinderPath(
+		_finderPathWithoutPaginationFindByG_A = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_A",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_A",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			TasksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			TasksEntryModelImpl.ASSIGNEEUSERID_COLUMN_BITMASK |
@@ -11024,26 +10674,28 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_A = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A",
-			new String[] {Long.class.getName(), Long.class.getName()});
-
-		_finderPathWithPaginationFindByG_R = new FinderPath(
+		_finderPathCountByG_A = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_R",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByG_R = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_R",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_R = new FinderPath(
+		_finderPathWithoutPaginationFindByG_R = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_R",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_R",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			TasksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			TasksEntryModelImpl.RESOLVERUSERID_COLUMN_BITMASK |
@@ -11051,26 +10703,28 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_R = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_R",
-			new String[] {Long.class.getName(), Long.class.getName()});
-
-		_finderPathWithPaginationFindByU_S = new FinderPath(
+		_finderPathCountByG_R = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_R",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByU_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByU_S = new FinderPath(
+		_finderPathWithoutPaginationFindByU_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_S",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			TasksEntryModelImpl.USERID_COLUMN_BITMASK |
 			TasksEntryModelImpl.STATUS_COLUMN_BITMASK |
@@ -11078,32 +10732,34 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByU_S = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
-
-		_finderPathWithPaginationCountByU_S = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
-
-		_finderPathWithPaginationFindByA_S = new FinderPath(
+		_finderPathCountByU_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByA_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_S",
+			new String[] {Long.class.getName(), Integer.class.getName()});
+
+		_finderPathWithPaginationCountByU_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_S",
+			new String[] {Long.class.getName(), Integer.class.getName()});
+
+		_finderPathWithPaginationFindByA_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByA_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByA_S = new FinderPath(
+		_finderPathWithoutPaginationFindByA_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByA_S",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByA_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			TasksEntryModelImpl.ASSIGNEEUSERID_COLUMN_BITMASK |
 			TasksEntryModelImpl.STATUS_COLUMN_BITMASK |
@@ -11111,32 +10767,34 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByA_S = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
-
-		_finderPathWithPaginationCountByA_S = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByA_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
-
-		_finderPathWithPaginationFindByG_U_S = new FinderPath(
+		_finderPathCountByA_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_S",
+			new String[] {Long.class.getName(), Integer.class.getName()});
+
+		_finderPathWithPaginationCountByA_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByA_S",
+			new String[] {Long.class.getName(), Integer.class.getName()});
+
+		_finderPathWithPaginationFindByG_U_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_U_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_U_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_S",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -11148,38 +10806,41 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_U_S = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			});
-
-		_finderPathWithPaginationCountByG_U_S = new FinderPath(
-			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_U_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			});
-
-		_finderPathWithPaginationFindByG_A_S = new FinderPath(
+		_finderPathCountByG_U_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_A_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_U_S",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			});
+
+		_finderPathWithPaginationCountByG_U_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_U_S",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			});
+
+		_finderPathWithPaginationFindByG_A_S = FinderPathUtil.create(
+			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_A_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_A_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_A_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
 			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_A_S",
+			TasksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_A_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -11191,19 +10852,20 @@ public class TasksEntryPersistenceImpl
 			TasksEntryModelImpl.DUEDATE_COLUMN_BITMASK |
 			TasksEntryModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_A_S = new FinderPath(
+		_finderPathCountByG_A_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A_S",
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_A_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			});
 
-		_finderPathWithPaginationCountByG_A_S = new FinderPath(
+		_finderPathWithPaginationCountByG_A_S = FinderPathUtil.create(
 			TasksEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TasksEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_A_S",
+			TasksEntryModelImpl.FINDER_CACHE_ENABLED, TasksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_A_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()

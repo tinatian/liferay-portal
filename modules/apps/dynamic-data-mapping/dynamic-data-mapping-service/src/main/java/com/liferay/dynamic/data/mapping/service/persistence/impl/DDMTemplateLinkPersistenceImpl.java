@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -1459,10 +1460,6 @@ public class DDMTemplateLinkPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DDMTemplateLinkImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1477,35 +1474,19 @@ public class DDMTemplateLinkPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, DDMTemplateLinkImpl.class,
 			ddmTemplateLink.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DDMTemplateLinkModelImpl)ddmTemplateLink, true);
 	}
 
 	@Override
 	public void clearCache(List<DDMTemplateLink> ddmTemplateLinks) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DDMTemplateLink ddmTemplateLink : ddmTemplateLinks) {
 			entityCache.removeResult(
 				entityCacheEnabled, DDMTemplateLinkImpl.class,
 				ddmTemplateLink.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DDMTemplateLinkModelImpl)ddmTemplateLink, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DDMTemplateLinkImpl.class, primaryKey);
@@ -1524,33 +1505,6 @@ public class DDMTemplateLinkPersistenceImpl
 			_finderPathCountByC_C, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_C, args, ddmTemplateLinkModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DDMTemplateLinkModelImpl ddmTemplateLinkModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ddmTemplateLinkModelImpl.getClassNameId(),
-				ddmTemplateLinkModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(_finderPathFetchByC_C, args);
-		}
-
-		if ((ddmTemplateLinkModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ddmTemplateLinkModelImpl.getOriginalClassNameId(),
-				ddmTemplateLinkModelImpl.getOriginalClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(_finderPathFetchByC_C, args);
-		}
 	}
 
 	/**
@@ -1724,75 +1678,10 @@ public class DDMTemplateLinkPersistenceImpl
 			return ddmTemplateLink;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				ddmTemplateLinkModelImpl.getClassNameId()
-			};
-
-			finderCache.removeResult(_finderPathCountByClassNameId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByClassNameId, args);
-
-			args = new Object[] {ddmTemplateLinkModelImpl.getTemplateId()};
-
-			finderCache.removeResult(_finderPathCountByTemplateId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByTemplateId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ddmTemplateLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByClassNameId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmTemplateLinkModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByClassNameId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByClassNameId, args);
-
-				args = new Object[] {ddmTemplateLinkModelImpl.getClassNameId()};
-
-				finderCache.removeResult(_finderPathCountByClassNameId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByClassNameId, args);
-			}
-
-			if ((ddmTemplateLinkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTemplateId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmTemplateLinkModelImpl.getOriginalTemplateId()
-				};
-
-				finderCache.removeResult(_finderPathCountByTemplateId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTemplateId, args);
-
-				args = new Object[] {ddmTemplateLinkModelImpl.getTemplateId()};
-
-				finderCache.removeResult(_finderPathCountByTemplateId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTemplateId, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DDMTemplateLinkImpl.class,
 			ddmTemplateLink.getPrimaryKey(), ddmTemplateLink, false);
 
-		clearUniqueFindersCache(ddmTemplateLinkModelImpl, false);
 		cacheUniqueFindersCache(ddmTemplateLinkModelImpl);
 
 		ddmTemplateLink.resetOriginalValues();
@@ -2245,68 +2134,74 @@ public class DDMTemplateLinkPersistenceImpl
 		DDMTemplateLinkModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		DDMTemplateLinkModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByClassNameId = new FinderPath(
+		_finderPathWithPaginationFindByClassNameId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByClassNameId",
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByClassNameId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByClassNameId = new FinderPath(
+		_finderPathWithoutPaginationFindByClassNameId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByClassNameId",
 			new String[] {Long.class.getName()},
 			DDMTemplateLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
-		_finderPathCountByClassNameId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByClassNameId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByTemplateId = new FinderPath(
+		_finderPathCountByClassNameId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTemplateId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByClassNameId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByTemplateId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByTemplateId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByTemplateId = new FinderPath(
+		_finderPathWithoutPaginationFindByTemplateId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTemplateId",
 			new String[] {Long.class.getName()},
 			DDMTemplateLinkModelImpl.TEMPLATEID_COLUMN_BITMASK);
 
-		_finderPathCountByTemplateId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTemplateId",
-			new String[] {Long.class.getName()});
-
-		_finderPathFetchByC_C = new FinderPath(
+		_finderPathCountByTemplateId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByTemplateId", new String[] {Long.class.getName()});
+
+		_finderPathFetchByC_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			DDMTemplateLinkImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			DDMTemplateLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			DDMTemplateLinkModelImpl.CLASSPK_COLUMN_BITMASK);
 
-		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+		_finderPathCountByC_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, DDMTemplateLinkImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}
 

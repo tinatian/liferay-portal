@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -3930,10 +3931,6 @@ public class SubscriptionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SubscriptionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -3948,33 +3945,19 @@ public class SubscriptionPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SubscriptionImpl.class,
 			subscription.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((SubscriptionModelImpl)subscription, true);
 	}
 
 	@Override
 	public void clearCache(List<Subscription> subscriptions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Subscription subscription : subscriptions) {
 			entityCache.removeResult(
 				entityCacheEnabled, SubscriptionImpl.class,
 				subscription.getPrimaryKey());
-
-			clearUniqueFindersCache((SubscriptionModelImpl)subscription, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SubscriptionImpl.class, primaryKey);
@@ -3995,36 +3978,6 @@ public class SubscriptionPersistenceImpl
 			_finderPathCountByC_U_C_C, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_U_C_C, args, subscriptionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SubscriptionModelImpl subscriptionModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				subscriptionModelImpl.getCompanyId(),
-				subscriptionModelImpl.getUserId(),
-				subscriptionModelImpl.getClassNameId(),
-				subscriptionModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_U_C_C, args);
-			finderCache.removeResult(_finderPathFetchByC_U_C_C, args);
-		}
-
-		if ((subscriptionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_U_C_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				subscriptionModelImpl.getOriginalCompanyId(),
-				subscriptionModelImpl.getOriginalUserId(),
-				subscriptionModelImpl.getOriginalClassNameId(),
-				subscriptionModelImpl.getOriginalClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_U_C_C, args);
-			finderCache.removeResult(_finderPathFetchByC_U_C_C, args);
-		}
 	}
 
 	/**
@@ -4199,235 +4152,10 @@ public class SubscriptionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {subscriptionModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {subscriptionModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {subscriptionModelImpl.getClassNameId()};
-
-			finderCache.removeResult(_finderPathCountByClassNameId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByClassNameId, args);
-
-			args = new Object[] {
-				subscriptionModelImpl.getGroupId(),
-				subscriptionModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_U, args);
-
-			args = new Object[] {
-				subscriptionModelImpl.getUserId(),
-				subscriptionModelImpl.getClassNameId()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByU_C, args);
-
-			args = new Object[] {
-				subscriptionModelImpl.getCompanyId(),
-				subscriptionModelImpl.getClassNameId(),
-				subscriptionModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_C_C, args);
-
-			args = new Object[] {
-				subscriptionModelImpl.getCompanyId(),
-				subscriptionModelImpl.getUserId(),
-				subscriptionModelImpl.getClassNameId(),
-				subscriptionModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_U_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_U_C_C, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {subscriptionModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {subscriptionModelImpl.getUserId()};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByClassNameId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByClassNameId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByClassNameId, args);
-
-				args = new Object[] {subscriptionModelImpl.getClassNameId()};
-
-				finderCache.removeResult(_finderPathCountByClassNameId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByClassNameId, args);
-			}
-
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalGroupId(),
-					subscriptionModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-
-				args = new Object[] {
-					subscriptionModelImpl.getGroupId(),
-					subscriptionModelImpl.getUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U, args);
-			}
-
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalUserId(),
-					subscriptionModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_C, args);
-
-				args = new Object[] {
-					subscriptionModelImpl.getUserId(),
-					subscriptionModelImpl.getClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_C, args);
-			}
-
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalCompanyId(),
-					subscriptionModelImpl.getOriginalClassNameId(),
-					subscriptionModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C, args);
-
-				args = new Object[] {
-					subscriptionModelImpl.getCompanyId(),
-					subscriptionModelImpl.getClassNameId(),
-					subscriptionModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C, args);
-			}
-
-			if ((subscriptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_U_C_C.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					subscriptionModelImpl.getOriginalCompanyId(),
-					subscriptionModelImpl.getOriginalUserId(),
-					subscriptionModelImpl.getOriginalClassNameId(),
-					subscriptionModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_U_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_U_C_C, args);
-
-				args = new Object[] {
-					subscriptionModelImpl.getCompanyId(),
-					subscriptionModelImpl.getUserId(),
-					subscriptionModelImpl.getClassNameId(),
-					subscriptionModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_U_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_U_C_C, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SubscriptionImpl.class,
 			subscription.getPrimaryKey(), subscription, false);
 
-		clearUniqueFindersCache(subscriptionModelImpl, false);
 		cacheUniqueFindersCache(subscriptionModelImpl);
 
 		subscription.resetOriginalValues();
@@ -4699,131 +4427,141 @@ public class SubscriptionPersistenceImpl
 		SubscriptionModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		SubscriptionModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupId", new String[] {Long.class.getName()},
 			SubscriptionModelImpl.GROUPID_COLUMN_BITMASK);
 
-		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+		_finderPathCountByGroupId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByUserId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
 			SubscriptionModelImpl.USERID_COLUMN_BITMASK);
 
-		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByClassNameId = new FinderPath(
+		_finderPathCountByUserId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByClassNameId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByClassNameId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByClassNameId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByClassNameId = new FinderPath(
+		_finderPathWithoutPaginationFindByClassNameId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByClassNameId",
-			new String[] {Long.class.getName()},
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByClassNameId", new String[] {Long.class.getName()},
 			SubscriptionModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
-		_finderPathCountByClassNameId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByClassNameId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByG_U = new FinderPath(
+		_finderPathCountByClassNameId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByClassNameId", new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByG_U = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_U = new FinderPath(
+		_finderPathWithoutPaginationFindByG_U = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SubscriptionModelImpl.GROUPID_COLUMN_BITMASK |
 			SubscriptionModelImpl.USERID_COLUMN_BITMASK);
 
-		_finderPathCountByG_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
+		_finderPathCountByG_U = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByU_C = new FinderPath(
+		_finderPathWithPaginationFindByU_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByU_C = new FinderPath(
+		_finderPathWithoutPaginationFindByU_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SubscriptionModelImpl.USERID_COLUMN_BITMASK |
 			SubscriptionModelImpl.CLASSNAMEID_COLUMN_BITMASK);
 
-		_finderPathCountByU_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
+		_finderPathCountByU_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByC_C_C = new FinderPath(
+		_finderPathWithPaginationFindByC_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C_C = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
@@ -4831,16 +4569,18 @@ public class SubscriptionPersistenceImpl
 			SubscriptionModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			SubscriptionModelImpl.CLASSPK_COLUMN_BITMASK);
 
-		_finderPathCountByC_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C",
+		_finderPathCountByC_C_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_finderPathWithPaginationFindByC_U_C_C = new FinderPath(
+		_finderPathWithPaginationFindByC_U_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_U_C_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_U_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName(),
@@ -4848,9 +4588,10 @@ public class SubscriptionPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_U_C_C = new FinderPath(
+		_finderPathWithoutPaginationFindByC_U_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_U_C_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_U_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
@@ -4860,9 +4601,9 @@ public class SubscriptionPersistenceImpl
 			SubscriptionModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			SubscriptionModelImpl.CLASSPK_COLUMN_BITMASK);
 
-		_finderPathFetchByC_U_C_C = new FinderPath(
+		_finderPathFetchByC_U_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_U_C_C",
+			SubscriptionImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_U_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
@@ -4872,17 +4613,19 @@ public class SubscriptionPersistenceImpl
 			SubscriptionModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			SubscriptionModelImpl.CLASSPK_COLUMN_BITMASK);
 
-		_finderPathCountByC_U_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U_C_C",
+		_finderPathCountByC_U_C_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_U_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
 			});
 
-		_finderPathWithPaginationCountByC_U_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_U_C_C",
+		_finderPathWithPaginationCountByC_U_C_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByC_U_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()

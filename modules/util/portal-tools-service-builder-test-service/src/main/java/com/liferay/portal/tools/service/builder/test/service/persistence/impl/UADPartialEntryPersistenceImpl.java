@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
@@ -127,10 +128,6 @@ public class UADPartialEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(UADPartialEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -145,16 +142,10 @@ public class UADPartialEntryPersistenceImpl
 		entityCache.removeResult(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryImpl.class, uadPartialEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<UADPartialEntry> uadPartialEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (UADPartialEntry uadPartialEntry : uadPartialEntries) {
 			entityCache.removeResult(
 				UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
@@ -164,10 +155,6 @@ public class UADPartialEntryPersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
@@ -301,14 +288,6 @@ public class UADPartialEntryPersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(
@@ -583,22 +562,23 @@ public class UADPartialEntryPersistenceImpl
 	 * Initializes the uad partial entry persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
-			UADPartialEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			UADPartialEntryImpl.class, UADPartialEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
-			UADPartialEntryImpl.class,
+			UADPartialEntryImpl.class, UADPartialEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPathUtil.create(
 			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
-			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
+			UADPartialEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 	}

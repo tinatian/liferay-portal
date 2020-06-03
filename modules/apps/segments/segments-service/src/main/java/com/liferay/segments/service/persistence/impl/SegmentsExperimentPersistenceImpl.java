@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -5903,10 +5904,6 @@ public class SegmentsExperimentPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SegmentsExperimentImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5921,35 +5918,19 @@ public class SegmentsExperimentPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SegmentsExperimentImpl.class,
 			segmentsExperiment.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SegmentsExperimentModelImpl)segmentsExperiment, true);
 	}
 
 	@Override
 	public void clearCache(List<SegmentsExperiment> segmentsExperiments) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SegmentsExperiment segmentsExperiment : segmentsExperiments) {
 			entityCache.removeResult(
 				entityCacheEnabled, SegmentsExperimentImpl.class,
 				segmentsExperiment.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SegmentsExperimentModelImpl)segmentsExperiment, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SegmentsExperimentImpl.class, primaryKey);
@@ -5978,55 +5959,6 @@ public class SegmentsExperimentPersistenceImpl
 			_finderPathCountByG_S, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_S, args, segmentsExperimentModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SegmentsExperimentModelImpl segmentsExperimentModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getUuid(),
-				segmentsExperimentModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((segmentsExperimentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getOriginalUuid(),
-				segmentsExperimentModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getGroupId(),
-				segmentsExperimentModelImpl.getSegmentsExperimentKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(_finderPathFetchByG_S, args);
-		}
-
-		if ((segmentsExperimentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_S.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getOriginalGroupId(),
-				segmentsExperimentModelImpl.getOriginalSegmentsExperimentKey()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(_finderPathFetchByG_S, args);
-		}
 	}
 
 	/**
@@ -6219,252 +6151,10 @@ public class SegmentsExperimentPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				segmentsExperimentModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getUuid(),
-				segmentsExperimentModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {segmentsExperimentModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getSegmentsExperimentKey()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountBySegmentsExperimentKey, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBySegmentsExperimentKey, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getGroupId(),
-				segmentsExperimentModelImpl.getClassNameId(),
-				segmentsExperimentModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C_C, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getSegmentsExperienceId(),
-				segmentsExperimentModelImpl.getClassNameId(),
-				segmentsExperimentModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByS_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByS_C_C, args);
-
-			args = new Object[] {
-				segmentsExperimentModelImpl.getSegmentsExperienceId(),
-				segmentsExperimentModelImpl.getClassNameId(),
-				segmentsExperimentModelImpl.getClassPK(),
-				segmentsExperimentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByS_C_C_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByS_C_C_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {segmentsExperimentModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalUuid(),
-					segmentsExperimentModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getUuid(),
-					segmentsExperimentModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {segmentsExperimentModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySegmentsExperimentKey.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperimentKey()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountBySegmentsExperimentKey, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySegmentsExperimentKey,
-					args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getSegmentsExperimentKey()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountBySegmentsExperimentKey, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySegmentsExperimentKey,
-					args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.getOriginalGroupId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_C, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getGroupId(),
-					segmentsExperimentModelImpl.getClassNameId(),
-					segmentsExperimentModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_C, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByS_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getClassNameId(),
-					segmentsExperimentModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C, args);
-			}
-
-			if ((segmentsExperimentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByS_C_C_S.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					segmentsExperimentModelImpl.
-						getOriginalSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getOriginalClassNameId(),
-					segmentsExperimentModelImpl.getOriginalClassPK(),
-					segmentsExperimentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C_S, args);
-
-				args = new Object[] {
-					segmentsExperimentModelImpl.getSegmentsExperienceId(),
-					segmentsExperimentModelImpl.getClassNameId(),
-					segmentsExperimentModelImpl.getClassPK(),
-					segmentsExperimentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByS_C_C_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByS_C_C_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SegmentsExperimentImpl.class,
 			segmentsExperiment.getPrimaryKey(), segmentsExperiment, false);
 
-		clearUniqueFindersCache(segmentsExperimentModelImpl, false);
 		cacheUniqueFindersCache(segmentsExperimentModelImpl);
 
 		segmentsExperiment.resetOriginalValues();
@@ -6744,60 +6434,63 @@ public class SegmentsExperimentPersistenceImpl
 		SegmentsExperimentModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		SegmentsExperimentModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			SegmentsExperimentModelImpl.UUID_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByUuid = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathFetchByUUID_G = new FinderPath(
+		_finderPathFetchByUUID_G = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SegmentsExperimentModelImpl.UUID_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.GROUPID_COLUMN_BITMASK);
 
-		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByUUID_G = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithPaginationFindByUuid_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -6805,56 +6498,59 @@ public class SegmentsExperimentPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SegmentsExperimentModelImpl.UUID_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.COMPANYID_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByUuid_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			SegmentsExperimentModelImpl.GROUPID_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByGroupId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindBySegmentsExperimentKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findBySegmentsExperimentKey",
-			new String[] {
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+		_finderPathWithPaginationFindBySegmentsExperimentKey =
+			FinderPathUtil.create(
+				entityCacheEnabled, finderCacheEnabled,
+				SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findBySegmentsExperimentKey",
+				new String[] {
+					String.class.getName(), Integer.class.getName(),
+					Integer.class.getName(), OrderByComparator.class.getName()
+				});
 
 		_finderPathWithoutPaginationFindBySegmentsExperimentKey =
-			new FinderPath(
+			FinderPathUtil.create(
 				entityCacheEnabled, finderCacheEnabled,
-				SegmentsExperimentImpl.class,
+				SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findBySegmentsExperimentKey",
 				new String[] {String.class.getName()},
@@ -6862,28 +6558,30 @@ public class SegmentsExperimentPersistenceImpl
 					SEGMENTSEXPERIMENTKEY_COLUMN_BITMASK |
 				SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountBySegmentsExperimentKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountBySegmentsExperimentKey = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySegmentsExperimentKey",
 			new String[] {String.class.getName()});
 
-		_finderPathFetchByG_S = new FinderPath(
+		_finderPathFetchByG_S = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByG_S",
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_S",
 			new String[] {Long.class.getName(), String.class.getName()},
 			SegmentsExperimentModelImpl.GROUPID_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.SEGMENTSEXPERIMENTKEY_COLUMN_BITMASK);
 
-		_finderPathCountByG_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByG_S = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathWithPaginationFindByG_C_C = new FinderPath(
+		_finderPathWithPaginationFindByG_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6891,9 +6589,9 @@ public class SegmentsExperimentPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_C_C = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -6903,16 +6601,17 @@ public class SegmentsExperimentPersistenceImpl
 			SegmentsExperimentModelImpl.CLASSPK_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByG_C_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_finderPathWithPaginationFindByS_C_C = new FinderPath(
+		_finderPathWithPaginationFindByS_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6920,9 +6619,9 @@ public class SegmentsExperimentPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByS_C_C = new FinderPath(
+		_finderPathWithoutPaginationFindByS_C_C = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
@@ -6932,16 +6631,17 @@ public class SegmentsExperimentPersistenceImpl
 			SegmentsExperimentModelImpl.CLASSPK_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByS_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByS_C_C = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_finderPathWithPaginationFindByS_C_C_S = new FinderPath(
+		_finderPathWithPaginationFindByS_C_C_S = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByS_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6950,9 +6650,9 @@ public class SegmentsExperimentPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByS_C_C_S = new FinderPath(
+		_finderPathWithoutPaginationFindByS_C_C_S = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			SegmentsExperimentImpl.class,
+			SegmentsExperimentImpl.class, SegmentsExperimentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByS_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -6964,16 +6664,18 @@ public class SegmentsExperimentPersistenceImpl
 			SegmentsExperimentModelImpl.STATUS_COLUMN_BITMASK |
 			SegmentsExperimentModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByS_C_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByS_C_C_S = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
 			});
 
-		_finderPathWithPaginationCountByS_C_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathWithPaginationCountByS_C_C_S = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			SegmentsExperimentImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByS_C_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),

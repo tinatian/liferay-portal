@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -1429,10 +1430,6 @@ public class AccountEntryUserRelPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(AccountEntryUserRelImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1447,35 +1444,19 @@ public class AccountEntryUserRelPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, AccountEntryUserRelImpl.class,
 			accountEntryUserRel.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(AccountEntryUserRelModelImpl)accountEntryUserRel, true);
 	}
 
 	@Override
 	public void clearCache(List<AccountEntryUserRel> accountEntryUserRels) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AccountEntryUserRel accountEntryUserRel : accountEntryUserRels) {
 			entityCache.removeResult(
 				entityCacheEnabled, AccountEntryUserRelImpl.class,
 				accountEntryUserRel.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(AccountEntryUserRelModelImpl)accountEntryUserRel, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, AccountEntryUserRelImpl.class, primaryKey);
@@ -1495,33 +1476,6 @@ public class AccountEntryUserRelPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByAEI_AUI, args, accountEntryUserRelModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AccountEntryUserRelModelImpl accountEntryUserRelModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getAccountEntryId(),
-				accountEntryUserRelModelImpl.getAccountUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAEI_AUI, args);
-			finderCache.removeResult(_finderPathFetchByAEI_AUI, args);
-		}
-
-		if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-			 _finderPathFetchByAEI_AUI.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getOriginalAccountEntryId(),
-				accountEntryUserRelModelImpl.getOriginalAccountUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAEI_AUI, args);
-			finderCache.removeResult(_finderPathFetchByAEI_AUI, args);
-		}
 	}
 
 	/**
@@ -1679,81 +1633,10 @@ public class AccountEntryUserRelPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				accountEntryUserRelModelImpl.getAccountEntryId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAEI, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAEI, args);
-
-			args = new Object[] {
-				accountEntryUserRelModelImpl.getAccountUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAUI, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAUI, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAEI.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					accountEntryUserRelModelImpl.getOriginalAccountEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAEI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAEI, args);
-
-				args = new Object[] {
-					accountEntryUserRelModelImpl.getAccountEntryId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAEI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAEI, args);
-			}
-
-			if ((accountEntryUserRelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAUI.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					accountEntryUserRelModelImpl.getOriginalAccountUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAUI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAUI, args);
-
-				args = new Object[] {
-					accountEntryUserRelModelImpl.getAccountUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByAUI, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAUI, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, AccountEntryUserRelImpl.class,
 			accountEntryUserRel.getPrimaryKey(), accountEntryUserRel, false);
 
-		clearUniqueFindersCache(accountEntryUserRelModelImpl, false);
 		cacheUniqueFindersCache(accountEntryUserRelModelImpl);
 
 		accountEntryUserRel.resetOriginalValues();
@@ -2028,74 +1911,78 @@ public class AccountEntryUserRelPersistenceImpl
 		AccountEntryUserRelModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		AccountEntryUserRelModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByAEI = new FinderPath(
+		_finderPathWithPaginationFindByAEI = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAEI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByAEI = new FinderPath(
+		_finderPathWithoutPaginationFindByAEI = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAEI",
 			new String[] {Long.class.getName()},
 			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK);
 
-		_finderPathCountByAEI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByAEI = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAEI",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByAUI = new FinderPath(
+		_finderPathWithPaginationFindByAUI = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAUI",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByAUI = new FinderPath(
+		_finderPathWithoutPaginationFindByAUI = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class,
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAUI",
 			new String[] {Long.class.getName()},
 			AccountEntryUserRelModelImpl.ACCOUNTUSERID_COLUMN_BITMASK);
 
-		_finderPathCountByAUI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByAUI = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAUI",
 			new String[] {Long.class.getName()});
 
-		_finderPathFetchByAEI_AUI = new FinderPath(
+		_finderPathFetchByAEI_AUI = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled,
-			AccountEntryUserRelImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByAEI_AUI",
+			AccountEntryUserRelImpl.class, AccountEntryUserRelImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByAEI_AUI",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			AccountEntryUserRelModelImpl.ACCOUNTENTRYID_COLUMN_BITMASK |
 			AccountEntryUserRelModelImpl.ACCOUNTUSERID_COLUMN_BITMASK);
 
-		_finderPathCountByAEI_AUI = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+		_finderPathCountByAEI_AUI = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled,
+			AccountEntryUserRelImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAEI_AUI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 	}

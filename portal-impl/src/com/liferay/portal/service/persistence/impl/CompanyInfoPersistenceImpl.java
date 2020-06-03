@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -347,10 +348,6 @@ public class CompanyInfoPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(CompanyInfoImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -365,33 +362,19 @@ public class CompanyInfoPersistenceImpl
 		EntityCacheUtil.removeResult(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED, CompanyInfoImpl.class,
 			companyInfo.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CompanyInfoModelImpl)companyInfo, true);
 	}
 
 	@Override
 	public void clearCache(List<CompanyInfo> companyInfos) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CompanyInfo companyInfo : companyInfos) {
 			EntityCacheUtil.removeResult(
 				CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 				CompanyInfoImpl.class, companyInfo.getPrimaryKey());
-
-			clearUniqueFindersCache((CompanyInfoModelImpl)companyInfo, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
@@ -408,28 +391,6 @@ public class CompanyInfoPersistenceImpl
 			_finderPathCountByCompanyId, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByCompanyId, args, companyInfoModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CompanyInfoModelImpl companyInfoModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {companyInfoModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByCompanyId, args);
-		}
-
-		if ((companyInfoModelImpl.getColumnBitmask() &
-			 _finderPathFetchByCompanyId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				companyInfoModelImpl.getOriginalCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByCompanyId, args);
-		}
 	}
 
 	/**
@@ -579,24 +540,10 @@ public class CompanyInfoPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CompanyInfoModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		EntityCacheUtil.putResult(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED, CompanyInfoImpl.class,
 			companyInfo.getPrimaryKey(), companyInfo, false);
 
-		clearUniqueFindersCache(companyInfoModelImpl, false);
 		cacheUniqueFindersCache(companyInfoModelImpl);
 
 		companyInfo.resetOriginalValues();
@@ -869,35 +816,36 @@ public class CompanyInfoPersistenceImpl
 	 * Initializes the company info persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			CompanyInfoImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			CompanyInfoImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPathUtil.create(
+			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
+			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
-			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathFetchByCompanyId = new FinderPath(
+		_finderPathFetchByCompanyId = FinderPathUtil.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByCompanyId",
+			CompanyInfoImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByCompanyId",
 			new String[] {Long.class.getName()},
 			CompanyInfoModelImpl.COMPANYID_COLUMN_BITMASK);
 
-		_finderPathCountByCompanyId = new FinderPath(
+		_finderPathCountByCompanyId = FinderPathUtil.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
-			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {

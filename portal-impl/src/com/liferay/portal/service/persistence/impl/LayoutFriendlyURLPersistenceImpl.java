@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -5496,10 +5497,6 @@ public class LayoutFriendlyURLPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(LayoutFriendlyURLImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5514,35 +5511,19 @@ public class LayoutFriendlyURLPersistenceImpl
 		EntityCacheUtil.removeResult(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLImpl.class, layoutFriendlyURL.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(LayoutFriendlyURLModelImpl)layoutFriendlyURL, true);
 	}
 
 	@Override
 	public void clearCache(List<LayoutFriendlyURL> layoutFriendlyURLs) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (LayoutFriendlyURL layoutFriendlyURL : layoutFriendlyURLs) {
 			EntityCacheUtil.removeResult(
 				LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 				LayoutFriendlyURLImpl.class, layoutFriendlyURL.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(LayoutFriendlyURLModelImpl)layoutFriendlyURL, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
@@ -5584,81 +5565,6 @@ public class LayoutFriendlyURLPersistenceImpl
 			_finderPathCountByG_P_F_L, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_P_F_L, args, layoutFriendlyURLModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LayoutFriendlyURLModelImpl layoutFriendlyURLModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getUuid(),
-				layoutFriendlyURLModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalUuid(),
-				layoutFriendlyURLModelImpl.getOriginalGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getPlid(),
-				layoutFriendlyURLModelImpl.getLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByP_L, args);
-		}
-
-		if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByP_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalPlid(),
-				layoutFriendlyURLModelImpl.getOriginalLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByP_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getGroupId(),
-				layoutFriendlyURLModelImpl.isPrivateLayout(),
-				layoutFriendlyURLModelImpl.getFriendlyURL(),
-				layoutFriendlyURLModelImpl.getLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_F_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_P_F_L, args);
-		}
-
-		if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_P_F_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				layoutFriendlyURLModelImpl.getOriginalGroupId(),
-				layoutFriendlyURLModelImpl.getOriginalPrivateLayout(),
-				layoutFriendlyURLModelImpl.getOriginalFriendlyURL(),
-				layoutFriendlyURLModelImpl.getOriginalLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_F_L, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_P_F_L, args);
-		}
 	}
 
 	/**
@@ -5870,257 +5776,11 @@ public class LayoutFriendlyURLPersistenceImpl
 			return layoutFriendlyURL;
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!LayoutFriendlyURLModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {layoutFriendlyURLModelImpl.getUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getUuid(),
-				layoutFriendlyURLModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {layoutFriendlyURLModelImpl.getGroupId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {layoutFriendlyURLModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {layoutFriendlyURLModelImpl.getPlid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByPlid, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getPlid(),
-				layoutFriendlyURLModelImpl.getFriendlyURL()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByP_F, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getPlid(),
-				layoutFriendlyURLModelImpl.getLanguageId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByP_L, args);
-
-			args = new Object[] {
-				layoutFriendlyURLModelImpl.getGroupId(),
-				layoutFriendlyURLModelImpl.isPrivateLayout(),
-				layoutFriendlyURLModelImpl.getFriendlyURL()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByG_P_F, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalUuid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalUuid(),
-					layoutFriendlyURLModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getUuid(),
-					layoutFriendlyURLModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getCompanyId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPlid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPlid, args);
-
-				args = new Object[] {layoutFriendlyURLModelImpl.getPlid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByPlid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByPlid, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByP_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid(),
-					layoutFriendlyURLModelImpl.getOriginalFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_F, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getPlid(),
-					layoutFriendlyURLModelImpl.getFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_F, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByP_L.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalPlid(),
-					layoutFriendlyURLModelImpl.getOriginalLanguageId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_L, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getPlid(),
-					layoutFriendlyURLModelImpl.getLanguageId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByP_L, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByP_L, args);
-			}
-
-			if ((layoutFriendlyURLModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_P_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					layoutFriendlyURLModelImpl.getOriginalGroupId(),
-					layoutFriendlyURLModelImpl.getOriginalPrivateLayout(),
-					layoutFriendlyURLModelImpl.getOriginalFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_P_F, args);
-
-				args = new Object[] {
-					layoutFriendlyURLModelImpl.getGroupId(),
-					layoutFriendlyURLModelImpl.isPrivateLayout(),
-					layoutFriendlyURLModelImpl.getFriendlyURL()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByG_P_F, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByG_P_F, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLImpl.class, layoutFriendlyURL.getPrimaryKey(),
 			layoutFriendlyURL, false);
 
-		clearUniqueFindersCache(layoutFriendlyURLModelImpl, false);
 		cacheUniqueFindersCache(layoutFriendlyURLModelImpl);
 
 		layoutFriendlyURL.resetOriginalValues();
@@ -6591,243 +6251,254 @@ public class LayoutFriendlyURLPersistenceImpl
 	 * Initializes the layout friendly url persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			LayoutFriendlyURLModelImpl.UUID_COLUMN_BITMASK);
 
-		_finderPathCountByUuid = new FinderPath(
+		_finderPathCountByUuid = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathFetchByUUID_G = new FinderPath(
+		_finderPathFetchByUUID_G = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			LayoutFriendlyURLModelImpl.UUID_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.GROUPID_COLUMN_BITMASK);
 
-		_finderPathCountByUUID_G = new FinderPath(
+		_finderPathCountByUUID_G = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithPaginationFindByUuid_C = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			LayoutFriendlyURLModelImpl.UUID_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.COMPANYID_COLUMN_BITMASK);
 
-		_finderPathCountByUuid_C = new FinderPath(
+		_finderPathCountByUuid_C = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			LayoutFriendlyURLModelImpl.GROUPID_COLUMN_BITMASK);
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByGroupId = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCompanyId",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			LayoutFriendlyURLModelImpl.COMPANYID_COLUMN_BITMASK);
 
-		_finderPathCountByCompanyId = new FinderPath(
+		_finderPathCountByCompanyId = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByPlid = new FinderPath(
+		_finderPathWithPaginationFindByPlid = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPlid",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlid",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByPlid = new FinderPath(
+		_finderPathWithoutPaginationFindByPlid = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlid",
 			new String[] {Long.class.getName()},
 			LayoutFriendlyURLModelImpl.PLID_COLUMN_BITMASK);
 
-		_finderPathCountByPlid = new FinderPath(
+		_finderPathCountByPlid = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlid",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByP_F = new FinderPath(
+		_finderPathWithPaginationFindByP_F = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByP_F",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_F",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByP_F = new FinderPath(
+		_finderPathWithoutPaginationFindByP_F = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_F",
 			new String[] {Long.class.getName(), String.class.getName()},
 			LayoutFriendlyURLModelImpl.PLID_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.FRIENDLYURL_COLUMN_BITMASK);
 
-		_finderPathCountByP_F = new FinderPath(
+		_finderPathCountByP_F = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_F",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathWithPaginationFindByP_L = new FinderPath(
+		_finderPathWithPaginationFindByP_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByP_L",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_L",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByP_L = new FinderPath(
+		_finderPathWithoutPaginationFindByP_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_L",
 			new String[] {Long.class.getName(), String.class.getName()},
 			LayoutFriendlyURLModelImpl.PLID_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
-		_finderPathFetchByP_L = new FinderPath(
+		_finderPathFetchByP_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByP_L",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByP_L",
 			new String[] {Long.class.getName(), String.class.getName()},
 			LayoutFriendlyURLModelImpl.PLID_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
-		_finderPathCountByP_L = new FinderPath(
+		_finderPathCountByP_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_L",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathWithPaginationCountByP_L = new FinderPath(
+		_finderPathWithPaginationCountByP_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByP_L",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathWithPaginationFindByG_P_F = new FinderPath(
+		_finderPathWithPaginationFindByG_P_F = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByG_P_F",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P_F",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_P_F = new FinderPath(
+		_finderPathWithoutPaginationFindByG_P_F = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class,
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P_F",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
@@ -6837,20 +6508,21 @@ public class LayoutFriendlyURLPersistenceImpl
 			LayoutFriendlyURLModelImpl.PRIVATELAYOUT_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.FRIENDLYURL_COLUMN_BITMASK);
 
-		_finderPathCountByG_P_F = new FinderPath(
+		_finderPathCountByG_P_F = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_F",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				String.class.getName()
 			});
 
-		_finderPathFetchByG_P_F_L = new FinderPath(
+		_finderPathFetchByG_P_F_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
-			LayoutFriendlyURLImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByG_P_F_L",
+			LayoutFriendlyURLImpl.class, LayoutFriendlyURLImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_P_F_L",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),
 				String.class.getName(), String.class.getName()
@@ -6860,9 +6532,10 @@ public class LayoutFriendlyURLPersistenceImpl
 			LayoutFriendlyURLModelImpl.FRIENDLYURL_COLUMN_BITMASK |
 			LayoutFriendlyURLModelImpl.LANGUAGEID_COLUMN_BITMASK);
 
-		_finderPathCountByG_P_F_L = new FinderPath(
+		_finderPathCountByG_P_F_L = FinderPathUtil.create(
 			LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED,
-			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			LayoutFriendlyURLModelImpl.FINDER_CACHE_ENABLED,
+			LayoutFriendlyURLImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P_F_L",
 			new String[] {
 				Long.class.getName(), Boolean.class.getName(),

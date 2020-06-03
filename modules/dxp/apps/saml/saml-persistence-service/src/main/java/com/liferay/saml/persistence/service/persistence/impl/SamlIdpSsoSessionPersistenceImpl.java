@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -958,10 +959,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SamlIdpSsoSessionImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -976,35 +973,19 @@ public class SamlIdpSsoSessionPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SamlIdpSsoSessionImpl.class,
 			samlIdpSsoSession.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SamlIdpSsoSessionModelImpl)samlIdpSsoSession, true);
 	}
 
 	@Override
 	public void clearCache(List<SamlIdpSsoSession> samlIdpSsoSessions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SamlIdpSsoSession samlIdpSsoSession : samlIdpSsoSessions) {
 			entityCache.removeResult(
 				entityCacheEnabled, SamlIdpSsoSessionImpl.class,
 				samlIdpSsoSession.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SamlIdpSsoSessionModelImpl)samlIdpSsoSession, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SamlIdpSsoSessionImpl.class, primaryKey);
@@ -1024,35 +1005,6 @@ public class SamlIdpSsoSessionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchBySamlIdpSsoSessionKey, args,
 			samlIdpSsoSessionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SamlIdpSsoSessionModelImpl samlIdpSsoSessionModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				samlIdpSsoSessionModelImpl.getSamlIdpSsoSessionKey()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountBySamlIdpSsoSessionKey, args);
-			finderCache.removeResult(
-				_finderPathFetchBySamlIdpSsoSessionKey, args);
-		}
-
-		if ((samlIdpSsoSessionModelImpl.getColumnBitmask() &
-			 _finderPathFetchBySamlIdpSsoSessionKey.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				samlIdpSsoSessionModelImpl.getOriginalSamlIdpSsoSessionKey()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountBySamlIdpSsoSessionKey, args);
-			finderCache.removeResult(
-				_finderPathFetchBySamlIdpSsoSessionKey, args);
-		}
 	}
 
 	/**
@@ -1233,22 +1185,10 @@ public class SamlIdpSsoSessionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, SamlIdpSsoSessionImpl.class,
 			samlIdpSsoSession.getPrimaryKey(), samlIdpSsoSession, false);
 
-		clearUniqueFindersCache(samlIdpSsoSessionModelImpl, false);
 		cacheUniqueFindersCache(samlIdpSsoSessionModelImpl);
 
 		samlIdpSsoSession.resetOriginalValues();
@@ -1522,42 +1462,46 @@ public class SamlIdpSsoSessionPersistenceImpl
 		SamlIdpSsoSessionModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		SamlIdpSsoSessionModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			SamlIdpSsoSessionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByCreateDate = new FinderPath(
+		_finderPathWithPaginationFindByCreateDate = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCreateDate",
+			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCreateDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByCreateDate = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByCreateDate",
-			new String[] {Date.class.getName()});
-
-		_finderPathFetchBySamlIdpSsoSessionKey = new FinderPath(
+		_finderPathWithPaginationCountByCreateDate = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySamlIdpSsoSessionKey",
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByCreateDate", new String[] {Date.class.getName()});
+
+		_finderPathFetchBySamlIdpSsoSessionKey = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			SamlIdpSsoSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySamlIdpSsoSessionKey",
 			new String[] {String.class.getName()},
 			SamlIdpSsoSessionModelImpl.SAMLIDPSSOSESSIONKEY_COLUMN_BITMASK);
 
-		_finderPathCountBySamlIdpSsoSessionKey = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+		_finderPathCountBySamlIdpSsoSessionKey = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, SamlIdpSsoSessionImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBySamlIdpSsoSessionKey",
 			new String[] {String.class.getName()});
 	}

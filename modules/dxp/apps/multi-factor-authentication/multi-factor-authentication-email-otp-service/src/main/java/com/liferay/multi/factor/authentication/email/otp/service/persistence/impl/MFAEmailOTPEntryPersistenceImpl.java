@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -349,10 +350,6 @@ public class MFAEmailOTPEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(MFAEmailOTPEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -367,35 +364,19 @@ public class MFAEmailOTPEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, MFAEmailOTPEntryImpl.class,
 			mfaEmailOTPEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(MFAEmailOTPEntryModelImpl)mfaEmailOTPEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<MFAEmailOTPEntry> mfaEmailOTPEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (MFAEmailOTPEntry mfaEmailOTPEntry : mfaEmailOTPEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, MFAEmailOTPEntryImpl.class,
 				mfaEmailOTPEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(MFAEmailOTPEntryModelImpl)mfaEmailOTPEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, MFAEmailOTPEntryImpl.class, primaryKey);
@@ -411,31 +392,6 @@ public class MFAEmailOTPEntryPersistenceImpl
 			_finderPathCountByUserId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUserId, args, mfaEmailOTPEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mfaEmailOTPEntryModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
-
-		if ((mfaEmailOTPEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mfaEmailOTPEntryModelImpl.getOriginalUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(_finderPathFetchByUserId, args);
-		}
 	}
 
 	/**
@@ -613,22 +569,10 @@ public class MFAEmailOTPEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, MFAEmailOTPEntryImpl.class,
 			mfaEmailOTPEntry.getPrimaryKey(), mfaEmailOTPEntry, false);
 
-		clearUniqueFindersCache(mfaEmailOTPEntryModelImpl, false);
 		cacheUniqueFindersCache(mfaEmailOTPEntryModelImpl);
 
 		mfaEmailOTPEntry.resetOriginalValues();
@@ -902,30 +846,32 @@ public class MFAEmailOTPEntryPersistenceImpl
 		MFAEmailOTPEntryModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		MFAEmailOTPEntryModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, MFAEmailOTPEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			MFAEmailOTPEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, MFAEmailOTPEntryImpl.class,
+			MFAEmailOTPEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+		_finderPathCountAll = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, MFAEmailOTPEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByUserId = new FinderPath(
+		_finderPathFetchByUserId = FinderPathUtil.create(
 			entityCacheEnabled, finderCacheEnabled, MFAEmailOTPEntryImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
-			new String[] {Long.class.getName()},
+			MFAEmailOTPEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByUserId", new String[] {Long.class.getName()},
 			MFAEmailOTPEntryModelImpl.USERID_COLUMN_BITMASK);
 
-		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+		_finderPathCountByUserId = FinderPathUtil.create(
+			entityCacheEnabled, finderCacheEnabled, MFAEmailOTPEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()});
 	}
 
 	@Deactivate

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -1432,10 +1433,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(AnnouncementsDeliveryImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1451,20 +1448,11 @@ public class AnnouncementsDeliveryPersistenceImpl
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryImpl.class,
 			announcementsDelivery.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(AnnouncementsDeliveryModelImpl)announcementsDelivery, true);
 	}
 
 	@Override
 	public void clearCache(
 		List<AnnouncementsDelivery> announcementsDeliveries) {
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (AnnouncementsDelivery announcementsDelivery :
 				announcementsDeliveries) {
@@ -1473,18 +1461,11 @@ public class AnnouncementsDeliveryPersistenceImpl
 				AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 				AnnouncementsDeliveryImpl.class,
 				announcementsDelivery.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(AnnouncementsDeliveryModelImpl)announcementsDelivery, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
@@ -1504,33 +1485,6 @@ public class AnnouncementsDeliveryPersistenceImpl
 			_finderPathCountByU_T, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByU_T, args, announcementsDeliveryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AnnouncementsDeliveryModelImpl announcementsDeliveryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				announcementsDeliveryModelImpl.getUserId(),
-				announcementsDeliveryModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_T, args);
-		}
-
-		if ((announcementsDeliveryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByU_T.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				announcementsDeliveryModelImpl.getOriginalUserId(),
-				announcementsDeliveryModelImpl.getOriginalType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByU_T, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByU_T, args);
-		}
 	}
 
 	/**
@@ -1691,83 +1645,12 @@ public class AnnouncementsDeliveryPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!AnnouncementsDeliveryModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				announcementsDeliveryModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {announcementsDeliveryModelImpl.getUserId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((announcementsDeliveryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					announcementsDeliveryModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {
-					announcementsDeliveryModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((announcementsDeliveryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					announcementsDeliveryModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {
-					announcementsDeliveryModelImpl.getUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryImpl.class,
 			announcementsDelivery.getPrimaryKey(), announcementsDelivery,
 			false);
 
-		clearUniqueFindersCache(announcementsDeliveryModelImpl, false);
 		cacheUniqueFindersCache(announcementsDeliveryModelImpl);
 
 		announcementsDelivery.resetOriginalValues();
@@ -2044,85 +1927,89 @@ public class AnnouncementsDeliveryPersistenceImpl
 	 * Initializes the announcements delivery persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class,
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class,
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class,
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class,
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			AnnouncementsDeliveryModelImpl.COMPANYID_COLUMN_BITMASK);
 
-		_finderPathCountByCompanyId = new FinderPath(
+		_finderPathCountByCompanyId = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+		_finderPathWithPaginationFindByUserId = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class,
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class,
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
 			AnnouncementsDeliveryModelImpl.USERID_COLUMN_BITMASK);
 
-		_finderPathCountByUserId = new FinderPath(
+		_finderPathCountByUserId = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
-		_finderPathFetchByU_T = new FinderPath(
+		_finderPathFetchByU_T = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
 			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
-			AnnouncementsDeliveryImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByU_T",
+			AnnouncementsDeliveryImpl.class, AnnouncementsDeliveryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByU_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			AnnouncementsDeliveryModelImpl.USERID_COLUMN_BITMASK |
 			AnnouncementsDeliveryModelImpl.TYPE_COLUMN_BITMASK);
 
-		_finderPathCountByU_T = new FinderPath(
+		_finderPathCountByU_T = FinderPathUtil.create(
 			AnnouncementsDeliveryModelImpl.ENTITY_CACHE_ENABLED,
-			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			AnnouncementsDeliveryModelImpl.FINDER_CACHE_ENABLED,
+			AnnouncementsDeliveryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
