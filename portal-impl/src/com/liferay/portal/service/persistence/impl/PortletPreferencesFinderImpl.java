@@ -16,6 +16,7 @@ package com.liferay.portal.service.persistence.impl;
 
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
@@ -61,10 +62,10 @@ public class PortletPreferencesFinderImpl
 		PortletPreferencesFinder.class.getName() + ".findByC_G_O_O_P_P";
 
 	public static final FinderPath FINDER_PATH_FIND_BY_C_G_O_O_P_P =
-		new FinderPath(
+		FinderPathUtil.create(
 			PortletPreferencesModelImpl.ENTITY_CACHE_ENABLED,
 			PortletPreferencesModelImpl.FINDER_CACHE_ENABLED,
-			PortletPreferencesImpl.class,
+			PortletPreferencesImpl.class, PortletPreferencesImpl.class,
 			PortletPreferencesPersistenceImpl.
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByC_G_O_O_P_P",

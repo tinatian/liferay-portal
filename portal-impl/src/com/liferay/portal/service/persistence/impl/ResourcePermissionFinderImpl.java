@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
+import com.liferay.portal.kernel.dao.orm.FinderPathUtil;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -59,9 +60,10 @@ public class ResourcePermissionFinderImpl
 		ResourcePermissionFinder.class.getName() + ".findByR_S";
 
 	public static final FinderPath FINDER_PATH_COUNT_BY_C_N_S_P_R_A =
-		new FinderPath(
+		FinderPathUtil.create(
 			ResourcePermissionModelImpl.ENTITY_CACHE_ENABLED,
-			ResourcePermissionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			ResourcePermissionModelImpl.FINDER_CACHE_ENABLED,
+			ResourcePermissionModelImpl.class, Long.class,
 			ResourcePermissionPersistenceImpl.
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"countByC_N_S_P_R_A",
