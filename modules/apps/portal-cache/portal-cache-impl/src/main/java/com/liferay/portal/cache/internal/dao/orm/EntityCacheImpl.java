@@ -172,7 +172,7 @@ public class EntityCacheImpl
 			}
 		}
 
-		return _toEntityModel(result);
+		return result;
 	}
 
 	@Override
@@ -303,10 +303,6 @@ public class EntityCacheImpl
 
 			return;
 		}
-
-		BaseModel<?> baseModel = (BaseModel<?>)result;
-
-		result = baseModel.toCacheModel();
 
 		if (_isLocalCacheEnabled()) {
 			Map<Serializable, Serializable> localCache = _localCache.get();

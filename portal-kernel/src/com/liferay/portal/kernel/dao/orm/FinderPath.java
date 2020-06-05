@@ -19,12 +19,18 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.cache.key.CacheKeyGenerator;
 import com.liferay.portal.kernel.cache.key.CacheKeyGeneratorUtil;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceRegistrar;
 
 import java.io.Serializable;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 /**
  * @author Brian Wing Shun Chan
@@ -32,46 +38,107 @@ import java.util.Map;
  */
 public class FinderPath {
 
+	public static FinderPath create(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params) {
+
+		return create(
+			entityCacheEnabled, finderCacheEnabled, modelImplClass, resultClass,
+			cacheName, methodName, params, -1, null, null);
+	}
+
+	public static FinderPath create(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params,
+		Function<BaseModel<?>, Object[]> argumentsFunction,
+		Function<BaseModel<?>, Object[]> originalArgumentsFunction) {
+
+		return create(
+			entityCacheEnabled, finderCacheEnabled, modelImplClass, resultClass,
+			cacheName, methodName, params, -1, argumentsFunction,
+			originalArgumentsFunction);
+	}
+
+	public static FinderPath create(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params, long columnBitmask) {
+
+		return create(
+			entityCacheEnabled, finderCacheEnabled, modelImplClass, resultClass,
+			cacheName, methodName, params, columnBitmask, null, null);
+	}
+
+	public static FinderPath create(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params, long columnBitmask,
+		Function<BaseModel<?>, Object[]> argumentsFunction,
+		Function<BaseModel<?>, Object[]> originalArgumentsFunction) {
+
+		FinderPath finderPath = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, modelImplClass, resultClass,
+			cacheName, methodName, params, columnBitmask, argumentsFunction,
+			originalArgumentsFunction);
+
+		ServiceRegistrar serviceRegistrar = _serviceRegistrars.computeIfAbsent(
+			cacheName,
+			key -> {
+				Registry registry = RegistryUtil.getRegistry();
+
+				return registry.getServiceRegistrar(FinderPath.class);
+			});
+
+		serviceRegistrar.registerService(
+			FinderPath.class, finderPath,
+			HashMapBuilder.put(
+				"cache.name", cacheName
+			).build());
+
+		return finderPath;
+	}
+
+	public static void delete(String cacheName) {
+		ServiceRegistrar serviceRegistrar = _serviceRegistrars.remove(
+			cacheName);
+
+		if (serviceRegistrar != null) {
+			serviceRegistrar.destroy();
+		}
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *          #FinderPath(boolean, boolean, Class, Class, String, String,
+	 *          String[], long, Function, Function)}
+	 */
+	@Deprecated
 	public FinderPath(
 		boolean entityCacheEnabled, boolean finderCacheEnabled,
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params) {
 
 		this(
-			entityCacheEnabled, finderCacheEnabled, resultClass, cacheName,
-			methodName, params, -1);
+			entityCacheEnabled, finderCacheEnabled, null, resultClass,
+			cacheName, methodName, params, -1, null, null);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *          #FinderPath(boolean, boolean, Class, Class, String, String,
+	 *          String[], long, Function, Function)}
+	 */
+	@Deprecated
 	public FinderPath(
 		boolean entityCacheEnabled, boolean finderCacheEnabled,
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params, long columnBitmask) {
 
-		_entityCacheEnabled = entityCacheEnabled;
-		_finderCacheEnabled = finderCacheEnabled;
-		_resultClass = resultClass;
-		_cacheName = cacheName;
-		_columnBitmask = columnBitmask;
-
-		if (BaseModel.class.isAssignableFrom(_resultClass)) {
-			_cacheKeyGeneratorCacheName = _BASE_MODEL_CACHE_KEY_GENERATOR_NAME;
-		}
-		else {
-			_cacheKeyGeneratorCacheName = FinderCache.class.getName();
-		}
-
-		CacheKeyGenerator cacheKeyGenerator =
-			CacheKeyGeneratorUtil.getCacheKeyGenerator(
-				_cacheKeyGeneratorCacheName);
-
-		if (cacheKeyGenerator.isCallingGetCacheKeyThreadSafe()) {
-			_cacheKeyGenerator = cacheKeyGenerator;
-		}
-		else {
-			_cacheKeyGenerator = null;
-		}
-
-		_initCacheKeyPrefix(methodName, params);
+		this(
+			entityCacheEnabled, finderCacheEnabled, null, resultClass,
+			cacheName, methodName, params, columnBitmask, null, null);
 	}
 
 	/**
@@ -141,12 +208,36 @@ public class FinderPath {
 			});
 	}
 
+	public Object[] getArguments(BaseModel<?> baseModel) {
+		if (_argumentsFunction == null) {
+			return null;
+		}
+
+		return _argumentsFunction.apply(baseModel);
+	}
+
 	public String getCacheName() {
 		return _cacheName;
 	}
 
 	public long getColumnBitmask() {
 		return _columnBitmask;
+	}
+
+	public Class<?> getModelImplClass() {
+		return _modelImplClass;
+	}
+
+	public Object[] getOriginalArguments(BaseModel<?> baseModel) {
+		if (_originalArgumentsFunction == null) {
+			return null;
+		}
+
+		return _originalArgumentsFunction.apply(baseModel);
+	}
+
+	public String[] getParams() {
+		return _params;
 	}
 
 	public Class<?> getResultClass() {
@@ -187,6 +278,44 @@ public class FinderPath {
 		).build();
 	}
 
+	private FinderPath(
+		boolean entityCacheEnabled, boolean finderCacheEnabled,
+		Class<?> modelImplClass, Class<?> resultClass, String cacheName,
+		String methodName, String[] params, long columnBitmask,
+		Function<BaseModel<?>, Object[]> argumentsFunction,
+		Function<BaseModel<?>, Object[]> originalArgumentsFunction) {
+
+		_entityCacheEnabled = entityCacheEnabled;
+		_finderCacheEnabled = finderCacheEnabled;
+		_modelImplClass = modelImplClass;
+		_resultClass = resultClass;
+		_cacheName = cacheName;
+		_params = params;
+		_columnBitmask = columnBitmask;
+		_argumentsFunction = argumentsFunction;
+		_originalArgumentsFunction = originalArgumentsFunction;
+
+		if (CacheModel.class.isAssignableFrom(_resultClass)) {
+			_cacheKeyGeneratorCacheName = _BASE_MODEL_CACHE_KEY_GENERATOR_NAME;
+		}
+		else {
+			_cacheKeyGeneratorCacheName = FinderCache.class.getName();
+		}
+
+		CacheKeyGenerator cacheKeyGenerator =
+			CacheKeyGeneratorUtil.getCacheKeyGenerator(
+				_cacheKeyGeneratorCacheName);
+
+		if (cacheKeyGenerator.isCallingGetCacheKeyThreadSafe()) {
+			_cacheKeyGenerator = cacheKeyGenerator;
+		}
+		else {
+			_cacheKeyGenerator = null;
+		}
+
+		_initCacheKeyPrefix(methodName, params);
+	}
+
 	private Serializable _getCacheKey(String[] keys) {
 		CacheKeyGenerator cacheKeyGenerator = _cacheKeyGenerator;
 
@@ -217,12 +346,15 @@ public class FinderPath {
 	private static final String _ARGS_SEPARATOR = "_A_";
 
 	private static final String _BASE_MODEL_CACHE_KEY_GENERATOR_NAME =
-		FinderCache.class.getName() + "#BaseModel";
+		FinderCache.class.getName() + "#CacheModel";
 
 	private static final String _PARAMS_SEPARATOR = "_P_";
 
 	private static final Map<String, String> _encodedTypes = _getEncodedTypes();
+	private static final Map<String, ServiceRegistrar> _serviceRegistrars =
+		new ConcurrentHashMap<>();
 
+	private final Function<BaseModel<?>, Object[]> _argumentsFunction;
 	private final CacheKeyGenerator _cacheKeyGenerator;
 	private final String _cacheKeyGeneratorCacheName;
 	private String _cacheKeyPrefix;
@@ -230,6 +362,9 @@ public class FinderPath {
 	private final long _columnBitmask;
 	private final boolean _entityCacheEnabled;
 	private final boolean _finderCacheEnabled;
+	private final Class<?> _modelImplClass;
+	private final Function<BaseModel<?>, Object[]> _originalArgumentsFunction;
+	private final String[] _params;
 	private final Class<?> _resultClass;
 
 }

@@ -14,6 +14,8 @@
 
 package com.liferay.portal.cache.internal.dao.orm;
 
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringPool;
@@ -47,8 +49,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.collections.map.LRUMap;
 
+import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
@@ -75,9 +79,11 @@ public class FinderCacheImpl
 	public void clearCache(String className) {
 		clearLocalCache();
 
-		PortalCache<?, ?> portalCache = _getPortalCache(className);
+		PortalCache<?, ?> portalCache = _getPortalCache(className, null);
 
-		portalCache.removeAll();
+		if (portalCache != null) {
+			portalCache.removeAll();
+		}
 	}
 
 	@Override
@@ -125,7 +131,8 @@ public class FinderCacheImpl
 
 		if (cacheValue == null) {
 			PortalCache<Serializable, Serializable> portalCache =
-				_getPortalCache(finderPath.getCacheName());
+				_getPortalCache(
+					finderPath.getCacheName(), finderPath.getModelImplClass());
 
 			cacheValue = portalCache.get(cacheKey);
 
@@ -257,7 +264,7 @@ public class FinderCacheImpl
 		}
 
 		PortalCache<Serializable, Serializable> portalCache = _getPortalCache(
-			finderPath.getCacheName());
+			finderPath.getCacheName(), finderPath.getModelImplClass());
 
 		if (quiet) {
 			PortalCacheHelperUtil.putWithoutReplicator(
@@ -275,6 +282,19 @@ public class FinderCacheImpl
 		String groupKey = _GROUP_KEY_PREFIX.concat(className);
 
 		_multiVMPool.removePortalCache(groupKey);
+
+		FinderCachePortalCacheListener<Serializable, Serializable>
+			finderCachePortalCacheListener =
+				_finderCachePortalCacheListeners.remove(className);
+
+		if (finderCachePortalCacheListener != null) {
+			PortalCache<Serializable, Serializable> portalCache =
+				_entityCache.getPortalCache(
+					finderCachePortalCacheListener.getClass());
+
+			portalCache.unregisterPortalCacheListener(
+				finderCachePortalCacheListener);
+		}
 	}
 
 	@Override
@@ -291,7 +311,7 @@ public class FinderCacheImpl
 
 	@Activate
 	@Modified
-	protected void activate() {
+	protected void activate(BundleContext bundleContext) {
 		_valueObjectFinderCacheEnabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_ENABLED));
 		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
@@ -318,10 +338,14 @@ public class FinderCacheImpl
 			portalCacheManager = _multiVMPool.getPortalCacheManager();
 
 		portalCacheManager.registerPortalCacheManagerListener(this);
+
+		_serviceTrackerMap = ServiceTrackerMapFactory.openMultiValueMap(
+			bundleContext, FinderPath.class, "cache.name");
 	}
 
-	@Reference(unbind = "-")
-	protected void setEntityCache(EntityCache entityCache) {
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerMap.close();
 	}
 
 	@Reference(unbind = "-")
@@ -335,13 +359,17 @@ public class FinderCacheImpl
 	}
 
 	private PortalCache<Serializable, Serializable> _getPortalCache(
-		String className) {
+		String className, Class<?> modelImplClass) {
 
 		PortalCache<Serializable, Serializable> portalCache = _portalCaches.get(
 			className);
 
 		if (portalCache != null) {
 			return portalCache;
+		}
+
+		if (modelImplClass == null) {
+			return null;
 		}
 
 		String groupKey = _GROUP_KEY_PREFIX.concat(className);
@@ -354,7 +382,26 @@ public class FinderCacheImpl
 			_portalCaches.putIfAbsent(className, portalCache);
 
 		if (previousPortalCache != null) {
-			return previousPortalCache;
+			portalCache = previousPortalCache;
+		}
+
+		if (className.equals(modelImplClass.getName())) {
+			PortalCache<Serializable, Serializable> entityPortalCache =
+				_entityCache.getPortalCache(modelImplClass);
+
+			_finderCachePortalCacheListeners.computeIfAbsent(
+				className,
+				key -> {
+					FinderCachePortalCacheListener<Serializable, Serializable>
+						finderCachePortalCacheListener =
+							new FinderCachePortalCacheListener<>(
+								this, className, true, _serviceTrackerMap);
+
+					entityPortalCache.registerPortalCacheListener(
+						finderCachePortalCacheListener);
+
+					return finderCachePortalCacheListener;
+				});
 		}
 
 		return portalCache;
@@ -379,19 +426,28 @@ public class FinderCacheImpl
 		}
 
 		PortalCache<Serializable, Serializable> portalCache = _getPortalCache(
-			finderPath.getCacheName());
+			finderPath.getCacheName(), null);
 
-		portalCache.remove(cacheKey);
+		if (portalCache != null) {
+			portalCache.remove(cacheKey);
+		}
 	}
 
 	private static final String _GROUP_KEY_PREFIX =
 		FinderCache.class.getName() + StringPool.PERIOD;
 
+	@Reference
+	private EntityCache _entityCache;
+
+	private final Map
+		<String, FinderCachePortalCacheListener<Serializable, Serializable>>
+			_finderCachePortalCacheListeners = new ConcurrentHashMap<>();
 	private ThreadLocal<LRUMap> _localCache;
 	private MultiVMPool _multiVMPool;
 	private final ConcurrentMap<String, PortalCache<Serializable, Serializable>>
 		_portalCaches = new ConcurrentHashMap<>();
 	private Props _props;
+	private ServiceTrackerMap<String, List<FinderPath>> _serviceTrackerMap;
 	private boolean _valueObjectFinderCacheEnabled;
 	private int _valueObjectFinderCacheListThreshold;
 
