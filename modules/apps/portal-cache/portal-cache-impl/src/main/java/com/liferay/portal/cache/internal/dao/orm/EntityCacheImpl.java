@@ -172,6 +172,10 @@ public class EntityCacheImpl
 			}
 		}
 
+		if (result == StringPool.BLANK) {
+			return null;
+		}
+
 		return result;
 	}
 
