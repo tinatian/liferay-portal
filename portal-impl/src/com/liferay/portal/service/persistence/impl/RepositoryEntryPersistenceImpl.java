@@ -2312,10 +2312,6 @@ public class RepositoryEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(RepositoryEntryImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2330,35 +2326,19 @@ public class RepositoryEntryPersistenceImpl
 		EntityCacheUtil.removeResult(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryImpl.class, repositoryEntry.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(RepositoryEntryModelImpl)repositoryEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<RepositoryEntry> repositoryEntries) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (RepositoryEntry repositoryEntry : repositoryEntries) {
 			EntityCacheUtil.removeResult(
 				RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 				RepositoryEntryImpl.class, repositoryEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(RepositoryEntryModelImpl)repositoryEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
@@ -2388,55 +2368,6 @@ public class RepositoryEntryPersistenceImpl
 			_finderPathCountByR_M, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByR_M, args, repositoryEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RepositoryEntryModelImpl repositoryEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				repositoryEntryModelImpl.getUuid(),
-				repositoryEntryModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((repositoryEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				repositoryEntryModelImpl.getOriginalUuid(),
-				repositoryEntryModelImpl.getOriginalGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUUID_G, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				repositoryEntryModelImpl.getRepositoryId(),
-				repositoryEntryModelImpl.getMappedId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByR_M, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByR_M, args);
-		}
-
-		if ((repositoryEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByR_M.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				repositoryEntryModelImpl.getOriginalRepositoryId(),
-				repositoryEntryModelImpl.getOriginalMappedId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByR_M, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByR_M, args);
-		}
 	}
 
 	/**
@@ -2624,112 +2555,11 @@ public class RepositoryEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!RepositoryEntryModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {repositoryEntryModelImpl.getUuid()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				repositoryEntryModelImpl.getUuid(),
-				repositoryEntryModelImpl.getCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {repositoryEntryModelImpl.getRepositoryId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByRepositoryId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByRepositoryId, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((repositoryEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					repositoryEntryModelImpl.getOriginalUuid()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {repositoryEntryModelImpl.getUuid()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((repositoryEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					repositoryEntryModelImpl.getOriginalUuid(),
-					repositoryEntryModelImpl.getOriginalCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					repositoryEntryModelImpl.getUuid(),
-					repositoryEntryModelImpl.getCompanyId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUuid_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((repositoryEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRepositoryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					repositoryEntryModelImpl.getOriginalRepositoryId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByRepositoryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByRepositoryId, args);
-
-				args = new Object[] {
-					repositoryEntryModelImpl.getRepositoryId()
-				};
-
-				FinderCacheUtil.removeResult(
-					_finderPathCountByRepositoryId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByRepositoryId, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryImpl.class, repositoryEntry.getPrimaryKey(),
 			repositoryEntry, false);
 
-		clearUniqueFindersCache(repositoryEntryModelImpl, false);
 		cacheUniqueFindersCache(repositoryEntryModelImpl);
 
 		repositoryEntry.resetOriginalValues();
@@ -3004,134 +2834,318 @@ public class RepositoryEntryPersistenceImpl
 	 * Initializes the repository entry persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
-			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
+			RepositoryEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK);
+			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathCountByUuid = new FinderPath(
-			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
-			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+				return new Object[] {repositoryEntryModelImpl.getUuid()};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathFetchByUUID_G = new FinderPath(
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalUuid()
+				};
+			});
+
+		_finderPathCountByUuid = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			RepositoryEntryImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()},
+			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {repositoryEntryModelImpl.getUuid()};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalUuid()
+				};
+			});
+
+		_finderPathFetchByUUID_G = FinderPath.create(
+			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
+			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK |
-			RepositoryEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			RepositoryEntryModelImpl.GROUPID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathCountByUUID_G = new FinderPath(
-			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
-			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					repositoryEntryModelImpl.getUuid(),
+					repositoryEntryModelImpl.getGroupId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalUuid(),
+					repositoryEntryModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathCountByUUID_G = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			RepositoryEntryImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK |
+			RepositoryEntryModelImpl.GROUPID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getUuid(),
+					repositoryEntryModelImpl.getGroupId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalUuid(),
+					repositoryEntryModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathWithPaginationFindByUuid_C = FinderPath.create(
+			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
+			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK |
-			RepositoryEntryModelImpl.COMPANYID_COLUMN_BITMASK);
+			RepositoryEntryModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathCountByUuid_C = new FinderPath(
-			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
-			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					repositoryEntryModelImpl.getUuid(),
+					repositoryEntryModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByRepositoryId = new FinderPath(
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalUuid(),
+					repositoryEntryModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByUuid_C = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByRepositoryId",
+			RepositoryEntryImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			RepositoryEntryModelImpl.UUID_COLUMN_BITMASK |
+			RepositoryEntryModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getUuid(),
+					repositoryEntryModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalUuid(),
+					repositoryEntryModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathWithPaginationFindByRepositoryId = FinderPath.create(
+			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
+			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRepositoryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByRepositoryId = new FinderPath(
+		_finderPathWithoutPaginationFindByRepositoryId = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRepositoryId",
 			new String[] {Long.class.getName()},
-			RepositoryEntryModelImpl.REPOSITORYID_COLUMN_BITMASK);
+			RepositoryEntryModelImpl.REPOSITORYID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathCountByRepositoryId = new FinderPath(
-			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
-			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRepositoryId",
-			new String[] {Long.class.getName()});
+				return new Object[] {
+					repositoryEntryModelImpl.getRepositoryId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathFetchByR_M = new FinderPath(
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalRepositoryId()
+				};
+			});
+
+		_finderPathCountByRepositoryId = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
 			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
-			RepositoryEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByR_M",
+			RepositoryEntryImpl.class, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRepositoryId",
+			new String[] {Long.class.getName()},
+			RepositoryEntryModelImpl.REPOSITORYID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getRepositoryId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalRepositoryId()
+				};
+			});
+
+		_finderPathFetchByR_M = FinderPath.create(
+			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
+			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
+			RepositoryEntryImpl.class, RepositoryEntryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByR_M",
 			new String[] {Long.class.getName(), String.class.getName()},
 			RepositoryEntryModelImpl.REPOSITORYID_COLUMN_BITMASK |
-			RepositoryEntryModelImpl.MAPPEDID_COLUMN_BITMASK);
+			RepositoryEntryModelImpl.MAPPEDID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
 
-		_finderPathCountByR_M = new FinderPath(
+				return new Object[] {
+					repositoryEntryModelImpl.getRepositoryId(),
+					repositoryEntryModelImpl.getMappedId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalRepositoryId(),
+					repositoryEntryModelImpl.getOriginalMappedId()
+				};
+			});
+
+		_finderPathCountByR_M = FinderPath.create(
 			RepositoryEntryModelImpl.ENTITY_CACHE_ENABLED,
-			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			RepositoryEntryModelImpl.FINDER_CACHE_ENABLED,
+			RepositoryEntryImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_M",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {Long.class.getName(), String.class.getName()},
+			RepositoryEntryModelImpl.REPOSITORYID_COLUMN_BITMASK |
+			RepositoryEntryModelImpl.MAPPEDID_COLUMN_BITMASK,
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getRepositoryId(),
+					repositoryEntryModelImpl.getMappedId()
+				};
+			},
+			baseModel -> {
+				RepositoryEntryModelImpl repositoryEntryModelImpl =
+					(RepositoryEntryModelImpl)baseModel;
+
+				return new Object[] {
+					repositoryEntryModelImpl.getOriginalRepositoryId(),
+					repositoryEntryModelImpl.getOriginalMappedId()
+				};
+			});
 	}
 
 	public void destroy() {
 		EntityCacheUtil.removeCache(RepositoryEntryImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	private static final String _SQL_SELECT_REPOSITORYENTRY =

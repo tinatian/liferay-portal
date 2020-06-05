@@ -12629,10 +12629,6 @@ public class BookmarksEntryPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(BookmarksEntryImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -12647,34 +12643,19 @@ public class BookmarksEntryPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, BookmarksEntryImpl.class,
 			bookmarksEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((BookmarksEntryModelImpl)bookmarksEntry, true);
 	}
 
 	@Override
 	public void clearCache(List<BookmarksEntry> bookmarksEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BookmarksEntry bookmarksEntry : bookmarksEntries) {
 			entityCache.removeResult(
 				entityCacheEnabled, BookmarksEntryImpl.class,
 				bookmarksEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(BookmarksEntryModelImpl)bookmarksEntry, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, BookmarksEntryImpl.class, primaryKey);
@@ -12693,32 +12674,6 @@ public class BookmarksEntryPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, bookmarksEntryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		BookmarksEntryModelImpl bookmarksEntryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				bookmarksEntryModelImpl.getUuid(),
-				bookmarksEntryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((bookmarksEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				bookmarksEntryModelImpl.getOriginalUuid(),
-				bookmarksEntryModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -12902,277 +12857,10 @@ public class BookmarksEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {bookmarksEntryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				bookmarksEntryModelImpl.getUuid(),
-				bookmarksEntryModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {bookmarksEntryModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				bookmarksEntryModelImpl.getGroupId(),
-				bookmarksEntryModelImpl.getFolderId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_F, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_F, args);
-
-			args = new Object[] {
-				bookmarksEntryModelImpl.getGroupId(),
-				bookmarksEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_S, args);
-
-			args = new Object[] {
-				bookmarksEntryModelImpl.getGroupId(),
-				bookmarksEntryModelImpl.getUserId(),
-				bookmarksEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_U_S, args);
-
-			args = new Object[] {
-				bookmarksEntryModelImpl.getGroupId(),
-				bookmarksEntryModelImpl.getFolderId(),
-				bookmarksEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_F_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_F_S, args);
-
-			args = new Object[] {
-				bookmarksEntryModelImpl.getGroupId(),
-				bookmarksEntryModelImpl.getUserId(),
-				bookmarksEntryModelImpl.getFolderId(),
-				bookmarksEntryModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_U_F_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_U_F_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {bookmarksEntryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalUuid(),
-					bookmarksEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					bookmarksEntryModelImpl.getUuid(),
-					bookmarksEntryModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {bookmarksEntryModelImpl.getCompanyId()};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalFolderId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_F, args);
-
-				args = new Object[] {
-					bookmarksEntryModelImpl.getGroupId(),
-					bookmarksEntryModelImpl.getFolderId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_F, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-
-				args = new Object[] {
-					bookmarksEntryModelImpl.getGroupId(),
-					bookmarksEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalUserId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U_S, args);
-
-				args = new Object[] {
-					bookmarksEntryModelImpl.getGroupId(),
-					bookmarksEntryModelImpl.getUserId(),
-					bookmarksEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U_S, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_F_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalFolderId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_F_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_F_S, args);
-
-				args = new Object[] {
-					bookmarksEntryModelImpl.getGroupId(),
-					bookmarksEntryModelImpl.getFolderId(),
-					bookmarksEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_F_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_F_S, args);
-			}
-
-			if ((bookmarksEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_U_F_S.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					bookmarksEntryModelImpl.getOriginalGroupId(),
-					bookmarksEntryModelImpl.getOriginalUserId(),
-					bookmarksEntryModelImpl.getOriginalFolderId(),
-					bookmarksEntryModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U_F_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U_F_S, args);
-
-				args = new Object[] {
-					bookmarksEntryModelImpl.getGroupId(),
-					bookmarksEntryModelImpl.getUserId(),
-					bookmarksEntryModelImpl.getFolderId(),
-					bookmarksEntryModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_U_F_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_U_F_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, BookmarksEntryImpl.class,
 			bookmarksEntry.getPrimaryKey(), bookmarksEntry, false);
 
-		clearUniqueFindersCache(bookmarksEntryModelImpl, false);
 		cacheUniqueFindersCache(bookmarksEntryModelImpl);
 
 		bookmarksEntry.resetOriginalValues();
@@ -13450,187 +13138,419 @@ public class BookmarksEntryPersistenceImpl
 		BookmarksEntryModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		BookmarksEntryModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			BookmarksEntryModelImpl.UUID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+				return new Object[] {bookmarksEntryModelImpl.getUuid()};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathFetchByUUID_G = new FinderPath(
+				return new Object[] {bookmarksEntryModelImpl.getOriginalUuid()};
+			});
+
+		_finderPathCountByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()},
+			BookmarksEntryModelImpl.UUID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {bookmarksEntryModelImpl.getUuid()};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {bookmarksEntryModelImpl.getOriginalUuid()};
+			});
+
+		_finderPathFetchByUUID_G = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			BookmarksEntryModelImpl.UUID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					bookmarksEntryModelImpl.getUuid(),
+					bookmarksEntryModelImpl.getGroupId()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalUuid(),
+					bookmarksEntryModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathCountByUUID_G = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			BookmarksEntryModelImpl.UUID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getUuid(),
+					bookmarksEntryModelImpl.getGroupId()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalUuid(),
+					bookmarksEntryModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathWithPaginationFindByUuid_C = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			BookmarksEntryModelImpl.UUID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.COMPANYID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					bookmarksEntryModelImpl.getUuid(),
+					bookmarksEntryModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalUuid(),
+					bookmarksEntryModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			BookmarksEntryModelImpl.UUID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.COMPANYID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getUuid(),
+					bookmarksEntryModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalUuid(),
+					bookmarksEntryModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathWithPaginationFindByCompanyId = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] {Long.class.getName()},
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompanyId", new String[] {Long.class.getName()},
 			BookmarksEntryModelImpl.COMPANYID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+				return new Object[] {bookmarksEntryModelImpl.getCompanyId()};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByG_F = new FinderPath(
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByCompanyId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()},
+			BookmarksEntryModelImpl.COMPANYID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {bookmarksEntryModelImpl.getCompanyId()};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathWithPaginationFindByG_F = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_F = new FinderPath(
+		_finderPathWithoutPaginationFindByG_F = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByG_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F",
-			new String[] {Long.class.getName(), Long.class.getName()});
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getFolderId()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationCountByG_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F",
-			new String[] {Long.class.getName(), Long.class.getName()});
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalFolderId()
+				};
+			});
 
-		_finderPathWithPaginationFindByG_S = new FinderPath(
+		_finderPathCountByG_F = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F",
+			new String[] {Long.class.getName(), Long.class.getName()},
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getFolderId()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalFolderId()
+				};
+			});
+
+		_finderPathWithPaginationCountByG_F = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByG_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByG_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByG_NotS = new FinderPath(
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathCountByG_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_NotS",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
+			new String[] {Long.class.getName(), Integer.class.getName()},
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathWithPaginationFindByG_NotS = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_NotS",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByG_NotS = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotS",
+		_finderPathWithPaginationCountByG_NotS = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotS",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
-		_finderPathWithPaginationFindByC_NotS = new FinderPath(
+		_finderPathWithPaginationFindByC_NotS = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_NotS",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_NotS",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByC_NotS = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_NotS",
+		_finderPathWithPaginationCountByC_NotS = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_NotS",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
-		_finderPathWithPaginationFindByG_U_S = new FinderPath(
+		_finderPathWithPaginationFindByG_U_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_U_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_U_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -13639,45 +13559,95 @@ public class BookmarksEntryPersistenceImpl
 			BookmarksEntryModelImpl.USERID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByG_U_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_S",
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getUserId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalUserId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathCountByG_U_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_U_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
+			},
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.USERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getUserId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalUserId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
 			});
 
-		_finderPathWithPaginationFindByG_U_NotS = new FinderPath(
+		_finderPathWithPaginationFindByG_U_NotS = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_NotS",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByG_U_NotS = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_U_NotS",
+		_finderPathWithPaginationCountByG_U_NotS = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByG_U_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			});
 
-		_finderPathWithPaginationFindByG_F_S = new FinderPath(
+		_finderPathWithPaginationFindByG_F_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_F_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_F_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -13685,44 +13655,92 @@ public class BookmarksEntryPersistenceImpl
 			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByG_F_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getFolderId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalFolderId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
 			});
 
-		_finderPathWithPaginationCountByG_F_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_S",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			});
-
-		_finderPathWithPaginationFindByG_F_NotS = new FinderPath(
+		_finderPathCountByG_F_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F_NotS",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_F_S",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			},
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getFolderId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalFolderId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathWithPaginationCountByG_F_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_S",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			});
+
+		_finderPathWithPaginationFindByG_F_NotS = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_F_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByG_F_NotS = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_NotS",
+		_finderPathWithPaginationCountByG_F_NotS = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByG_F_NotS",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
 			});
 
-		_finderPathWithPaginationFindByG_U_F_S = new FinderPath(
+		_finderPathWithPaginationFindByG_U_F_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_F_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
@@ -13730,9 +13748,10 @@ public class BookmarksEntryPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_U_F_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_U_F_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_F_S",
+			BookmarksEntryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
@@ -13741,19 +13760,70 @@ public class BookmarksEntryPersistenceImpl
 			BookmarksEntryModelImpl.USERID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
 			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
-			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK);
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
 
-		_finderPathCountByG_U_F_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_F_S",
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getUserId(),
+					bookmarksEntryModelImpl.getFolderId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalUserId(),
+					bookmarksEntryModelImpl.getOriginalFolderId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathCountByG_U_F_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
+			},
+			BookmarksEntryModelImpl.GROUPID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.USERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.FOLDERID_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.STATUS_COLUMN_BITMASK |
+			BookmarksEntryModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getGroupId(),
+					bookmarksEntryModelImpl.getUserId(),
+					bookmarksEntryModelImpl.getFolderId(),
+					bookmarksEntryModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				BookmarksEntryModelImpl bookmarksEntryModelImpl =
+					(BookmarksEntryModelImpl)baseModel;
+
+				return new Object[] {
+					bookmarksEntryModelImpl.getOriginalGroupId(),
+					bookmarksEntryModelImpl.getOriginalUserId(),
+					bookmarksEntryModelImpl.getOriginalFolderId(),
+					bookmarksEntryModelImpl.getOriginalStatus()
+				};
 			});
 
-		_finderPathWithPaginationCountByG_U_F_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_U_F_S",
+		_finderPathWithPaginationCountByG_U_F_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, BookmarksEntryImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByG_U_F_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName()
@@ -13763,9 +13833,10 @@ public class BookmarksEntryPersistenceImpl
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(BookmarksEntryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override

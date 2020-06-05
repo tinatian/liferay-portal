@@ -339,10 +339,6 @@ public class BrowserTrackerPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(BrowserTrackerImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -357,34 +353,19 @@ public class BrowserTrackerPersistenceImpl
 		EntityCacheUtil.removeResult(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
 			BrowserTrackerImpl.class, browserTracker.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((BrowserTrackerModelImpl)browserTracker, true);
 	}
 
 	@Override
 	public void clearCache(List<BrowserTracker> browserTrackers) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BrowserTracker browserTracker : browserTrackers) {
 			EntityCacheUtil.removeResult(
 				BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
 				BrowserTrackerImpl.class, browserTracker.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(BrowserTrackerModelImpl)browserTracker, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
@@ -401,28 +382,6 @@ public class BrowserTrackerPersistenceImpl
 			_finderPathCountByUserId, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByUserId, args, browserTrackerModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		BrowserTrackerModelImpl browserTrackerModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {browserTrackerModelImpl.getUserId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUserId, args);
-		}
-
-		if ((browserTrackerModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUserId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				browserTrackerModelImpl.getOriginalUserId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByUserId, args);
-		}
 	}
 
 	/**
@@ -574,25 +533,11 @@ public class BrowserTrackerPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!BrowserTrackerModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		EntityCacheUtil.putResult(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
 			BrowserTrackerImpl.class, browserTracker.getPrimaryKey(),
 			browserTracker, false);
 
-		clearUniqueFindersCache(browserTrackerModelImpl, false);
 		cacheUniqueFindersCache(browserTrackerModelImpl);
 
 		browserTracker.resetOriginalValues();
@@ -861,43 +806,77 @@ public class BrowserTrackerPersistenceImpl
 	 * Initializes the browser tracker persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
 			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED,
-			BrowserTrackerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			BrowserTrackerImpl.class, BrowserTrackerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
 			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED,
-			BrowserTrackerImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			BrowserTrackerImpl.class, BrowserTrackerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPath.create(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
-			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED,
+			BrowserTrackerImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByUserId = new FinderPath(
+		_finderPathFetchByUserId = FinderPath.create(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
 			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED,
-			BrowserTrackerImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
+			BrowserTrackerImpl.class, BrowserTrackerImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
 			new String[] {Long.class.getName()},
-			BrowserTrackerModelImpl.USERID_COLUMN_BITMASK);
+			BrowserTrackerModelImpl.USERID_COLUMN_BITMASK,
+			baseModel -> {
+				BrowserTrackerModelImpl browserTrackerModelImpl =
+					(BrowserTrackerModelImpl)baseModel;
 
-		_finderPathCountByUserId = new FinderPath(
+				return new Object[] {browserTrackerModelImpl.getUserId()};
+			},
+			baseModel -> {
+				BrowserTrackerModelImpl browserTrackerModelImpl =
+					(BrowserTrackerModelImpl)baseModel;
+
+				return new Object[] {
+					browserTrackerModelImpl.getOriginalUserId()
+				};
+			});
+
+		_finderPathCountByUserId = FinderPath.create(
 			BrowserTrackerModelImpl.ENTITY_CACHE_ENABLED,
-			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			BrowserTrackerModelImpl.FINDER_CACHE_ENABLED,
+			BrowserTrackerImpl.class, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			BrowserTrackerModelImpl.USERID_COLUMN_BITMASK,
+			baseModel -> {
+				BrowserTrackerModelImpl browserTrackerModelImpl =
+					(BrowserTrackerModelImpl)baseModel;
+
+				return new Object[] {browserTrackerModelImpl.getUserId()};
+			},
+			baseModel -> {
+				BrowserTrackerModelImpl browserTrackerModelImpl =
+					(BrowserTrackerModelImpl)baseModel;
+
+				return new Object[] {
+					browserTrackerModelImpl.getOriginalUserId()
+				};
+			});
 	}
 
 	public void destroy() {
 		EntityCacheUtil.removeCache(BrowserTrackerImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	private static final String _SQL_SELECT_BROWSERTRACKER =

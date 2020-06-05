@@ -2333,10 +2333,6 @@ public class DispatchTriggerPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(DispatchTriggerImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2351,35 +2347,19 @@ public class DispatchTriggerPersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, DispatchTriggerImpl.class,
 			dispatchTrigger.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DispatchTriggerModelImpl)dispatchTrigger, true);
 	}
 
 	@Override
 	public void clearCache(List<DispatchTrigger> dispatchTriggers) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (DispatchTrigger dispatchTrigger : dispatchTriggers) {
 			entityCache.removeResult(
 				entityCacheEnabled, DispatchTriggerImpl.class,
 				dispatchTrigger.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DispatchTriggerModelImpl)dispatchTrigger, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, DispatchTriggerImpl.class, primaryKey);
@@ -2398,33 +2378,6 @@ public class DispatchTriggerPersistenceImpl
 			_finderPathCountByC_N, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_N, args, dispatchTriggerModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DispatchTriggerModelImpl dispatchTriggerModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				dispatchTriggerModelImpl.getCompanyId(),
-				dispatchTriggerModelImpl.getName()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_N, args);
-			finderCache.removeResult(_finderPathFetchByC_N, args);
-		}
-
-		if ((dispatchTriggerModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_N.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				dispatchTriggerModelImpl.getOriginalCompanyId(),
-				dispatchTriggerModelImpl.getOriginalName()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_N, args);
-			finderCache.removeResult(_finderPathFetchByC_N, args);
-		}
 	}
 
 	/**
@@ -2602,82 +2555,10 @@ public class DispatchTriggerPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				dispatchTriggerModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				dispatchTriggerModelImpl.getCompanyId(),
-				dispatchTriggerModelImpl.getType()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_T, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_T, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((dispatchTriggerModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					dispatchTriggerModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {dispatchTriggerModelImpl.getCompanyId()};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((dispatchTriggerModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					dispatchTriggerModelImpl.getOriginalCompanyId(),
-					dispatchTriggerModelImpl.getOriginalType()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_T, args);
-
-				args = new Object[] {
-					dispatchTriggerModelImpl.getCompanyId(),
-					dispatchTriggerModelImpl.getType()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_T, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_T, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, DispatchTriggerImpl.class,
 			dispatchTrigger.getPrimaryKey(), dispatchTrigger, false);
 
-		clearUniqueFindersCache(dispatchTriggerModelImpl, false);
 		cacheUniqueFindersCache(dispatchTriggerModelImpl);
 
 		dispatchTrigger.resetOriginalValues();
@@ -2956,81 +2837,196 @@ public class DispatchTriggerPersistenceImpl
 		DispatchTriggerModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		DispatchTriggerModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+		_finderPathCountAll = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithPaginationFindByCompanyId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompanyId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
 			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
-			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
 
-		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+				return new Object[] {dispatchTriggerModelImpl.getCompanyId()};
+			},
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
 
-		_finderPathFetchByC_N = new FinderPath(
+				return new Object[] {
+					dispatchTriggerModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByCompanyId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCompanyId", new String[] {Long.class.getName()},
+			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
+			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {dispatchTriggerModelImpl.getCompanyId()};
+			},
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {
+					dispatchTriggerModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathFetchByC_N = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByC_N",
 			new String[] {Long.class.getName(), String.class.getName()},
 			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
-			DispatchTriggerModelImpl.NAME_COLUMN_BITMASK);
+			DispatchTriggerModelImpl.NAME_COLUMN_BITMASK,
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
 
-		_finderPathCountByC_N = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
-			new String[] {Long.class.getName(), String.class.getName()});
+				return new Object[] {
+					dispatchTriggerModelImpl.getCompanyId(),
+					dispatchTriggerModelImpl.getName()
+				};
+			},
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByC_T = new FinderPath(
+				return new Object[] {
+					dispatchTriggerModelImpl.getOriginalCompanyId(),
+					dispatchTriggerModelImpl.getOriginalName()
+				};
+			});
+
+		_finderPathCountByC_N = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_T",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
+			new String[] {Long.class.getName(), String.class.getName()},
+			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
+			DispatchTriggerModelImpl.NAME_COLUMN_BITMASK |
+			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {
+					dispatchTriggerModelImpl.getCompanyId(),
+					dispatchTriggerModelImpl.getName()
+				};
+			},
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {
+					dispatchTriggerModelImpl.getOriginalCompanyId(),
+					dispatchTriggerModelImpl.getOriginalName()
+				};
+			});
+
+		_finderPathWithPaginationFindByC_T = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_T",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_T = new FinderPath(
+		_finderPathWithoutPaginationFindByC_T = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			DispatchTriggerImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_T",
 			new String[] {Long.class.getName(), String.class.getName()},
 			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
 			DispatchTriggerModelImpl.TYPE_COLUMN_BITMASK |
-			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
 
-		_finderPathCountByC_T = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_T",
-			new String[] {Long.class.getName(), String.class.getName()});
+				return new Object[] {
+					dispatchTriggerModelImpl.getCompanyId(),
+					dispatchTriggerModelImpl.getType()
+				};
+			},
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {
+					dispatchTriggerModelImpl.getOriginalCompanyId(),
+					dispatchTriggerModelImpl.getOriginalType()
+				};
+			});
+
+		_finderPathCountByC_T = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, DispatchTriggerImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_T",
+			new String[] {Long.class.getName(), String.class.getName()},
+			DispatchTriggerModelImpl.COMPANYID_COLUMN_BITMASK |
+			DispatchTriggerModelImpl.TYPE_COLUMN_BITMASK |
+			DispatchTriggerModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {
+					dispatchTriggerModelImpl.getCompanyId(),
+					dispatchTriggerModelImpl.getType()
+				};
+			},
+			baseModel -> {
+				DispatchTriggerModelImpl dispatchTriggerModelImpl =
+					(DispatchTriggerModelImpl)baseModel;
+
+				return new Object[] {
+					dispatchTriggerModelImpl.getOriginalCompanyId(),
+					dispatchTriggerModelImpl.getOriginalType()
+				};
+			});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(DispatchTriggerImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override

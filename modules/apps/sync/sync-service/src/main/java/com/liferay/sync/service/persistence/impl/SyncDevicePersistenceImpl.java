@@ -2344,10 +2344,6 @@ public class SyncDevicePersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(SyncDeviceImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2362,16 +2358,10 @@ public class SyncDevicePersistenceImpl
 		entityCache.removeResult(
 			entityCacheEnabled, SyncDeviceImpl.class,
 			syncDevice.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
 	public void clearCache(List<SyncDevice> syncDevices) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SyncDevice syncDevice : syncDevices) {
 			entityCache.removeResult(
 				entityCacheEnabled, SyncDeviceImpl.class,
@@ -2381,10 +2371,6 @@ public class SyncDevicePersistenceImpl
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, SyncDeviceImpl.class, primaryKey);
@@ -2567,100 +2553,6 @@ public class SyncDevicePersistenceImpl
 		}
 		finally {
 			closeSession(session);
-		}
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {syncDeviceModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				syncDeviceModelImpl.getUuid(),
-				syncDeviceModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {syncDeviceModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((syncDeviceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					syncDeviceModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {syncDeviceModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((syncDeviceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					syncDeviceModelImpl.getOriginalUuid(),
-					syncDeviceModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					syncDeviceModelImpl.getUuid(),
-					syncDeviceModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((syncDeviceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					syncDeviceModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {syncDeviceModelImpl.getUserId()};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
 		}
 
 		entityCache.putResult(
@@ -2941,100 +2833,196 @@ public class SyncDevicePersistenceImpl
 		SyncDeviceModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		SyncDeviceModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			SyncDeviceModelImpl.UUID_COLUMN_BITMASK);
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
+			SyncDeviceModelImpl.UUID_COLUMN_BITMASK,
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
 
-		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+				return new Object[] {syncDeviceModelImpl.getUuid()};
+			},
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+				return new Object[] {syncDeviceModelImpl.getOriginalUuid()};
+			});
+
+		_finderPathCountByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()},
+			SyncDeviceModelImpl.UUID_COLUMN_BITMASK,
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
+
+				return new Object[] {syncDeviceModelImpl.getUuid()};
+			},
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
+
+				return new Object[] {syncDeviceModelImpl.getOriginalUuid()};
+			});
+
+		_finderPathWithPaginationFindByUuid_C = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			SyncDeviceModelImpl.UUID_COLUMN_BITMASK |
-			SyncDeviceModelImpl.COMPANYID_COLUMN_BITMASK);
+			SyncDeviceModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
 
-		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					syncDeviceModelImpl.getUuid(),
+					syncDeviceModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+				return new Object[] {
+					syncDeviceModelImpl.getOriginalUuid(),
+					syncDeviceModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			SyncDeviceModelImpl.UUID_COLUMN_BITMASK |
+			SyncDeviceModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
+
+				return new Object[] {
+					syncDeviceModelImpl.getUuid(),
+					syncDeviceModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
+
+				return new Object[] {
+					syncDeviceModelImpl.getOriginalUuid(),
+					syncDeviceModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathWithPaginationFindByUserId = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
-			SyncDeviceModelImpl.USERID_COLUMN_BITMASK);
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUserId", new String[] {Long.class.getName()},
+			SyncDeviceModelImpl.USERID_COLUMN_BITMASK,
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
 
-		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+				return new Object[] {syncDeviceModelImpl.getUserId()};
+			},
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByC_U = new FinderPath(
+				return new Object[] {syncDeviceModelImpl.getOriginalUserId()};
+			});
+
+		_finderPathCountByUserId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_U",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUserId", new String[] {Long.class.getName()},
+			SyncDeviceModelImpl.USERID_COLUMN_BITMASK,
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
+
+				return new Object[] {syncDeviceModelImpl.getUserId()};
+			},
+			baseModel -> {
+				SyncDeviceModelImpl syncDeviceModelImpl =
+					(SyncDeviceModelImpl)baseModel;
+
+				return new Object[] {syncDeviceModelImpl.getOriginalUserId()};
+			});
+
+		_finderPathWithPaginationFindByC_U = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
+			SyncDeviceImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_U",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByC_U = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_U",
+		_finderPathWithPaginationCountByC_U = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, SyncDeviceImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_U",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(SyncDeviceImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override

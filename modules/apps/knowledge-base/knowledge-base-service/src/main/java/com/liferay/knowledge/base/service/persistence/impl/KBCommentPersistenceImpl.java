@@ -5118,10 +5118,6 @@ public class KBCommentPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(KBCommentImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -5135,33 +5131,19 @@ public class KBCommentPersistenceImpl
 	public void clearCache(KBComment kbComment) {
 		entityCache.removeResult(
 			entityCacheEnabled, KBCommentImpl.class, kbComment.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((KBCommentModelImpl)kbComment, true);
 	}
 
 	@Override
 	public void clearCache(List<KBComment> kbComments) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (KBComment kbComment : kbComments) {
 			entityCache.removeResult(
 				entityCacheEnabled, KBCommentImpl.class,
 				kbComment.getPrimaryKey());
-
-			clearUniqueFindersCache((KBCommentModelImpl)kbComment, true);
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, KBCommentImpl.class, primaryKey);
@@ -5179,31 +5161,6 @@ public class KBCommentPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, kbCommentModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		KBCommentModelImpl kbCommentModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				kbCommentModelImpl.getUuid(), kbCommentModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((kbCommentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				kbCommentModelImpl.getOriginalUuid(),
-				kbCommentModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -5383,268 +5340,10 @@ public class KBCommentPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {kbCommentModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				kbCommentModelImpl.getUuid(), kbCommentModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {kbCommentModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				kbCommentModelImpl.getGroupId(),
-				kbCommentModelImpl.getClassNameId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C, args);
-
-			args = new Object[] {
-				kbCommentModelImpl.getGroupId(), kbCommentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_S, args);
-
-			args = new Object[] {
-				kbCommentModelImpl.getClassNameId(),
-				kbCommentModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			args = new Object[] {
-				kbCommentModelImpl.getUserId(),
-				kbCommentModelImpl.getClassNameId(),
-				kbCommentModelImpl.getClassPK()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_C_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByU_C_C, args);
-
-			args = new Object[] {
-				kbCommentModelImpl.getClassNameId(),
-				kbCommentModelImpl.getClassPK(), kbCommentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_C_S, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_C_S, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {kbCommentModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalUuid(),
-					kbCommentModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					kbCommentModelImpl.getUuid(),
-					kbCommentModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {kbCommentModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalGroupId(),
-					kbCommentModelImpl.getOriginalClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C, args);
-
-				args = new Object[] {
-					kbCommentModelImpl.getGroupId(),
-					kbCommentModelImpl.getClassNameId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalGroupId(),
-					kbCommentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-
-				args = new Object[] {
-					kbCommentModelImpl.getGroupId(),
-					kbCommentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalClassNameId(),
-					kbCommentModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					kbCommentModelImpl.getClassNameId(),
-					kbCommentModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_C_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalUserId(),
-					kbCommentModelImpl.getOriginalClassNameId(),
-					kbCommentModelImpl.getOriginalClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_C_C, args);
-
-				args = new Object[] {
-					kbCommentModelImpl.getUserId(),
-					kbCommentModelImpl.getClassNameId(),
-					kbCommentModelImpl.getClassPK()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_C_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_C_C, args);
-			}
-
-			if ((kbCommentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_S.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					kbCommentModelImpl.getOriginalClassNameId(),
-					kbCommentModelImpl.getOriginalClassPK(),
-					kbCommentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C_S, args);
-
-				args = new Object[] {
-					kbCommentModelImpl.getClassNameId(),
-					kbCommentModelImpl.getClassPK(),
-					kbCommentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByC_C_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_C_S, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, KBCommentImpl.class, kbComment.getPrimaryKey(),
 			kbComment, false);
 
-		clearUniqueFindersCache(kbCommentModelImpl, false);
 		cacheUniqueFindersCache(kbCommentModelImpl);
 
 		kbComment.resetOriginalValues();
@@ -5921,199 +5620,508 @@ public class KBCommentPersistenceImpl
 		KBCommentModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		KBCommentModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathCountAll = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
 			KBCommentModelImpl.UUID_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+				return new Object[] {kbCommentModelImpl.getUuid()};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathFetchByUUID_G = new FinderPath(
+				return new Object[] {kbCommentModelImpl.getOriginalUuid()};
+			});
+
+		_finderPathCountByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid", new String[] {String.class.getName()},
+			KBCommentModelImpl.UUID_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {kbCommentModelImpl.getUuid()};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {kbCommentModelImpl.getOriginalUuid()};
+			});
+
+		_finderPathFetchByUUID_G = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
 			KBCommentModelImpl.UUID_COLUMN_BITMASK |
-			KBCommentModelImpl.GROUPID_COLUMN_BITMASK);
+			KBCommentModelImpl.GROUPID_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					kbCommentModelImpl.getUuid(),
+					kbCommentModelImpl.getGroupId()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+				return new Object[] {
+					kbCommentModelImpl.getOriginalUuid(),
+					kbCommentModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathCountByUUID_G = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			KBCommentModelImpl.UUID_COLUMN_BITMASK |
+			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getUuid(),
+					kbCommentModelImpl.getGroupId()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalUuid(),
+					kbCommentModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathWithPaginationFindByUuid_C = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			KBCommentModelImpl.UUID_COLUMN_BITMASK |
 			KBCommentModelImpl.COMPANYID_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+				return new Object[] {
+					kbCommentModelImpl.getUuid(),
+					kbCommentModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+				return new Object[] {
+					kbCommentModelImpl.getOriginalUuid(),
+					kbCommentModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			KBCommentModelImpl.UUID_COLUMN_BITMASK |
+			KBCommentModelImpl.COMPANYID_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getUuid(),
+					kbCommentModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalUuid(),
+					kbCommentModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathWithPaginationFindByGroupId = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupId", new String[] {Long.class.getName()},
 			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+				return new Object[] {kbCommentModelImpl.getGroupId()};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByG_C = new FinderPath(
+				return new Object[] {kbCommentModelImpl.getOriginalGroupId()};
+			});
+
+		_finderPathCountByGroupId = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupId", new String[] {Long.class.getName()},
+			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {kbCommentModelImpl.getGroupId()};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {kbCommentModelImpl.getOriginalGroupId()};
+			});
+
+		_finderPathWithPaginationFindByG_C = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_C = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
 			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByG_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
-			new String[] {Long.class.getName(), Long.class.getName()});
+				return new Object[] {
+					kbCommentModelImpl.getGroupId(),
+					kbCommentModelImpl.getClassNameId()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByG_S = new FinderPath(
+				return new Object[] {
+					kbCommentModelImpl.getOriginalGroupId(),
+					kbCommentModelImpl.getOriginalClassNameId()
+				};
+			});
+
+		_finderPathCountByG_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
+			new String[] {Long.class.getName(), Long.class.getName()},
+			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
+			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getGroupId(),
+					kbCommentModelImpl.getClassNameId()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalGroupId(),
+					kbCommentModelImpl.getOriginalClassNameId()
+				};
+			});
+
+		_finderPathWithPaginationFindByG_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByG_S",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_S = new FinderPath(
+		_finderPathWithoutPaginationFindByG_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByG_S",
 			new String[] {Long.class.getName(), Integer.class.getName()},
 			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
 			KBCommentModelImpl.STATUS_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByG_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+				return new Object[] {
+					kbCommentModelImpl.getGroupId(),
+					kbCommentModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByC_C = new FinderPath(
+				return new Object[] {
+					kbCommentModelImpl.getOriginalGroupId(),
+					kbCommentModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathCountByG_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
+			new String[] {Long.class.getName(), Integer.class.getName()},
+			KBCommentModelImpl.GROUPID_COLUMN_BITMASK |
+			KBCommentModelImpl.STATUS_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getGroupId(),
+					kbCommentModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalGroupId(),
+					kbCommentModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathWithPaginationFindByC_C = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			KBCommentModelImpl.CLASSPK_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByC_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
-			new String[] {Long.class.getName(), Long.class.getName()});
+				return new Object[] {
+					kbCommentModelImpl.getClassNameId(),
+					kbCommentModelImpl.getClassPK()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByU_C_C = new FinderPath(
+				return new Object[] {
+					kbCommentModelImpl.getOriginalClassNameId(),
+					kbCommentModelImpl.getOriginalClassPK()
+				};
+			});
+
+		_finderPathCountByC_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C_C",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			new String[] {Long.class.getName(), Long.class.getName()},
+			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			KBCommentModelImpl.CLASSPK_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getClassNameId(),
+					kbCommentModelImpl.getClassPK()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalClassNameId(),
+					kbCommentModelImpl.getOriginalClassPK()
+				};
+			});
+
+		_finderPathWithPaginationFindByU_C_C = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByU_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByU_C_C = new FinderPath(
+		_finderPathWithoutPaginationFindByU_C_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_C_C",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByU_C_C",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			KBCommentModelImpl.USERID_COLUMN_BITMASK |
 			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			KBCommentModelImpl.CLASSPK_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByU_C_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C_C",
-			new String[] {
-				Long.class.getName(), Long.class.getName(), Long.class.getName()
+				return new Object[] {
+					kbCommentModelImpl.getUserId(),
+					kbCommentModelImpl.getClassNameId(),
+					kbCommentModelImpl.getClassPK()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalUserId(),
+					kbCommentModelImpl.getOriginalClassNameId(),
+					kbCommentModelImpl.getOriginalClassPK()
+				};
 			});
 
-		_finderPathWithPaginationFindByC_C_S = new FinderPath(
+		_finderPathCountByU_C_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_S",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByU_C_C",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName()
+			},
+			KBCommentModelImpl.USERID_COLUMN_BITMASK |
+			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			KBCommentModelImpl.CLASSPK_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getUserId(),
+					kbCommentModelImpl.getClassNameId(),
+					kbCommentModelImpl.getClassPK()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalUserId(),
+					kbCommentModelImpl.getOriginalClassNameId(),
+					kbCommentModelImpl.getOriginalClassPK()
+				};
+			});
+
+		_finderPathWithPaginationFindByC_C_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C_S = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C_S = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_S",
+			KBCommentImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -6121,19 +6129,64 @@ public class KBCommentPersistenceImpl
 			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			KBCommentModelImpl.CLASSPK_COLUMN_BITMASK |
 			KBCommentModelImpl.STATUS_COLUMN_BITMASK |
-			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
 
-		_finderPathCountByC_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_S",
+				return new Object[] {
+					kbCommentModelImpl.getClassNameId(),
+					kbCommentModelImpl.getClassPK(),
+					kbCommentModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalClassNameId(),
+					kbCommentModelImpl.getOriginalClassPK(),
+					kbCommentModelImpl.getOriginalStatus()
+				};
+			});
+
+		_finderPathCountByC_C_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
+			},
+			KBCommentModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			KBCommentModelImpl.CLASSPK_COLUMN_BITMASK |
+			KBCommentModelImpl.STATUS_COLUMN_BITMASK |
+			KBCommentModelImpl.MODIFIEDDATE_COLUMN_BITMASK,
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getClassNameId(),
+					kbCommentModelImpl.getClassPK(),
+					kbCommentModelImpl.getStatus()
+				};
+			},
+			baseModel -> {
+				KBCommentModelImpl kbCommentModelImpl =
+					(KBCommentModelImpl)baseModel;
+
+				return new Object[] {
+					kbCommentModelImpl.getOriginalClassNameId(),
+					kbCommentModelImpl.getOriginalClassPK(),
+					kbCommentModelImpl.getOriginalStatus()
+				};
 			});
 
-		_finderPathWithPaginationCountByC_C_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_S",
+		_finderPathWithPaginationCountByC_C_S = FinderPath.create(
+			entityCacheEnabled, finderCacheEnabled, KBCommentImpl.class,
+			Long.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName()
@@ -6143,9 +6196,10 @@ public class KBCommentPersistenceImpl
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(KBCommentImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
