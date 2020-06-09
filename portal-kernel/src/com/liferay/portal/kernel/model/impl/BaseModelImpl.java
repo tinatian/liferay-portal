@@ -134,6 +134,8 @@ public abstract class BaseModelImpl<T> implements BaseModel<T> {
 		return locale;
 	}
 
+	protected static final Object INITIAL_MARKER = new Object();
+
 	private static final boolean _ESCAPED_MODEL = false;
 
 	private boolean _cachedModel;
