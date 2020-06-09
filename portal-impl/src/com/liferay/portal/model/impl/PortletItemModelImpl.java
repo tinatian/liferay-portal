@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -39,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -111,6 +113,28 @@ public class PortletItemModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int PORTLETITEMID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int NAME_COLUMN_INDEX = 8;
+
+	public static final int PORTLETID_COLUMN_INDEX = 9;
+
+	public static final int CLASSNAMEID_COLUMN_INDEX = 10;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.PortletItem"),
@@ -141,6 +165,7 @@ public class PortletItemModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.PortletItem"));
 
 	public PortletItemModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -346,19 +371,21 @@ public class PortletItemModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -450,17 +477,21 @@ public class PortletItemModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -475,17 +506,21 @@ public class PortletItemModelImpl
 
 	@Override
 	public void setPortletId(String portletId) {
-		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
-
-		if (_originalPortletId == null) {
-			_originalPortletId = _portletId;
+		if (_originalValues[PORTLETID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PORTLETID_COLUMN_INDEX] = portletId;
 		}
 
 		_portletId = portletId;
 	}
 
 	public String getOriginalPortletId() {
-		return GetterUtil.getString(_originalPortletId);
+		Object originalValue = _originalValues[PORTLETID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -515,22 +550,36 @@ public class PortletItemModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
-
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_originalValues[CLASSNAMEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLASSNAMEID_COLUMN_INDEX] = classNameId;
 		}
 
 		_classNameId = classNameId;
 	}
 
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		Object originalValue = _originalValues[CLASSNAMEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -639,23 +688,11 @@ public class PortletItemModelImpl
 	public void resetOriginalValues() {
 		PortletItemModelImpl portletItemModelImpl = this;
 
-		portletItemModelImpl._originalGroupId = portletItemModelImpl._groupId;
-
-		portletItemModelImpl._setOriginalGroupId = false;
-
 		portletItemModelImpl._setModifiedDate = false;
 
-		portletItemModelImpl._originalName = portletItemModelImpl._name;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		portletItemModelImpl._originalPortletId =
-			portletItemModelImpl._portletId;
-
-		portletItemModelImpl._originalClassNameId =
-			portletItemModelImpl._classNameId;
-
-		portletItemModelImpl._setOriginalClassNameId = false;
-
-		portletItemModelImpl._columnBitmask = 0;
+		portletItemModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -793,8 +830,6 @@ public class PortletItemModelImpl
 	private long _mvccVersion;
 	private long _portletItemId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
@@ -802,13 +837,10 @@ public class PortletItemModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _name;
-	private String _originalName;
 	private String _portletId;
-	private String _originalPortletId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[12];
+	private Long _columnBitmask;
 	private PortletItem _escapedModel;
 
 }

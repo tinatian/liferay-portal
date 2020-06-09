@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.service.builder.test.model.VersionedEntry;
 import com.liferay.portal.tools.service.builder.test.model.VersionedEntryVersion;
@@ -35,6 +36,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -97,6 +99,14 @@ public class VersionedEntryVersionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int VERSIONEDENTRYVERSIONID_COLUMN_INDEX = 0;
+
+	public static final int VERSION_COLUMN_INDEX = 1;
+
+	public static final int VERSIONEDENTRYID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
 			get(
@@ -127,6 +137,7 @@ public class VersionedEntryVersionModelImpl
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.VersionedEntryVersion"));
 
 	public VersionedEntryVersionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -336,17 +347,21 @@ public class VersionedEntryVersionModelImpl
 	public void setVersion(int version) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalVersion) {
-			_setOriginalVersion = true;
-
-			_originalVersion = _version;
+		if (_originalValues[VERSION_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VERSION_COLUMN_INDEX] = version;
 		}
 
 		_version = version;
 	}
 
 	public int getOriginalVersion() {
-		return _originalVersion;
+		Object originalValue = _originalValues[VERSION_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_INTEGER;
+		}
+
+		return (int)originalValue;
 	}
 
 	@Override
@@ -356,19 +371,21 @@ public class VersionedEntryVersionModelImpl
 
 	@Override
 	public void setVersionedEntryId(long versionedEntryId) {
-		_columnBitmask |= VERSIONEDENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalVersionedEntryId) {
-			_setOriginalVersionedEntryId = true;
-
-			_originalVersionedEntryId = _versionedEntryId;
+		if (_originalValues[VERSIONEDENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VERSIONEDENTRYID_COLUMN_INDEX] = versionedEntryId;
 		}
 
 		_versionedEntryId = versionedEntryId;
 	}
 
 	public long getOriginalVersionedEntryId() {
-		return _originalVersionedEntryId;
+		Object originalValue = _originalValues[VERSIONEDENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -378,22 +395,36 @@ public class VersionedEntryVersionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -506,22 +537,9 @@ public class VersionedEntryVersionModelImpl
 	public void resetOriginalValues() {
 		VersionedEntryVersionModelImpl versionedEntryVersionModelImpl = this;
 
-		versionedEntryVersionModelImpl._originalVersion =
-			versionedEntryVersionModelImpl._version;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		versionedEntryVersionModelImpl._setOriginalVersion = false;
-
-		versionedEntryVersionModelImpl._originalVersionedEntryId =
-			versionedEntryVersionModelImpl._versionedEntryId;
-
-		versionedEntryVersionModelImpl._setOriginalVersionedEntryId = false;
-
-		versionedEntryVersionModelImpl._originalGroupId =
-			versionedEntryVersionModelImpl._groupId;
-
-		versionedEntryVersionModelImpl._setOriginalGroupId = false;
-
-		versionedEntryVersionModelImpl._columnBitmask = 0;
+		versionedEntryVersionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -616,15 +634,10 @@ public class VersionedEntryVersionModelImpl
 
 	private long _versionedEntryVersionId;
 	private int _version;
-	private int _originalVersion;
-	private boolean _setOriginalVersion;
 	private long _versionedEntryId;
-	private long _originalVersionedEntryId;
-	private boolean _setOriginalVersionedEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[5];
+	private Long _columnBitmask;
 	private VersionedEntryVersion _escapedModel;
 
 }

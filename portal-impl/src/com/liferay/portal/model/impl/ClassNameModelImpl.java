@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -39,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -99,6 +101,12 @@ public class ClassNameModelImpl
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
+
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CLASSNAMEID_COLUMN_INDEX = 1;
+
+	public static final int VALUE_COLUMN_INDEX = 2;
 
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
@@ -164,6 +172,7 @@ public class ClassNameModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.ClassName"));
 
 	public ClassNameModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -362,20 +371,36 @@ public class ClassNameModelImpl
 
 	@Override
 	public void setValue(String value) {
-		_columnBitmask |= VALUE_COLUMN_BITMASK;
-
-		if (_originalValue == null) {
-			_originalValue = _value;
+		if (_originalValues[VALUE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VALUE_COLUMN_INDEX] = value;
 		}
 
 		_value = value;
 	}
 
 	public String getOriginalValue() {
-		return GetterUtil.getString(_originalValue);
+		Object originalValue = _originalValues[VALUE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -476,9 +501,9 @@ public class ClassNameModelImpl
 	public void resetOriginalValues() {
 		ClassNameModelImpl classNameModelImpl = this;
 
-		classNameModelImpl._originalValue = classNameModelImpl._value;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		classNameModelImpl._columnBitmask = 0;
+		classNameModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -573,8 +598,8 @@ public class ClassNameModelImpl
 	private long _mvccVersion;
 	private long _classNameId;
 	private String _value;
-	private String _originalValue;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[4];
+	private Long _columnBitmask;
 	private ClassName _escapedModel;
 
 }

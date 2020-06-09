@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -33,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -99,6 +102,18 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int DATAPROVIDERINSTANCELINKID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int DATAPROVIDERINSTANCEID_COLUMN_INDEX = 4;
+
+	public static final int STRUCTUREID_COLUMN_INDEX = 5;
+
 	public static final long DATAPROVIDERINSTANCEID_COLUMN_BITMASK = 1L;
 
 	public static final long STRUCTUREID_COLUMN_BITMASK = 2L;
@@ -114,6 +129,7 @@ public class DDMDataProviderInstanceLinkModelImpl
 	}
 
 	public DDMDataProviderInstanceLinkModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -340,19 +356,25 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setDataProviderInstanceId(long dataProviderInstanceId) {
-		_columnBitmask |= DATAPROVIDERINSTANCEID_COLUMN_BITMASK;
+		if (_originalValues[DATAPROVIDERINSTANCEID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalDataProviderInstanceId) {
-			_setOriginalDataProviderInstanceId = true;
-
-			_originalDataProviderInstanceId = _dataProviderInstanceId;
+			_originalValues[DATAPROVIDERINSTANCEID_COLUMN_INDEX] =
+				dataProviderInstanceId;
 		}
 
 		_dataProviderInstanceId = dataProviderInstanceId;
 	}
 
 	public long getOriginalDataProviderInstanceId() {
-		return _originalDataProviderInstanceId;
+		Object originalValue =
+			_originalValues[DATAPROVIDERINSTANCEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -362,22 +384,36 @@ public class DDMDataProviderInstanceLinkModelImpl
 
 	@Override
 	public void setStructureId(long structureId) {
-		_columnBitmask |= STRUCTUREID_COLUMN_BITMASK;
-
-		if (!_setOriginalStructureId) {
-			_setOriginalStructureId = true;
-
-			_originalStructureId = _structureId;
+		if (_originalValues[STRUCTUREID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[STRUCTUREID_COLUMN_INDEX] = structureId;
 		}
 
 		_structureId = structureId;
 	}
 
 	public long getOriginalStructureId() {
-		return _originalStructureId;
+		Object originalValue = _originalValues[STRUCTUREID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -489,18 +525,9 @@ public class DDMDataProviderInstanceLinkModelImpl
 		DDMDataProviderInstanceLinkModelImpl
 			ddmDataProviderInstanceLinkModelImpl = this;
 
-		ddmDataProviderInstanceLinkModelImpl._originalDataProviderInstanceId =
-			ddmDataProviderInstanceLinkModelImpl._dataProviderInstanceId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		ddmDataProviderInstanceLinkModelImpl.
-			_setOriginalDataProviderInstanceId = false;
-
-		ddmDataProviderInstanceLinkModelImpl._originalStructureId =
-			ddmDataProviderInstanceLinkModelImpl._structureId;
-
-		ddmDataProviderInstanceLinkModelImpl._setOriginalStructureId = false;
-
-		ddmDataProviderInstanceLinkModelImpl._columnBitmask = 0;
+		ddmDataProviderInstanceLinkModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -611,12 +638,9 @@ public class DDMDataProviderInstanceLinkModelImpl
 	private long _dataProviderInstanceLinkId;
 	private long _companyId;
 	private long _dataProviderInstanceId;
-	private long _originalDataProviderInstanceId;
-	private boolean _setOriginalDataProviderInstanceId;
 	private long _structureId;
-	private long _originalStructureId;
-	private boolean _setOriginalStructureId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private DDMDataProviderInstanceLink _escapedModel;
 
 }

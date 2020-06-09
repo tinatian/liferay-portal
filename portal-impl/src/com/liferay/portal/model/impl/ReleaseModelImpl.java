@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ReleaseModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -106,6 +108,28 @@ public class ReleaseModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int RELEASEID_COLUMN_INDEX = 1;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 2;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 3;
+
+	public static final int SERVLETCONTEXTNAME_COLUMN_INDEX = 4;
+
+	public static final int SCHEMAVERSION_COLUMN_INDEX = 5;
+
+	public static final int BUILDNUMBER_COLUMN_INDEX = 6;
+
+	public static final int BUILDDATE_COLUMN_INDEX = 7;
+
+	public static final int VERIFIED_COLUMN_INDEX = 8;
+
+	public static final int STATE_COLUMN_INDEX = 9;
+
+	public static final int TESTSTRING_COLUMN_INDEX = 10;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.Release"),
@@ -130,6 +154,7 @@ public class ReleaseModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.Release"));
 
 	public ReleaseModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -358,17 +383,24 @@ public class ReleaseModelImpl
 
 	@Override
 	public void setServletContextName(String servletContextName) {
-		_columnBitmask |= SERVLETCONTEXTNAME_COLUMN_BITMASK;
+		if (_originalValues[SERVLETCONTEXTNAME_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (_originalServletContextName == null) {
-			_originalServletContextName = _servletContextName;
+			_originalValues[SERVLETCONTEXTNAME_COLUMN_INDEX] =
+				servletContextName;
 		}
 
 		_servletContextName = servletContextName;
 	}
 
 	public String getOriginalServletContextName() {
-		return GetterUtil.getString(_originalServletContextName);
+		Object originalValue = _originalValues[SERVLETCONTEXTNAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -447,6 +479,18 @@ public class ReleaseModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -557,10 +601,9 @@ public class ReleaseModelImpl
 
 		releaseModelImpl._setModifiedDate = false;
 
-		releaseModelImpl._originalServletContextName =
-			releaseModelImpl._servletContextName;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		releaseModelImpl._columnBitmask = 0;
+		releaseModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -709,14 +752,14 @@ public class ReleaseModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _servletContextName;
-	private String _originalServletContextName;
 	private String _schemaVersion;
 	private int _buildNumber;
 	private Date _buildDate;
 	private boolean _verified;
 	private int _state;
 	private String _testString;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[12];
+	private Long _columnBitmask;
 	private Release _escapedModel;
 
 }

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.service.builder.test.model.LocalizedEntryLocalization;
 import com.liferay.portal.tools.service.builder.test.model.LocalizedEntryLocalizationModel;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -100,6 +102,18 @@ public class LocalizedEntryLocalizationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int LOCALIZEDENTRYLOCALIZATIONID_COLUMN_INDEX = 1;
+
+	public static final int LOCALIZEDENTRYID_COLUMN_INDEX = 2;
+
+	public static final int LANGUAGEID_COLUMN_INDEX = 3;
+
+	public static final int TITLE_COLUMN_INDEX = 4;
+
+	public static final int CONTENT_COLUMN_INDEX = 5;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
 			get(
@@ -130,6 +144,7 @@ public class LocalizedEntryLocalizationModelImpl
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.LocalizedEntryLocalization"));
 
 	public LocalizedEntryLocalizationModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -338,19 +353,21 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setLocalizedEntryId(long localizedEntryId) {
-		_columnBitmask |= LOCALIZEDENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalLocalizedEntryId) {
-			_setOriginalLocalizedEntryId = true;
-
-			_originalLocalizedEntryId = _localizedEntryId;
+		if (_originalValues[LOCALIZEDENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LOCALIZEDENTRYID_COLUMN_INDEX] = localizedEntryId;
 		}
 
 		_localizedEntryId = localizedEntryId;
 	}
 
 	public long getOriginalLocalizedEntryId() {
-		return _originalLocalizedEntryId;
+		Object originalValue = _originalValues[LOCALIZEDENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -365,17 +382,21 @@ public class LocalizedEntryLocalizationModelImpl
 
 	@Override
 	public void setLanguageId(String languageId) {
-		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
-
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (_originalValues[LANGUAGEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LANGUAGEID_COLUMN_INDEX] = languageId;
 		}
 
 		_languageId = languageId;
 	}
 
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		Object originalValue = _originalValues[LANGUAGEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -409,6 +430,18 @@ public class LocalizedEntryLocalizationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -519,16 +552,9 @@ public class LocalizedEntryLocalizationModelImpl
 		LocalizedEntryLocalizationModelImpl
 			localizedEntryLocalizationModelImpl = this;
 
-		localizedEntryLocalizationModelImpl._originalLocalizedEntryId =
-			localizedEntryLocalizationModelImpl._localizedEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		localizedEntryLocalizationModelImpl._setOriginalLocalizedEntryId =
-			false;
-
-		localizedEntryLocalizationModelImpl._originalLanguageId =
-			localizedEntryLocalizationModelImpl._languageId;
-
-		localizedEntryLocalizationModelImpl._columnBitmask = 0;
+		localizedEntryLocalizationModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -651,13 +677,11 @@ public class LocalizedEntryLocalizationModelImpl
 	private long _mvccVersion;
 	private long _localizedEntryLocalizationId;
 	private long _localizedEntryId;
-	private long _originalLocalizedEntryId;
-	private boolean _setOriginalLocalizedEntryId;
 	private String _languageId;
-	private String _originalLanguageId;
 	private String _title;
 	private String _content;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private LocalizedEntryLocalization _escapedModel;
 
 }

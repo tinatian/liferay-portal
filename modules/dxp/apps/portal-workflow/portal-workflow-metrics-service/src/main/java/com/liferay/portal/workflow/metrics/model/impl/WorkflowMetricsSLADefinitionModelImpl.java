@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -41,6 +42,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -133,6 +135,54 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int UUID_COLUMN_INDEX = 1;
+
+	public static final int WORKFLOWMETRICSSLADEFINITIONID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int USERID_COLUMN_INDEX = 5;
+
+	public static final int USERNAME_COLUMN_INDEX = 6;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 7;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 8;
+
+	public static final int ACTIVE_COLUMN_INDEX = 9;
+
+	public static final int CALENDARKEY_COLUMN_INDEX = 10;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 11;
+
+	public static final int DURATION_COLUMN_INDEX = 12;
+
+	public static final int NAME_COLUMN_INDEX = 13;
+
+	public static final int PAUSENODEKEYS_COLUMN_INDEX = 14;
+
+	public static final int PROCESSID_COLUMN_INDEX = 15;
+
+	public static final int PROCESSVERSION_COLUMN_INDEX = 16;
+
+	public static final int STARTNODEKEYS_COLUMN_INDEX = 17;
+
+	public static final int STOPNODEKEYS_COLUMN_INDEX = 18;
+
+	public static final int VERSION_COLUMN_INDEX = 19;
+
+	public static final int STATUS_COLUMN_INDEX = 20;
+
+	public static final int STATUSBYUSERID_COLUMN_INDEX = 21;
+
+	public static final int STATUSBYUSERNAME_COLUMN_INDEX = 22;
+
+	public static final int STATUSDATE_COLUMN_INDEX = 23;
+
 	public static final long ACTIVE_COLUMN_BITMASK = 1L;
 
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
@@ -163,6 +213,7 @@ public class WorkflowMetricsSLADefinitionModelImpl
 	}
 
 	public WorkflowMetricsSLADefinitionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -473,17 +524,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -495,20 +550,25 @@ public class WorkflowMetricsSLADefinitionModelImpl
 	public void setWorkflowMetricsSLADefinitionId(
 		long workflowMetricsSLADefinitionId) {
 
-		_columnBitmask |= WORKFLOWMETRICSSLADEFINITIONID_COLUMN_BITMASK;
+		if (_originalValues[WORKFLOWMETRICSSLADEFINITIONID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalWorkflowMetricsSLADefinitionId) {
-			_setOriginalWorkflowMetricsSLADefinitionId = true;
-
-			_originalWorkflowMetricsSLADefinitionId =
-				_workflowMetricsSLADefinitionId;
+			_originalValues[WORKFLOWMETRICSSLADEFINITIONID_COLUMN_INDEX] =
+				workflowMetricsSLADefinitionId;
 		}
 
 		_workflowMetricsSLADefinitionId = workflowMetricsSLADefinitionId;
 	}
 
 	public long getOriginalWorkflowMetricsSLADefinitionId() {
-		return _originalWorkflowMetricsSLADefinitionId;
+		Object originalValue =
+			_originalValues[WORKFLOWMETRICSSLADEFINITIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -518,19 +578,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -540,19 +602,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -636,19 +700,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setActive(boolean active) {
-		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (_originalValues[ACTIVE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACTIVE_COLUMN_INDEX] = active;
 		}
 
 		_active = active;
 	}
 
 	public boolean getOriginalActive() {
-		return _originalActive;
+		Object originalValue = _originalValues[ACTIVE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_BOOLEAN;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@Override
@@ -703,17 +769,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -738,19 +808,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setProcessId(long processId) {
-		_columnBitmask |= PROCESSID_COLUMN_BITMASK;
-
-		if (!_setOriginalProcessId) {
-			_setOriginalProcessId = true;
-
-			_originalProcessId = _processId;
+		if (_originalValues[PROCESSID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PROCESSID_COLUMN_INDEX] = processId;
 		}
 
 		_processId = processId;
 	}
 
 	public long getOriginalProcessId() {
-		return _originalProcessId;
+		Object originalValue = _originalValues[PROCESSID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -765,17 +837,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setProcessVersion(String processVersion) {
-		_columnBitmask |= PROCESSVERSION_COLUMN_BITMASK;
-
-		if (_originalProcessVersion == null) {
-			_originalProcessVersion = _processVersion;
+		if (_originalValues[PROCESSVERSION_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PROCESSVERSION_COLUMN_INDEX] = processVersion;
 		}
 
 		_processVersion = processVersion;
 	}
 
 	public String getOriginalProcessVersion() {
-		return GetterUtil.getString(_originalProcessVersion);
+		Object originalValue = _originalValues[PROCESSVERSION_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -830,19 +906,21 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_originalValues[STATUS_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[STATUS_COLUMN_INDEX] = status;
 		}
 
 		_status = status;
 	}
 
 	public int getOriginalStatus() {
-		return _originalStatus;
+		Object originalValue = _originalValues[STATUS_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_INTEGER;
+		}
+
+		return (int)originalValue;
 	}
 
 	@Override
@@ -984,6 +1062,18 @@ public class WorkflowMetricsSLADefinitionModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1114,51 +1204,11 @@ public class WorkflowMetricsSLADefinitionModelImpl
 		WorkflowMetricsSLADefinitionModelImpl
 			workflowMetricsSLADefinitionModelImpl = this;
 
-		workflowMetricsSLADefinitionModelImpl._originalUuid =
-			workflowMetricsSLADefinitionModelImpl._uuid;
-
-		workflowMetricsSLADefinitionModelImpl.
-			_originalWorkflowMetricsSLADefinitionId =
-				workflowMetricsSLADefinitionModelImpl.
-					_workflowMetricsSLADefinitionId;
-
-		workflowMetricsSLADefinitionModelImpl.
-			_setOriginalWorkflowMetricsSLADefinitionId = false;
-
-		workflowMetricsSLADefinitionModelImpl._originalGroupId =
-			workflowMetricsSLADefinitionModelImpl._groupId;
-
-		workflowMetricsSLADefinitionModelImpl._setOriginalGroupId = false;
-
-		workflowMetricsSLADefinitionModelImpl._originalCompanyId =
-			workflowMetricsSLADefinitionModelImpl._companyId;
-
-		workflowMetricsSLADefinitionModelImpl._setOriginalCompanyId = false;
-
 		workflowMetricsSLADefinitionModelImpl._setModifiedDate = false;
 
-		workflowMetricsSLADefinitionModelImpl._originalActive =
-			workflowMetricsSLADefinitionModelImpl._active;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		workflowMetricsSLADefinitionModelImpl._setOriginalActive = false;
-
-		workflowMetricsSLADefinitionModelImpl._originalName =
-			workflowMetricsSLADefinitionModelImpl._name;
-
-		workflowMetricsSLADefinitionModelImpl._originalProcessId =
-			workflowMetricsSLADefinitionModelImpl._processId;
-
-		workflowMetricsSLADefinitionModelImpl._setOriginalProcessId = false;
-
-		workflowMetricsSLADefinitionModelImpl._originalProcessVersion =
-			workflowMetricsSLADefinitionModelImpl._processVersion;
-
-		workflowMetricsSLADefinitionModelImpl._originalStatus =
-			workflowMetricsSLADefinitionModelImpl._status;
-
-		workflowMetricsSLADefinitionModelImpl._setOriginalStatus = false;
-
-		workflowMetricsSLADefinitionModelImpl._columnBitmask = 0;
+		workflowMetricsSLADefinitionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1401,45 +1451,31 @@ public class WorkflowMetricsSLADefinitionModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _workflowMetricsSLADefinitionId;
-	private long _originalWorkflowMetricsSLADefinitionId;
-	private boolean _setOriginalWorkflowMetricsSLADefinitionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
 	private String _calendarKey;
 	private String _description;
 	private long _duration;
 	private String _name;
-	private String _originalName;
 	private String _pauseNodeKeys;
 	private long _processId;
-	private long _originalProcessId;
-	private boolean _setOriginalProcessId;
 	private String _processVersion;
-	private String _originalProcessVersion;
 	private String _startNodeKeys;
 	private String _stopNodeKeys;
 	private String _version;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[25];
+	private Long _columnBitmask;
 	private WorkflowMetricsSLADefinition _escapedModel;
 
 }

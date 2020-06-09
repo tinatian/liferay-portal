@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -109,6 +112,30 @@ public class MFAEmailOTPEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int MFAEMAILOTPENTRYID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int USERNAME_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int FAILEDATTEMPTS_COLUMN_INDEX = 7;
+
+	public static final int LASTFAILDATE_COLUMN_INDEX = 8;
+
+	public static final int LASTFAILIP_COLUMN_INDEX = 9;
+
+	public static final int LASTSUCCESSDATE_COLUMN_INDEX = 10;
+
+	public static final int LASTSUCCESSIP_COLUMN_INDEX = 11;
+
 	public static final long USERID_COLUMN_BITMASK = 1L;
 
 	public static final long MFAEMAILOTPENTRYID_COLUMN_BITMASK = 2L;
@@ -122,6 +149,7 @@ public class MFAEmailOTPEntryModelImpl
 	}
 
 	public MFAEmailOTPEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -362,12 +390,8 @@ public class MFAEmailOTPEntryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = userId;
 		}
 
 		_userId = userId;
@@ -390,7 +414,13 @@ public class MFAEmailOTPEntryModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -495,6 +525,18 @@ public class MFAEmailOTPEntryModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -604,14 +646,11 @@ public class MFAEmailOTPEntryModelImpl
 	public void resetOriginalValues() {
 		MFAEmailOTPEntryModelImpl mfaEmailOTPEntryModelImpl = this;
 
-		mfaEmailOTPEntryModelImpl._originalUserId =
-			mfaEmailOTPEntryModelImpl._userId;
-
-		mfaEmailOTPEntryModelImpl._setOriginalUserId = false;
-
 		mfaEmailOTPEntryModelImpl._setModifiedDate = false;
 
-		mfaEmailOTPEntryModelImpl._columnBitmask = 0;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
+
+		mfaEmailOTPEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -770,8 +809,6 @@ public class MFAEmailOTPEntryModelImpl
 	private long _mfaEmailOTPEntryId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -781,7 +818,8 @@ public class MFAEmailOTPEntryModelImpl
 	private String _lastFailIP;
 	private Date _lastSuccessDate;
 	private String _lastSuccessIP;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[13];
+	private Long _columnBitmask;
 	private MFAEmailOTPEntry _escapedModel;
 
 }

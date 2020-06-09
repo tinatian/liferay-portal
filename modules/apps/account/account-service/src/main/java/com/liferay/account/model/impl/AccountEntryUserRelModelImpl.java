@@ -29,6 +29,8 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -39,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -105,6 +108,16 @@ public class AccountEntryUserRelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int ACCOUNTENTRYUSERRELID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int ACCOUNTENTRYID_COLUMN_INDEX = 3;
+
+	public static final int ACCOUNTUSERID_COLUMN_INDEX = 4;
+
 	public static final long ACCOUNTENTRYID_COLUMN_BITMASK = 1L;
 
 	public static final long ACCOUNTUSERID_COLUMN_BITMASK = 2L;
@@ -167,6 +180,7 @@ public class AccountEntryUserRelModelImpl
 	}
 
 	public AccountEntryUserRelModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -375,19 +389,21 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
-		_columnBitmask |= ACCOUNTENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalAccountEntryId) {
-			_setOriginalAccountEntryId = true;
-
-			_originalAccountEntryId = _accountEntryId;
+		if (_originalValues[ACCOUNTENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACCOUNTENTRYID_COLUMN_INDEX] = accountEntryId;
 		}
 
 		_accountEntryId = accountEntryId;
 	}
 
 	public long getOriginalAccountEntryId() {
-		return _originalAccountEntryId;
+		Object originalValue = _originalValues[ACCOUNTENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -398,12 +414,8 @@ public class AccountEntryUserRelModelImpl
 
 	@Override
 	public void setAccountUserId(long accountUserId) {
-		_columnBitmask |= ACCOUNTUSERID_COLUMN_BITMASK;
-
-		if (!_setOriginalAccountUserId) {
-			_setOriginalAccountUserId = true;
-
-			_originalAccountUserId = _accountUserId;
+		if (_originalValues[ACCOUNTUSERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACCOUNTUSERID_COLUMN_INDEX] = accountUserId;
 		}
 
 		_accountUserId = accountUserId;
@@ -426,10 +438,28 @@ public class AccountEntryUserRelModelImpl
 	}
 
 	public long getOriginalAccountUserId() {
-		return _originalAccountUserId;
+		Object originalValue = _originalValues[ACCOUNTUSERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -535,17 +565,9 @@ public class AccountEntryUserRelModelImpl
 	public void resetOriginalValues() {
 		AccountEntryUserRelModelImpl accountEntryUserRelModelImpl = this;
 
-		accountEntryUserRelModelImpl._originalAccountEntryId =
-			accountEntryUserRelModelImpl._accountEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		accountEntryUserRelModelImpl._setOriginalAccountEntryId = false;
-
-		accountEntryUserRelModelImpl._originalAccountUserId =
-			accountEntryUserRelModelImpl._accountUserId;
-
-		accountEntryUserRelModelImpl._setOriginalAccountUserId = false;
-
-		accountEntryUserRelModelImpl._columnBitmask = 0;
+		accountEntryUserRelModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -644,12 +666,9 @@ public class AccountEntryUserRelModelImpl
 	private long _accountEntryUserRelId;
 	private long _companyId;
 	private long _accountEntryId;
-	private long _originalAccountEntryId;
-	private boolean _setOriginalAccountEntryId;
 	private long _accountUserId;
-	private long _originalAccountUserId;
-	private boolean _setOriginalAccountUserId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private AccountEntryUserRel _escapedModel;
 
 }

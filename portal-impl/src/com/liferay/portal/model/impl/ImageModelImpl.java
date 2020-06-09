@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -104,6 +106,24 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
+
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int IMAGEID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 4;
+
+	public static final int TYPE_COLUMN_INDEX = 5;
+
+	public static final int HEIGHT_COLUMN_INDEX = 6;
+
+	public static final int WIDTH_COLUMN_INDEX = 7;
+
+	public static final int SIZE_COLUMN_INDEX = 8;
 
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
@@ -175,6 +195,7 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 			"lock.expiration.time.com.liferay.portal.kernel.model.Image"));
 
 	public ImageModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -434,22 +455,36 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	@Override
 	public void setSize(int size) {
-		_columnBitmask |= SIZE_COLUMN_BITMASK;
-
-		if (!_setOriginalSize) {
-			_setOriginalSize = true;
-
-			_originalSize = _size;
+		if (_originalValues[SIZE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SIZE_COLUMN_INDEX] = size;
 		}
 
 		_size = size;
 	}
 
 	public int getOriginalSize() {
-		return _originalSize;
+		Object originalValue = _originalValues[SIZE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_INTEGER;
+		}
+
+		return (int)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -562,11 +597,9 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	public void resetOriginalValues() {
 		ImageModelImpl imageModelImpl = this;
 
-		imageModelImpl._originalSize = imageModelImpl._size;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		imageModelImpl._setOriginalSize = false;
-
-		imageModelImpl._columnBitmask = 0;
+		imageModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -684,9 +717,8 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 	private int _height;
 	private int _width;
 	private int _size;
-	private int _originalSize;
-	private boolean _setOriginalSize;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private Image _escapedModel;
 
 }

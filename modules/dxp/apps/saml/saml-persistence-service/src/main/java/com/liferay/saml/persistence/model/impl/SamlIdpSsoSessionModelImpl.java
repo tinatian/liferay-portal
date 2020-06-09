@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlIdpSsoSession;
 import com.liferay.saml.persistence.model.SamlIdpSsoSessionModel;
@@ -37,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,6 +104,20 @@ public class SamlIdpSsoSessionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int SAMLIDPSSOSESSIONID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 5;
+
+	public static final int SAMLIDPSSOSESSIONKEY_COLUMN_INDEX = 6;
+
 	public static final long CREATEDATE_COLUMN_BITMASK = 1L;
 
 	public static final long SAMLIDPSSOSESSIONKEY_COLUMN_BITMASK = 2L;
@@ -118,6 +133,7 @@ public class SamlIdpSsoSessionModelImpl
 	}
 
 	public SamlIdpSsoSessionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -362,17 +378,21 @@ public class SamlIdpSsoSessionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
-
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
+		if (_originalValues[CREATEDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CREATEDATE_COLUMN_INDEX] = createDate;
 		}
 
 		_createDate = createDate;
 	}
 
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		Object originalValue = _originalValues[CREATEDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (Date)originalValue;
 	}
 
 	@Override
@@ -403,20 +423,40 @@ public class SamlIdpSsoSessionModelImpl
 
 	@Override
 	public void setSamlIdpSsoSessionKey(String samlIdpSsoSessionKey) {
-		_columnBitmask |= SAMLIDPSSOSESSIONKEY_COLUMN_BITMASK;
+		if (_originalValues[SAMLIDPSSOSESSIONKEY_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (_originalSamlIdpSsoSessionKey == null) {
-			_originalSamlIdpSsoSessionKey = _samlIdpSsoSessionKey;
+			_originalValues[SAMLIDPSSOSESSIONKEY_COLUMN_INDEX] =
+				samlIdpSsoSessionKey;
 		}
 
 		_samlIdpSsoSessionKey = samlIdpSsoSessionKey;
 	}
 
 	public String getOriginalSamlIdpSsoSessionKey() {
-		return GetterUtil.getString(_originalSamlIdpSsoSessionKey);
+		Object originalValue =
+			_originalValues[SAMLIDPSSOSESSIONKEY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -523,15 +563,11 @@ public class SamlIdpSsoSessionModelImpl
 	public void resetOriginalValues() {
 		SamlIdpSsoSessionModelImpl samlIdpSsoSessionModelImpl = this;
 
-		samlIdpSsoSessionModelImpl._originalCreateDate =
-			samlIdpSsoSessionModelImpl._createDate;
-
 		samlIdpSsoSessionModelImpl._setModifiedDate = false;
 
-		samlIdpSsoSessionModelImpl._originalSamlIdpSsoSessionKey =
-			samlIdpSsoSessionModelImpl._samlIdpSsoSessionKey;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		samlIdpSsoSessionModelImpl._columnBitmask = 0;
+		samlIdpSsoSessionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -665,12 +701,11 @@ public class SamlIdpSsoSessionModelImpl
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _samlIdpSsoSessionKey;
-	private String _originalSamlIdpSsoSessionKey;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[8];
+	private Long _columnBitmask;
 	private SamlIdpSsoSession _escapedModel;
 
 }

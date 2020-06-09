@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -101,6 +104,22 @@ public class StatusModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int STATUSID_COLUMN_INDEX = 0;
+
+	public static final int USERID_COLUMN_INDEX = 1;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 2;
+
+	public static final int ONLINE_COLUMN_INDEX = 3;
+
+	public static final int AWAKE_COLUMN_INDEX = 4;
+
+	public static final int ACTIVEPANELIDS_COLUMN_INDEX = 5;
+
+	public static final int MESSAGE_COLUMN_INDEX = 6;
+
+	public static final int PLAYSOUND_COLUMN_INDEX = 7;
+
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 1L;
 
 	public static final long ONLINE_COLUMN_BITMASK = 2L;
@@ -118,6 +137,7 @@ public class StatusModelImpl
 	}
 
 	public StatusModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -289,12 +309,8 @@ public class StatusModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = userId;
 		}
 
 		_userId = userId;
@@ -317,7 +333,13 @@ public class StatusModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -327,19 +349,21 @@ public class StatusModelImpl
 
 	@Override
 	public void setModifiedDate(long modifiedDate) {
-		_columnBitmask |= MODIFIEDDATE_COLUMN_BITMASK;
-
-		if (!_setOriginalModifiedDate) {
-			_setOriginalModifiedDate = true;
-
-			_originalModifiedDate = _modifiedDate;
+		if (_originalValues[MODIFIEDDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[MODIFIEDDATE_COLUMN_INDEX] = modifiedDate;
 		}
 
 		_modifiedDate = modifiedDate;
 	}
 
 	public long getOriginalModifiedDate() {
-		return _originalModifiedDate;
+		Object originalValue = _originalValues[MODIFIEDDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -354,19 +378,21 @@ public class StatusModelImpl
 
 	@Override
 	public void setOnline(boolean online) {
-		_columnBitmask |= ONLINE_COLUMN_BITMASK;
-
-		if (!_setOriginalOnline) {
-			_setOriginalOnline = true;
-
-			_originalOnline = _online;
+		if (_originalValues[ONLINE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ONLINE_COLUMN_INDEX] = online;
 		}
 
 		_online = online;
 	}
 
 	public boolean getOriginalOnline() {
-		return _originalOnline;
+		Object originalValue = _originalValues[ONLINE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_BOOLEAN;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@Override
@@ -430,6 +456,18 @@ public class StatusModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -535,19 +573,9 @@ public class StatusModelImpl
 	public void resetOriginalValues() {
 		StatusModelImpl statusModelImpl = this;
 
-		statusModelImpl._originalUserId = statusModelImpl._userId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		statusModelImpl._setOriginalUserId = false;
-
-		statusModelImpl._originalModifiedDate = statusModelImpl._modifiedDate;
-
-		statusModelImpl._setOriginalModifiedDate = false;
-
-		statusModelImpl._originalOnline = statusModelImpl._online;
-
-		statusModelImpl._setOriginalOnline = false;
-
-		statusModelImpl._columnBitmask = 0;
+		statusModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -658,19 +686,14 @@ public class StatusModelImpl
 
 	private long _statusId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _modifiedDate;
-	private long _originalModifiedDate;
-	private boolean _setOriginalModifiedDate;
 	private boolean _online;
-	private boolean _originalOnline;
-	private boolean _setOriginalOnline;
 	private boolean _awake;
 	private String _activePanelIds;
 	private String _message;
 	private boolean _playSound;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[9];
+	private Long _columnBitmask;
 	private Status _escapedModel;
 
 }

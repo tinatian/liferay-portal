@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -89,6 +90,10 @@ public class TestEntityModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int ID_COLUMN_INDEX = 0;
+
+	public static final int DATA_COLUMN_INDEX = 1;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.external.data.source.test.service.util.ServiceProps.get(
 			"value.object.entity.cache.enabled.com.liferay.external.data.source.test.model.TestEntity"),
@@ -106,6 +111,7 @@ public class TestEntityModelImpl
 			"lock.expiration.time.com.liferay.external.data.source.test.model.TestEntity"));
 
 	public TestEntityModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -363,6 +369,7 @@ public class TestEntityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -454,6 +461,7 @@ public class TestEntityModelImpl
 
 	private long _id;
 	private String _data;
+	private Object[] _originalValues = new Object[3];
 	private TestEntity _escapedModel;
 
 }

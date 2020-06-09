@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.storage.model.AuditEventModel;
@@ -40,6 +42,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -120,6 +123,36 @@ public class AuditEventModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int AUDITEVENTID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int EVENTTYPE_COLUMN_INDEX = 5;
+
+	public static final int CLASSNAME_COLUMN_INDEX = 6;
+
+	public static final int CLASSPK_COLUMN_INDEX = 7;
+
+	public static final int MESSAGE_COLUMN_INDEX = 8;
+
+	public static final int CLIENTHOST_COLUMN_INDEX = 9;
+
+	public static final int CLIENTIP_COLUMN_INDEX = 10;
+
+	public static final int SERVERNAME_COLUMN_INDEX = 11;
+
+	public static final int SERVERPORT_COLUMN_INDEX = 12;
+
+	public static final int SESSIONID_COLUMN_INDEX = 13;
+
+	public static final int ADDITIONALINFO_COLUMN_INDEX = 14;
+
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
@@ -185,6 +218,7 @@ public class AuditEventModelImpl
 	}
 
 	public AuditEventModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -395,19 +429,21 @@ public class AuditEventModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -622,6 +658,18 @@ public class AuditEventModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -734,11 +782,9 @@ public class AuditEventModelImpl
 	public void resetOriginalValues() {
 		AuditEventModelImpl auditEventModelImpl = this;
 
-		auditEventModelImpl._originalCompanyId = auditEventModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		auditEventModelImpl._setOriginalCompanyId = false;
-
-		auditEventModelImpl._columnBitmask = 0;
+		auditEventModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -920,8 +966,6 @@ public class AuditEventModelImpl
 
 	private long _auditEventId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -935,7 +979,8 @@ public class AuditEventModelImpl
 	private int _serverPort;
 	private String _sessionID;
 	private String _additionalInfo;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[16];
+	private Long _columnBitmask;
 	private AuditEvent _escapedModel;
 
 }

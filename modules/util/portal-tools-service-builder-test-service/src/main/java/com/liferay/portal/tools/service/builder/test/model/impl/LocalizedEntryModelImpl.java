@@ -37,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -95,6 +96,10 @@ public class LocalizedEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int DEFAULTLANGUAGEID_COLUMN_INDEX = 0;
+
+	public static final int LOCALIZEDENTRYID_COLUMN_INDEX = 1;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
 			get(
@@ -115,6 +120,7 @@ public class LocalizedEntryModelImpl
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.LocalizedEntry"));
 
 	public LocalizedEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -531,6 +537,7 @@ public class LocalizedEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -623,6 +630,7 @@ public class LocalizedEntryModelImpl
 
 	private String _defaultLanguageId;
 	private long _localizedEntryId;
+	private Object[] _originalValues = new Object[3];
 	private LocalizedEntry _escapedModel;
 
 }

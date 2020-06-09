@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ServiceComponentModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -97,6 +99,18 @@ public class ServiceComponentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int SERVICECOMPONENTID_COLUMN_INDEX = 1;
+
+	public static final int BUILDNAMESPACE_COLUMN_INDEX = 2;
+
+	public static final int BUILDNUMBER_COLUMN_INDEX = 3;
+
+	public static final int BUILDDATE_COLUMN_INDEX = 4;
+
+	public static final int DATA_COLUMN_INDEX = 5;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.ServiceComponent"),
@@ -121,6 +135,7 @@ public class ServiceComponentModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.ServiceComponent"));
 
 	public ServiceComponentModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -323,15 +338,21 @@ public class ServiceComponentModelImpl
 	public void setBuildNamespace(String buildNamespace) {
 		_columnBitmask = -1L;
 
-		if (_originalBuildNamespace == null) {
-			_originalBuildNamespace = _buildNamespace;
+		if (_originalValues[BUILDNAMESPACE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[BUILDNAMESPACE_COLUMN_INDEX] = buildNamespace;
 		}
 
 		_buildNamespace = buildNamespace;
 	}
 
 	public String getOriginalBuildNamespace() {
-		return GetterUtil.getString(_originalBuildNamespace);
+		Object originalValue = _originalValues[BUILDNAMESPACE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -343,17 +364,21 @@ public class ServiceComponentModelImpl
 	public void setBuildNumber(long buildNumber) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalBuildNumber) {
-			_setOriginalBuildNumber = true;
-
-			_originalBuildNumber = _buildNumber;
+		if (_originalValues[BUILDNUMBER_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[BUILDNUMBER_COLUMN_INDEX] = buildNumber;
 		}
 
 		_buildNumber = buildNumber;
 	}
 
 	public long getOriginalBuildNumber() {
-		return _originalBuildNumber;
+		Object originalValue = _originalValues[BUILDNUMBER_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -382,6 +407,18 @@ public class ServiceComponentModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -502,15 +539,9 @@ public class ServiceComponentModelImpl
 	public void resetOriginalValues() {
 		ServiceComponentModelImpl serviceComponentModelImpl = this;
 
-		serviceComponentModelImpl._originalBuildNamespace =
-			serviceComponentModelImpl._buildNamespace;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		serviceComponentModelImpl._originalBuildNumber =
-			serviceComponentModelImpl._buildNumber;
-
-		serviceComponentModelImpl._setOriginalBuildNumber = false;
-
-		serviceComponentModelImpl._columnBitmask = 0;
+		serviceComponentModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -618,13 +649,11 @@ public class ServiceComponentModelImpl
 	private long _mvccVersion;
 	private long _serviceComponentId;
 	private String _buildNamespace;
-	private String _originalBuildNamespace;
 	private long _buildNumber;
-	private long _originalBuildNumber;
-	private boolean _setOriginalBuildNumber;
 	private long _buildDate;
 	private String _data;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private ServiceComponent _escapedModel;
 
 }

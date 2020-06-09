@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -40,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -112,6 +114,26 @@ public class AccountGroupModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int EXTERNALREFERENCECODE_COLUMN_INDEX = 1;
+
+	public static final int ACCOUNTGROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int NAME_COLUMN_INDEX = 8;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 9;
+
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
 	public static final long EXTERNALREFERENCECODE_COLUMN_BITMASK = 2L;
@@ -175,6 +197,7 @@ public class AccountGroupModelImpl
 	}
 
 	public AccountGroupModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -376,17 +399,25 @@ public class AccountGroupModelImpl
 
 	@Override
 	public void setExternalReferenceCode(String externalReferenceCode) {
-		_columnBitmask |= EXTERNALREFERENCECODE_COLUMN_BITMASK;
+		if (_originalValues[EXTERNALREFERENCECODE_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (_originalExternalReferenceCode == null) {
-			_originalExternalReferenceCode = _externalReferenceCode;
+			_originalValues[EXTERNALREFERENCECODE_COLUMN_INDEX] =
+				externalReferenceCode;
 		}
 
 		_externalReferenceCode = externalReferenceCode;
 	}
 
 	public String getOriginalExternalReferenceCode() {
-		return GetterUtil.getString(_originalExternalReferenceCode);
+		Object originalValue =
+			_originalValues[EXTERNALREFERENCECODE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@JSON
@@ -408,19 +439,21 @@ public class AccountGroupModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -527,6 +560,18 @@ public class AccountGroupModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -634,17 +679,11 @@ public class AccountGroupModelImpl
 	public void resetOriginalValues() {
 		AccountGroupModelImpl accountGroupModelImpl = this;
 
-		accountGroupModelImpl._originalExternalReferenceCode =
-			accountGroupModelImpl._externalReferenceCode;
-
-		accountGroupModelImpl._originalCompanyId =
-			accountGroupModelImpl._companyId;
-
-		accountGroupModelImpl._setOriginalCompanyId = false;
-
 		accountGroupModelImpl._setModifiedDate = false;
 
-		accountGroupModelImpl._columnBitmask = 0;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
+
+		accountGroupModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -792,11 +831,8 @@ public class AccountGroupModelImpl
 
 	private long _mvccVersion;
 	private String _externalReferenceCode;
-	private String _originalExternalReferenceCode;
 	private long _accountGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -804,7 +840,8 @@ public class AccountGroupModelImpl
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _description;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[11];
+	private Long _columnBitmask;
 	private AccountGroup _escapedModel;
 
 }

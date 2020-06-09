@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -101,6 +103,18 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int APPBUILDERWORKFLOWTASKLINKID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int APPBUILDERAPPID_COLUMN_INDEX = 3;
+
+	public static final int DDMSTRUCTURELAYOUTID_COLUMN_INDEX = 4;
+
+	public static final int WORKFLOWTASKNAME_COLUMN_INDEX = 5;
+
 	public static final long APPBUILDERAPPID_COLUMN_BITMASK = 1L;
 
 	public static final long DDMSTRUCTURELAYOUTID_COLUMN_BITMASK = 2L;
@@ -118,6 +132,7 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	}
 
 	public AppBuilderWorkflowTaskLinkModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -339,19 +354,21 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void setAppBuilderAppId(long appBuilderAppId) {
-		_columnBitmask |= APPBUILDERAPPID_COLUMN_BITMASK;
-
-		if (!_setOriginalAppBuilderAppId) {
-			_setOriginalAppBuilderAppId = true;
-
-			_originalAppBuilderAppId = _appBuilderAppId;
+		if (_originalValues[APPBUILDERAPPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[APPBUILDERAPPID_COLUMN_INDEX] = appBuilderAppId;
 		}
 
 		_appBuilderAppId = appBuilderAppId;
 	}
 
 	public long getOriginalAppBuilderAppId() {
-		return _originalAppBuilderAppId;
+		Object originalValue = _originalValues[APPBUILDERAPPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -361,19 +378,25 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void setDdmStructureLayoutId(long ddmStructureLayoutId) {
-		_columnBitmask |= DDMSTRUCTURELAYOUTID_COLUMN_BITMASK;
+		if (_originalValues[DDMSTRUCTURELAYOUTID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalDdmStructureLayoutId) {
-			_setOriginalDdmStructureLayoutId = true;
-
-			_originalDdmStructureLayoutId = _ddmStructureLayoutId;
+			_originalValues[DDMSTRUCTURELAYOUTID_COLUMN_INDEX] =
+				ddmStructureLayoutId;
 		}
 
 		_ddmStructureLayoutId = ddmStructureLayoutId;
 	}
 
 	public long getOriginalDdmStructureLayoutId() {
-		return _originalDdmStructureLayoutId;
+		Object originalValue =
+			_originalValues[DDMSTRUCTURELAYOUTID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -388,20 +411,36 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 
 	@Override
 	public void setWorkflowTaskName(String workflowTaskName) {
-		_columnBitmask |= WORKFLOWTASKNAME_COLUMN_BITMASK;
-
-		if (_originalWorkflowTaskName == null) {
-			_originalWorkflowTaskName = _workflowTaskName;
+		if (_originalValues[WORKFLOWTASKNAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[WORKFLOWTASKNAME_COLUMN_INDEX] = workflowTaskName;
 		}
 
 		_workflowTaskName = workflowTaskName;
 	}
 
 	public String getOriginalWorkflowTaskName() {
-		return GetterUtil.getString(_originalWorkflowTaskName);
+		Object originalValue = _originalValues[WORKFLOWTASKNAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -525,21 +564,9 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 		AppBuilderWorkflowTaskLinkModelImpl
 			appBuilderWorkflowTaskLinkModelImpl = this;
 
-		appBuilderWorkflowTaskLinkModelImpl._originalAppBuilderAppId =
-			appBuilderWorkflowTaskLinkModelImpl._appBuilderAppId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		appBuilderWorkflowTaskLinkModelImpl._setOriginalAppBuilderAppId = false;
-
-		appBuilderWorkflowTaskLinkModelImpl._originalDdmStructureLayoutId =
-			appBuilderWorkflowTaskLinkModelImpl._ddmStructureLayoutId;
-
-		appBuilderWorkflowTaskLinkModelImpl._setOriginalDdmStructureLayoutId =
-			false;
-
-		appBuilderWorkflowTaskLinkModelImpl._originalWorkflowTaskName =
-			appBuilderWorkflowTaskLinkModelImpl._workflowTaskName;
-
-		appBuilderWorkflowTaskLinkModelImpl._columnBitmask = 0;
+		appBuilderWorkflowTaskLinkModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -657,14 +684,10 @@ public class AppBuilderWorkflowTaskLinkModelImpl
 	private long _appBuilderWorkflowTaskLinkId;
 	private long _companyId;
 	private long _appBuilderAppId;
-	private long _originalAppBuilderAppId;
-	private boolean _setOriginalAppBuilderAppId;
 	private long _ddmStructureLayoutId;
-	private long _originalDdmStructureLayoutId;
-	private boolean _setOriginalDdmStructureLayoutId;
 	private String _workflowTaskName;
-	private String _originalWorkflowTaskName;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private AppBuilderWorkflowTaskLink _escapedModel;
 
 }

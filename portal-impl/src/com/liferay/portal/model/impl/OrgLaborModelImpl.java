@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.OrgLaborSoap;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -122,6 +124,44 @@ public class OrgLaborModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int ORGLABORID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int ORGANIZATIONID_COLUMN_INDEX = 3;
+
+	public static final int TYPEID_COLUMN_INDEX = 4;
+
+	public static final int SUNOPEN_COLUMN_INDEX = 5;
+
+	public static final int SUNCLOSE_COLUMN_INDEX = 6;
+
+	public static final int MONOPEN_COLUMN_INDEX = 7;
+
+	public static final int MONCLOSE_COLUMN_INDEX = 8;
+
+	public static final int TUEOPEN_COLUMN_INDEX = 9;
+
+	public static final int TUECLOSE_COLUMN_INDEX = 10;
+
+	public static final int WEDOPEN_COLUMN_INDEX = 11;
+
+	public static final int WEDCLOSE_COLUMN_INDEX = 12;
+
+	public static final int THUOPEN_COLUMN_INDEX = 13;
+
+	public static final int THUCLOSE_COLUMN_INDEX = 14;
+
+	public static final int FRIOPEN_COLUMN_INDEX = 15;
+
+	public static final int FRICLOSE_COLUMN_INDEX = 16;
+
+	public static final int SATOPEN_COLUMN_INDEX = 17;
+
+	public static final int SATCLOSE_COLUMN_INDEX = 18;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.OrgLabor"),
@@ -202,6 +242,7 @@ public class OrgLaborModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.OrgLabor"));
 
 	public OrgLaborModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -437,17 +478,21 @@ public class OrgLaborModelImpl
 	public void setOrganizationId(long organizationId) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalOrganizationId) {
-			_setOriginalOrganizationId = true;
-
-			_originalOrganizationId = _organizationId;
+		if (_originalValues[ORGANIZATIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ORGANIZATIONID_COLUMN_INDEX] = organizationId;
 		}
 
 		_organizationId = organizationId;
 	}
 
 	public long getOriginalOrganizationId() {
-		return _originalOrganizationId;
+		Object originalValue = _originalValues[ORGANIZATIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -618,6 +663,18 @@ public class OrgLaborModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -754,12 +811,9 @@ public class OrgLaborModelImpl
 	public void resetOriginalValues() {
 		OrgLaborModelImpl orgLaborModelImpl = this;
 
-		orgLaborModelImpl._originalOrganizationId =
-			orgLaborModelImpl._organizationId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		orgLaborModelImpl._setOriginalOrganizationId = false;
-
-		orgLaborModelImpl._columnBitmask = 0;
+		orgLaborModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -881,8 +935,6 @@ public class OrgLaborModelImpl
 	private long _orgLaborId;
 	private long _companyId;
 	private long _organizationId;
-	private long _originalOrganizationId;
-	private boolean _setOriginalOrganizationId;
 	private long _typeId;
 	private int _sunOpen;
 	private int _sunClose;
@@ -898,7 +950,8 @@ public class OrgLaborModelImpl
 	private int _friClose;
 	private int _satOpen;
 	private int _satClose;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[20];
+	private Long _columnBitmask;
 	private OrgLabor _escapedModel;
 
 }

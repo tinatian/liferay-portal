@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.workflow.kaleo.forms.model.KaleoProcessLink;
 import com.liferay.portal.workflow.kaleo.forms.model.KaleoProcessLinkModel;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,6 +98,16 @@ public class KaleoProcessLinkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int KALEOPROCESSLINKID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int KALEOPROCESSID_COLUMN_INDEX = 2;
+
+	public static final int WORKFLOWTASKNAME_COLUMN_INDEX = 3;
+
+	public static final int DDMTEMPLATEID_COLUMN_INDEX = 4;
+
 	public static final long KALEOPROCESSID_COLUMN_BITMASK = 1L;
 
 	public static final long WORKFLOWTASKNAME_COLUMN_BITMASK = 2L;
@@ -111,6 +123,7 @@ public class KaleoProcessLinkModelImpl
 	}
 
 	public KaleoProcessLinkModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -302,19 +315,21 @@ public class KaleoProcessLinkModelImpl
 
 	@Override
 	public void setKaleoProcessId(long kaleoProcessId) {
-		_columnBitmask |= KALEOPROCESSID_COLUMN_BITMASK;
-
-		if (!_setOriginalKaleoProcessId) {
-			_setOriginalKaleoProcessId = true;
-
-			_originalKaleoProcessId = _kaleoProcessId;
+		if (_originalValues[KALEOPROCESSID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[KALEOPROCESSID_COLUMN_INDEX] = kaleoProcessId;
 		}
 
 		_kaleoProcessId = kaleoProcessId;
 	}
 
 	public long getOriginalKaleoProcessId() {
-		return _originalKaleoProcessId;
+		Object originalValue = _originalValues[KALEOPROCESSID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -329,17 +344,21 @@ public class KaleoProcessLinkModelImpl
 
 	@Override
 	public void setWorkflowTaskName(String workflowTaskName) {
-		_columnBitmask |= WORKFLOWTASKNAME_COLUMN_BITMASK;
-
-		if (_originalWorkflowTaskName == null) {
-			_originalWorkflowTaskName = _workflowTaskName;
+		if (_originalValues[WORKFLOWTASKNAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[WORKFLOWTASKNAME_COLUMN_INDEX] = workflowTaskName;
 		}
 
 		_workflowTaskName = workflowTaskName;
 	}
 
 	public String getOriginalWorkflowTaskName() {
-		return GetterUtil.getString(_originalWorkflowTaskName);
+		Object originalValue = _originalValues[WORKFLOWTASKNAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -353,6 +372,18 @@ public class KaleoProcessLinkModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -455,15 +486,9 @@ public class KaleoProcessLinkModelImpl
 	public void resetOriginalValues() {
 		KaleoProcessLinkModelImpl kaleoProcessLinkModelImpl = this;
 
-		kaleoProcessLinkModelImpl._originalKaleoProcessId =
-			kaleoProcessLinkModelImpl._kaleoProcessId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		kaleoProcessLinkModelImpl._setOriginalKaleoProcessId = false;
-
-		kaleoProcessLinkModelImpl._originalWorkflowTaskName =
-			kaleoProcessLinkModelImpl._workflowTaskName;
-
-		kaleoProcessLinkModelImpl._columnBitmask = 0;
+		kaleoProcessLinkModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -566,12 +591,10 @@ public class KaleoProcessLinkModelImpl
 	private long _kaleoProcessLinkId;
 	private long _companyId;
 	private long _kaleoProcessId;
-	private long _originalKaleoProcessId;
-	private boolean _setOriginalKaleoProcessId;
 	private String _workflowTaskName;
-	private String _originalWorkflowTaskName;
 	private long _DDMTemplateId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private KaleoProcessLink _escapedModel;
 
 }

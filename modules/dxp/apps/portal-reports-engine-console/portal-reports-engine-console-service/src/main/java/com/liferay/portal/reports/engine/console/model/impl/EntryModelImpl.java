@@ -40,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -128,6 +129,48 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int ENTRYID_COLUMN_INDEX = 0;
+
+	public static final int GROUPID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int USERNAME_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int DEFINITIONID_COLUMN_INDEX = 7;
+
+	public static final int FORMAT_COLUMN_INDEX = 8;
+
+	public static final int SCHEDULEREQUEST_COLUMN_INDEX = 9;
+
+	public static final int STARTDATE_COLUMN_INDEX = 10;
+
+	public static final int ENDDATE_COLUMN_INDEX = 11;
+
+	public static final int REPEATING_COLUMN_INDEX = 12;
+
+	public static final int RECURRENCE_COLUMN_INDEX = 13;
+
+	public static final int EMAILNOTIFICATIONS_COLUMN_INDEX = 14;
+
+	public static final int EMAILDELIVERY_COLUMN_INDEX = 15;
+
+	public static final int PORTLETID_COLUMN_INDEX = 16;
+
+	public static final int PAGEURL_COLUMN_INDEX = 17;
+
+	public static final int REPORTPARAMETERS_COLUMN_INDEX = 18;
+
+	public static final int ERRORMESSAGE_COLUMN_INDEX = 19;
+
+	public static final int STATUS_COLUMN_INDEX = 20;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -195,6 +238,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	}
 
 	public EntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -821,6 +865,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 		EntryModelImpl entryModelImpl = this;
 
 		entryModelImpl._setModifiedDate = false;
+
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -1055,6 +1101,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	private String _reportParameters;
 	private String _errorMessage;
 	private String _status;
+	private Object[] _originalValues = new Object[22];
 	private Entry _escapedModel;
 
 }

@@ -40,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -101,6 +102,14 @@ public class UADPartialEntryModelImpl
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
+
+	public static final int UADPARTIALENTRYID_COLUMN_INDEX = 0;
+
+	public static final int USERID_COLUMN_INDEX = 1;
+
+	public static final int USERNAME_COLUMN_INDEX = 2;
+
+	public static final int MESSAGE_COLUMN_INDEX = 3;
 
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
@@ -166,6 +175,7 @@ public class UADPartialEntryModelImpl
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.UADPartialEntry"));
 
 	public UADPartialEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -484,6 +494,7 @@ public class UADPartialEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -588,6 +599,7 @@ public class UADPartialEntryModelImpl
 	private long _userId;
 	private String _userName;
 	private String _message;
+	private Object[] _originalValues = new Object[5];
 	private UADPartialEntry _escapedModel;
 
 }

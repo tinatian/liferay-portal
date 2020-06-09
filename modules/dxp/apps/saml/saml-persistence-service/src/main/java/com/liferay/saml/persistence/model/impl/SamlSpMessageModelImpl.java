@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpMessage;
 import com.liferay.saml.persistence.model.SamlSpMessageModel;
@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -99,6 +100,18 @@ public class SamlSpMessageModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int SAMLSPMESSAGEID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 2;
+
+	public static final int SAMLIDPENTITYID_COLUMN_INDEX = 3;
+
+	public static final int SAMLIDPRESPONSEKEY_COLUMN_INDEX = 4;
+
+	public static final int EXPIRATIONDATE_COLUMN_INDEX = 5;
+
 	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 1L;
 
 	public static final long SAMLIDPENTITYID_COLUMN_BITMASK = 2L;
@@ -116,6 +129,7 @@ public class SamlSpMessageModelImpl
 	}
 
 	public SamlSpMessageModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -322,17 +336,21 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
-		_columnBitmask |= SAMLIDPENTITYID_COLUMN_BITMASK;
-
-		if (_originalSamlIdpEntityId == null) {
-			_originalSamlIdpEntityId = _samlIdpEntityId;
+		if (_originalValues[SAMLIDPENTITYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SAMLIDPENTITYID_COLUMN_INDEX] = samlIdpEntityId;
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
 	}
 
 	public String getOriginalSamlIdpEntityId() {
-		return GetterUtil.getString(_originalSamlIdpEntityId);
+		Object originalValue = _originalValues[SAMLIDPENTITYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -347,17 +365,24 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void setSamlIdpResponseKey(String samlIdpResponseKey) {
-		_columnBitmask |= SAMLIDPRESPONSEKEY_COLUMN_BITMASK;
+		if (_originalValues[SAMLIDPRESPONSEKEY_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (_originalSamlIdpResponseKey == null) {
-			_originalSamlIdpResponseKey = _samlIdpResponseKey;
+			_originalValues[SAMLIDPRESPONSEKEY_COLUMN_INDEX] =
+				samlIdpResponseKey;
 		}
 
 		_samlIdpResponseKey = samlIdpResponseKey;
 	}
 
 	public String getOriginalSamlIdpResponseKey() {
-		return GetterUtil.getString(_originalSamlIdpResponseKey);
+		Object originalValue = _originalValues[SAMLIDPRESPONSEKEY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -367,20 +392,36 @@ public class SamlSpMessageModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
-
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_originalValues[EXPIRATIONDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[EXPIRATIONDATE_COLUMN_INDEX] = expirationDate;
 		}
 
 		_expirationDate = expirationDate;
 	}
 
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		Object originalValue = _originalValues[EXPIRATIONDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (Date)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -484,16 +525,9 @@ public class SamlSpMessageModelImpl
 	public void resetOriginalValues() {
 		SamlSpMessageModelImpl samlSpMessageModelImpl = this;
 
-		samlSpMessageModelImpl._originalSamlIdpEntityId =
-			samlSpMessageModelImpl._samlIdpEntityId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		samlSpMessageModelImpl._originalSamlIdpResponseKey =
-			samlSpMessageModelImpl._samlIdpResponseKey;
-
-		samlSpMessageModelImpl._originalExpirationDate =
-			samlSpMessageModelImpl._expirationDate;
-
-		samlSpMessageModelImpl._columnBitmask = 0;
+		samlSpMessageModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -621,12 +655,10 @@ public class SamlSpMessageModelImpl
 	private long _companyId;
 	private Date _createDate;
 	private String _samlIdpEntityId;
-	private String _originalSamlIdpEntityId;
 	private String _samlIdpResponseKey;
-	private String _originalSamlIdpResponseKey;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private SamlSpMessage _escapedModel;
 
 }

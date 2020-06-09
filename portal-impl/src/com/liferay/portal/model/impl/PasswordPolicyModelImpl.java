@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -42,6 +43,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -152,6 +154,76 @@ public class PasswordPolicyModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int UUID_COLUMN_INDEX = 1;
+
+	public static final int PASSWORDPOLICYID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int DEFAULTPOLICY_COLUMN_INDEX = 8;
+
+	public static final int NAME_COLUMN_INDEX = 9;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 10;
+
+	public static final int CHANGEABLE_COLUMN_INDEX = 11;
+
+	public static final int CHANGEREQUIRED_COLUMN_INDEX = 12;
+
+	public static final int MINAGE_COLUMN_INDEX = 13;
+
+	public static final int CHECKSYNTAX_COLUMN_INDEX = 14;
+
+	public static final int ALLOWDICTIONARYWORDS_COLUMN_INDEX = 15;
+
+	public static final int MINALPHANUMERIC_COLUMN_INDEX = 16;
+
+	public static final int MINLENGTH_COLUMN_INDEX = 17;
+
+	public static final int MINLOWERCASE_COLUMN_INDEX = 18;
+
+	public static final int MINNUMBERS_COLUMN_INDEX = 19;
+
+	public static final int MINSYMBOLS_COLUMN_INDEX = 20;
+
+	public static final int MINUPPERCASE_COLUMN_INDEX = 21;
+
+	public static final int REGEX_COLUMN_INDEX = 22;
+
+	public static final int HISTORY_COLUMN_INDEX = 23;
+
+	public static final int HISTORYCOUNT_COLUMN_INDEX = 24;
+
+	public static final int EXPIREABLE_COLUMN_INDEX = 25;
+
+	public static final int MAXAGE_COLUMN_INDEX = 26;
+
+	public static final int WARNINGTIME_COLUMN_INDEX = 27;
+
+	public static final int GRACELIMIT_COLUMN_INDEX = 28;
+
+	public static final int LOCKOUT_COLUMN_INDEX = 29;
+
+	public static final int MAXFAILURE_COLUMN_INDEX = 30;
+
+	public static final int LOCKOUTDURATION_COLUMN_INDEX = 31;
+
+	public static final int REQUIREUNLOCK_COLUMN_INDEX = 32;
+
+	public static final int RESETFAILURECOUNT_COLUMN_INDEX = 33;
+
+	public static final int RESETTICKETMAXAGE_COLUMN_INDEX = 34;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.PasswordPolicy"),
@@ -257,6 +329,7 @@ public class PasswordPolicyModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.PasswordPolicy"));
 
 	public PasswordPolicyModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -591,17 +664,21 @@ public class PasswordPolicyModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@JSON
@@ -623,19 +700,21 @@ public class PasswordPolicyModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -723,19 +802,21 @@ public class PasswordPolicyModelImpl
 
 	@Override
 	public void setDefaultPolicy(boolean defaultPolicy) {
-		_columnBitmask |= DEFAULTPOLICY_COLUMN_BITMASK;
-
-		if (!_setOriginalDefaultPolicy) {
-			_setOriginalDefaultPolicy = true;
-
-			_originalDefaultPolicy = _defaultPolicy;
+		if (_originalValues[DEFAULTPOLICY_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[DEFAULTPOLICY_COLUMN_INDEX] = defaultPolicy;
 		}
 
 		_defaultPolicy = defaultPolicy;
 	}
 
 	public boolean getOriginalDefaultPolicy() {
-		return _originalDefaultPolicy;
+		Object originalValue = _originalValues[DEFAULTPOLICY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_BOOLEAN;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@JSON
@@ -751,17 +832,21 @@ public class PasswordPolicyModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@JSON
@@ -1104,6 +1189,18 @@ public class PasswordPolicyModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1236,23 +1333,11 @@ public class PasswordPolicyModelImpl
 	public void resetOriginalValues() {
 		PasswordPolicyModelImpl passwordPolicyModelImpl = this;
 
-		passwordPolicyModelImpl._originalUuid = passwordPolicyModelImpl._uuid;
-
-		passwordPolicyModelImpl._originalCompanyId =
-			passwordPolicyModelImpl._companyId;
-
-		passwordPolicyModelImpl._setOriginalCompanyId = false;
-
 		passwordPolicyModelImpl._setModifiedDate = false;
 
-		passwordPolicyModelImpl._originalDefaultPolicy =
-			passwordPolicyModelImpl._defaultPolicy;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		passwordPolicyModelImpl._setOriginalDefaultPolicy = false;
-
-		passwordPolicyModelImpl._originalName = passwordPolicyModelImpl._name;
-
-		passwordPolicyModelImpl._columnBitmask = 0;
+		passwordPolicyModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1450,21 +1535,15 @@ public class PasswordPolicyModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _passwordPolicyId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _defaultPolicy;
-	private boolean _originalDefaultPolicy;
-	private boolean _setOriginalDefaultPolicy;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private boolean _changeable;
 	private boolean _changeRequired;
@@ -1490,7 +1569,8 @@ public class PasswordPolicyModelImpl
 	private boolean _requireUnlock;
 	private long _resetFailureCount;
 	private long _resetTicketMaxAge;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[36];
+	private Long _columnBitmask;
 	private PasswordPolicy _escapedModel;
 
 }

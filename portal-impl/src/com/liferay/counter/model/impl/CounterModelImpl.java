@@ -31,6 +31,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -86,6 +87,10 @@ public class CounterModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int NAME_COLUMN_INDEX = 0;
+
+	public static final int CURRENTID_COLUMN_INDEX = 1;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.counter.kernel.model.Counter"),
@@ -103,6 +108,7 @@ public class CounterModelImpl
 			"lock.expiration.time.com.liferay.counter.kernel.model.Counter"));
 
 	public CounterModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -338,6 +344,7 @@ public class CounterModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -429,6 +436,7 @@ public class CounterModelImpl
 
 	private String _name;
 	private long _currentId;
+	private Object[] _originalValues = new Object[3];
 	private Counter _escapedModel;
 
 }

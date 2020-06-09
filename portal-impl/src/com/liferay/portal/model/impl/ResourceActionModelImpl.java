@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ResourceActionModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,6 +98,16 @@ public class ResourceActionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int RESOURCEACTIONID_COLUMN_INDEX = 1;
+
+	public static final int NAME_COLUMN_INDEX = 2;
+
+	public static final int ACTIONID_COLUMN_INDEX = 3;
+
+	public static final int BITWISEVALUE_COLUMN_INDEX = 4;
+
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
 		com.liferay.portal.util.PropsUtil.get(
 			"value.object.entity.cache.enabled.com.liferay.portal.kernel.model.ResourceAction"),
@@ -122,6 +134,7 @@ public class ResourceActionModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.ResourceAction"));
 
 	public ResourceActionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -313,15 +326,21 @@ public class ResourceActionModelImpl
 	public void setName(String name) {
 		_columnBitmask = -1L;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -336,17 +355,21 @@ public class ResourceActionModelImpl
 
 	@Override
 	public void setActionId(String actionId) {
-		_columnBitmask |= ACTIONID_COLUMN_BITMASK;
-
-		if (_originalActionId == null) {
-			_originalActionId = _actionId;
+		if (_originalValues[ACTIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACTIONID_COLUMN_INDEX] = actionId;
 		}
 
 		_actionId = actionId;
 	}
 
 	public String getOriginalActionId() {
-		return GetterUtil.getString(_originalActionId);
+		Object originalValue = _originalValues[ACTIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -362,6 +385,18 @@ public class ResourceActionModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -476,12 +511,9 @@ public class ResourceActionModelImpl
 	public void resetOriginalValues() {
 		ResourceActionModelImpl resourceActionModelImpl = this;
 
-		resourceActionModelImpl._originalName = resourceActionModelImpl._name;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		resourceActionModelImpl._originalActionId =
-			resourceActionModelImpl._actionId;
-
-		resourceActionModelImpl._columnBitmask = 0;
+		resourceActionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -587,11 +619,10 @@ public class ResourceActionModelImpl
 	private long _mvccVersion;
 	private long _resourceActionId;
 	private String _name;
-	private String _originalName;
 	private String _actionId;
-	private String _originalActionId;
 	private long _bitwiseValue;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private ResourceAction _escapedModel;
 
 }

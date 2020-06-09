@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -104,6 +107,24 @@ public class AttachmentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int ATTACHMENTID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int ACCOUNTID_COLUMN_INDEX = 3;
+
+	public static final int FOLDERID_COLUMN_INDEX = 4;
+
+	public static final int MESSAGEID_COLUMN_INDEX = 5;
+
+	public static final int CONTENTPATH_COLUMN_INDEX = 6;
+
+	public static final int FILENAME_COLUMN_INDEX = 7;
+
+	public static final int SIZE_COLUMN_INDEX = 8;
+
 	public static final long MESSAGEID_COLUMN_BITMASK = 1L;
 
 	public static final long ATTACHMENTID_COLUMN_BITMASK = 2L;
@@ -117,6 +138,7 @@ public class AttachmentModelImpl
 	}
 
 	public AttachmentModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -356,19 +378,21 @@ public class AttachmentModelImpl
 
 	@Override
 	public void setMessageId(long messageId) {
-		_columnBitmask |= MESSAGEID_COLUMN_BITMASK;
-
-		if (!_setOriginalMessageId) {
-			_setOriginalMessageId = true;
-
-			_originalMessageId = _messageId;
+		if (_originalValues[MESSAGEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[MESSAGEID_COLUMN_INDEX] = messageId;
 		}
 
 		_messageId = messageId;
 	}
 
 	public long getOriginalMessageId() {
-		return _originalMessageId;
+		Object originalValue = _originalValues[MESSAGEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -412,6 +436,18 @@ public class AttachmentModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -518,11 +554,9 @@ public class AttachmentModelImpl
 	public void resetOriginalValues() {
 		AttachmentModelImpl attachmentModelImpl = this;
 
-		attachmentModelImpl._originalMessageId = attachmentModelImpl._messageId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		attachmentModelImpl._setOriginalMessageId = false;
-
-		attachmentModelImpl._columnBitmask = 0;
+		attachmentModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -641,12 +675,11 @@ public class AttachmentModelImpl
 	private long _accountId;
 	private long _folderId;
 	private long _messageId;
-	private long _originalMessageId;
-	private boolean _setOriginalMessageId;
 	private String _contentPath;
 	private String _fileName;
 	private long _size;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private Attachment _escapedModel;
 
 }

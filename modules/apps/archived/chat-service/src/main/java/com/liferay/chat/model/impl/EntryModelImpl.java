@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -99,6 +101,18 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int ENTRYID_COLUMN_INDEX = 0;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 1;
+
+	public static final int FROMUSERID_COLUMN_INDEX = 2;
+
+	public static final int TOUSERID_COLUMN_INDEX = 3;
+
+	public static final int CONTENT_COLUMN_INDEX = 4;
+
+	public static final int FLAG_COLUMN_INDEX = 5;
+
 	public static final long CONTENT_COLUMN_BITMASK = 1L;
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
@@ -116,6 +130,7 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	}
 
 	public EntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -280,17 +295,21 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void setCreateDate(long createDate) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalCreateDate) {
-			_setOriginalCreateDate = true;
-
-			_originalCreateDate = _createDate;
+		if (_originalValues[CREATEDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CREATEDATE_COLUMN_INDEX] = createDate;
 		}
 
 		_createDate = createDate;
 	}
 
 	public long getOriginalCreateDate() {
-		return _originalCreateDate;
+		Object originalValue = _originalValues[CREATEDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -300,12 +319,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setFromUserId(long fromUserId) {
-		_columnBitmask |= FROMUSERID_COLUMN_BITMASK;
-
-		if (!_setOriginalFromUserId) {
-			_setOriginalFromUserId = true;
-
-			_originalFromUserId = _fromUserId;
+		if (_originalValues[FROMUSERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[FROMUSERID_COLUMN_INDEX] = fromUserId;
 		}
 
 		_fromUserId = fromUserId;
@@ -328,7 +343,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	}
 
 	public long getOriginalFromUserId() {
-		return _originalFromUserId;
+		Object originalValue = _originalValues[FROMUSERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -338,12 +359,8 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setToUserId(long toUserId) {
-		_columnBitmask |= TOUSERID_COLUMN_BITMASK;
-
-		if (!_setOriginalToUserId) {
-			_setOriginalToUserId = true;
-
-			_originalToUserId = _toUserId;
+		if (_originalValues[TOUSERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TOUSERID_COLUMN_INDEX] = toUserId;
 		}
 
 		_toUserId = toUserId;
@@ -366,7 +383,13 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	}
 
 	public long getOriginalToUserId() {
-		return _originalToUserId;
+		Object originalValue = _originalValues[TOUSERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return GetterUtil.DEFAULT_LONG;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -381,17 +404,21 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	@Override
 	public void setContent(String content) {
-		_columnBitmask |= CONTENT_COLUMN_BITMASK;
-
-		if (_originalContent == null) {
-			_originalContent = _content;
+		if (_originalValues[CONTENT_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CONTENT_COLUMN_INDEX] = content;
 		}
 
 		_content = content;
 	}
 
 	public String getOriginalContent() {
-		return GetterUtil.getString(_originalContent);
+		Object originalValue = _originalValues[CONTENT_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			return null;
+		}
+
+		return (String)originalValue;
 	}
 
 	@Override
@@ -405,6 +432,18 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -516,21 +555,9 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 	public void resetOriginalValues() {
 		EntryModelImpl entryModelImpl = this;
 
-		entryModelImpl._originalCreateDate = entryModelImpl._createDate;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		entryModelImpl._setOriginalCreateDate = false;
-
-		entryModelImpl._originalFromUserId = entryModelImpl._fromUserId;
-
-		entryModelImpl._setOriginalFromUserId = false;
-
-		entryModelImpl._originalToUserId = entryModelImpl._toUserId;
-
-		entryModelImpl._setOriginalToUserId = false;
-
-		entryModelImpl._originalContent = entryModelImpl._content;
-
-		entryModelImpl._columnBitmask = 0;
+		entryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -631,18 +658,12 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	private long _entryId;
 	private long _createDate;
-	private long _originalCreateDate;
-	private boolean _setOriginalCreateDate;
 	private long _fromUserId;
-	private long _originalFromUserId;
-	private boolean _setOriginalFromUserId;
 	private long _toUserId;
-	private long _originalToUserId;
-	private boolean _setOriginalToUserId;
 	private String _content;
-	private String _originalContent;
 	private int _flag;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private Entry _escapedModel;
 
 }
