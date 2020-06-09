@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.segments.model.SegmentsEntryRole;
 import com.liferay.segments.model.SegmentsEntryRoleModel;
@@ -36,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -111,6 +113,24 @@ public class SegmentsEntryRoleModelImpl
 
 	public static final long SEGMENTSENTRYROLEID_COLUMN_BITMASK = 4L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int SEGMENTSENTRYROLEID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int USERNAME_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int SEGMENTSENTRYID_COLUMN_INDEX = 7;
+
+	public static final int ROLEID_COLUMN_INDEX = 8;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -120,6 +140,7 @@ public class SegmentsEntryRoleModelImpl
 	}
 
 	public SegmentsEntryRoleModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -410,19 +431,21 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setSegmentsEntryId(long segmentsEntryId) {
-		_columnBitmask |= SEGMENTSENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalSegmentsEntryId) {
-			_setOriginalSegmentsEntryId = true;
-
-			_originalSegmentsEntryId = _segmentsEntryId;
+		if (_originalValues[SEGMENTSENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SEGMENTSENTRYID_COLUMN_INDEX] = _segmentsEntryId;
 		}
 
 		_segmentsEntryId = segmentsEntryId;
 	}
 
 	public long getOriginalSegmentsEntryId() {
-		return _originalSegmentsEntryId;
+		Object originalValue = _originalValues[SEGMENTSENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _segmentsEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -432,22 +455,36 @@ public class SegmentsEntryRoleModelImpl
 
 	@Override
 	public void setRoleId(long roleId) {
-		_columnBitmask |= ROLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
+		if (_originalValues[ROLEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ROLEID_COLUMN_INDEX] = _roleId;
 		}
 
 		_roleId = roleId;
 	}
 
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		Object originalValue = _originalValues[ROLEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _roleId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -557,17 +594,9 @@ public class SegmentsEntryRoleModelImpl
 
 		segmentsEntryRoleModelImpl._setModifiedDate = false;
 
-		segmentsEntryRoleModelImpl._originalSegmentsEntryId =
-			segmentsEntryRoleModelImpl._segmentsEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		segmentsEntryRoleModelImpl._setOriginalSegmentsEntryId = false;
-
-		segmentsEntryRoleModelImpl._originalRoleId =
-			segmentsEntryRoleModelImpl._roleId;
-
-		segmentsEntryRoleModelImpl._setOriginalRoleId = false;
-
-		segmentsEntryRoleModelImpl._columnBitmask = 0;
+		segmentsEntryRoleModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -699,12 +728,9 @@ public class SegmentsEntryRoleModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _segmentsEntryId;
-	private long _originalSegmentsEntryId;
-	private boolean _setOriginalSegmentsEntryId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private SegmentsEntryRole _escapedModel;
 
 }

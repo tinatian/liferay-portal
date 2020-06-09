@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthApp;
 import com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthAppModel;
@@ -40,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -121,6 +123,26 @@ public class WeDeployAuthAppModelImpl
 
 	public static final long WEDEPLOYAUTHAPPID_COLUMN_BITMASK = 8L;
 
+	public static final int WEDEPLOYAUTHAPPID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 5;
+
+	public static final int NAME_COLUMN_INDEX = 6;
+
+	public static final int REDIRECTURI_COLUMN_INDEX = 7;
+
+	public static final int CLIENTID_COLUMN_INDEX = 8;
+
+	public static final int CLIENTSECRET_COLUMN_INDEX = 9;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -180,6 +202,7 @@ public class WeDeployAuthAppModelImpl
 	}
 
 	public WeDeployAuthAppModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -486,17 +509,21 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setRedirectURI(String redirectURI) {
-		_columnBitmask |= REDIRECTURI_COLUMN_BITMASK;
-
-		if (_originalRedirectURI == null) {
-			_originalRedirectURI = _redirectURI;
+		if (_originalValues[REDIRECTURI_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[REDIRECTURI_COLUMN_INDEX] = _redirectURI;
 		}
 
 		_redirectURI = redirectURI;
 	}
 
 	public String getOriginalRedirectURI() {
-		return GetterUtil.getString(_originalRedirectURI);
+		Object originalValue = _originalValues[REDIRECTURI_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _redirectURI;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -512,17 +539,21 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setClientId(String clientId) {
-		_columnBitmask |= CLIENTID_COLUMN_BITMASK;
-
-		if (_originalClientId == null) {
-			_originalClientId = _clientId;
+		if (_originalValues[CLIENTID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLIENTID_COLUMN_INDEX] = _clientId;
 		}
 
 		_clientId = clientId;
 	}
 
 	public String getOriginalClientId() {
-		return GetterUtil.getString(_originalClientId);
+		Object originalValue = _originalValues[CLIENTID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _clientId;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -538,20 +569,36 @@ public class WeDeployAuthAppModelImpl
 
 	@Override
 	public void setClientSecret(String clientSecret) {
-		_columnBitmask |= CLIENTSECRET_COLUMN_BITMASK;
-
-		if (_originalClientSecret == null) {
-			_originalClientSecret = _clientSecret;
+		if (_originalValues[CLIENTSECRET_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLIENTSECRET_COLUMN_INDEX] = _clientSecret;
 		}
 
 		_clientSecret = clientSecret;
 	}
 
 	public String getOriginalClientSecret() {
-		return GetterUtil.getString(_originalClientSecret);
+		Object originalValue = _originalValues[CLIENTSECRET_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _clientSecret;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -661,16 +708,9 @@ public class WeDeployAuthAppModelImpl
 
 		weDeployAuthAppModelImpl._setModifiedDate = false;
 
-		weDeployAuthAppModelImpl._originalRedirectURI =
-			weDeployAuthAppModelImpl._redirectURI;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		weDeployAuthAppModelImpl._originalClientId =
-			weDeployAuthAppModelImpl._clientId;
-
-		weDeployAuthAppModelImpl._originalClientSecret =
-			weDeployAuthAppModelImpl._clientSecret;
-
-		weDeployAuthAppModelImpl._columnBitmask = 0;
+		weDeployAuthAppModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -827,12 +867,10 @@ public class WeDeployAuthAppModelImpl
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _redirectURI;
-	private String _originalRedirectURI;
 	private String _clientId;
-	private String _originalClientId;
 	private String _clientSecret;
-	private String _originalClientSecret;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[11];
+	private Long _columnBitmask;
 	private WeDeployAuthApp _escapedModel;
 
 }

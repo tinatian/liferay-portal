@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -123,6 +125,24 @@ public class ExpandoColumnModelImpl
 
 	public static final long TABLEID_COLUMN_BITMASK = 2L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int COLUMNID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int TABLEID_COLUMN_INDEX = 4;
+
+	public static final int NAME_COLUMN_INDEX = 5;
+
+	public static final int TYPE_COLUMN_INDEX = 6;
+
+	public static final int DEFAULTDATA_COLUMN_INDEX = 7;
+
+	public static final int TYPESETTINGS_COLUMN_INDEX = 8;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -175,6 +195,7 @@ public class ExpandoColumnModelImpl
 			"lock.expiration.time.com.liferay.expando.kernel.model.ExpandoColumn"));
 
 	public ExpandoColumnModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -398,19 +419,21 @@ public class ExpandoColumnModelImpl
 
 	@Override
 	public void setTableId(long tableId) {
-		_columnBitmask |= TABLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalTableId) {
-			_setOriginalTableId = true;
-
-			_originalTableId = _tableId;
+		if (_originalValues[TABLEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TABLEID_COLUMN_INDEX] = _tableId;
 		}
 
 		_tableId = tableId;
 	}
 
 	public long getOriginalTableId() {
-		return _originalTableId;
+		Object originalValue = _originalValues[TABLEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _tableId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -428,15 +451,21 @@ public class ExpandoColumnModelImpl
 	public void setName(String name) {
 		_columnBitmask = -1L;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = _name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _name;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -483,6 +512,18 @@ public class ExpandoColumnModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -574,14 +615,9 @@ public class ExpandoColumnModelImpl
 	public void resetOriginalValues() {
 		ExpandoColumnModelImpl expandoColumnModelImpl = this;
 
-		expandoColumnModelImpl._originalTableId =
-			expandoColumnModelImpl._tableId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		expandoColumnModelImpl._setOriginalTableId = false;
-
-		expandoColumnModelImpl._originalName = expandoColumnModelImpl._name;
-
-		expandoColumnModelImpl._columnBitmask = 0;
+		expandoColumnModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -703,14 +739,12 @@ public class ExpandoColumnModelImpl
 	private long _columnId;
 	private long _companyId;
 	private long _tableId;
-	private long _originalTableId;
-	private boolean _setOriginalTableId;
 	private String _name;
-	private String _originalName;
 	private int _type;
 	private String _defaultData;
 	private String _typeSettings;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private ExpandoColumn _escapedModel;
 
 }

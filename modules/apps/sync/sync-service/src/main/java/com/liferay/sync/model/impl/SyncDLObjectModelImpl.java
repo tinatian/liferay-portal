@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.sync.model.SyncDLObject;
 import com.liferay.sync.model.SyncDLObjectModel;
@@ -40,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -156,6 +158,62 @@ public class SyncDLObjectModelImpl
 
 	public static final long VERSION_COLUMN_BITMASK = 128L;
 
+	public static final int SYNCDLOBJECTID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATETIME_COLUMN_INDEX = 4;
+
+	public static final int MODIFIEDTIME_COLUMN_INDEX = 5;
+
+	public static final int REPOSITORYID_COLUMN_INDEX = 6;
+
+	public static final int PARENTFOLDERID_COLUMN_INDEX = 7;
+
+	public static final int TREEPATH_COLUMN_INDEX = 8;
+
+	public static final int NAME_COLUMN_INDEX = 9;
+
+	public static final int EXTENSION_COLUMN_INDEX = 10;
+
+	public static final int MIMETYPE_COLUMN_INDEX = 11;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 12;
+
+	public static final int CHANGELOG_COLUMN_INDEX = 13;
+
+	public static final int EXTRASETTINGS_COLUMN_INDEX = 14;
+
+	public static final int VERSION_COLUMN_INDEX = 15;
+
+	public static final int VERSIONID_COLUMN_INDEX = 16;
+
+	public static final int SIZE_COLUMN_INDEX = 17;
+
+	public static final int CHECKSUM_COLUMN_INDEX = 18;
+
+	public static final int EVENT_COLUMN_INDEX = 19;
+
+	public static final int LANTOKENKEY_COLUMN_INDEX = 20;
+
+	public static final int LASTPERMISSIONCHANGEDATE_COLUMN_INDEX = 21;
+
+	public static final int LOCKEXPIRATIONDATE_COLUMN_INDEX = 22;
+
+	public static final int LOCKUSERID_COLUMN_INDEX = 23;
+
+	public static final int LOCKUSERNAME_COLUMN_INDEX = 24;
+
+	public static final int TYPE_COLUMN_INDEX = 25;
+
+	public static final int TYPEPK_COLUMN_INDEX = 26;
+
+	public static final int TYPEUUID_COLUMN_INDEX = 27;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -232,6 +290,7 @@ public class SyncDLObjectModelImpl
 	}
 
 	public SyncDLObjectModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -570,17 +629,21 @@ public class SyncDLObjectModelImpl
 	public void setModifiedTime(long modifiedTime) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
+		if (_originalValues[MODIFIEDTIME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[MODIFIEDTIME_COLUMN_INDEX] = _modifiedTime;
 		}
 
 		_modifiedTime = modifiedTime;
 	}
 
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		Object originalValue = _originalValues[MODIFIEDTIME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _modifiedTime;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -593,17 +656,21 @@ public class SyncDLObjectModelImpl
 	public void setRepositoryId(long repositoryId) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalRepositoryId) {
-			_setOriginalRepositoryId = true;
-
-			_originalRepositoryId = _repositoryId;
+		if (_originalValues[REPOSITORYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[REPOSITORYID_COLUMN_INDEX] = _repositoryId;
 		}
 
 		_repositoryId = repositoryId;
 	}
 
 	public long getOriginalRepositoryId() {
-		return _originalRepositoryId;
+		Object originalValue = _originalValues[REPOSITORYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _repositoryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -614,19 +681,21 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setParentFolderId(long parentFolderId) {
-		_columnBitmask |= PARENTFOLDERID_COLUMN_BITMASK;
-
-		if (!_setOriginalParentFolderId) {
-			_setOriginalParentFolderId = true;
-
-			_originalParentFolderId = _parentFolderId;
+		if (_originalValues[PARENTFOLDERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PARENTFOLDERID_COLUMN_INDEX] = _parentFolderId;
 		}
 
 		_parentFolderId = parentFolderId;
 	}
 
 	public long getOriginalParentFolderId() {
-		return _originalParentFolderId;
+		Object originalValue = _originalValues[PARENTFOLDERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _parentFolderId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON(include = false)
@@ -642,17 +711,21 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTreePath(String treePath) {
-		_columnBitmask |= TREEPATH_COLUMN_BITMASK;
-
-		if (_originalTreePath == null) {
-			_originalTreePath = _treePath;
+		if (_originalValues[TREEPATH_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TREEPATH_COLUMN_INDEX] = _treePath;
 		}
 
 		_treePath = treePath;
 	}
 
 	public String getOriginalTreePath() {
-		return GetterUtil.getString(_originalTreePath);
+		Object originalValue = _originalValues[TREEPATH_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _treePath;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -764,17 +837,21 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setVersion(String version) {
-		_columnBitmask |= VERSION_COLUMN_BITMASK;
-
-		if (_originalVersion == null) {
-			_originalVersion = _version;
+		if (_originalValues[VERSION_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VERSION_COLUMN_INDEX] = _version;
 		}
 
 		_version = version;
 	}
 
 	public String getOriginalVersion() {
-		return GetterUtil.getString(_originalVersion);
+		Object originalValue = _originalValues[VERSION_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _version;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -828,17 +905,21 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setEvent(String event) {
-		_columnBitmask |= EVENT_COLUMN_BITMASK;
-
-		if (_originalEvent == null) {
-			_originalEvent = _event;
+		if (_originalValues[EVENT_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[EVENT_COLUMN_INDEX] = _event;
 		}
 
 		_event = event;
 	}
 
 	public String getOriginalEvent() {
-		return GetterUtil.getString(_originalEvent);
+		Object originalValue = _originalValues[EVENT_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _event;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -935,17 +1016,21 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setType(String type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_originalValues[TYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPE_COLUMN_INDEX] = _type;
 		}
 
 		_type = type;
 	}
 
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		Object originalValue = _originalValues[TYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _type;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -956,19 +1041,21 @@ public class SyncDLObjectModelImpl
 
 	@Override
 	public void setTypePK(long typePK) {
-		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
-
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
+		if (_originalValues[TYPEPK_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPEPK_COLUMN_INDEX] = _typePK;
 		}
 
 		_typePK = typePK;
 	}
 
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		Object originalValue = _originalValues[TYPEPK_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _typePK;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -988,6 +1075,18 @@ public class SyncDLObjectModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1134,35 +1233,9 @@ public class SyncDLObjectModelImpl
 	public void resetOriginalValues() {
 		SyncDLObjectModelImpl syncDLObjectModelImpl = this;
 
-		syncDLObjectModelImpl._originalModifiedTime =
-			syncDLObjectModelImpl._modifiedTime;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		syncDLObjectModelImpl._setOriginalModifiedTime = false;
-
-		syncDLObjectModelImpl._originalRepositoryId =
-			syncDLObjectModelImpl._repositoryId;
-
-		syncDLObjectModelImpl._setOriginalRepositoryId = false;
-
-		syncDLObjectModelImpl._originalParentFolderId =
-			syncDLObjectModelImpl._parentFolderId;
-
-		syncDLObjectModelImpl._setOriginalParentFolderId = false;
-
-		syncDLObjectModelImpl._originalTreePath =
-			syncDLObjectModelImpl._treePath;
-
-		syncDLObjectModelImpl._originalVersion = syncDLObjectModelImpl._version;
-
-		syncDLObjectModelImpl._originalEvent = syncDLObjectModelImpl._event;
-
-		syncDLObjectModelImpl._originalType = syncDLObjectModelImpl._type;
-
-		syncDLObjectModelImpl._originalTypePK = syncDLObjectModelImpl._typePK;
-
-		syncDLObjectModelImpl._setOriginalTypePK = false;
-
-		syncDLObjectModelImpl._columnBitmask = 0;
+		syncDLObjectModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1414,16 +1487,9 @@ public class SyncDLObjectModelImpl
 	private String _userName;
 	private long _createTime;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private long _repositoryId;
-	private long _originalRepositoryId;
-	private boolean _setOriginalRepositoryId;
 	private long _parentFolderId;
-	private long _originalParentFolderId;
-	private boolean _setOriginalParentFolderId;
 	private String _treePath;
-	private String _originalTreePath;
 	private String _name;
 	private String _extension;
 	private String _mimeType;
@@ -1431,24 +1497,20 @@ public class SyncDLObjectModelImpl
 	private String _changeLog;
 	private String _extraSettings;
 	private String _version;
-	private String _originalVersion;
 	private long _versionId;
 	private long _size;
 	private String _checksum;
 	private String _event;
-	private String _originalEvent;
 	private String _lanTokenKey;
 	private Date _lastPermissionChangeDate;
 	private Date _lockExpirationDate;
 	private long _lockUserId;
 	private String _lockUserName;
 	private String _type;
-	private String _originalType;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
 	private String _typeUuid;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[29];
+	private Long _columnBitmask;
 	private SyncDLObject _escapedModel;
 
 }

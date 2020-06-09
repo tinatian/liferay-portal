@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpSession;
 import com.liferay.saml.persistence.model.SamlSpSessionModel;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,6 +129,38 @@ public class SamlSpSessionModelImpl
 
 	public static final long SAMLSPSESSIONID_COLUMN_BITMASK = 16L;
 
+	public static final int SAMLSPSESSIONID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 5;
+
+	public static final int SAMLIDPENTITYID_COLUMN_INDEX = 6;
+
+	public static final int SAMLSPSESSIONKEY_COLUMN_INDEX = 7;
+
+	public static final int ASSERTIONXML_COLUMN_INDEX = 8;
+
+	public static final int JSESSIONID_COLUMN_INDEX = 9;
+
+	public static final int NAMEIDFORMAT_COLUMN_INDEX = 10;
+
+	public static final int NAMEIDNAMEQUALIFIER_COLUMN_INDEX = 11;
+
+	public static final int NAMEIDSPNAMEQUALIFIER_COLUMN_INDEX = 12;
+
+	public static final int NAMEIDVALUE_COLUMN_INDEX = 13;
+
+	public static final int SESSIONINDEX_COLUMN_INDEX = 14;
+
+	public static final int TERMINATED_COLUMN_INDEX = 15;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -136,6 +170,7 @@ public class SamlSpSessionModelImpl
 	}
 
 	public SamlSpSessionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -464,17 +499,21 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setSamlSpSessionKey(String samlSpSessionKey) {
-		_columnBitmask |= SAMLSPSESSIONKEY_COLUMN_BITMASK;
-
-		if (_originalSamlSpSessionKey == null) {
-			_originalSamlSpSessionKey = _samlSpSessionKey;
+		if (_originalValues[SAMLSPSESSIONKEY_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SAMLSPSESSIONKEY_COLUMN_INDEX] = _samlSpSessionKey;
 		}
 
 		_samlSpSessionKey = samlSpSessionKey;
 	}
 
 	public String getOriginalSamlSpSessionKey() {
-		return GetterUtil.getString(_originalSamlSpSessionKey);
+		Object originalValue = _originalValues[SAMLSPSESSIONKEY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _samlSpSessionKey;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -504,17 +543,21 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setJSessionId(String jSessionId) {
-		_columnBitmask |= JSESSIONID_COLUMN_BITMASK;
-
-		if (_originalJSessionId == null) {
-			_originalJSessionId = _jSessionId;
+		if (_originalValues[JSESSIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[JSESSIONID_COLUMN_INDEX] = _jSessionId;
 		}
 
 		_jSessionId = jSessionId;
 	}
 
 	public String getOriginalJSessionId() {
-		return GetterUtil.getString(_originalJSessionId);
+		Object originalValue = _originalValues[JSESSIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _jSessionId;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -574,17 +617,21 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setNameIdValue(String nameIdValue) {
-		_columnBitmask |= NAMEIDVALUE_COLUMN_BITMASK;
-
-		if (_originalNameIdValue == null) {
-			_originalNameIdValue = _nameIdValue;
+		if (_originalValues[NAMEIDVALUE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAMEIDVALUE_COLUMN_INDEX] = _nameIdValue;
 		}
 
 		_nameIdValue = nameIdValue;
 	}
 
 	public String getOriginalNameIdValue() {
-		return GetterUtil.getString(_originalNameIdValue);
+		Object originalValue = _originalValues[NAMEIDVALUE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _nameIdValue;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -599,17 +646,21 @@ public class SamlSpSessionModelImpl
 
 	@Override
 	public void setSessionIndex(String sessionIndex) {
-		_columnBitmask |= SESSIONINDEX_COLUMN_BITMASK;
-
-		if (_originalSessionIndex == null) {
-			_originalSessionIndex = _sessionIndex;
+		if (_originalValues[SESSIONINDEX_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SESSIONINDEX_COLUMN_INDEX] = _sessionIndex;
 		}
 
 		_sessionIndex = sessionIndex;
 	}
 
 	public String getOriginalSessionIndex() {
-		return GetterUtil.getString(_originalSessionIndex);
+		Object originalValue = _originalValues[SESSIONINDEX_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _sessionIndex;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -628,6 +679,18 @@ public class SamlSpSessionModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -743,19 +806,9 @@ public class SamlSpSessionModelImpl
 
 		samlSpSessionModelImpl._setModifiedDate = false;
 
-		samlSpSessionModelImpl._originalSamlSpSessionKey =
-			samlSpSessionModelImpl._samlSpSessionKey;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		samlSpSessionModelImpl._originalJSessionId =
-			samlSpSessionModelImpl._jSessionId;
-
-		samlSpSessionModelImpl._originalNameIdValue =
-			samlSpSessionModelImpl._nameIdValue;
-
-		samlSpSessionModelImpl._originalSessionIndex =
-			samlSpSessionModelImpl._sessionIndex;
-
-		samlSpSessionModelImpl._columnBitmask = 0;
+		samlSpSessionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -961,19 +1014,16 @@ public class SamlSpSessionModelImpl
 	private boolean _setModifiedDate;
 	private String _samlIdpEntityId;
 	private String _samlSpSessionKey;
-	private String _originalSamlSpSessionKey;
 	private String _assertionXml;
 	private String _jSessionId;
-	private String _originalJSessionId;
 	private String _nameIdFormat;
 	private String _nameIdNameQualifier;
 	private String _nameIdSPNameQualifier;
 	private String _nameIdValue;
-	private String _originalNameIdValue;
 	private String _sessionIndex;
-	private String _originalSessionIndex;
 	private boolean _terminated;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[17];
+	private Long _columnBitmask;
 	private SamlSpSession _escapedModel;
 
 }

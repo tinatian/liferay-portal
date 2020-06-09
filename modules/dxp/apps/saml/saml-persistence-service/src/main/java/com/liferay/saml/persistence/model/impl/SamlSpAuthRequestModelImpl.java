@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.saml.persistence.model.SamlSpAuthRequest;
 import com.liferay.saml.persistence.model.SamlSpAuthRequestModel;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -105,6 +107,16 @@ public class SamlSpAuthRequestModelImpl
 
 	public static final long SAMLSPAUTHNREQUESTID_COLUMN_BITMASK = 8L;
 
+	public static final int SAMLSPAUTHNREQUESTID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 2;
+
+	public static final int SAMLIDPENTITYID_COLUMN_INDEX = 3;
+
+	public static final int SAMLSPAUTHREQUESTKEY_COLUMN_INDEX = 4;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -114,6 +126,7 @@ public class SamlSpAuthRequestModelImpl
 	}
 
 	public SamlSpAuthRequestModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -307,17 +320,21 @@ public class SamlSpAuthRequestModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask |= CREATEDATE_COLUMN_BITMASK;
-
-		if (_originalCreateDate == null) {
-			_originalCreateDate = _createDate;
+		if (_originalValues[CREATEDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CREATEDATE_COLUMN_INDEX] = _createDate;
 		}
 
 		_createDate = createDate;
 	}
 
 	public Date getOriginalCreateDate() {
-		return _originalCreateDate;
+		Object originalValue = _originalValues[CREATEDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _createDate;
+		}
+
+		return (Date)originalValue;
 	}
 
 	@Override
@@ -332,17 +349,21 @@ public class SamlSpAuthRequestModelImpl
 
 	@Override
 	public void setSamlIdpEntityId(String samlIdpEntityId) {
-		_columnBitmask |= SAMLIDPENTITYID_COLUMN_BITMASK;
-
-		if (_originalSamlIdpEntityId == null) {
-			_originalSamlIdpEntityId = _samlIdpEntityId;
+		if (_originalValues[SAMLIDPENTITYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SAMLIDPENTITYID_COLUMN_INDEX] = _samlIdpEntityId;
 		}
 
 		_samlIdpEntityId = samlIdpEntityId;
 	}
 
 	public String getOriginalSamlIdpEntityId() {
-		return GetterUtil.getString(_originalSamlIdpEntityId);
+		Object originalValue = _originalValues[SAMLIDPENTITYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _samlIdpEntityId;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -357,20 +378,40 @@ public class SamlSpAuthRequestModelImpl
 
 	@Override
 	public void setSamlSpAuthRequestKey(String samlSpAuthRequestKey) {
-		_columnBitmask |= SAMLSPAUTHREQUESTKEY_COLUMN_BITMASK;
+		if (_originalValues[SAMLSPAUTHREQUESTKEY_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (_originalSamlSpAuthRequestKey == null) {
-			_originalSamlSpAuthRequestKey = _samlSpAuthRequestKey;
+			_originalValues[SAMLSPAUTHREQUESTKEY_COLUMN_INDEX] =
+				_samlSpAuthRequestKey;
 		}
 
 		_samlSpAuthRequestKey = samlSpAuthRequestKey;
 	}
 
 	public String getOriginalSamlSpAuthRequestKey() {
-		return GetterUtil.getString(_originalSamlSpAuthRequestKey);
+		Object originalValue =
+			_originalValues[SAMLSPAUTHREQUESTKEY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _samlSpAuthRequestKey;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -476,16 +517,9 @@ public class SamlSpAuthRequestModelImpl
 	public void resetOriginalValues() {
 		SamlSpAuthRequestModelImpl samlSpAuthRequestModelImpl = this;
 
-		samlSpAuthRequestModelImpl._originalCreateDate =
-			samlSpAuthRequestModelImpl._createDate;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		samlSpAuthRequestModelImpl._originalSamlIdpEntityId =
-			samlSpAuthRequestModelImpl._samlIdpEntityId;
-
-		samlSpAuthRequestModelImpl._originalSamlSpAuthRequestKey =
-			samlSpAuthRequestModelImpl._samlSpAuthRequestKey;
-
-		samlSpAuthRequestModelImpl._columnBitmask = 0;
+		samlSpAuthRequestModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -606,12 +640,10 @@ public class SamlSpAuthRequestModelImpl
 	private long _samlSpAuthnRequestId;
 	private long _companyId;
 	private Date _createDate;
-	private Date _originalCreateDate;
 	private String _samlIdpEntityId;
-	private String _originalSamlIdpEntityId;
 	private String _samlSpAuthRequestKey;
-	private String _originalSamlSpAuthRequestKey;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private SamlSpAuthRequest _escapedModel;
 
 }

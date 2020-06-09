@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -93,6 +94,14 @@ public class ViewCountEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int COMPANYID_COLUMN_INDEX = 0;
+
+	public static final int CLASSNAMEID_COLUMN_INDEX = 1;
+
+	public static final int CLASSPK_COLUMN_INDEX = 2;
+
+	public static final int VIEWCOUNT_COLUMN_INDEX = 3;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -102,6 +111,7 @@ public class ViewCountEntryModelImpl
 	}
 
 	public ViewCountEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -389,6 +399,7 @@ public class ViewCountEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -486,6 +497,7 @@ public class ViewCountEntryModelImpl
 	private long _classNameId;
 	private long _classPK;
 	private long _viewCount;
+	private Object[] _originalValues = new Object[5];
 	private ViewCountEntry _escapedModel;
 
 }

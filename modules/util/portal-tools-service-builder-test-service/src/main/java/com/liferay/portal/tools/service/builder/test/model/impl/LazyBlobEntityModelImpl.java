@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.service.builder.test.model.LazyBlobEntity;
 import com.liferay.portal.tools.service.builder.test.model.LazyBlobEntityBlob1BlobModel;
@@ -41,6 +42,7 @@ import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -128,6 +130,16 @@ public class LazyBlobEntityModelImpl
 
 	public static final long LAZYBLOBENTITYID_COLUMN_BITMASK = 4L;
 
+	public static final int UUID_COLUMN_INDEX = 0;
+
+	public static final int LAZYBLOBENTITYID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int BLOB1_COLUMN_INDEX = 3;
+
+	public static final int BLOB2_COLUMN_INDEX = 4;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -179,6 +191,7 @@ public class LazyBlobEntityModelImpl
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.LazyBlobEntity"));
 
 	public LazyBlobEntityModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -347,17 +360,21 @@ public class LazyBlobEntityModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -379,19 +396,21 @@ public class LazyBlobEntityModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -461,6 +480,18 @@ public class LazyBlobEntityModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -561,18 +592,13 @@ public class LazyBlobEntityModelImpl
 	public void resetOriginalValues() {
 		LazyBlobEntityModelImpl lazyBlobEntityModelImpl = this;
 
-		lazyBlobEntityModelImpl._originalUuid = lazyBlobEntityModelImpl._uuid;
-
-		lazyBlobEntityModelImpl._originalGroupId =
-			lazyBlobEntityModelImpl._groupId;
-
-		lazyBlobEntityModelImpl._setOriginalGroupId = false;
-
 		lazyBlobEntityModelImpl._blob1BlobModel = null;
 
 		lazyBlobEntityModelImpl._blob2BlobModel = null;
 
-		lazyBlobEntityModelImpl._columnBitmask = 0;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
+
+		lazyBlobEntityModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -644,14 +670,12 @@ public class LazyBlobEntityModelImpl
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _lazyBlobEntityId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private LazyBlobEntityBlob1BlobModel _blob1BlobModel;
 	private LazyBlobEntityBlob2BlobModel _blob2BlobModel;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private LazyBlobEntity _escapedModel;
 
 }

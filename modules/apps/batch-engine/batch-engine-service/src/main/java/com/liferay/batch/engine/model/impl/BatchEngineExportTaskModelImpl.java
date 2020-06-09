@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -42,6 +43,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Blob;
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -134,6 +136,42 @@ public class BatchEngineExportTaskModelImpl
 
 	public static final long BATCHENGINEEXPORTTASKID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int UUID_COLUMN_INDEX = 1;
+
+	public static final int BATCHENGINEEXPORTTASKID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int CALLBACKURL_COLUMN_INDEX = 7;
+
+	public static final int CLASSNAME_COLUMN_INDEX = 8;
+
+	public static final int CONTENT_COLUMN_INDEX = 9;
+
+	public static final int CONTENTTYPE_COLUMN_INDEX = 10;
+
+	public static final int ENDTIME_COLUMN_INDEX = 11;
+
+	public static final int ERRORMESSAGE_COLUMN_INDEX = 12;
+
+	public static final int FIELDNAMES_COLUMN_INDEX = 13;
+
+	public static final int EXECUTESTATUS_COLUMN_INDEX = 14;
+
+	public static final int PARAMETERS_COLUMN_INDEX = 15;
+
+	public static final int STARTTIME_COLUMN_INDEX = 16;
+
+	public static final int TASKITEMDELEGATENAME_COLUMN_INDEX = 17;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -143,6 +181,7 @@ public class BatchEngineExportTaskModelImpl
 	}
 
 	public BatchEngineExportTaskModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -412,17 +451,21 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -442,19 +485,21 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -638,17 +683,21 @@ public class BatchEngineExportTaskModelImpl
 
 	@Override
 	public void setExecuteStatus(String executeStatus) {
-		_columnBitmask |= EXECUTESTATUS_COLUMN_BITMASK;
-
-		if (_originalExecuteStatus == null) {
-			_originalExecuteStatus = _executeStatus;
+		if (_originalValues[EXECUTESTATUS_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[EXECUTESTATUS_COLUMN_INDEX] = _executeStatus;
 		}
 
 		_executeStatus = executeStatus;
 	}
 
 	public String getOriginalExecuteStatus() {
-		return GetterUtil.getString(_originalExecuteStatus);
+		Object originalValue = _originalValues[EXECUTESTATUS_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _executeStatus;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -693,6 +742,18 @@ public class BatchEngineExportTaskModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -812,22 +873,13 @@ public class BatchEngineExportTaskModelImpl
 	public void resetOriginalValues() {
 		BatchEngineExportTaskModelImpl batchEngineExportTaskModelImpl = this;
 
-		batchEngineExportTaskModelImpl._originalUuid =
-			batchEngineExportTaskModelImpl._uuid;
-
-		batchEngineExportTaskModelImpl._originalCompanyId =
-			batchEngineExportTaskModelImpl._companyId;
-
-		batchEngineExportTaskModelImpl._setOriginalCompanyId = false;
-
 		batchEngineExportTaskModelImpl._setModifiedDate = false;
 
 		batchEngineExportTaskModelImpl._contentBlobModel = null;
 
-		batchEngineExportTaskModelImpl._originalExecuteStatus =
-			batchEngineExportTaskModelImpl._executeStatus;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		batchEngineExportTaskModelImpl._columnBitmask = 0;
+		batchEngineExportTaskModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1091,11 +1143,8 @@ public class BatchEngineExportTaskModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _batchEngineExportTaskId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -1108,11 +1157,11 @@ public class BatchEngineExportTaskModelImpl
 	private String _errorMessage;
 	private String _fieldNames;
 	private String _executeStatus;
-	private String _originalExecuteStatus;
 	private Map<String, Serializable> _parameters;
 	private Date _startTime;
 	private String _taskItemDelegateName;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[19];
+	private Long _columnBitmask;
 	private BatchEngineExportTask _escapedModel;
 
 }

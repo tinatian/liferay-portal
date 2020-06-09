@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.segments.model.SegmentsExperimentRel;
 import com.liferay.segments.model.SegmentsExperimentRelModel;
@@ -39,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -122,6 +124,28 @@ public class SegmentsExperimentRelModelImpl
 
 	public static final long SEGMENTSEXPERIMENTRELID_COLUMN_BITMASK = 4L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int SEGMENTSEXPERIMENTRELID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int SEGMENTSEXPERIMENTID_COLUMN_INDEX = 8;
+
+	public static final int SEGMENTSEXPERIENCEID_COLUMN_INDEX = 9;
+
+	public static final int SPLIT_COLUMN_INDEX = 10;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -185,6 +209,7 @@ public class SegmentsExperimentRelModelImpl
 	}
 
 	public SegmentsExperimentRelModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -514,19 +539,25 @@ public class SegmentsExperimentRelModelImpl
 
 	@Override
 	public void setSegmentsExperimentId(long segmentsExperimentId) {
-		_columnBitmask |= SEGMENTSEXPERIMENTID_COLUMN_BITMASK;
+		if (_originalValues[SEGMENTSEXPERIMENTID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalSegmentsExperimentId) {
-			_setOriginalSegmentsExperimentId = true;
-
-			_originalSegmentsExperimentId = _segmentsExperimentId;
+			_originalValues[SEGMENTSEXPERIMENTID_COLUMN_INDEX] =
+				_segmentsExperimentId;
 		}
 
 		_segmentsExperimentId = segmentsExperimentId;
 	}
 
 	public long getOriginalSegmentsExperimentId() {
-		return _originalSegmentsExperimentId;
+		Object originalValue =
+			_originalValues[SEGMENTSEXPERIMENTID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _segmentsExperimentId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -537,19 +568,25 @@ public class SegmentsExperimentRelModelImpl
 
 	@Override
 	public void setSegmentsExperienceId(long segmentsExperienceId) {
-		_columnBitmask |= SEGMENTSEXPERIENCEID_COLUMN_BITMASK;
+		if (_originalValues[SEGMENTSEXPERIENCEID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalSegmentsExperienceId) {
-			_setOriginalSegmentsExperienceId = true;
-
-			_originalSegmentsExperienceId = _segmentsExperienceId;
+			_originalValues[SEGMENTSEXPERIENCEID_COLUMN_INDEX] =
+				_segmentsExperienceId;
 		}
 
 		_segmentsExperienceId = segmentsExperienceId;
 	}
 
 	public long getOriginalSegmentsExperienceId() {
-		return _originalSegmentsExperienceId;
+		Object originalValue =
+			_originalValues[SEGMENTSEXPERIENCEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _segmentsExperienceId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -564,6 +601,18 @@ public class SegmentsExperimentRelModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -680,17 +729,9 @@ public class SegmentsExperimentRelModelImpl
 
 		segmentsExperimentRelModelImpl._setModifiedDate = false;
 
-		segmentsExperimentRelModelImpl._originalSegmentsExperimentId =
-			segmentsExperimentRelModelImpl._segmentsExperimentId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		segmentsExperimentRelModelImpl._setOriginalSegmentsExperimentId = false;
-
-		segmentsExperimentRelModelImpl._originalSegmentsExperienceId =
-			segmentsExperimentRelModelImpl._segmentsExperienceId;
-
-		segmentsExperimentRelModelImpl._setOriginalSegmentsExperienceId = false;
-
-		segmentsExperimentRelModelImpl._columnBitmask = 0;
+		segmentsExperimentRelModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -832,13 +873,10 @@ public class SegmentsExperimentRelModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _segmentsExperimentId;
-	private long _originalSegmentsExperimentId;
-	private boolean _setOriginalSegmentsExperimentId;
 	private long _segmentsExperienceId;
-	private long _originalSegmentsExperienceId;
-	private boolean _setOriginalSegmentsExperienceId;
 	private double _split;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[12];
+	private Long _columnBitmask;
 	private SegmentsExperimentRel _escapedModel;
 
 }

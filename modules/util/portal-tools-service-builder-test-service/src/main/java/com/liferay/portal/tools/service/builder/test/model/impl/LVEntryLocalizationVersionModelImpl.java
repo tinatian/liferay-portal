@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.service.builder.test.model.LVEntryLocalization;
 import com.liferay.portal.tools.service.builder.test.model.LVEntryLocalizationVersion;
@@ -35,6 +36,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -130,12 +132,29 @@ public class LVEntryLocalizationVersionModelImpl
 
 	public static final long VERSION_COLUMN_BITMASK = 8L;
 
+	public static final int LVENTRYLOCALIZATIONVERSIONID_COLUMN_INDEX = 0;
+
+	public static final int VERSION_COLUMN_INDEX = 1;
+
+	public static final int LVENTRYLOCALIZATIONID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int LVENTRYID_COLUMN_INDEX = 4;
+
+	public static final int LANGUAGEID_COLUMN_INDEX = 5;
+
+	public static final int TITLE_COLUMN_INDEX = 6;
+
+	public static final int CONTENT_COLUMN_INDEX = 7;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
 			get(
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.LVEntryLocalizationVersion"));
 
 	public LVEntryLocalizationVersionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -381,17 +400,21 @@ public class LVEntryLocalizationVersionModelImpl
 	public void setVersion(int version) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalVersion) {
-			_setOriginalVersion = true;
-
-			_originalVersion = _version;
+		if (_originalValues[VERSION_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VERSION_COLUMN_INDEX] = _version;
 		}
 
 		_version = version;
 	}
 
 	public int getOriginalVersion() {
-		return _originalVersion;
+		Object originalValue = _originalValues[VERSION_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _version;
+		}
+
+		return (int)originalValue;
 	}
 
 	@Override
@@ -401,19 +424,25 @@ public class LVEntryLocalizationVersionModelImpl
 
 	@Override
 	public void setLvEntryLocalizationId(long lvEntryLocalizationId) {
-		_columnBitmask |= LVENTRYLOCALIZATIONID_COLUMN_BITMASK;
+		if (_originalValues[LVENTRYLOCALIZATIONID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalLvEntryLocalizationId) {
-			_setOriginalLvEntryLocalizationId = true;
-
-			_originalLvEntryLocalizationId = _lvEntryLocalizationId;
+			_originalValues[LVENTRYLOCALIZATIONID_COLUMN_INDEX] =
+				_lvEntryLocalizationId;
 		}
 
 		_lvEntryLocalizationId = lvEntryLocalizationId;
 	}
 
 	public long getOriginalLvEntryLocalizationId() {
-		return _originalLvEntryLocalizationId;
+		Object originalValue =
+			_originalValues[LVENTRYLOCALIZATIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _lvEntryLocalizationId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -433,19 +462,21 @@ public class LVEntryLocalizationVersionModelImpl
 
 	@Override
 	public void setLvEntryId(long lvEntryId) {
-		_columnBitmask |= LVENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalLvEntryId) {
-			_setOriginalLvEntryId = true;
-
-			_originalLvEntryId = _lvEntryId;
+		if (_originalValues[LVENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LVENTRYID_COLUMN_INDEX] = _lvEntryId;
 		}
 
 		_lvEntryId = lvEntryId;
 	}
 
 	public long getOriginalLvEntryId() {
-		return _originalLvEntryId;
+		Object originalValue = _originalValues[LVENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _lvEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -460,17 +491,21 @@ public class LVEntryLocalizationVersionModelImpl
 
 	@Override
 	public void setLanguageId(String languageId) {
-		_columnBitmask |= LANGUAGEID_COLUMN_BITMASK;
-
-		if (_originalLanguageId == null) {
-			_originalLanguageId = _languageId;
+		if (_originalValues[LANGUAGEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LANGUAGEID_COLUMN_INDEX] = _languageId;
 		}
 
 		_languageId = languageId;
 	}
 
 	public String getOriginalLanguageId() {
-		return GetterUtil.getString(_originalLanguageId);
+		Object originalValue = _originalValues[LANGUAGEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _languageId;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -504,6 +539,18 @@ public class LVEntryLocalizationVersionModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -625,26 +672,9 @@ public class LVEntryLocalizationVersionModelImpl
 		LVEntryLocalizationVersionModelImpl
 			lvEntryLocalizationVersionModelImpl = this;
 
-		lvEntryLocalizationVersionModelImpl._originalVersion =
-			lvEntryLocalizationVersionModelImpl._version;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		lvEntryLocalizationVersionModelImpl._setOriginalVersion = false;
-
-		lvEntryLocalizationVersionModelImpl._originalLvEntryLocalizationId =
-			lvEntryLocalizationVersionModelImpl._lvEntryLocalizationId;
-
-		lvEntryLocalizationVersionModelImpl._setOriginalLvEntryLocalizationId =
-			false;
-
-		lvEntryLocalizationVersionModelImpl._originalLvEntryId =
-			lvEntryLocalizationVersionModelImpl._lvEntryId;
-
-		lvEntryLocalizationVersionModelImpl._setOriginalLvEntryId = false;
-
-		lvEntryLocalizationVersionModelImpl._originalLanguageId =
-			lvEntryLocalizationVersionModelImpl._languageId;
-
-		lvEntryLocalizationVersionModelImpl._columnBitmask = 0;
+		lvEntryLocalizationVersionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -770,20 +800,14 @@ public class LVEntryLocalizationVersionModelImpl
 
 	private long _lvEntryLocalizationVersionId;
 	private int _version;
-	private int _originalVersion;
-	private boolean _setOriginalVersion;
 	private long _lvEntryLocalizationId;
-	private long _originalLvEntryLocalizationId;
-	private boolean _setOriginalLvEntryLocalizationId;
 	private long _companyId;
 	private long _lvEntryId;
-	private long _originalLvEntryId;
-	private boolean _setOriginalLvEntryId;
 	private String _languageId;
-	private String _originalLanguageId;
 	private String _title;
 	private String _content;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[9];
+	private Long _columnBitmask;
 	private LVEntryLocalizationVersion _escapedModel;
 
 }

@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -111,6 +113,24 @@ public class AssetAutoTaggerEntryModelImpl
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int ASSETAUTOTAGGERENTRYID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int ASSETENTRYID_COLUMN_INDEX = 7;
+
+	public static final int ASSETTAGID_COLUMN_INDEX = 8;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -120,6 +140,7 @@ public class AssetAutoTaggerEntryModelImpl
 	}
 
 	public AssetAutoTaggerEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -397,19 +418,21 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
-		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalAssetEntryId) {
-			_setOriginalAssetEntryId = true;
-
-			_originalAssetEntryId = _assetEntryId;
+		if (_originalValues[ASSETENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ASSETENTRYID_COLUMN_INDEX] = _assetEntryId;
 		}
 
 		_assetEntryId = assetEntryId;
 	}
 
 	public long getOriginalAssetEntryId() {
-		return _originalAssetEntryId;
+		Object originalValue = _originalValues[ASSETENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _assetEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -419,22 +442,36 @@ public class AssetAutoTaggerEntryModelImpl
 
 	@Override
 	public void setAssetTagId(long assetTagId) {
-		_columnBitmask |= ASSETTAGID_COLUMN_BITMASK;
-
-		if (!_setOriginalAssetTagId) {
-			_setOriginalAssetTagId = true;
-
-			_originalAssetTagId = _assetTagId;
+		if (_originalValues[ASSETTAGID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ASSETTAGID_COLUMN_INDEX] = _assetTagId;
 		}
 
 		_assetTagId = assetTagId;
 	}
 
 	public long getOriginalAssetTagId() {
-		return _originalAssetTagId;
+		Object originalValue = _originalValues[ASSETTAGID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _assetTagId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -547,17 +584,9 @@ public class AssetAutoTaggerEntryModelImpl
 
 		assetAutoTaggerEntryModelImpl._setModifiedDate = false;
 
-		assetAutoTaggerEntryModelImpl._originalAssetEntryId =
-			assetAutoTaggerEntryModelImpl._assetEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		assetAutoTaggerEntryModelImpl._setOriginalAssetEntryId = false;
-
-		assetAutoTaggerEntryModelImpl._originalAssetTagId =
-			assetAutoTaggerEntryModelImpl._assetTagId;
-
-		assetAutoTaggerEntryModelImpl._setOriginalAssetTagId = false;
-
-		assetAutoTaggerEntryModelImpl._columnBitmask = 0;
+		assetAutoTaggerEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -686,12 +715,9 @@ public class AssetAutoTaggerEntryModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _assetEntryId;
-	private long _originalAssetEntryId;
-	private boolean _setOriginalAssetEntryId;
 	private long _assetTagId;
-	private long _originalAssetTagId;
-	private boolean _setOriginalAssetTagId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private AssetAutoTaggerEntry _escapedModel;
 
 }

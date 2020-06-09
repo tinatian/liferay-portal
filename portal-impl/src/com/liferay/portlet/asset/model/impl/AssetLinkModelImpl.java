@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -130,11 +132,34 @@ public class AssetLinkModelImpl
 
 	public static final long WEIGHT_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int LINKID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int ENTRYID1_COLUMN_INDEX = 7;
+
+	public static final int ENTRYID2_COLUMN_INDEX = 8;
+
+	public static final int TYPE_COLUMN_INDEX = 9;
+
+	public static final int WEIGHT_COLUMN_INDEX = 10;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
 			"lock.expiration.time.com.liferay.asset.kernel.model.AssetLink"));
 
 	public AssetLinkModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -402,19 +427,21 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setEntryId1(long entryId1) {
-		_columnBitmask |= ENTRYID1_COLUMN_BITMASK;
-
-		if (!_setOriginalEntryId1) {
-			_setOriginalEntryId1 = true;
-
-			_originalEntryId1 = _entryId1;
+		if (_originalValues[ENTRYID1_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ENTRYID1_COLUMN_INDEX] = _entryId1;
 		}
 
 		_entryId1 = entryId1;
 	}
 
 	public long getOriginalEntryId1() {
-		return _originalEntryId1;
+		Object originalValue = _originalValues[ENTRYID1_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _entryId1;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -424,19 +451,21 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setEntryId2(long entryId2) {
-		_columnBitmask |= ENTRYID2_COLUMN_BITMASK;
-
-		if (!_setOriginalEntryId2) {
-			_setOriginalEntryId2 = true;
-
-			_originalEntryId2 = _entryId2;
+		if (_originalValues[ENTRYID2_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ENTRYID2_COLUMN_INDEX] = _entryId2;
 		}
 
 		_entryId2 = entryId2;
 	}
 
 	public long getOriginalEntryId2() {
-		return _originalEntryId2;
+		Object originalValue = _originalValues[ENTRYID2_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _entryId2;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -446,19 +475,21 @@ public class AssetLinkModelImpl
 
 	@Override
 	public void setType(int type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_originalValues[TYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPE_COLUMN_INDEX] = _type;
 		}
 
 		_type = type;
 	}
 
 	public int getOriginalType() {
-		return _originalType;
+		Object originalValue = _originalValues[TYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _type;
+		}
+
+		return (int)originalValue;
 	}
 
 	@Override
@@ -474,6 +505,18 @@ public class AssetLinkModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -588,19 +631,9 @@ public class AssetLinkModelImpl
 	public void resetOriginalValues() {
 		AssetLinkModelImpl assetLinkModelImpl = this;
 
-		assetLinkModelImpl._originalEntryId1 = assetLinkModelImpl._entryId1;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		assetLinkModelImpl._setOriginalEntryId1 = false;
-
-		assetLinkModelImpl._originalEntryId2 = assetLinkModelImpl._entryId2;
-
-		assetLinkModelImpl._setOriginalEntryId2 = false;
-
-		assetLinkModelImpl._originalType = assetLinkModelImpl._type;
-
-		assetLinkModelImpl._setOriginalType = false;
-
-		assetLinkModelImpl._columnBitmask = 0;
+		assetLinkModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -723,16 +756,11 @@ public class AssetLinkModelImpl
 	private String _userName;
 	private Date _createDate;
 	private long _entryId1;
-	private long _originalEntryId1;
-	private boolean _setOriginalEntryId1;
 	private long _entryId2;
-	private long _originalEntryId2;
-	private boolean _setOriginalEntryId2;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private int _weight;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[12];
+	private Long _columnBitmask;
 	private AssetLink _escapedModel;
 
 }

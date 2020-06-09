@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -46,6 +47,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -153,6 +155,48 @@ public class LayoutSEOEntryModelImpl
 
 	public static final long LAYOUTSEOENTRYID_COLUMN_BITMASK = 32L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int UUID_COLUMN_INDEX = 1;
+
+	public static final int LAYOUTSEOENTRYID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int USERID_COLUMN_INDEX = 5;
+
+	public static final int USERNAME_COLUMN_INDEX = 6;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 7;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 8;
+
+	public static final int PRIVATELAYOUT_COLUMN_INDEX = 9;
+
+	public static final int LAYOUTID_COLUMN_INDEX = 10;
+
+	public static final int CANONICALURL_COLUMN_INDEX = 11;
+
+	public static final int CANONICALURLENABLED_COLUMN_INDEX = 12;
+
+	public static final int DDMSTORAGEID_COLUMN_INDEX = 13;
+
+	public static final int OPENGRAPHDESCRIPTION_COLUMN_INDEX = 14;
+
+	public static final int OPENGRAPHDESCRIPTIONENABLED_COLUMN_INDEX = 15;
+
+	public static final int OPENGRAPHIMAGEALT_COLUMN_INDEX = 16;
+
+	public static final int OPENGRAPHIMAGEFILEENTRYID_COLUMN_INDEX = 17;
+
+	public static final int OPENGRAPHTITLE_COLUMN_INDEX = 18;
+
+	public static final int OPENGRAPHTITLEENABLED_COLUMN_INDEX = 19;
+
+	public static final int LASTPUBLISHDATE_COLUMN_INDEX = 20;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -225,6 +269,7 @@ public class LayoutSEOEntryModelImpl
 	}
 
 	public LayoutSEOEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -494,17 +539,21 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -526,19 +575,21 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -549,19 +600,21 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -649,19 +702,21 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setPrivateLayout(boolean privateLayout) {
-		_columnBitmask |= PRIVATELAYOUT_COLUMN_BITMASK;
-
-		if (!_setOriginalPrivateLayout) {
-			_setOriginalPrivateLayout = true;
-
-			_originalPrivateLayout = _privateLayout;
+		if (_originalValues[PRIVATELAYOUT_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PRIVATELAYOUT_COLUMN_INDEX] = _privateLayout;
 		}
 
 		_privateLayout = privateLayout;
 	}
 
 	public boolean getOriginalPrivateLayout() {
-		return _originalPrivateLayout;
+		Object originalValue = _originalValues[PRIVATELAYOUT_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _privateLayout;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@JSON
@@ -672,19 +727,21 @@ public class LayoutSEOEntryModelImpl
 
 	@Override
 	public void setLayoutId(long layoutId) {
-		_columnBitmask |= LAYOUTID_COLUMN_BITMASK;
-
-		if (!_setOriginalLayoutId) {
-			_setOriginalLayoutId = true;
-
-			_originalLayoutId = _layoutId;
+		if (_originalValues[LAYOUTID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LAYOUTID_COLUMN_INDEX] = _layoutId;
 		}
 
 		_layoutId = layoutId;
 	}
 
 	public long getOriginalLayoutId() {
-		return _originalLayoutId;
+		Object originalValue = _originalValues[LAYOUTID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _layoutId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -1229,6 +1286,18 @@ public class LayoutSEOEntryModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1490,31 +1559,11 @@ public class LayoutSEOEntryModelImpl
 	public void resetOriginalValues() {
 		LayoutSEOEntryModelImpl layoutSEOEntryModelImpl = this;
 
-		layoutSEOEntryModelImpl._originalUuid = layoutSEOEntryModelImpl._uuid;
-
-		layoutSEOEntryModelImpl._originalGroupId =
-			layoutSEOEntryModelImpl._groupId;
-
-		layoutSEOEntryModelImpl._setOriginalGroupId = false;
-
-		layoutSEOEntryModelImpl._originalCompanyId =
-			layoutSEOEntryModelImpl._companyId;
-
-		layoutSEOEntryModelImpl._setOriginalCompanyId = false;
-
 		layoutSEOEntryModelImpl._setModifiedDate = false;
 
-		layoutSEOEntryModelImpl._originalPrivateLayout =
-			layoutSEOEntryModelImpl._privateLayout;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		layoutSEOEntryModelImpl._setOriginalPrivateLayout = false;
-
-		layoutSEOEntryModelImpl._originalLayoutId =
-			layoutSEOEntryModelImpl._layoutId;
-
-		layoutSEOEntryModelImpl._setOriginalLayoutId = false;
-
-		layoutSEOEntryModelImpl._columnBitmask = 0;
+		layoutSEOEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1707,25 +1756,16 @@ public class LayoutSEOEntryModelImpl
 
 	private long _mvccVersion;
 	private String _uuid;
-	private String _originalUuid;
 	private long _layoutSEOEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private boolean _privateLayout;
-	private boolean _originalPrivateLayout;
-	private boolean _setOriginalPrivateLayout;
 	private long _layoutId;
-	private long _originalLayoutId;
-	private boolean _setOriginalLayoutId;
 	private String _canonicalURL;
 	private String _canonicalURLCurrentLanguageId;
 	private boolean _canonicalURLEnabled;
@@ -1740,7 +1780,8 @@ public class LayoutSEOEntryModelImpl
 	private String _openGraphTitleCurrentLanguageId;
 	private boolean _openGraphTitleEnabled;
 	private Date _lastPublishDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[22];
+	private Long _columnBitmask;
 	private LayoutSEOEntry _escapedModel;
 
 }

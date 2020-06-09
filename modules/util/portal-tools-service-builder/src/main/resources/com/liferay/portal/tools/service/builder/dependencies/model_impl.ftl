@@ -10,7 +10,7 @@
 	/>
 </#if>
 
-package ${packagePath}.model.impl;
+package ${packagePath}.model.impl;databaseRegularEntityColumns
 
 import ${serviceBuilder.getCompatJavaClassName("StringBundler")};
 

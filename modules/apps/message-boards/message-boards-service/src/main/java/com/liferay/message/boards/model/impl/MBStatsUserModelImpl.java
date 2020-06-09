@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -106,6 +108,18 @@ public class MBStatsUserModelImpl
 
 	public static final long USERID_COLUMN_BITMASK = 4L;
 
+	public static final int STATSUSERID_COLUMN_INDEX = 0;
+
+	public static final int GROUPID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int MESSAGECOUNT_COLUMN_INDEX = 4;
+
+	public static final int LASTPOSTDATE_COLUMN_INDEX = 5;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -115,6 +129,7 @@ public class MBStatsUserModelImpl
 	}
 
 	public MBStatsUserModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -306,19 +321,21 @@ public class MBStatsUserModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -338,12 +355,8 @@ public class MBStatsUserModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = _userId;
 		}
 
 		_userId = userId;
@@ -366,7 +379,13 @@ public class MBStatsUserModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -378,17 +397,21 @@ public class MBStatsUserModelImpl
 	public void setMessageCount(int messageCount) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalMessageCount) {
-			_setOriginalMessageCount = true;
-
-			_originalMessageCount = _messageCount;
+		if (_originalValues[MESSAGECOUNT_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[MESSAGECOUNT_COLUMN_INDEX] = _messageCount;
 		}
 
 		_messageCount = messageCount;
 	}
 
 	public int getOriginalMessageCount() {
-		return _originalMessageCount;
+		Object originalValue = _originalValues[MESSAGECOUNT_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _messageCount;
+		}
+
+		return (int)originalValue;
 	}
 
 	@Override
@@ -402,6 +425,18 @@ public class MBStatsUserModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -513,20 +548,9 @@ public class MBStatsUserModelImpl
 	public void resetOriginalValues() {
 		MBStatsUserModelImpl mbStatsUserModelImpl = this;
 
-		mbStatsUserModelImpl._originalGroupId = mbStatsUserModelImpl._groupId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		mbStatsUserModelImpl._setOriginalGroupId = false;
-
-		mbStatsUserModelImpl._originalUserId = mbStatsUserModelImpl._userId;
-
-		mbStatsUserModelImpl._setOriginalUserId = false;
-
-		mbStatsUserModelImpl._originalMessageCount =
-			mbStatsUserModelImpl._messageCount;
-
-		mbStatsUserModelImpl._setOriginalMessageCount = false;
-
-		mbStatsUserModelImpl._columnBitmask = 0;
+		mbStatsUserModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -631,17 +655,12 @@ public class MBStatsUserModelImpl
 
 	private long _statsUserId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private int _messageCount;
-	private int _originalMessageCount;
-	private boolean _setOriginalMessageCount;
 	private Date _lastPostDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private MBStatsUser _escapedModel;
 
 }

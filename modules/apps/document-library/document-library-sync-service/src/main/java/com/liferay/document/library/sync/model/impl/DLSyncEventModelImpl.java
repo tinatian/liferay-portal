@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -100,6 +102,18 @@ public class DLSyncEventModelImpl
 
 	public static final long TYPEPK_COLUMN_BITMASK = 2L;
 
+	public static final int SYNCEVENTID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int MODIFIEDTIME_COLUMN_INDEX = 2;
+
+	public static final int EVENT_COLUMN_INDEX = 3;
+
+	public static final int TYPE_COLUMN_INDEX = 4;
+
+	public static final int TYPEPK_COLUMN_INDEX = 5;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -109,6 +123,7 @@ public class DLSyncEventModelImpl
 	}
 
 	public DLSyncEventModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -294,17 +309,21 @@ public class DLSyncEventModelImpl
 	public void setModifiedTime(long modifiedTime) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalModifiedTime) {
-			_setOriginalModifiedTime = true;
-
-			_originalModifiedTime = _modifiedTime;
+		if (_originalValues[MODIFIEDTIME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[MODIFIEDTIME_COLUMN_INDEX] = _modifiedTime;
 		}
 
 		_modifiedTime = modifiedTime;
 	}
 
 	public long getOriginalModifiedTime() {
-		return _originalModifiedTime;
+		Object originalValue = _originalValues[MODIFIEDTIME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _modifiedTime;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -344,22 +363,36 @@ public class DLSyncEventModelImpl
 
 	@Override
 	public void setTypePK(long typePK) {
-		_columnBitmask |= TYPEPK_COLUMN_BITMASK;
-
-		if (!_setOriginalTypePK) {
-			_setOriginalTypePK = true;
-
-			_originalTypePK = _typePK;
+		if (_originalValues[TYPEPK_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPEPK_COLUMN_INDEX] = _typePK;
 		}
 
 		_typePK = typePK;
 	}
 
 	public long getOriginalTypePK() {
-		return _originalTypePK;
+		Object originalValue = _originalValues[TYPEPK_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _typePK;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -469,16 +502,9 @@ public class DLSyncEventModelImpl
 	public void resetOriginalValues() {
 		DLSyncEventModelImpl dlSyncEventModelImpl = this;
 
-		dlSyncEventModelImpl._originalModifiedTime =
-			dlSyncEventModelImpl._modifiedTime;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		dlSyncEventModelImpl._setOriginalModifiedTime = false;
-
-		dlSyncEventModelImpl._originalTypePK = dlSyncEventModelImpl._typePK;
-
-		dlSyncEventModelImpl._setOriginalTypePK = false;
-
-		dlSyncEventModelImpl._columnBitmask = 0;
+		dlSyncEventModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -589,14 +615,11 @@ public class DLSyncEventModelImpl
 	private long _syncEventId;
 	private long _companyId;
 	private long _modifiedTime;
-	private long _originalModifiedTime;
-	private boolean _setOriginalModifiedTime;
 	private String _event;
 	private String _type;
 	private long _typePK;
-	private long _originalTypePK;
-	private boolean _setOriginalTypePK;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private DLSyncEvent _escapedModel;
 
 }

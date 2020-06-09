@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -39,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -136,6 +138,24 @@ public class SocialActivitySettingModelImpl
 
 	public static final long ACTIVITYSETTINGID_COLUMN_BITMASK = 16L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int ACTIVITYSETTINGID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int CLASSNAMEID_COLUMN_INDEX = 5;
+
+	public static final int ACTIVITYTYPE_COLUMN_INDEX = 6;
+
+	public static final int NAME_COLUMN_INDEX = 7;
+
+	public static final int VALUE_COLUMN_INDEX = 8;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -192,6 +212,7 @@ public class SocialActivitySettingModelImpl
 			"lock.expiration.time.com.liferay.social.kernel.model.SocialActivitySetting"));
 
 	public SocialActivitySettingModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -423,19 +444,21 @@ public class SocialActivitySettingModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -477,19 +500,21 @@ public class SocialActivitySettingModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
-
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_originalValues[CLASSNAMEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLASSNAMEID_COLUMN_INDEX] = _classNameId;
 		}
 
 		_classNameId = classNameId;
 	}
 
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		Object originalValue = _originalValues[CLASSNAMEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _classNameId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -500,19 +525,21 @@ public class SocialActivitySettingModelImpl
 
 	@Override
 	public void setActivityType(int activityType) {
-		_columnBitmask |= ACTIVITYTYPE_COLUMN_BITMASK;
-
-		if (!_setOriginalActivityType) {
-			_setOriginalActivityType = true;
-
-			_originalActivityType = _activityType;
+		if (_originalValues[ACTIVITYTYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACTIVITYTYPE_COLUMN_INDEX] = _activityType;
 		}
 
 		_activityType = activityType;
 	}
 
 	public int getOriginalActivityType() {
-		return _originalActivityType;
+		Object originalValue = _originalValues[ACTIVITYTYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _activityType;
+		}
+
+		return (int)originalValue;
 	}
 
 	@JSON
@@ -528,17 +555,21 @@ public class SocialActivitySettingModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = _name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _name;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -558,6 +589,18 @@ public class SocialActivitySettingModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -667,25 +710,9 @@ public class SocialActivitySettingModelImpl
 	public void resetOriginalValues() {
 		SocialActivitySettingModelImpl socialActivitySettingModelImpl = this;
 
-		socialActivitySettingModelImpl._originalGroupId =
-			socialActivitySettingModelImpl._groupId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		socialActivitySettingModelImpl._setOriginalGroupId = false;
-
-		socialActivitySettingModelImpl._originalClassNameId =
-			socialActivitySettingModelImpl._classNameId;
-
-		socialActivitySettingModelImpl._setOriginalClassNameId = false;
-
-		socialActivitySettingModelImpl._originalActivityType =
-			socialActivitySettingModelImpl._activityType;
-
-		socialActivitySettingModelImpl._setOriginalActivityType = false;
-
-		socialActivitySettingModelImpl._originalName =
-			socialActivitySettingModelImpl._name;
-
-		socialActivitySettingModelImpl._columnBitmask = 0;
+		socialActivitySettingModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -803,19 +830,13 @@ public class SocialActivitySettingModelImpl
 	private long _ctCollectionId;
 	private long _activitySettingId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private int _activityType;
-	private int _originalActivityType;
-	private boolean _setOriginalActivityType;
 	private String _name;
-	private String _originalName;
 	private String _value;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private SocialActivitySetting _escapedModel;
 
 }

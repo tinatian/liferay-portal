@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -99,6 +101,16 @@ public class CTMessageModelImpl
 
 	public static final long CTMESSAGEID_COLUMN_BITMASK = 2L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTMESSAGEID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 3;
+
+	public static final int MESSAGECONTENT_COLUMN_INDEX = 4;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -108,6 +120,7 @@ public class CTMessageModelImpl
 	}
 
 	public CTMessageModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -298,19 +311,21 @@ public class CTMessageModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
-		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
-
-			_originalCtCollectionId = _ctCollectionId;
+		if (_originalValues[CTCOLLECTIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CTCOLLECTIONID_COLUMN_INDEX] = _ctCollectionId;
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		Object originalValue = _originalValues[CTCOLLECTIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _ctCollectionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -329,6 +344,18 @@ public class CTMessageModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -431,12 +458,9 @@ public class CTMessageModelImpl
 	public void resetOriginalValues() {
 		CTMessageModelImpl ctMessageModelImpl = this;
 
-		ctMessageModelImpl._originalCtCollectionId =
-			ctMessageModelImpl._ctCollectionId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		ctMessageModelImpl._setOriginalCtCollectionId = false;
-
-		ctMessageModelImpl._columnBitmask = 0;
+		ctMessageModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -539,10 +563,9 @@ public class CTMessageModelImpl
 	private long _ctMessageId;
 	private long _companyId;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private String _messageContent;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private CTMessage _escapedModel;
 
 }

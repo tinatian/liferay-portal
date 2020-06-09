@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -48,6 +49,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -154,6 +156,50 @@ public class MBThreadModelImpl
 
 	public static final long UUID_COLUMN_BITMASK = 128L;
 
+	public static final int UUID_COLUMN_INDEX = 0;
+
+	public static final int THREADID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int CATEGORYID_COLUMN_INDEX = 8;
+
+	public static final int ROOTMESSAGEID_COLUMN_INDEX = 9;
+
+	public static final int ROOTMESSAGEUSERID_COLUMN_INDEX = 10;
+
+	public static final int TITLE_COLUMN_INDEX = 11;
+
+	public static final int MESSAGECOUNT_COLUMN_INDEX = 12;
+
+	public static final int LASTPOSTBYUSERID_COLUMN_INDEX = 13;
+
+	public static final int LASTPOSTDATE_COLUMN_INDEX = 14;
+
+	public static final int PRIORITY_COLUMN_INDEX = 15;
+
+	public static final int QUESTION_COLUMN_INDEX = 16;
+
+	public static final int LASTPUBLISHDATE_COLUMN_INDEX = 17;
+
+	public static final int STATUS_COLUMN_INDEX = 18;
+
+	public static final int STATUSBYUSERID_COLUMN_INDEX = 19;
+
+	public static final int STATUSBYUSERNAME_COLUMN_INDEX = 20;
+
+	public static final int STATUSDATE_COLUMN_INDEX = 21;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -222,6 +268,7 @@ public class MBThreadModelImpl
 	}
 
 	public MBThreadModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -448,17 +495,21 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -480,19 +531,21 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -503,19 +556,21 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -597,19 +652,21 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setCategoryId(long categoryId) {
-		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (_originalValues[CATEGORYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CATEGORYID_COLUMN_INDEX] = _categoryId;
 		}
 
 		_categoryId = categoryId;
 	}
 
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		Object originalValue = _originalValues[CATEGORYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _categoryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -620,19 +677,21 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setRootMessageId(long rootMessageId) {
-		_columnBitmask |= ROOTMESSAGEID_COLUMN_BITMASK;
-
-		if (!_setOriginalRootMessageId) {
-			_setOriginalRootMessageId = true;
-
-			_originalRootMessageId = _rootMessageId;
+		if (_originalValues[ROOTMESSAGEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ROOTMESSAGEID_COLUMN_INDEX] = _rootMessageId;
 		}
 
 		_rootMessageId = rootMessageId;
 	}
 
 	public long getOriginalRootMessageId() {
-		return _originalRootMessageId;
+		Object originalValue = _originalValues[ROOTMESSAGEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _rootMessageId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -727,15 +786,21 @@ public class MBThreadModelImpl
 	public void setLastPostDate(Date lastPostDate) {
 		_columnBitmask = -1L;
 
-		if (_originalLastPostDate == null) {
-			_originalLastPostDate = _lastPostDate;
+		if (_originalValues[LASTPOSTDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LASTPOSTDATE_COLUMN_INDEX] = _lastPostDate;
 		}
 
 		_lastPostDate = lastPostDate;
 	}
 
 	public Date getOriginalLastPostDate() {
-		return _originalLastPostDate;
+		Object originalValue = _originalValues[LASTPOSTDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _lastPostDate;
+		}
+
+		return (Date)originalValue;
 	}
 
 	@JSON
@@ -748,17 +813,21 @@ public class MBThreadModelImpl
 	public void setPriority(double priority) {
 		_columnBitmask = -1L;
 
-		if (!_setOriginalPriority) {
-			_setOriginalPriority = true;
-
-			_originalPriority = _priority;
+		if (_originalValues[PRIORITY_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PRIORITY_COLUMN_INDEX] = _priority;
 		}
 
 		_priority = priority;
 	}
 
 	public double getOriginalPriority() {
-		return _originalPriority;
+		Object originalValue = _originalValues[PRIORITY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _priority;
+		}
+
+		return (double)originalValue;
 	}
 
 	@JSON
@@ -797,19 +866,21 @@ public class MBThreadModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_originalValues[STATUS_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[STATUS_COLUMN_INDEX] = _status;
 		}
 
 		_status = status;
 	}
 
 	public int getOriginalStatus() {
-		return _originalStatus;
+		Object originalValue = _originalValues[STATUS_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _status;
+		}
+
+		return (int)originalValue;
 	}
 
 	@JSON
@@ -1123,6 +1194,18 @@ public class MBThreadModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1259,39 +1342,11 @@ public class MBThreadModelImpl
 	public void resetOriginalValues() {
 		MBThreadModelImpl mbThreadModelImpl = this;
 
-		mbThreadModelImpl._originalUuid = mbThreadModelImpl._uuid;
-
-		mbThreadModelImpl._originalGroupId = mbThreadModelImpl._groupId;
-
-		mbThreadModelImpl._setOriginalGroupId = false;
-
-		mbThreadModelImpl._originalCompanyId = mbThreadModelImpl._companyId;
-
-		mbThreadModelImpl._setOriginalCompanyId = false;
-
 		mbThreadModelImpl._setModifiedDate = false;
 
-		mbThreadModelImpl._originalCategoryId = mbThreadModelImpl._categoryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		mbThreadModelImpl._setOriginalCategoryId = false;
-
-		mbThreadModelImpl._originalRootMessageId =
-			mbThreadModelImpl._rootMessageId;
-
-		mbThreadModelImpl._setOriginalRootMessageId = false;
-
-		mbThreadModelImpl._originalLastPostDate =
-			mbThreadModelImpl._lastPostDate;
-
-		mbThreadModelImpl._originalPriority = mbThreadModelImpl._priority;
-
-		mbThreadModelImpl._setOriginalPriority = false;
-
-		mbThreadModelImpl._originalStatus = mbThreadModelImpl._status;
-
-		mbThreadModelImpl._setOriginalStatus = false;
-
-		mbThreadModelImpl._columnBitmask = 0;
+		mbThreadModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1478,43 +1533,30 @@ public class MBThreadModelImpl
 	private static boolean _finderCacheEnabled;
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _threadId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private long _rootMessageId;
-	private long _originalRootMessageId;
-	private boolean _setOriginalRootMessageId;
 	private long _rootMessageUserId;
 	private String _title;
 	private int _messageCount;
 	private long _lastPostByUserId;
 	private Date _lastPostDate;
-	private Date _originalLastPostDate;
 	private double _priority;
-	private double _originalPriority;
-	private boolean _setOriginalPriority;
 	private boolean _question;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[23];
+	private Long _columnBitmask;
 	private MBThread _escapedModel;
 
 }
