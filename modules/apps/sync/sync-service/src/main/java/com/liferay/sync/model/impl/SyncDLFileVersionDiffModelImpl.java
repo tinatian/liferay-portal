@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.sync.model.SyncDLFileVersionDiff;
 import com.liferay.sync.model.SyncDLFileVersionDiffModel;
@@ -33,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -113,6 +115,22 @@ public class SyncDLFileVersionDiffModelImpl
 
 	public static final long SYNCDLFILEVERSIONDIFFID_COLUMN_BITMASK = 16L;
 
+	public static final int SYNCDLFILEVERSIONDIFFID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int FILEENTRYID_COLUMN_INDEX = 2;
+
+	public static final int SOURCEFILEVERSIONID_COLUMN_INDEX = 3;
+
+	public static final int TARGETFILEVERSIONID_COLUMN_INDEX = 4;
+
+	public static final int DATAFILEENTRYID_COLUMN_INDEX = 5;
+
+	public static final int SIZE_COLUMN_INDEX = 6;
+
+	public static final int EXPIRATIONDATE_COLUMN_INDEX = 7;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -122,6 +140,7 @@ public class SyncDLFileVersionDiffModelImpl
 	}
 
 	public SyncDLFileVersionDiffModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -337,19 +356,21 @@ public class SyncDLFileVersionDiffModelImpl
 
 	@Override
 	public void setFileEntryId(long fileEntryId) {
-		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
-
-			_originalFileEntryId = _fileEntryId;
+		if (_originalValues[FILEENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[FILEENTRYID_COLUMN_INDEX] = _fileEntryId;
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		Object originalValue = _originalValues[FILEENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _fileEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -359,19 +380,25 @@ public class SyncDLFileVersionDiffModelImpl
 
 	@Override
 	public void setSourceFileVersionId(long sourceFileVersionId) {
-		_columnBitmask |= SOURCEFILEVERSIONID_COLUMN_BITMASK;
+		if (_originalValues[SOURCEFILEVERSIONID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalSourceFileVersionId) {
-			_setOriginalSourceFileVersionId = true;
-
-			_originalSourceFileVersionId = _sourceFileVersionId;
+			_originalValues[SOURCEFILEVERSIONID_COLUMN_INDEX] =
+				_sourceFileVersionId;
 		}
 
 		_sourceFileVersionId = sourceFileVersionId;
 	}
 
 	public long getOriginalSourceFileVersionId() {
-		return _originalSourceFileVersionId;
+		Object originalValue =
+			_originalValues[SOURCEFILEVERSIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _sourceFileVersionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -381,19 +408,25 @@ public class SyncDLFileVersionDiffModelImpl
 
 	@Override
 	public void setTargetFileVersionId(long targetFileVersionId) {
-		_columnBitmask |= TARGETFILEVERSIONID_COLUMN_BITMASK;
+		if (_originalValues[TARGETFILEVERSIONID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalTargetFileVersionId) {
-			_setOriginalTargetFileVersionId = true;
-
-			_originalTargetFileVersionId = _targetFileVersionId;
+			_originalValues[TARGETFILEVERSIONID_COLUMN_INDEX] =
+				_targetFileVersionId;
 		}
 
 		_targetFileVersionId = targetFileVersionId;
 	}
 
 	public long getOriginalTargetFileVersionId() {
-		return _originalTargetFileVersionId;
+		Object originalValue =
+			_originalValues[TARGETFILEVERSIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _targetFileVersionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -423,20 +456,36 @@ public class SyncDLFileVersionDiffModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
-
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_originalValues[EXPIRATIONDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[EXPIRATIONDATE_COLUMN_INDEX] = _expirationDate;
 		}
 
 		_expirationDate = expirationDate;
 	}
 
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		Object originalValue = _originalValues[EXPIRATIONDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _expirationDate;
+		}
+
+		return (Date)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -548,25 +597,9 @@ public class SyncDLFileVersionDiffModelImpl
 	public void resetOriginalValues() {
 		SyncDLFileVersionDiffModelImpl syncDLFileVersionDiffModelImpl = this;
 
-		syncDLFileVersionDiffModelImpl._originalFileEntryId =
-			syncDLFileVersionDiffModelImpl._fileEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		syncDLFileVersionDiffModelImpl._setOriginalFileEntryId = false;
-
-		syncDLFileVersionDiffModelImpl._originalSourceFileVersionId =
-			syncDLFileVersionDiffModelImpl._sourceFileVersionId;
-
-		syncDLFileVersionDiffModelImpl._setOriginalSourceFileVersionId = false;
-
-		syncDLFileVersionDiffModelImpl._originalTargetFileVersionId =
-			syncDLFileVersionDiffModelImpl._targetFileVersionId;
-
-		syncDLFileVersionDiffModelImpl._setOriginalTargetFileVersionId = false;
-
-		syncDLFileVersionDiffModelImpl._originalExpirationDate =
-			syncDLFileVersionDiffModelImpl._expirationDate;
-
-		syncDLFileVersionDiffModelImpl._columnBitmask = 0;
+		syncDLFileVersionDiffModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -682,19 +715,13 @@ public class SyncDLFileVersionDiffModelImpl
 	private long _syncDLFileVersionDiffId;
 	private long _companyId;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private long _sourceFileVersionId;
-	private long _originalSourceFileVersionId;
-	private boolean _setOriginalSourceFileVersionId;
 	private long _targetFileVersionId;
-	private long _originalTargetFileVersionId;
-	private boolean _setOriginalTargetFileVersionId;
 	private long _dataFileEntryId;
 	private long _size;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[9];
+	private Long _columnBitmask;
 	private SyncDLFileVersionDiff _escapedModel;
 
 }

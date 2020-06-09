@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -117,6 +119,28 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	public static final long DLOPENERFILEENTRYREFERENCEID_COLUMN_BITMASK = 4L;
 
+	public static final int DLOPENERFILEENTRYREFERENCEID_COLUMN_INDEX = 0;
+
+	public static final int GROUPID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int USERNAME_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int REFERENCEKEY_COLUMN_INDEX = 7;
+
+	public static final int REFERENCETYPE_COLUMN_INDEX = 8;
+
+	public static final int FILEENTRYID_COLUMN_INDEX = 9;
+
+	public static final int TYPE_COLUMN_INDEX = 10;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -126,6 +150,7 @@ public class DLOpenerFileEntryReferenceModelImpl
 	}
 
 	public DLOpenerFileEntryReferenceModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -460,17 +485,21 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setReferenceType(String referenceType) {
-		_columnBitmask |= REFERENCETYPE_COLUMN_BITMASK;
-
-		if (_originalReferenceType == null) {
-			_originalReferenceType = _referenceType;
+		if (_originalValues[REFERENCETYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[REFERENCETYPE_COLUMN_INDEX] = _referenceType;
 		}
 
 		_referenceType = referenceType;
 	}
 
 	public String getOriginalReferenceType() {
-		return GetterUtil.getString(_originalReferenceType);
+		Object originalValue = _originalValues[REFERENCETYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _referenceType;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -480,19 +509,21 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 	@Override
 	public void setFileEntryId(long fileEntryId) {
-		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
-
-			_originalFileEntryId = _fileEntryId;
+		if (_originalValues[FILEENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[FILEENTRYID_COLUMN_INDEX] = _fileEntryId;
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		Object originalValue = _originalValues[FILEENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _fileEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -506,6 +537,18 @@ public class DLOpenerFileEntryReferenceModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -623,15 +666,9 @@ public class DLOpenerFileEntryReferenceModelImpl
 
 		dlOpenerFileEntryReferenceModelImpl._setModifiedDate = false;
 
-		dlOpenerFileEntryReferenceModelImpl._originalReferenceType =
-			dlOpenerFileEntryReferenceModelImpl._referenceType;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		dlOpenerFileEntryReferenceModelImpl._originalFileEntryId =
-			dlOpenerFileEntryReferenceModelImpl._fileEntryId;
-
-		dlOpenerFileEntryReferenceModelImpl._setOriginalFileEntryId = false;
-
-		dlOpenerFileEntryReferenceModelImpl._columnBitmask = 0;
+		dlOpenerFileEntryReferenceModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -790,12 +827,10 @@ public class DLOpenerFileEntryReferenceModelImpl
 	private boolean _setModifiedDate;
 	private String _referenceKey;
 	private String _referenceType;
-	private String _originalReferenceType;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private int _type;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[12];
+	private Long _columnBitmask;
 	private DLOpenerFileEntryReference _escapedModel;
 
 }

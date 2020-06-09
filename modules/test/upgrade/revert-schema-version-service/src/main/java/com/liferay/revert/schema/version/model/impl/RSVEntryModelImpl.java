@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -92,6 +93,12 @@ public class RSVEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int RSVENTRYID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -101,6 +108,7 @@ public class RSVEntryModelImpl
 	}
 
 	public RSVEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -368,6 +376,7 @@ public class RSVEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -459,6 +468,7 @@ public class RSVEntryModelImpl
 	private long _mvccVersion;
 	private long _rsvEntryId;
 	private long _companyId;
+	private Object[] _originalValues = new Object[4];
 	private RSVEntry _escapedModel;
 
 }

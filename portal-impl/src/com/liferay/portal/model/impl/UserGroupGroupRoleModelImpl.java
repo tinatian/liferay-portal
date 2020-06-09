@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.UserGroupGroupRoleSoap;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -128,6 +130,20 @@ public class UserGroupGroupRoleModelImpl
 
 	public static final long USERGROUPGROUPROLEID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int USERGROUPGROUPROLEID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERGROUPID_COLUMN_INDEX = 4;
+
+	public static final int GROUPID_COLUMN_INDEX = 5;
+
+	public static final int ROLEID_COLUMN_INDEX = 6;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -180,6 +196,7 @@ public class UserGroupGroupRoleModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.UserGroupGroupRole"));
 
 	public UserGroupGroupRoleModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -409,19 +426,21 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setUserGroupId(long userGroupId) {
-		_columnBitmask |= USERGROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserGroupId) {
-			_setOriginalUserGroupId = true;
-
-			_originalUserGroupId = _userGroupId;
+		if (_originalValues[USERGROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERGROUPID_COLUMN_INDEX] = _userGroupId;
 		}
 
 		_userGroupId = userGroupId;
 	}
 
 	public long getOriginalUserGroupId() {
-		return _originalUserGroupId;
+		Object originalValue = _originalValues[USERGROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userGroupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -432,19 +451,21 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -455,22 +476,36 @@ public class UserGroupGroupRoleModelImpl
 
 	@Override
 	public void setRoleId(long roleId) {
-		_columnBitmask |= ROLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
+		if (_originalValues[ROLEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ROLEID_COLUMN_INDEX] = _roleId;
 		}
 
 		_roleId = roleId;
 	}
 
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		Object originalValue = _originalValues[ROLEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _roleId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -578,22 +613,9 @@ public class UserGroupGroupRoleModelImpl
 	public void resetOriginalValues() {
 		UserGroupGroupRoleModelImpl userGroupGroupRoleModelImpl = this;
 
-		userGroupGroupRoleModelImpl._originalUserGroupId =
-			userGroupGroupRoleModelImpl._userGroupId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		userGroupGroupRoleModelImpl._setOriginalUserGroupId = false;
-
-		userGroupGroupRoleModelImpl._originalGroupId =
-			userGroupGroupRoleModelImpl._groupId;
-
-		userGroupGroupRoleModelImpl._setOriginalGroupId = false;
-
-		userGroupGroupRoleModelImpl._originalRoleId =
-			userGroupGroupRoleModelImpl._roleId;
-
-		userGroupGroupRoleModelImpl._setOriginalRoleId = false;
-
-		userGroupGroupRoleModelImpl._columnBitmask = 0;
+		userGroupGroupRoleModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -694,15 +716,10 @@ public class UserGroupGroupRoleModelImpl
 	private long _userGroupGroupRoleId;
 	private long _companyId;
 	private long _userGroupId;
-	private long _originalUserGroupId;
-	private boolean _setOriginalUserGroupId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[8];
+	private Long _columnBitmask;
 	private UserGroupGroupRole _escapedModel;
 
 }

@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -109,6 +111,16 @@ public class AccountEntryOrganizationRelModelImpl
 
 	public static final long ACCOUNTENTRYORGANIZATIONRELID_COLUMN_BITMASK = 4L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int ACCOUNTENTRYORGANIZATIONRELID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int ACCOUNTENTRYID_COLUMN_INDEX = 3;
+
+	public static final int ORGANIZATIONID_COLUMN_INDEX = 4;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -167,6 +179,7 @@ public class AccountEntryOrganizationRelModelImpl
 	}
 
 	public AccountEntryOrganizationRelModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -382,19 +395,21 @@ public class AccountEntryOrganizationRelModelImpl
 
 	@Override
 	public void setAccountEntryId(long accountEntryId) {
-		_columnBitmask |= ACCOUNTENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalAccountEntryId) {
-			_setOriginalAccountEntryId = true;
-
-			_originalAccountEntryId = _accountEntryId;
+		if (_originalValues[ACCOUNTENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACCOUNTENTRYID_COLUMN_INDEX] = _accountEntryId;
 		}
 
 		_accountEntryId = accountEntryId;
 	}
 
 	public long getOriginalAccountEntryId() {
-		return _originalAccountEntryId;
+		Object originalValue = _originalValues[ACCOUNTENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _accountEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -405,22 +420,36 @@ public class AccountEntryOrganizationRelModelImpl
 
 	@Override
 	public void setOrganizationId(long organizationId) {
-		_columnBitmask |= ORGANIZATIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalOrganizationId) {
-			_setOriginalOrganizationId = true;
-
-			_originalOrganizationId = _organizationId;
+		if (_originalValues[ORGANIZATIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ORGANIZATIONID_COLUMN_INDEX] = _organizationId;
 		}
 
 		_organizationId = organizationId;
 	}
 
 	public long getOriginalOrganizationId() {
-		return _originalOrganizationId;
+		Object originalValue = _originalValues[ORGANIZATIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _organizationId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -530,17 +559,9 @@ public class AccountEntryOrganizationRelModelImpl
 		AccountEntryOrganizationRelModelImpl
 			accountEntryOrganizationRelModelImpl = this;
 
-		accountEntryOrganizationRelModelImpl._originalAccountEntryId =
-			accountEntryOrganizationRelModelImpl._accountEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		accountEntryOrganizationRelModelImpl._setOriginalAccountEntryId = false;
-
-		accountEntryOrganizationRelModelImpl._originalOrganizationId =
-			accountEntryOrganizationRelModelImpl._organizationId;
-
-		accountEntryOrganizationRelModelImpl._setOriginalOrganizationId = false;
-
-		accountEntryOrganizationRelModelImpl._columnBitmask = 0;
+		accountEntryOrganizationRelModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -648,12 +669,9 @@ public class AccountEntryOrganizationRelModelImpl
 	private long _accountEntryOrganizationRelId;
 	private long _companyId;
 	private long _accountEntryId;
-	private long _originalAccountEntryId;
-	private boolean _setOriginalAccountEntryId;
 	private long _organizationId;
-	private long _originalOrganizationId;
-	private boolean _setOriginalOrganizationId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[6];
+	private Long _columnBitmask;
 	private AccountEntryOrganizationRel _escapedModel;
 
 }

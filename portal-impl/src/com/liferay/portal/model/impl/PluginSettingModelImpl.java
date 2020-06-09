@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.PluginSettingSoap;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -127,6 +129,20 @@ public class PluginSettingModelImpl
 
 	public static final long PLUGINSETTINGID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int PLUGINSETTINGID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int PLUGINID_COLUMN_INDEX = 3;
+
+	public static final int PLUGINTYPE_COLUMN_INDEX = 4;
+
+	public static final int ROLES_COLUMN_INDEX = 5;
+
+	public static final int ACTIVE_COLUMN_INDEX = 6;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -177,6 +193,7 @@ public class PluginSettingModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.PluginSetting"));
 
 	public PluginSettingModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -371,19 +388,21 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -399,17 +418,21 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setPluginId(String pluginId) {
-		_columnBitmask |= PLUGINID_COLUMN_BITMASK;
-
-		if (_originalPluginId == null) {
-			_originalPluginId = _pluginId;
+		if (_originalValues[PLUGINID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PLUGINID_COLUMN_INDEX] = _pluginId;
 		}
 
 		_pluginId = pluginId;
 	}
 
 	public String getOriginalPluginId() {
-		return GetterUtil.getString(_originalPluginId);
+		Object originalValue = _originalValues[PLUGINID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _pluginId;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -425,17 +448,21 @@ public class PluginSettingModelImpl
 
 	@Override
 	public void setPluginType(String pluginType) {
-		_columnBitmask |= PLUGINTYPE_COLUMN_BITMASK;
-
-		if (_originalPluginType == null) {
-			_originalPluginType = _pluginType;
+		if (_originalValues[PLUGINTYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PLUGINTYPE_COLUMN_INDEX] = _pluginType;
 		}
 
 		_pluginType = pluginType;
 	}
 
 	public String getOriginalPluginType() {
-		return GetterUtil.getString(_originalPluginType);
+		Object originalValue = _originalValues[PLUGINTYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _pluginType;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -472,6 +499,18 @@ public class PluginSettingModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -576,18 +615,9 @@ public class PluginSettingModelImpl
 	public void resetOriginalValues() {
 		PluginSettingModelImpl pluginSettingModelImpl = this;
 
-		pluginSettingModelImpl._originalCompanyId =
-			pluginSettingModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		pluginSettingModelImpl._setOriginalCompanyId = false;
-
-		pluginSettingModelImpl._originalPluginId =
-			pluginSettingModelImpl._pluginId;
-
-		pluginSettingModelImpl._originalPluginType =
-			pluginSettingModelImpl._pluginType;
-
-		pluginSettingModelImpl._columnBitmask = 0;
+		pluginSettingModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -703,15 +733,12 @@ public class PluginSettingModelImpl
 	private long _mvccVersion;
 	private long _pluginSettingId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _pluginId;
-	private String _originalPluginId;
 	private String _pluginType;
-	private String _originalPluginType;
 	private String _roles;
 	private boolean _active;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[8];
+	private Long _columnBitmask;
 	private PluginSetting _escapedModel;
 
 }

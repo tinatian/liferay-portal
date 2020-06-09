@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -40,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -114,6 +116,20 @@ public class CTProcessModelImpl
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTPROCESSID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 5;
+
+	public static final int BACKGROUNDTASKID_COLUMN_INDEX = 6;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -167,6 +183,7 @@ public class CTProcessModelImpl
 	}
 
 	public CTProcessModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -357,19 +374,21 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -420,19 +439,21 @@ public class CTProcessModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
-		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
-
-			_originalCtCollectionId = _ctCollectionId;
+		if (_originalValues[CTCOLLECTIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CTCOLLECTIONID_COLUMN_INDEX] = _ctCollectionId;
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		Object originalValue = _originalValues[CTCOLLECTIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _ctCollectionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -447,6 +468,18 @@ public class CTProcessModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -551,16 +584,9 @@ public class CTProcessModelImpl
 	public void resetOriginalValues() {
 		CTProcessModelImpl ctProcessModelImpl = this;
 
-		ctProcessModelImpl._originalCompanyId = ctProcessModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		ctProcessModelImpl._setOriginalCompanyId = false;
-
-		ctProcessModelImpl._originalCtCollectionId =
-			ctProcessModelImpl._ctCollectionId;
-
-		ctProcessModelImpl._setOriginalCtCollectionId = false;
-
-		ctProcessModelImpl._columnBitmask = 0;
+		ctProcessModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -667,15 +693,12 @@ public class CTProcessModelImpl
 	private long _mvccVersion;
 	private long _ctProcessId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private Date _createDate;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private long _backgroundTaskId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[8];
+	private Long _columnBitmask;
 	private CTProcess _escapedModel;
 
 }

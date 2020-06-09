@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.social.kernel.model.SocialRelation;
 import com.liferay.social.kernel.model.SocialRelationModel;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -129,11 +131,30 @@ public class SocialRelationModelImpl
 
 	public static final long RELATIONID_COLUMN_BITMASK = 32L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int UUID_COLUMN_INDEX = 2;
+
+	public static final int RELATIONID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int USERID1_COLUMN_INDEX = 6;
+
+	public static final int USERID2_COLUMN_INDEX = 7;
+
+	public static final int TYPE_COLUMN_INDEX = 8;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
 			"lock.expiration.time.com.liferay.social.kernel.model.SocialRelation"));
 
 	public SocialRelationModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -340,17 +361,21 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -370,19 +395,21 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -402,19 +429,21 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setUserId1(long userId1) {
-		_columnBitmask |= USERID1_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId1) {
-			_setOriginalUserId1 = true;
-
-			_originalUserId1 = _userId1;
+		if (_originalValues[USERID1_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID1_COLUMN_INDEX] = _userId1;
 		}
 
 		_userId1 = userId1;
 	}
 
 	public long getOriginalUserId1() {
-		return _originalUserId1;
+		Object originalValue = _originalValues[USERID1_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId1;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -424,19 +453,21 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setUserId2(long userId2) {
-		_columnBitmask |= USERID2_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId2) {
-			_setOriginalUserId2 = true;
-
-			_originalUserId2 = _userId2;
+		if (_originalValues[USERID2_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID2_COLUMN_INDEX] = _userId2;
 		}
 
 		_userId2 = userId2;
 	}
 
 	public long getOriginalUserId2() {
-		return _originalUserId2;
+		Object originalValue = _originalValues[USERID2_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId2;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -446,22 +477,36 @@ public class SocialRelationModelImpl
 
 	@Override
 	public void setType(int type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_originalValues[TYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPE_COLUMN_INDEX] = _type;
 		}
 
 		_type = type;
 	}
 
 	public int getOriginalType() {
-		return _originalType;
+		Object originalValue = _originalValues[TYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _type;
+		}
+
+		return (int)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -568,28 +613,9 @@ public class SocialRelationModelImpl
 	public void resetOriginalValues() {
 		SocialRelationModelImpl socialRelationModelImpl = this;
 
-		socialRelationModelImpl._originalUuid = socialRelationModelImpl._uuid;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		socialRelationModelImpl._originalCompanyId =
-			socialRelationModelImpl._companyId;
-
-		socialRelationModelImpl._setOriginalCompanyId = false;
-
-		socialRelationModelImpl._originalUserId1 =
-			socialRelationModelImpl._userId1;
-
-		socialRelationModelImpl._setOriginalUserId1 = false;
-
-		socialRelationModelImpl._originalUserId2 =
-			socialRelationModelImpl._userId2;
-
-		socialRelationModelImpl._setOriginalUserId2 = false;
-
-		socialRelationModelImpl._originalType = socialRelationModelImpl._type;
-
-		socialRelationModelImpl._setOriginalType = false;
-
-		socialRelationModelImpl._columnBitmask = 0;
+		socialRelationModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -697,22 +723,14 @@ public class SocialRelationModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _relationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _createDate;
 	private long _userId1;
-	private long _originalUserId1;
-	private boolean _setOriginalUserId1;
 	private long _userId2;
-	private long _originalUserId2;
-	private boolean _setOriginalUserId2;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private SocialRelation _escapedModel;
 
 }

@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -42,6 +43,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -123,6 +125,26 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	public static final long BANID_COLUMN_BITMASK = 32L;
 
+	public static final int UUID_COLUMN_INDEX = 0;
+
+	public static final int BANID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int BANUSERID_COLUMN_INDEX = 8;
+
+	public static final int LASTPUBLISHDATE_COLUMN_INDEX = 9;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -179,6 +201,7 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	}
 
 	public MBBanModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -351,17 +374,21 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -383,19 +410,21 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -406,19 +435,21 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -429,12 +460,8 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = _userId;
 		}
 
 		_userId = userId;
@@ -457,7 +484,13 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -512,12 +545,8 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 
 	@Override
 	public void setBanUserId(long banUserId) {
-		_columnBitmask |= BANUSERID_COLUMN_BITMASK;
-
-		if (!_setOriginalBanUserId) {
-			_setOriginalBanUserId = true;
-
-			_originalBanUserId = _banUserId;
+		if (_originalValues[BANUSERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[BANUSERID_COLUMN_INDEX] = _banUserId;
 		}
 
 		_banUserId = banUserId;
@@ -540,7 +569,13 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	}
 
 	public long getOriginalBanUserId() {
-		return _originalBanUserId;
+		Object originalValue = _originalValues[BANUSERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _banUserId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -561,6 +596,18 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -668,27 +715,11 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	public void resetOriginalValues() {
 		MBBanModelImpl mbBanModelImpl = this;
 
-		mbBanModelImpl._originalUuid = mbBanModelImpl._uuid;
-
-		mbBanModelImpl._originalGroupId = mbBanModelImpl._groupId;
-
-		mbBanModelImpl._setOriginalGroupId = false;
-
-		mbBanModelImpl._originalCompanyId = mbBanModelImpl._companyId;
-
-		mbBanModelImpl._setOriginalCompanyId = false;
-
-		mbBanModelImpl._originalUserId = mbBanModelImpl._userId;
-
-		mbBanModelImpl._setOriginalUserId = false;
-
 		mbBanModelImpl._setModifiedDate = false;
 
-		mbBanModelImpl._originalBanUserId = mbBanModelImpl._banUserId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		mbBanModelImpl._setOriginalBanUserId = false;
-
-		mbBanModelImpl._columnBitmask = 0;
+		mbBanModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -823,26 +854,18 @@ public class MBBanModelImpl extends BaseModelImpl<MBBan> implements MBBanModel {
 	private static boolean _finderCacheEnabled;
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _banId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _banUserId;
-	private long _originalBanUserId;
-	private boolean _setOriginalBanUserId;
 	private Date _lastPublishDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[11];
+	private Long _columnBitmask;
 	private MBBan _escapedModel;
 
 }

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.service.builder.test.model.BigDecimalEntry;
 import com.liferay.portal.tools.service.builder.test.model.BigDecimalEntryModel;
@@ -36,6 +37,7 @@ import java.math.BigDecimal;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -115,6 +117,12 @@ public class BigDecimalEntryModelImpl
 
 	public static final long BIGDECIMALVALUE_COLUMN_BITMASK = 1L;
 
+	public static final int BIGDECIMALENTRYID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int BIGDECIMALVALUE_COLUMN_INDEX = 2;
+
 	public static final String MAPPING_TABLE_BIGDECIMALENTRIES_LVENTRIES_NAME =
 		"BigDecimalEntries_LVEntries";
 
@@ -142,6 +150,7 @@ public class BigDecimalEntryModelImpl
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.BigDecimalEntry"));
 
 	public BigDecimalEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -322,18 +331,36 @@ public class BigDecimalEntryModelImpl
 	public void setBigDecimalValue(BigDecimal bigDecimalValue) {
 		_columnBitmask = -1L;
 
-		if (_originalBigDecimalValue == null) {
-			_originalBigDecimalValue = _bigDecimalValue;
+		if (_originalValues[BIGDECIMALVALUE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[BIGDECIMALVALUE_COLUMN_INDEX] = _bigDecimalValue;
 		}
 
 		_bigDecimalValue = bigDecimalValue;
 	}
 
 	public BigDecimal getOriginalBigDecimalValue() {
-		return _originalBigDecimalValue;
+		Object originalValue = _originalValues[BIGDECIMALVALUE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _bigDecimalValue;
+		}
+
+		return (BigDecimal)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -433,10 +460,9 @@ public class BigDecimalEntryModelImpl
 	public void resetOriginalValues() {
 		BigDecimalEntryModelImpl bigDecimalEntryModelImpl = this;
 
-		bigDecimalEntryModelImpl._originalBigDecimalValue =
-			bigDecimalEntryModelImpl._bigDecimalValue;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		bigDecimalEntryModelImpl._columnBitmask = 0;
+		bigDecimalEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -526,8 +552,8 @@ public class BigDecimalEntryModelImpl
 	private long _bigDecimalEntryId;
 	private long _companyId;
 	private BigDecimal _bigDecimalValue;
-	private BigDecimal _originalBigDecimalValue;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[4];
+	private Long _columnBitmask;
 	private BigDecimalEntry _escapedModel;
 
 }

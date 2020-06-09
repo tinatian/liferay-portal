@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -39,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -145,6 +147,58 @@ public class MBMailingListModelImpl
 
 	public static final long MAILINGLISTID_COLUMN_BITMASK = 32L;
 
+	public static final int UUID_COLUMN_INDEX = 0;
+
+	public static final int MAILINGLISTID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int CATEGORYID_COLUMN_INDEX = 8;
+
+	public static final int EMAILADDRESS_COLUMN_INDEX = 9;
+
+	public static final int INPROTOCOL_COLUMN_INDEX = 10;
+
+	public static final int INSERVERNAME_COLUMN_INDEX = 11;
+
+	public static final int INSERVERPORT_COLUMN_INDEX = 12;
+
+	public static final int INUSESSL_COLUMN_INDEX = 13;
+
+	public static final int INUSERNAME_COLUMN_INDEX = 14;
+
+	public static final int INPASSWORD_COLUMN_INDEX = 15;
+
+	public static final int INREADINTERVAL_COLUMN_INDEX = 16;
+
+	public static final int OUTEMAILADDRESS_COLUMN_INDEX = 17;
+
+	public static final int OUTCUSTOM_COLUMN_INDEX = 18;
+
+	public static final int OUTSERVERNAME_COLUMN_INDEX = 19;
+
+	public static final int OUTSERVERPORT_COLUMN_INDEX = 20;
+
+	public static final int OUTUSESSL_COLUMN_INDEX = 21;
+
+	public static final int OUTUSERNAME_COLUMN_INDEX = 22;
+
+	public static final int OUTPASSWORD_COLUMN_INDEX = 23;
+
+	public static final int ALLOWANONYMOUS_COLUMN_INDEX = 24;
+
+	public static final int ACTIVE_COLUMN_INDEX = 25;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -154,6 +208,7 @@ public class MBMailingListModelImpl
 	}
 
 	public MBMailingListModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -423,17 +478,21 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -453,19 +512,21 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -475,19 +536,21 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -564,19 +627,21 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setCategoryId(long categoryId) {
-		_columnBitmask |= CATEGORYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCategoryId) {
-			_setOriginalCategoryId = true;
-
-			_originalCategoryId = _categoryId;
+		if (_originalValues[CATEGORYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CATEGORYID_COLUMN_INDEX] = _categoryId;
 		}
 
 		_categoryId = categoryId;
 	}
 
 	public long getOriginalCategoryId() {
-		return _originalCategoryId;
+		Object originalValue = _originalValues[CATEGORYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _categoryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -816,19 +881,21 @@ public class MBMailingListModelImpl
 
 	@Override
 	public void setActive(boolean active) {
-		_columnBitmask |= ACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalActive) {
-			_setOriginalActive = true;
-
-			_originalActive = _active;
+		if (_originalValues[ACTIVE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ACTIVE_COLUMN_INDEX] = _active;
 		}
 
 		_active = active;
 	}
 
 	public boolean getOriginalActive() {
-		return _originalActive;
+		Object originalValue = _originalValues[ACTIVE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _active;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@Override
@@ -838,6 +905,18 @@ public class MBMailingListModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -961,30 +1040,11 @@ public class MBMailingListModelImpl
 	public void resetOriginalValues() {
 		MBMailingListModelImpl mbMailingListModelImpl = this;
 
-		mbMailingListModelImpl._originalUuid = mbMailingListModelImpl._uuid;
-
-		mbMailingListModelImpl._originalGroupId =
-			mbMailingListModelImpl._groupId;
-
-		mbMailingListModelImpl._setOriginalGroupId = false;
-
-		mbMailingListModelImpl._originalCompanyId =
-			mbMailingListModelImpl._companyId;
-
-		mbMailingListModelImpl._setOriginalCompanyId = false;
-
 		mbMailingListModelImpl._setModifiedDate = false;
 
-		mbMailingListModelImpl._originalCategoryId =
-			mbMailingListModelImpl._categoryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		mbMailingListModelImpl._setOriginalCategoryId = false;
-
-		mbMailingListModelImpl._originalActive = mbMailingListModelImpl._active;
-
-		mbMailingListModelImpl._setOriginalActive = false;
-
-		mbMailingListModelImpl._columnBitmask = 0;
+		mbMailingListModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1201,22 +1261,15 @@ public class MBMailingListModelImpl
 	private static boolean _finderCacheEnabled;
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _mailingListId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _categoryId;
-	private long _originalCategoryId;
-	private boolean _setOriginalCategoryId;
 	private String _emailAddress;
 	private String _inProtocol;
 	private String _inServerName;
@@ -1234,9 +1287,8 @@ public class MBMailingListModelImpl
 	private String _outPassword;
 	private boolean _allowAnonymous;
 	private boolean _active;
-	private boolean _originalActive;
-	private boolean _setOriginalActive;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[27];
+	private Long _columnBitmask;
 	private MBMailingList _escapedModel;
 
 }

@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -108,6 +110,24 @@ public class DDMFormInstanceReportModelImpl
 
 	public static final long FORMINSTANCEREPORTID_COLUMN_BITMASK = 2L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int FORMINSTANCEREPORTID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int FORMINSTANCEID_COLUMN_INDEX = 7;
+
+	public static final int DATA_COLUMN_INDEX = 8;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -117,6 +137,7 @@ public class DDMFormInstanceReportModelImpl
 	}
 
 	public DDMFormInstanceReportModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -392,19 +413,21 @@ public class DDMFormInstanceReportModelImpl
 
 	@Override
 	public void setFormInstanceId(long formInstanceId) {
-		_columnBitmask |= FORMINSTANCEID_COLUMN_BITMASK;
-
-		if (!_setOriginalFormInstanceId) {
-			_setOriginalFormInstanceId = true;
-
-			_originalFormInstanceId = _formInstanceId;
+		if (_originalValues[FORMINSTANCEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[FORMINSTANCEID_COLUMN_INDEX] = _formInstanceId;
 		}
 
 		_formInstanceId = formInstanceId;
 	}
 
 	public long getOriginalFormInstanceId() {
-		return _originalFormInstanceId;
+		Object originalValue = _originalValues[FORMINSTANCEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _formInstanceId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -423,6 +446,18 @@ public class DDMFormInstanceReportModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -535,12 +570,9 @@ public class DDMFormInstanceReportModelImpl
 
 		ddmFormInstanceReportModelImpl._setModifiedDate = false;
 
-		ddmFormInstanceReportModelImpl._originalFormInstanceId =
-			ddmFormInstanceReportModelImpl._formInstanceId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		ddmFormInstanceReportModelImpl._setOriginalFormInstanceId = false;
-
-		ddmFormInstanceReportModelImpl._columnBitmask = 0;
+		ddmFormInstanceReportModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -675,10 +707,9 @@ public class DDMFormInstanceReportModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _formInstanceId;
-	private long _originalFormInstanceId;
-	private boolean _setOriginalFormInstanceId;
 	private String _data;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private DDMFormInstanceReport _escapedModel;
 
 }

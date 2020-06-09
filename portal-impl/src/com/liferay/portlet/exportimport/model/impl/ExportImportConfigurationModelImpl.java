@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -46,6 +47,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -155,6 +157,38 @@ public class ExportImportConfigurationModelImpl
 
 	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int EXPORTIMPORTCONFIGURATIONID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int NAME_COLUMN_INDEX = 8;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 9;
+
+	public static final int TYPE_COLUMN_INDEX = 10;
+
+	public static final int SETTINGS_COLUMN_INDEX = 11;
+
+	public static final int STATUS_COLUMN_INDEX = 12;
+
+	public static final int STATUSBYUSERID_COLUMN_INDEX = 13;
+
+	public static final int STATUSBYUSERNAME_COLUMN_INDEX = 14;
+
+	public static final int STATUSDATE_COLUMN_INDEX = 15;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -219,6 +253,7 @@ public class ExportImportConfigurationModelImpl
 			"lock.expiration.time.com.liferay.exportimport.kernel.model.ExportImportConfiguration"));
 
 	public ExportImportConfigurationModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -488,19 +523,21 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -511,19 +548,21 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -639,19 +678,21 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setType(int type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_originalValues[TYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPE_COLUMN_INDEX] = _type;
 		}
 
 		_type = type;
 	}
 
 	public int getOriginalType() {
-		return _originalType;
+		Object originalValue = _originalValues[TYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _type;
+		}
+
+		return (int)originalValue;
 	}
 
 	@JSON
@@ -678,19 +719,21 @@ public class ExportImportConfigurationModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_originalValues[STATUS_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[STATUS_COLUMN_INDEX] = _status;
 		}
 
 		_status = status;
 	}
 
 	public int getOriginalStatus() {
-		return _originalStatus;
+		Object originalValue = _originalValues[STATUS_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _status;
+		}
+
+		return (int)originalValue;
 	}
 
 	@JSON
@@ -973,6 +1016,18 @@ public class ExportImportConfigurationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1091,29 +1146,11 @@ public class ExportImportConfigurationModelImpl
 		ExportImportConfigurationModelImpl exportImportConfigurationModelImpl =
 			this;
 
-		exportImportConfigurationModelImpl._originalGroupId =
-			exportImportConfigurationModelImpl._groupId;
-
-		exportImportConfigurationModelImpl._setOriginalGroupId = false;
-
-		exportImportConfigurationModelImpl._originalCompanyId =
-			exportImportConfigurationModelImpl._companyId;
-
-		exportImportConfigurationModelImpl._setOriginalCompanyId = false;
-
 		exportImportConfigurationModelImpl._setModifiedDate = false;
 
-		exportImportConfigurationModelImpl._originalType =
-			exportImportConfigurationModelImpl._type;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		exportImportConfigurationModelImpl._setOriginalType = false;
-
-		exportImportConfigurationModelImpl._originalStatus =
-			exportImportConfigurationModelImpl._status;
-
-		exportImportConfigurationModelImpl._setOriginalStatus = false;
-
-		exportImportConfigurationModelImpl._columnBitmask = 0;
+		exportImportConfigurationModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1292,11 +1329,7 @@ public class ExportImportConfigurationModelImpl
 	private long _mvccVersion;
 	private long _exportImportConfigurationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1305,16 +1338,13 @@ public class ExportImportConfigurationModelImpl
 	private String _name;
 	private String _description;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _settings;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[17];
+	private Long _columnBitmask;
 	private ExportImportConfiguration _escapedModel;
 
 }

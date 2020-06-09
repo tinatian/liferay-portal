@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -38,6 +39,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -138,6 +140,40 @@ public class OAuth2AuthorizationModelImpl
 
 	public static final long OAUTH2AUTHORIZATIONID_COLUMN_BITMASK = 32L;
 
+	public static final int OAUTH2AUTHORIZATIONID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int OAUTH2APPLICATIONID_COLUMN_INDEX = 5;
+
+	public static final int OAUTH2APPLICATIONSCOPEALIASESID_COLUMN_INDEX = 6;
+
+	public static final int ACCESSTOKENCONTENT_COLUMN_INDEX = 7;
+
+	public static final int ACCESSTOKENCONTENTHASH_COLUMN_INDEX = 8;
+
+	public static final int ACCESSTOKENCREATEDATE_COLUMN_INDEX = 9;
+
+	public static final int ACCESSTOKENEXPIRATIONDATE_COLUMN_INDEX = 10;
+
+	public static final int REMOTEHOSTINFO_COLUMN_INDEX = 11;
+
+	public static final int REMOTEIPINFO_COLUMN_INDEX = 12;
+
+	public static final int REFRESHTOKENCONTENT_COLUMN_INDEX = 13;
+
+	public static final int REFRESHTOKENCONTENTHASH_COLUMN_INDEX = 14;
+
+	public static final int REFRESHTOKENCREATEDATE_COLUMN_INDEX = 15;
+
+	public static final int REFRESHTOKENEXPIRATIONDATE_COLUMN_INDEX = 16;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -224,6 +260,7 @@ public class OAuth2AuthorizationModelImpl
 			"create table OA2Auths_OA2ScopeGrants (companyId LONG not null,oAuth2AuthorizationId LONG not null,oAuth2ScopeGrantId LONG not null,primary key (oAuth2AuthorizationId, oAuth2ScopeGrantId))";
 
 	public OAuth2AuthorizationModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -486,19 +523,21 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -508,12 +547,8 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = _userId;
 		}
 
 		_userId = userId;
@@ -536,7 +571,13 @@ public class OAuth2AuthorizationModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -571,19 +612,25 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setOAuth2ApplicationId(long oAuth2ApplicationId) {
-		_columnBitmask |= OAUTH2APPLICATIONID_COLUMN_BITMASK;
+		if (_originalValues[OAUTH2APPLICATIONID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalOAuth2ApplicationId) {
-			_setOriginalOAuth2ApplicationId = true;
-
-			_originalOAuth2ApplicationId = _oAuth2ApplicationId;
+			_originalValues[OAUTH2APPLICATIONID_COLUMN_INDEX] =
+				_oAuth2ApplicationId;
 		}
 
 		_oAuth2ApplicationId = oAuth2ApplicationId;
 	}
 
 	public long getOriginalOAuth2ApplicationId() {
-		return _originalOAuth2ApplicationId;
+		Object originalValue =
+			_originalValues[OAUTH2APPLICATIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _oAuth2ApplicationId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -620,19 +667,25 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setAccessTokenContentHash(long accessTokenContentHash) {
-		_columnBitmask |= ACCESSTOKENCONTENTHASH_COLUMN_BITMASK;
+		if (_originalValues[ACCESSTOKENCONTENTHASH_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalAccessTokenContentHash) {
-			_setOriginalAccessTokenContentHash = true;
-
-			_originalAccessTokenContentHash = _accessTokenContentHash;
+			_originalValues[ACCESSTOKENCONTENTHASH_COLUMN_INDEX] =
+				_accessTokenContentHash;
 		}
 
 		_accessTokenContentHash = accessTokenContentHash;
 	}
 
 	public long getOriginalAccessTokenContentHash() {
-		return _originalAccessTokenContentHash;
+		Object originalValue =
+			_originalValues[ACCESSTOKENCONTENTHASH_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _accessTokenContentHash;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -707,19 +760,25 @@ public class OAuth2AuthorizationModelImpl
 
 	@Override
 	public void setRefreshTokenContentHash(long refreshTokenContentHash) {
-		_columnBitmask |= REFRESHTOKENCONTENTHASH_COLUMN_BITMASK;
+		if (_originalValues[REFRESHTOKENCONTENTHASH_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalRefreshTokenContentHash) {
-			_setOriginalRefreshTokenContentHash = true;
-
-			_originalRefreshTokenContentHash = _refreshTokenContentHash;
+			_originalValues[REFRESHTOKENCONTENTHASH_COLUMN_INDEX] =
+				_refreshTokenContentHash;
 		}
 
 		_refreshTokenContentHash = refreshTokenContentHash;
 	}
 
 	public long getOriginalRefreshTokenContentHash() {
-		return _originalRefreshTokenContentHash;
+		Object originalValue =
+			_originalValues[REFRESHTOKENCONTENTHASH_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _refreshTokenContentHash;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -743,6 +802,18 @@ public class OAuth2AuthorizationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -869,33 +940,9 @@ public class OAuth2AuthorizationModelImpl
 	public void resetOriginalValues() {
 		OAuth2AuthorizationModelImpl oAuth2AuthorizationModelImpl = this;
 
-		oAuth2AuthorizationModelImpl._originalCompanyId =
-			oAuth2AuthorizationModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		oAuth2AuthorizationModelImpl._setOriginalCompanyId = false;
-
-		oAuth2AuthorizationModelImpl._originalUserId =
-			oAuth2AuthorizationModelImpl._userId;
-
-		oAuth2AuthorizationModelImpl._setOriginalUserId = false;
-
-		oAuth2AuthorizationModelImpl._originalOAuth2ApplicationId =
-			oAuth2AuthorizationModelImpl._oAuth2ApplicationId;
-
-		oAuth2AuthorizationModelImpl._setOriginalOAuth2ApplicationId = false;
-
-		oAuth2AuthorizationModelImpl._originalAccessTokenContentHash =
-			oAuth2AuthorizationModelImpl._accessTokenContentHash;
-
-		oAuth2AuthorizationModelImpl._setOriginalAccessTokenContentHash = false;
-
-		oAuth2AuthorizationModelImpl._originalRefreshTokenContentHash =
-			oAuth2AuthorizationModelImpl._refreshTokenContentHash;
-
-		oAuth2AuthorizationModelImpl._setOriginalRefreshTokenContentHash =
-			false;
-
-		oAuth2AuthorizationModelImpl._columnBitmask = 0;
+		oAuth2AuthorizationModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1101,32 +1148,23 @@ public class OAuth2AuthorizationModelImpl
 
 	private long _oAuth2AuthorizationId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private long _oAuth2ApplicationId;
-	private long _originalOAuth2ApplicationId;
-	private boolean _setOriginalOAuth2ApplicationId;
 	private long _oAuth2ApplicationScopeAliasesId;
 	private String _accessTokenContent;
 	private long _accessTokenContentHash;
-	private long _originalAccessTokenContentHash;
-	private boolean _setOriginalAccessTokenContentHash;
 	private Date _accessTokenCreateDate;
 	private Date _accessTokenExpirationDate;
 	private String _remoteHostInfo;
 	private String _remoteIPInfo;
 	private String _refreshTokenContent;
 	private long _refreshTokenContentHash;
-	private long _originalRefreshTokenContentHash;
-	private boolean _setOriginalRefreshTokenContentHash;
 	private Date _refreshTokenCreateDate;
 	private Date _refreshTokenExpirationDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[18];
+	private Long _columnBitmask;
 	private OAuth2Authorization _escapedModel;
 
 }

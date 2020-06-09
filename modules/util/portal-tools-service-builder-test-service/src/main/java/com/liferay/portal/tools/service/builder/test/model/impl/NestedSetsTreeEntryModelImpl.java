@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -113,12 +114,23 @@ public class NestedSetsTreeEntryModelImpl
 
 	public static final boolean COLUMN_BITMASK_ENABLED = false;
 
+	public static final int NESTEDSETSTREEENTRYID_COLUMN_INDEX = 0;
+
+	public static final int GROUPID_COLUMN_INDEX = 1;
+
+	public static final int PARENTNESTEDSETSTREEENTRYID_COLUMN_INDEX = 2;
+
+	public static final int LEFTNESTEDSETSTREEENTRYID_COLUMN_INDEX = 3;
+
+	public static final int RIGHTNESTEDSETSTREEENTRYID_COLUMN_INDEX = 4;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
 			get(
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.NestedSetsTreeEntry"));
 
 	public NestedSetsTreeEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -318,17 +330,25 @@ public class NestedSetsTreeEntryModelImpl
 	public void setParentNestedSetsTreeEntryId(
 		long parentNestedSetsTreeEntryId) {
 
-		if (!_setOriginalParentNestedSetsTreeEntryId) {
-			_setOriginalParentNestedSetsTreeEntryId = true;
+		if (_originalValues[PARENTNESTEDSETSTREEENTRYID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-			_originalParentNestedSetsTreeEntryId = _parentNestedSetsTreeEntryId;
+			_originalValues[PARENTNESTEDSETSTREEENTRYID_COLUMN_INDEX] =
+				_parentNestedSetsTreeEntryId;
 		}
 
 		_parentNestedSetsTreeEntryId = parentNestedSetsTreeEntryId;
 	}
 
 	public long getOriginalParentNestedSetsTreeEntryId() {
-		return _originalParentNestedSetsTreeEntryId;
+		Object originalValue =
+			_originalValues[PARENTNESTEDSETSTREEENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _parentNestedSetsTreeEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -475,11 +495,7 @@ public class NestedSetsTreeEntryModelImpl
 	public void resetOriginalValues() {
 		NestedSetsTreeEntryModelImpl nestedSetsTreeEntryModelImpl = this;
 
-		nestedSetsTreeEntryModelImpl._originalParentNestedSetsTreeEntryId =
-			nestedSetsTreeEntryModelImpl._parentNestedSetsTreeEntryId;
-
-		nestedSetsTreeEntryModelImpl._setOriginalParentNestedSetsTreeEntryId =
-			false;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -577,10 +593,9 @@ public class NestedSetsTreeEntryModelImpl
 	private long _nestedSetsTreeEntryId;
 	private long _groupId;
 	private long _parentNestedSetsTreeEntryId;
-	private long _originalParentNestedSetsTreeEntryId;
-	private boolean _setOriginalParentNestedSetsTreeEntryId;
 	private long _leftNestedSetsTreeEntryId;
 	private long _rightNestedSetsTreeEntryId;
+	private Object[] _originalValues = new Object[6];
 	private NestedSetsTreeEntry _escapedModel;
 
 }

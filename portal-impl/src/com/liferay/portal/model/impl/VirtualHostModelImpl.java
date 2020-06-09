@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.VirtualHostModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -125,11 +127,28 @@ public class VirtualHostModelImpl
 
 	public static final long VIRTUALHOSTID_COLUMN_BITMASK = 16L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int VIRTUALHOSTID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int LAYOUTSETID_COLUMN_INDEX = 4;
+
+	public static final int HOSTNAME_COLUMN_INDEX = 5;
+
+	public static final int DEFAULTVIRTUALHOST_COLUMN_INDEX = 6;
+
+	public static final int LANGUAGEID_COLUMN_INDEX = 7;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
 			"lock.expiration.time.com.liferay.portal.kernel.model.VirtualHost"));
 
 	public VirtualHostModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -340,19 +359,21 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -362,19 +383,21 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setLayoutSetId(long layoutSetId) {
-		_columnBitmask |= LAYOUTSETID_COLUMN_BITMASK;
-
-		if (!_setOriginalLayoutSetId) {
-			_setOriginalLayoutSetId = true;
-
-			_originalLayoutSetId = _layoutSetId;
+		if (_originalValues[LAYOUTSETID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LAYOUTSETID_COLUMN_INDEX] = _layoutSetId;
 		}
 
 		_layoutSetId = layoutSetId;
 	}
 
 	public long getOriginalLayoutSetId() {
-		return _originalLayoutSetId;
+		Object originalValue = _originalValues[LAYOUTSETID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _layoutSetId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -389,17 +412,21 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setHostname(String hostname) {
-		_columnBitmask |= HOSTNAME_COLUMN_BITMASK;
-
-		if (_originalHostname == null) {
-			_originalHostname = _hostname;
+		if (_originalValues[HOSTNAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[HOSTNAME_COLUMN_INDEX] = _hostname;
 		}
 
 		_hostname = hostname;
 	}
 
 	public String getOriginalHostname() {
-		return GetterUtil.getString(_originalHostname);
+		Object originalValue = _originalValues[HOSTNAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _hostname;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -414,19 +441,24 @@ public class VirtualHostModelImpl
 
 	@Override
 	public void setDefaultVirtualHost(boolean defaultVirtualHost) {
-		_columnBitmask |= DEFAULTVIRTUALHOST_COLUMN_BITMASK;
+		if (_originalValues[DEFAULTVIRTUALHOST_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalDefaultVirtualHost) {
-			_setOriginalDefaultVirtualHost = true;
-
-			_originalDefaultVirtualHost = _defaultVirtualHost;
+			_originalValues[DEFAULTVIRTUALHOST_COLUMN_INDEX] =
+				_defaultVirtualHost;
 		}
 
 		_defaultVirtualHost = defaultVirtualHost;
 	}
 
 	public boolean getOriginalDefaultVirtualHost() {
-		return _originalDefaultVirtualHost;
+		Object originalValue = _originalValues[DEFAULTVIRTUALHOST_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _defaultVirtualHost;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@Override
@@ -445,6 +477,18 @@ public class VirtualHostModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -558,24 +602,9 @@ public class VirtualHostModelImpl
 	public void resetOriginalValues() {
 		VirtualHostModelImpl virtualHostModelImpl = this;
 
-		virtualHostModelImpl._originalCompanyId =
-			virtualHostModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		virtualHostModelImpl._setOriginalCompanyId = false;
-
-		virtualHostModelImpl._originalLayoutSetId =
-			virtualHostModelImpl._layoutSetId;
-
-		virtualHostModelImpl._setOriginalLayoutSetId = false;
-
-		virtualHostModelImpl._originalHostname = virtualHostModelImpl._hostname;
-
-		virtualHostModelImpl._originalDefaultVirtualHost =
-			virtualHostModelImpl._defaultVirtualHost;
-
-		virtualHostModelImpl._setOriginalDefaultVirtualHost = false;
-
-		virtualHostModelImpl._columnBitmask = 0;
+		virtualHostModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -688,18 +717,12 @@ public class VirtualHostModelImpl
 	private long _ctCollectionId;
 	private long _virtualHostId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _layoutSetId;
-	private long _originalLayoutSetId;
-	private boolean _setOriginalLayoutSetId;
 	private String _hostname;
-	private String _originalHostname;
 	private boolean _defaultVirtualHost;
-	private boolean _originalDefaultVirtualHost;
-	private boolean _setOriginalDefaultVirtualHost;
 	private String _languageId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[9];
+	private Long _columnBitmask;
 	private VirtualHost _escapedModel;
 
 }

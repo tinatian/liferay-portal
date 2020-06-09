@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -134,6 +136,58 @@ public class AccountModelImpl
 
 	public static final long USERID_COLUMN_BITMASK = 2L;
 
+	public static final int ACCOUNTID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int USERID_COLUMN_INDEX = 2;
+
+	public static final int USERNAME_COLUMN_INDEX = 3;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 4;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 5;
+
+	public static final int ADDRESS_COLUMN_INDEX = 6;
+
+	public static final int PERSONALNAME_COLUMN_INDEX = 7;
+
+	public static final int PROTOCOL_COLUMN_INDEX = 8;
+
+	public static final int INCOMINGHOSTNAME_COLUMN_INDEX = 9;
+
+	public static final int INCOMINGPORT_COLUMN_INDEX = 10;
+
+	public static final int INCOMINGSECURE_COLUMN_INDEX = 11;
+
+	public static final int OUTGOINGHOSTNAME_COLUMN_INDEX = 12;
+
+	public static final int OUTGOINGPORT_COLUMN_INDEX = 13;
+
+	public static final int OUTGOINGSECURE_COLUMN_INDEX = 14;
+
+	public static final int LOGIN_COLUMN_INDEX = 15;
+
+	public static final int PASSWORD_COLUMN_INDEX = 16;
+
+	public static final int SAVEPASSWORD_COLUMN_INDEX = 17;
+
+	public static final int SIGNATURE_COLUMN_INDEX = 18;
+
+	public static final int USESIGNATURE_COLUMN_INDEX = 19;
+
+	public static final int FOLDERPREFIX_COLUMN_INDEX = 20;
+
+	public static final int INBOXFOLDERID_COLUMN_INDEX = 21;
+
+	public static final int DRAFTFOLDERID_COLUMN_INDEX = 22;
+
+	public static final int SENTFOLDERID_COLUMN_INDEX = 23;
+
+	public static final int TRASHFOLDERID_COLUMN_INDEX = 24;
+
+	public static final int DEFAULTSENDER_COLUMN_INDEX = 25;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -143,6 +197,7 @@ public class AccountModelImpl
 	}
 
 	public AccountModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -403,12 +458,8 @@ public class AccountModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = _userId;
 		}
 
 		_userId = userId;
@@ -431,7 +482,13 @@ public class AccountModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -489,15 +546,21 @@ public class AccountModelImpl
 	public void setAddress(String address) {
 		_columnBitmask = -1L;
 
-		if (_originalAddress == null) {
-			_originalAddress = _address;
+		if (_originalValues[ADDRESS_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ADDRESS_COLUMN_INDEX] = _address;
 		}
 
 		_address = address;
 	}
 
 	public String getOriginalAddress() {
-		return GetterUtil.getString(_originalAddress);
+		Object originalValue = _originalValues[ADDRESS_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _address;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -756,6 +819,18 @@ public class AccountModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -877,15 +952,11 @@ public class AccountModelImpl
 	public void resetOriginalValues() {
 		AccountModelImpl accountModelImpl = this;
 
-		accountModelImpl._originalUserId = accountModelImpl._userId;
-
-		accountModelImpl._setOriginalUserId = false;
-
 		accountModelImpl._setModifiedDate = false;
 
-		accountModelImpl._originalAddress = accountModelImpl._address;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		accountModelImpl._columnBitmask = 0;
+		accountModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1097,14 +1168,11 @@ public class AccountModelImpl
 	private long _accountId;
 	private long _companyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _address;
-	private String _originalAddress;
 	private String _personalName;
 	private String _protocol;
 	private String _incomingHostName;
@@ -1124,7 +1192,8 @@ public class AccountModelImpl
 	private long _sentFolderId;
 	private long _trashFolderId;
 	private boolean _defaultSender;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[27];
+	private Long _columnBitmask;
 	private Account _escapedModel;
 
 }

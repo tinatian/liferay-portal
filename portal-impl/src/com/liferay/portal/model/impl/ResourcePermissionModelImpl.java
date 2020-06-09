@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.ResourcePermissionSoap;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -143,6 +145,30 @@ public class ResourcePermissionModelImpl
 
 	public static final long RESOURCEPERMISSIONID_COLUMN_BITMASK = 128L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int RESOURCEPERMISSIONID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int NAME_COLUMN_INDEX = 4;
+
+	public static final int SCOPE_COLUMN_INDEX = 5;
+
+	public static final int PRIMKEY_COLUMN_INDEX = 6;
+
+	public static final int PRIMKEYID_COLUMN_INDEX = 7;
+
+	public static final int ROLEID_COLUMN_INDEX = 8;
+
+	public static final int OWNERID_COLUMN_INDEX = 9;
+
+	public static final int ACTIONIDS_COLUMN_INDEX = 10;
+
+	public static final int VIEWACTIONID_COLUMN_INDEX = 11;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -200,6 +226,7 @@ public class ResourcePermissionModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.ResourcePermission"));
 
 	public ResourcePermissionModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -445,19 +472,21 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -473,17 +502,21 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = _name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _name;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -494,19 +527,21 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setScope(int scope) {
-		_columnBitmask |= SCOPE_COLUMN_BITMASK;
-
-		if (!_setOriginalScope) {
-			_setOriginalScope = true;
-
-			_originalScope = _scope;
+		if (_originalValues[SCOPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SCOPE_COLUMN_INDEX] = _scope;
 		}
 
 		_scope = scope;
 	}
 
 	public int getOriginalScope() {
-		return _originalScope;
+		Object originalValue = _originalValues[SCOPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _scope;
+		}
+
+		return (int)originalValue;
 	}
 
 	@JSON
@@ -522,17 +557,21 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setPrimKey(String primKey) {
-		_columnBitmask |= PRIMKEY_COLUMN_BITMASK;
-
-		if (_originalPrimKey == null) {
-			_originalPrimKey = _primKey;
+		if (_originalValues[PRIMKEY_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PRIMKEY_COLUMN_INDEX] = _primKey;
 		}
 
 		_primKey = primKey;
 	}
 
 	public String getOriginalPrimKey() {
-		return GetterUtil.getString(_originalPrimKey);
+		Object originalValue = _originalValues[PRIMKEY_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _primKey;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -543,19 +582,21 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setPrimKeyId(long primKeyId) {
-		_columnBitmask |= PRIMKEYID_COLUMN_BITMASK;
-
-		if (!_setOriginalPrimKeyId) {
-			_setOriginalPrimKeyId = true;
-
-			_originalPrimKeyId = _primKeyId;
+		if (_originalValues[PRIMKEYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PRIMKEYID_COLUMN_INDEX] = _primKeyId;
 		}
 
 		_primKeyId = primKeyId;
 	}
 
 	public long getOriginalPrimKeyId() {
-		return _originalPrimKeyId;
+		Object originalValue = _originalValues[PRIMKEYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _primKeyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -566,19 +607,21 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setRoleId(long roleId) {
-		_columnBitmask |= ROLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
+		if (_originalValues[ROLEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[ROLEID_COLUMN_INDEX] = _roleId;
 		}
 
 		_roleId = roleId;
 	}
 
 	public long getOriginalRoleId() {
-		return _originalRoleId;
+		Object originalValue = _originalValues[ROLEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _roleId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -617,22 +660,36 @@ public class ResourcePermissionModelImpl
 
 	@Override
 	public void setViewActionId(boolean viewActionId) {
-		_columnBitmask |= VIEWACTIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalViewActionId) {
-			_setOriginalViewActionId = true;
-
-			_originalViewActionId = _viewActionId;
+		if (_originalValues[VIEWACTIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VIEWACTIONID_COLUMN_INDEX] = _viewActionId;
 		}
 
 		_viewActionId = viewActionId;
 	}
 
 	public boolean getOriginalViewActionId() {
-		return _originalViewActionId;
+		Object originalValue = _originalValues[VIEWACTIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _viewActionId;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -745,38 +802,9 @@ public class ResourcePermissionModelImpl
 	public void resetOriginalValues() {
 		ResourcePermissionModelImpl resourcePermissionModelImpl = this;
 
-		resourcePermissionModelImpl._originalCompanyId =
-			resourcePermissionModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		resourcePermissionModelImpl._setOriginalCompanyId = false;
-
-		resourcePermissionModelImpl._originalName =
-			resourcePermissionModelImpl._name;
-
-		resourcePermissionModelImpl._originalScope =
-			resourcePermissionModelImpl._scope;
-
-		resourcePermissionModelImpl._setOriginalScope = false;
-
-		resourcePermissionModelImpl._originalPrimKey =
-			resourcePermissionModelImpl._primKey;
-
-		resourcePermissionModelImpl._originalPrimKeyId =
-			resourcePermissionModelImpl._primKeyId;
-
-		resourcePermissionModelImpl._setOriginalPrimKeyId = false;
-
-		resourcePermissionModelImpl._originalRoleId =
-			resourcePermissionModelImpl._roleId;
-
-		resourcePermissionModelImpl._setOriginalRoleId = false;
-
-		resourcePermissionModelImpl._originalViewActionId =
-			resourcePermissionModelImpl._viewActionId;
-
-		resourcePermissionModelImpl._setOriginalViewActionId = false;
-
-		resourcePermissionModelImpl._columnBitmask = 0;
+		resourcePermissionModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -898,27 +926,16 @@ public class ResourcePermissionModelImpl
 	private long _ctCollectionId;
 	private long _resourcePermissionId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _name;
-	private String _originalName;
 	private int _scope;
-	private int _originalScope;
-	private boolean _setOriginalScope;
 	private String _primKey;
-	private String _originalPrimKey;
 	private long _primKeyId;
-	private long _originalPrimKeyId;
-	private boolean _setOriginalPrimKeyId;
 	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _ownerId;
 	private long _actionIds;
 	private boolean _viewActionId;
-	private boolean _originalViewActionId;
-	private boolean _setOriginalViewActionId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[13];
+	private Long _columnBitmask;
 	private ResourcePermission _escapedModel;
 
 }

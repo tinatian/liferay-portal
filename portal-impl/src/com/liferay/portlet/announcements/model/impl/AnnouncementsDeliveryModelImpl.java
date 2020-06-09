@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -40,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -133,6 +135,22 @@ public class AnnouncementsDeliveryModelImpl
 
 	public static final long DELIVERYID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int DELIVERYID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int TYPE_COLUMN_INDEX = 4;
+
+	public static final int EMAIL_COLUMN_INDEX = 5;
+
+	public static final int SMS_COLUMN_INDEX = 6;
+
+	public static final int WEBSITE_COLUMN_INDEX = 7;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -188,6 +206,7 @@ public class AnnouncementsDeliveryModelImpl
 			"lock.expiration.time.com.liferay.announcements.kernel.model.AnnouncementsDelivery"));
 
 	public AnnouncementsDeliveryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -401,19 +420,21 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -424,12 +445,8 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = _userId;
 		}
 
 		_userId = userId;
@@ -452,7 +469,13 @@ public class AnnouncementsDeliveryModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -468,17 +491,21 @@ public class AnnouncementsDeliveryModelImpl
 
 	@Override
 	public void setType(String type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_originalValues[TYPE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TYPE_COLUMN_INDEX] = _type;
 		}
 
 		_type = type;
 	}
 
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		Object originalValue = _originalValues[TYPE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _type;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -533,6 +560,18 @@ public class AnnouncementsDeliveryModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -641,20 +680,9 @@ public class AnnouncementsDeliveryModelImpl
 	public void resetOriginalValues() {
 		AnnouncementsDeliveryModelImpl announcementsDeliveryModelImpl = this;
 
-		announcementsDeliveryModelImpl._originalCompanyId =
-			announcementsDeliveryModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		announcementsDeliveryModelImpl._setOriginalCompanyId = false;
-
-		announcementsDeliveryModelImpl._originalUserId =
-			announcementsDeliveryModelImpl._userId;
-
-		announcementsDeliveryModelImpl._setOriginalUserId = false;
-
-		announcementsDeliveryModelImpl._originalType =
-			announcementsDeliveryModelImpl._type;
-
-		announcementsDeliveryModelImpl._columnBitmask = 0;
+		announcementsDeliveryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -762,17 +790,13 @@ public class AnnouncementsDeliveryModelImpl
 	private long _mvccVersion;
 	private long _deliveryId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private String _type;
-	private String _originalType;
 	private boolean _email;
 	private boolean _sms;
 	private boolean _website;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[9];
+	private Long _columnBitmask;
 	private AnnouncementsDelivery _escapedModel;
 
 }

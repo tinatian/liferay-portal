@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -102,6 +104,14 @@ public class AppBuilderAppDataRecordLinkModelImpl
 
 	public static final long APPBUILDERAPPDATARECORDLINKID_COLUMN_BITMASK = 4L;
 
+	public static final int APPBUILDERAPPDATARECORDLINKID_COLUMN_INDEX = 0;
+
+	public static final int COMPANYID_COLUMN_INDEX = 1;
+
+	public static final int APPBUILDERAPPID_COLUMN_INDEX = 2;
+
+	public static final int DDLRECORDID_COLUMN_INDEX = 3;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -111,6 +121,7 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	}
 
 	public AppBuilderAppDataRecordLinkModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -306,19 +317,21 @@ public class AppBuilderAppDataRecordLinkModelImpl
 
 	@Override
 	public void setAppBuilderAppId(long appBuilderAppId) {
-		_columnBitmask |= APPBUILDERAPPID_COLUMN_BITMASK;
-
-		if (!_setOriginalAppBuilderAppId) {
-			_setOriginalAppBuilderAppId = true;
-
-			_originalAppBuilderAppId = _appBuilderAppId;
+		if (_originalValues[APPBUILDERAPPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[APPBUILDERAPPID_COLUMN_INDEX] = _appBuilderAppId;
 		}
 
 		_appBuilderAppId = appBuilderAppId;
 	}
 
 	public long getOriginalAppBuilderAppId() {
-		return _originalAppBuilderAppId;
+		Object originalValue = _originalValues[APPBUILDERAPPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _appBuilderAppId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -328,22 +341,36 @@ public class AppBuilderAppDataRecordLinkModelImpl
 
 	@Override
 	public void setDdlRecordId(long ddlRecordId) {
-		_columnBitmask |= DDLRECORDID_COLUMN_BITMASK;
-
-		if (!_setOriginalDdlRecordId) {
-			_setOriginalDdlRecordId = true;
-
-			_originalDdlRecordId = _ddlRecordId;
+		if (_originalValues[DDLRECORDID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[DDLRECORDID_COLUMN_INDEX] = _ddlRecordId;
 		}
 
 		_ddlRecordId = ddlRecordId;
 	}
 
 	public long getOriginalDdlRecordId() {
-		return _originalDdlRecordId;
+		Object originalValue = _originalValues[DDLRECORDID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _ddlRecordId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -453,18 +480,9 @@ public class AppBuilderAppDataRecordLinkModelImpl
 		AppBuilderAppDataRecordLinkModelImpl
 			appBuilderAppDataRecordLinkModelImpl = this;
 
-		appBuilderAppDataRecordLinkModelImpl._originalAppBuilderAppId =
-			appBuilderAppDataRecordLinkModelImpl._appBuilderAppId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		appBuilderAppDataRecordLinkModelImpl._setOriginalAppBuilderAppId =
-			false;
-
-		appBuilderAppDataRecordLinkModelImpl._originalDdlRecordId =
-			appBuilderAppDataRecordLinkModelImpl._ddlRecordId;
-
-		appBuilderAppDataRecordLinkModelImpl._setOriginalDdlRecordId = false;
-
-		appBuilderAppDataRecordLinkModelImpl._columnBitmask = 0;
+		appBuilderAppDataRecordLinkModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -568,12 +586,9 @@ public class AppBuilderAppDataRecordLinkModelImpl
 	private long _appBuilderAppDataRecordLinkId;
 	private long _companyId;
 	private long _appBuilderAppId;
-	private long _originalAppBuilderAppId;
-	private boolean _setOriginalAppBuilderAppId;
 	private long _ddlRecordId;
-	private long _originalDdlRecordId;
-	private boolean _setOriginalDdlRecordId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[5];
+	private Long _columnBitmask;
 	private AppBuilderAppDataRecordLink _escapedModel;
 
 }

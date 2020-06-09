@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -113,11 +115,20 @@ public class CompanyInfoModelImpl
 
 	public static final long COMPANYINFOID_COLUMN_BITMASK = 2L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int COMPANYINFOID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int KEY_COLUMN_INDEX = 3;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
 			"lock.expiration.time.com.liferay.portal.kernel.model.CompanyInfo"));
 
 	public CompanyInfoModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -295,19 +306,21 @@ public class CompanyInfoModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -326,6 +339,18 @@ public class CompanyInfoModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -427,12 +452,9 @@ public class CompanyInfoModelImpl
 	public void resetOriginalValues() {
 		CompanyInfoModelImpl companyInfoModelImpl = this;
 
-		companyInfoModelImpl._originalCompanyId =
-			companyInfoModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		companyInfoModelImpl._setOriginalCompanyId = false;
-
-		companyInfoModelImpl._columnBitmask = 0;
+		companyInfoModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -530,10 +552,9 @@ public class CompanyInfoModelImpl
 	private long _mvccVersion;
 	private long _companyInfoId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _key;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[5];
+	private Long _columnBitmask;
 	private CompanyInfo _escapedModel;
 
 }

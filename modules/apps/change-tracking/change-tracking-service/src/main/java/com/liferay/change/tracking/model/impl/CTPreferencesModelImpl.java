@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -112,6 +114,20 @@ public class CTPreferencesModelImpl
 
 	public static final long CTPREFERENCESID_COLUMN_BITMASK = 16L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTPREFERENCESID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 4;
+
+	public static final int PREVIOUSCTCOLLECTIONID_COLUMN_INDEX = 5;
+
+	public static final int CONFIRMATIONENABLED_COLUMN_INDEX = 6;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -121,6 +137,7 @@ public class CTPreferencesModelImpl
 	}
 
 	public CTPreferencesModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -316,19 +333,21 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -338,12 +357,8 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setUserId(long userId) {
-		_columnBitmask |= USERID_COLUMN_BITMASK;
-
-		if (!_setOriginalUserId) {
-			_setOriginalUserId = true;
-
-			_originalUserId = _userId;
+		if (_originalValues[USERID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[USERID_COLUMN_INDEX] = _userId;
 		}
 
 		_userId = userId;
@@ -366,7 +381,13 @@ public class CTPreferencesModelImpl
 	}
 
 	public long getOriginalUserId() {
-		return _originalUserId;
+		Object originalValue = _originalValues[USERID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _userId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -376,19 +397,21 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
-		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalCtCollectionId) {
-			_setOriginalCtCollectionId = true;
-
-			_originalCtCollectionId = _ctCollectionId;
+		if (_originalValues[CTCOLLECTIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CTCOLLECTIONID_COLUMN_INDEX] = _ctCollectionId;
 		}
 
 		_ctCollectionId = ctCollectionId;
 	}
 
 	public long getOriginalCtCollectionId() {
-		return _originalCtCollectionId;
+		Object originalValue = _originalValues[CTCOLLECTIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _ctCollectionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -398,19 +421,25 @@ public class CTPreferencesModelImpl
 
 	@Override
 	public void setPreviousCtCollectionId(long previousCtCollectionId) {
-		_columnBitmask |= PREVIOUSCTCOLLECTIONID_COLUMN_BITMASK;
+		if (_originalValues[PREVIOUSCTCOLLECTIONID_COLUMN_INDEX] ==
+				INITIAL_MARKER) {
 
-		if (!_setOriginalPreviousCtCollectionId) {
-			_setOriginalPreviousCtCollectionId = true;
-
-			_originalPreviousCtCollectionId = _previousCtCollectionId;
+			_originalValues[PREVIOUSCTCOLLECTIONID_COLUMN_INDEX] =
+				_previousCtCollectionId;
 		}
 
 		_previousCtCollectionId = previousCtCollectionId;
 	}
 
 	public long getOriginalPreviousCtCollectionId() {
-		return _originalPreviousCtCollectionId;
+		Object originalValue =
+			_originalValues[PREVIOUSCTCOLLECTIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _previousCtCollectionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -429,6 +458,18 @@ public class CTPreferencesModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -534,26 +575,9 @@ public class CTPreferencesModelImpl
 	public void resetOriginalValues() {
 		CTPreferencesModelImpl ctPreferencesModelImpl = this;
 
-		ctPreferencesModelImpl._originalCompanyId =
-			ctPreferencesModelImpl._companyId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		ctPreferencesModelImpl._setOriginalCompanyId = false;
-
-		ctPreferencesModelImpl._originalUserId = ctPreferencesModelImpl._userId;
-
-		ctPreferencesModelImpl._setOriginalUserId = false;
-
-		ctPreferencesModelImpl._originalCtCollectionId =
-			ctPreferencesModelImpl._ctCollectionId;
-
-		ctPreferencesModelImpl._setOriginalCtCollectionId = false;
-
-		ctPreferencesModelImpl._originalPreviousCtCollectionId =
-			ctPreferencesModelImpl._previousCtCollectionId;
-
-		ctPreferencesModelImpl._setOriginalPreviousCtCollectionId = false;
-
-		ctPreferencesModelImpl._columnBitmask = 0;
+		ctPreferencesModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -655,19 +679,12 @@ public class CTPreferencesModelImpl
 	private long _mvccVersion;
 	private long _ctPreferencesId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
-	private long _originalUserId;
-	private boolean _setOriginalUserId;
 	private long _ctCollectionId;
-	private long _originalCtCollectionId;
-	private boolean _setOriginalCtCollectionId;
 	private long _previousCtCollectionId;
-	private long _originalPreviousCtCollectionId;
-	private boolean _setOriginalPreviousCtCollectionId;
 	private boolean _confirmationEnabled;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[8];
+	private Long _columnBitmask;
 	private CTPreferences _escapedModel;
 
 }

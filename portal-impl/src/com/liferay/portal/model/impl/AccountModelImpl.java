@@ -40,6 +40,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -135,6 +136,40 @@ public class AccountModelImpl
 
 	public static final boolean COLUMN_BITMASK_ENABLED = false;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int ACCOUNTID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int USERID_COLUMN_INDEX = 3;
+
+	public static final int USERNAME_COLUMN_INDEX = 4;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 5;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 6;
+
+	public static final int PARENTACCOUNTID_COLUMN_INDEX = 7;
+
+	public static final int NAME_COLUMN_INDEX = 8;
+
+	public static final int LEGALNAME_COLUMN_INDEX = 9;
+
+	public static final int LEGALID_COLUMN_INDEX = 10;
+
+	public static final int LEGALTYPE_COLUMN_INDEX = 11;
+
+	public static final int SICCODE_COLUMN_INDEX = 12;
+
+	public static final int TICKERSYMBOL_COLUMN_INDEX = 13;
+
+	public static final int INDUSTRY_COLUMN_INDEX = 14;
+
+	public static final int TYPE_COLUMN_INDEX = 15;
+
+	public static final int SIZE_COLUMN_INDEX = 16;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -194,6 +229,7 @@ public class AccountModelImpl
 			"lock.expiration.time.com.liferay.portal.kernel.model.Account"));
 
 	public AccountModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -751,6 +787,8 @@ public class AccountModelImpl
 		AccountModelImpl accountModelImpl = this;
 
 		accountModelImpl._setModifiedDate = false;
+
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -956,6 +994,7 @@ public class AccountModelImpl
 	private String _industry;
 	private String _type;
 	private String _size;
+	private Object[] _originalValues = new Object[18];
 	private Account _escapedModel;
 
 }

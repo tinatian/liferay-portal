@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.redirect.model.RedirectNotFoundEntry;
 import com.liferay.redirect.model.RedirectNotFoundEntryModel;
@@ -37,6 +38,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -117,6 +119,28 @@ public class RedirectNotFoundEntryModelImpl
 
 	public static final long REDIRECTNOTFOUNDENTRYID_COLUMN_BITMASK = 4L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int REDIRECTNOTFOUNDENTRYID_COLUMN_INDEX = 1;
+
+	public static final int GROUPID_COLUMN_INDEX = 2;
+
+	public static final int COMPANYID_COLUMN_INDEX = 3;
+
+	public static final int USERID_COLUMN_INDEX = 4;
+
+	public static final int USERNAME_COLUMN_INDEX = 5;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 6;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 7;
+
+	public static final int HITS_COLUMN_INDEX = 8;
+
+	public static final int IGNORED_COLUMN_INDEX = 9;
+
+	public static final int URL_COLUMN_INDEX = 10;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -126,6 +150,7 @@ public class RedirectNotFoundEntryModelImpl
 	}
 
 	public RedirectNotFoundEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -356,19 +381,21 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -485,20 +512,36 @@ public class RedirectNotFoundEntryModelImpl
 
 	@Override
 	public void setUrl(String url) {
-		_columnBitmask |= URL_COLUMN_BITMASK;
-
-		if (_originalUrl == null) {
-			_originalUrl = _url;
+		if (_originalValues[URL_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[URL_COLUMN_INDEX] = _url;
 		}
 
 		_url = url;
 	}
 
 	public String getOriginalUrl() {
-		return GetterUtil.getString(_originalUrl);
+		Object originalValue = _originalValues[URL_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _url;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -611,17 +654,11 @@ public class RedirectNotFoundEntryModelImpl
 	public void resetOriginalValues() {
 		RedirectNotFoundEntryModelImpl redirectNotFoundEntryModelImpl = this;
 
-		redirectNotFoundEntryModelImpl._originalGroupId =
-			redirectNotFoundEntryModelImpl._groupId;
-
-		redirectNotFoundEntryModelImpl._setOriginalGroupId = false;
-
 		redirectNotFoundEntryModelImpl._setModifiedDate = false;
 
-		redirectNotFoundEntryModelImpl._originalUrl =
-			redirectNotFoundEntryModelImpl._url;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		redirectNotFoundEntryModelImpl._columnBitmask = 0;
+		redirectNotFoundEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -760,8 +797,6 @@ public class RedirectNotFoundEntryModelImpl
 	private long _mvccVersion;
 	private long _redirectNotFoundEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
@@ -771,8 +806,8 @@ public class RedirectNotFoundEntryModelImpl
 	private long _hits;
 	private boolean _ignored;
 	private String _url;
-	private String _originalUrl;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[12];
+	private Long _columnBitmask;
 	private RedirectNotFoundEntry _escapedModel;
 
 }

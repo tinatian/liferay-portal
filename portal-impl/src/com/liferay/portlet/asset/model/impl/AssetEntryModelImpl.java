@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -45,6 +46,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -182,6 +184,62 @@ public class AssetEntryModelImpl
 
 	public static final long ENTRYID_COLUMN_BITMASK = 512L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int ENTRYID_COLUMN_INDEX = 2;
+
+	public static final int GROUPID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int USERID_COLUMN_INDEX = 5;
+
+	public static final int USERNAME_COLUMN_INDEX = 6;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 7;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 8;
+
+	public static final int CLASSNAMEID_COLUMN_INDEX = 9;
+
+	public static final int CLASSPK_COLUMN_INDEX = 10;
+
+	public static final int CLASSUUID_COLUMN_INDEX = 11;
+
+	public static final int CLASSTYPEID_COLUMN_INDEX = 12;
+
+	public static final int LISTABLE_COLUMN_INDEX = 13;
+
+	public static final int VISIBLE_COLUMN_INDEX = 14;
+
+	public static final int STARTDATE_COLUMN_INDEX = 15;
+
+	public static final int ENDDATE_COLUMN_INDEX = 16;
+
+	public static final int PUBLISHDATE_COLUMN_INDEX = 17;
+
+	public static final int EXPIRATIONDATE_COLUMN_INDEX = 18;
+
+	public static final int MIMETYPE_COLUMN_INDEX = 19;
+
+	public static final int TITLE_COLUMN_INDEX = 20;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 21;
+
+	public static final int SUMMARY_COLUMN_INDEX = 22;
+
+	public static final int URL_COLUMN_INDEX = 23;
+
+	public static final int LAYOUTUUID_COLUMN_INDEX = 24;
+
+	public static final int HEIGHT_COLUMN_INDEX = 25;
+
+	public static final int WIDTH_COLUMN_INDEX = 26;
+
+	public static final int PRIORITY_COLUMN_INDEX = 27;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -290,6 +348,7 @@ public class AssetEntryModelImpl
 			"lock.expiration.time.com.liferay.asset.kernel.model.AssetEntry"));
 
 	public AssetEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -567,19 +626,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -590,19 +651,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -704,19 +767,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassNameId(long classNameId) {
-		_columnBitmask |= CLASSNAMEID_COLUMN_BITMASK;
-
-		if (!_setOriginalClassNameId) {
-			_setOriginalClassNameId = true;
-
-			_originalClassNameId = _classNameId;
+		if (_originalValues[CLASSNAMEID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLASSNAMEID_COLUMN_INDEX] = _classNameId;
 		}
 
 		_classNameId = classNameId;
 	}
 
 	public long getOriginalClassNameId() {
-		return _originalClassNameId;
+		Object originalValue = _originalValues[CLASSNAMEID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _classNameId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -727,19 +792,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassPK(long classPK) {
-		_columnBitmask |= CLASSPK_COLUMN_BITMASK;
-
-		if (!_setOriginalClassPK) {
-			_setOriginalClassPK = true;
-
-			_originalClassPK = _classPK;
+		if (_originalValues[CLASSPK_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLASSPK_COLUMN_INDEX] = _classPK;
 		}
 
 		_classPK = classPK;
 	}
 
 	public long getOriginalClassPK() {
-		return _originalClassPK;
+		Object originalValue = _originalValues[CLASSPK_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _classPK;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -755,17 +822,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setClassUuid(String classUuid) {
-		_columnBitmask |= CLASSUUID_COLUMN_BITMASK;
-
-		if (_originalClassUuid == null) {
-			_originalClassUuid = _classUuid;
+		if (_originalValues[CLASSUUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[CLASSUUID_COLUMN_INDEX] = _classUuid;
 		}
 
 		_classUuid = classUuid;
 	}
 
 	public String getOriginalClassUuid() {
-		return GetterUtil.getString(_originalClassUuid);
+		Object originalValue = _originalValues[CLASSUUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _classUuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -810,19 +881,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setVisible(boolean visible) {
-		_columnBitmask |= VISIBLE_COLUMN_BITMASK;
-
-		if (!_setOriginalVisible) {
-			_setOriginalVisible = true;
-
-			_originalVisible = _visible;
+		if (_originalValues[VISIBLE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[VISIBLE_COLUMN_INDEX] = _visible;
 		}
 
 		_visible = visible;
 	}
 
 	public boolean getOriginalVisible() {
-		return _originalVisible;
+		Object originalValue = _originalValues[VISIBLE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _visible;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@JSON
@@ -855,17 +928,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setPublishDate(Date publishDate) {
-		_columnBitmask |= PUBLISHDATE_COLUMN_BITMASK;
-
-		if (_originalPublishDate == null) {
-			_originalPublishDate = _publishDate;
+		if (_originalValues[PUBLISHDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[PUBLISHDATE_COLUMN_INDEX] = _publishDate;
 		}
 
 		_publishDate = publishDate;
 	}
 
 	public Date getOriginalPublishDate() {
-		return _originalPublishDate;
+		Object originalValue = _originalValues[PUBLISHDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _publishDate;
+		}
+
+		return (Date)originalValue;
 	}
 
 	@JSON
@@ -876,17 +953,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
-
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_originalValues[EXPIRATIONDATE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[EXPIRATIONDATE_COLUMN_INDEX] = _expirationDate;
 		}
 
 		_expirationDate = expirationDate;
 	}
 
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		Object originalValue = _originalValues[EXPIRATIONDATE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _expirationDate;
+		}
+
+		return (Date)originalValue;
 	}
 
 	@JSON
@@ -1255,17 +1336,21 @@ public class AssetEntryModelImpl
 
 	@Override
 	public void setLayoutUuid(String layoutUuid) {
-		_columnBitmask |= LAYOUTUUID_COLUMN_BITMASK;
-
-		if (_originalLayoutUuid == null) {
-			_originalLayoutUuid = _layoutUuid;
+		if (_originalValues[LAYOUTUUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[LAYOUTUUID_COLUMN_INDEX] = _layoutUuid;
 		}
 
 		_layoutUuid = layoutUuid;
 	}
 
 	public String getOriginalLayoutUuid() {
-		return GetterUtil.getString(_originalLayoutUuid);
+		Object originalValue = _originalValues[LAYOUTUUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _layoutUuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -1302,6 +1387,18 @@ public class AssetEntryModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1535,41 +1632,11 @@ public class AssetEntryModelImpl
 	public void resetOriginalValues() {
 		AssetEntryModelImpl assetEntryModelImpl = this;
 
-		assetEntryModelImpl._originalGroupId = assetEntryModelImpl._groupId;
-
-		assetEntryModelImpl._setOriginalGroupId = false;
-
-		assetEntryModelImpl._originalCompanyId = assetEntryModelImpl._companyId;
-
-		assetEntryModelImpl._setOriginalCompanyId = false;
-
 		assetEntryModelImpl._setModifiedDate = false;
 
-		assetEntryModelImpl._originalClassNameId =
-			assetEntryModelImpl._classNameId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		assetEntryModelImpl._setOriginalClassNameId = false;
-
-		assetEntryModelImpl._originalClassPK = assetEntryModelImpl._classPK;
-
-		assetEntryModelImpl._setOriginalClassPK = false;
-
-		assetEntryModelImpl._originalClassUuid = assetEntryModelImpl._classUuid;
-
-		assetEntryModelImpl._originalVisible = assetEntryModelImpl._visible;
-
-		assetEntryModelImpl._setOriginalVisible = false;
-
-		assetEntryModelImpl._originalPublishDate =
-			assetEntryModelImpl._publishDate;
-
-		assetEntryModelImpl._originalExpirationDate =
-			assetEntryModelImpl._expirationDate;
-
-		assetEntryModelImpl._originalLayoutUuid =
-			assetEntryModelImpl._layoutUuid;
-
-		assetEntryModelImpl._columnBitmask = 0;
+		assetEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -1799,35 +1866,22 @@ public class AssetEntryModelImpl
 	private long _ctCollectionId;
 	private long _entryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _classNameId;
-	private long _originalClassNameId;
-	private boolean _setOriginalClassNameId;
 	private long _classPK;
-	private long _originalClassPK;
-	private boolean _setOriginalClassPK;
 	private String _classUuid;
-	private String _originalClassUuid;
 	private long _classTypeId;
 	private boolean _listable;
 	private boolean _visible;
-	private boolean _originalVisible;
-	private boolean _setOriginalVisible;
 	private Date _startDate;
 	private Date _endDate;
 	private Date _publishDate;
-	private Date _originalPublishDate;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private String _mimeType;
 	private String _title;
 	private String _titleCurrentLanguageId;
@@ -1837,11 +1891,11 @@ public class AssetEntryModelImpl
 	private String _summaryCurrentLanguageId;
 	private String _url;
 	private String _layoutUuid;
-	private String _originalLayoutUuid;
 	private int _height;
 	private int _width;
 	private double _priority;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[29];
+	private Long _columnBitmask;
 	private AssetEntry _escapedModel;
 
 }

@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -42,6 +43,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -139,6 +141,32 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int UUID_COLUMN_INDEX = 2;
+
+	public static final int TEAMID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int USERID_COLUMN_INDEX = 5;
+
+	public static final int USERNAME_COLUMN_INDEX = 6;
+
+	public static final int CREATEDATE_COLUMN_INDEX = 7;
+
+	public static final int MODIFIEDDATE_COLUMN_INDEX = 8;
+
+	public static final int GROUPID_COLUMN_INDEX = 9;
+
+	public static final int NAME_COLUMN_INDEX = 10;
+
+	public static final int DESCRIPTION_COLUMN_INDEX = 11;
+
+	public static final int LASTPUBLISHDATE_COLUMN_INDEX = 12;
+
 	/**
 	 * Converts the soap model instance into a normal model instance.
 	 *
@@ -227,6 +255,7 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 			"lock.expiration.time.com.liferay.portal.kernel.model.Team"));
 
 	public TeamModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -430,17 +459,21 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -462,19 +495,21 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -556,19 +591,21 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -586,15 +623,21 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	public void setName(String name) {
 		_columnBitmask = -1L;
 
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_originalValues[NAME_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[NAME_COLUMN_INDEX] = _name;
 		}
 
 		_name = name;
 	}
 
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		Object originalValue = _originalValues[NAME_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _name;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@JSON
@@ -631,6 +674,18 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -739,21 +794,11 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	public void resetOriginalValues() {
 		TeamModelImpl teamModelImpl = this;
 
-		teamModelImpl._originalUuid = teamModelImpl._uuid;
-
-		teamModelImpl._originalCompanyId = teamModelImpl._companyId;
-
-		teamModelImpl._setOriginalCompanyId = false;
-
 		teamModelImpl._setModifiedDate = false;
 
-		teamModelImpl._originalGroupId = teamModelImpl._groupId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		teamModelImpl._setOriginalGroupId = false;
-
-		teamModelImpl._originalName = teamModelImpl._name;
-
-		teamModelImpl._columnBitmask = 0;
+		teamModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -905,24 +950,19 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _teamId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private String _name;
-	private String _originalName;
 	private String _description;
 	private Date _lastPublishDate;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[14];
+	private Long _columnBitmask;
 	private Team _escapedModel;
 
 }

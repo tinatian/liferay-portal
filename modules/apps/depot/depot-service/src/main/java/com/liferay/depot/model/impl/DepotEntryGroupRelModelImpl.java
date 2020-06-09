@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -110,6 +112,18 @@ public class DepotEntryGroupRelModelImpl
 
 	public static final long DEPOTENTRYGROUPRELID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int DEPOTENTRYGROUPRELID_COLUMN_INDEX = 1;
+
+	public static final int COMPANYID_COLUMN_INDEX = 2;
+
+	public static final int DEPOTENTRYID_COLUMN_INDEX = 3;
+
+	public static final int SEARCHABLE_COLUMN_INDEX = 4;
+
+	public static final int TOGROUPID_COLUMN_INDEX = 5;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -165,6 +179,7 @@ public class DepotEntryGroupRelModelImpl
 	}
 
 	public DepotEntryGroupRelModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -379,19 +394,21 @@ public class DepotEntryGroupRelModelImpl
 
 	@Override
 	public void setDepotEntryId(long depotEntryId) {
-		_columnBitmask |= DEPOTENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalDepotEntryId) {
-			_setOriginalDepotEntryId = true;
-
-			_originalDepotEntryId = _depotEntryId;
+		if (_originalValues[DEPOTENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[DEPOTENTRYID_COLUMN_INDEX] = _depotEntryId;
 		}
 
 		_depotEntryId = depotEntryId;
 	}
 
 	public long getOriginalDepotEntryId() {
-		return _originalDepotEntryId;
+		Object originalValue = _originalValues[DEPOTENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _depotEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@JSON
@@ -408,19 +425,21 @@ public class DepotEntryGroupRelModelImpl
 
 	@Override
 	public void setSearchable(boolean searchable) {
-		_columnBitmask |= SEARCHABLE_COLUMN_BITMASK;
-
-		if (!_setOriginalSearchable) {
-			_setOriginalSearchable = true;
-
-			_originalSearchable = _searchable;
+		if (_originalValues[SEARCHABLE_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[SEARCHABLE_COLUMN_INDEX] = _searchable;
 		}
 
 		_searchable = searchable;
 	}
 
 	public boolean getOriginalSearchable() {
-		return _originalSearchable;
+		Object originalValue = _originalValues[SEARCHABLE_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _searchable;
+		}
+
+		return (boolean)originalValue;
 	}
 
 	@JSON
@@ -431,22 +450,36 @@ public class DepotEntryGroupRelModelImpl
 
 	@Override
 	public void setToGroupId(long toGroupId) {
-		_columnBitmask |= TOGROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalToGroupId) {
-			_setOriginalToGroupId = true;
-
-			_originalToGroupId = _toGroupId;
+		if (_originalValues[TOGROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[TOGROUPID_COLUMN_INDEX] = _toGroupId;
 		}
 
 		_toGroupId = toGroupId;
 	}
 
 	public long getOriginalToGroupId() {
-		return _originalToGroupId;
+		Object originalValue = _originalValues[TOGROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _toGroupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -553,22 +586,9 @@ public class DepotEntryGroupRelModelImpl
 	public void resetOriginalValues() {
 		DepotEntryGroupRelModelImpl depotEntryGroupRelModelImpl = this;
 
-		depotEntryGroupRelModelImpl._originalDepotEntryId =
-			depotEntryGroupRelModelImpl._depotEntryId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		depotEntryGroupRelModelImpl._setOriginalDepotEntryId = false;
-
-		depotEntryGroupRelModelImpl._originalSearchable =
-			depotEntryGroupRelModelImpl._searchable;
-
-		depotEntryGroupRelModelImpl._setOriginalSearchable = false;
-
-		depotEntryGroupRelModelImpl._originalToGroupId =
-			depotEntryGroupRelModelImpl._toGroupId;
-
-		depotEntryGroupRelModelImpl._setOriginalToGroupId = false;
-
-		depotEntryGroupRelModelImpl._columnBitmask = 0;
+		depotEntryGroupRelModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -669,15 +689,10 @@ public class DepotEntryGroupRelModelImpl
 	private long _depotEntryGroupRelId;
 	private long _companyId;
 	private long _depotEntryId;
-	private long _originalDepotEntryId;
-	private boolean _setOriginalDepotEntryId;
 	private boolean _searchable;
-	private boolean _originalSearchable;
-	private boolean _setOriginalSearchable;
 	private long _toGroupId;
-	private long _originalToGroupId;
-	private boolean _setOriginalToGroupId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[7];
+	private Long _columnBitmask;
 	private DepotEntryGroupRel _escapedModel;
 
 }

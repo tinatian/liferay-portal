@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -131,11 +133,30 @@ public class DLFileEntryMetadataModelImpl
 
 	public static final long FILEENTRYMETADATAID_COLUMN_BITMASK = 32L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int CTCOLLECTIONID_COLUMN_INDEX = 1;
+
+	public static final int UUID_COLUMN_INDEX = 2;
+
+	public static final int FILEENTRYMETADATAID_COLUMN_INDEX = 3;
+
+	public static final int COMPANYID_COLUMN_INDEX = 4;
+
+	public static final int DDMSTORAGEID_COLUMN_INDEX = 5;
+
+	public static final int DDMSTRUCTUREID_COLUMN_INDEX = 6;
+
+	public static final int FILEENTRYID_COLUMN_INDEX = 7;
+
+	public static final int FILEVERSIONID_COLUMN_INDEX = 8;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
 			"lock.expiration.time.com.liferay.document.library.kernel.model.DLFileEntryMetadata"));
 
 	public DLFileEntryMetadataModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -357,17 +378,21 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_originalValues[UUID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[UUID_COLUMN_INDEX] = _uuid;
 		}
 
 		_uuid = uuid;
 	}
 
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		Object originalValue = _originalValues[UUID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _uuid;
+		}
+
+		return GetterUtil.getString(originalValue);
 	}
 
 	@Override
@@ -387,19 +412,21 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_originalValues[COMPANYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[COMPANYID_COLUMN_INDEX] = _companyId;
 		}
 
 		_companyId = companyId;
 	}
 
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		Object originalValue = _originalValues[COMPANYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _companyId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -419,19 +446,21 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setDDMStructureId(long DDMStructureId) {
-		_columnBitmask |= DDMSTRUCTUREID_COLUMN_BITMASK;
-
-		if (!_setOriginalDDMStructureId) {
-			_setOriginalDDMStructureId = true;
-
-			_originalDDMStructureId = _DDMStructureId;
+		if (_originalValues[DDMSTRUCTUREID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[DDMSTRUCTUREID_COLUMN_INDEX] = _DDMStructureId;
 		}
 
 		_DDMStructureId = DDMStructureId;
 	}
 
 	public long getOriginalDDMStructureId() {
-		return _originalDDMStructureId;
+		Object originalValue = _originalValues[DDMSTRUCTUREID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _DDMStructureId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -441,19 +470,21 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setFileEntryId(long fileEntryId) {
-		_columnBitmask |= FILEENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalFileEntryId) {
-			_setOriginalFileEntryId = true;
-
-			_originalFileEntryId = _fileEntryId;
+		if (_originalValues[FILEENTRYID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[FILEENTRYID_COLUMN_INDEX] = _fileEntryId;
 		}
 
 		_fileEntryId = fileEntryId;
 	}
 
 	public long getOriginalFileEntryId() {
-		return _originalFileEntryId;
+		Object originalValue = _originalValues[FILEENTRYID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _fileEntryId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -463,22 +494,36 @@ public class DLFileEntryMetadataModelImpl
 
 	@Override
 	public void setFileVersionId(long fileVersionId) {
-		_columnBitmask |= FILEVERSIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalFileVersionId) {
-			_setOriginalFileVersionId = true;
-
-			_originalFileVersionId = _fileVersionId;
+		if (_originalValues[FILEVERSIONID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[FILEVERSIONID_COLUMN_INDEX] = _fileVersionId;
 		}
 
 		_fileVersionId = fileVersionId;
 	}
 
 	public long getOriginalFileVersionId() {
-		return _originalFileVersionId;
+		Object originalValue = _originalValues[FILEVERSIONID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _fileVersionId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -588,30 +633,9 @@ public class DLFileEntryMetadataModelImpl
 	public void resetOriginalValues() {
 		DLFileEntryMetadataModelImpl dlFileEntryMetadataModelImpl = this;
 
-		dlFileEntryMetadataModelImpl._originalUuid =
-			dlFileEntryMetadataModelImpl._uuid;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		dlFileEntryMetadataModelImpl._originalCompanyId =
-			dlFileEntryMetadataModelImpl._companyId;
-
-		dlFileEntryMetadataModelImpl._setOriginalCompanyId = false;
-
-		dlFileEntryMetadataModelImpl._originalDDMStructureId =
-			dlFileEntryMetadataModelImpl._DDMStructureId;
-
-		dlFileEntryMetadataModelImpl._setOriginalDDMStructureId = false;
-
-		dlFileEntryMetadataModelImpl._originalFileEntryId =
-			dlFileEntryMetadataModelImpl._fileEntryId;
-
-		dlFileEntryMetadataModelImpl._setOriginalFileEntryId = false;
-
-		dlFileEntryMetadataModelImpl._originalFileVersionId =
-			dlFileEntryMetadataModelImpl._fileVersionId;
-
-		dlFileEntryMetadataModelImpl._setOriginalFileVersionId = false;
-
-		dlFileEntryMetadataModelImpl._columnBitmask = 0;
+		dlFileEntryMetadataModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -720,22 +744,14 @@ public class DLFileEntryMetadataModelImpl
 	private long _mvccVersion;
 	private long _ctCollectionId;
 	private String _uuid;
-	private String _originalUuid;
 	private long _fileEntryMetadataId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _DDMStorageId;
 	private long _DDMStructureId;
-	private long _originalDDMStructureId;
-	private boolean _setOriginalDDMStructureId;
 	private long _fileEntryId;
-	private long _originalFileEntryId;
-	private boolean _setOriginalFileEntryId;
 	private long _fileVersionId;
-	private long _originalFileVersionId;
-	private boolean _setOriginalFileVersionId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[10];
+	private Long _columnBitmask;
 	private DLFileEntryMetadata _escapedModel;
 
 }

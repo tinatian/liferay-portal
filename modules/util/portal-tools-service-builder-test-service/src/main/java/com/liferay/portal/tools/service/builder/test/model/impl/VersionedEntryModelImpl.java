@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MathUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.tools.service.builder.test.model.VersionedEntry;
 import com.liferay.portal.tools.service.builder.test.model.VersionedEntryModel;
@@ -35,6 +36,7 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -123,12 +125,23 @@ public class VersionedEntryModelImpl
 
 	public static final long VERSIONEDENTRYID_COLUMN_BITMASK = 8L;
 
+	public static final int MVCCVERSION_COLUMN_INDEX = 0;
+
+	public static final int HEADID_COLUMN_INDEX = 1;
+
+	public static final int HEAD_COLUMN_INDEX = 2;
+
+	public static final int VERSIONEDENTRYID_COLUMN_INDEX = 3;
+
+	public static final int GROUPID_COLUMN_INDEX = 4;
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.tools.service.builder.test.service.util.ServiceProps.
 			get(
 				"lock.expiration.time.com.liferay.portal.tools.service.builder.test.model.VersionedEntry"));
 
 	public VersionedEntryModelImpl() {
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 	}
 
 	@Override
@@ -291,16 +304,16 @@ public class VersionedEntryModelImpl
 	}
 
 	public boolean getOriginalHead() {
-		return _originalHead;
+		if (_originalValues[5] == INITIAL_MARKER) {
+			return _head;
+		}
+
+		return (boolean)_originalValues[5];
 	}
 
 	public void setHead(boolean head) {
-		_columnBitmask |= HEAD_COLUMN_BITMASK;
-
-		if (!_setOriginalHead) {
-			_setOriginalHead = true;
-
-			_originalHead = _head;
+		if (_originalValues[5] == INITIAL_MARKER) {
+			_originalValues[5] = _head;
 		}
 
 		_head = head;
@@ -330,12 +343,8 @@ public class VersionedEntryModelImpl
 
 	@Override
 	public void setHeadId(long headId) {
-		_columnBitmask |= HEADID_COLUMN_BITMASK;
-
-		if (!_setOriginalHeadId) {
-			_setOriginalHeadId = true;
-
-			_originalHeadId = _headId;
+		if (_originalValues[HEADID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[HEADID_COLUMN_INDEX] = _headId;
 		}
 
 		if (headId >= 0) {
@@ -349,7 +358,13 @@ public class VersionedEntryModelImpl
 	}
 
 	public long getOriginalHeadId() {
-		return _originalHeadId;
+		Object originalValue = _originalValues[HEADID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _headId;
+		}
+
+		return (long)originalValue;
 	}
 
 	@Override
@@ -369,22 +384,36 @@ public class VersionedEntryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_originalValues[GROUPID_COLUMN_INDEX] == INITIAL_MARKER) {
+			_originalValues[GROUPID_COLUMN_INDEX] = _groupId;
 		}
 
 		_groupId = groupId;
 	}
 
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		Object originalValue = _originalValues[GROUPID_COLUMN_INDEX];
+
+		if (originalValue == INITIAL_MARKER) {
+			originalValue = _groupId;
+		}
+
+		return (long)originalValue;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask == null) {
+			long columnBitmask = 0;
+
+			for (int i = 0; i < _originalValues.length; i++) {
+				if (_originalValues[i] != INITIAL_MARKER) {
+					columnBitmask |= MathUtil.base2Pow(i);
+				}
+			}
+
+			_columnBitmask = columnBitmask;
+		}
+
 		return _columnBitmask;
 	}
 
@@ -486,21 +515,9 @@ public class VersionedEntryModelImpl
 	public void resetOriginalValues() {
 		VersionedEntryModelImpl versionedEntryModelImpl = this;
 
-		versionedEntryModelImpl._originalHeadId =
-			versionedEntryModelImpl._headId;
+		Arrays.fill(_originalValues, INITIAL_MARKER);
 
-		versionedEntryModelImpl._setOriginalHeadId = false;
-
-		versionedEntryModelImpl._originalHead = versionedEntryModelImpl._head;
-
-		versionedEntryModelImpl._setOriginalHead = false;
-
-		versionedEntryModelImpl._originalGroupId =
-			versionedEntryModelImpl._groupId;
-
-		versionedEntryModelImpl._setOriginalGroupId = false;
-
-		versionedEntryModelImpl._columnBitmask = 0;
+		versionedEntryModelImpl._columnBitmask = null;
 	}
 
 	@Override
@@ -593,16 +610,11 @@ public class VersionedEntryModelImpl
 
 	private long _mvccVersion;
 	private long _headId;
-	private long _originalHeadId;
-	private boolean _setOriginalHeadId;
 	private boolean _head;
-	private boolean _originalHead;
-	private boolean _setOriginalHead;
 	private long _versionedEntryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
-	private long _columnBitmask;
+	private Object[] _originalValues = new Object[5];
+	private Long _columnBitmask;
 	private VersionedEntry _escapedModel;
 
 }
