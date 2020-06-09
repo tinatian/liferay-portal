@@ -1323,7 +1323,7 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 
 				for (int i = 0; i < _originalValues.length; i ++) {
 					if (_originalValues[i] != INITIAL_MARKER) {
-						_columnBitmask |= MathUtil.base2Pow(i);
+						columnBitmask |= MathUtil.base2Pow(i);
 					}
 				}
 				_columnBitmask = columnBitmask;
