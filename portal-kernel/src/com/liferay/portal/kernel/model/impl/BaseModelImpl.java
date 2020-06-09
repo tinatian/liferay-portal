@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.LocaleUtil;
 
+import java.io.Serializable;
+
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
@@ -133,6 +135,9 @@ public abstract class BaseModelImpl<T> implements BaseModel<T> {
 
 		return locale;
 	}
+
+	protected static final Object INITIAL_MARKER = new Serializable() {
+	};
 
 	private static final boolean _ESCAPED_MODEL = false;
 
