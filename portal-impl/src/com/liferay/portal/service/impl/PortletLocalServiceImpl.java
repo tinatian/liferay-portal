@@ -317,9 +317,7 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			Portlet portlet, String[] categoryNames, boolean eagerDestroy)
 		throws PortalException {
 
-		ResourceActionsUtil.check(portlet);
-
-		_portletsMap.put(portlet.getPortletId(), portlet);
+		_portletsMap.put(portlet.getRootPortletId(), portlet);
 
 		if (eagerDestroy) {
 			PortletInstanceFactoryUtil.clear(portlet, false);
@@ -328,6 +326,8 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 		}
 
 		clearCache();
+
+		ResourceActionsUtil.check(portlet.getPortletName());
 
 		PortletCategory portletCategory = (PortletCategory)WebAppPool.get(
 			portlet.getCompanyId(), WebKeys.PORTLET_CATEGORY);
