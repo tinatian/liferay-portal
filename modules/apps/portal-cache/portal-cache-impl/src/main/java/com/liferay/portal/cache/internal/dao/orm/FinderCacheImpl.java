@@ -14,6 +14,8 @@
 
 package com.liferay.portal.cache.internal.dao.orm;
 
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringPool;
@@ -47,8 +49,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.collections.map.LRUMap;
 
+import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
@@ -78,6 +82,14 @@ public class FinderCacheImpl
 		PortalCache<?, ?> portalCache = _getPortalCache(className);
 
 		portalCache.removeAll();
+	}
+
+	public void clearCaches(Class<?> clazz) {
+		String cacheName = clazz.getName();
+
+		clearCache(cacheName);
+		clearCache(_getCacheNameWithPagination(cacheName));
+		clearCache(_getCacheNameWithoutPagination(cacheName));
 	}
 
 	@Override
@@ -197,6 +209,50 @@ public class FinderCacheImpl
 		}
 	}
 
+	public void put(
+		Class<?> clazz, BaseModel<?> baseModel, boolean columnBitmaskEnabled,
+		long columnBitmask) {
+
+		String cacheName = clazz.getName();
+
+		clearCache(_getCacheNameWithPagination(cacheName));
+
+		if (!columnBitmaskEnabled) {
+			clearCache(_getCacheNameWithoutPagination(cacheName));
+			clearCache(cacheName);
+
+			return;
+		}
+
+		for (FinderPath finderPath :
+				_getFinderPaths(_getCacheNameWithoutPagination(cacheName))) {
+
+			if (baseModel.isNew()) {
+				Object[] arguments = finderPath.getArguments(baseModel);
+
+				if (arguments == null) {
+					arguments = _FINDER_ARGS_EMPTY;
+				}
+
+				_removeResult(finderPath, arguments, null);
+			}
+			else {
+				_removeResult(
+					finderPath, finderPath.getArguments(baseModel),
+					columnBitmask);
+				_removeResult(
+					finderPath, finderPath.getOriginalArguments(baseModel),
+					columnBitmask);
+			}
+		}
+
+		for (FinderPath finderPath : _getFinderPaths(cacheName)) {
+			_removeResult(
+				finderPath, finderPath.getOriginalArguments(baseModel),
+				columnBitmask);
+		}
+	}
+
 	@Override
 	public void putResult(FinderPath finderPath, Object[] args, Object result) {
 		putResult(finderPath, args, result, true);
@@ -268,6 +324,35 @@ public class FinderCacheImpl
 		}
 	}
 
+	public void remove(
+		Class<?> clazz, BaseModel<?> baseModel, boolean columnBitmaskEnabled,
+		long columnBitmask) {
+
+		if (baseModel == null) {
+			clearCaches(clazz);
+
+			return;
+		}
+
+		String cacheName = clazz.getName();
+
+		clearCache(_getCacheNameWithPagination(cacheName));
+		clearCache(_getCacheNameWithoutPagination(cacheName));
+
+		if (!columnBitmaskEnabled) {
+			clearCache(cacheName);
+
+			return;
+		}
+
+		for (FinderPath finderPath : _getFinderPaths(cacheName)) {
+			_removeResult(finderPath, finderPath.getArguments(baseModel), null);
+			_removeResult(
+				finderPath, finderPath.getOriginalArguments(baseModel),
+				columnBitmask);
+		}
+	}
+
 	@Override
 	public void removeCache(String className) {
 		_portalCaches.remove(className);
@@ -275,6 +360,12 @@ public class FinderCacheImpl
 		String groupKey = _GROUP_KEY_PREFIX.concat(className);
 
 		_multiVMPool.removePortalCache(groupKey);
+	}
+
+	public void removeCaches(String cacheName) {
+		removeCache(cacheName);
+		removeCache(_getCacheNameWithPagination(cacheName));
+		removeCache(_getCacheNameWithoutPagination(cacheName));
 	}
 
 	@Override
@@ -291,7 +382,7 @@ public class FinderCacheImpl
 
 	@Activate
 	@Modified
-	protected void activate() {
+	protected void activate(BundleContext bundleContext) {
 		_valueObjectFinderCacheEnabled = GetterUtil.getBoolean(
 			_props.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_ENABLED));
 		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
@@ -318,10 +409,18 @@ public class FinderCacheImpl
 			portalCacheManager = _multiVMPool.getPortalCacheManager();
 
 		portalCacheManager.registerPortalCacheManagerListener(this);
+
+		_serviceTrackerMap = ServiceTrackerMapFactory.openMultiValueMap(
+			bundleContext, FinderPath.class, "cache.name");
+
+		EntityCacheImpl entityCacheImpl = (EntityCacheImpl)_entityCache;
+
+		entityCacheImpl.setFinderCacheImpl(this);
 	}
 
-	@Reference(unbind = "-")
-	protected void setEntityCache(EntityCache entityCache) {
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerMap.close();
 	}
 
 	@Reference(unbind = "-")
@@ -332,6 +431,24 @@ public class FinderCacheImpl
 	@Reference(unbind = "-")
 	protected void setProps(Props props) {
 		_props = props;
+	}
+
+	private String _getCacheNameWithoutPagination(String cacheName) {
+		return cacheName.concat(".List2");
+	}
+
+	private String _getCacheNameWithPagination(String cacheName) {
+		return cacheName.concat(".List1");
+	}
+
+	private List<FinderPath> _getFinderPaths(String cacheName) {
+		List<FinderPath> finderPaths = _serviceTrackerMap.getService(cacheName);
+
+		if (finderPaths == null) {
+			return Collections.emptyList();
+		}
+
+		return finderPaths;
 	}
 
 	private PortalCache<Serializable, Serializable> _getPortalCache(
@@ -384,14 +501,32 @@ public class FinderCacheImpl
 		portalCache.remove(cacheKey);
 	}
 
+	private void _removeResult(
+		FinderPath finderPath, Object[] arguments, Long columnBitmask) {
+
+		if ((arguments == null) ||
+			((columnBitmask != null) &&
+			 ((columnBitmask & finderPath.getColumnBitmask()) == 0))) {
+
+			return;
+		}
+
+		removeResult(finderPath, arguments);
+	}
+
+	private static final Object[] _FINDER_ARGS_EMPTY = new Object[0];
+
 	private static final String _GROUP_KEY_PREFIX =
 		FinderCache.class.getName() + StringPool.PERIOD;
 
+	@Reference
+	private EntityCache _entityCache;
 	private ThreadLocal<LRUMap> _localCache;
 	private MultiVMPool _multiVMPool;
 	private final ConcurrentMap<String, PortalCache<Serializable, Serializable>>
 		_portalCaches = new ConcurrentHashMap<>();
 	private Props _props;
+	private ServiceTrackerMap<String, List<FinderPath>> _serviceTrackerMap;
 	private boolean _valueObjectFinderCacheEnabled;
 	private int _valueObjectFinderCacheListThreshold;
 
