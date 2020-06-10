@@ -18,9 +18,12 @@ import com.liferay.portal.kernel.cache.PortalCache;
 
 import java.io.Serializable;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * @author Brian Wing Shun Chan
  */
+@ProviderType
 public interface EntityCache {
 
 	public void clearCache();
@@ -53,9 +56,26 @@ public interface EntityCache {
 		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
 		Serializable result, boolean quiet);
 
+	public void putResult(
+		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+		Serializable result, boolean quiet, boolean columnBitmaskEnabled,
+		long columnBitmask);
+
+	public void putResult(
+		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+		Serializable result, boolean columnBitmaskEnabled, long columnBitmask);
+
 	public void removeCache(String className);
 
 	public void removeResult(
 		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey);
+
+	public void removeResult(
+		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+		Serializable result);
+
+	public void removeResult(
+		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
+		Serializable result, boolean columnBitmaskEnabled, long columnBitmask);
 
 }
