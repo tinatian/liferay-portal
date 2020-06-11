@@ -307,7 +307,9 @@ public class CompanyInfoPersistenceImpl
 	public void cacheResult(CompanyInfo companyInfo) {
 		EntityCacheUtil.putResult(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED, CompanyInfoImpl.class,
-			companyInfo.getPrimaryKey(), companyInfo);
+			companyInfo.getPrimaryKey(), companyInfo,
+			CompanyInfoModelImpl.COLUMN_BITMASK_ENABLED,
+			((CompanyInfoModelImpl)companyInfo).getColumnBitmask());
 
 		FinderCacheUtil.putResult(
 			_finderPathFetchByCompanyId,
@@ -347,10 +349,6 @@ public class CompanyInfoPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(CompanyInfoImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -364,34 +362,24 @@ public class CompanyInfoPersistenceImpl
 	public void clearCache(CompanyInfo companyInfo) {
 		EntityCacheUtil.removeResult(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED, CompanyInfoImpl.class,
-			companyInfo.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CompanyInfoModelImpl)companyInfo, true);
+			companyInfo.getPrimaryKey(), companyInfo,
+			CompanyInfoModelImpl.COLUMN_BITMASK_ENABLED,
+			((CompanyInfoModelImpl)companyInfo).getColumnBitmask());
 	}
 
 	@Override
 	public void clearCache(List<CompanyInfo> companyInfos) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CompanyInfo companyInfo : companyInfos) {
 			EntityCacheUtil.removeResult(
 				CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
-				CompanyInfoImpl.class, companyInfo.getPrimaryKey());
-
-			clearUniqueFindersCache((CompanyInfoModelImpl)companyInfo, true);
+				CompanyInfoImpl.class, companyInfo.getPrimaryKey(), companyInfo,
+				CompanyInfoModelImpl.COLUMN_BITMASK_ENABLED,
+				((CompanyInfoModelImpl)companyInfo).getColumnBitmask());
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
@@ -408,28 +396,6 @@ public class CompanyInfoPersistenceImpl
 			_finderPathCountByCompanyId, args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
 			_finderPathFetchByCompanyId, args, companyInfoModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CompanyInfoModelImpl companyInfoModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {companyInfoModelImpl.getCompanyId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByCompanyId, args);
-		}
-
-		if ((companyInfoModelImpl.getColumnBitmask() &
-			 _finderPathFetchByCompanyId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				companyInfoModelImpl.getOriginalCompanyId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByCompanyId, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByCompanyId, args);
-		}
 	}
 
 	/**
@@ -565,8 +531,6 @@ public class CompanyInfoPersistenceImpl
 
 			if (companyInfo.isNew()) {
 				session.save(companyInfo);
-
-				companyInfo.setNew(false);
 			}
 			else {
 				companyInfo = (CompanyInfo)session.merge(companyInfo);
@@ -579,27 +543,19 @@ public class CompanyInfoPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CompanyInfoModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		EntityCacheUtil.putResult(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED, CompanyInfoImpl.class,
-			companyInfo.getPrimaryKey(), companyInfo, false);
+			companyInfo.getPrimaryKey(), companyInfo, false,
+			CompanyInfoModelImpl.COLUMN_BITMASK_ENABLED,
+			((CompanyInfoModelImpl)companyInfo).getColumnBitmask());
 
-		clearUniqueFindersCache(companyInfoModelImpl, false);
 		cacheUniqueFindersCache(companyInfoModelImpl);
 
 		companyInfo.resetOriginalValues();
+
+		if (isNew) {
+			companyInfo.setNew(false);
+		}
 
 		return companyInfo;
 	}
@@ -869,42 +825,72 @@ public class CompanyInfoPersistenceImpl
 	 * Initializes the company info persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPath.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathFetchByCompanyId = new FinderPath(
+		_finderPathFetchByCompanyId = FinderPath.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, CompanyInfoImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByCompanyId",
 			new String[] {Long.class.getName()},
-			CompanyInfoModelImpl.COMPANYID_COLUMN_BITMASK);
+			CompanyInfoModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				CompanyInfoModelImpl companyInfoModelImpl =
+					(CompanyInfoModelImpl)baseModel;
 
-		_finderPathCountByCompanyId = new FinderPath(
+				return new Object[] {companyInfoModelImpl.getCompanyId()};
+			},
+			baseModel -> {
+				CompanyInfoModelImpl companyInfoModelImpl =
+					(CompanyInfoModelImpl)baseModel;
+
+				return new Object[] {
+					companyInfoModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByCompanyId = FinderPath.create(
 			CompanyInfoModelImpl.ENTITY_CACHE_ENABLED,
 			CompanyInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			CompanyInfoModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				CompanyInfoModelImpl companyInfoModelImpl =
+					(CompanyInfoModelImpl)baseModel;
+
+				return new Object[] {companyInfoModelImpl.getCompanyId()};
+			},
+			baseModel -> {
+				CompanyInfoModelImpl companyInfoModelImpl =
+					(CompanyInfoModelImpl)baseModel;
+
+				return new Object[] {
+					companyInfoModelImpl.getOriginalCompanyId()
+				};
+			});
 	}
 
 	public void destroy() {
 		EntityCacheUtil.removeCache(CompanyInfoImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	private static final String _SQL_SELECT_COMPANYINFO =

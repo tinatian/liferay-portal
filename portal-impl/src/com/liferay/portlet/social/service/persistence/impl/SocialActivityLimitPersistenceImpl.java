@@ -2106,7 +2106,10 @@ public class SocialActivityLimitPersistenceImpl
 		EntityCacheUtil.putResult(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitImpl.class, socialActivityLimit.getPrimaryKey(),
-			socialActivityLimit);
+			socialActivityLimit,
+			SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED,
+			((SocialActivityLimitModelImpl)socialActivityLimit).
+				getColumnBitmask());
 
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_U_C_C_A_A,
@@ -2160,10 +2163,6 @@ public class SocialActivityLimitPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(SocialActivityLimitImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -2177,37 +2176,28 @@ public class SocialActivityLimitPersistenceImpl
 	public void clearCache(SocialActivityLimit socialActivityLimit) {
 		EntityCacheUtil.removeResult(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
-			SocialActivityLimitImpl.class, socialActivityLimit.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SocialActivityLimitModelImpl)socialActivityLimit, true);
+			SocialActivityLimitImpl.class, socialActivityLimit.getPrimaryKey(),
+			socialActivityLimit,
+			SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED,
+			((SocialActivityLimitModelImpl)socialActivityLimit).
+				getColumnBitmask());
 	}
 
 	@Override
 	public void clearCache(List<SocialActivityLimit> socialActivityLimits) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SocialActivityLimit socialActivityLimit : socialActivityLimits) {
 			EntityCacheUtil.removeResult(
 				SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 				SocialActivityLimitImpl.class,
-				socialActivityLimit.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SocialActivityLimitModelImpl)socialActivityLimit, true);
+				socialActivityLimit.getPrimaryKey(), socialActivityLimit,
+				SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED,
+				((SocialActivityLimitModelImpl)socialActivityLimit).
+					getColumnBitmask());
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
@@ -2232,41 +2222,6 @@ public class SocialActivityLimitPersistenceImpl
 		FinderCacheUtil.putResult(
 			_finderPathFetchByG_U_C_C_A_A, args, socialActivityLimitModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SocialActivityLimitModelImpl socialActivityLimitModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				socialActivityLimitModelImpl.getGroupId(),
-				socialActivityLimitModelImpl.getUserId(),
-				socialActivityLimitModelImpl.getClassNameId(),
-				socialActivityLimitModelImpl.getClassPK(),
-				socialActivityLimitModelImpl.getActivityType(),
-				socialActivityLimitModelImpl.getActivityCounterName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U_C_C_A_A, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_U_C_C_A_A, args);
-		}
-
-		if ((socialActivityLimitModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_U_C_C_A_A.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				socialActivityLimitModelImpl.getOriginalGroupId(),
-				socialActivityLimitModelImpl.getOriginalUserId(),
-				socialActivityLimitModelImpl.getOriginalClassNameId(),
-				socialActivityLimitModelImpl.getOriginalClassPK(),
-				socialActivityLimitModelImpl.getOriginalActivityType(),
-				socialActivityLimitModelImpl.getOriginalActivityCounterName()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByG_U_C_C_A_A, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByG_U_C_C_A_A, args);
-		}
 	}
 
 	/**
@@ -2424,8 +2379,6 @@ public class SocialActivityLimitPersistenceImpl
 				}
 
 				session.save(socialActivityLimit);
-
-				socialActivityLimit.setNew(false);
 			}
 			else {
 				socialActivityLimit = (SocialActivityLimit)session.merge(
@@ -2442,116 +2395,28 @@ public class SocialActivityLimitPersistenceImpl
 		if (socialActivityLimit.getCtCollectionId() != 0) {
 			socialActivityLimit.resetOriginalValues();
 
+			if (isNew) {
+				socialActivityLimit.setNew(false);
+			}
+
 			return socialActivityLimit;
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				socialActivityLimitModelImpl.getGroupId()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {socialActivityLimitModelImpl.getUserId()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {
-				socialActivityLimitModelImpl.getClassNameId(),
-				socialActivityLimitModelImpl.getClassPK()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((socialActivityLimitModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalGroupId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {socialActivityLimitModelImpl.getGroupId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByGroupId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((socialActivityLimitModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalUserId()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {socialActivityLimitModelImpl.getUserId()};
-
-				FinderCacheUtil.removeResult(_finderPathCountByUserId, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((socialActivityLimitModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					socialActivityLimitModelImpl.getOriginalClassNameId(),
-					socialActivityLimitModelImpl.getOriginalClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-
-				args = new Object[] {
-					socialActivityLimitModelImpl.getClassNameId(),
-					socialActivityLimitModelImpl.getClassPK()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C, args);
-			}
 		}
 
 		EntityCacheUtil.putResult(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitImpl.class, socialActivityLimit.getPrimaryKey(),
-			socialActivityLimit, false);
+			socialActivityLimit, false,
+			SocialActivityLimitModelImpl.COLUMN_BITMASK_ENABLED,
+			((SocialActivityLimitModelImpl)socialActivityLimit).
+				getColumnBitmask());
 
-		clearUniqueFindersCache(socialActivityLimitModelImpl, false);
 		cacheUniqueFindersCache(socialActivityLimitModelImpl);
 
 		socialActivityLimit.resetOriginalValues();
+
+		if (isNew) {
+			socialActivityLimit.setNew(false);
+		}
 
 		return socialActivityLimit;
 	}
@@ -3014,26 +2879,26 @@ public class SocialActivityLimitPersistenceImpl
 	 * Initializes the social activity limit persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByGroupId = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
@@ -3043,21 +2908,50 @@ public class SocialActivityLimitPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByGroupId = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			SocialActivityLimitModelImpl.GROUPID_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.GROUPID_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathCountByGroupId = new FinderPath(
+				return new Object[] {socialActivityLimitModelImpl.getGroupId()};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathCountByGroupId = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			SocialActivityLimitModelImpl.GROUPID_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUserId = new FinderPath(
+				return new Object[] {socialActivityLimitModelImpl.getGroupId()};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalGroupId()
+				};
+			});
+
+		_finderPathWithPaginationFindByUserId = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
@@ -3067,21 +2961,50 @@ public class SocialActivityLimitPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
+		_finderPathWithoutPaginationFindByUserId = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			SocialActivityLimitModelImpl.USERID_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.USERID_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathCountByUserId = new FinderPath(
+				return new Object[] {socialActivityLimitModelImpl.getUserId()};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalUserId()
+				};
+			});
+
+		_finderPathCountByUserId = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			SocialActivityLimitModelImpl.USERID_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByC_C = new FinderPath(
+				return new Object[] {socialActivityLimitModelImpl.getUserId()};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalUserId()
+				};
+			});
+
+		_finderPathWithPaginationFindByC_C = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
@@ -3092,22 +3015,60 @@ public class SocialActivityLimitPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_C = new FinderPath(
+		_finderPathWithoutPaginationFindByC_C = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()},
 			SocialActivityLimitModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathCountByC_C = new FinderPath(
+				return new Object[] {
+					socialActivityLimitModelImpl.getClassNameId(),
+					socialActivityLimitModelImpl.getClassPK()
+				};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalClassNameId(),
+					socialActivityLimitModelImpl.getOriginalClassPK()
+				};
+			});
+
+		_finderPathCountByC_C = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {Long.class.getName(), Long.class.getName()},
+			SocialActivityLimitModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathFetchByG_U_C_C_A_A = new FinderPath(
+				return new Object[] {
+					socialActivityLimitModelImpl.getClassNameId(),
+					socialActivityLimitModelImpl.getClassPK()
+				};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalClassNameId(),
+					socialActivityLimitModelImpl.getOriginalClassPK()
+				};
+			});
+
+		_finderPathFetchByG_U_C_C_A_A = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED,
 			SocialActivityLimitImpl.class, FINDER_CLASS_NAME_ENTITY,
@@ -3122,9 +3083,36 @@ public class SocialActivityLimitPersistenceImpl
 			SocialActivityLimitModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK |
 			SocialActivityLimitModelImpl.ACTIVITYTYPE_COLUMN_BITMASK |
-			SocialActivityLimitModelImpl.ACTIVITYCOUNTERNAME_COLUMN_BITMASK);
+			SocialActivityLimitModelImpl.ACTIVITYCOUNTERNAME_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
 
-		_finderPathCountByG_U_C_C_A_A = new FinderPath(
+				return new Object[] {
+					socialActivityLimitModelImpl.getGroupId(),
+					socialActivityLimitModelImpl.getUserId(),
+					socialActivityLimitModelImpl.getClassNameId(),
+					socialActivityLimitModelImpl.getClassPK(),
+					socialActivityLimitModelImpl.getActivityType(),
+					socialActivityLimitModelImpl.getActivityCounterName()
+				};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalGroupId(),
+					socialActivityLimitModelImpl.getOriginalUserId(),
+					socialActivityLimitModelImpl.getOriginalClassNameId(),
+					socialActivityLimitModelImpl.getOriginalClassPK(),
+					socialActivityLimitModelImpl.getOriginalActivityType(),
+					socialActivityLimitModelImpl.
+						getOriginalActivityCounterName()
+				};
+			});
+
+		_finderPathCountByG_U_C_C_A_A = FinderPath.create(
 			SocialActivityLimitModelImpl.ENTITY_CACHE_ENABLED,
 			SocialActivityLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_C_C_A_A",
@@ -3132,14 +3120,48 @@ public class SocialActivityLimitPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), String.class.getName()
+			},
+			SocialActivityLimitModelImpl.GROUPID_COLUMN_BITMASK |
+			SocialActivityLimitModelImpl.USERID_COLUMN_BITMASK |
+			SocialActivityLimitModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			SocialActivityLimitModelImpl.CLASSPK_COLUMN_BITMASK |
+			SocialActivityLimitModelImpl.ACTIVITYTYPE_COLUMN_BITMASK |
+			SocialActivityLimitModelImpl.ACTIVITYCOUNTERNAME_COLUMN_BITMASK,
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getGroupId(),
+					socialActivityLimitModelImpl.getUserId(),
+					socialActivityLimitModelImpl.getClassNameId(),
+					socialActivityLimitModelImpl.getClassPK(),
+					socialActivityLimitModelImpl.getActivityType(),
+					socialActivityLimitModelImpl.getActivityCounterName()
+				};
+			},
+			baseModel -> {
+				SocialActivityLimitModelImpl socialActivityLimitModelImpl =
+					(SocialActivityLimitModelImpl)baseModel;
+
+				return new Object[] {
+					socialActivityLimitModelImpl.getOriginalGroupId(),
+					socialActivityLimitModelImpl.getOriginalUserId(),
+					socialActivityLimitModelImpl.getOriginalClassNameId(),
+					socialActivityLimitModelImpl.getOriginalClassPK(),
+					socialActivityLimitModelImpl.getOriginalActivityType(),
+					socialActivityLimitModelImpl.
+						getOriginalActivityCounterName()
+				};
 			});
 	}
 
 	public void destroy() {
 		EntityCacheUtil.removeCache(SocialActivityLimitImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	private static final String _SQL_SELECT_SOCIALACTIVITYLIMIT =

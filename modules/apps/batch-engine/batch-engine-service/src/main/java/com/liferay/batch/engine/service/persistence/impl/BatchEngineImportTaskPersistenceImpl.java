@@ -1817,7 +1817,10 @@ public class BatchEngineImportTaskPersistenceImpl
 	public void cacheResult(BatchEngineImportTask batchEngineImportTask) {
 		entityCache.putResult(
 			entityCacheEnabled, BatchEngineImportTaskImpl.class,
-			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask);
+			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask,
+			_columnBitmaskEnabled,
+			((BatchEngineImportTaskModelImpl)batchEngineImportTask).
+				getColumnBitmask());
 
 		batchEngineImportTask.resetOriginalValues();
 	}
@@ -1856,10 +1859,6 @@ public class BatchEngineImportTaskPersistenceImpl
 	@Override
 	public void clearCache() {
 		entityCache.clearCache(BatchEngineImportTaskImpl.class);
-
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1873,32 +1872,28 @@ public class BatchEngineImportTaskPersistenceImpl
 	public void clearCache(BatchEngineImportTask batchEngineImportTask) {
 		entityCache.removeResult(
 			entityCacheEnabled, BatchEngineImportTaskImpl.class,
-			batchEngineImportTask.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask,
+			_columnBitmaskEnabled,
+			((BatchEngineImportTaskModelImpl)batchEngineImportTask).
+				getColumnBitmask());
 	}
 
 	@Override
 	public void clearCache(List<BatchEngineImportTask> batchEngineImportTasks) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BatchEngineImportTask batchEngineImportTask :
 				batchEngineImportTasks) {
 
 			entityCache.removeResult(
 				entityCacheEnabled, BatchEngineImportTaskImpl.class,
-				batchEngineImportTask.getPrimaryKey());
+				batchEngineImportTask.getPrimaryKey(), batchEngineImportTask,
+				_columnBitmaskEnabled,
+				((BatchEngineImportTaskModelImpl)batchEngineImportTask).
+					getColumnBitmask());
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
 				entityCacheEnabled, BatchEngineImportTaskImpl.class,
@@ -2084,8 +2079,6 @@ public class BatchEngineImportTaskPersistenceImpl
 
 			if (batchEngineImportTask.isNew()) {
 				session.save(batchEngineImportTask);
-
-				batchEngineImportTask.setNew(false);
 			}
 			else {
 				session.evict(batchEngineImportTask);
@@ -2102,112 +2095,18 @@ public class BatchEngineImportTaskPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				batchEngineImportTaskModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				batchEngineImportTaskModelImpl.getUuid(),
-				batchEngineImportTaskModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				batchEngineImportTaskModelImpl.getExecuteStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByExecuteStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByExecuteStatus, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((batchEngineImportTaskModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					batchEngineImportTaskModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {batchEngineImportTaskModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((batchEngineImportTaskModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					batchEngineImportTaskModelImpl.getOriginalUuid(),
-					batchEngineImportTaskModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					batchEngineImportTaskModelImpl.getUuid(),
-					batchEngineImportTaskModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((batchEngineImportTaskModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByExecuteStatus.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					batchEngineImportTaskModelImpl.getOriginalExecuteStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByExecuteStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByExecuteStatus, args);
-
-				args = new Object[] {
-					batchEngineImportTaskModelImpl.getExecuteStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByExecuteStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByExecuteStatus, args);
-			}
-		}
-
 		entityCache.putResult(
 			entityCacheEnabled, BatchEngineImportTaskImpl.class,
-			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask,
-			false);
+			batchEngineImportTask.getPrimaryKey(), batchEngineImportTask, false,
+			_columnBitmaskEnabled,
+			((BatchEngineImportTaskModelImpl)batchEngineImportTask).
+				getColumnBitmask());
 
 		batchEngineImportTask.resetOriginalValues();
+
+		if (isNew) {
+			batchEngineImportTask.setNew(false);
+		}
 
 		return batchEngineImportTask;
 	}
@@ -2489,23 +2388,23 @@ public class BatchEngineImportTaskPersistenceImpl
 		BatchEngineImportTaskModelImpl.setFinderCacheEnabled(
 			finderCacheEnabled);
 
-		_finderPathWithPaginationFindAll = new FinderPath(
+		_finderPathWithPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
+		_finderPathWithoutPaginationFindAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
+		_finderPathCountAll = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathWithPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
@@ -2514,19 +2413,48 @@ public class BatchEngineImportTaskPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK);
+			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK,
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
 
-		_finderPathCountByUuid = new FinderPath(
+				return new Object[] {batchEngineImportTaskModelImpl.getUuid()};
+			},
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getOriginalUuid()
+				};
+			});
+
+		_finderPathCountByUuid = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK,
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+				return new Object[] {batchEngineImportTaskModelImpl.getUuid()};
+			},
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getOriginalUuid()
+				};
+			});
+
+		_finderPathWithPaginationFindByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
@@ -2536,20 +2464,58 @@ public class BatchEngineImportTaskPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+		_finderPathWithoutPaginationFindByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
 			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK |
-			BatchEngineImportTaskModelImpl.COMPANYID_COLUMN_BITMASK);
+			BatchEngineImportTaskModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
 
-		_finderPathCountByUuid_C = new FinderPath(
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getUuid(),
+					batchEngineImportTaskModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getOriginalUuid(),
+					batchEngineImportTaskModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathCountByUuid_C = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			BatchEngineImportTaskModelImpl.UUID_COLUMN_BITMASK |
+			BatchEngineImportTaskModelImpl.COMPANYID_COLUMN_BITMASK,
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
 
-		_finderPathWithPaginationFindByExecuteStatus = new FinderPath(
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getUuid(),
+					batchEngineImportTaskModelImpl.getCompanyId()
+				};
+			},
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getOriginalUuid(),
+					batchEngineImportTaskModelImpl.getOriginalCompanyId()
+				};
+			});
+
+		_finderPathWithPaginationFindByExecuteStatus = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByExecuteStatus",
@@ -2558,25 +2524,59 @@ public class BatchEngineImportTaskPersistenceImpl
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByExecuteStatus = new FinderPath(
+		_finderPathWithoutPaginationFindByExecuteStatus = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled,
 			BatchEngineImportTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByExecuteStatus",
 			new String[] {String.class.getName()},
-			BatchEngineImportTaskModelImpl.EXECUTESTATUS_COLUMN_BITMASK);
+			BatchEngineImportTaskModelImpl.EXECUTESTATUS_COLUMN_BITMASK,
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
 
-		_finderPathCountByExecuteStatus = new FinderPath(
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getExecuteStatus()
+				};
+			},
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getOriginalExecuteStatus()
+				};
+			});
+
+		_finderPathCountByExecuteStatus = FinderPath.create(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByExecuteStatus",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			BatchEngineImportTaskModelImpl.EXECUTESTATUS_COLUMN_BITMASK,
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getExecuteStatus()
+				};
+			},
+			baseModel -> {
+				BatchEngineImportTaskModelImpl batchEngineImportTaskModelImpl =
+					(BatchEngineImportTaskModelImpl)baseModel;
+
+				return new Object[] {
+					batchEngineImportTaskModelImpl.getOriginalExecuteStatus()
+				};
+			});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(BatchEngineImportTaskImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		FinderPath.delete(FINDER_CLASS_NAME_ENTITY);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderPath.delete(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
