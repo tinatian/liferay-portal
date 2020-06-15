@@ -26,17 +26,22 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.NoSuchTicketException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.Ticket;
 import com.liferay.portal.kernel.model.TicketTable;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.TicketPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.impl.TicketImpl;
 import com.liferay.portal.model.impl.TicketModelImpl;
+import com.liferay.registry.Registry;
+import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceRegistration;
 
 import java.io.Serializable;
 
@@ -48,6 +53,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 /**
  * The persistence implementation for the ticket service.
@@ -75,12 +82,6 @@ public class TicketPersistenceImpl
 
 	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
 		FINDER_CLASS_NAME_ENTITY + ".List2";
-
-	private FinderPath _finderPathWithPaginationFindAll;
-	private FinderPath _finderPathWithoutPaginationFindAll;
-	private FinderPath _finderPathCountAll;
-	private FinderPath _finderPathFetchByKey;
-	private FinderPath _finderPathCountByKey;
 
 	/**
 	 * Returns the ticket where key = &#63; or throws a <code>NoSuchTicketException</code> if it could not be found.
@@ -145,7 +146,8 @@ public class TicketPersistenceImpl
 
 		if (useFinderCache) {
 			result = FinderCacheUtil.getResult(
-				_finderPathFetchByKey, finderArgs, this);
+				_getFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByKey"),
+				finderArgs, this);
 		}
 
 		if (result instanceof Ticket) {
@@ -192,7 +194,9 @@ public class TicketPersistenceImpl
 				if (list.isEmpty()) {
 					if (useFinderCache) {
 						FinderCacheUtil.putResult(
-							_finderPathFetchByKey, finderArgs, list);
+							_getFinderPath(
+								FINDER_CLASS_NAME_ENTITY, "fetchByKey"),
+							finderArgs, list);
 					}
 				}
 				else {
@@ -221,7 +225,8 @@ public class TicketPersistenceImpl
 			catch (Exception exception) {
 				if (useFinderCache) {
 					FinderCacheUtil.removeResult(
-						_finderPathFetchByKey, finderArgs);
+						_getFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByKey"),
+						finderArgs);
 				}
 
 				throw processException(exception);
@@ -262,7 +267,8 @@ public class TicketPersistenceImpl
 	public int countByKey(String key) {
 		key = Objects.toString(key, "");
 
-		FinderPath finderPath = _finderPathCountByKey;
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey");
 
 		Object[] finderArgs = new Object[] {key};
 
@@ -321,10 +327,6 @@ public class TicketPersistenceImpl
 
 	private static final String _FINDER_COLUMN_KEY_KEY_3 =
 		"(ticket.key IS NULL OR ticket.key = '')";
-
-	private FinderPath _finderPathWithPaginationFindByC_C_T;
-	private FinderPath _finderPathWithoutPaginationFindByC_C_T;
-	private FinderPath _finderPathCountByC_C_T;
 
 	/**
 	 * Returns all the tickets where classNameId = &#63; and classPK = &#63; and type = &#63;.
@@ -414,12 +416,14 @@ public class TicketPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByC_C_T;
+				finderPath = _getFinderPath(
+					FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_T");
 				finderArgs = new Object[] {classNameId, classPK, type};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByC_C_T;
+			finderPath = _getFinderPath(
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_T");
 			finderArgs = new Object[] {
 				classNameId, classPK, type, start, end, orderByComparator
 			};
@@ -840,7 +844,8 @@ public class TicketPersistenceImpl
 	 */
 	@Override
 	public int countByC_C_T(long classNameId, long classPK, int type) {
-		FinderPath finderPath = _finderPathCountByC_C_T;
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T");
 
 		Object[] finderArgs = new Object[] {classNameId, classPK, type};
 
@@ -899,10 +904,6 @@ public class TicketPersistenceImpl
 		"ticket.classPK = ? AND ";
 
 	private static final String _FINDER_COLUMN_C_C_T_TYPE_2 = "ticket.type = ?";
-
-	private FinderPath _finderPathWithPaginationFindByC_C_C_T;
-	private FinderPath _finderPathWithoutPaginationFindByC_C_C_T;
-	private FinderPath _finderPathCountByC_C_C_T;
 
 	/**
 	 * Returns all the tickets where companyId = &#63; and classNameId = &#63; and classPK = &#63; and type = &#63;.
@@ -1002,14 +1003,16 @@ public class TicketPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByC_C_C_T;
+				finderPath = _getFinderPath(
+					FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C_T");
 				finderArgs = new Object[] {
 					companyId, classNameId, classPK, type
 				};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByC_C_C_T;
+			finderPath = _getFinderPath(
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C_T");
 			finderArgs = new Object[] {
 				companyId, classNameId, classPK, type, start, end,
 				orderByComparator
@@ -1458,7 +1461,8 @@ public class TicketPersistenceImpl
 	public int countByC_C_C_T(
 		long companyId, long classNameId, long classPK, int type) {
 
-		FinderPath finderPath = _finderPathCountByC_C_C_T;
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C_T");
 
 		Object[] finderArgs = new Object[] {
 			companyId, classNameId, classPK, type
@@ -1554,10 +1558,15 @@ public class TicketPersistenceImpl
 	public void cacheResult(Ticket ticket) {
 		EntityCacheUtil.putResult(
 			TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
-			ticket.getPrimaryKey(), ticket);
+			ticket.getPrimaryKey(), ticket,
+			new Object[] {
+				TicketModelImpl.COLUMN_BITMASK_ENABLED,
+				((TicketModelImpl)ticket).getColumnBitmask()
+			});
 
 		FinderCacheUtil.putResult(
-			_finderPathFetchByKey, new Object[] {ticket.getKey()}, ticket);
+			_getFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByKey"),
+			new Object[] {ticket.getKey()}, ticket);
 
 		ticket.resetOriginalValues();
 	}
@@ -1592,10 +1601,6 @@ public class TicketPersistenceImpl
 	@Override
 	public void clearCache() {
 		EntityCacheUtil.clearCache(TicketImpl.class);
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	/**
@@ -1609,34 +1614,28 @@ public class TicketPersistenceImpl
 	public void clearCache(Ticket ticket) {
 		EntityCacheUtil.removeResult(
 			TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
-			ticket.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((TicketModelImpl)ticket, true);
+			ticket.getPrimaryKey(), ticket,
+			new Object[] {
+				TicketModelImpl.COLUMN_BITMASK_ENABLED,
+				((TicketModelImpl)ticket).getColumnBitmask()
+			});
 	}
 
 	@Override
 	public void clearCache(List<Ticket> tickets) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Ticket ticket : tickets) {
 			EntityCacheUtil.removeResult(
 				TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
-				ticket.getPrimaryKey());
-
-			clearUniqueFindersCache((TicketModelImpl)ticket, true);
+				ticket.getPrimaryKey(), ticket,
+				new Object[] {
+					TicketModelImpl.COLUMN_BITMASK_ENABLED,
+					((TicketModelImpl)ticket).getColumnBitmask()
+				});
 		}
 	}
 
 	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Serializable primaryKey : primaryKeys) {
 			EntityCacheUtil.removeResult(
 				TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
@@ -1648,29 +1647,12 @@ public class TicketPersistenceImpl
 		Object[] args = new Object[] {ticketModelImpl.getKey()};
 
 		FinderCacheUtil.putResult(
-			_finderPathCountByKey, args, Long.valueOf(1), false);
+			_getFinderPath(
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey"),
+			args, Long.valueOf(1), false);
 		FinderCacheUtil.putResult(
-			_finderPathFetchByKey, args, ticketModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		TicketModelImpl ticketModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {ticketModelImpl.getKey()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByKey, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByKey, args);
-		}
-
-		if ((ticketModelImpl.getColumnBitmask() &
-			 _finderPathFetchByKey.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {ticketModelImpl.getOriginalKey()};
-
-			FinderCacheUtil.removeResult(_finderPathCountByKey, args);
-			FinderCacheUtil.removeResult(_finderPathFetchByKey, args);
-		}
+			_getFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByKey"), args,
+			ticketModelImpl, false);
 	}
 
 	/**
@@ -1798,10 +1780,8 @@ public class TicketPersistenceImpl
 		try {
 			session = openSession();
 
-			if (ticket.isNew()) {
+			if (isNew) {
 				session.save(ticket);
-
-				ticket.setNew(false);
 			}
 			else {
 				ticket = (Ticket)session.merge(ticket);
@@ -1814,97 +1794,21 @@ public class TicketPersistenceImpl
 			closeSession(session);
 		}
 
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!TicketModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(
-				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				ticketModelImpl.getClassNameId(), ticketModelImpl.getClassPK(),
-				ticketModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C_T, args);
-
-			args = new Object[] {
-				ticketModelImpl.getCompanyId(),
-				ticketModelImpl.getClassNameId(), ticketModelImpl.getClassPK(),
-				ticketModelImpl.getType()
-			};
-
-			FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindByC_C_C_T, args);
-
-			FinderCacheUtil.removeResult(
-				_finderPathCountAll, FINDER_ARGS_EMPTY);
-			FinderCacheUtil.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ticketModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_T.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ticketModelImpl.getOriginalClassNameId(),
-					ticketModelImpl.getOriginalClassPK(),
-					ticketModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_T, args);
-
-				args = new Object[] {
-					ticketModelImpl.getClassNameId(),
-					ticketModelImpl.getClassPK(), ticketModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_T, args);
-			}
-
-			if ((ticketModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_C_C_T.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ticketModelImpl.getOriginalCompanyId(),
-					ticketModelImpl.getOriginalClassNameId(),
-					ticketModelImpl.getOriginalClassPK(),
-					ticketModelImpl.getOriginalType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C_T, args);
-
-				args = new Object[] {
-					ticketModelImpl.getCompanyId(),
-					ticketModelImpl.getClassNameId(),
-					ticketModelImpl.getClassPK(), ticketModelImpl.getType()
-				};
-
-				FinderCacheUtil.removeResult(_finderPathCountByC_C_C_T, args);
-				FinderCacheUtil.removeResult(
-					_finderPathWithoutPaginationFindByC_C_C_T, args);
-			}
-		}
-
 		EntityCacheUtil.putResult(
 			TicketModelImpl.ENTITY_CACHE_ENABLED, TicketImpl.class,
-			ticket.getPrimaryKey(), ticket, false);
+			ticketModelImpl.getPrimaryKey(), ticketModelImpl, false,
+			new Object[] {
+				TicketModelImpl.COLUMN_BITMASK_ENABLED,
+				ticketModelImpl.getColumnBitmask()
+			});
 
-		clearUniqueFindersCache(ticketModelImpl, false);
 		cacheUniqueFindersCache(ticketModelImpl);
 
 		ticket.resetOriginalValues();
+
+		if (isNew) {
+			ticket.setNew(false);
+		}
 
 		return ticket;
 	}
@@ -2027,12 +1931,14 @@ public class TicketPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindAll;
+				finderPath = _getFinderPath(
+					FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll");
 				finderArgs = FINDER_ARGS_EMPTY;
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindAll;
+			finderPath = _getFinderPath(
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll");
 			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
@@ -2113,8 +2019,11 @@ public class TicketPersistenceImpl
 	 */
 	@Override
 	public int countAll() {
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll");
+
 		Long count = (Long)FinderCacheUtil.getResult(
-			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
+			finderPath, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2126,12 +2035,10 @@ public class TicketPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				FinderCacheUtil.putResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
+				FinderCacheUtil.putResult(finderPath, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				FinderCacheUtil.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
+				FinderCacheUtil.removeResult(finderPath, FINDER_ARGS_EMPTY);
 
 				throw processException(exception);
 			}
@@ -2172,106 +2079,16 @@ public class TicketPersistenceImpl
 	 * Initializes the ticket persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-
-		_finderPathWithoutPaginationFindAll = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
-
-		_finderPathCountAll = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathFetchByKey = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByKey",
-			new String[] {String.class.getName()},
-			TicketModelImpl.KEY_COLUMN_BITMASK);
-
-		_finderPathCountByKey = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKey",
-			new String[] {String.class.getName()});
-
-		_finderPathWithPaginationFindByC_C_T = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_T",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByC_C_T = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_T",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			},
-			TicketModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			TicketModelImpl.CLASSPK_COLUMN_BITMASK |
-			TicketModelImpl.TYPE_COLUMN_BITMASK);
-
-		_finderPathCountByC_C_T = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_T",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName()
-			});
-
-		_finderPathWithPaginationFindByC_C_C_T = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C_C_T",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByC_C_C_T = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, TicketImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C_C_T",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Long.class.getName(), Integer.class.getName()
-			},
-			TicketModelImpl.COMPANYID_COLUMN_BITMASK |
-			TicketModelImpl.CLASSNAMEID_COLUMN_BITMASK |
-			TicketModelImpl.CLASSPK_COLUMN_BITMASK |
-			TicketModelImpl.TYPE_COLUMN_BITMASK);
-
-		_finderPathCountByC_C_C_T = new FinderPath(
-			TicketModelImpl.ENTITY_CACHE_ENABLED,
-			TicketModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_C_T",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Long.class.getName(), Integer.class.getName()
-			});
 	}
 
 	public void destroy() {
 		EntityCacheUtil.removeCache(TicketImpl.class.getName());
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	private static final String _SQL_SELECT_TICKET =
@@ -2299,5 +2116,145 @@ public class TicketPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"key", "type"});
+
+	private FinderPath _getFinderPath(String cacheName, String methodName) {
+		if (!TicketModelImpl.FINDER_CACHE_ENABLED) {
+			return null;
+		}
+
+		return _finderPathMap.computeIfAbsent(
+			StringBundler.concat(cacheName, "_", methodName),
+			key -> {
+				Class<?> returnClass = TicketImpl.class;
+
+				Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+					methodName);
+
+				if (methodName.startsWith("count")) {
+					returnClass = Long.class;
+
+					String methodNamePostfix = methodName.substring(5);
+
+					bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+						"find" + methodNamePostfix);
+
+					if (bitMaskArray == null) {
+						bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+							"fetch" + methodNamePostfix);
+					}
+				}
+
+				FinderPath finderPath = null;
+
+				if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
+					finderPath = new FinderPath(
+						TicketModelImpl.ENTITY_CACHE_ENABLED, true, returnClass,
+						cacheName, methodName, new String[0]);
+				}
+				else {
+					finderPath = new FinderPath(
+						TicketModelImpl.ENTITY_CACHE_ENABLED, true, returnClass,
+						cacheName, methodName, new String[0],
+						(long)bitMaskArray[0],
+						(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
+						(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
+				}
+
+				Registry registry = RegistryUtil.getRegistry();
+
+				_serviceRegistrations.add(
+					registry.registerService(
+						FinderPath.class, finderPath,
+						HashMapBuilder.<String, Object>put(
+							"cache.name", cacheName
+						).build()));
+
+				return finderPath;
+			});
+	}
+
+	private Map<String, FinderPath> _finderPathMap = new ConcurrentHashMap<>();
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+	private static final Map<String, Object[]> _COLUMN_BITMASK_ARRAY_MAP =
+		new HashMap<>();
+
+	static {
+		_COLUMN_BITMASK_ARRAY_MAP.put(
+			"fetchByKey",
+			new Object[] {
+				TicketModelImpl.KEY_COLUMN_BITMASK,
+				(Function<BaseModel<?>, Object[]>)baseModel -> {
+					TicketModelImpl ticketModelImpl =
+						(TicketModelImpl)baseModel;
+
+					return new Object[] {ticketModelImpl.getKey()};
+				},
+				(Function<BaseModel<?>, Object[]>)baseModel -> {
+					TicketModelImpl ticketModelImpl =
+						(TicketModelImpl)baseModel;
+
+					return new Object[] {ticketModelImpl.getOriginalKey()};
+				}
+			});
+
+		_COLUMN_BITMASK_ARRAY_MAP.put(
+			"findByC_C_T",
+			new Object[] {
+				TicketModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+				TicketModelImpl.CLASSPK_COLUMN_BITMASK |
+				TicketModelImpl.TYPE_COLUMN_BITMASK,
+				(Function<BaseModel<?>, Object[]>)baseModel -> {
+					TicketModelImpl ticketModelImpl =
+						(TicketModelImpl)baseModel;
+
+					return new Object[] {
+						ticketModelImpl.getClassNameId(),
+						ticketModelImpl.getClassPK(), ticketModelImpl.getType()
+					};
+				},
+				(Function<BaseModel<?>, Object[]>)baseModel -> {
+					TicketModelImpl ticketModelImpl =
+						(TicketModelImpl)baseModel;
+
+					return new Object[] {
+						ticketModelImpl.getOriginalClassNameId(),
+						ticketModelImpl.getOriginalClassPK(),
+						ticketModelImpl.getOriginalType()
+					};
+				}
+			});
+
+		_COLUMN_BITMASK_ARRAY_MAP.put(
+			"findByC_C_C_T",
+			new Object[] {
+				TicketModelImpl.COMPANYID_COLUMN_BITMASK |
+				TicketModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+				TicketModelImpl.CLASSPK_COLUMN_BITMASK |
+				TicketModelImpl.TYPE_COLUMN_BITMASK,
+				(Function<BaseModel<?>, Object[]>)baseModel -> {
+					TicketModelImpl ticketModelImpl =
+						(TicketModelImpl)baseModel;
+
+					return new Object[] {
+						ticketModelImpl.getCompanyId(),
+						ticketModelImpl.getClassNameId(),
+						ticketModelImpl.getClassPK(), ticketModelImpl.getType()
+					};
+				},
+				(Function<BaseModel<?>, Object[]>)baseModel -> {
+					TicketModelImpl ticketModelImpl =
+						(TicketModelImpl)baseModel;
+
+					return new Object[] {
+						ticketModelImpl.getOriginalCompanyId(),
+						ticketModelImpl.getOriginalClassNameId(),
+						ticketModelImpl.getOriginalClassPK(),
+						ticketModelImpl.getOriginalType()
+					};
+				}
+			});
+	}
 
 }
