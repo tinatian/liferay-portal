@@ -1992,6 +1992,54 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 				</#if>
 			</#if>
 		</#list>
+
+	_populateFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll");
+	_populateFinderPath(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll");
+	_populateFinderPath(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll");
+
+	<#if entity.isHierarchicalTree()>
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countAncestors");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countDescendants");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getAncestors");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "getDescendants");
+	</#if>
+
+	<#list entity.entityFinders as entityFinder>
+		<#assign entityColumns = entityFinder.entityColumns />
+
+		<#if entityFinder.isCollection()>
+			_populateFinderPath(
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findBy${entityFinder.name}");
+
+			<#if !entityFinder.hasCustomComparator()>
+				_populateFinderPath(
+					FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+					"findBy${entityFinder.name}");
+			</#if>
+		</#if>
+
+		<#if !entityFinder.isCollection() || entityFinder.isUnique()>
+			_populateFinderPath(
+				FINDER_CLASS_NAME_ENTITY, "fetchBy${entityFinder.name}");
+		</#if>
+
+		<#if !entityFinder.hasCustomComparator()>
+			_populateFinderPath(
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"countBy${entityFinder.name}");
+		</#if>
+
+		<#if entityFinder.hasArrayableOperator() || entityFinder.hasCustomComparator()>
+			_populateFinderPath(
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countBy${entityFinder.name}");
+		</#if>
+	</#list>
 	}
 
 	<#if dependencyInjectorDS>
@@ -2192,80 +2240,84 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			return null;
 		}
 
-		return _finderPathMap.computeIfAbsent(
-			StringBundler.concat(cacheName, "_", methodName),
-			key -> {
-				Class<?> returnClass = ${entity.name}Impl.class;
-
-				<#if columnBitmaskEnabled>
-					Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-						methodName);
-				</#if>
-
-				if (methodName.startsWith("count")) {
-					returnClass = Long.class;
-
-					<#if columnBitmaskEnabled>
-						String methodNamePostfix = methodName.substring(5);
-
-						bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-							"find" + methodNamePostfix);
-
-						if (bitMaskArray == null) {
-							bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-								"fetch" + methodNamePostfix);
-						}
-					</#if>
-				}
-
-				<#if columnBitmaskEnabled>
-					FinderPath finderPath = null;
-
-					if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
-						finderPath = new FinderPath(
-							${entityCacheEnabled},
-							true, returnClass, cacheName, methodName,
-							new String[0]);
-					}
-					else {
-						finderPath = new FinderPath(
-							${entityCacheEnabled},
-							true, returnClass, cacheName, methodName,
-							new String[0], (long)bitMaskArray[0],
-							(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
-							(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
-					}
-				<#else>
-					FinderPath finderPath = new FinderPath(
-						${entityCacheEnabled},
-						true, returnClass, cacheName, methodName,
-						new String[0]);
-				</#if>
-
-				if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-					<#if osgiModule>
-						_serviceRegistrations.add(
-							_bundleContext.registerService(
-								FinderPath.class, finderPath,
-								MapUtil.singletonDictionary(
-									"cache.name", cacheName)));
-					<#else>
-						Registry registry = RegistryUtil.getRegistry();
-
-						_serviceRegistrations.add(
-							registry.registerService(
-								FinderPath.class, finderPath,
-								HashMapBuilder.<String, Object>put(
-									"cache.name", cacheName
-								).build()));
-					</#if>
-				}
-
-				return finderPath;
-			});
+		return _finderPathMap.get(
+			StringBundler.concat(cacheName, "_", methodName));
 	}
 
-	private Map<String, FinderPath> _finderPathMap = new ConcurrentHashMap<>();
+	 private FinderPath _populateFinderPath(String cacheName, String methodName) {
+		Class<?> returnClass = ${entity.name}Impl.class;
+
+		<#if columnBitmaskEnabled>
+			Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+				methodName);
+		</#if>
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+
+			<#if columnBitmaskEnabled>
+				String methodNamePostfix = methodName.substring(5);
+
+				bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+					"find" + methodNamePostfix);
+
+				if (bitMaskArray == null) {
+					bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+						"fetch" + methodNamePostfix);
+				}
+			</#if>
+		}
+
+		<#if columnBitmaskEnabled>
+			FinderPath finderPath = null;
+
+			if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
+				finderPath = new FinderPath(
+					${entityCacheEnabled},
+					true, returnClass, cacheName, methodName,
+					new String[0]);
+			}
+			else {
+				finderPath = new FinderPath(
+					${entityCacheEnabled},
+					true, returnClass, cacheName, methodName,
+					new String[0], (long)bitMaskArray[0],
+					(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
+					(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
+			}
+		<#else>
+			FinderPath finderPath = new FinderPath(
+				${entityCacheEnabled},
+				true, returnClass, cacheName, methodName,
+				new String[0]);
+		</#if>
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			<#if osgiModule>
+				_serviceRegistrations.add(
+					_bundleContext.registerService(
+						FinderPath.class, finderPath,
+						MapUtil.singletonDictionary(
+							"cache.name", cacheName)));
+			<#else>
+				Registry registry = RegistryUtil.getRegistry();
+
+				_serviceRegistrations.add(
+					registry.registerService(
+						FinderPath.class, finderPath,
+						HashMapBuilder.<String, Object>put(
+							"cache.name", cacheName
+						).build()));
+			</#if>
+		}
+
+		_finderPathMap.put(
+			StringBundler.concat(cacheName, "_", methodName), finderPath);
+
+		return finderPath;
+	}
+
+	private Map<String, FinderPath> _finderPathMap = new HashMap<>();
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
 
