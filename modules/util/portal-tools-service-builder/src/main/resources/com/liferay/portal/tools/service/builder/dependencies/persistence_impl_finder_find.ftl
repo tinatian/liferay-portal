@@ -1648,8 +1648,12 @@ that may or may not be enforced with a unique index at the database level. Case
 
 		List<${entity.name}> list = null;
 
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBy${entityFinder.name}");
+
 		if (${useCache}) {
-			list = (List<${entity.name}>)${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBy${entityFinder.name}"), finderArgs, this);
+			list = (List<${entity.name}>)${finderCache}.getResult(finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (${entity.name} ${entity.varName} : list) {
@@ -1697,7 +1701,7 @@ that may or may not be enforced with a unique index at the database level. Case
 				cacheResult(list);
 
 				if (${useCache}) {
-					${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBy${entityFinder.name}"), finderArgs, list);
+					${finderCache}.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
@@ -1996,8 +2000,12 @@ that may or may not be enforced with a unique index at the database level. Case
 
 		List<${entity.name}> list = null;
 
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBy${entityFinder.name}");
+
 		if (${useCache}) {
-			list = (List<${entity.name}>)${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBy${entityFinder.name}"), finderArgs, this);
+			list = (List<${entity.name}>)${finderCache}.getResult(finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (${entity.name} ${entity.varName} : list) {
@@ -2078,7 +2086,7 @@ that may or may not be enforced with a unique index at the database level. Case
 				cacheResult(list);
 
 				if (${useCache}) {
-					${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBy${entityFinder.name}"), finderArgs, list);
+					${finderCache}.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
@@ -2275,8 +2283,11 @@ that may or may not be enforced with a unique index at the database level. Case
 
 		Object result = null;
 
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchBy${entityFinder.name}");
+
 		if (${useCache}) {
-			result = ${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchBy${entityFinder.name}"), finderArgs, this);
+			result = ${finderCache}.getResult(finderPath, finderArgs, this);
 		}
 
 		if (result instanceof ${entity.name}) {
@@ -2327,7 +2338,7 @@ that may or may not be enforced with a unique index at the database level. Case
 
 				if (list.isEmpty()) {
 					if (${useCache}) {
-						${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchBy${entityFinder.name}"), finderArgs, list);
+						${finderCache}.putResult(finderPath, finderArgs, list);
 					}
 				}
 				else {

@@ -186,6 +186,10 @@ public int countBy${entityFinder.name}(
 			</#if>
 		</#list>
 
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countBy${entityFinder.name}");
+
 		<#if entity.isChangeTrackingEnabled()>
 			boolean productionMode = ${ctPersistenceHelper}.isProductionMode(${entity.name}.class);
 
@@ -210,7 +214,7 @@ public int countBy${entityFinder.name}(
 					</#list>
 				};
 
-				count = (Long)${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, this);
+				count = (Long)${finderCache}.getResult(finderPath, finderArgs, this);
 			}
 		<#else>
 			Object[] finderArgs = new Object[] {
@@ -229,7 +233,7 @@ public int countBy${entityFinder.name}(
 				</#list>
 			};
 
-			Long count = (Long)${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, this);
+			Long count = (Long)${finderCache}.getResult(finderPath, finderArgs, this);
 		</#if>
 
 		if (count == null) {
@@ -254,10 +258,10 @@ public int countBy${entityFinder.name}(
 
 				<#if entity.isChangeTrackingEnabled()>
 					if (productionMode) {
-						${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, count);
+						${finderCache}.putResult(finderPath, finderArgs, count);
 					}
 				<#else>
-					${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, count);
+					${finderCache}.putResult(finderPath, finderArgs, count);
 				</#if>
 			}
 			catch (Exception exception) {
@@ -335,6 +339,10 @@ public int countBy${entityFinder.name}(
 			</#if>
 		</#list>
 
+		FinderPath finderPath = _getFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countBy${entityFinder.name}");
+
 		<#if entity.isChangeTrackingEnabled()>
 			boolean productionMode = ${ctPersistenceHelper}.isProductionMode(${entity.name}.class);
 
@@ -357,7 +365,7 @@ public int countBy${entityFinder.name}(
 					</#list>
 				};
 
-				count = (Long)${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, this);
+				count = (Long)${finderCache}.getResult(finderPath, finderArgs, this);
 			}
 		<#else>
 			Object[] finderArgs = new Object[] {
@@ -374,7 +382,7 @@ public int countBy${entityFinder.name}(
 				</#list>
 			};
 
-			Long count = (Long)${finderCache}.getResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, this);
+			Long count = (Long)${finderCache}.getResult(finderPath, finderArgs, this);
 		</#if>
 
 		if (count == null) {
@@ -432,10 +440,10 @@ public int countBy${entityFinder.name}(
 
 					<#if entity.isChangeTrackingEnabled()>
 						if (productionMode) {
-							${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, count);
+							${finderCache}.putResult(finderPath, finderArgs, count);
 						}
 					<#else>
-						${finderCache}.putResult(_getFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBy${entityFinder.name}"), finderArgs, count);
+						${finderCache}.putResult(finderPath, finderArgs, count);
 					</#if>
 			}
 			catch (Exception exception) {
