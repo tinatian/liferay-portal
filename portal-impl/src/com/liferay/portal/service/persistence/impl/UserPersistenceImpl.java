@@ -10939,6 +10939,149 @@ public class UserPersistenceImpl
 		userToUserGroupTableMapper = TableMapperFactory.getTableMapper(
 			"Users_UserGroups", "companyId", "userId", "userGroupId", this,
 			userGroupPersistence);
+
+		_populateFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByContactId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByContactId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEmailAddress");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEmailAddress");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmailAddress");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByPortraitId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPortraitId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByU_C");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_U");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_U");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_CD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_CD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_CD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_MD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_MD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_MD");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_DU");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_DU");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_SN");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_SN");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_EA");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_EA");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_FID");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_FID");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_GUID");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_GUID");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_O");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_O");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_CD_MD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_CD_MD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_CD_MD");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_DU_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_DU_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_DU_S");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByC_ERC");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC");
 	}
 
 	public void destroy() {
@@ -11025,60 +11168,64 @@ public class UserPersistenceImpl
 			return null;
 		}
 
-		return _finderPathMap.computeIfAbsent(
-			StringBundler.concat(cacheName, "_", methodName),
-			key -> {
-				Class<?> returnClass = UserImpl.class;
-
-				Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-					methodName);
-
-				if (methodName.startsWith("count")) {
-					returnClass = Long.class;
-
-					String methodNamePostfix = methodName.substring(5);
-
-					bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-						"find" + methodNamePostfix);
-
-					if (bitMaskArray == null) {
-						bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-							"fetch" + methodNamePostfix);
-					}
-				}
-
-				FinderPath finderPath = null;
-
-				if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
-					finderPath = new FinderPath(
-						UserModelImpl.ENTITY_CACHE_ENABLED, true, returnClass,
-						cacheName, methodName, new String[0]);
-				}
-				else {
-					finderPath = new FinderPath(
-						UserModelImpl.ENTITY_CACHE_ENABLED, true, returnClass,
-						cacheName, methodName, new String[0],
-						(long)bitMaskArray[0],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
-				}
-
-				if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-					Registry registry = RegistryUtil.getRegistry();
-
-					_serviceRegistrations.add(
-						registry.registerService(
-							FinderPath.class, finderPath,
-							HashMapBuilder.<String, Object>put(
-								"cache.name", cacheName
-							).build()));
-				}
-
-				return finderPath;
-			});
+		return _finderPathMap.get(
+			StringBundler.concat(cacheName, "_", methodName));
 	}
 
-	private Map<String, FinderPath> _finderPathMap = new ConcurrentHashMap<>();
+	private FinderPath _populateFinderPath(
+		String cacheName, String methodName) {
+
+		Class<?> returnClass = UserImpl.class;
+
+		Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(methodName);
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+
+			String methodNamePostfix = methodName.substring(5);
+
+			bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+				"find" + methodNamePostfix);
+
+			if (bitMaskArray == null) {
+				bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+					"fetch" + methodNamePostfix);
+			}
+		}
+
+		FinderPath finderPath = null;
+
+		if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
+			finderPath = new FinderPath(
+				UserModelImpl.ENTITY_CACHE_ENABLED, true, returnClass,
+				cacheName, methodName, new String[0]);
+		}
+		else {
+			finderPath = new FinderPath(
+				UserModelImpl.ENTITY_CACHE_ENABLED, true, returnClass,
+				cacheName, methodName, new String[0], (long)bitMaskArray[0],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
+		}
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			Registry registry = RegistryUtil.getRegistry();
+
+			_serviceRegistrations.add(
+				registry.registerService(
+					FinderPath.class, finderPath,
+					HashMapBuilder.<String, Object>put(
+						"cache.name", cacheName
+					).build()));
+		}
+
+		_finderPathMap.put(
+			StringBundler.concat(cacheName, "_", methodName), finderPath);
+
+		return finderPath;
+	}
+
+	private Map<String, FinderPath> _finderPathMap = new HashMap<>();
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
 

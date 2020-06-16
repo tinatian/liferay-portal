@@ -35102,6 +35102,365 @@ public class JournalArticlePersistenceImpl
 			JournalArticlePersistenceImpl.class);
 
 		_bundleContext = bundle.getBundleContext();
+
+		_populateFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByResourcePrimKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByResourcePrimKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByResourcePrimKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDDMStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDDMStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByDDMStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByDDMStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDDMTemplateKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDDMTemplateKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDDMTemplateKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLayoutUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLayoutUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLayoutUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySmallImageId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySmallImageId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySmallImageId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_I");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_I");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_I");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByR_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_A");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_A");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_UT");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_UT");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_UT");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_DDMSK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_DDMSK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_DDMSK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_L");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_L");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_L");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_NotL");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_NotL");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_V");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_V");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_V");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_NotST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_NotST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLtD_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLtD_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByR_I_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByR_I_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_I_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByR_I_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_U_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_U_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_U_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_F_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_F_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_C");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByG_C_DDMSK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_DDMSK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_DDMTK");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_L");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_L");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_L");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByG_A_V");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A_V");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_A_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_A_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_A_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_A_NotST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_A_NotST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_UT_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_UT_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_UT_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_V_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_V_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_V_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_ED_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_ED_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ED_ST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_F_C_NotST");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_F_C_NotST");
 	}
 
 	@Deactivate
@@ -35230,56 +35589,60 @@ public class JournalArticlePersistenceImpl
 			return null;
 		}
 
-		return _finderPathMap.computeIfAbsent(
-			StringBundler.concat(cacheName, "_", methodName),
-			key -> {
-				Class<?> returnClass = JournalArticleImpl.class;
-
-				Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-					methodName);
-
-				if (methodName.startsWith("count")) {
-					returnClass = Long.class;
-
-					String methodNamePostfix = methodName.substring(5);
-
-					bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-						"find" + methodNamePostfix);
-
-					if (bitMaskArray == null) {
-						bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-							"fetch" + methodNamePostfix);
-					}
-				}
-
-				FinderPath finderPath = null;
-
-				if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
-					finderPath = new FinderPath(
-						entityCacheEnabled, true, returnClass, cacheName,
-						methodName, new String[0]);
-				}
-				else {
-					finderPath = new FinderPath(
-						entityCacheEnabled, true, returnClass, cacheName,
-						methodName, new String[0], (long)bitMaskArray[0],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
-				}
-
-				if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-					_serviceRegistrations.add(
-						_bundleContext.registerService(
-							FinderPath.class, finderPath,
-							MapUtil.singletonDictionary(
-								"cache.name", cacheName)));
-				}
-
-				return finderPath;
-			});
+		return _finderPathMap.get(
+			StringBundler.concat(cacheName, "_", methodName));
 	}
 
-	private Map<String, FinderPath> _finderPathMap = new ConcurrentHashMap<>();
+	private FinderPath _populateFinderPath(
+		String cacheName, String methodName) {
+
+		Class<?> returnClass = JournalArticleImpl.class;
+
+		Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(methodName);
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+
+			String methodNamePostfix = methodName.substring(5);
+
+			bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+				"find" + methodNamePostfix);
+
+			if (bitMaskArray == null) {
+				bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+					"fetch" + methodNamePostfix);
+			}
+		}
+
+		FinderPath finderPath = null;
+
+		if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
+			finderPath = new FinderPath(
+				entityCacheEnabled, true, returnClass, cacheName, methodName,
+				new String[0]);
+		}
+		else {
+			finderPath = new FinderPath(
+				entityCacheEnabled, true, returnClass, cacheName, methodName,
+				new String[0], (long)bitMaskArray[0],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
+		}
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		_finderPathMap.put(
+			StringBundler.concat(cacheName, "_", methodName), finderPath);
+
+		return finderPath;
+	}
+
+	private Map<String, FinderPath> _finderPathMap = new HashMap<>();
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
 

@@ -6605,6 +6605,94 @@ public class PortletPreferencesPersistenceImpl
 	 * Initializes the portlet preferences persistence.
 	 */
 	public void afterPropertiesSet() {
+		_populateFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOwnerId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOwnerId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOwnerId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPortletId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPortletId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPortletId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByP_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByP_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByP_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_O_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_O_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_O_PI");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_O_PI");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O_PI");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByO_P_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByO_P_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_P_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_O_O_LikeP");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByC_O_O_LikeP");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByO_O_P_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByO_O_P_P");
 	}
 
 	public void destroy() {
@@ -6645,60 +6733,65 @@ public class PortletPreferencesPersistenceImpl
 			return null;
 		}
 
-		return _finderPathMap.computeIfAbsent(
-			StringBundler.concat(cacheName, "_", methodName),
-			key -> {
-				Class<?> returnClass = PortletPreferencesImpl.class;
-
-				Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-					methodName);
-
-				if (methodName.startsWith("count")) {
-					returnClass = Long.class;
-
-					String methodNamePostfix = methodName.substring(5);
-
-					bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-						"find" + methodNamePostfix);
-
-					if (bitMaskArray == null) {
-						bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-							"fetch" + methodNamePostfix);
-					}
-				}
-
-				FinderPath finderPath = null;
-
-				if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
-					finderPath = new FinderPath(
-						PortletPreferencesModelImpl.ENTITY_CACHE_ENABLED, true,
-						returnClass, cacheName, methodName, new String[0]);
-				}
-				else {
-					finderPath = new FinderPath(
-						PortletPreferencesModelImpl.ENTITY_CACHE_ENABLED, true,
-						returnClass, cacheName, methodName, new String[0],
-						(long)bitMaskArray[0],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
-				}
-
-				if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-					Registry registry = RegistryUtil.getRegistry();
-
-					_serviceRegistrations.add(
-						registry.registerService(
-							FinderPath.class, finderPath,
-							HashMapBuilder.<String, Object>put(
-								"cache.name", cacheName
-							).build()));
-				}
-
-				return finderPath;
-			});
+		return _finderPathMap.get(
+			StringBundler.concat(cacheName, "_", methodName));
 	}
 
-	private Map<String, FinderPath> _finderPathMap = new ConcurrentHashMap<>();
+	private FinderPath _populateFinderPath(
+		String cacheName, String methodName) {
+
+		Class<?> returnClass = PortletPreferencesImpl.class;
+
+		Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(methodName);
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+
+			String methodNamePostfix = methodName.substring(5);
+
+			bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+				"find" + methodNamePostfix);
+
+			if (bitMaskArray == null) {
+				bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+					"fetch" + methodNamePostfix);
+			}
+		}
+
+		FinderPath finderPath = null;
+
+		if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
+			finderPath = new FinderPath(
+				PortletPreferencesModelImpl.ENTITY_CACHE_ENABLED, true,
+				returnClass, cacheName, methodName, new String[0]);
+		}
+		else {
+			finderPath = new FinderPath(
+				PortletPreferencesModelImpl.ENTITY_CACHE_ENABLED, true,
+				returnClass, cacheName, methodName, new String[0],
+				(long)bitMaskArray[0],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
+		}
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			Registry registry = RegistryUtil.getRegistry();
+
+			_serviceRegistrations.add(
+				registry.registerService(
+					FinderPath.class, finderPath,
+					HashMapBuilder.<String, Object>put(
+						"cache.name", cacheName
+					).build()));
+		}
+
+		_finderPathMap.put(
+			StringBundler.concat(cacheName, "_", methodName), finderPath);
+
+		return finderPath;
+	}
+
+	private Map<String, FinderPath> _finderPathMap = new HashMap<>();
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
 

@@ -11796,6 +11796,132 @@ public class DDMStructurePersistenceImpl
 			DDMStructurePersistenceImpl.class);
 
 		_bundleContext = bundle.getBundleContext();
+
+		_populateFinderPath(FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll");
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByGroupId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByParentStructureId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByParentStructureId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByParentStructureId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByClassNameId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByClassNameId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByClassNameId");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStructureKey");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C");
+
+		_populateFinderPath(FINDER_CLASS_NAME_ENTITY, "fetchByG_C_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_S");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_N_D");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_N_D");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N_D");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_N_D");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_N_D");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_N_D");
+
+		_populateFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_C_N_D");
 	}
 
 	@Deactivate
@@ -11916,56 +12042,60 @@ public class DDMStructurePersistenceImpl
 			return null;
 		}
 
-		return _finderPathMap.computeIfAbsent(
-			StringBundler.concat(cacheName, "_", methodName),
-			key -> {
-				Class<?> returnClass = DDMStructureImpl.class;
-
-				Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-					methodName);
-
-				if (methodName.startsWith("count")) {
-					returnClass = Long.class;
-
-					String methodNamePostfix = methodName.substring(5);
-
-					bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-						"find" + methodNamePostfix);
-
-					if (bitMaskArray == null) {
-						bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
-							"fetch" + methodNamePostfix);
-					}
-				}
-
-				FinderPath finderPath = null;
-
-				if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
-					finderPath = new FinderPath(
-						entityCacheEnabled, true, returnClass, cacheName,
-						methodName, new String[0]);
-				}
-				else {
-					finderPath = new FinderPath(
-						entityCacheEnabled, true, returnClass, cacheName,
-						methodName, new String[0], (long)bitMaskArray[0],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
-						(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
-				}
-
-				if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
-					_serviceRegistrations.add(
-						_bundleContext.registerService(
-							FinderPath.class, finderPath,
-							MapUtil.singletonDictionary(
-								"cache.name", cacheName)));
-				}
-
-				return finderPath;
-			});
+		return _finderPathMap.get(
+			StringBundler.concat(cacheName, "_", methodName));
 	}
 
-	private Map<String, FinderPath> _finderPathMap = new ConcurrentHashMap<>();
+	private FinderPath _populateFinderPath(
+		String cacheName, String methodName) {
+
+		Class<?> returnClass = DDMStructureImpl.class;
+
+		Object[] bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(methodName);
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+
+			String methodNamePostfix = methodName.substring(5);
+
+			bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+				"find" + methodNamePostfix);
+
+			if (bitMaskArray == null) {
+				bitMaskArray = _COLUMN_BITMASK_ARRAY_MAP.get(
+					"fetch" + methodNamePostfix);
+			}
+		}
+
+		FinderPath finderPath = null;
+
+		if ((bitMaskArray == null) || (bitMaskArray.length != 3)) {
+			finderPath = new FinderPath(
+				entityCacheEnabled, true, returnClass, cacheName, methodName,
+				new String[0]);
+		}
+		else {
+			finderPath = new FinderPath(
+				entityCacheEnabled, true, returnClass, cacheName, methodName,
+				new String[0], (long)bitMaskArray[0],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[1],
+				(Function<BaseModel<?>, Object[]>)bitMaskArray[2]);
+		}
+
+		if (!cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			_serviceRegistrations.add(
+				_bundleContext.registerService(
+					FinderPath.class, finderPath,
+					MapUtil.singletonDictionary("cache.name", cacheName)));
+		}
+
+		_finderPathMap.put(
+			StringBundler.concat(cacheName, "_", methodName), finderPath);
+
+		return finderPath;
+	}
+
+	private Map<String, FinderPath> _finderPathMap = new HashMap<>();
 	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
 		Collections.newSetFromMap(new ConcurrentHashMap<>());
 
