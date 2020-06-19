@@ -284,12 +284,6 @@ public class FinderCacheImpl
 		Class<?> clazz, BaseModel<?> baseModel, boolean columnBitmaskEnabled,
 		long columnBitmask) {
 
-		if (baseModel == null) {
-			clearCacheByEntity(clazz);
-
-			return;
-		}
-
 		String cacheName = clazz.getName();
 
 		clearCache(_getCacheNameWithPagination(cacheName));

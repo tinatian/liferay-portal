@@ -441,7 +441,9 @@ public class EntityCacheImpl
 			localCache.remove(localCacheKey);
 		}
 
-		if ((bitmaskArguments != null) && (bitmaskArguments.length == 2)) {
+		if ((result != null) && (bitmaskArguments != null) &&
+			(bitmaskArguments.length == 2)) {
+
 			FinderCacheImpl finderCacheImpl = _finderCacheImpl;
 
 			if (finderCacheImpl != null) {
