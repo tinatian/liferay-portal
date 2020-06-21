@@ -33,11 +33,13 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -50,13 +52,17 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -3206,25 +3212,28 @@ public class MBBanPersistenceImpl
 	 */
 	@Override
 	public void clearCache(MBBan mbBan) {
+		if (!_columnBitmaskEnabled) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		}
+
 		entityCache.removeResult(
-			entityCacheEnabled, MBBanImpl.class, mbBan.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((MBBanModelImpl)mbBan, true);
+			entityCacheEnabled, MBBanImpl.class, mbBan, _columnBitmaskEnabled);
 	}
 
 	@Override
 	public void clearCache(List<MBBan> mbBans) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (!_columnBitmaskEnabled) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		}
 
 		for (MBBan mbBan : mbBans) {
 			entityCache.removeResult(
-				entityCacheEnabled, MBBanImpl.class, mbBan.getPrimaryKey());
-
-			clearUniqueFindersCache((MBBanModelImpl)mbBan, true);
+				entityCacheEnabled, MBBanImpl.class, mbBan,
+				_columnBitmaskEnabled);
 		}
 	}
 
@@ -3258,52 +3267,6 @@ public class MBBanPersistenceImpl
 			_finderPathCountByG_B, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByG_B, args, mbBanModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		MBBanModelImpl mbBanModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mbBanModelImpl.getUuid(), mbBanModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((mbBanModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mbBanModelImpl.getOriginalUuid(),
-				mbBanModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				mbBanModelImpl.getGroupId(), mbBanModelImpl.getBanUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_B, args);
-			finderCache.removeResult(_finderPathFetchByG_B, args);
-		}
-
-		if ((mbBanModelImpl.getColumnBitmask() &
-			 _finderPathFetchByG_B.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				mbBanModelImpl.getOriginalGroupId(),
-				mbBanModelImpl.getOriginalBanUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_B, args);
-			finderCache.removeResult(_finderPathFetchByG_B, args);
-		}
 	}
 
 	/**
@@ -3480,151 +3443,16 @@ public class MBBanPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
 		if (!_columnBitmaskEnabled) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {mbBanModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				mbBanModelImpl.getUuid(), mbBanModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {mbBanModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {mbBanModelImpl.getUserId()};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			args = new Object[] {mbBanModelImpl.getBanUserId()};
-
-			finderCache.removeResult(_finderPathCountByBanUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBanUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {mbBanModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {mbBanModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalUuid(),
-					mbBanModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					mbBanModelImpl.getUuid(), mbBanModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {mbBanModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {mbBanModelImpl.getUserId()};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-
-			if ((mbBanModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBanUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					mbBanModelImpl.getOriginalBanUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByBanUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBanUserId, args);
-
-				args = new Object[] {mbBanModelImpl.getBanUserId()};
-
-				finderCache.removeResult(_finderPathCountByBanUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBanUserId, args);
-			}
+			finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
 		}
 
 		entityCache.putResult(
-			entityCacheEnabled, MBBanImpl.class, mbBan.getPrimaryKey(), mbBan,
-			false);
+			entityCacheEnabled, MBBanImpl.class, mbBan, false,
+			_columnBitmaskEnabled);
 
-		clearUniqueFindersCache(mbBanModelImpl, false);
 		cacheUniqueFindersCache(mbBanModelImpl);
 
 		mbBan.resetOriginalValues();
@@ -3888,26 +3716,53 @@ public class MBBanPersistenceImpl
 	 * Initializes the message boards ban persistence.
 	 */
 	@Activate
-	public void activate() {
+	public void activate(BundleContext bundleContext) {
 		MBBanModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		MBBanModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			finderCacheEnabled, MBBanImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			(baseModel, checkColumns) -> {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			},
+			null);
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindAll,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0],
+			(baseModel, checkColumns) -> {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			},
+			null);
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountAll,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -3915,30 +3770,59 @@ public class MBBanPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			MBBanModelImpl.UUID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByUuid,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUuid,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			finderCacheEnabled, MBBanImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			MBBanModelImpl.UUID_COLUMN_BITMASK |
-			MBBanModelImpl.GROUPID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathFetchByUUID_G,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_ENTITY)));
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUUID_G,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -3947,19 +3831,33 @@ public class MBBanPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			MBBanModelImpl.UUID_COLUMN_BITMASK |
-			MBBanModelImpl.COMPANYID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByUuid_C,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUuid_C,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3967,18 +3865,33 @@ public class MBBanPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
-			MBBanModelImpl.GROUPID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("GroupId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("GroupId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByGroupId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByGroupId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("GroupId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("GroupId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByGroupId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -3986,18 +3899,33 @@ public class MBBanPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
 			new String[] {Long.class.getName()},
-			MBBanModelImpl.USERID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("UserId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("UserId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByUserId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("UserId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("UserId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUserId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByBanUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBanUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -4005,35 +3933,67 @@ public class MBBanPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByBanUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
+			finderCacheEnabled, MBBanImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByBanUserId",
 			new String[] {Long.class.getName()},
-			MBBanModelImpl.BANUSERID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("BanUserId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("BanUserId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByBanUserId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByBanUserId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByBanUserId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("BanUserId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("BanUserId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByBanUserId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathFetchByG_B = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, MBBanImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByG_B",
+			finderCacheEnabled, MBBanImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByG_B",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			MBBanModelImpl.GROUPID_COLUMN_BITMASK |
-			MBBanModelImpl.BANUSERID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("G_B"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("G_B"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathFetchByG_B,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_ENTITY)));
 
 		_finderPathCountByG_B = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_B",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {Long.class.getName(), Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("G_B"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("G_B"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByG_B,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(MBBanImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -4109,6 +4069,277 @@ public class MBBanPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static final Map<String, Long> _FINDER_PATH_BITMASK_MAP =
+		new HashMap<>();
+
+	static {
+		_FINDER_PATH_BITMASK_MAP.put(
+			"Uuid", MBBanModelImpl.UUID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"UUID_G",
+			MBBanModelImpl.UUID_COLUMN_BITMASK |
+			MBBanModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"Uuid_C",
+			MBBanModelImpl.UUID_COLUMN_BITMASK |
+			MBBanModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"GroupId", MBBanModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"UserId", MBBanModelImpl.USERID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"BanUserId", MBBanModelImpl.BANUSERID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"G_B",
+			MBBanModelImpl.GROUPID_COLUMN_BITMASK |
+			MBBanModelImpl.BANUSERID_COLUMN_BITMASK);
+	}
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	static {
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getUuid()};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getOriginalUuid()};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UUID_G",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UUID_G")) != 0)) {
+
+					return new Object[] {
+						mbBanModelImpl.getUuid(), mbBanModelImpl.getGroupId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UUID_G",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UUID_G")) != 0)) {
+
+					return new Object[] {
+						mbBanModelImpl.getOriginalUuid(),
+						mbBanModelImpl.getOriginalGroupId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid_C",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid_C")) != 0)) {
+
+					return new Object[] {
+						mbBanModelImpl.getUuid(), mbBanModelImpl.getCompanyId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid_C",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid_C")) != 0)) {
+
+					return new Object[] {
+						mbBanModelImpl.getOriginalUuid(),
+						mbBanModelImpl.getOriginalCompanyId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"GroupId",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("GroupId")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getGroupId()};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"GroupId",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("GroupId")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getOriginalGroupId()};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UserId",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UserId")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getUserId()};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UserId",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UserId")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getOriginalUserId()};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"BanUserId",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("BanUserId")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getBanUserId()};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"BanUserId",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("BanUserId")) != 0)) {
+
+					return new Object[] {mbBanModelImpl.getOriginalBanUserId()};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"G_B",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("G_B")) != 0)) {
+
+					return new Object[] {
+						mbBanModelImpl.getGroupId(),
+						mbBanModelImpl.getBanUserId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"G_B",
+			(baseModel, checkColumns) -> {
+				MBBanModelImpl mbBanModelImpl = (MBBanModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((mbBanModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("G_B")) != 0)) {
+
+					return new Object[] {
+						mbBanModelImpl.getOriginalGroupId(),
+						mbBanModelImpl.getOriginalBanUserId()
+					};
+				}
+
+				return null;
+			});
 	}
 
 }

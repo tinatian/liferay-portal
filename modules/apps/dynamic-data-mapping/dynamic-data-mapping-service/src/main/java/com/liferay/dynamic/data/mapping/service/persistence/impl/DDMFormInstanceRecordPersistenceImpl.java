@@ -34,12 +34,14 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -61,9 +63,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -3838,31 +3843,31 @@ public class DDMFormInstanceRecordPersistenceImpl
 	 */
 	@Override
 	public void clearCache(DDMFormInstanceRecord ddmFormInstanceRecord) {
+		if (!_columnBitmaskEnabled) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		}
+
 		entityCache.removeResult(
 			entityCacheEnabled, DDMFormInstanceRecordImpl.class,
-			ddmFormInstanceRecord.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(DDMFormInstanceRecordModelImpl)ddmFormInstanceRecord, true);
+			ddmFormInstanceRecord, _columnBitmaskEnabled);
 	}
 
 	@Override
 	public void clearCache(List<DDMFormInstanceRecord> ddmFormInstanceRecords) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (!_columnBitmaskEnabled) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		}
 
 		for (DDMFormInstanceRecord ddmFormInstanceRecord :
 				ddmFormInstanceRecords) {
 
 			entityCache.removeResult(
 				entityCacheEnabled, DDMFormInstanceRecordImpl.class,
-				ddmFormInstanceRecord.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(DDMFormInstanceRecordModelImpl)ddmFormInstanceRecord, true);
+				ddmFormInstanceRecord, _columnBitmaskEnabled);
 		}
 	}
 
@@ -3892,33 +3897,6 @@ public class DDMFormInstanceRecordPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, ddmFormInstanceRecordModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getUuid(),
-				ddmFormInstanceRecordModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getOriginalUuid(),
-				ddmFormInstanceRecordModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
 	}
 
 	/**
@@ -4135,206 +4113,16 @@ public class DDMFormInstanceRecordPersistenceImpl
 			return ddmFormInstanceRecord;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
 		if (!_columnBitmaskEnabled) {
+			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getUuid(),
-				ddmFormInstanceRecordModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {ddmFormInstanceRecordModelImpl.getCompanyId()};
-
-			finderCache.removeResult(_finderPathCountByCompanyId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCompanyId, args);
-
-			args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getFormInstanceId()
-			};
-
-			finderCache.removeResult(_finderPathCountByFormInstanceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByFormInstanceId, args);
-
-			args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getUserId(),
-				ddmFormInstanceRecordModelImpl.getFormInstanceId()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_F, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByU_F, args);
-
-			args = new Object[] {
-				ddmFormInstanceRecordModelImpl.getFormInstanceId(),
-				ddmFormInstanceRecordModelImpl.getFormInstanceVersion()
-			};
-
-			finderCache.removeResult(_finderPathCountByF_F, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByF_F, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {ddmFormInstanceRecordModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalUuid(),
-					ddmFormInstanceRecordModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getUuid(),
-					ddmFormInstanceRecordModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCompanyId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-
-				args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByCompanyId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCompanyId, args);
-			}
-
-			if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFormInstanceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalFormInstanceId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByFormInstanceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFormInstanceId, args);
-
-				args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getFormInstanceId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByFormInstanceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFormInstanceId, args);
-			}
-
-			if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByU_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalUserId(),
-					ddmFormInstanceRecordModelImpl.getOriginalFormInstanceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_F, args);
-
-				args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getUserId(),
-					ddmFormInstanceRecordModelImpl.getFormInstanceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByU_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByU_F, args);
-			}
-
-			if ((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByF_F.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getOriginalFormInstanceId(),
-					ddmFormInstanceRecordModelImpl.
-						getOriginalFormInstanceVersion()
-				};
-
-				finderCache.removeResult(_finderPathCountByF_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByF_F, args);
-
-				args = new Object[] {
-					ddmFormInstanceRecordModelImpl.getFormInstanceId(),
-					ddmFormInstanceRecordModelImpl.getFormInstanceVersion()
-				};
-
-				finderCache.removeResult(_finderPathCountByF_F, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByF_F, args);
-			}
+			finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
 		}
 
 		entityCache.putResult(
 			entityCacheEnabled, DDMFormInstanceRecordImpl.class,
-			ddmFormInstanceRecord.getPrimaryKey(), ddmFormInstanceRecord,
-			false);
+			ddmFormInstanceRecord, false, _columnBitmaskEnabled);
 
-		clearUniqueFindersCache(ddmFormInstanceRecordModelImpl, false);
 		cacheUniqueFindersCache(ddmFormInstanceRecordModelImpl);
 
 		ddmFormInstanceRecord.resetOriginalValues();
@@ -4795,31 +4583,55 @@ public class DDMFormInstanceRecordPersistenceImpl
 	 * Initializes the ddm form instance record persistence.
 	 */
 	@Activate
-	public void activate() {
+	public void activate(BundleContext bundleContext) {
 		DDMFormInstanceRecordModelImpl.setEntityCacheEnabled(
 			entityCacheEnabled);
 		DDMFormInstanceRecordModelImpl.setFinderCacheEnabled(
 			finderCacheEnabled);
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			(baseModel, checkColumns) -> {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			},
+			null);
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindAll,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0],
+			(baseModel, checkColumns) -> {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			},
+			null);
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountAll,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
@@ -4827,33 +4639,59 @@ public class DDMFormInstanceRecordPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
-			DDMFormInstanceRecordModelImpl.UUID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByUuid,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUuid,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DDMFormInstanceRecordModelImpl.UUID_COLUMN_BITMASK |
-			DDMFormInstanceRecordModelImpl.GROUPID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathFetchByUUID_G,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_ENTITY)));
 
 		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("UUID_G"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUUID_G,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
@@ -4862,21 +4700,33 @@ public class DDMFormInstanceRecordPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DDMFormInstanceRecordModelImpl.UUID_COLUMN_BITMASK |
-			DDMFormInstanceRecordModelImpl.COMPANYID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByUuid_C,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByUuid_C = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("Uuid_C"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByUuid_C,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -4884,20 +4734,33 @@ public class DDMFormInstanceRecordPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
 			new String[] {Long.class.getName()},
-			DDMFormInstanceRecordModelImpl.COMPANYID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("CompanyId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("CompanyId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByCompanyId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByCompanyId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("CompanyId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("CompanyId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByCompanyId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByFormInstanceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFormInstanceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
@@ -4905,20 +4768,34 @@ public class DDMFormInstanceRecordPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByFormInstanceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFormInstanceId",
 			new String[] {Long.class.getName()},
-			DDMFormInstanceRecordModelImpl.FORMINSTANCEID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("FormInstanceId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("FormInstanceId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class,
+				_finderPathWithoutPaginationFindByFormInstanceId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByFormInstanceId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFormInstanceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("FormInstanceId"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("FormInstanceId"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByFormInstanceId,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByU_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByU_F",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -4927,21 +4804,33 @@ public class DDMFormInstanceRecordPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByU_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByU_F",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			DDMFormInstanceRecordModelImpl.USERID_COLUMN_BITMASK |
-			DDMFormInstanceRecordModelImpl.FORMINSTANCEID_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("U_F"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("U_F"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByU_F,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByU_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_F",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {Long.class.getName(), Long.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("U_F"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("U_F"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByU_F,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathWithPaginationFindByF_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByF_F",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
@@ -4950,25 +4839,41 @@ public class DDMFormInstanceRecordPersistenceImpl
 			});
 
 		_finderPathWithoutPaginationFindByF_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled,
-			DDMFormInstanceRecordImpl.class,
+			finderCacheEnabled, DDMFormInstanceRecordImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByF_F",
 			new String[] {Long.class.getName(), String.class.getName()},
-			DDMFormInstanceRecordModelImpl.FORMINSTANCEID_COLUMN_BITMASK |
-			DDMFormInstanceRecordModelImpl.FORMINSTANCEVERSION_COLUMN_BITMASK);
+			_ARGUMENTS_BIFUNCTION_MAP.get("F_F"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("F_F"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathWithoutPaginationFindByF_F,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 
 		_finderPathCountByF_F = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
+			finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByF_F",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {Long.class.getName(), String.class.getName()},
+			_ARGUMENTS_BIFUNCTION_MAP.get("F_F"),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get("F_F"));
+
+		_serviceRegistrations.add(
+			bundleContext.registerService(
+				FinderPath.class, _finderPathCountByF_F,
+				MapUtil.singletonDictionary(
+					"cache.name", FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION)));
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(DDMFormInstanceRecordImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -5048,6 +4953,319 @@ public class DDMFormInstanceRecordPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static final Map<String, Long> _FINDER_PATH_BITMASK_MAP =
+		new HashMap<>();
+
+	static {
+		_FINDER_PATH_BITMASK_MAP.put(
+			"Uuid", DDMFormInstanceRecordModelImpl.UUID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"UUID_G",
+			DDMFormInstanceRecordModelImpl.UUID_COLUMN_BITMASK |
+			DDMFormInstanceRecordModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"Uuid_C",
+			DDMFormInstanceRecordModelImpl.UUID_COLUMN_BITMASK |
+			DDMFormInstanceRecordModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"CompanyId",
+			DDMFormInstanceRecordModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"FormInstanceId",
+			DDMFormInstanceRecordModelImpl.FORMINSTANCEID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"U_F",
+			DDMFormInstanceRecordModelImpl.USERID_COLUMN_BITMASK |
+			DDMFormInstanceRecordModelImpl.FORMINSTANCEID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"F_F",
+			DDMFormInstanceRecordModelImpl.FORMINSTANCEID_COLUMN_BITMASK |
+			DDMFormInstanceRecordModelImpl.FORMINSTANCEVERSION_COLUMN_BITMASK);
+	}
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	static {
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getUuid()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getOriginalUuid()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UUID_G",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UUID_G")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getUuid(),
+						ddmFormInstanceRecordModelImpl.getGroupId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UUID_G",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UUID_G")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getOriginalUuid(),
+						ddmFormInstanceRecordModelImpl.getOriginalGroupId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid_C",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid_C")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getUuid(),
+						ddmFormInstanceRecordModelImpl.getCompanyId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"Uuid_C",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("Uuid_C")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getOriginalUuid(),
+						ddmFormInstanceRecordModelImpl.getOriginalCompanyId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"CompanyId",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("CompanyId")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getCompanyId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"CompanyId",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("CompanyId")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getOriginalCompanyId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"FormInstanceId",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("FormInstanceId")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getFormInstanceId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"FormInstanceId",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("FormInstanceId")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.
+							getOriginalFormInstanceId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"U_F",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("U_F")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getUserId(),
+						ddmFormInstanceRecordModelImpl.getFormInstanceId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"U_F",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("U_F")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getOriginalUserId(),
+						ddmFormInstanceRecordModelImpl.
+							getOriginalFormInstanceId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"F_F",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("F_F")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.getFormInstanceId(),
+						ddmFormInstanceRecordModelImpl.getFormInstanceVersion()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"F_F",
+			(baseModel, checkColumns) -> {
+				DDMFormInstanceRecordModelImpl ddmFormInstanceRecordModelImpl =
+					(DDMFormInstanceRecordModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((ddmFormInstanceRecordModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("F_F")) != 0)) {
+
+					return new Object[] {
+						ddmFormInstanceRecordModelImpl.
+							getOriginalFormInstanceId(),
+						ddmFormInstanceRecordModelImpl.
+							getOriginalFormInstanceVersion()
+					};
+				}
+
+				return null;
+			});
 	}
 
 }
