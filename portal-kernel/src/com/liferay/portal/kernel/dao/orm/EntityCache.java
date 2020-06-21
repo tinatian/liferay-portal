@@ -15,12 +15,16 @@
 package com.liferay.portal.kernel.dao.orm;
 
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.model.BaseModel;
 
 import java.io.Serializable;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * @author Brian Wing Shun Chan
  */
+@ProviderType
 public interface EntityCache {
 
 	public void clearCache();
@@ -46,6 +50,10 @@ public interface EntityCache {
 		SessionFactory sessionFactory);
 
 	public void putResult(
+		boolean entityCacheEnabled, Class<?> clazz, BaseModel<?> baseModel,
+		boolean quiet, boolean updateFinderCache);
+
+	public void putResult(
 		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
 		Serializable result);
 
@@ -54,6 +62,10 @@ public interface EntityCache {
 		Serializable result, boolean quiet);
 
 	public void removeCache(String className);
+
+	public void removeResult(
+		boolean entityCacheEnabled, Class<?> clazz, BaseModel<?> baseModel,
+		boolean updateFinderCache);
 
 	public void removeResult(
 		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey);

@@ -15,6 +15,7 @@
 package com.liferay.portal.kernel.dao.orm;
 
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.util.ServiceProxyFactory;
 
 import java.io.Serializable;
@@ -69,6 +70,14 @@ public class EntityCacheUtil {
 	}
 
 	public static void putResult(
+		boolean entityCacheEnabled, Class<?> clazz, BaseModel<?> baseModel,
+		boolean quiet, boolean updateFinderCache) {
+
+		_entityCache.putResult(
+			entityCacheEnabled, clazz, baseModel, quiet, updateFinderCache);
+	}
+
+	public static void putResult(
 		boolean entityCacheEnabled, Class<?> clazz, Serializable primaryKey,
 		Serializable result) {
 
@@ -85,6 +94,14 @@ public class EntityCacheUtil {
 
 	public static void removeCache(String className) {
 		_entityCache.removeCache(className);
+	}
+
+	public static void removeResult(
+		boolean entityCacheEnabled, Class<?> clazz, BaseModel<?> baseModel,
+		boolean updateFinderCache) {
+
+		_entityCache.removeResult(
+			entityCacheEnabled, clazz, baseModel, updateFinderCache);
 	}
 
 	public static void removeResult(

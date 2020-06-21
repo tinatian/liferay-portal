@@ -355,7 +355,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	 */
 	@Override
 	public void clearCache(${entity.name} ${entity.varName}) {
-		${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}.getPrimaryKey());
+		<#if columnBitmaskEnabled>
+			${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}, ${columnBitmaskCacheEnabled});
+		</#else>
+			${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}, true);
+		</#if>
 
 		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		${finderCache}.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -396,7 +400,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		</#if>
 
 		for (${entity.name} ${entity.varName} : ${entity.pluralVarName}) {
-			${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}.getPrimaryKey());
+			<#if columnBitmaskEnabled>
+				${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}, ${columnBitmaskCacheEnabled});
+			</#else>
+				${entityCache}.removeResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}, true);
+			</#if>
 		}
 	}
 
@@ -932,7 +940,11 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			}
 		</#if>
 
-		${entityCache}.putResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}.getPrimaryKey(), ${entity.varName}, false);
+		<#if columnBitmaskEnabled>
+			${entityCache}.putResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}, false, ${columnBitmaskCacheEnabled});
+		<#else>
+			${entityCache}.putResult(${entityCacheEnabled}, ${entity.name}Impl.class, ${entity.varName}, false, true);
+		</#if>
 
 		<#if entity.uniqueEntityFinders?size &gt; 0>
 			<#if columnBitmaskEnabled>
