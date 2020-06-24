@@ -263,7 +263,7 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 		EntityCache entityCache = getEntityCache();
 
 		Serializable serializable = entityCache.getResult(
-			entityCacheEnabled, _modelImplClass, primaryKey);
+			_modelImplClass, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -342,7 +342,7 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 
 		for (Serializable primaryKey : primaryKeys) {
 			Serializable serializable = entityCache.getResult(
-				entityCacheEnabled, _modelImplClass, primaryKey);
+				_modelImplClass, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
