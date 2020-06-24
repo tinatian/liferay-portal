@@ -89,7 +89,6 @@ public class UADPartialEntryPersistenceImpl
 	@Override
 	public void cacheResult(UADPartialEntry uadPartialEntry) {
 		entityCache.putResult(
-			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryImpl.class, uadPartialEntry.getPrimaryKey(),
 			uadPartialEntry);
 
@@ -105,7 +104,6 @@ public class UADPartialEntryPersistenceImpl
 	public void cacheResult(List<UADPartialEntry> uadPartialEntries) {
 		for (UADPartialEntry uadPartialEntry : uadPartialEntries) {
 			if (entityCache.getResult(
-					UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 					UADPartialEntryImpl.class,
 					uadPartialEntry.getPrimaryKey()) == null) {
 
@@ -143,7 +141,6 @@ public class UADPartialEntryPersistenceImpl
 	@Override
 	public void clearCache(UADPartialEntry uadPartialEntry) {
 		entityCache.removeResult(
-			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryImpl.class, uadPartialEntry.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
@@ -157,7 +154,6 @@ public class UADPartialEntryPersistenceImpl
 
 		for (UADPartialEntry uadPartialEntry : uadPartialEntries) {
 			entityCache.removeResult(
-				UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 				UADPartialEntryImpl.class, uadPartialEntry.getPrimaryKey());
 		}
 	}
@@ -169,9 +165,7 @@ public class UADPartialEntryPersistenceImpl
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
-				UADPartialEntryImpl.class, primaryKey);
+			entityCache.removeResult(UADPartialEntryImpl.class, primaryKey);
 		}
 	}
 
@@ -312,7 +306,6 @@ public class UADPartialEntryPersistenceImpl
 		}
 
 		entityCache.putResult(
-			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
 			UADPartialEntryImpl.class, uadPartialEntry.getPrimaryKey(),
 			uadPartialEntry, false);
 
@@ -577,22 +570,16 @@ public class UADPartialEntryPersistenceImpl
 	 */
 	public void afterPropertiesSet() {
 		_finderPathWithPaginationFindAll = new FinderPath(
-			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
-			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
 			UADPartialEntryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
-			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED,
 			UADPartialEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
 			new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			UADPartialEntryModelImpl.ENTITY_CACHE_ENABLED,
-			UADPartialEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 	}
 
