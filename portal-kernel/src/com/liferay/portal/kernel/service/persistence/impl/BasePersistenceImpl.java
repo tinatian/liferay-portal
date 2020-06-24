@@ -599,6 +599,10 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 		return model;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public void setConfiguration(Configuration configuration) {
 		String modelClassName = _modelClass.getName();
 
@@ -892,7 +896,17 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 
 	protected int databaseInMaxParameters;
 	protected Map<String, String> dbColumnNames;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	protected boolean entityCacheEnabled;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	protected boolean finderCacheEnabled;
 
 	private static Type _getType(Expression<?> expression) {

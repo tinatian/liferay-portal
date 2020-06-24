@@ -2151,8 +2151,10 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	<#if dependencyInjectorDS>
 		@Activate
 		public void activate() {
-			${entity.name}ModelImpl.setEntityCacheEnabled(entityCacheEnabled);
-			${entity.name}ModelImpl.setFinderCacheEnabled(finderCacheEnabled);
+			<#if serviceBuilder.isVersionLTE_7_2_0()>
+				${entity.name}ModelImpl.setEntityCacheEnabled(entityCacheEnabled);
+				${entity.name}ModelImpl.setFinderCacheEnabled(finderCacheEnabled);
+			</#if>
 
 	<#else>
 		public void afterPropertiesSet() {
@@ -2410,7 +2412,9 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 	<#if dependencyInjectorDS>
 		<#include "persistence_references.ftl">
 
-		private boolean _columnBitmaskEnabled;
+		<#if serviceBuilder.isVersionLTE_7_2_0()>
+			private boolean _columnBitmaskEnabled;
+		</#if>
 	</#if>
 
 	<#if osgiModule>
