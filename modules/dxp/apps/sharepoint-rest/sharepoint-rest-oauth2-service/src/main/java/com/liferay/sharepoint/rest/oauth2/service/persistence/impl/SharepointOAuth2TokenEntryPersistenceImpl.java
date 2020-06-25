@@ -26,8 +26,10 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.sharepoint.rest.oauth2.exception.NoSuch2TokenEntryException;
@@ -42,13 +44,18 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -936,34 +943,19 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		SharepointOAuth2TokenEntry sharepointOAuth2TokenEntry) {
 
 		entityCache.removeResult(
-			SharepointOAuth2TokenEntryImpl.class,
-			sharepointOAuth2TokenEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(SharepointOAuth2TokenEntryModelImpl)sharepointOAuth2TokenEntry,
-			true);
+			SharepointOAuth2TokenEntryImpl.class, sharepointOAuth2TokenEntry);
 	}
 
 	@Override
 	public void clearCache(
 		List<SharepointOAuth2TokenEntry> sharepointOAuth2TokenEntries) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SharepointOAuth2TokenEntry sharepointOAuth2TokenEntry :
 				sharepointOAuth2TokenEntries) {
 
 			entityCache.removeResult(
 				SharepointOAuth2TokenEntryImpl.class,
-				sharepointOAuth2TokenEntry.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(SharepointOAuth2TokenEntryModelImpl)sharepointOAuth2TokenEntry,
-				true);
+				sharepointOAuth2TokenEntry);
 		}
 	}
 
@@ -993,34 +985,6 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByU_C, args, sharepointOAuth2TokenEntryModelImpl,
 			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SharepointOAuth2TokenEntryModelImpl sharepointOAuth2TokenEntryModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				sharepointOAuth2TokenEntryModelImpl.getUserId(),
-				sharepointOAuth2TokenEntryModelImpl.getConfigurationPid()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_C, args);
-			finderCache.removeResult(_finderPathFetchByU_C, args);
-		}
-
-		if ((sharepointOAuth2TokenEntryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByU_C.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				sharepointOAuth2TokenEntryModelImpl.getOriginalUserId(),
-				sharepointOAuth2TokenEntryModelImpl.
-					getOriginalConfigurationPid()
-			};
-
-			finderCache.removeResult(_finderPathCountByU_C, args);
-			finderCache.removeResult(_finderPathFetchByU_C, args);
-		}
 	}
 
 	/**
@@ -1169,10 +1133,8 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (sharepointOAuth2TokenEntry.isNew()) {
+			if (isNew) {
 				session.save(sharepointOAuth2TokenEntry);
-
-				sharepointOAuth2TokenEntry.setNew(false);
 			}
 			else {
 				sharepointOAuth2TokenEntry =
@@ -1187,51 +1149,15 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			Object[] args = new Object[] {
-				sharepointOAuth2TokenEntryModelImpl.getUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((sharepointOAuth2TokenEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUserId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					sharepointOAuth2TokenEntryModelImpl.getOriginalUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-
-				args = new Object[] {
-					sharepointOAuth2TokenEntryModelImpl.getUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUserId, args);
-			}
-		}
-
 		entityCache.putResult(
 			SharepointOAuth2TokenEntryImpl.class,
-			sharepointOAuth2TokenEntry.getPrimaryKey(),
-			sharepointOAuth2TokenEntry, false);
+			sharepointOAuth2TokenEntryModelImpl, false, true);
 
-		clearUniqueFindersCache(sharepointOAuth2TokenEntryModelImpl, false);
 		cacheUniqueFindersCache(sharepointOAuth2TokenEntryModelImpl);
+
+		if (isNew) {
+			sharepointOAuth2TokenEntry.setNew(false);
+		}
 
 		sharepointOAuth2TokenEntry.resetOriginalValues();
 
@@ -1501,57 +1427,54 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 	 * Initializes the sharepoint o auth2 token entry persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
-			SharepointOAuth2TokenEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
-			SharepointOAuth2TokenEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+		_finderPathWithPaginationFindAll = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "all", "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "all", "findAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUserId = new FinderPath(
-			SharepointOAuth2TokenEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+		_finderPathCountAll = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "all", "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUserId = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "UserId", "findByUserId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByUserId = new FinderPath(
-			SharepointOAuth2TokenEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] {Long.class.getName()},
-			SharepointOAuth2TokenEntryModelImpl.USERID_COLUMN_BITMASK);
+		_finderPathWithoutPaginationFindByUserId = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "UserId", "findByUserId",
+			new String[] {Long.class.getName()});
 
-		_finderPathCountByUserId = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+		_finderPathCountByUserId = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "UserId",
 			"countByUserId", new String[] {Long.class.getName()});
 
-		_finderPathFetchByU_C = new FinderPath(
-			SharepointOAuth2TokenEntryImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByU_C",
-			new String[] {Long.class.getName(), String.class.getName()},
-			SharepointOAuth2TokenEntryModelImpl.USERID_COLUMN_BITMASK |
-			SharepointOAuth2TokenEntryModelImpl.
-				CONFIGURATIONPID_COLUMN_BITMASK);
+		_finderPathFetchByU_C = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "U_C", "fetchByU_C",
+			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathCountByU_C = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
+		_finderPathCountByU_C = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "U_C", "countByU_C",
 			new String[] {Long.class.getName(), String.class.getName()});
 	}
 
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(SharepointOAuth2TokenEntryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -1579,6 +1502,8 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -1617,6 +1542,151 @@ public class SharepointOAuth2TokenEntryPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String finderName, String methodName,
+		String[] params) {
+
+		Class<?> returnClass = SharepointOAuth2TokenEntryImpl.class;
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+		}
+
+		if (cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			return new FinderPath(returnClass, cacheName, methodName, params);
+		}
+
+		FinderPath finderPath = new FinderPath(
+			returnClass, cacheName, methodName, params,
+			_ARGUMENTS_BIFUNCTION_MAP.get(finderName),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get(finderName));
+
+		_serviceRegistrations.add(
+			_bundleContext.registerService(
+				FinderPath.class, finderPath,
+				MapUtil.singletonDictionary("cache.name", cacheName)));
+
+		return finderPath;
+	}
+
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static final Map<String, Long> _FINDER_PATH_BITMASK_MAP =
+		new HashMap<>();
+
+	static {
+		_FINDER_PATH_BITMASK_MAP.put(
+			"UserId",
+			SharepointOAuth2TokenEntryModelImpl.USERID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"U_C",
+			SharepointOAuth2TokenEntryModelImpl.USERID_COLUMN_BITMASK |
+			SharepointOAuth2TokenEntryModelImpl.
+				CONFIGURATIONPID_COLUMN_BITMASK);
+	}
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	static {
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"all",
+			(baseModel, checkColumns) -> {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UserId",
+			(baseModel, checkColumns) -> {
+				SharepointOAuth2TokenEntryModelImpl
+					sharepointOAuth2TokenEntryModelImpl =
+						(SharepointOAuth2TokenEntryModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((sharepointOAuth2TokenEntryModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UserId")) != 0)) {
+
+					return new Object[] {
+						sharepointOAuth2TokenEntryModelImpl.getUserId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"UserId",
+			(baseModel, checkColumns) -> {
+				SharepointOAuth2TokenEntryModelImpl
+					sharepointOAuth2TokenEntryModelImpl =
+						(SharepointOAuth2TokenEntryModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((sharepointOAuth2TokenEntryModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("UserId")) != 0)) {
+
+					return new Object[] {
+						sharepointOAuth2TokenEntryModelImpl.getOriginalUserId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"U_C",
+			(baseModel, checkColumns) -> {
+				SharepointOAuth2TokenEntryModelImpl
+					sharepointOAuth2TokenEntryModelImpl =
+						(SharepointOAuth2TokenEntryModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((sharepointOAuth2TokenEntryModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("U_C")) != 0)) {
+
+					return new Object[] {
+						sharepointOAuth2TokenEntryModelImpl.getUserId(),
+						sharepointOAuth2TokenEntryModelImpl.
+							getConfigurationPid()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"U_C",
+			(baseModel, checkColumns) -> {
+				SharepointOAuth2TokenEntryModelImpl
+					sharepointOAuth2TokenEntryModelImpl =
+						(SharepointOAuth2TokenEntryModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((sharepointOAuth2TokenEntryModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("U_C")) != 0)) {
+
+					return new Object[] {
+						sharepointOAuth2TokenEntryModelImpl.getOriginalUserId(),
+						sharepointOAuth2TokenEntryModelImpl.
+							getOriginalConfigurationPid()
+					};
+				}
+
+				return null;
+			});
 	}
 
 }
