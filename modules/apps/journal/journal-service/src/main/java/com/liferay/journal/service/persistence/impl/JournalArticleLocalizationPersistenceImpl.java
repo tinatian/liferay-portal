@@ -34,9 +34,11 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
@@ -54,9 +56,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import javax.sql.DataSource;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -1644,34 +1649,19 @@ public class JournalArticleLocalizationPersistenceImpl
 		JournalArticleLocalization journalArticleLocalization) {
 
 		entityCache.removeResult(
-			JournalArticleLocalizationImpl.class,
-			journalArticleLocalization.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(JournalArticleLocalizationModelImpl)journalArticleLocalization,
-			true);
+			JournalArticleLocalizationImpl.class, journalArticleLocalization);
 	}
 
 	@Override
 	public void clearCache(
 		List<JournalArticleLocalization> journalArticleLocalizations) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (JournalArticleLocalization journalArticleLocalization :
 				journalArticleLocalizations) {
 
 			entityCache.removeResult(
 				JournalArticleLocalizationImpl.class,
-				journalArticleLocalization.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(JournalArticleLocalizationModelImpl)journalArticleLocalization,
-				true);
+				journalArticleLocalization);
 		}
 	}
 
@@ -1726,83 +1716,6 @@ public class JournalArticleLocalizationPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByC_A_T_L, args,
 			journalArticleLocalizationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		JournalArticleLocalizationModelImpl journalArticleLocalizationModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getArticlePK(),
-				journalArticleLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_L, args);
-			finderCache.removeResult(_finderPathFetchByA_L, args);
-		}
-
-		if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByA_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByA_L, args);
-			finderCache.removeResult(_finderPathFetchByA_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getCompanyId(),
-				journalArticleLocalizationModelImpl.getArticlePK(),
-				journalArticleLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_L, args);
-		}
-
-		if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_A_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalCompanyId(),
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_L, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getCompanyId(),
-				journalArticleLocalizationModelImpl.getArticlePK(),
-				journalArticleLocalizationModelImpl.getTitle(),
-				journalArticleLocalizationModelImpl.getLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_T_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_T_L, args);
-		}
-
-		if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByC_A_T_L.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getOriginalCompanyId(),
-				journalArticleLocalizationModelImpl.getOriginalArticlePK(),
-				journalArticleLocalizationModelImpl.getOriginalTitle(),
-				journalArticleLocalizationModelImpl.getOriginalLanguageId()
-			};
-
-			finderCache.removeResult(_finderPathCountByC_A_T_L, args);
-			finderCache.removeResult(_finderPathFetchByC_A_T_L, args);
-		}
 	}
 
 	/**
@@ -1925,6 +1838,9 @@ public class JournalArticleLocalizationPersistenceImpl
 
 		boolean isNew = journalArticleLocalization.isNew();
 
+		JournalArticleLocalization originalJournalArticleLocalization =
+			journalArticleLocalization;
+
 		if (!(journalArticleLocalization instanceof
 				JournalArticleLocalizationModelImpl)) {
 
@@ -1966,8 +1882,6 @@ public class JournalArticleLocalizationPersistenceImpl
 				}
 
 				session.save(journalArticleLocalization);
-
-				journalArticleLocalization.setNew(false);
 			}
 			else {
 				journalArticleLocalization =
@@ -1983,56 +1897,24 @@ public class JournalArticleLocalizationPersistenceImpl
 		}
 
 		if (journalArticleLocalization.getCtCollectionId() != 0) {
+			if (isNew) {
+				journalArticleLocalization.setNew(false);
+			}
+
 			journalArticleLocalization.resetOriginalValues();
 
 			return journalArticleLocalization;
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew) {
-			Object[] args = new Object[] {
-				journalArticleLocalizationModelImpl.getArticlePK()
-			};
-
-			finderCache.removeResult(_finderPathCountByArticlePK, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByArticlePK, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((journalArticleLocalizationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByArticlePK.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					journalArticleLocalizationModelImpl.getOriginalArticlePK()
-				};
-
-				finderCache.removeResult(_finderPathCountByArticlePK, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByArticlePK, args);
-
-				args = new Object[] {
-					journalArticleLocalizationModelImpl.getArticlePK()
-				};
-
-				finderCache.removeResult(_finderPathCountByArticlePK, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByArticlePK, args);
-			}
-		}
-
 		entityCache.putResult(
 			JournalArticleLocalizationImpl.class,
-			journalArticleLocalization.getPrimaryKey(),
-			journalArticleLocalization, false);
+			originalJournalArticleLocalization, false, true);
 
-		clearUniqueFindersCache(journalArticleLocalizationModelImpl, false);
 		cacheUniqueFindersCache(journalArticleLocalizationModelImpl);
+
+		if (isNew) {
+			journalArticleLocalization.setNew(false);
+		}
 
 		journalArticleLocalization.resetOriginalValues();
 
@@ -2497,82 +2379,68 @@ public class JournalArticleLocalizationPersistenceImpl
 	 * Initializes the journal article localization persistence.
 	 */
 	@Activate
-	public void activate() {
-		_finderPathWithPaginationFindAll = new FinderPath(
-			JournalArticleLocalizationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+	public void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
 
-		_finderPathWithoutPaginationFindAll = new FinderPath(
-			JournalArticleLocalizationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+		_finderPathWithPaginationFindAll = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "all", "findAll",
 			new String[0]);
 
-		_finderPathCountAll = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+		_finderPathWithoutPaginationFindAll = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "all", "findAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByArticlePK = new FinderPath(
-			JournalArticleLocalizationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByArticlePK",
+		_finderPathCountAll = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "all", "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByArticlePK = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "ArticlePK",
+			"findByArticlePK",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByArticlePK = new FinderPath(
-			JournalArticleLocalizationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByArticlePK",
-			new String[] {Long.class.getName()},
-			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK);
+		_finderPathWithoutPaginationFindByArticlePK = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "ArticlePK",
+			"findByArticlePK", new String[] {Long.class.getName()});
 
-		_finderPathCountByArticlePK = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+		_finderPathCountByArticlePK = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "ArticlePK",
 			"countByArticlePK", new String[] {Long.class.getName()});
 
-		_finderPathFetchByA_L = new FinderPath(
-			JournalArticleLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByA_L",
-			new String[] {Long.class.getName(), String.class.getName()},
-			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK |
-			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
-
-		_finderPathCountByA_L = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByA_L",
+		_finderPathFetchByA_L = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "A_L", "fetchByA_L",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathFetchByC_A_L = new FinderPath(
-			JournalArticleLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByC_A_L",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			},
-			JournalArticleLocalizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK |
-			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
+		_finderPathCountByA_L = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "A_L", "countByA_L",
+			new String[] {Long.class.getName(), String.class.getName()});
 
-		_finderPathCountByC_A_L = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByC_A_L",
+		_finderPathFetchByC_A_L = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "C_A_L", "fetchByC_A_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName()
 			});
 
-		_finderPathFetchByC_A_T_L = new FinderPath(
-			JournalArticleLocalizationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByC_A_T_L",
+		_finderPathCountByC_A_L = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "C_A_L", "countByC_A_L",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName()
+			});
+
+		_finderPathFetchByC_A_T_L = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "C_A_T_L", "fetchByC_A_T_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				String.class.getName(), String.class.getName()
-			},
-			JournalArticleLocalizationModelImpl.COMPANYID_COLUMN_BITMASK |
-			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK |
-			JournalArticleLocalizationModelImpl.TITLE_COLUMN_BITMASK |
-			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
+			});
 
-		_finderPathCountByC_A_T_L = new FinderPath(
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+		_finderPathCountByC_A_T_L = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "C_A_T_L",
 			"countByC_A_T_L",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
@@ -2583,9 +2451,12 @@ public class JournalArticleLocalizationPersistenceImpl
 	@Deactivate
 	public void deactivate() {
 		entityCache.removeCache(JournalArticleLocalizationImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (ServiceRegistration<FinderPath> serviceRegistration :
+				_serviceRegistrations) {
+
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Override
@@ -2613,6 +2484,8 @@ public class JournalArticleLocalizationPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
+
+	private BundleContext _bundleContext;
 
 	@Reference
 	protected CTPersistenceHelper ctPersistenceHelper;
@@ -2654,6 +2527,256 @@ public class JournalArticleLocalizationPersistenceImpl
 		catch (ClassNotFoundException classNotFoundException) {
 			throw new ExceptionInInitializerError(classNotFoundException);
 		}
+	}
+
+	private FinderPath _createFinderPath(
+		String cacheName, String finderName, String methodName,
+		String[] params) {
+
+		Class<?> returnClass = JournalArticleLocalizationImpl.class;
+
+		if (methodName.startsWith("count")) {
+			returnClass = Long.class;
+		}
+
+		if (cacheName.equals(FINDER_CLASS_NAME_LIST_WITH_PAGINATION)) {
+			return new FinderPath(returnClass, cacheName, methodName, params);
+		}
+
+		FinderPath finderPath = new FinderPath(
+			returnClass, cacheName, methodName, params,
+			_ARGUMENTS_BIFUNCTION_MAP.get(finderName),
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.get(finderName));
+
+		_serviceRegistrations.add(
+			_bundleContext.registerService(
+				FinderPath.class, finderPath,
+				MapUtil.singletonDictionary("cache.name", cacheName)));
+
+		return finderPath;
+	}
+
+	private Set<ServiceRegistration<FinderPath>> _serviceRegistrations =
+		new HashSet<>();
+
+	private static final Map<String, Long> _FINDER_PATH_BITMASK_MAP =
+		new HashMap<>();
+
+	static {
+		_FINDER_PATH_BITMASK_MAP.put(
+			"ArticlePK",
+			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"A_L",
+			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK |
+			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"C_A_L",
+			JournalArticleLocalizationModelImpl.COMPANYID_COLUMN_BITMASK |
+			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK |
+			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
+
+		_FINDER_PATH_BITMASK_MAP.put(
+			"C_A_T_L",
+			JournalArticleLocalizationModelImpl.COMPANYID_COLUMN_BITMASK |
+			JournalArticleLocalizationModelImpl.ARTICLEPK_COLUMN_BITMASK |
+			JournalArticleLocalizationModelImpl.TITLE_COLUMN_BITMASK |
+			JournalArticleLocalizationModelImpl.LANGUAGEID_COLUMN_BITMASK);
+	}
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	private static final Map
+		<String, BiFunction<BaseModel<?>, Boolean, Object[]>>
+			_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP = new HashMap<>();
+
+	static {
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"all",
+			(baseModel, checkColumns) -> {
+				if (baseModel.isNew()) {
+					return FINDER_ARGS_EMPTY;
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"ArticlePK",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("ArticlePK")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.getArticlePK()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"ArticlePK",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("ArticlePK")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.
+							getOriginalArticlePK()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"A_L",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("A_L")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.getArticlePK(),
+						journalArticleLocalizationModelImpl.getLanguageId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"A_L",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("A_L")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.
+							getOriginalArticlePK(),
+						journalArticleLocalizationModelImpl.
+							getOriginalLanguageId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"C_A_L",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("C_A_L")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.getCompanyId(),
+						journalArticleLocalizationModelImpl.getArticlePK(),
+						journalArticleLocalizationModelImpl.getLanguageId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"C_A_L",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("C_A_L")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.
+							getOriginalCompanyId(),
+						journalArticleLocalizationModelImpl.
+							getOriginalArticlePK(),
+						journalArticleLocalizationModelImpl.
+							getOriginalLanguageId()
+					};
+				}
+
+				return null;
+			});
+
+		_ARGUMENTS_BIFUNCTION_MAP.put(
+			"C_A_T_L",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("C_A_T_L")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.getCompanyId(),
+						journalArticleLocalizationModelImpl.getArticlePK(),
+						journalArticleLocalizationModelImpl.getTitle(),
+						journalArticleLocalizationModelImpl.getLanguageId()
+					};
+				}
+
+				return null;
+			});
+
+		_ORIGINAL_ARGUMENTS_BIFUNCTION_MAP.put(
+			"C_A_T_L",
+			(baseModel, checkColumns) -> {
+				JournalArticleLocalizationModelImpl
+					journalArticleLocalizationModelImpl =
+						(JournalArticleLocalizationModelImpl)baseModel;
+
+				if (!checkColumns ||
+					((journalArticleLocalizationModelImpl.getColumnBitmask() &
+					  _FINDER_PATH_BITMASK_MAP.get("C_A_T_L")) != 0)) {
+
+					return new Object[] {
+						journalArticleLocalizationModelImpl.
+							getOriginalCompanyId(),
+						journalArticleLocalizationModelImpl.
+							getOriginalArticlePK(),
+						journalArticleLocalizationModelImpl.getOriginalTitle(),
+						journalArticleLocalizationModelImpl.
+							getOriginalLanguageId()
+					};
+				}
+
+				return null;
+			});
 	}
 
 }
