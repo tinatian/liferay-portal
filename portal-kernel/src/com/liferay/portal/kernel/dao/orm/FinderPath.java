@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import java.io.Serializable;
 
 import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
  * @author Brian Wing Shun Chan
@@ -62,16 +63,20 @@ public class FinderPath {
 		Class<?> resultClass, String cacheName, String methodName,
 		String[] params) {
 
-		this(resultClass, cacheName, methodName, params, -1);
+		this(resultClass, cacheName, methodName, params, null, null);
 	}
 
 	public FinderPath(
 		Class<?> resultClass, String cacheName, String methodName,
-		String[] params, long columnBitmask) {
+		String[] params,
+		BiFunction<BaseModel<?>, Boolean, Object[]> argumentsBiFunction,
+		BiFunction<BaseModel<?>, Boolean, Object[]>
+			originalArgumentsBiFunction) {
 
 		_resultClass = resultClass;
 		_cacheName = cacheName;
-		_columnBitmask = columnBitmask;
+		_argumentsBiFunction = argumentsBiFunction;
+		_originalArgumentsBiFunction = originalArgumentsBiFunction;
 
 		if (BaseModel.class.isAssignableFrom(_resultClass)) {
 			_cacheKeyGeneratorCacheName = _BASE_MODEL_CACHE_KEY_GENERATOR_NAME;
@@ -92,6 +97,18 @@ public class FinderPath {
 		}
 
 		_initCacheKeyPrefix(methodName, params);
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #FinderPath(
+	 * 		Class, String, String, String[], BiFunction, BiFunction)}
+	 */
+	@Deprecated
+	public FinderPath(
+		Class<?> resultClass, String cacheName, String methodName,
+		String[] params, long columnBitmask) {
+
+		this(resultClass, cacheName, methodName, params, null, null);
 	}
 
 	/**
@@ -161,12 +178,34 @@ public class FinderPath {
 			});
 	}
 
+	public Object[] getArguments(BaseModel<?> baseModel, boolean checkColumns) {
+		if (_argumentsBiFunction == null) {
+			return null;
+		}
+
+		return _argumentsBiFunction.apply(baseModel, checkColumns);
+	}
+
 	public String getCacheName() {
 		return _cacheName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public long getColumnBitmask() {
-		return _columnBitmask;
+		return -1;
+	}
+
+	public Object[] getOriginalArguments(
+		BaseModel<?> baseModel, boolean checkColumns) {
+
+		if (_originalArgumentsBiFunction == null) {
+			return null;
+		}
+
+		return _originalArgumentsBiFunction.apply(baseModel, checkColumns);
 	}
 
 	public Class<?> getResultClass() {
@@ -247,11 +286,14 @@ public class FinderPath {
 
 	private static final Map<String, String> _encodedTypes = _getEncodedTypes();
 
+	private final BiFunction<BaseModel<?>, Boolean, Object[]>
+		_argumentsBiFunction;
 	private final CacheKeyGenerator _cacheKeyGenerator;
 	private final String _cacheKeyGeneratorCacheName;
 	private String _cacheKeyPrefix;
 	private final String _cacheName;
-	private final long _columnBitmask;
+	private final BiFunction<BaseModel<?>, Boolean, Object[]>
+		_originalArgumentsBiFunction;
 	private final Class<?> _resultClass;
 
 }
