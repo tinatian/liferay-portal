@@ -316,6 +316,10 @@ public class FinderCacheImpl
 	}
 
 	public void updateByEntityCache(Class<?> clazz, BaseModel<?> baseModel) {
+		if (!_valueObjectFinderCacheEnabled) {
+			return;
+		}
+
 		String cacheName = clazz.getName();
 
 		clearCache(_getCacheNameWithPagination(cacheName));
@@ -324,21 +328,21 @@ public class FinderCacheImpl
 				_getFinderPaths(_getCacheNameWithoutPagination(cacheName))) {
 
 			if (baseModel.isNew()) {
-				removeResult(
+				_removeResult(
 					finderPath,
 					finderPath.getArguments(baseModel, false, false));
 			}
 			else {
-				removeResult(
+				_removeResult(
 					finderPath,
 					finderPath.getArguments(baseModel, true, false));
-				removeResult(
+				_removeResult(
 					finderPath, finderPath.getArguments(baseModel, true, true));
 			}
 		}
 
 		for (FinderPath finderPath : _getFinderPaths(cacheName)) {
-			removeResult(
+			_removeResult(
 				finderPath, finderPath.getArguments(baseModel, true, true));
 		}
 	}
