@@ -383,16 +383,6 @@ public class FinderCacheImpl
 		_serviceTrackerMap.close();
 	}
 
-	@Reference(unbind = "-")
-	protected void setMultiVMPool(MultiVMPool multiVMPool) {
-		_multiVMPool = multiVMPool;
-	}
-
-	@Reference(unbind = "-")
-	protected void setProps(Props props) {
-		_props = props;
-	}
-
 	private String _getCacheNameWithoutPagination(String cacheName) {
 		return cacheName.concat(".List2");
 	}
@@ -465,10 +455,16 @@ public class FinderCacheImpl
 		FinderCache.class.getName() + StringPool.PERIOD;
 
 	private ThreadLocal<LRUMap> _localCache;
+
+	@Reference
 	private MultiVMPool _multiVMPool;
+
 	private final ConcurrentMap<String, PortalCache<Serializable, Serializable>>
 		_portalCaches = new ConcurrentHashMap<>();
+
+	@Reference
 	private Props _props;
+
 	private ServiceTrackerMap<String, List<FinderPath>> _serviceTrackerMap;
 	private boolean _valueObjectFinderCacheEnabled;
 	private int _valueObjectFinderCacheListThreshold;
