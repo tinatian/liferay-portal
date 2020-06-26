@@ -308,9 +308,7 @@ public class FinderCacheImpl
 
 	@Override
 	public void removeResult(FinderPath finderPath, Object[] args) {
-		if (!_valueObjectFinderCacheEnabled || !CacheRegistryUtil.isActive() ||
-			(args == null)) {
-
+		if (!_valueObjectFinderCacheEnabled || !CacheRegistryUtil.isActive()) {
 			return;
 		}
 
@@ -436,6 +434,10 @@ public class FinderCacheImpl
 	}
 
 	private void _removeResult(FinderPath finderPath, Object[] args) {
+		if (args == null) {
+			return;
+		}
+
 		Serializable cacheKey = finderPath.encodeCacheKey(args);
 
 		if (_isLocalCacheEnabled()) {
