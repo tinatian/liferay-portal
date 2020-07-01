@@ -14,6 +14,9 @@
 
 package com.liferay.portal.profile;
 
+import com.liferay.petra.string.StringPool;
+
+import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,43 +25,34 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
 
 /**
- * @author Shuyang Zhou
+ * @author Hai Yu
  */
-public class BaseDSModulePortalProfile implements PortalProfile {
+public abstract class BaseEnterpriseDSModulePortalProfile
+	extends BaseDSModulePortalProfile {
 
 	@Override
 	public void activate() {
-		for (String componentName : _componentNames) {
-			componentContext.enableComponent(componentName);
-		}
-	}
-
-	@Override
-	public Set<String> getPortalProfileNames() {
-		return _supportedPortalProfileNames;
-	}
-
-	protected void init(
-		ComponentContext componentContext,
-		Set<String> supportedPortalProfileNames, String... componentNames) {
-
-		this.componentContext = componentContext;
-
-		_supportedPortalProfileNames = new HashSet<>(
-			supportedPortalProfileNames);
-
 		BundleContext bundleContext = componentContext.getBundleContext();
 
 		Bundle bundle = bundleContext.getBundle();
 
-		_supportedPortalProfileNames.add(bundle.getSymbolicName());
+		Dictionary<String, String> headers = bundle.getHeaders(
+			StringPool.BLANK);
 
-		_componentNames = componentNames;
+		if (headers.get("Liferay-Enterprise-App") == null) {
+			return;
+		}
+
+		componentContext.enableComponent(null);
 	}
 
-	protected ComponentContext componentContext;
+	protected void init(ComponentContext componentContext) {
+		Set<String> supportedPortalProfileNames = new HashSet<>();
 
-	private String[] _componentNames;
-	private Set<String> _supportedPortalProfileNames;
+		supportedPortalProfileNames.add(PortalProfile.PORTAL_PROFILE_NAME_CE);
+		supportedPortalProfileNames.add(PortalProfile.PORTAL_PROFILE_NAME_DXP);
+
+		init(componentContext, supportedPortalProfileNames, null);
+	}
 
 }
