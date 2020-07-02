@@ -34,3 +34,4 @@ Import-Package:\
 	org.postgresql;resolution:=optional,\
 	\
 	*
+Liferay-Enterprise-App: TestUtil DXP 1.0.0
