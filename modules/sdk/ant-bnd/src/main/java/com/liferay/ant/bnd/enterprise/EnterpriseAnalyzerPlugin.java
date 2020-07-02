@@ -119,7 +119,7 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 
 		Map<String, String> properties = new HashMap<>();
 
-		properties.put("activate:", "activate");
+		//properties.put("activate:", "activate");
 		properties.put("enabled:", "true");
 		properties.put("immediate:", "true");
 		properties.put("provide:", "com.liferay.portal.profile.PortalProfile");
