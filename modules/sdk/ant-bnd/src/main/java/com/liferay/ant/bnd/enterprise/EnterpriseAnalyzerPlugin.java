@@ -21,12 +21,10 @@ import aQute.bnd.header.Attrs;
 import aQute.bnd.header.Parameters;
 import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.osgi.Constants;
+import aQute.bnd.osgi.EmbeddedResource;
 import aQute.bnd.osgi.Jar;
-import aQute.bnd.osgi.WriteResource;
 import aQute.bnd.service.AnalyzerPlugin;
 import aQute.bnd.version.Version;
-
-import java.io.OutputStream;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +61,7 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 		return true;
 	}
 
-	private ClassResource _generateClassResource(String classBinaryName) {
+	private EmbeddedResource _generateClassResource(String classBinaryName) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
 		classWriter.visit(
@@ -101,8 +99,8 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 		methodVisitor.visitVarInsn(Opcodes.ALOAD, 1);
 
 		methodVisitor.visitMethodInsn(
-			Opcodes.INVOKEVIRTUAL, _BASE_CLASS_BINARY_NAME, "init",
-			_METHOD_DESCRIPTOR, false);
+			Opcodes.INVOKEVIRTUAL, classBinaryName, "init", _METHOD_DESCRIPTOR,
+			false);
 
 		methodVisitor.visitInsn(Opcodes.RETURN);
 
@@ -112,7 +110,7 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 
 		classWriter.visitEnd();
 
-		return new ClassResource(classWriter.toByteArray());
+		return new EmbeddedResource(classWriter.toByteArray(), 0);
 	}
 
 	private TagResource _generateTagResource(
@@ -190,30 +188,5 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 	private static final String _METHOD_DESCRIPTOR = Type.getMethodDescriptor(
 		Type.VOID_TYPE,
 		Type.getObjectType("org/osgi/service/component/ComponentContext"));
-
-	private class ClassResource extends WriteResource {
-
-		@Override
-		public long lastModified() {
-			return 0;
-		}
-
-		@Override
-		public void write(OutputStream outputStream) throws Exception {
-			try {
-				outputStream.write(_bytes);
-			}
-			finally {
-				outputStream.flush();
-			}
-		}
-
-		private ClassResource(byte[] bytes) {
-			_bytes = bytes;
-		}
-
-		private final byte[] _bytes;
-
-	}
 
 }
