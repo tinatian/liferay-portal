@@ -97,11 +97,14 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 
 		methodVisitor.visitCode();
 
-		constructorMethodVisitor.visitMethodInsn(
-			Opcodes.INVOKEDYNAMIC, _BASE_CLASS_BINARY_NAME, "init",
-			_METHOD_DESCRIPTOR, true);
+		methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
+		methodVisitor.visitVarInsn(Opcodes.ALOAD, 1);
 
-		constructorMethodVisitor.visitInsn(Opcodes.RETURN);
+		methodVisitor.visitMethodInsn(
+			Opcodes.INVOKEVIRTUAL, _BASE_CLASS_BINARY_NAME, "init",
+			_METHOD_DESCRIPTOR, false);
+
+		methodVisitor.visitInsn(Opcodes.RETURN);
 
 		methodVisitor.visitMaxs(0, 0);
 
@@ -197,7 +200,12 @@ public class EnterpriseAnalyzerPlugin implements AnalyzerPlugin {
 
 		@Override
 		public void write(OutputStream outputStream) throws Exception {
-			outputStream.write(_bytes);
+			try {
+				outputStream.write(_bytes);
+			}
+			finally {
+				outputStream.flush();
+			}
 		}
 
 		private ClassResource(byte[] bytes) {
