@@ -125,6 +125,8 @@ public class ${entity.name}CacheModel implements CacheModel<${entity.name}>, Ext
 	public ${entity.name} toEntityModel() {
 		${entity.name}Impl ${entity.varName}Impl = new ${entity.name}Impl();
 
+		${entity.varName}Impl.setNew(true);
+
 		<#list entity.databaseRegularEntityColumns as entityColumn>
 			<#if !stringUtil.equals(entityColumn.type, "Blob")>
 				<#if stringUtil.equals(entityColumn.type, "Date")>
@@ -156,6 +158,8 @@ public class ${entity.name}CacheModel implements CacheModel<${entity.name}>, Ext
 
 			${entity.varName}Impl.set${methodName}(${cacheField.name});
 		</#list>
+
+		${entity.varName}Impl.setNew(false);
 
 		return ${entity.varName}Impl;
 	}
